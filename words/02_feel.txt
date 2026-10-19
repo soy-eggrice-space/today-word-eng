@@ -1,0 +1,169 @@
+# feel|감정·성격|😊
+happy|행복한|I'm so happy for you.|정말 잘됐다, 나도 기뻐.|1
+sad|슬픈|Why do you look so sad?|왜 그렇게 슬퍼 보여?|1
+angry|화난|Are you angry with me?|나한테 화났어?|1
+scared|무서워하는|I'm scared of the dark.|나는 어둠이 무서워.|1
+afraid|두려워하는|Don't be afraid to ask questions.|질문하는 걸 두려워하지 마.|1
+excited|신난, 들뜬|The kids are excited about the trip.|아이들이 여행 때문에 들떠 있어.|1
+bored|지루해하는|I'm bored. Let's go out.|심심해. 나가자.|1
+boring|지루한|The movie was so boring.|그 영화 진짜 지루했어.|1
+surprised|놀란|I was surprised to see her there.|거기서 그녀를 보고 놀랐어.|1
+worried|걱정하는|I'm worried about my son.|아들이 걱정돼.|1
+nervous|긴장한, 불안한|I always get nervous before an interview.|나는 면접 전에 늘 긴장해.|1
+lonely|외로운|She felt lonely in the new city.|그녀는 낯선 도시에서 외로웠다.|1
+proud|자랑스러운|I'm so proud of you.|네가 정말 자랑스러워.|1
+glad|기쁜, 다행인|I'm glad you came.|와 줘서 기뻐.|1
+sorry|미안한; 안타까운|I'm sorry to hear that.|그 얘길 들으니 안타깝네.|1
+upset|속상한, 화가 난|She was upset about the news.|그녀는 그 소식에 속상해했다.|1
+kind|친절한|Thank you, that's very kind of you.|고마워요, 정말 친절하시네요.|1
+friendly|다정한, 친근한|The staff were really friendly.|직원들이 정말 친절했어.|1
+funny|웃긴, 재미있는|He's really funny.|그는 정말 웃겨.|1
+shy|수줍음 많은|My daughter is shy around strangers.|우리 딸은 낯선 사람 앞에서 수줍어해.|1
+smart|똑똑한|She's smart and hardworking.|그녀는 똑똑하고 성실해.|1
+honest|정직한, 솔직한|To be honest, I don't like it.|솔직히 말하면 별로야.|1
+brave|용감한|That was a brave thing to do.|정말 용감한 행동이었어.|1
+calm|침착한, 차분한|Stay calm and listen.|침착하게 들어 봐.|1
+gentle|온화한, 부드러운|He's very gentle with the baby.|그는 아기를 아주 부드럽게 대해.|2
+polite|예의 바른|The kids were very polite.|아이들이 아주 예의 발랐어.|2
+rude|무례한|That was really rude.|그건 정말 무례했어.|2
+mean|못된, 심술궂은|Don't be mean to your sister.|여동생한테 못되게 굴지 마.|2
+selfish|이기적인|It's selfish to think only of yourself.|자기만 생각하는 건 이기적이야.|2
+generous|너그러운, 후한|My grandmother is very generous.|우리 할머니는 아주 인심이 후하셔.|2
+patient|참을성 있는; 환자|You need to be patient with kids.|아이들한테는 인내심이 필요해.|2
+curious|호기심 많은|Children are naturally curious.|아이들은 원래 호기심이 많아.|2
+confident|자신감 있는|She seems very confident.|그녀는 아주 자신감 있어 보여.|2
+jealous|질투하는|Are you jealous of him?|그 사람 질투 나?|2
+embarrassed|민망한, 창피한|I was so embarrassed when I called him by the wrong name.|이름을 잘못 불러서 너무 민망했어.|2
+frustrated|답답한, 짜증 난|I get frustrated when the Wi-Fi is slow.|와이파이가 느리면 답답해.|2
+relieved|안도한|I was relieved to hear the news.|그 소식을 듣고 안심했어.|2
+grateful|고마워하는|I'm really grateful for your help.|도와줘서 정말 고마워.|2
+anxious|불안한|She gets anxious before presentations.|그녀는 발표 전에 불안해해.|2
+disappointed|실망한|I was disappointed with the result.|결과에 실망했어.|2
+annoyed|짜증이 난|I'm a little annoyed with him.|그 사람 때문에 좀 짜증 나.|2
+annoying|짜증 나게 하는|That noise is so annoying.|저 소리 진짜 짜증 난다.|2
+confused|혼란스러운|I'm confused. Can you explain again?|헷갈려요. 다시 설명해 줄래요?|2
+thrilled|아주 신이 난|I'm thrilled to be here.|여기 오게 돼서 정말 기뻐요.|2
+moody|기분 변화가 심한|Teenagers can be moody.|십 대들은 기분이 오락가락할 수 있어.|2
+outgoing|외향적인, 사교적인|She's outgoing and makes friends easily.|그녀는 사교적이라 친구를 쉽게 사귀어.|2
+lazy|게으른|Don't be so lazy.|그렇게 게으름 피우지 마.|2
+hardworking|성실한, 열심히 일하는|My team is very hardworking.|우리 팀은 아주 성실해.|2
+cheerful|쾌활한|She's always so cheerful.|그녀는 늘 밝아.|2
+stressed|스트레스 받은|I'm so stressed about work.|일 때문에 너무 스트레스 받아.|2
+mood|기분|I'm not in the mood to go out.|나갈 기분이 아니야.|2
+feeling|느낌, 감정|I have a good feeling about this.|이거 느낌이 좋아.|2
+emotional|감정적인, 감동적인|The ending was so emotional.|결말이 정말 감동적이었어.|2
+sensitive|예민한, 섬세한|He's sensitive about his height.|그는 키에 예민해.|2
+stubborn|고집 센|My son can be really stubborn at bedtime.|우리 아들은 잘 시간만 되면 고집이 세져.|3
+considerate|배려심 있는|It was very considerate of you to call.|전화해 주다니 정말 배려심 있네.|3
+easygoing|느긋한, 무던한|My husband is pretty easygoing.|남편은 꽤 무던한 편이야.|3
+reliable|믿을 수 있는|He's the most reliable person on the team.|그는 팀에서 가장 믿음직한 사람이야.|3
+overwhelmed|(일·감정에) 압도된, 벅찬|I felt overwhelmed by all the emails.|이메일이 너무 많아서 벅찼어.|3
+nostalgic|옛날이 그리운|This song makes me nostalgic.|이 노래를 들으면 옛날 생각이 나.|3
+humble|겸손한|She stays humble despite her success.|그녀는 성공했는데도 겸손해.|3
+ambitious|야망 있는|He's young and ambitious.|그는 젊고 야망이 있어.|3
+mature|성숙한|She's very mature for her age.|그녀는 나이에 비해 아주 성숙해.|3
+immature|미성숙한, 유치한|Stop being so immature.|그렇게 유치하게 굴지 마.|3
+optimistic|낙관적인|I'm optimistic about the future.|나는 미래를 낙관해.|3
+pessimistic|비관적인|Don't be so pessimistic.|너무 비관적으로 생각하지 마.|3
+thoughtful|사려 깊은|What a thoughtful gift!|정말 세심한 선물이네!|3
+talkative|말이 많은|My daughter is very talkative.|우리 딸은 말이 정말 많아.|3
+reserved|내성적인, 말수가 적은|He's a bit reserved at first.|그는 처음엔 좀 말수가 적어.|3
+sincere|진심 어린|Please accept my sincere apologies.|진심으로 사과드립니다.|3
+furious|몹시 화가 난|She was furious when she found out.|그녀는 알게 되자 몹시 화를 냈다.|3
+ashamed|부끄러워하는|I'm ashamed of what I said.|내가 한 말이 부끄러워.|3
+guilty|죄책감 드는|I feel guilty about leaving early.|일찍 나가서 마음이 불편해.|3
+satisfied|만족한|Are you satisfied with the service?|서비스에 만족하세요?|3
+impressed|감명받은, 인상 깊은|I'm impressed with your English.|영어 실력이 인상적이네요.|3
+exhausted|기진맥진한|I'm exhausted after work.|퇴근하고 나면 녹초야.|3
+miserable|비참한|I felt miserable with a cold.|감기 때문에 너무 괴로웠어.|3
+delighted|아주 기쁜|We're delighted to welcome you.|모시게 되어 정말 기쁩니다.|3
+terrified|겁에 질린|I'm terrified of spiders.|거미가 너무 무서워.|3
+homesick|향수병에 걸린|I got homesick during my trip.|여행 중에 집 생각이 났어.|3
+awkward|어색한|There was an awkward silence.|어색한 침묵이 흘렀다.|3
+cranky|짜증을 잘 내는, 칭얼대는|The baby gets cranky when she's tired.|아기는 피곤하면 칭얼거려.|3
+grumpy|심술 난, 투덜대는|Dad is grumpy in the morning.|아빠는 아침엔 기분이 안 좋아.|3
+upbeat|긍정적인, 쾌활한|She stayed upbeat all day.|그녀는 하루 종일 밝았어.|3
+down|우울한, 기운 없는|You seem a bit down today.|오늘 좀 기운 없어 보여.|3
+fed up|진절머리 난|I'm fed up with this traffic.|이 교통 체증에 진절머리 나.|3
+in a good mood|기분이 좋은|You're in a good mood today!|오늘 기분 좋아 보이네!|2
+cheer up|기운을 내다, 기운 나게 하다|Cheer up! It's not the end of the world.|기운 내! 세상 끝난 거 아니야.|2
+calm down|진정하다|Calm down and tell me what happened.|진정하고 무슨 일인지 말해 봐.|2
+freak out|기겁하다, 멘붕이 오다|Don't freak out, but I lost the keys.|놀라지 마, 열쇠 잃어버렸어.|3
+get on my nerves|신경을 건드리다|His voice gets on my nerves.|그 사람 목소리가 신경을 긁어.|4
+lose my temper|버럭 화를 내다|I lost my temper with the kids.|애들한테 버럭 화를 냈어.|4
+resentful|억울해하는, 분개한|She felt resentful about doing all the work.|그녀는 일을 혼자 다 해서 억울했어.|4
+indifferent|무관심한|He seemed indifferent to the result.|그는 결과에 무관심해 보였어.|4
+compassionate|연민 어린, 인정 많은|She's a compassionate nurse.|그녀는 인정 많은 간호사야.|4
+arrogant|거만한|He's smart but arrogant.|그는 똑똑하지만 거만해.|4
+modest|겸손한; 적당한|He's very modest about his success.|그는 자기 성공에 대해 아주 겸손해.|4
+decisive|결단력 있는|A good leader is decisive.|좋은 리더는 결단력이 있어.|4
+indecisive|우유부단한|I'm so indecisive when ordering food.|나는 음식 주문할 때 너무 우유부단해.|4
+impulsive|충동적인|I made an impulsive decision.|충동적으로 결정해 버렸어.|4
+cautious|조심스러운|Be cautious with strangers online.|온라인에서 낯선 사람은 조심해.|4
+introvert|내향적인 사람|I'm an introvert, so parties tire me out.|나는 내향적이라 파티는 피곤해.|3
+extrovert|외향적인 사람|My sister is a total extrovert.|우리 언니는 완전 외향형이야.|3
+empathy|공감|Empathy is important in parenting.|육아에는 공감이 중요해.|4
+sympathy|동정, 위로|You have my deepest sympathy.|깊은 위로를 전합니다.|4
+apprehensive|걱정되는, 불안한|I'm a little apprehensive about the surgery.|수술이 좀 걱정돼.|4
+content|만족하는|I'm content with a simple life.|나는 소박한 삶에 만족해.|4
+envious|부러워하는|I'm envious of your vacation.|네 휴가가 부러워.|4
+bitter|억울한, 씁쓸한|He's still bitter about the breakup.|그는 아직 이별 때문에 씁쓸해해.|4
+vulnerable|상처받기 쉬운, 취약한|I felt vulnerable sharing my story.|내 이야기를 털어놓으니 마음이 약해졌어.|4
+resilient|회복력 있는, 잘 이겨 내는|Kids are more resilient than we think.|아이들은 생각보다 회복력이 강해.|4
+self-conscious|남의 눈을 의식하는|I'm self-conscious about my accent.|나는 내 발음이 신경 쓰여.|4
+on edge|신경이 곤두선|Everyone was on edge before the results came out.|결과 나오기 전에 다들 신경이 곤두서 있었어.|4
+down to earth|소탈한, 현실적인|For a famous actor, he's very down to earth.|유명한 배우치고 그는 정말 소탈해.|4
+laid-back|느긋한, 여유로운|It's a laid-back café.|여유로운 분위기의 카페야.|4
+hot-tempered|성질 급한, 다혈질인|He's a bit hot-tempered.|그는 좀 다혈질이야.|4
+two-faced|앞뒤가 다른, 위선적인|I don't trust two-faced people.|앞뒤 다른 사람은 안 믿어.|4
+over the moon|너무 기뻐하는|She was over the moon about the baby.|그녀는 아기 소식에 날아갈 듯 기뻐했어.|5
+on cloud nine|구름 위를 걷듯 행복한|I've been on cloud nine since the wedding.|결혼식 이후로 계속 붕 떠 있어.|5
+down in the dumps|우울한, 의기소침한|He's been down in the dumps all week.|그는 일주일 내내 의기소침해 있어.|5
+butterflies in my stomach|(긴장해서) 가슴이 두근거림|I had butterflies in my stomach before the show.|공연 전에 가슴이 엄청 두근거렸어.|5
+at my wits' end|어찌할 바를 모르는|I'm at my wits' end with this baby.|아기 때문에 어떻게 해야 할지 모르겠어.|5
+bent out of shape|잔뜩 화난, 언짢은|Don't get bent out of shape over it.|그런 걸로 너무 언짢아하지 마.|5
+blow off steam|스트레스를 풀다|I go running to blow off steam.|스트레스 풀려고 달리기를 해.|5
+keep my cool|침착함을 유지하다|I tried to keep my cool.|침착하려고 애썼어.|5
+lose it|이성을 잃다, 폭발하다|I almost lost it when he said that.|그 말 듣고 거의 폭발할 뻔했어.|5
+salty|(사소한 일로) 삐친, 짜증 난|Why are you so salty today?|오늘 왜 이렇게 삐졌어?|5
+chuffed|매우 기뻐하는 (영국식)|I'm chuffed with how it turned out.|결과가 잘 나와서 너무 기뻐.|5
+bummed|실망한, 아쉬운|I'm so bummed I missed the concert.|콘서트 놓쳐서 너무 아쉬워.|5
+stoked|완전 신난|I'm stoked about the trip!|여행 완전 기대돼!|5
+pumped|잔뜩 기대된, 흥분된|The team is pumped for the game.|팀이 경기 때문에 잔뜩 들떠 있어.|5
+touchy|과민한, 민감한|He's touchy about his weight.|그는 몸무게 얘기에 예민해.|4
+clingy|(사람에게) 매달리는|My toddler is so clingy these days.|우리 아기는 요즘 엄청 붙어 있으려 해.|4
+needy|관심을 많이 바라는|My cat gets needy at night.|우리 고양이는 밤이 되면 관심을 엄청 바래.|4
+bossy|이래라저래라 하는|Don't be so bossy.|그렇게 이래라저래라 하지 마.|3
+nosy|참견하기 좋아하는|My neighbor is a bit nosy.|우리 이웃은 좀 참견이 심해.|3
+picky|까다로운|I'm picky about coffee.|나는 커피에 까다로워.|3
+clumsy|덜렁대는, 서툰|I'm so clumsy. I broke another cup.|난 너무 덤벙대. 컵 또 깼어.|3
+forgetful|잘 잊어버리는|I'm getting forgetful these days.|요즘 깜빡깜빡해.|3
+easily distracted|쉽게 산만해지는|I get easily distracted when I study.|공부할 때 쉽게 산만해져.|3
+open-minded|열린 마음의, 편견 없는|Try to be open-minded.|열린 마음을 가지려고 해 봐.|3
+narrow-minded|편협한|He's quite narrow-minded about it.|그는 그 문제에 꽤 편협해.|4
+easily offended|쉽게 기분 상하는|She's easily offended by jokes.|그녀는 농담에 쉽게 기분 상해.|4
+heartbroken|가슴이 미어지는|He was heartbroken when his dog died.|강아지가 죽었을 때 그는 가슴이 미어졌어.|3
+touched|감동한|I was touched by your letter.|네 편지에 감동했어.|3
+moved|마음이 움직인, 감동한|We were moved to tears.|우리는 감동해서 눈물이 났어.|3
+speechless|말문이 막힌|I was speechless when I saw the gift.|선물을 보고 할 말을 잃었어.|3
+puzzled|어리둥절한|She looked puzzled.|그녀는 어리둥절해 보였어.|3
+skeptical|회의적인|I'm skeptical about that diet.|그 다이어트는 좀 의심스러워.|4
+hopeful|희망에 찬|We're hopeful he'll recover soon.|그가 곧 회복할 거라 기대하고 있어.|3
+hopeless|가망 없는; 형편없는|I'm hopeless at math.|나는 수학은 꽝이야.|3
+motivated|동기 부여된, 의욕 있는|I feel motivated today.|오늘은 의욕이 넘쳐.|3
+burnt out|번아웃 된, 완전히 지친|I'm totally burnt out.|완전히 번아웃 됐어.|4
+hangry|배고파서 짜증 난|Feed me before I get hangry.|배고파서 예민해지기 전에 밥 줘.|5
+FOMO|소외될까 두려운 마음, 놓칠까 봐 불안함|I have FOMO when my friends travel.|친구들이 여행 가면 나만 빠진 것 같아 불안해.|5
+vibe|분위기, 느낌|This place has a great vibe.|여기 분위기 정말 좋다.|4
+gut feeling|직감|My gut feeling says no.|내 직감으로는 아니야.|4
+mixed feelings|복잡한 심경|I have mixed feelings about moving.|이사에 대해 마음이 복잡해.|4
+pet peeve|특히 짜증 나는 것|Loud chewing is my pet peeve.|쩝쩝거리는 소리가 제일 싫어.|5
+out of sorts|기분이 별로인, 컨디션이 안 좋은|I've been out of sorts all day.|하루 종일 기분이 별로야.|5
+walking on eggshells|살얼음판을 걷는 듯 조심하는|I feel like I'm walking on eggshells around him.|그 사람 옆에선 살얼음판 걷는 기분이야.|5
+wear my heart on my sleeve|감정을 숨기지 않고 드러내다|I tend to wear my heart on my sleeve.|나는 감정이 다 티 나는 편이야.|5
+a people person|사람 만나는 걸 좋아하는 사람|She's a real people person.|그녀는 사람들이랑 정말 잘 어울려.|4
+a pushover|만만한 사람, 호구|Don't be such a pushover.|그렇게 만만하게 굴지 마.|5
+a control freak|모든 걸 통제하려는 사람|My boss is a total control freak.|우리 상사는 완전 통제광이야.|5
+a worrywart|걱정이 많은 사람|My mom is such a worrywart.|우리 엄마는 걱정을 너무 많이 하셔.|5
+a social butterfly|사교성 좋은 사람, 인싸|She's a social butterfly at parties.|그녀는 파티에서 완전 인싸야.|5
+easy to talk to|말 걸기 편한|Our new manager is easy to talk to.|새 매니저는 말 걸기 편해.|3

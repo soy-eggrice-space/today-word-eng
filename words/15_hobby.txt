@@ -1,0 +1,173 @@
+# hobby|취미·여가|🎨
+movie|영화|Let's watch a movie tonight.|오늘 밤에 영화 보자.|1
+book|책|I'm reading a good book.|좋은 책을 읽고 있어.|1
+read|읽다|I read before bed.|자기 전에 책을 읽어.|1
+draw|그리다|My daughter loves to draw.|우리 딸은 그림 그리는 걸 좋아해.|1
+paint|그리다, 칠하다|We painted the fence together.|같이 울타리를 칠했어.|1
+sing|노래하다|She sings in a choir.|그녀는 합창단에서 노래해.|1
+dance|춤(추다)|Let's dance!|춤추자!|1
+play|놀다; 연주하다; 경기하다|I play the piano.|나는 피아노를 쳐.|1
+sport|스포츠|What's your favorite sport?|제일 좋아하는 스포츠가 뭐야?|1
+soccer|축구|My son plays soccer on weekends.|우리 아들은 주말에 축구를 해.|1
+baseball|야구|Let's go to a baseball game.|야구 보러 가자.|1
+basketball|농구|He's good at basketball.|그는 농구를 잘해.|1
+swim|수영하다|I swim twice a week.|일주일에 두 번 수영해.|1
+run|달리다|I run in the park every morning.|매일 아침 공원에서 달려.|1
+bike|자전거|Let's ride bikes by the river.|강가에서 자전거 타자.|1
+walk|산책; 걷다|Let's take a walk.|산책하자.|1
+camping|캠핑|We love camping.|우리는 캠핑을 좋아해.|1
+picnic|소풍|Let's have a picnic.|소풍 가자.|1
+concert|콘서트|I went to a concert last night.|어젯밤 콘서트에 갔어.|1
+song|노래|This is my favorite song.|이게 내가 제일 좋아하는 노래야.|1
+guitar|기타|He's learning to play the guitar.|그는 기타를 배우고 있어.|1
+piano|피아노|My twins take piano lessons.|우리 쌍둥이는 피아노를 배워.|1
+photo|사진|Photography is my hobby.|사진 찍기가 내 취미야.|1
+fun|재미; 재미있는|That was so much fun!|정말 재밌었어!|1
+hobby|취미|Do you have any hobbies?|취미 있어요?|1
+free time|여가 시간|What do you do in your free time?|여가 시간에 뭐 해?|1
+cook|요리하다|I like to cook on weekends.|주말엔 요리하는 걸 좋아해.|1
+bake|빵을 굽다|We baked a cake together.|같이 케이크를 구웠어.|1
+garden|정원(을 가꾸다)|My mom loves to garden.|엄마는 정원 가꾸는 걸 좋아하셔.|2
+knit|뜨개질하다|I knit a scarf for my daughter.|딸에게 줄 목도리를 떴어.|2
+sew|바느질하다|Can you sew on a button?|단추 달 줄 알아?|2
+craft|공예|The kids love doing crafts.|아이들은 만들기를 좋아해.|2
+puzzle|퍼즐|We did a 1,000-piece puzzle.|천 조각 퍼즐을 맞췄어.|2
+board game|보드게임|Let's play a board game.|보드게임 하자.|2
+collect|모으다, 수집하다|I collect stamps.|나는 우표를 모아.|2
+fishing|낚시|My dad loves fishing.|아빠는 낚시를 좋아하셔.|2
+hiking|등산|We go hiking every Sunday.|우리는 일요일마다 등산해.|2
+climbing|등반, 클라이밍|Rock climbing is hard.|암벽 등반은 힘들어.|2
+yoga|요가|Yoga relaxes me.|요가를 하면 마음이 편해져.|2
+tennis|테니스|Do you play tennis?|테니스 쳐?|2
+golf|골프|My boss plays golf on Saturdays.|우리 상사는 토요일마다 골프를 쳐.|2
+bowling|볼링|Let's go bowling.|볼링 치러 가자.|2
+skiing|스키 타기|We go skiing every winter.|우리는 겨울마다 스키를 타러 가.|2
+skating|스케이트 타기|The kids went ice skating.|아이들이 아이스 스케이트를 탔어.|2
+team|팀|Which team do you support?|어느 팀 응원해?|2
+win|이기다|We won the game!|우리가 경기에서 이겼어!|2
+lose|지다|We lost by one point.|1점 차로 졌어.|2
+score|점수; 득점하다|What's the score?|점수가 어떻게 돼?|2
+match|경기, 시합|Did you watch the match?|경기 봤어?|2
+practice|연습(하다)|Practice makes perfect.|연습이 완벽을 만든다.|2
+lesson|수업, 레슨|I take swimming lessons.|수영 강습을 받아.|2
+class|수업, 강좌|I signed up for a pottery class.|도자기 수업에 등록했어.|2
+museum|박물관|We visited the science museum.|과학관에 갔어.|2
+gallery|미술관|There's a new exhibit at the gallery.|미술관에 새 전시가 있어.|2
+exhibition|전시회|The exhibition ends this week.|전시회가 이번 주에 끝나.|3
+theater|극장|We saw a musical at the theater.|극장에서 뮤지컬을 봤어.|2
+musical|뮤지컬|I love musicals.|나는 뮤지컬을 좋아해.|2
+play|연극|The school play was adorable.|학교 연극이 정말 귀여웠어.|2
+show|공연, 쇼|The show starts at seven.|공연은 7시에 시작해.|2
+ticket|표|I got two tickets for the show.|공연 표 두 장 구했어.|1
+fan|팬|I'm a big fan of that band.|나는 그 밴드의 열렬한 팬이야.|2
+band|밴드|Their band is touring Asia.|그들 밴드가 아시아 투어 중이야.|2
+singer|가수|Who's your favorite singer?|좋아하는 가수가 누구야?|1
+actor|배우|He's a famous actor.|그는 유명한 배우야.|2
+drama|드라마|I'm watching a Korean drama.|한국 드라마 보는 중이야.|2
+episode|(드라마의) 회, 편|I watched three episodes last night.|어젯밤에 세 편을 봤어.|2
+series|시리즈|This series is so addictive.|이 시리즈 진짜 중독성 있어.|2
+season|(드라마의) 시즌|The new season comes out next month.|새 시즌이 다음 달에 나와.|2
+spoiler|스포일러|No spoilers, please!|스포 하지 마!|3
+plot|줄거리|The plot was confusing.|줄거리가 헷갈렸어.|3
+character|등장인물; 캐릭터|Who's your favorite character?|제일 좋아하는 등장인물이 누구야?|2
+ending|결말|I didn't like the ending.|결말이 마음에 안 들었어.|2
+novel|소설|She writes novels.|그녀는 소설을 써.|2
+author|작가|Who's the author of this book?|이 책 작가가 누구야?|2
+poem|시|He wrote me a poem.|그가 나에게 시를 써 줬어.|2
+comic book|만화책|My son loves comic books.|우리 아들은 만화책을 좋아해.|2
+library|도서관|Let's go to the library.|도서관에 가자.|1
+bookstore|서점|I spent an hour at the bookstore.|서점에서 한 시간을 보냈어.|2
+genre|장르|What genre do you like?|어떤 장르 좋아해?|3
+documentary|다큐멘터리|We watched a documentary about whales.|고래에 관한 다큐멘터리를 봤어.|3
+horror|공포|I can't watch horror movies.|나는 공포 영화를 못 봐.|2
+comedy|코미디|Let's watch a comedy.|코미디 영화 보자.|2
+romance|로맨스|She loves romance novels.|그녀는 로맨스 소설을 좋아해.|2
+animation|애니메이션|The kids love animation.|아이들은 애니메이션을 좋아해.|2
+streaming service|스트리밍 서비스|Which streaming service do you use?|어떤 스트리밍 서비스 써?|3
+playlist|재생 목록|I made a playlist for the trip.|여행용 플레이리스트를 만들었어.|3
+lyrics|가사|I don't know the lyrics.|가사를 몰라.|3
+instrument|악기|Do you play an instrument?|악기 다룰 줄 알아?|3
+karaoke|노래방|Let's go to karaoke!|노래방 가자!|2
+festival|축제|There's a music festival this weekend.|이번 주말에 음악 축제가 있어.|2
+amusement park|놀이공원|The kids want to go to the amusement park.|애들이 놀이공원에 가고 싶어 해.|2
+zoo|동물원|We took the kids to the zoo.|아이들을 동물원에 데려갔어.|1
+aquarium|수족관|The aquarium has sharks.|수족관에 상어가 있어.|2
+playground|놀이터|The kids are at the playground.|아이들은 놀이터에 있어.|1
+ride|(놀이 기구를) 타다; 놀이 기구|That ride was scary!|그 놀이 기구 무서웠어!|2
+gym|체육관, 헬스장|I go to the gym three times a week.|일주일에 세 번 헬스장에 가.|2
+marathon|마라톤|She ran a marathon last year.|그녀는 작년에 마라톤을 뛰었어.|3
+cycling|자전거 타기|Cycling is good exercise.|자전거 타기는 좋은 운동이야.|2
+fitness|체력, 피트니스|I'm trying to improve my fitness.|체력을 키우려고 노력 중이야.|3
+workout|운동|That was a hard workout.|힘든 운동이었어.|3
+coach|코치|Our coach is very strict.|우리 코치는 아주 엄격해.|2
+referee|심판|The referee made a bad call.|심판이 판정을 잘못했어.|3
+championship|선수권 대회|They won the championship.|그들이 우승했어.|3
+tournament|토너먼트, 대회|There's a tennis tournament this week.|이번 주에 테니스 대회가 있어.|3
+cheer|응원하다|We cheered for our team.|우리 팀을 응원했어.|2
+draw|무승부|The game ended in a draw.|경기가 무승부로 끝났어.|3
+tie|동점(이 되다)|It's a tie!|동점이야!|3
+pottery|도자기 공예|I'm taking a pottery class.|도자기 수업을 듣고 있어.|3
+calligraphy|서예, 캘리그라피|My father practices calligraphy.|아빠는 서예를 하셔.|3
+origami|종이접기|The kids made origami cranes.|아이들이 종이학을 접었어.|3
+DIY|직접 만들기|I made this table myself. DIY!|이 테이블 내가 직접 만들었어!|3
+woodworking|목공|He took up woodworking.|그는 목공을 시작했어.|4
+journaling|일기 쓰기|Journaling helps me relax.|일기를 쓰면 마음이 편해져.|4
+bullet journal|불렛 저널|I keep a bullet journal.|나는 불렛 저널을 써.|4
+meditation|명상|Meditation calms my mind.|명상을 하면 마음이 차분해져.|3
+volunteer|자원봉사(하다)|I volunteer at an animal shelter.|동물 보호소에서 봉사해.|3
+club|동아리, 클럽|I joined a book club.|독서 모임에 가입했어.|2
+membership|회원권|I got a gym membership.|헬스장 회원권을 끊었어.|3
+beginner|초보자|This class is for beginners.|이 수업은 초보자용이야.|2
+expert|전문가|She's an expert at baking.|그녀는 베이킹 전문가야.|3
+talent|재능|He has a talent for music.|그는 음악에 재능이 있어.|3
+skill|기술, 솜씨|Cooking is a useful skill.|요리는 유용한 기술이야.|2
+creative|창의적인|My daughter is very creative.|우리 딸은 아주 창의적이야.|3
+relaxing|편안하게 해 주는|Fishing is very relaxing.|낚시는 정말 마음이 편해져.|2
+exciting|신나는|The game was so exciting.|경기가 정말 흥미진진했어.|2
+challenging|도전적인, 힘든|Rock climbing is challenging.|암벽 등반은 힘들어.|3
+rewarding|보람 있는|Volunteering is very rewarding.|봉사 활동은 아주 보람 있어.|4
+take up|(취미를) 시작하다|I took up running last year.|작년에 달리기를 시작했어.|3
+get into|~에 빠지다, 관심을 갖게 되다|I got into baking during the pandemic.|코로나 때 베이킹에 빠졌어.|3
+be into|~에 푹 빠져 있다|I'm really into K-pop these days.|요즘 케이팝에 푹 빠져 있어.|3
+hooked on|~에 중독된, 푹 빠진|I'm hooked on this drama.|이 드라마에 완전 빠졌어.|4
+binge-watch|몰아 보다|I binge-watched the whole season.|시즌 전체를 몰아 봤어.|4
+couch potato|소파에 붙어 TV만 보는 사람|Don't be a couch potato all weekend.|주말 내내 소파에만 붙어 있지 마.|5
+night out|밤에 놀러 나가기|We had a girls' night out.|여자들끼리 밤에 놀러 나갔어.|4
+day trip|당일치기 여행|Let's take a day trip to the beach.|바닷가로 당일치기 여행 가자.|3
+weekend getaway|주말 여행|We planned a weekend getaway.|주말 여행을 계획했어.|4
+glamping|글램핑|We went glamping with the kids.|아이들이랑 글램핑 갔어.|3
+bucket list|버킷 리스트|Skydiving is on my bucket list.|스카이다이빙은 내 버킷 리스트에 있어.|4
+me time|나만의 시간|Reading is my me time.|책 읽기가 나만의 시간이야.|4
+pastime|취미, 기분 전환 활동|Baseball is a national pastime.|야구는 국민 취미야.|4
+leisure|여가|What do you do for leisure?|여가 시간에 뭐 해요?|4
+recreation|오락, 레크리에이션|The park has recreation areas.|공원에 놀이 공간이 있어.|4
+amateur|아마추어|I'm just an amateur photographer.|나는 그냥 아마추어 사진가야.|3
+masterpiece|걸작|This painting is a masterpiece.|이 그림은 걸작이야.|4
+critic|평론가|The critics loved the movie.|평론가들이 그 영화를 극찬했어.|4
+review|평, 후기|The movie got great reviews.|그 영화는 평이 아주 좋았어.|3
+blockbuster|흥행 대작|It's the summer blockbuster.|그게 이번 여름 흥행작이야.|4
+box office|흥행 수익, 매표소|The movie was a box office hit.|그 영화는 흥행에 성공했어.|4
+premiere|개봉, 초연|The premiere is next Friday.|개봉은 다음 주 금요일이야.|4
+sequel|속편|I can't wait for the sequel.|속편이 너무 기다려져.|4
+cliffhanger|궁금증을 남기는 결말|The episode ended on a cliffhanger.|그 회는 궁금하게 끝났어.|5
+plot twist|반전|What a plot twist!|대반전이다!|4
+fandom|팬덤, 팬층|The fandom is huge.|팬덤이 엄청 커.|4
+merch|굿즈, 관련 상품|I bought some concert merch.|콘서트 굿즈를 좀 샀어.|5
+encore|앙코르|The crowd shouted for an encore.|관객들이 앙코르를 외쳤어.|4
+front row|맨 앞줄|We had front-row seats!|우리 맨 앞줄이었어!|3
+sold out|매진된|The concert is sold out.|콘서트가 매진됐어.|2
+standing ovation|기립 박수|The singer got a standing ovation.|가수가 기립 박수를 받았어.|5
+hit|히트곡, 인기작|That song was a huge hit.|그 노래는 엄청난 히트곡이었어.|3
+cover|(노래를) 리메이크하다, 커버하다|She covered a Beatles song.|그녀가 비틀스 노래를 불렀어.|4
+chill out|느긋하게 쉬다|I just want to chill out this weekend.|이번 주말엔 그냥 쉬고 싶어.|4
+hang out|어울려 놀다|We hung out at the mall.|우리는 쇼핑몰에서 놀았어.|3
+have a blast|아주 즐겁게 보내다|We had a blast at the party.|파티에서 정말 신나게 놀았어.|5
+paint the town red|신나게 놀다|Let's paint the town red tonight!|오늘 밤 신나게 놀자!|5
+kill time|시간을 때우다|I played games to kill time.|시간 때우려고 게임을 했어.|4
+up for it|할 마음이 있는|A movie tonight? Are you up for it?|오늘 밤 영화 볼래? 할 마음 있어?|4
+rain check|다음 기회|Can I take a rain check on the movie?|영화는 다음에 봐도 될까?|5
+my jam|내 최애 노래|This song is my jam!|이 노래 완전 내 최애야!|5
+earworm|귀에 맴도는 노래|That song is such an earworm.|그 노래 계속 귀에 맴돌아.|5
+throwback|추억 소환|This song is such a throwback.|이 노래 완전 추억 소환이다.|5
+guilty pleasure|부끄럽지만 좋아하는 것|Reality shows are my guilty pleasure.|리얼리티 쇼는 부끄럽지만 내 낙이야.|4
+weekend warrior|주말에만 운동하는 사람|My husband is a weekend warrior.|남편은 주말에만 운동하는 사람이야.|5

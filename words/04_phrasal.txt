@@ -1,0 +1,182 @@
+# phrasal|구동사|🔗
+come back|돌아오다|When will you come back?|언제 돌아와?|1
+come in|들어오다|Please come in and sit down.|들어와서 앉으세요.|1
+go out|나가다, 외출하다|Let's go out for dinner.|저녁 먹으러 나가자.|1
+sit down|앉다|Please sit down.|앉으세요.|1
+stand up|일어서다|Stand up when you speak.|말할 때는 일어서세요.|1
+look at|~을 보다|Look at that cute dog!|저 귀여운 강아지 좀 봐!|1
+look for|~을 찾다|I'm looking for my glasses.|안경을 찾고 있어.|1
+put on|입다, 착용하다|Put on your coat. It's cold.|외투 입어. 추워.|1
+take off|벗다; 이륙하다|Please take off your shoes.|신발을 벗어 주세요.|1
+listen to|~을 듣다|I listen to music on the bus.|버스에서 음악을 들어.|1
+wait for|~을 기다리다|I'll wait for you at the café.|카페에서 기다릴게.|1
+talk about|~에 대해 이야기하다|Let's talk about it later.|그건 나중에 얘기하자.|1
+think about|~에 대해 생각하다|I'll think about it.|생각해 볼게.|1
+grow up|자라다|I grew up in Busan.|나는 부산에서 자랐어.|1
+hurry up|서두르다|Hurry up! We're late.|서둘러! 우리 늦었어.|1
+give up|포기하다|Don't give up.|포기하지 마.|1
+find out|알아내다|I found out the truth.|진실을 알아냈어.|2
+figure out|알아내다, 이해하다|I can't figure out how this app works.|이 앱이 어떻게 돌아가는지 모르겠어.|2
+pick up|데리러 가다; 사 오다; 줍다|I need to pick up the kids at five.|5시에 애들 데리러 가야 해.|2
+drop off|내려 주다, 갖다 주다|Can you drop me off at the station?|역에 내려 줄 수 있어?|2
+get on|(버스·기차에) 타다|Get on the bus at the next stop.|다음 정류장에서 버스 타.|2
+get off|(버스·기차에서) 내리다|Get off at City Hall.|시청에서 내려.|2
+get in|(차에) 타다; 들어가다|Get in the car, please.|차에 타.|2
+get out|(차에서) 내리다; 나가다|Get out of the car carefully.|조심해서 차에서 내려.|2
+get along with|~와 잘 지내다|Do you get along with your coworkers?|동료들이랑 잘 지내?|2
+get over|극복하다, 회복하다|It took me weeks to get over the flu.|독감 낫는 데 몇 주 걸렸어.|2
+get back|돌아오다; 되찾다|What time did you get back?|몇 시에 돌아왔어?|2
+look after|돌보다|Can you look after the kids for an hour?|한 시간만 애들 좀 봐 줄래?|2
+look forward to|~을 고대하다|I look forward to working with you.|함께 일하게 되길 기대합니다.|2
+look up|(사전 등에서) 찾아보다|Look up the word in the dictionary.|그 단어 사전에서 찾아봐.|2
+fill out|(서류를) 작성하다|Please fill out this form.|이 양식을 작성해 주세요.|2
+try on|입어 보다|Can I try on this jacket?|이 재킷 입어 봐도 돼요?|2
+turn up|(소리를) 키우다; 나타나다|Turn up the volume, please.|볼륨 좀 키워 줘.|2
+turn down|거절하다; (소리를) 줄이다|She had to turn down the job offer.|그녀는 일자리 제안을 거절해야 했어.|2
+hang up|전화를 끊다; 걸다|Don't hang up yet.|아직 끊지 마.|2
+call back|다시 전화하다|I'll call you back in five minutes.|5분 뒤에 다시 전화할게.|2
+check in|체크인하다|We can check in after 3 p.m.|오후 3시 이후에 체크인할 수 있어.|2
+check out|체크아웃하다; 확인해 보다|Check out this video.|이 영상 좀 봐 봐.|2
+run into|우연히 마주치다|I happened to run into an old friend at the mall.|쇼핑몰에서 옛 친구를 우연히 만났어.|2
+break down|고장 나다; 무너지다|Our car broke down on the highway.|고속도로에서 차가 고장 났어.|2
+set up|설치하다, 마련하다|Can you help me set up the printer?|프린터 설치 좀 도와줄래?|2
+show up|나타나다|He didn't show up to the meeting.|그는 회의에 안 나타났어.|2
+work out|운동하다; 잘 풀리다|I try to work out three times a week.|일주일에 세 번은 운동하려고 해.|2
+eat out|외식하다|We eat out on Fridays.|우리는 금요일에 외식해.|2
+dress up|차려입다|You don't need to dress up.|차려입을 필요 없어.|2
+clean up|청소하다, 치우다|Let's clean up before Mom gets home.|엄마 오시기 전에 치우자.|2
+throw away|버리다|Don't throw away the box.|상자 버리지 마.|2
+put away|치우다, 제자리에 두다|Put away your toys.|장난감 정리해.|2
+cut down on|~을 줄이다|I'm trying to cut down on sugar.|설탕을 줄이려고 노력 중이야.|3
+catch up|근황을 나누다; 따라잡다|Let's grab coffee and catch up.|커피 마시면서 그동안 얘기 좀 하자.|3
+come up with|(생각을) 떠올리다, 내놓다|We need to come up with a better plan.|더 나은 계획을 생각해 내야 해.|3
+look into|알아보다, 조사하다|I'll look into it and get back to you.|알아보고 다시 연락드릴게요.|3
+bring up|(화제를) 꺼내다; 키우다|Don't bring up politics at dinner.|저녁 자리에서 정치 얘기는 꺼내지 마.|3
+end up|결국 ~하게 되다|We might end up staying home.|결국 집에 있게 될지도 몰라.|3
+drop by|잠깐 들르다|Feel free to drop by anytime.|언제든 편하게 들러.|3
+sort out|해결하다, 정리하다|Let's sort out the details tomorrow.|세부 사항은 내일 정리하자.|3
+carry on|계속하다|Sorry to interrupt. Please carry on.|방해해서 죄송해요. 계속하세요.|3
+back up|뒷받침하다, 편들다; 백업하다|Can you back up your claim with data?|주장을 데이터로 뒷받침할 수 있어요?|3
+go over|검토하다, 살펴보다|Let's go over the plan one more time.|계획을 한 번 더 살펴보자.|3
+put up with|참다, 견디다|I can't put up with the noise anymore.|더는 그 소음을 못 참겠어.|3
+run out|다 떨어지다, 바닥나다|We're running out of time.|시간이 없어지고 있어.|3
+take after|(부모를) 닮다|She takes after her father.|그 애는 아빠를 닮았어.|3
+take up|(취미를) 시작하다; 차지하다|I took up yoga last year.|작년에 요가를 시작했어.|3
+give back|돌려주다|Give me back my phone!|내 휴대폰 돌려줘!|2
+hand in|제출하다|Hand in your homework by Friday.|금요일까지 숙제 제출해.|3
+point out|지적하다|She pointed out a mistake in the report.|그녀가 보고서의 실수를 지적했어.|3
+come across|우연히 발견하다|I came across an old photo.|옛날 사진을 우연히 발견했어.|3
+deal with|처리하다, 다루다|I'll deal with it tomorrow.|내일 처리할게.|3
+depend on|~에 달려 있다, 의지하다|It depends on the weather.|날씨에 달려 있어.|3
+count on|믿다, 의지하다|You can count on me.|나만 믿어.|3
+calm down|진정하다|Calm down and tell me what happened.|진정하고 무슨 일인지 말해 봐.|2
+slow down|속도를 줄이다|Slow down! You're driving too fast.|속도 줄여! 너무 빨리 달려.|2
+speak up|더 크게 말하다; 의견을 밝히다|Could you speak up a little?|조금만 크게 말씀해 주시겠어요?|3
+cheer up|기운 내다|Cheer up! Things will get better.|힘내! 좋아질 거야.|2
+let down|실망시키다|I don't want to let you down.|너를 실망시키고 싶지 않아.|3
+mix up|헷갈리다, 뒤섞다|I always mix up their names.|나는 걔네 이름을 늘 헷갈려.|3
+pass out|기절하다; 나눠 주다|He passed out from the heat.|그는 더위에 쓰러졌어.|3
+pay back|(돈을) 갚다|I'll pay you back tomorrow.|내일 갚을게.|3
+sign up|등록하다, 가입하다|I signed up for a cooking class.|요리 수업에 등록했어.|3
+fall apart|무너지다, 망가지다|My old shoes are falling apart.|내 낡은 신발이 다 해졌어.|3
+go through|겪다; 살펴보다|She's going through a hard time.|그녀는 힘든 시기를 겪고 있어.|3
+hold on|기다리다; 꽉 잡다|Hold on, let me check my calendar.|잠깐만, 일정 좀 볼게.|2
+keep up with|~을 따라가다|It's hard to keep up with the news.|뉴스를 따라가기가 힘들어.|3
+make up|화해하다; 지어내다; 화장하다|They argued but made up later.|둘이 싸웠다가 나중에 화해했어.|3
+make up for|만회하다, 보상하다|Let me make up for being late.|늦은 거 만회할게.|4
+move on|넘어가다, 잊고 나아가다|It's time to move on.|이제 털고 나아갈 때야.|3
+pull over|차를 길가에 세우다|Pull over here, please.|여기 세워 주세요.|3
+run late|늦어지다|The bus is running late.|버스가 늦어지고 있어.|3
+show off|자랑하다|He likes to show off his new car.|그는 새 차를 자랑하는 걸 좋아해.|3
+stand out|눈에 띄다|Her red dress really stood out.|그녀의 빨간 드레스가 정말 눈에 띄었어.|3
+take care of|돌보다, 처리하다|I'll take care of the bill.|계산은 내가 할게.|2
+think over|곰곰이 생각하다|Think it over and let me know.|잘 생각해 보고 알려 줘.|3
+try out|시험 삼아 해 보다|I want to try out the new café.|새 카페에 한번 가 보고 싶어.|3
+wake up|일어나다, 깨우다|Wake me up at seven.|7시에 깨워 줘.|1
+warm up|몸을 풀다; 데우다|Let's warm up before running.|달리기 전에 몸 풀자.|2
+wear out|닳다; 지치게 하다|The kids wore me out today.|오늘 애들 때문에 녹초가 됐어.|3
+fill in for|~을 대신하다|Can you fill in for me on Monday?|월요일에 나 대신 좀 해 줄 수 있어?|4
+take over|(업무를) 넘겨받다, 인수하다|Can you take over while I'm on leave?|제가 휴가 간 동안 업무 좀 맡아 줄래요?|4
+follow up|후속 조치하다, 다시 챙기다|I'll follow up with an email.|이메일로 다시 연락드릴게요.|4
+call off|취소하다|They called off the game because of rain.|비 때문에 경기를 취소했어.|4
+put off|미루다|Don't put off until tomorrow what you can do today.|오늘 할 수 있는 일을 내일로 미루지 마.|3
+bring about|일으키다, 초래하다|The new policy brought about many changes.|새 정책이 많은 변화를 가져왔어.|4
+carry out|수행하다, 실행하다|We carried out a survey.|우리는 설문 조사를 실시했어.|4
+cut off|잘라 내다; (연결을) 끊다|We got cut off in the middle of the call.|통화 중간에 끊겼어.|4
+fall behind|뒤처지다|I fell behind on my payments.|납부가 밀렸어.|4
+fall through|(계획이) 무산되다|Our plans fell through at the last minute.|우리 계획이 막판에 무산됐어.|4
+get by|그럭저럭 살아가다|I can get by in Japanese.|일본어는 그럭저럭 해.|4
+get rid of|없애다, 처리하다|I need to get rid of these old clothes.|이 헌 옷들 처분해야 해.|3
+go along with|동의하다, 따르다|I'll go along with your plan.|네 계획대로 할게.|4
+hold up|지연시키다; 견디다|Sorry, I got held up in traffic.|미안, 차가 막혀서 늦었어.|4
+lay off|해고하다|The company laid off fifty workers.|회사가 50명을 해고했어.|4
+live up to|(기대에) 부응하다|The movie didn't live up to the hype.|영화가 기대만큼은 아니었어.|4
+look down on|깔보다|Don't look down on people.|사람들을 깔보지 마.|4
+look up to|존경하다|I've always looked up to my mother.|나는 늘 엄마를 존경해 왔어.|4
+make out|알아보다, 이해하다|I can't make out what he's saying.|그가 뭐라고 하는지 못 알아듣겠어.|4
+narrow down|(범위를) 좁히다|We narrowed it down to two options.|선택지를 두 개로 좁혔어.|4
+opt out|빠지다, 탈퇴하다|You can opt out of the emails.|이메일 수신을 거부할 수 있어요.|4
+pan out|(일이) 결국 ~되다|Let's see how things pan out.|일이 어떻게 되는지 보자.|5
+pull off|(어려운 일을) 해내다|I can't believe we pulled it off!|우리가 해냈다니 믿기지 않아!|4
+rule out|배제하다|We can't rule out that possibility.|그 가능성을 배제할 수 없어.|4
+run by|(의견을) 물어보다|Let me run it by my boss first.|먼저 상사한테 물어볼게요.|4
+set off|출발하다; 터뜨리다|We set off early in the morning.|우리는 아침 일찍 출발했어.|4
+settle down|정착하다; 진정하다|They settled down in Jeju.|그들은 제주에 정착했어.|4
+step down|(자리에서) 물러나다|The CEO stepped down last week.|CEO가 지난주에 물러났어.|4
+stick to|고수하다, 지키다|Let's stick to the plan.|계획대로 하자.|4
+take on|(일을) 맡다|I can't take on any more projects.|프로젝트를 더 맡을 수 없어.|4
+touch base|잠깐 연락하다|Let's touch base next week.|다음 주에 잠깐 연락해요.|4
+turn out|~로 드러나다, 판명되다|It turned out to be a great day.|결국 아주 좋은 하루가 됐어.|3
+wrap up|마무리하다|Let's wrap up the meeting here.|회의는 여기서 마무리하죠.|4
+zone out|멍해지다|Sorry, I zoned out for a second.|미안, 잠깐 멍 때렸어.|5
+chip in|(돈을) 조금씩 보태다|Let's all chip in for her gift.|다 같이 돈 모아서 선물 사자.|5
+cave in|굴복하다, 무너지다|My parents finally caved in and bought me a dog.|부모님이 결국 져 주시고 강아지를 사 주셨어.|5
+chicken out|겁먹고 그만두다|I was going to jump, but I chickened out.|뛰려고 했는데 겁나서 포기했어.|5
+crack up|웃음이 터지다|His joke cracked me up.|그의 농담에 빵 터졌어.|5
+doze off|깜빡 졸다|I dozed off during the lecture.|강의 중에 깜빡 졸았어.|4
+freak out|기겁하다|Don't freak out, but there's a spider.|놀라지 마, 거미가 있어.|4
+goof off|빈둥거리다, 농땡이 치다|Stop goofing off and do your homework.|그만 놀고 숙제해.|5
+hang out|어울려 놀다|Want to hang out this weekend?|이번 주말에 같이 놀래?|3
+kick back|편히 쉬다|I just want to kick back and relax.|그냥 편하게 쉬고 싶어.|5
+mess up|망치다, 엉망으로 만들다|I totally messed up the presentation.|발표를 완전히 망쳤어.|3
+nod off|꾸벅꾸벅 졸다|Grandpa nodded off in his chair.|할아버지가 의자에서 꾸벅꾸벅 조셨어.|5
+pig out|폭식하다, 마구 먹다|We pigged out on pizza.|피자를 엄청 먹었어.|5
+psych up|정신을 단단히 무장하다, 의욕을 끌어올리다|I need to psych myself up for the interview.|면접을 위해 마음을 단단히 먹어야 해.|5
+rip off|바가지 씌우다|That taxi driver ripped us off.|그 택시 기사가 우리한테 바가지를 씌웠어.|5
+screw up|망치다|I screwed up the order.|주문을 망쳤어.|5
+show around|구경시켜 주다|Let me show you around the office.|사무실 구경시켜 드릴게요.|3
+sleep in|늦잠 자다|I like to sleep in on Sundays.|일요일엔 늦잠 자는 게 좋아.|3
+sleep on it|하룻밤 자며 생각해 보다|Don't decide now. Sleep on it.|지금 정하지 말고 하룻밤 생각해 봐.|4
+splash out|큰돈을 쓰다|We splashed out on a nice hotel.|좋은 호텔에 큰돈을 썼어.|5
+stock up on|~을 사서 쟁여 두다|Let's stock up on water before the storm.|태풍 오기 전에 물을 사 두자.|4
+tag along|따라가다|Mind if I tag along?|나도 따라가도 돼?|4
+talk into|설득해서 ~하게 하다|She talked me into buying the dress.|그녀가 설득해서 그 원피스를 샀어.|4
+talk out of|설득해서 그만두게 하다|My friend talked me out of quitting.|친구가 그만두지 말라고 말렸어.|4
+tidy up|정돈하다|Let's tidy up before the guests arrive.|손님 오기 전에 정리하자.|2
+tone down|(어조·강도를) 누그러뜨리다|Maybe tone down the language a bit.|말투를 조금 순화하는 게 좋겠어.|5
+weigh in|의견을 내다|Everyone weighed in on the decision.|모두가 결정에 의견을 냈어.|5
+iron out|(문제를) 해결하다, 다듬다|We still need to iron out a few details.|아직 몇 가지 세부 사항을 다듬어야 해.|5
+mull over|곰곰이 생각하다|I'm still mulling over the offer.|아직 그 제안을 곰곰이 생각 중이야.|5
+brush up on|(실력을) 다시 다듬다|I need to brush up on my English.|영어 실력을 다시 다듬어야 해.|4
+drag on|질질 끌다|The meeting dragged on for hours.|회의가 몇 시간이나 질질 끌었어.|4
+fizzle out|흐지부지되다|The project fizzled out.|그 프로젝트는 흐지부지됐어.|5
+gear up|준비를 갖추다|We're gearing up for the holiday season.|명절 시즌을 준비하고 있어.|5
+jot down|간단히 적어 두다|Let me jot down your number.|번호 좀 적어 둘게요.|4
+level with|솔직하게 털어놓다|I'll level with you. We're behind schedule.|솔직히 말할게요. 일정이 밀렸어요.|5
+own up to|(잘못을) 인정하다|He owned up to his mistake.|그는 자기 실수를 인정했어.|5
+patch up|(관계를) 수습하다, 화해하다|They patched things up after the fight.|그들은 싸운 뒤 관계를 회복했어.|5
+play down|축소해서 말하다|He played down his injury.|그는 부상을 별거 아닌 것처럼 말했어.|5
+scale back|축소하다|We had to scale back our plans.|계획을 축소해야 했어.|5
+spell out|자세히 설명하다|Do I have to spell it out for you?|일일이 다 설명해야 해?|5
+blurt out|불쑥 말해 버리다|He blurted out the secret.|그가 비밀을 불쑥 말해 버렸어.|5
+butter up|아부하다, 비위를 맞추다|Are you trying to butter me up?|지금 나한테 잘 보이려는 거야?|5
+egg on|부추기다|His friends egged him on.|친구들이 그를 부추겼어.|5
+head out|나서다, 출발하다|I'm heading out now.|나 지금 나가.|4
+lighten up|기분을 풀다, 심각해지지 않다|Lighten up! It was just a joke.|좀 웃어! 농담이었잖아.|5
+max out|(한도를) 다 쓰다|I maxed out my credit card.|신용카드 한도를 다 썼어.|5
+miss out|(좋은 기회를) 놓치다|Don't miss out on the sale.|세일 놓치지 마.|4
+open up|마음을 열다|It took time for him to open up.|그가 마음을 여는 데 시간이 걸렸어.|4
+pop in|잠깐 들르다|I'll pop in on my way home.|집에 가는 길에 잠깐 들를게.|5
+sell out|매진되다|The tickets sold out in minutes.|표가 몇 분 만에 매진됐어.|3
+stay in|집에 있다|Let's stay in tonight.|오늘 밤은 집에 있자.|3
+wipe out|녹초로 만들다; 전멸시키다|The hike wiped me out.|등산하고 완전 녹초가 됐어.|5

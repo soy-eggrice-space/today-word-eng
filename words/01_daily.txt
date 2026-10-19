@@ -1,0 +1,186 @@
+# daily|일상생활|🏠
+wake up|잠에서 깨다|I usually wake up at seven.|나는 보통 7시에 일어나.|1
+get up|일어나다, 몸을 일으키다|It's hard to get up on Mondays.|월요일엔 일어나기가 힘들어.|1
+brush|(이를) 닦다, 솔질하다|Don't forget to brush your teeth.|이 닦는 거 잊지 마.|1
+shower|샤워(하다)|I take a shower every morning.|나는 매일 아침 샤워해.|1
+breakfast|아침 식사|I skipped breakfast today.|오늘 아침을 걸렀어.|1
+lunch|점심 식사|Let's have lunch together.|같이 점심 먹자.|1
+dinner|저녁 식사|What's for dinner?|저녁 메뉴가 뭐야?|1
+kitchen|부엌|Mom is cooking in the kitchen.|엄마가 부엌에서 요리하고 계셔.|1
+bedroom|침실|My bedroom is on the second floor.|내 방은 2층에 있어.|1
+bathroom|욕실, 화장실|Can I use your bathroom?|화장실 좀 써도 될까요?|1
+living room|거실|The kids are playing in the living room.|아이들이 거실에서 놀고 있어.|1
+sofa|소파|I fell asleep on the sofa.|소파에서 잠들어 버렸어.|1
+window|창문|Could you open the window?|창문 좀 열어 줄래?|1
+door|문|Please close the door.|문 좀 닫아 줘.|1
+key|열쇠|I can't find my keys.|열쇠를 못 찾겠어.|1
+clock|시계 (벽시계)|The clock on the wall is slow.|벽시계가 느려.|1
+bed|침대|It's time for bed.|잘 시간이야.|1
+blanket|담요, 이불|Can I get another blanket?|담요 하나 더 받을 수 있을까요?|1
+pillow|베개|This pillow is too soft.|이 베개는 너무 푹신해.|1
+towel|수건|I need a clean towel.|깨끗한 수건이 필요해.|1
+soap|비누|Wash your hands with soap.|비누로 손을 씻어.|1
+trash|쓰레기|Can you take out the trash?|쓰레기 좀 내다 버려 줄래?|1
+clean|깨끗한; 청소하다|I clean my room every Saturday.|나는 토요일마다 방을 청소해.|1
+dirty|더러운|Your shoes are dirty.|신발이 더러워.|1
+wash|씻다, 빨다|I need to wash the dishes.|설거지해야 해.|1
+cook|요리하다; 요리사|My husband loves to cook.|남편은 요리하는 걸 정말 좋아해.|1
+busy|바쁜|I'm busy today.|나 오늘 바빠.|1
+tired|피곤한|You look tired.|너 피곤해 보여.|1
+sleepy|졸린|I always feel sleepy after lunch.|점심 먹고 나면 늘 졸려.|1
+hungry|배고픈|I'm so hungry.|너무 배고파.|1
+early|일찍; 이른|I went to bed early last night.|어젯밤에 일찍 잤어.|1
+late|늦게; 늦은|Sorry I'm late.|늦어서 미안해.|1
+weekend|주말|What did you do on the weekend?|주말에 뭐 했어?|1
+free time|여가 시간|What do you do in your free time?|여가 시간에 뭐 해?|1
+umbrella|우산|Take an umbrella with you.|우산 가져가.|1
+phone|전화기, 휴대폰|My phone is dead.|휴대폰 배터리가 나갔어.|1
+charger|충전기|Do you have a phone charger?|휴대폰 충전기 있어?|1
+mirror|거울|She looked in the mirror.|그녀는 거울을 봤다.|1
+light|불, 전등; 가벼운|Turn off the light, please.|불 좀 꺼 줘.|1
+alarm|알람, 경보|I didn't hear my alarm.|알람을 못 들었어.|1
+chore|집안일|Doing a chore is easier with music on.|음악을 틀면 집안일이 더 수월해.|2
+errand|볼일, 심부름|I have a few errands to run this afternoon.|오후에 볼일이 좀 있어.|2
+laundry|빨래, 세탁물|I do the laundry on Sundays.|나는 일요일에 빨래를 해.|2
+dishes|설거지거리, 접시들|Whose turn is it to do the dishes?|설거지 누구 차례야?|2
+groceries|식료품, 장 본 것|Can you help me carry the groceries?|장 본 것 좀 같이 들어 줄래?|2
+leftovers|남은 음식|We had leftovers for lunch.|점심은 남은 음식으로 먹었어.|2
+commute|통근(하다)|My commute takes about forty minutes.|출퇴근에 40분쯤 걸려.|2
+routine|일과, 루틴|Exercise is part of my morning routine.|운동은 내 아침 루틴의 일부야.|2
+schedule|일정|My schedule is packed this week.|이번 주 일정이 꽉 찼어.|2
+appointment|(병원 등) 예약, 약속|I have a dentist appointment at three.|3시에 치과 예약이 있어.|2
+neighbor|이웃|Our neighbors are really friendly.|우리 이웃들은 정말 친절해.|2
+apartment|아파트, 공동주택의 한 세대|We live in a small apartment.|우리는 작은 아파트에 살아.|2
+furniture|가구|We need new furniture for the living room.|거실에 새 가구가 필요해.|2
+closet|옷장, 붙박이장|My closet is full of clothes I never wear.|옷장이 안 입는 옷으로 가득해.|2
+drawer|서랍|The scissors are in the top drawer.|가위는 맨 위 서랍에 있어.|2
+shelf|선반|Put the books on the shelf.|책은 선반에 올려 둬.|2
+fridge|냉장고|There's nothing in the fridge.|냉장고에 아무것도 없어.|2
+microwave|전자레인지; 전자레인지에 데우다|Just heat it up in the microwave.|전자레인지에 데우기만 하면 돼.|2
+vacuum|진공청소기(로 청소하다)|I vacuum the floor every day.|나는 매일 바닥을 청소기로 밀어.|2
+mop|대걸레(질하다)|Be careful, I just mopped the floor.|조심해, 방금 바닥 닦았어.|2
+recycle|재활용하다|We recycle plastic and paper.|우리는 플라스틱과 종이를 재활용해.|2
+garbage|쓰레기|The garbage truck comes on Tuesdays.|쓰레기 수거차는 화요일에 와.|2
+tidy up|정리하다, 치우다|Let's tidy up before the guests arrive.|손님 오기 전에 정리하자.|2
+run out of|~이 다 떨어지다|We always run out of milk on Sundays.|일요일이면 꼭 우유가 다 떨어져.|2
+take out|꺼내다, 내다 놓다|I'll take out the trash after dinner.|저녁 먹고 쓰레기 내다 놓을게.|2
+turn on|(전원을) 켜다|Can you turn on the heater?|히터 좀 켜 줄래?|2
+turn off|(전원을) 끄다|Don't forget to turn off the stove.|가스레인지 끄는 거 잊지 마.|2
+plug in|플러그를 꽂다|Did you plug in the rice cooker?|밥솥 플러그 꽂았어?|2
+nap|낮잠(을 자다)|I took a short nap after lunch.|점심 먹고 잠깐 낮잠을 잤어.|2
+stay up|안 자고 깨어 있다|I stayed up late watching a drama.|드라마 보느라 늦게까지 안 잤어.|2
+oversleep|늦잠 자다|I overslept and missed the bus.|늦잠 자서 버스를 놓쳤어.|2
+spare time|여가 시간, 짬|I read books in my spare time.|짬날 때 책을 읽어.|2
+hobby|취미|My new hobby is knitting.|내 새 취미는 뜨개질이야.|2
+package|소포, 택배|A package arrived for you.|너한테 택배 왔어.|2
+deliver|배달하다|They deliver until midnight.|자정까지 배달해 줘요.|2
+mess|엉망, 어질러진 상태|Sorry about the mess.|어질러져 있어서 미안해.|2
+messy|지저분한, 엉망인|My desk is always messy.|내 책상은 늘 지저분해.|2
+spill|엎지르다, 쏟다|I spilled coffee on my shirt.|셔츠에 커피를 쏟았어.|2
+broken|고장 난, 깨진|The washing machine is broken.|세탁기가 고장 났어.|2
+fix|고치다|Can you fix this chair?|이 의자 좀 고쳐 줄 수 있어?|2
+battery|배터리, 건전지|My phone battery is almost dead.|휴대폰 배터리가 거의 다 됐어.|2
+remote|리모컨|Where's the TV remote?|TV 리모컨 어디 있어?|2
+outlet|콘센트; 할인 매장|Is there an outlet near the sofa?|소파 근처에 콘센트 있어?|3
+appliance|가전제품|This appliance saves a lot of energy.|이 가전제품은 전기를 많이 아껴 줘.|3
+utility bill|공과금|The utility bill was higher than usual this month.|이번 달 공과금이 평소보다 많이 나왔어.|3
+rent|집세, 월세; 빌리다|Rent is due on the first of the month.|월세는 매달 1일에 내야 해.|3
+landlord|집주인|I called the landlord about the leak.|물 새는 것 때문에 집주인한테 전화했어.|3
+move in|이사 들어오다|We moved in last month.|우리는 지난달에 이사 왔어.|3
+move out|이사 나가다|When are you moving out?|언제 이사 나가?|3
+declutter|(안 쓰는 물건을) 비우고 정리하다|I need to declutter my closet this weekend.|이번 주말에 옷장 정리 좀 해야 해.|3
+organize|정리하다, 준비하다|I spent the morning organizing the kitchen.|오전 내내 부엌을 정리했어.|3
+storage|보관, 수납 공간|We don't have enough storage space.|수납 공간이 부족해.|3
+leak|새다; 새는 곳|The kitchen sink is leaking.|부엌 싱크대에서 물이 새.|3
+clog|막히다, 막다|The toilet is clogged again.|변기가 또 막혔어.|3
+plumber|배관공|We need to call a plumber.|배관공을 불러야겠어.|3
+repairman|수리 기사|The repairman is coming at two.|수리 기사님이 2시에 오셔.|3
+household|가정, 가구; 집안의|Every household got a letter from the city.|모든 가구가 시에서 편지를 받았어.|3
+hectic|정신없이 바쁜|It's been a hectic morning.|정신없는 아침이었어.|3
+worn out|녹초가 된; 닳은|I'm completely worn out after the trip.|여행 다녀와서 완전 녹초야.|3
+put off|미루다|Stop trying to put off the dishes.|설거지 그만 미뤄.|3
+reschedule|일정을 다시 잡다|Could we reschedule for Friday?|금요일로 일정을 바꿀 수 있을까요?|3
+get around to|(미루던 일을) 드디어 하다|I finally managed to get around to fixing the door.|드디어 문 고치는 걸 해냈어.|4
+unwind|긴장을 풀다, 쉬다|I unwind with a hot bath at night.|밤에는 따뜻한 목욕으로 긴장을 풀어.|3
+lazy|게으른|I feel lazy on rainy days.|비 오는 날엔 게을러져.|2
+daily|매일의, 일상의|Reading is part of my daily life.|독서는 내 일상의 일부야.|2
+habit|습관|Biting your nails is a bad habit.|손톱 물어뜯는 건 나쁜 습관이야.|2
+chores chart|집안일 당번표|We made a chores chart for the kids.|아이들을 위해 집안일 당번표를 만들었어.|3
+sweep|쓸다|Could you sweep the balcony?|베란다 좀 쓸어 줄래?|2
+dust|먼지; 먼지를 털다|There's dust everywhere.|여기저기 먼지투성이야.|2
+iron|다리미(질하다)|I need to iron this shirt.|이 셔츠 다려야 해.|2
+fold|접다, 개다|Help me fold the laundry.|빨래 개는 것 좀 도와줘.|2
+hang|걸다, 널다|Hang your coat on the hook.|외투는 고리에 걸어 둬.|2
+dryer|건조기|Don't put that sweater in the dryer.|그 스웨터는 건조기에 넣지 마.|2
+detergent|세제|We're out of laundry detergent.|세탁 세제가 다 떨어졌어.|3
+bleach|표백제; 표백하다|Don't mix bleach with other cleaners.|표백제를 다른 세제와 섞지 마.|3
+stain|얼룩|This stain won't come out.|이 얼룩이 안 지워져.|3
+shrink|줄어들다|My sweater shrank in the wash.|빨았더니 스웨터가 줄었어.|3
+faucet|수도꼭지|The faucet is dripping.|수도꼭지에서 물이 똑똑 떨어져.|3
+stove|가스레인지, 레인지|The soup is on the stove.|국은 가스레인지 위에 있어.|2
+cupboard|찬장|The cups are in the cupboard.|컵은 찬장에 있어.|2
+counter|조리대; 계산대|Just leave it on the counter.|그냥 조리대 위에 둬.|2
+lock|자물쇠; 잠그다|Did you lock the front door?|현관문 잠갔어?|2
+doorbell|초인종|Someone rang the doorbell.|누가 초인종을 눌렀어.|2
+mailbox|우편함|Check the mailbox on your way in.|들어오는 길에 우편함 좀 확인해 줘.|2
+stairs|계단|Take the stairs, the elevator is slow.|계단으로 가, 엘리베이터 느려.|1
+elevator|엘리베이터|The elevator is out of order.|엘리베이터가 고장이야.|2
+balcony|발코니, 베란다|We grow herbs on the balcony.|베란다에서 허브를 길러.|2
+garage|차고|The car is in the garage.|차는 차고에 있어.|2
+yard|마당|The kids are playing in the yard.|아이들이 마당에서 놀고 있어.|2
+heater|난방기, 히터|The heater isn't working.|히터가 안 돼.|2
+air conditioner|에어컨|Turn up the air conditioner.|에어컨 좀 세게 틀어 줘.|2
+thermostat|온도 조절기|I set the thermostat to 22 degrees.|온도 조절기를 22도로 맞췄어.|4
+humid|습한|It's so humid today.|오늘 너무 습해.|3
+cozy|아늑한|This café is really cozy.|이 카페 정말 아늑하다.|3
+spacious|넓은|The new apartment is very spacious.|새 아파트는 아주 넓어.|3
+cramped|비좁은|The studio was a bit cramped.|원룸이 좀 비좁았어.|4
+renovate|개조하다, 리모델링하다|We're renovating the bathroom.|욕실을 리모델링하는 중이야.|4
+property|재산, 부동산, 건물|Property prices keep going up.|집값이 계속 올라.|4
+mortgage|주택 담보 대출|We're still paying off the mortgage.|아직 주택 대출을 갚고 있어.|4
+lease|임대차 계약; 임대하다|We signed a two-year lease.|2년 임대 계약을 했어.|4
+deposit|보증금; 예금하다|We'll get our deposit back when we move out.|이사 나갈 때 보증금을 돌려받아.|3
+tenant|세입자|The tenants upstairs are very quiet.|위층 세입자들은 아주 조용해.|4
+maintenance|유지 보수, 관리|The maintenance fee is included in the rent.|관리비가 월세에 포함돼 있어.|4
+fall asleep|잠들다|I fell asleep during the movie.|영화 보다가 잠들었어.|2
+toss and turn|잠을 못 자고 뒤척이다|I tossed and turned all night.|밤새 뒤척였어.|4
+night owl|올빼미형 인간|I'm a night owl, not a morning person.|나는 아침형이 아니라 올빼미형이야.|4
+early bird|아침형 인간, 일찍 일어나는 사람|My husband is an early bird.|남편은 아침형 인간이야.|4
+couch potato|소파에 붙어 TV만 보는 사람|I turn into a couch potato on weekends.|주말엔 소파에서 안 움직여.|5
+make ends meet|빠듯하게 생활을 꾸리다|Many families struggle to make ends meet.|많은 가정이 생활비 맞추느라 애를 먹어.|5
+hit the sack|잠자리에 들다|I'm exhausted. I'm going to hit the sack.|너무 피곤해. 이제 잘래.|5
+catch some z's|눈 좀 붙이다|Let me catch some z's before we leave.|출발 전에 눈 좀 붙일게.|5
+run like clockwork|순조롭게 착착 진행되다|Our morning routine runs like clockwork.|우리 아침 일과는 착착 돌아가.|5
+spick and span|아주 깔끔한, 티끌 하나 없는|The kitchen is spick and span.|부엌이 티끌 하나 없이 깨끗해.|5
+lived-in|사람 사는 느낌이 나는, 편안한|I like a home that feels lived-in.|나는 사람 사는 냄새 나는 집이 좋아.|5
+nest egg|비상금, 노후 자금|We're building a nest egg for retirement.|노후 자금을 모으고 있어.|5
+homebody|집순이, 집돌이|I'm a total homebody.|나는 완전 집순이야.|4
+chill|쉬다, 느긋하게 지내다|Let's just chill at home tonight.|오늘 밤은 그냥 집에서 쉬자.|3
+binge-watch|(드라마를) 몰아 보다|I binge-watched the whole series.|시리즈 전체를 몰아 봤어.|4
+procrastinate|(할 일을) 미루다|I always procrastinate on paperwork.|나는 서류 작업을 늘 미뤄.|4
+juggle|(여러 일을) 동시에 해내다|It's hard to juggle work and family.|일과 가정을 같이 챙기는 건 힘들어.|4
+squeeze in|(시간을) 짜내다, 끼워 넣다|I can squeeze in a workout before work.|출근 전에 운동을 끼워 넣을 수 있어.|4
+wind down|(서서히) 긴장을 풀다, 마무리하다|I read before bed to wind down.|자기 전에 긴장 풀려고 책을 읽어.|4
+pick up after|~가 어지른 걸 치우다|I'm tired of picking up after the kids.|애들이 어지른 거 치우는 데 지쳤어.|4
+from scratch|처음부터, 직접 만든|I made the bread from scratch.|빵을 처음부터 직접 만들었어.|4
+on the go|계속 바쁘게 움직이는|I'm always on the go.|나는 늘 바쁘게 움직여.|4
+day in, day out|매일같이, 날이면 날마다|I make the same lunch day in, day out.|날이면 날마다 똑같은 점심을 싸.|5
+in a rut|틀에 박힌, 매너리즘에 빠진|I feel like I'm stuck in a rut.|틀에 박혀 사는 느낌이야.|5
+the daily grind|반복되는 고된 일상|Back to the daily grind tomorrow.|내일부터 다시 지겨운 일상이야.|5
+me time|나만의 시간|I need some me time this weekend.|이번 주말엔 나만의 시간이 필요해.|4
+self-care|자기 관리|Self-care isn't selfish.|자기 관리는 이기적인 게 아니야.|4
+clutter|잡동사니; 어지르다|There's too much clutter on the table.|식탁 위에 잡동사니가 너무 많아.|4
+hoard|(물건을) 쌓아 두다, 모아 두다|My mom hoards plastic bags.|엄마는 비닐봉지를 모아 두셔.|5
+knick-knack|자질구레한 장식품|The shelf is full of knick-knacks.|선반이 자잘한 장식품으로 가득해.|5
+odd jobs|잡일, 이것저것 하는 일|I did some odd jobs around the house.|집 안 잡일을 이것저것 했어.|4
+DIY|직접 만들기, 셀프 수리|I love DIY projects.|나는 직접 만들고 고치는 걸 좋아해.|3
+handy|손재주 있는; 편리한|My dad is really handy.|우리 아빠는 손재주가 정말 좋아.|3
+tool|도구, 공구|Do you have the right tools?|맞는 공구 있어?|2
+ladder|사다리|Hold the ladder for me.|사다리 좀 잡아 줘.|2
+lightbulb|전구|The lightbulb in the hallway burned out.|복도 전구가 나갔어.|2
+fuse|퓨즈|I think we blew a fuse.|퓨즈가 나간 것 같아.|4
+power outage|정전|There was a power outage last night.|어젯밤에 정전이 됐어.|3
+noisy|시끄러운|The neighbors are so noisy.|이웃이 너무 시끄러워.|1
+quiet|조용한|It's very quiet here at night.|여기는 밤에 아주 조용해.|1
+sound asleep|깊이 잠든|The baby is sound asleep.|아기가 곤히 자고 있어.|4
+jet-black coffee|아주 진한 블랙커피|I need a cup of jet-black coffee to start my day.|하루를 시작하려면 진한 블랙커피 한 잔이 필요해.|5

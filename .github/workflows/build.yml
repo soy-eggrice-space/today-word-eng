@@ -1,0 +1,52 @@
+name: 공부해 APK 만들기
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 서명키 확인
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_PASSWORD" ]; then
+            echo "::error::KEYSTORE_PASSWORD 시크릿이 없어요. Settings → Secrets and variables → Actions 에서 추가해 주세요."
+            exit 1
+          fi
+          openssl enc -d -aes-256-cbc -pbkdf2 -in app/release.keystore.enc -out app/release.keystore -pass env:KEYSTORE_PASSWORD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: 안드로이드 SDK 확인
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: 글꼴 내려받기
+        run: |
+          mkdir -p app/src/main/assets/fonts
+          curl -fsSL -o app/src/main/assets/fonts/Jua-Regular.ttf "https://github.com/google/fonts/raw/main/ofl/jua/Jua-Regular.ttf" || echo "Jua 글꼴을 받지 못했어요"
+          curl -fsSL -o app/src/main/assets/fonts/Fredoka.ttf "https://github.com/google/fonts/raw/main/ofl/fredoka/Fredoka%5Bwdth,wght%5D.ttf" || echo "Fredoka 글꼴을 받지 못했어요"
+      - name: APK 빌드
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: gradle assembleRelease --no-daemon --stacktrace
+      - name: 릴리스에 올리기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp app/build/outputs/apk/release/app-release.apk gongbuhae.apk
+          rm -f app/release.keystore
+          gh release create "v1.0.${{ github.run_number }}" gongbuhae.apk \
+            --repo "${{ github.repository }}" \
+            --title "공!부!해! v1.0.${{ github.run_number }}" \
+            --notes "gongbuhae.apk 를 눌러 내려받아 설치하세요. (안드로이드 휴대폰)"

@@ -1,0 +1,168 @@
+# shop|쇼핑·돈|🛍️
+buy|사다|I want to buy a new bag.|새 가방을 사고 싶어.|1
+sell|팔다|Do you sell batteries?|건전지 파나요?|1
+pay|지불하다|Can I pay by card?|카드로 계산해도 돼요?|1
+price|가격|What's the price of this?|이거 가격이 얼마예요?|1
+cheap|싼|This shirt is really cheap.|이 셔츠 정말 싸다.|1
+expensive|비싼|That restaurant is too expensive.|그 식당은 너무 비싸.|1
+money|돈|I don't have enough money.|돈이 부족해.|1
+cash|현금|Do you take cash?|현금 받으세요?|1
+card|카드|I'll pay by card.|카드로 낼게요.|1
+change|거스름돈; 잔돈|Here's your change.|거스름돈 여기 있습니다.|1
+coin|동전|I need coins for the machine.|자판기에 넣을 동전이 필요해.|1
+wallet|지갑|I left my wallet at home.|지갑을 집에 두고 왔어.|1
+store|가게|The store closes at nine.|가게는 9시에 닫아.|1
+shop|가게; 쇼핑하다|I love to shop online.|나는 온라인 쇼핑을 좋아해.|1
+market|시장|Let's go to the market.|시장에 가자.|1
+size|크기, 치수|Do you have this in a bigger size?|이거 더 큰 사이즈 있나요?|1
+color|색깔|Do you have it in another color?|다른 색도 있나요?|1
+bag|가방, 봉투|Do you need a bag?|봉투 필요하세요?|1
+clothes|옷|I need new clothes for work.|출근용 새 옷이 필요해.|1
+shoes|신발|These shoes are comfortable.|이 신발 편해.|1
+shirt|셔츠|This shirt is too tight.|이 셔츠는 너무 꽉 껴.|1
+pants|바지|I bought new pants.|새 바지를 샀어.|1
+dress|원피스, 드레스|That dress looks great on you.|그 원피스 너한테 잘 어울려.|1
+jacket|재킷|I need a warm jacket.|따뜻한 재킷이 필요해.|1
+gift|선물|I'm looking for a gift for my mom.|엄마께 드릴 선물을 찾고 있어요.|1
+sale|할인 판매, 세일|Everything is on sale today.|오늘 전 품목 세일이에요.|1
+receipt|영수증|Do you need a receipt?|영수증 필요하세요?|2
+refund|환불(하다)|I'd like a refund, please.|환불하고 싶어요.|2
+exchange|교환(하다)|Can I exchange this for a smaller size?|이거 작은 사이즈로 교환되나요?|2
+discount|할인|Is there a discount for members?|회원 할인이 있나요?|2
+try on|입어 보다|Can I try this on?|이거 입어 봐도 돼요?|2
+fitting room|탈의실|Where's the fitting room?|탈의실이 어디예요?|2
+cashier|계산원|Please pay at the cashier.|계산대에서 계산해 주세요.|2
+checkout|계산대|There's a long line at the checkout.|계산대에 줄이 길어.|2
+in stock|재고가 있는|Is this item in stock?|이 상품 재고 있어요?|2
+out of stock|품절인|Sorry, that model is out of stock.|죄송하지만 그 모델은 품절이에요.|2
+brand|상표, 브랜드|What's your favorite brand?|제일 좋아하는 브랜드가 뭐야?|2
+quality|품질|The quality is really good.|품질이 정말 좋아.|2
+fit|(크기가) 맞다|These jeans fit perfectly.|이 청바지 딱 맞아.|2
+loose|헐렁한|This shirt is a bit loose.|이 셔츠는 좀 헐렁해.|2
+tight|꽉 끼는|My shoes are too tight.|신발이 너무 꽉 껴.|2
+online shopping|온라인 쇼핑|Online shopping saves me time.|온라인 쇼핑은 시간을 아껴 줘.|2
+shopping cart|쇼핑 카트, 장바구니|My shopping cart is full.|장바구니가 꽉 찼어.|2
+shipping fee|배송비|Is there a shipping fee?|배송비가 있나요?|2
+free shipping|무료 배송|Orders over 30 dollars get free shipping.|30달러 이상 주문 시 무료 배송이에요.|2
+deliver|배송하다|When will it be delivered?|언제 배송되나요?|2
+order|주문(하다)|I ordered it last week.|지난주에 주문했어.|2
+afford|(돈의) 여유가 있다|We can't afford a new car right now.|지금은 새 차를 살 여유가 없어.|2
+save|저축하다, 아끼다|I'm saving for a trip.|여행 가려고 돈 모으는 중이야.|2
+spend|(돈을) 쓰다|I spent too much money this month.|이번 달에 돈을 너무 많이 썼어.|2
+waste|낭비(하다)|Don't waste your money.|돈 낭비하지 마.|2
+borrow|빌리다|Can I borrow some money?|돈 좀 빌릴 수 있을까?|2
+lend|빌려주다|Could you lend me ten dollars?|10달러만 빌려줄래?|2
+owe|빚지다|I owe you 20 dollars.|너한테 20달러 빚졌어.|2
+bank|은행|I need to go to the bank.|은행에 가야 해.|2
+account|계좌|I opened a new bank account.|새 은행 계좌를 만들었어.|2
+ATM|현금 인출기|Is there an ATM nearby?|근처에 현금 인출기 있어요?|2
+withdraw|(돈을) 인출하다|I need to withdraw some cash.|현금을 좀 뽑아야 해.|3
+deposit|입금(하다); 보증금|I deposited my paycheck.|월급을 입금했어.|3
+transfer|이체(하다)|I'll transfer the money tonight.|오늘 밤에 돈 보낼게.|3
+balance|잔액|Let me check my balance.|잔액 좀 확인해 볼게.|3
+savings|저축, 저금|We're using our savings for the trip.|여행에 모아 둔 돈을 쓰려고 해.|3
+budget|예산|We're on a tight budget this month.|이번 달은 예산이 빠듯해.|3
+expense|비용, 지출|Childcare is our biggest expense.|육아비가 우리 집 가장 큰 지출이야.|3
+installment|할부, 분할 납부|I paid for it in installments.|그거 할부로 샀어.|3
+credit card|신용카드|Can I pay with a credit card?|신용카드로 결제할 수 있나요?|2
+debit card|체크카드|I only use my debit card.|나는 체크카드만 써.|3
+interest|이자; 관심|The interest rate went up.|금리가 올랐어.|3
+loan|대출|We took out a loan to buy the house.|집을 사려고 대출을 받았어.|3
+bargain|싸게 산 물건; 흥정하다|This coat was a real bargain.|이 코트 진짜 싸게 샀어.|3
+deal|거래; 좋은 조건|That's a good deal.|그거 좋은 조건이다.|3
+coupon|쿠폰|I have a coupon for 10% off.|10% 할인 쿠폰이 있어요.|2
+membership|회원권, 멤버십|Do you have a membership card?|멤버십 카드 있으세요?|3
+points|포인트, 적립금|Would you like to collect points?|포인트 적립하시겠어요?|3
+subscription|구독|I canceled my streaming subscription.|스트리밍 구독을 해지했어.|3
+overpriced|너무 비싸게 매겨진|The food there is overpriced.|거기 음식은 너무 비싸.|3
+worth it|그만한 가치가 있는|It was expensive, but totally worth it.|비쌌지만 그만한 가치가 있었어.|3
+impulse buy|충동구매|That dress was an impulse buy.|그 원피스는 충동구매였어.|3
+window-shopping|아이쇼핑|We just went window-shopping.|그냥 아이쇼핑만 했어.|3
+browse|둘러보다|I'm just browsing, thanks.|그냥 둘러보는 중이에요, 감사해요.|3
+compare|비교하다|Let's compare prices online.|온라인에서 가격 비교해 보자.|3
+return|반품(하다)|I'd like to return this item.|이 상품 반품하고 싶어요.|2
+return policy|반품 규정|What's your return policy?|반품 규정이 어떻게 되나요?|3
+warranty|품질 보증|It comes with a one-year warranty.|1년 품질 보증이 돼요.|3
+defective|결함이 있는|This charger is defective.|이 충전기는 불량이에요.|4
+damaged|손상된|The box arrived damaged.|상자가 파손된 채로 왔어요.|3
+tracking number|운송장 번호|Can you send me the tracking number?|운송장 번호 보내 줄 수 있어요?|3
+package|소포, 택배|My package hasn't arrived yet.|택배가 아직 안 왔어.|2
+customer service|고객 서비스|I called customer service.|고객센터에 전화했어.|3
+complaint|불만, 항의|I'd like to make a complaint.|불만을 제기하고 싶어요.|3
+mall|쇼핑몰|Let's meet at the mall.|쇼핑몰에서 만나자.|1
+department store|백화점|The department store has a big sale.|백화점이 큰 세일을 해.|2
+convenience store|편의점|I'll grab some snacks at the convenience store.|편의점에서 간식 좀 살게.|2
+grocery store|식료품점, 마트|I go to the grocery store twice a week.|나는 일주일에 두 번 장 보러 가.|2
+pharmacy|약국|Is there a pharmacy near here?|이 근처에 약국 있어요?|2
+aisle|(상점의) 통로|The cereal is in aisle five.|시리얼은 5번 통로에 있어요.|3
+shelf|선반, 진열대|It's on the top shelf.|맨 위 선반에 있어요.|2
+label|라벨, 상표|Check the label for the price.|가격은 라벨을 확인해.|3
+price tag|가격표|There's no price tag on this.|이거 가격표가 없어요.|3
+barcode|바코드|Scan the barcode here.|여기 바코드 찍어 주세요.|3
+self-checkout|셀프 계산대|I usually use the self-checkout.|나는 주로 셀프 계산대를 써.|3
+tax|세금|Is tax included?|세금 포함인가요?|2
+tax-free|면세의|Can I buy this tax-free?|이거 면세로 살 수 있나요?|3
+duty-free|면세의|I bought perfume at the duty-free shop.|면세점에서 향수를 샀어.|3
+second-hand|중고의|I bought a second-hand stroller.|중고 유모차를 샀어.|3
+brand-new|새것의|The phone is brand-new.|그 휴대폰은 새 거야.|3
+limited edition|한정판|This is a limited edition.|이건 한정판이에요.|3
+best-seller|베스트셀러, 잘 팔리는 상품|This is our best-seller.|이게 저희 제일 잘 나가는 상품이에요.|3
+gift wrap|선물 포장(하다)|Could you gift wrap it, please?|선물 포장해 주시겠어요?|3
+on sale|할인 중인|These boots are on sale.|이 부츠는 할인 중이야.|2
+clearance|재고 정리 세일|Everything in the clearance section is half off.|정리 코너 물건은 다 반값이에요.|4
+half price|반값|I got it at half price.|반값에 샀어.|2
+buy one get one free|하나 사면 하나 더|It's buy one get one free today.|오늘 원 플러스 원이에요.|3
+splurge|큰맘 먹고 돈을 쓰다|I decided to splurge on a nice dinner.|큰맘 먹고 근사한 저녁을 먹기로 했어.|4
+rip-off|바가지|Twenty dollars for a coffee? What a rip-off!|커피 한 잔에 20달러? 완전 바가지네!|4
+haggle|값을 깎다, 흥정하다|You can haggle at the market.|시장에서는 흥정할 수 있어.|4
+negotiate|협상하다|I negotiated a lower price.|가격을 더 낮게 협상했어.|4
+frugal|검소한, 알뜰한|My parents are very frugal.|우리 부모님은 아주 알뜰하셔.|4
+thrifty|절약하는|She's thrifty with money.|그녀는 돈을 아껴 써.|4
+broke|빈털터리인|I'm broke until payday.|월급날까지 빈털터리야.|3
+payday|월급날|Payday is on the 25th.|월급날은 25일이야.|3
+paycheck|급여, 월급|My paycheck doesn't go very far.|월급이 금방 바닥나.|3
+allowance|용돈|She gets a weekly allowance.|그 애는 매주 용돈을 받아.|3
+cost of living|생활비|The cost of living keeps rising.|생활비가 계속 올라.|4
+inflation|물가 상승|Inflation is hurting families.|물가 상승이 가정들을 힘들게 해.|4
+financial|재정의, 금융의|We need some financial advice.|재정 상담이 좀 필요해.|4
+invest|투자하다|I invest a little every month.|매달 조금씩 투자해.|3
+investment|투자|Real estate is a big investment.|부동산은 큰 투자야.|4
+stock|주식; 재고|He bought some tech stocks.|그는 기술주를 좀 샀어.|4
+fund|기금, 펀드|We set up a college fund for our kids.|아이들 대학 자금을 마련했어.|4
+pension|연금|My parents live on their pension.|부모님은 연금으로 생활하셔.|4
+insurance|보험|Do you have travel insurance?|여행자 보험 들었어?|3
+fee|수수료, 요금|Is there a fee for transfers?|이체 수수료가 있나요?|3
+charge|요금(을 청구하다)|There's no extra charge.|추가 요금은 없어요.|3
+overcharge|과다 청구하다|I think they overcharged me.|돈을 더 받은 것 같아.|4
+receipt book|가계부|I keep track of spending in a budget app.|가계부 앱으로 지출을 기록해.|4
+expense tracker|가계부 앱, 지출 기록기|An expense tracker helps me save.|가계부 앱이 저축에 도움이 돼.|4
+cash back|캐시백, 결제 금액 환급|This card gives 2% cash back.|이 카드는 2% 캐시백을 줘.|4
+contactless|비접촉식의|You can pay contactless.|비접촉 결제가 돼요.|4
+split the bill|더치페이하다|Let's split the bill.|더치페이하자.|3
+pay off|(빚을) 다 갚다|I finally paid off my student loan.|드디어 학자금 대출을 다 갚았어.|4
+in debt|빚이 있는|They're deep in debt.|그들은 빚이 많아.|4
+tight budget|빠듯한 예산|We're on a tight budget this month.|이번 달은 예산이 빠듯해.|3
+treat myself|나 자신에게 선물하다|I treated myself to a massage.|나한테 마사지를 선물했어.|4
+retail therapy|쇼핑으로 기분 풀기|I needed some retail therapy.|쇼핑으로 기분 좀 풀어야 했어.|5
+cost an arm and a leg|엄청나게 비싸다|That bag must cost an arm and a leg.|그 가방 엄청 비싸겠다.|5
+break the bank|돈이 많이 들다|A short trip won't break the bank.|짧은 여행은 큰돈 안 들어.|5
+penny-pinching|돈을 지독하게 아끼는|I'm tired of penny-pinching.|돈 아끼는 거 이제 지쳐.|5
+shop till you drop|지칠 때까지 쇼핑하다|We shopped till we dropped in Seoul.|서울에서 지칠 때까지 쇼핑했어.|5
+a steal|거저나 다름없는 물건|At that price, it's a steal.|그 가격이면 거저야.|5
+pricey|값비싼|That café is a bit pricey.|그 카페는 좀 비싸.|4
+on a shoestring|아주 적은 돈으로|We traveled on a shoestring.|아주 적은 돈으로 여행했어.|5
+tighten my belt|허리띠를 졸라매다|I need to tighten my belt this month.|이번 달은 허리띠를 졸라매야 해.|5
+money doesn't grow on trees|돈이 하늘에서 떨어지는 줄 아니|Money doesn't grow on trees, you know.|돈이 땅 파면 나오는 줄 아니.|5
+nickel-and-dime|자잘하게 돈을 뜯다|Airlines nickel-and-dime you for everything.|항공사들이 별걸로 다 돈을 받아.|5
+splash out|큰돈을 쓰다 (영국식)|We splashed out on a new sofa.|새 소파에 큰돈을 썼어.|5
+cha-ching|돈 들어오는 소리 (짤랑)|Payday tomorrow. Cha-ching!|내일 월급날. 짤랑!|5
+haul|(쇼핑해서) 산 물건들|Look at my shopping haul!|내가 산 거 좀 봐!|5
+dupe|(유명 제품의) 저렴한 대체품|This lipstick is a great dupe.|이 립스틱은 괜찮은 저가 대체품이야.|5
+add to cart|장바구니에 담다|I added it to my cart.|장바구니에 담았어.|3
+checkout page|결제 페이지|The checkout page keeps crashing.|결제 페이지가 자꾸 멈춰.|4
+promo code|할인 코드|Enter the promo code at checkout.|결제할 때 할인 코드를 입력해.|3
+out of budget|예산을 초과한|That sofa is out of our budget.|그 소파는 우리 예산 밖이야.|4
+pre-order|사전 주문(하다)|I pre-ordered the new phone.|새 휴대폰을 사전 주문했어.|3
+back-order|입고 대기 주문|The item is on back-order.|그 상품은 입고 대기 중이에요.|4
+ship|발송하다|It'll ship within two days.|이틀 안에 발송될 거예요.|3
+arrive|도착하다|My order arrived this morning.|주문한 게 오늘 아침에 왔어.|1

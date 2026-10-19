@@ -1,0 +1,168 @@
+# travel|여행·교통|✈️
+trip|여행|How was your trip?|여행 어땠어?|1
+travel|여행하다|I love to travel.|나는 여행하는 걸 좋아해.|1
+airport|공항|We arrived at the airport early.|우리는 공항에 일찍 도착했어.|1
+plane|비행기|The plane is about to land.|비행기가 곧 착륙해.|1
+flight|항공편, 비행|My flight leaves at nine.|내 비행기는 9시에 떠.|1
+ticket|표, 티켓|I bought a ticket online.|온라인으로 표를 샀어.|1
+passport|여권|Don't forget your passport.|여권 잊지 마.|1
+hotel|호텔|Our hotel is near the beach.|우리 호텔은 해변 근처야.|1
+room|방|Do you have a room for tonight?|오늘 밤 묵을 방 있어요?|1
+map|지도|Let me check the map.|지도 좀 볼게.|1
+bus|버스|I take the bus to work.|나는 버스로 출근해.|1
+train|기차|The train was late.|기차가 늦었어.|1
+subway|지하철|Let's take the subway.|지하철 타자.|1
+taxi|택시|Let's take a taxi.|택시 타자.|1
+station|역|Where's the nearest station?|가장 가까운 역이 어디예요?|1
+stop|정류장; 멈추다|Get off at the next stop.|다음 정류장에서 내려.|1
+left|왼쪽|Turn left at the corner.|모퉁이에서 왼쪽으로 도세요.|1
+right|오른쪽|It's on your right.|오른쪽에 있어요.|1
+straight|똑바로|Go straight for two blocks.|두 블록 직진하세요.|1
+near|가까운|Is it near here?|여기서 가까워요?|1
+far|먼|Is it far from here?|여기서 멀어요?|1
+beach|해변|Let's go to the beach.|해변에 가자.|1
+mountain|산|We climbed a mountain.|우리는 산에 올랐어.|1
+city|도시|Seoul is a big city.|서울은 큰 도시야.|1
+country|나라; 시골|Which country are you from?|어느 나라에서 왔어요?|1
+visit|방문하다|I want to visit Paris someday.|언젠가 파리에 가 보고 싶어.|1
+vacation|휴가|We're going on vacation next week.|우리 다음 주에 휴가 가.|1
+holiday|휴일, 휴가|Have a great holiday!|즐거운 휴가 보내!|1
+bag|가방|My bag is too heavy.|가방이 너무 무거워.|1
+photo|사진|Can you take a photo of us?|우리 사진 좀 찍어 줄래요?|1
+reservation|예약|I have a reservation under Kim.|김으로 예약했어요.|2
+book|예약하다|I booked a hotel for two nights.|호텔을 2박 예약했어.|2
+luggage|짐, 수하물|Where can I pick up my luggage?|짐은 어디서 찾나요?|2
+suitcase|여행 가방|My suitcase is too heavy.|여행 가방이 너무 무거워.|2
+boarding pass|탑승권|Please have your boarding pass ready.|탑승권을 준비해 주세요.|2
+gate|탑승구|Our flight leaves from Gate 12.|우리 비행기는 12번 게이트에서 출발해.|2
+departure|출발|What's the departure time?|출발 시간이 언제예요?|2
+arrival|도착|The arrival hall is downstairs.|도착장은 아래층이에요.|2
+delay|지연(되다)|There's a two-hour delay on our flight.|우리 비행기가 2시간 지연됐어.|2
+cancel|취소하다|Our flight was canceled.|우리 비행기가 결항됐어.|2
+check in|체크인하다, 탑승 수속하다|Where do I check in?|어디서 체크인하나요?|2
+check out|체크아웃하다|What time is check-out?|체크아웃은 몇 시예요?|2
+window seat|창가 자리|Can I have a window seat?|창가 자리로 주실 수 있나요?|2
+aisle seat|통로 쪽 좌석|Could I get an aisle seat?|통로 쪽 자리로 받을 수 있을까요?|2
+round trip|왕복|How much is a round-trip ticket?|왕복 표는 얼마예요?|2
+one-way|편도의|A one-way ticket to Busan, please.|부산 가는 편도 표 한 장 주세요.|2
+souvenir|기념품|I bought some souvenirs for my kids.|아이들 줄 기념품을 좀 샀어.|2
+sightseeing|관광|We spent the day sightseeing.|하루 종일 관광했어.|2
+tourist|관광객|This area is full of tourists.|이 지역은 관광객으로 가득해.|2
+guide|안내원, 가이드|Our guide spoke great English.|우리 가이드는 영어를 아주 잘했어.|2
+tour|관광, 투어|Is there a city tour?|시내 투어 있어요?|2
+museum|박물관|The museum is closed on Mondays.|박물관은 월요일에 쉬어.|2
+local|현지의; 현지인|Let's try some local food.|현지 음식 좀 먹어 보자.|2
+get lost|길을 잃다|We always get lost in big train stations.|우린 큰 기차역에서 늘 길을 잃어.|2
+directions|길 안내, 방향|Can you give me directions to the hotel?|호텔 가는 길 좀 알려 주실래요?|2
+corner|모퉁이|The bank is on the corner.|은행은 모퉁이에 있어요.|2
+block|블록, 구역|It's two blocks away.|두 블록 떨어져 있어요.|2
+crosswalk|횡단보도|Cross at the crosswalk.|횡단보도에서 건너.|2
+traffic|교통(량)|The traffic is terrible today.|오늘 차가 엄청 막혀.|2
+traffic jam|교통 체증|We were stuck in a traffic jam.|차가 막혀서 꼼짝 못 했어.|2
+rush hour|출퇴근 혼잡 시간|Avoid the subway during rush hour.|출퇴근 시간엔 지하철을 피해.|2
+fare|요금, 운임|How much is the bus fare?|버스 요금이 얼마예요?|2
+transfer|환승(하다)|Transfer to Line 2 at City Hall.|시청에서 2호선으로 갈아타.|2
+platform|승강장|The train leaves from platform 3.|기차는 3번 승강장에서 출발해.|2
+schedule|시간표, 일정|Let me check the bus schedule.|버스 시간표 확인해 볼게.|2
+rent a car|차를 빌리다|Let's rent a car in Jeju.|제주에서 차를 빌리자.|2
+gas station|주유소|We need to find a gas station.|주유소를 찾아야 해.|2
+parking lot|주차장|Is there a parking lot nearby?|근처에 주차장 있어요?|2
+driver's license|운전면허증|You need an international driver's license.|국제 운전면허증이 필요해.|3
+itinerary|여행 일정(표)|Here's our itinerary for the week.|이번 주 우리 여행 일정이야.|3
+layover|경유, (환승) 대기|We have a three-hour layover in Tokyo.|도쿄에서 3시간 경유해.|3
+connecting flight|연결 항공편|I almost missed my connecting flight.|연결 항공편을 놓칠 뻔했어.|3
+carry-on|기내 반입 가방|Is this bag okay as a carry-on?|이 가방 기내에 들고 타도 되나요?|3
+baggage claim|수하물 찾는 곳|Let's meet at baggage claim.|수하물 찾는 곳에서 만나자.|3
+customs|세관|It took an hour to get through customs.|세관 통과하는 데 한 시간 걸렸어.|3
+immigration|출입국 심사|The line at immigration was long.|출입국 심사 줄이 길었어.|3
+declare|(세관에) 신고하다|Do you have anything to declare?|신고할 물건 있으세요?|3
+jet lag|시차 피로|I'm still suffering from jet lag.|아직도 시차 때문에 힘들어.|3
+currency|통화, 화폐|What currency do they use in Vietnam?|베트남에서는 어떤 화폐를 써?|3
+exchange rate|환율|What's the exchange rate today?|오늘 환율이 얼마예요?|3
+accommodation|숙소, 숙박|Breakfast is included with the accommodation.|숙박에 조식이 포함돼 있어.|3
+travel insurance|여행자 보험|Don't forget to buy travel insurance.|여행자 보험 드는 거 잊지 마.|3
+landmark|명소, 랜드마크|The tower is the city's most famous landmark.|그 탑은 도시에서 가장 유명한 명소야.|3
+attraction|명소, 볼거리|What are the main attractions here?|여기 주요 볼거리가 뭐예요?|3
+scenery|경치, 풍경|The scenery was breathtaking.|경치가 숨이 멎을 듯 아름다웠어.|3
+view|전망|Our room has an ocean view.|우리 방은 바다 전망이야.|2
+crowded|붐비는|The beach was really crowded.|해변이 정말 붐볐어.|2
+peak season|성수기|Hotels are expensive in peak season.|성수기엔 호텔이 비싸.|3
+off-season|비수기|We traveled in the off-season.|우리는 비수기에 여행했어.|3
+backpack|배낭; 배낭여행하다|I backpacked across Europe.|유럽을 배낭여행했어.|3
+hostel|호스텔|We stayed at a cheap hostel.|싼 호스텔에 묵었어.|3
+front desk|프런트, 안내 데스크|Ask at the front desk.|프런트에 물어봐.|2
+room service|룸서비스|Let's order room service.|룸서비스 시키자.|3
+wake-up call|모닝콜|Can I get a wake-up call at six?|6시에 모닝콜 해 주실 수 있나요?|3
+complimentary|무료의|Breakfast is complimentary.|조식은 무료입니다.|4
+amenities|편의 시설|The hotel has great amenities.|그 호텔은 편의 시설이 좋아.|4
+upgrade|업그레이드(하다)|They upgraded our room for free.|방을 무료로 업그레이드해 줬어.|3
+vacancy|빈방|Do you have any vacancies?|빈방 있나요?|4
+fully booked|예약이 꽉 찬|Sorry, we're fully booked tonight.|죄송하지만 오늘 밤은 예약이 꽉 찼어요.|3
+early check-in|이른 체크인|Is early check-in possible?|이른 체크인 가능한가요?|3
+late check-out|늦은 체크아웃|Can we get a late check-out?|늦게 체크아웃해도 될까요?|3
+luggage storage|짐 보관|Do you have luggage storage?|짐 보관 되나요?|3
+lost and found|분실물 보관소|Check the lost and found.|분실물 보관소에 확인해 봐.|3
+emergency exit|비상구|The emergency exits are here.|비상구는 여기 있습니다.|3
+seat belt|안전벨트|Please fasten your seat belt.|안전벨트를 매 주세요.|2
+turbulence|난기류|We hit some turbulence.|난기류를 좀 만났어.|4
+motion sickness|멀미|I get motion sickness on boats.|나는 배를 타면 멀미해.|4
+take off|이륙하다|The plane took off on time.|비행기가 정시에 이륙했어.|2
+land|착륙하다|We'll land in thirty minutes.|30분 후에 착륙합니다.|2
+on time|정시에|The train arrived on time.|기차가 정시에 도착했어.|2
+miss|놓치다|Hurry, or we'll miss the train.|서둘러, 안 그러면 기차 놓쳐.|2
+destination|목적지|What's your final destination?|최종 목적지가 어디예요?|3
+round-trip ticket|왕복 표|Round-trip tickets are cheaper.|왕복 표가 더 싸.|3
+ferry|여객선, 페리|We took the ferry to the island.|섬까지 페리를 탔어.|3
+cruise|크루즈 여행|We went on a cruise last summer.|작년 여름에 크루즈 여행을 갔어.|3
+road trip|자동차 여행|Let's go on a road trip.|자동차 여행 가자.|3
+hitchhike|히치하이크하다|I would never hitchhike.|나는 절대 히치하이크 안 해.|4
+detour|우회로; 돌아가다|We took a detour because of the traffic.|차가 막혀서 돌아갔어.|4
+shortcut|지름길|I know a shortcut.|내가 지름길을 알아.|3
+toll|통행료|There's a toll on this highway.|이 고속도로는 통행료가 있어.|4
+highway|고속도로|Take the highway to save time.|시간 아끼려면 고속도로로 가.|2
+intersection|교차로|Turn right at the next intersection.|다음 교차로에서 우회전해.|3
+traffic light|신호등|Stop at the traffic light.|신호등에서 멈춰.|2
+pedestrian|보행자|Watch out for pedestrians.|보행자 조심해.|4
+commute|통근|My commute is an hour each way.|편도로 한 시간씩 출퇴근해.|3
+public transportation|대중교통|Public transportation is great in Seoul.|서울은 대중교통이 아주 좋아.|3
+transportation card|교통카드|Top up your transportation card.|교통카드 충전해.|3
+top up|충전하다|I need to top up my card.|카드 충전해야 해.|3
+visa|비자|Do I need a visa for Japan?|일본 가는데 비자 필요해?|3
+embassy|대사관|I went to the embassy for my visa.|비자 때문에 대사관에 갔어.|4
+overseas|해외의; 해외로|I've never been overseas.|해외에 가 본 적이 없어.|3
+abroad|해외에|She's studying abroad.|그녀는 유학 중이야.|3
+domestic|국내의|Domestic flights leave from Terminal 1.|국내선은 1터미널에서 출발해.|3
+international|국제적인|Is this an international flight?|이건 국제선인가요?|2
+terminal|터미널|Which terminal is it?|몇 터미널이에요?|2
+shuttle bus|셔틀버스|The hotel has a free shuttle bus.|호텔에 무료 셔틀버스가 있어.|3
+sunscreen|자외선 차단제|Don't forget sunscreen.|선크림 잊지 마.|2
+packing list|짐 목록|I made a packing list.|짐 챙길 목록을 만들었어.|3
+pack|짐을 싸다|Have you packed yet?|짐 다 쌌어?|2
+unpack|짐을 풀다|Let's unpack and rest.|짐 풀고 쉬자.|3
+adapter|어댑터, 변환 플러그|I need a power adapter.|전원 어댑터가 필요해.|3
+SIM card|유심 카드|Where can I buy a SIM card?|유심 카드는 어디서 사요?|3
+Wi-Fi password|와이파이 비밀번호|What's the Wi-Fi password?|와이파이 비밀번호가 뭐예요?|2
+off the beaten path|사람들이 잘 안 가는 (곳)|We love finding places off the beaten path.|우린 잘 알려지지 않은 곳 찾는 걸 좋아해.|5
+tourist trap|바가지 관광지|That restaurant is a tourist trap.|그 식당은 관광객 바가지 장소야.|4
+hidden gem|숨은 명소|This café is a hidden gem.|이 카페는 숨은 명소야.|4
+must-see|꼭 봐야 할 것|The night market is a must-see.|야시장은 꼭 가 봐야 해.|4
+bucket list|버킷 리스트|Iceland is on my bucket list.|아이슬란드는 내 버킷 리스트에 있어.|4
+wanderlust|여행하고 싶은 열망|I've got serious wanderlust.|여행 가고 싶어 미치겠어.|5
+staycation|집 근처에서 보내는 휴가|We had a staycation this year.|올해는 집 근처에서 휴가를 보냈어.|4
+red-eye|야간 비행편|I took the red-eye to New York.|뉴욕행 야간 비행기를 탔어.|5
+hit the road|길을 나서다|It's getting late. Let's hit the road.|늦었다. 이제 출발하자.|5
+travel light|짐을 가볍게 하다|I always travel light.|나는 늘 짐을 가볍게 다녀.|4
+get away|휴가를 떠나다|We need to get away for a few days.|며칠 어디 좀 다녀와야겠어.|4
+getaway|짧은 휴가|We planned a weekend getaway.|주말 여행을 계획했어.|4
+itchy feet|여행하고 싶어 몸이 근질거림|I've got itchy feet again.|또 여행 가고 싶어 근질근질해.|5
+globetrotter|세계 여행가|She's a real globetrotter.|그녀는 진짜 세계 여행가야.|5
+see the sights|관광하다|We spent the day seeing the sights.|하루 종일 관광을 했어.|4
+in transit|이동 중인, 환승 중인|My bag is still in transit.|내 가방이 아직 이동 중이래.|4
+stopover|도중 체류|We had a two-day stopover in Dubai.|두바이에서 이틀 머물렀어.|4
+overbooked|초과 예약된|The flight was overbooked.|비행기가 초과 예약됐어.|4
+standby|대기 승객; 대기|We're on standby for the next flight.|다음 비행기 대기 중이야.|4
+jaywalk|무단 횡단하다|Don't jaywalk here.|여기서 무단 횡단하지 마.|4
+fender bender|가벼운 접촉 사고|I had a fender bender this morning.|오늘 아침에 가벼운 접촉 사고가 났어.|5
+bumper-to-bumper|차가 꽉 막힌|Traffic was bumper-to-bumper.|차가 꽉 막혔어.|5
+pit stop|잠깐 쉬어 가기 (휴게소 등)|Let's make a pit stop for coffee.|커피 마시게 잠깐 쉬어 가자.|5
+the middle of nowhere|외딴곳, 허허벌판|The hotel was in the middle of nowhere.|호텔이 허허벌판 한가운데 있었어.|5

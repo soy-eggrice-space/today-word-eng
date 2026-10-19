@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.application'
+}
+
+def runNumber = (System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger()
+// 서명키는 저장소에 올리지 않고 GitHub Secrets(KEYSTORE_B64, KEYSTORE_PASSWORD)에서 꺼내 씁니다.
+def ksFile = file('release.keystore')
+def ksPass = System.getenv('KEYSTORE_PASSWORD') ?: ''
+
+android {
+    namespace 'com.soyeggrice.gongbuhae'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.soyeggrice.gongbuhae'
+        minSdk 26
+        targetSdk 34
+        versionCode runNumber
+        versionName "1.0.${runNumber}"
+    }
+
+    signingConfigs {
+        release {
+            storeFile ksFile
+            storePassword ksPass
+            keyAlias 'gongbuhae'
+            keyPassword ksPass
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (ksFile.exists()) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

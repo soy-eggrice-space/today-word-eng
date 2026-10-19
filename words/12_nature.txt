@@ -1,0 +1,168 @@
+# nature|날씨·자연|🌦️
+weather|날씨|How's the weather today?|오늘 날씨 어때?|1
+sunny|맑은, 햇빛 쨍쨍한|It's sunny and warm.|맑고 따뜻해.|1
+cloudy|흐린|It's cloudy this morning.|오늘 아침은 흐려.|1
+rainy|비가 오는|I don't like rainy days.|나는 비 오는 날이 싫어.|1
+snowy|눈이 오는|It was a snowy winter.|눈이 많이 온 겨울이었어.|1
+windy|바람 부는|It's really windy outside.|밖에 바람이 정말 세게 불어.|1
+hot|더운|It's so hot today.|오늘 너무 더워.|1
+cold|추운|It's cold outside.|밖이 추워.|1
+warm|따뜻한|It's warm in here.|여기 안은 따뜻해.|1
+cool|시원한, 선선한|It's cool in the evening.|저녁엔 선선해.|1
+rain|비; 비가 오다|It's going to rain tomorrow.|내일 비 온대.|1
+snow|눈; 눈이 오다|The kids played in the snow.|아이들이 눈밭에서 놀았어.|1
+wind|바람|The wind is strong today.|오늘 바람이 세.|1
+sun|해, 태양|The sun is very bright.|햇빛이 아주 밝아.|1
+moon|달|Look at the full moon.|보름달 좀 봐.|1
+star|별|I can see the stars tonight.|오늘 밤엔 별이 보여.|1
+sky|하늘|The sky is so blue.|하늘이 정말 파래.|1
+cloud|구름|That cloud looks like a rabbit.|저 구름 토끼처럼 생겼다.|1
+spring|봄|Flowers bloom in spring.|봄에 꽃이 펴.|1
+summer|여름|We go to the beach in summer.|여름엔 해변에 가.|1
+fall|가을|I love the colors in fall.|나는 가을의 색깔이 좋아.|1
+winter|겨울|Winter in Korea is cold.|한국의 겨울은 추워.|1
+season|계절|What's your favorite season?|가장 좋아하는 계절이 뭐야?|1
+tree|나무|We planted a tree in the yard.|마당에 나무를 심었어.|1
+flower|꽃|These flowers smell nice.|이 꽃들 향기가 좋아.|1
+river|강|We walked along the river.|우리는 강을 따라 걸었어.|1
+sea|바다|I love swimming in the sea.|나는 바다에서 수영하는 걸 좋아해.|1
+lake|호수|We had a picnic by the lake.|호숫가에서 소풍을 했어.|1
+forest|숲|We went hiking in the forest.|숲으로 하이킹을 갔어.|1
+park|공원|Let's go to the park.|공원에 가자.|1
+animal|동물|My son loves animals.|우리 아들은 동물을 좋아해.|1
+bird|새|The birds are singing.|새들이 노래하고 있어.|1
+temperature|기온|The temperature dropped suddenly.|기온이 갑자기 떨어졌어.|2
+degree|(온도의) 도|It's 30 degrees today.|오늘 30도야.|2
+forecast|일기 예보|The forecast says it'll snow.|일기 예보에서 눈이 온대.|2
+humid|습한|Summer in Korea is hot and humid.|한국의 여름은 덥고 습해.|2
+dry|건조한|The air is very dry in winter.|겨울엔 공기가 아주 건조해.|2
+foggy|안개 낀|It's too foggy to drive.|안개가 너무 껴서 운전하기 힘들어.|2
+freezing|몹시 추운|It's freezing outside!|밖이 꽁꽁 얼 것 같아!|2
+chilly|쌀쌀한|It's a bit chilly. Take a jacket.|좀 쌀쌀해. 재킷 가져가.|2
+shower|소나기|There might be showers this afternoon.|오후에 소나기가 올 수도 있어.|2
+storm|폭풍|A big storm is coming.|큰 폭풍이 오고 있어.|2
+thunder|천둥|The thunder scared the kids.|천둥에 아이들이 놀랐어.|2
+lightning|번개|Did you see the lightning?|번개 봤어?|2
+rainbow|무지개|Look, a rainbow!|봐, 무지개다!|2
+typhoon|태풍|A typhoon is heading to Jeju.|태풍이 제주 쪽으로 오고 있어.|2
+heat wave|폭염|We're in the middle of a heat wave.|지금 폭염이 한창이야.|3
+monsoon|장마|The monsoon season starts in late June.|장마는 6월 말에 시작해.|3
+drizzle|이슬비; 이슬비가 내리다|It's just drizzling.|그냥 이슬비가 내리는 정도야.|3
+pour|(비가) 퍼붓다|It's pouring outside.|밖에 비가 퍼붓고 있어.|3
+fine dust|미세먼지|The fine dust is bad today.|오늘 미세먼지가 심해.|3
+air quality|공기 질|Check the air quality before going out.|나가기 전에 공기 질을 확인해.|3
+pollen|꽃가루|Pollen makes me sneeze.|꽃가루 때문에 재채기가 나.|3
+mild|(날씨가) 온화한|The winter was mild this year.|올해 겨울은 온화했어.|3
+breeze|산들바람|There's a nice breeze by the sea.|바닷가에 상쾌한 바람이 불어.|3
+sunset|해 질 녘, 일몰|The sunset was beautiful.|노을이 정말 아름다웠어.|2
+sunrise|일출|We got up early to see the sunrise.|일출을 보려고 일찍 일어났어.|2
+beach|해변|The beach was crowded.|해변이 붐볐어.|1
+island|섬|Jeju is a beautiful island.|제주는 아름다운 섬이야.|2
+valley|계곡|We swam in the valley.|계곡에서 수영했어.|2
+hill|언덕|Our house is on a hill.|우리 집은 언덕 위에 있어.|2
+field|들판|The kids ran across the field.|아이들이 들판을 가로질러 뛰었어.|2
+waterfall|폭포|We hiked to a waterfall.|폭포까지 하이킹했어.|2
+cave|동굴|The kids explored the cave.|아이들이 동굴을 탐험했어.|2
+desert|사막|It's very hot in the desert.|사막은 아주 더워.|2
+ocean|대양, 바다|The ocean is so calm today.|오늘 바다가 정말 잔잔해.|2
+wave|파도; 손을 흔들다|The waves are big today.|오늘 파도가 높아.|2
+sand|모래|The kids built a sand castle.|아이들이 모래성을 쌓았어.|2
+rock|바위|Be careful on the rocks.|바위 위에서 조심해.|2
+grass|풀, 잔디|Don't walk on the grass.|잔디밭에 들어가지 마.|2
+leaf|잎|The leaves are turning red.|잎이 빨갛게 물들고 있어.|2
+branch|나뭇가지|A branch fell in the storm.|폭풍에 나뭇가지가 떨어졌어.|2
+plant|식물; 심다|I water my plants every morning.|매일 아침 식물에 물을 줘.|2
+garden|정원|My mom grows tomatoes in her garden.|엄마는 정원에서 토마토를 키우셔.|2
+insect|곤충|My son loves catching insects.|우리 아들은 곤충 잡는 걸 좋아해.|2
+bug|벌레|There's a bug on your shirt.|네 셔츠에 벌레 있어.|2
+mosquito|모기|I got bitten by a mosquito.|모기에 물렸어.|2
+butterfly|나비|A butterfly landed on the flower.|나비가 꽃에 앉았어.|2
+environment|환경|We need to protect the environment.|환경을 보호해야 해.|3
+pollution|오염|Air pollution is a big problem.|대기 오염은 큰 문제야.|3
+climate|기후|The climate is changing.|기후가 변하고 있어.|3
+climate change|기후 변화|Climate change affects everyone.|기후 변화는 모두에게 영향을 줘.|3
+global warming|지구 온난화|Global warming is melting the ice.|지구 온난화로 얼음이 녹고 있어.|3
+recycle|재활용하다|We recycle plastic and cans.|플라스틱과 캔을 재활용해.|2
+plastic|플라스틱|Try to use less plastic.|플라스틱을 덜 쓰려고 해 봐.|2
+natural|자연의, 천연의|I prefer natural light.|나는 자연광이 좋아.|2
+nature|자연|I love being in nature.|나는 자연 속에 있는 게 좋아.|2
+wildlife|야생 동물|The park is full of wildlife.|공원에 야생 동물이 가득해.|3
+endangered|멸종 위기에 처한|Pandas are an endangered species.|판다는 멸종 위기종이야.|3
+earthquake|지진|There was a small earthquake.|작은 지진이 있었어.|3
+flood|홍수|The heavy rain caused a flood.|폭우로 홍수가 났어.|3
+drought|가뭄|The farmers are worried about the drought.|농부들이 가뭄을 걱정해.|4
+disaster|재난|It was a natural disaster.|그건 자연재해였어.|3
+hail|우박|Hail damaged the cars.|우박에 차들이 상했어.|4
+frost|서리|There was frost on the window.|창문에 서리가 꼈어.|3
+icy|얼음이 언, 빙판의|The roads are icy.|길이 빙판이야.|3
+slippery|미끄러운|Be careful, it's slippery.|조심해, 미끄러워.|2
+melt|녹다|The snow is melting.|눈이 녹고 있어.|2
+freeze|얼다|The lake froze last night.|어젯밤에 호수가 얼었어.|2
+bloom|꽃이 피다|The cherry blossoms are in bloom.|벚꽃이 활짝 폈어.|3
+cherry blossom|벚꽃|Let's see the cherry blossoms.|벚꽃 보러 가자.|2
+autumn leaves|단풍|The autumn leaves are beautiful.|단풍이 정말 예뻐.|2
+scenery|경치|The scenery here is amazing.|여기 경치가 끝내줘.|3
+view|경치, 전망|What a view!|경치 대단하다!|2
+fresh air|맑은 공기|Let's get some fresh air.|바람 좀 쐬자.|2
+outdoors|야외에서|We spend a lot of time outdoors.|우리는 야외에서 시간을 많이 보내.|3
+camping|캠핑|We went camping last weekend.|지난 주말에 캠핑 갔어.|2
+hiking|등산, 하이킹|Hiking is my favorite hobby.|등산이 내가 제일 좋아하는 취미야.|2
+picnic|소풍|Let's have a picnic in the park.|공원에서 소풍하자.|2
+trail|오솔길, 등산로|This trail is easy for kids.|이 등산로는 아이들도 쉬워.|3
+peak|봉우리, 정상|We reached the peak at noon.|정오에 정상에 도착했어.|3
+shade|그늘|Let's sit in the shade.|그늘에 앉자.|3
+sunshine|햇빛|Enjoy the sunshine!|햇볕 즐겨!|2
+UV rays|자외선|Sunscreen protects you from UV rays.|선크림은 자외선을 막아 줘.|3
+umbrella|우산|Don't forget your umbrella.|우산 잊지 마.|1
+raincoat|우비|The kids wore raincoats.|아이들이 우비를 입었어.|2
+boots|장화, 부츠|Wear your rain boots.|장화 신어.|2
+sweaty|땀에 젖은|I'm all sweaty after the walk.|산책하고 땀범벅이 됐어.|3
+sticky|끈적끈적한|It's hot and sticky today.|오늘 덥고 끈적끈적해.|3
+crisp|상쾌한, 쌀쌀하고 맑은|I love crisp autumn mornings.|나는 상쾌한 가을 아침이 좋아.|4
+gloomy|우중충한|It's a gloomy day.|우중충한 날이야.|3
+clear|맑은, 갠|The sky is clear tonight.|오늘 밤 하늘이 맑아.|2
+overcast|구름이 잔뜩 낀|It's overcast and gray.|구름이 잔뜩 끼고 흐려.|4
+scorching|타는 듯이 더운|It was a scorching day.|타는 듯이 더운 날이었어.|4
+sweltering|숨 막히게 더운|The subway was sweltering.|지하철이 숨 막히게 더웠어.|5
+bitterly cold|살을 에듯이 추운|It's bitterly cold this morning.|오늘 아침은 살을 에듯이 추워.|4
+below zero|영하의|It's ten below zero.|영하 10도야.|3
+wind chill|체감 온도|The wind chill makes it feel colder.|바람 때문에 체감 온도가 더 낮아.|4
+yellow dust|황사|Yellow dust comes every spring.|봄마다 황사가 와.|3
+mask|마스크|Wear a mask on dusty days.|먼지 많은 날엔 마스크를 써.|2
+air purifier|공기 청정기|Turn on the air purifier.|공기 청정기 켜.|3
+humidifier|가습기|We use a humidifier in winter.|겨울엔 가습기를 써.|3
+heater|난방기|Turn up the heater.|난방 좀 세게 틀어.|2
+blizzard|눈보라|Schools closed because of the blizzard.|눈보라 때문에 학교가 휴교했어.|4
+snowman|눈사람|Let's build a snowman!|눈사람 만들자!|1
+puddle|물웅덩이|The kids jumped in the puddles.|아이들이 물웅덩이에서 첨벙거렸어.|3
+mud|진흙|Your shoes are covered in mud.|네 신발이 진흙투성이야.|2
+dew|이슬|The grass is wet with dew.|풀이 이슬에 젖었어.|4
+fog|안개|The fog cleared up by noon.|정오쯤 안개가 걷혔어.|2
+clear up|(날씨가) 개다|It should clear up this afternoon.|오후엔 갤 거야.|3
+cool down|시원해지다|It cools down at night.|밤에는 시원해져.|2
+warm up|따뜻해지다|It's starting to warm up.|날이 풀리기 시작해.|2
+rain or shine|날씨에 상관없이, 어떤 일이 있어도|The market is open rain or shine.|시장은 날씨와 상관없이 열어.|4
+raining cats and dogs|비가 억수같이 오는|It's raining cats and dogs.|비가 억수같이 와.|5
+a breath of fresh air|신선한 변화, 청량제 같은 존재|Our new teacher is a breath of fresh air.|새 선생님은 정말 신선한 분이야.|5
+under the weather|몸이 안 좋은|I'm a little under the weather.|몸이 좀 안 좋아.|4
+a storm in a teacup|찻잔 속의 태풍, 별것 아닌 소동|It's just a storm in a teacup.|그냥 별것 아닌 소동이야.|5
+calm before the storm|폭풍 전의 고요|It's the calm before the storm.|폭풍 전의 고요야.|5
+every cloud has a silver lining|괴로움 뒤엔 좋은 일도 있다|Every cloud has a silver lining.|나쁜 일이 있으면 좋은 일도 있어.|5
+come rain or shine|무슨 일이 있어도|I'll be there, come rain or shine.|무슨 일이 있어도 갈게.|5
+steal my thunder|남의 공을 가로채다|She stole my thunder at the meeting.|그녀가 회의에서 내 공을 가로챘어.|5
+on thin ice|살얼음판인, 위태로운|You're on thin ice with the boss.|너 상사한테 찍히기 직전이야.|5
+the tip of the iceberg|빙산의 일각|This is just the tip of the iceberg.|이건 빙산의 일각일 뿐이야.|5
+a ray of sunshine|희망의 빛, 기쁨을 주는 사람|My daughter is a ray of sunshine.|우리 딸은 햇살 같은 존재야.|5
+go green|친환경적으로 살다|Our office is trying to go green.|우리 사무실은 친환경을 실천하려고 해.|4
+carbon footprint|탄소 발자국|I want to reduce my carbon footprint.|탄소 발자국을 줄이고 싶어.|4
+eco-friendly|친환경적인|We use eco-friendly bags.|우리는 친환경 가방을 써.|3
+reusable|재사용 가능한|Bring a reusable cup.|다회용 컵을 가져와.|3
+compost|퇴비(로 만들다)|We compost our food scraps.|음식물 쓰레기를 퇴비로 만들어.|4
+renewable energy|재생 에너지|Solar power is renewable energy.|태양광은 재생 에너지야.|4
+sustainable|지속 가능한|We need a sustainable lifestyle.|지속 가능한 생활 방식이 필요해.|4
+the great outdoors|대자연, 야외|My kids love the great outdoors.|우리 애들은 야외 활동을 정말 좋아해.|5
+stargazing|별 보기|We went stargazing in the mountains.|산에서 별 보러 갔어.|4
+leaf-peeping|단풍 구경|Fall is the season for leaf-peeping.|가을은 단풍 구경의 계절이야.|5
+dog days|한여름 무더위 기간|We're in the dog days of summer.|지금이 한여름 무더위야.|5
+Indian summer|늦가을의 따뜻한 날씨|We're having an Indian summer.|늦더위가 이어지고 있어.|5
+cold snap|갑작스러운 한파|A cold snap is coming this weekend.|이번 주말에 한파가 와.|5

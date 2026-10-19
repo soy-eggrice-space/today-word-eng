@@ -1,0 +1,170 @@
+# health|건강·병원|🏥
+head|머리|My head hurts.|머리가 아파.|1
+face|얼굴|Wash your face.|세수해.|1
+eye|눈|Something is in my eye.|눈에 뭐가 들어갔어.|1
+ear|귀|My ears are cold.|귀가 시려.|1
+nose|코|My nose is running.|콧물이 나.|1
+mouth|입|Open your mouth, please.|입을 벌려 주세요.|1
+tooth|이, 치아|I have a bad tooth.|이가 하나 썩었어.|1
+neck|목|I slept wrong and hurt my neck.|잠을 잘못 자서 목이 아파.|1
+shoulder|어깨|My shoulders are stiff.|어깨가 뻐근해.|1
+arm|팔|I broke my arm last year.|작년에 팔이 부러졌어.|1
+hand|손|Wash your hands before eating.|먹기 전에 손 씻어.|1
+finger|손가락|I cut my finger.|손가락을 베었어.|1
+leg|다리|My legs are tired.|다리가 피곤해.|1
+foot|발|My feet hurt from walking.|걸어서 발이 아파.|1
+back|등, 허리|I have a pain in my back.|허리가 아파.|1
+stomach|배, 위|My stomach hurts.|배가 아파.|1
+sick|아픈|I feel sick.|몸이 안 좋아.|1
+cold|감기|I have a cold.|감기에 걸렸어.|1
+fever|열|The baby has a fever.|아기가 열이 나.|1
+headache|두통|I have a terrible headache.|두통이 심해.|1
+cough|기침(하다)|I can't stop coughing.|기침이 멈추지 않아.|1
+doctor|의사|You should see a doctor.|병원에 가 봐.|1
+nurse|간호사|The nurse took my temperature.|간호사가 체온을 쟀어.|1
+hospital|병원|He's in the hospital.|그는 입원해 있어.|1
+medicine|약|Take this medicine after meals.|이 약은 식후에 드세요.|1
+rest|휴식; 쉬다|You need some rest.|좀 쉬어야 해.|1
+healthy|건강한|Eat healthy food.|건강한 음식을 먹어.|1
+exercise|운동(하다)|I exercise every morning.|나는 매일 아침 운동해.|1
+hurt|아프다, 다치게 하다|Where does it hurt?|어디가 아파요?|1
+pain|통증|I have a sharp pain here.|여기가 콕콕 쑤셔요.|1
+sore|아픈, 쑤시는|I have a sore throat.|목이 아파.|2
+throat|목구멍|My throat is dry.|목이 칼칼해.|2
+runny nose|콧물|I have a runny nose.|콧물이 나.|2
+sneeze|재채기(하다)|I keep sneezing.|자꾸 재채기가 나.|2
+flu|독감|I got the flu last week.|지난주에 독감에 걸렸어.|2
+allergy|알레르기|I have a pollen allergy.|꽃가루 알레르기가 있어.|2
+dizzy|어지러운|I feel dizzy.|어지러워.|2
+injury|부상|It's just a minor injury.|가벼운 부상이야.|2
+bruise|멍|I have a bruise on my knee.|무릎에 멍이 들었어.|2
+cut|베인 상처; 베다|Put a bandage on that cut.|그 상처에 밴드 붙여.|2
+bandage|붕대, 밴드|I need a bandage.|밴드가 필요해.|2
+pill|알약|Take two pills a day.|하루에 두 알 드세요.|2
+pharmacy|약국|Is there a pharmacy open late?|늦게까지 하는 약국 있어요?|2
+appointment|진료 예약|I'd like to make an appointment.|진료 예약하고 싶어요.|2
+clinic|의원, 진료소|I went to the clinic near my house.|집 근처 의원에 갔어.|2
+dentist|치과 의사, 치과|I'm scared of the dentist.|나는 치과가 무서워.|2
+checkup|건강 검진|I go for a checkup once a year.|1년에 한 번 건강 검진을 받아.|2
+temperature|체온, 온도|Let me take your temperature.|체온 좀 잴게요.|2
+weight|몸무게|I've gained some weight.|살이 좀 쪘어.|2
+lose weight|살을 빼다|I want to lose weight.|살을 빼고 싶어.|2
+gain weight|살이 찌다|I gained weight over the holidays.|명절 동안 살쪘어.|2
+diet|식단; 다이어트|A balanced diet keeps you healthy.|균형 잡힌 식단이 건강을 지켜 줘.|2
+stretch|스트레칭하다|I stretch for ten minutes every morning.|매일 아침 10분씩 스트레칭해.|2
+gym|헬스장|I go to the gym after work.|퇴근 후에 헬스장에 가.|2
+jog|조깅하다|I jog in the park.|공원에서 조깅해.|2
+sleep|잠; 자다|I didn't sleep well last night.|어젯밤에 잠을 잘 못 잤어.|1
+stress|스트레스|Stress is bad for your health.|스트레스는 건강에 나빠.|2
+tired|피곤한|I'm always tired these days.|요즘 늘 피곤해.|1
+symptom|증상|What symptoms do you have?|어떤 증상이 있으세요?|3
+prescription|처방전, 처방약|You need a prescription for this medicine.|이 약은 처방전이 필요해요.|3
+recover|회복하다|It took a week to recover from the flu.|독감에서 회복하는 데 일주일 걸렸어.|3
+side effect|부작용|Drowsiness is a common side effect.|졸음은 흔한 부작용이에요.|3
+posture|자세|Sitting all day is bad for your posture.|하루 종일 앉아 있으면 자세가 나빠져.|3
+nutrition|영양|Good nutrition is important for kids.|아이들에게는 좋은 영양이 중요해.|3
+sprain|(발목 등을) 삐다|I sprained my ankle.|발목을 삐었어.|3
+ankle|발목|My ankle is swollen.|발목이 부었어.|2
+wrist|손목|My wrist hurts from typing.|타자 쳐서 손목이 아파.|2
+knee|무릎|My knees hurt when I climb stairs.|계단 오를 때 무릎이 아파.|2
+swollen|부은|My eyes are swollen.|눈이 부었어.|3
+itchy|가려운|My skin is itchy.|피부가 가려워.|3
+rash|발진, 두드러기|The baby has a rash.|아기한테 발진이 났어.|3
+blister|물집|I got a blister from my new shoes.|새 신발 때문에 물집이 생겼어.|3
+nauseous|메스꺼운|I feel nauseous.|속이 메스꺼워.|3
+vomit|토하다|The baby vomited after eating.|아기가 먹고 나서 토했어.|3
+diarrhea|설사|I have diarrhea.|설사를 해요.|3
+constipated|변비에 걸린|I'm a little constipated.|변비가 좀 있어.|4
+stuffy nose|코막힘|I have a stuffy nose.|코가 막혔어.|3
+chills|오한|I have chills and a fever.|오한이 나고 열이 있어.|3
+cramp|경련, 쥐|I got a cramp in my leg.|다리에 쥐가 났어.|3
+heartburn|속 쓰림|Spicy food gives me heartburn.|매운 걸 먹으면 속이 쓰려.|4
+indigestion|소화 불량|I have indigestion.|소화가 안 돼.|4
+insomnia|불면증|I've had insomnia for weeks.|몇 주째 불면증이야.|4
+migraine|편두통|I get migraines when I'm stressed.|스트레스 받으면 편두통이 와.|4
+fatigue|피로|Fatigue can be a sign of stress.|피로는 스트레스의 신호일 수 있어.|4
+immune system|면역 체계|Sleep helps your immune system.|잠은 면역 체계에 도움이 돼.|4
+vaccine|백신|Did you get the flu vaccine?|독감 백신 맞았어?|3
+shot|주사|The baby got her shots today.|아기가 오늘 예방 주사를 맞았어.|3
+blood pressure|혈압|My blood pressure is a bit high.|혈압이 좀 높아.|3
+blood test|혈액 검사|The doctor ordered a blood test.|의사가 혈액 검사를 하자고 했어.|3
+X-ray|엑스레이|They took an X-ray of my arm.|팔 엑스레이를 찍었어.|3
+surgery|수술|She had surgery on her knee.|그녀는 무릎 수술을 받았어.|3
+emergency room|응급실|We rushed him to the emergency room.|그를 급히 응급실로 데려갔어.|3
+ambulance|구급차|Call an ambulance!|구급차 불러!|2
+first aid|응급 처치|Do you know first aid?|응급 처치할 줄 알아?|3
+painkiller|진통제|Take a painkiller if it hurts.|아프면 진통제 먹어.|3
+cold medicine|감기약|I took some cold medicine.|감기약을 먹었어.|2
+ointment|연고|Put some ointment on the burn.|화상에 연고를 발라.|4
+eye drops|안약|I use eye drops for dry eyes.|눈이 건조해서 안약을 넣어.|3
+thermometer|체온계|Where's the thermometer?|체온계 어디 있어?|3
+health insurance|건강 보험|Does your health insurance cover this?|건강 보험으로 이거 보장돼?|3
+pregnant|임신한|She's six months pregnant.|그녀는 임신 6개월이야.|3
+due date|출산 예정일; 마감일|When's your due date?|출산 예정일이 언제야?|3
+stay hydrated|수분을 충분히 섭취하다|Remember to stay hydrated in this heat.|이 더위에 물 충분히 마시는 거 잊지 마.|3
+cut down on|~을 줄이다|I'm trying to cut down on coffee.|커피를 줄이려고 노력 중이야.|3
+sleep in|늦잠 자다|I like to sleep in on Sundays.|일요일엔 늦잠 자는 게 좋아.|3
+get some rest|좀 쉬다|You should go home and get some rest.|집에 가서 좀 쉬어.|2
+in good shape|몸 상태가 좋은|She's in good shape for her age.|그녀는 나이에 비해 몸 상태가 좋아.|3
+out of shape|몸 상태가 안 좋은|I'm so out of shape.|몸이 완전히 망가졌어.|3
+work out|운동하다|I work out three times a week.|일주일에 세 번 운동해.|2
+yoga|요가|Yoga helps me relax.|요가는 긴장을 푸는 데 도움이 돼.|2
+pilates|필라테스|I started pilates last month.|지난달에 필라테스를 시작했어.|3
+muscle|근육|My muscles are sore after the gym.|운동하고 나서 근육이 쑤셔.|3
+sore muscles|근육통|A hot bath helps sore muscles.|따뜻한 목욕이 근육통에 좋아.|3
+mental health|정신 건강|Mental health is just as important.|정신 건강도 똑같이 중요해.|3
+anxiety|불안|She's dealing with anxiety.|그녀는 불안 증세를 겪고 있어.|4
+depression|우울증|Depression is a real illness.|우울증은 실제 질병이야.|4
+therapy|치료, 상담 치료|Therapy really helped me.|상담 치료가 정말 도움이 됐어.|4
+burnout|번아웃|Taking breaks helps prevent burnout.|쉬는 시간을 가지면 번아웃을 막을 수 있어.|3
+meditate|명상하다|I meditate for five minutes a day.|하루 5분씩 명상해.|4
+breathe|숨 쉬다|Take a deep breath and breathe slowly.|깊게 숨을 들이쉬고 천천히 쉬어.|2
+chronic|만성의|He has chronic back pain.|그는 만성 허리 통증이 있어.|4
+condition|(건강) 상태, 질환|He has a heart condition.|그는 심장 질환이 있어.|4
+diagnose|진단하다|She was diagnosed with diabetes.|그녀는 당뇨병 진단을 받았어.|4
+treatment|치료|The treatment takes three months.|치료는 3개월 걸려.|3
+dose|복용량|Don't take more than the recommended dose.|권장량보다 많이 먹지 마.|4
+over-the-counter|처방전 없이 살 수 있는|You can buy it over the counter.|처방전 없이 살 수 있어요.|4
+refill|(처방약을) 다시 타다|I need a refill on my prescription.|처방약을 다시 타야 해.|4
+specialist|전문의|The doctor referred me to a specialist.|의사가 나를 전문의에게 보냈어.|4
+pediatrician|소아과 의사|We took the baby to the pediatrician.|아기를 소아과에 데려갔어.|4
+physical therapy|물리 치료|I'm doing physical therapy for my knee.|무릎 때문에 물리 치료 받고 있어.|4
+infection|감염|The cut got an infection.|상처가 감염됐어.|4
+contagious|전염되는|Is it contagious?|그거 전염돼요?|4
+germs|세균|Wash your hands to kill germs.|세균을 없애려면 손을 씻어.|3
+hygiene|위생|Good hygiene prevents illness.|위생을 잘 지키면 병을 예방해.|4
+calories|칼로리|I'm counting calories.|칼로리를 계산하고 있어.|3
+protein|단백질|Eggs are a good source of protein.|달걀은 좋은 단백질 공급원이야.|3
+vitamins|비타민|I take vitamins every morning.|매일 아침 비타민을 먹어.|2
+supplement|영양제|Do you take any supplements?|영양제 먹는 거 있어?|4
+sedentary|주로 앉아서 지내는|A sedentary lifestyle is unhealthy.|앉아만 지내는 생활 방식은 건강에 해로워.|5
+under the weather|몸이 좀 안 좋은|I'm feeling a bit under the weather today.|오늘 몸이 좀 안 좋아.|4
+come down with|(병에) 걸리다|I think I'm coming down with a cold.|감기 기운이 있는 것 같아.|4
+pull an all-nighter|밤을 새우다|I had to pull an all-nighter to finish the report.|보고서 끝내느라 밤을 새워야 했어.|4
+on the mend|회복 중인|Grandpa is on the mend.|할아버지는 회복 중이셔.|5
+back on my feet|건강을 되찾은, 다시 일어선|I'm finally back on my feet.|드디어 다시 기운을 차렸어.|5
+fit as a fiddle|아주 건강한|My grandma is fit as a fiddle.|우리 할머니는 아주 정정하셔.|5
+a clean bill of health|건강하다는 진단|The doctor gave me a clean bill of health.|의사가 아무 이상 없다고 했어.|5
+run-down|지친, 몸이 허한|I've been feeling run-down lately.|요즘 몸이 축 처져.|5
+pins and needles|저림, 바늘로 찌르는 느낌|My foot has pins and needles.|발이 저려.|5
+splitting headache|머리가 깨질 듯한 두통|I have a splitting headache.|머리가 깨질 것 같아.|5
+throw up|토하다|I think I'm going to throw up.|토할 것 같아.|4
+pass out|기절하다|She passed out from the heat.|그녀는 더위에 쓰러졌어.|4
+black eye|멍든 눈|He came home with a black eye.|그는 눈에 멍이 들어서 왔어.|4
+wellness|건강, 웰빙|The company has a wellness program.|회사에 건강 관리 프로그램이 있어.|4
+screen time|화면 보는 시간|Too much screen time hurts your eyes.|화면을 너무 오래 보면 눈이 나빠져.|3
+step count|걸음 수|My step count is low today.|오늘 걸음 수가 적어.|4
+hydrate|수분을 보충하다|Hydrate after your workout.|운동 후에 수분을 보충해.|4
+detox|해독, 디톡스|I'm doing a sugar detox.|설탕 끊기 디톡스 중이야.|4
+no pain, no gain|고통 없이는 얻는 것도 없다|Keep going! No pain, no gain.|계속해! 고생 끝에 낙이 온다.|4
+an apple a day|하루 사과 한 개 (건강의 비결)|An apple a day keeps the doctor away.|하루 사과 한 개면 의사가 필요 없대.|4
+take it easy|무리하지 마|Take it easy for a few days.|며칠 동안 무리하지 마.|3
+check-up results|검진 결과|My check-up results came back normal.|검진 결과가 정상으로 나왔어.|3
+appetite|식욕|I've lost my appetite.|입맛이 없어.|3
+hangover|숙취|I have a terrible hangover.|숙취가 심해.|3
+sunburn|햇볕에 탐|I got a bad sunburn at the beach.|해변에서 햇볕에 심하게 탔어.|3
+heatstroke|열사병|Drink water to avoid heatstroke.|열사병 예방하려면 물 마셔.|4
+frostbite|동상|Wear gloves to prevent frostbite.|동상 예방하려면 장갑 껴.|4
+stiff neck|뻐근한 목|I woke up with a stiff neck.|일어났더니 목이 뻐근해.|3
+lower back pain|허리 통증|Lower back pain is common for office workers.|허리 통증은 사무직에게 흔해.|3
+eye strain|눈의 피로|Take breaks to reduce eye strain.|눈 피로를 줄이려면 쉬어 가.|4

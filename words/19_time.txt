@@ -1,0 +1,172 @@
+# time|시간·빈도·양|⏰
+time|시간|What time is it?|지금 몇 시야?|1
+today|오늘|What are you doing today?|오늘 뭐 해?|1
+tomorrow|내일|See you tomorrow.|내일 봐.|1
+yesterday|어제|I saw her yesterday.|어제 그녀를 봤어.|1
+morning|아침|I drink coffee every morning.|매일 아침 커피를 마셔.|1
+afternoon|오후|Let's meet in the afternoon.|오후에 만나자.|1
+evening|저녁|What are you doing this evening?|오늘 저녁에 뭐 해?|1
+night|밤|Good night!|잘 자!|1
+week|주|I'll see you next week.|다음 주에 봐.|1
+month|달, 월|We're moving next month.|우리 다음 달에 이사해.|1
+year|해, 년|Happy New Year!|새해 복 많이 받아!|1
+always|항상|I always wake up early.|나는 항상 일찍 일어나.|1
+usually|보통|I usually take the bus.|나는 보통 버스를 타.|1
+often|자주|We often eat out.|우리는 자주 외식해.|1
+sometimes|가끔|I sometimes cook dinner.|나는 가끔 저녁을 해.|1
+never|절대 ~않다|I never eat breakfast.|나는 아침을 절대 안 먹어.|1
+now|지금|I'm busy now.|지금 바빠.|1
+soon|곧|See you soon!|곧 보자!|1
+later|나중에|Let's talk later.|나중에 얘기하자.|1
+before|~ 전에|Wash your hands before eating.|먹기 전에 손 씻어.|1
+after|~ 후에|Let's go after lunch.|점심 먹고 가자.|1
+already|이미, 벌써|I already ate.|이미 먹었어.|1
+still|아직도|Are you still at work?|아직 회사야?|1
+yet|아직|I haven't finished yet.|아직 안 끝났어.|1
+again|다시|Can you say that again?|다시 말해 줄래?|1
+once|한 번|I've been there once.|거기 한 번 가 봤어.|1
+twice|두 번|I go to the gym twice a week.|일주일에 두 번 헬스장에 가.|1
+every day|매일|I study English every day.|매일 영어 공부해.|1
+all day|하루 종일|I was busy all day.|하루 종일 바빴어.|1
+a lot|많이|Thanks a lot!|정말 고마워!|1
+many|많은 (셀 수 있는)|There are many people here.|여기 사람이 많아.|1
+much|많은 (셀 수 없는)|I don't have much time.|시간이 별로 없어.|1
+few|거의 없는, 몇몇의|I have a few questions.|질문이 몇 개 있어요.|1
+little|거의 없는, 조금|I speak a little English.|영어를 조금 해요.|1
+enough|충분한|Do we have enough food?|음식 충분해?|1
+half|절반|I ate half the pizza.|피자 반을 먹었어.|1
+hour|시간 (60분)|It takes an hour.|한 시간 걸려.|1
+minute|분|Wait a minute.|잠깐만 기다려.|1
+second|초; 두 번째|Give me a second.|잠깐만.|1
+weekday|평일|I work on weekdays.|나는 평일에 일해.|2
+midnight|자정|The store closes at midnight.|가게는 자정에 문 닫아.|2
+noon|정오|Let's meet at noon.|정오에 만나자.|2
+dawn|새벽|The baby woke up at dawn.|아기가 새벽에 깼어.|3
+recently|최근에|I recently started yoga.|최근에 요가를 시작했어.|2
+lately|요즘|I've been tired lately.|요즘 피곤해.|2
+these days|요즘|Everyone is busy these days.|요즘 다들 바빠.|2
+nowadays|요즘에는|Nowadays, kids have phones.|요즘엔 애들도 휴대폰이 있어.|3
+someday|언젠가|I want to visit Paris someday.|언젠가 파리에 가 보고 싶어.|2
+right away|즉시|I'll do it right away.|바로 할게.|2
+in a minute|곧, 금방|I'll be there in a minute.|금방 갈게.|2
+for a while|한동안|I haven't seen him for a while.|한동안 그를 못 봤어.|2
+at the moment|지금은|I'm busy at the moment.|지금은 바빠요.|2
+on time|정각에, 제시간에|The train left on time.|기차가 제시간에 출발했어.|2
+in time|늦지 않게|We arrived just in time.|딱 늦지 않게 도착했어.|3
+ahead of time|미리|Book your tickets ahead of time.|표는 미리 예매해.|3
+in advance|미리|Thank you in advance.|미리 감사드려요.|3
+at the last minute|막판에|He canceled at the last minute.|그는 막판에 취소했어.|3
+overnight|밤새, 하룻밤 사이에|Leave it overnight.|밤새 그대로 둬.|3
+all of a sudden|갑자기|All of a sudden, it started raining.|갑자기 비가 오기 시작했어.|3
+suddenly|갑자기|The lights suddenly went out.|불이 갑자기 꺼졌어.|2
+finally|마침내|We finally arrived.|드디어 도착했어.|2
+immediately|즉시|Call me immediately.|즉시 전화해.|3
+eventually|결국|He eventually agreed.|그는 결국 동의했어.|3
+gradually|점점|It's gradually getting colder.|점점 추워지고 있어.|3
+occasionally|가끔|We occasionally go to the movies.|우리는 가끔 영화를 보러 가.|3
+rarely|좀처럼 ~않다|I rarely drink coffee at night.|나는 밤에 커피를 거의 안 마셔.|3
+hardly ever|거의 ~않다|I hardly ever watch TV.|나는 TV를 거의 안 봐.|3
+constantly|끊임없이|My phone is constantly buzzing.|휴대폰이 끊임없이 울려.|4
+regularly|정기적으로|I exercise regularly.|나는 규칙적으로 운동해.|3
+daily|매일의|I take a daily walk.|매일 산책해.|2
+weekly|매주의|We have a weekly meeting.|매주 회의가 있어.|3
+monthly|매달의|What's your monthly rent?|월세가 얼마야?|3
+annual|매년의|It's our annual family trip.|매년 가는 가족 여행이야.|3
+period|기간|For a short period, I lived in Japan.|잠깐 일본에 살았어.|3
+moment|순간|Just a moment, please.|잠시만요.|2
+decade|10년|We've lived here for a decade.|여기 산 지 10년 됐어.|3
+century|세기, 100년|This temple is from the 15th century.|이 절은 15세기 것이야.|3
+schedule|일정|What's your schedule like this week?|이번 주 일정 어때?|2
+calendar|달력|Mark it on the calendar.|달력에 표시해.|2
+date|날짜|What's the date today?|오늘 며칠이야?|1
+deadline|마감일|The deadline is tomorrow.|마감은 내일이야.|2
+due|~하기로 되어 있는|The report is due on Monday.|보고서는 월요일까지야.|3
+amount|양|That's a large amount of money.|그건 큰돈이야.|3
+quantity|수량|We need a large quantity.|수량이 많이 필요해요.|4
+plenty|풍부함, 많음|We have plenty of time.|시간은 충분해.|2
+several|몇몇의|I've been there several times.|거기 몇 번 가 봤어.|2
+dozen|12개, 한 다스|I bought a dozen eggs.|달걀 한 판(12개)을 샀어.|2
+pair|한 쌍, 켤레|I need a new pair of shoes.|새 신발 한 켤레가 필요해.|2
+couple|두어 개, 몇 개|I'll be there in a couple of minutes.|몇 분 뒤에 도착해.|2
+most|대부분|Most people agree.|대부분의 사람들이 동의해.|2
+none|아무도 ~않다|None of us knew the answer.|우리 중 아무도 답을 몰랐어.|2
+both|둘 다|Both of my kids like pizza.|우리 애들 둘 다 피자를 좋아해.|1
+either|어느 쪽이든|You can take either one.|아무거나 가져가도 돼.|2
+neither|둘 다 아닌|Neither option is good.|둘 다 별로야.|3
+extra|추가의|Do you have an extra pen?|펜 하나 더 있어?|2
+total|총, 합계|What's the total?|합계가 얼마예요?|2
+average|평균(의)|The average age is 35.|평균 나이는 35세야.|3
+maximum|최대|The maximum is ten people.|최대 열 명이에요.|3
+minimum|최소|There's a minimum order of two.|최소 두 개 주문해야 해요.|3
+at least|적어도|It takes at least an hour.|적어도 한 시간은 걸려.|2
+at most|많아야|It'll cost 20 dollars at most.|많아야 20달러야.|3
+about|약, 대략|It takes about ten minutes.|10분쯤 걸려.|1
+around|약, 쯤|Let's meet around seven.|7시쯤 만나자.|1
+almost|거의|I'm almost done.|거의 다 했어.|1
+exactly|정확히|That's exactly what I wanted.|딱 내가 원하던 거야.|2
+roughly|대략|It's roughly 50 kilometers.|대략 50킬로미터야.|3
+approximately|대략|The flight is approximately two hours.|비행은 대략 두 시간이에요.|4
+increase|증가(하다)|Prices increased by 10%.|가격이 10% 올랐어.|3
+decrease|감소(하다)|The number of students decreased.|학생 수가 줄었어.|3
+double|두 배(가 되다)|The price has doubled.|가격이 두 배가 됐어.|3
+percent|퍼센트|Ninety percent of people agree.|90퍼센트가 동의해.|2
+number|숫자, 번호|What's your phone number?|전화번호가 뭐야?|1
+count|세다|Can you count to ten in English?|영어로 10까지 셀 수 있어?|1
+measure|재다|Measure the room first.|먼저 방 크기를 재.|3
+weigh|무게가 ~이다, 무게를 재다|How much does the baby weigh?|아기 몸무게가 얼마야?|3
+length|길이|What's the length of the table?|탁자 길이가 얼마야?|3
+height|키, 높이|What's your height?|키가 몇이에요?|3
+width|너비|Check the width of the door.|문 너비를 확인해.|4
+distance|거리|What's the distance to the station?|역까지 거리가 얼마나 돼?|3
+temperature|온도|What's the temperature today?|오늘 기온이 몇 도야?|2
+o'clock|~시 정각|The party starts at six o'clock.|파티는 6시 정각에 시작해.|1
+quarter past|~시 15분|It's quarter past three.|3시 15분이야.|2
+half past|~시 30분|Let's meet at half past seven.|7시 반에 만나자.|2
+a.m.|오전|The store opens at 10 a.m.|가게는 오전 10시에 열어.|2
+p.m.|오후|The meeting is at 3 p.m.|회의는 오후 3시야.|2
+day off|쉬는 날|Tomorrow is my day off.|내일은 쉬는 날이야.|2
+long weekend|연휴|We're going away for the long weekend.|연휴에 놀러 가.|3
+time zone|시간대|What time zone is New York in?|뉴욕은 어느 시간대야?|3
+time difference|시차|What's the time difference?|시차가 얼마나 돼?|3
+behind schedule|일정보다 늦은|We're a bit behind schedule.|일정보다 좀 늦어.|4
+ahead of schedule|일정보다 빠른|We finished ahead of schedule.|일정보다 빨리 끝냈어.|4
+time-consuming|시간이 많이 걸리는|This task is time-consuming.|이 일은 시간이 많이 걸려.|4
+in the meantime|그동안에|In the meantime, have some coffee.|그동안 커피 좀 드세요.|4
+from now on|지금부터|From now on, I'll be on time.|지금부터 시간 지킬게.|3
+so far|지금까지|So far, so good.|지금까지는 좋아.|3
+up to now|지금까지|Up to now, everything is fine.|지금까지는 다 괜찮아.|4
+as soon as|~하자마자|Call me as soon as you arrive.|도착하자마자 전화해.|3
+until|~까지|Wait until I come back.|내가 돌아올 때까지 기다려.|2
+by then|그때쯤에는|I'll be home by then.|그때쯤엔 집에 있을 거야.|3
+for good|영원히|They moved abroad for good.|그들은 아예 해외로 이사했어.|4
+once in a while|가끔|We eat out once in a while.|우린 가끔 외식해.|3
+every other day|이틀에 한 번|I water the plants every other day.|이틀에 한 번 식물에 물을 줘.|3
+around the clock|24시간 내내|Nurses work around the clock.|간호사들은 24시간 일해.|4
+in no time|금세|We'll be there in no time.|금방 도착할 거야.|4
+any minute now|이제 곧|She'll be here any minute now.|그녀가 이제 곧 올 거야.|4
+the other day|일전에, 며칠 전에|I saw your mom the other day.|며칠 전에 너희 엄마를 봤어.|3
+in the long run|장기적으로|It's cheaper in the long run.|장기적으로는 더 싸.|4
+time flies|시간이 빨리 간다|Wow, time flies!|와, 시간 진짜 빠르다!|3
+kill time|시간을 때우다|We killed time at a café.|카페에서 시간을 때웠어.|4
+take your time|천천히 해|No rush. Take your time.|급할 거 없어. 천천히 해.|2
+in the nick of time|아슬아슬하게 제때|We caught the train in the nick of time.|아슬아슬하게 기차를 탔어.|5
+at the eleventh hour|막판에, 마지막 순간에|They changed the plan at the eleventh hour.|그들은 막판에 계획을 바꿨어.|5
+a race against time|시간과의 싸움|Finishing the report was a race against time.|보고서 마무리는 시간과의 싸움이었어.|5
+time is money|시간은 금이다|Hurry up. Time is money.|서둘러. 시간이 돈이야.|4
+better late than never|늦어도 안 하는 것보다 낫다|You came! Better late than never.|왔구나! 늦어도 안 오는 것보단 낫지.|4
+crunch time|막판 스퍼트 시기|It's crunch time before the deadline.|마감 전 막판 스퍼트야.|5
+ASAP|가능한 한 빨리|I need it ASAP.|최대한 빨리 필요해.|3
+24/7|연중무휴, 항상|The store is open 24/7.|그 가게는 연중무휴야.|3
+round-the-clock|24시간 계속되는|The baby needs round-the-clock care.|아기는 24시간 돌봐야 해.|5
+a split second|아주 짧은 순간|It happened in a split second.|순식간에 일어난 일이었어.|5
+a lifetime|평생|It was the trip of a lifetime.|평생 한 번 있을 여행이었어.|4
+ages|오랫동안|I haven't seen you in ages!|정말 오랜만이다!|4
+forever|영원히; 아주 오래|The line took forever.|줄이 엄청 오래 걸렸어.|3
+a bunch of|많은|I have a bunch of emails to answer.|답장할 메일이 잔뜩 있어.|3
+tons of|엄청 많은|I have tons of homework.|숙제가 엄청 많아.|3
+loads of|많은|We had loads of fun.|정말 재밌게 놀았어.|4
+a handful of|소수의, 한 줌의|Only a handful of people came.|몇 사람만 왔어.|4
+a ton|아주 많이|Thanks a ton!|정말 고마워!|4
+no more than|겨우, ~에 불과한|It takes no more than five minutes.|5분이면 돼.|4
+more or less|대략, 거의|The work is more or less done.|일은 거의 끝났어.|4
+give or take|대략, 전후로|It takes an hour, give or take.|대략 한 시간 걸려.|5
