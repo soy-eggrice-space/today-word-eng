@@ -212,6 +212,8 @@ def load_blocks(pattern):
                 cur['a'] = a
             elif line.startswith('tr '):
                 cur['tr'] = line[3:]
+            elif line.startswith('lv '):
+                cur['lv'] = int(line[3:].strip())
             else:
                 errs.append(f'{where}: unknown line {line[:20]}')
     return blocks
@@ -247,7 +249,7 @@ if __name__ == '__main__':
     print(f'grammar: {len(gp)} points, {sum(len(g["q"]) for g in gp)} MCQ, {sum(len(g["s"]) for g in gp)} star')
     para = load_simple('paraphrase.txt', 'p', 6)
     usage = load_simple('usage.txt', 'u', 7)
-    bun = load_blocks('bunshou.txt')
+    bun = load_blocks('bunshou*.txt')
     rd = load_blocks('reading_*.txt')
     ls = load_blocks('listening_*.txt')
     kj = load_kanji()
@@ -271,6 +273,41 @@ if __name__ == '__main__':
         nums = re.findall('（([１２３４５])）', ''.join(b['t']))
         if len(nums) != len(b['q']):
             errs.append(f"{b['_w']}: blanks {len(nums)} vs q {len(b['q'])}")
+    # ---- 난이도: N5 한자 밖의 한자 수 + 길이 + N4 문법 표지 → 낮을수록 쉬움 (N5 단계·N5 모의고사에 먼저)
+    N5K = set(k[0] for k in kj if k[4] == 5)
+    MARK = ['そうです', 'そうだ', 'ようです', 'ようだ', 'みたい', 'らしい', 'かもしれ', 'はず', 'ために', 'ように', 'なら', 'たら',
+            'ても', 'のに', 'てしまっ', 'ちゃっ', 'ておい', 'てみ', 'ところ', 'られ', 'させ', 'いただ', 'くださ', 'いらっしゃ',
+            'おっしゃ', '召し上が', 'ことにし', 'ことになっ', 'やすい', 'にくい', 'すぎ', 'ばかり', 'そうに']
+    def diff(texts):
+        txt = ''.join(t for t in texts if t)
+        surf = strip_ruby(txt)
+        ks = set(KANJI_RE.findall(surf))
+        hard = sum(1 for k in ks if k not in N5K)
+        L = len(surf)
+        gm = sum(surf.count(m) for m in MARK)
+        return round(hard + L / 60 + gm * 0.8, 2)
+    def blk_texts(b):
+        out = list(b['t']) + [b['sc'], b['qq']] + [l[1] for l in b['lines']]
+        for q in b['q']: out += q[:5]
+        out += (b['o'] or []) + (b['a'] or [])
+        return out
+    def mark_easy(items, getd, key):
+        groups = {}
+        for it in items: groups.setdefault(key(it), []).append(getd(it))
+        cut = {k: sorted(v)[max(0, int(len(v) * 0.45) - 1)] for k, v in groups.items()}
+        return cut
+    for b in bun + rd + ls:
+        b['d'] = diff(blk_texts(b))
+    cut = mark_easy([b for b in bun + rd + ls if b.get('lv') != 5], lambda b: b['d'], lambda b: b['type'] or 'bunshou')
+    for b in bun + rd + ls:
+        if b.get('lv') == 5:
+            b['e'] = 1; b['d'] = round(b['d'] / 10, 2)  # N5 전용은 가장 먼저
+        else:
+            b['e'] = 1 if b['d'] <= cut[b['type'] or 'bunshou'] else 0
+    para_d = [diff(a) for a in para]
+    usage_d = [diff(a[2:]) for a in usage]
+    pc = sorted(para_d)[int(len(para_d) * 0.45)]
+    print('easy blocks', Counter((b['type'] or 'bunshou') for b in bun + rd + ls if b['e']), 'para easy', sum(1 for d in para_d if d <= pc))
     # ---- write data.js
     def clean(b, keys):
         return {k: b[k] for k in keys if b.get(k)}
@@ -283,11 +320,11 @@ if __name__ == '__main__':
                      'note': g['note'], 'warn': g['warn'], 'ex': g['ex_'],
                      'q': [[q['t']] + q['o'] + [q['x']] for q in g['q']],
                      's': [[x['a'], x['c'], x['b'], x['k'], x['tr']] for x in g['s']]} for g in gp],
-        'para': para,
-        'usage': usage,
-        'bunshou': [clean(b, ['id', 'title', 't', 'q', 'tr']) for b in bun],
-        'reading': [clean(b, ['id', 'type', 'title', 't', 'q', 'tr']) for b in rd],
-        'listen': [clean(b, ['id', 'type', 'title', 'sc', 'lines', 'qq', 'o', 'a', 'tr']) for b in ls],
+        'para': para, 'paraD': para_d,
+        'usage': usage, 'usageD': usage_d,
+        'bunshou': [clean(b, ['id', 'title', 't', 'q', 'tr', 'd', 'e', 'lv']) for b in bun],
+        'reading': [clean(b, ['id', 'type', 'title', 't', 'q', 'tr', 'd', 'e', 'lv']) for b in rd],
+        'listen': [clean(b, ['id', 'type', 'title', 'sc', 'lines', 'qq', 'o', 'a', 'tr', 'd', 'e', 'lv']) for b in ls],
     }
     out = os.path.join(ROOT, 'app', 'src', 'main', 'assets', 'data.js')
     with open(out, 'w', encoding='utf-8') as f:

@@ -244,7 +244,11 @@ function settingsHTML() {
   return `<div class="top"><button class="back" onclick="back()">◀</button><div class="h2">⚙️ 설정</div></div><div class="stack">
   <div class="card"><div class="prow"><div class="pl"><div class="pt">이름</div></div><input class="ntxt" style="width:150px" value="${esc(S.name)}" onchange="S.name=this.value.trim()||S.name;save()"></div>
   <div class="prow"><div class="pl"><div class="pt">시험 날짜</div><div class="pd">D-day와 하루 추천량 계산에 써요</div></div><input class="ntxt" style="width:170px" type="date" value="${esc(S.exam)}" onchange="S.exam=this.value||S.exam;save();render(true)"></div>
-  <div class="prow"><div class="pl"><div class="pt">목표 점수</div><div class="pd">합격선 90 · 안정권 110~120</div></div><button class="chip on" onclick="targetEdit()">${S.target}점 ✎</button></div></div>
+  <div class="prow"><div class="pl"><div class="pt">목표 시험</div><div class="pd">합격선·예상 점수가 이 급 기준으로 바뀌어요</div></div><div class="chips">${[5, 4].map(k => `<button class="chip ${S.examLv === k ? 'on' : ''}" onclick="setExamLv(${k});syncReminders();render(true)">N${k}</button>`).join('')}</div></div>
+  <div class="prow"><div class="pl"><div class="pt">목표 점수</div><div class="pd">합격선 ${passLine()} · 안정권 ${passLine() + 20}~${passLine() + 30}</div></div><button class="chip on" onclick="targetEdit()">${S.target}점 ✎</button></div></div>
+  <div class="card"><div class="h3">🪜 학습 단계</div>
+  <div class="prow"><div class="pl"><div class="pt">단계</div><div class="pd">자동: 가나 → N5 → N4 (N5 단어·문법 70%가 되면 N4로)<br>지금: <b>${STAGE_KO[stage()]}</b></div></div><div class="chips">${[['', '자동'], ['n5', 'N5'], ['n4', 'N4']].map(([k, n]) => `<button class="chip ${(S.stageSet || '') === k ? 'on' : ''}" onclick="S.stageSet='${k}';save();render(true)">${n}</button>`).join('')}</div></div>
+  <div class="prow"><div class="pl"><div class="pt">독해·청해 처음부터</div><div class="pd">끄면 기초(N5 단어·문법 30%)가 쌓인 뒤 쉬운 것부터 나와요</div></div>${tg('rlEarly', S.set.rlEarly)}</div></div>
   <div class="card"><div class="h3">📅 하루 학습량</div>
   <div class="prow"><div class="pl"><div class="pt">새 단어</div><div class="pd">${planHint()}</div></div>${stepper('plan.v', 5, 80, 5)}</div>
   <div class="prow"><div class="pl"><div class="pt">새 문법</div></div>${stepper('plan.g', 0, 8, 1)}</div>
@@ -277,7 +281,7 @@ function timeSel(k) {
 }
 function planHint() {
   const left = Math.max(1, daysLeft() - 7);
-  const remain = VOC.filter(v => !S.it[v.key]).length;
+  const remain = VOC.filter(v => !S.it[v.key] && (S.examLv === 4 || v.lv === 5)).length;
   return `남은 단어 ${remain}개 ÷ ${left}일 → 하루 ${Math.ceil(remain / left)}개면 시험 1주 전 완료`;
 }
 function exportBackup() {
