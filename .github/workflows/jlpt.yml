@@ -1,0 +1,61 @@
+name: 공부해 N4 APK 만들기
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'jlpt-n4/**'
+      - '.github/workflows/jlpt.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 서명키 확인
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_PASSWORD" ]; then
+            echo "::error::KEYSTORE_PASSWORD 시크릿이 없어요."
+            exit 1
+          fi
+          openssl enc -d -aes-256-cbc -pbkdf2 -in app/release.keystore.enc -out jlpt-n4/app/release.keystore -pass env:KEYSTORE_PASSWORD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: 안드로이드 SDK 확인
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: 데이터 검사
+        run: python3 jlpt-n4/tools/build.py --check
+      - name: 글꼴 내려받기
+        run: |
+          mkdir -p jlpt-n4/app/src/main/assets/fonts
+          curl -fsSL -o jlpt-n4/app/src/main/assets/fonts/Jua-Regular.ttf "https://github.com/google/fonts/raw/main/ofl/jua/Jua-Regular.ttf" || echo "Jua 글꼴을 받지 못했어요"
+          curl -fsSL -o jlpt-n4/app/src/main/assets/fonts/Fredoka.ttf "https://github.com/google/fonts/raw/main/ofl/fredoka/Fredoka%5Bwdth,wght%5D.ttf" || echo "Fredoka 글꼴을 받지 못했어요"
+      - name: APK 빌드
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: gradle -p jlpt-n4 assembleRelease --no-daemon --stacktrace
+      - name: 릴리스에 올리기 (항상 같은 주소)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp jlpt-n4/app/build/outputs/apk/release/app-release.apk gongbuhae-n4.apk
+          rm -f jlpt-n4/app/release.keystore
+          gh release delete jlpt-n4 --repo "${{ github.repository }}" --yes --cleanup-tag || true
+          sleep 3
+          gh release create jlpt-n4 gongbuhae-n4.apk \
+            --repo "${{ github.repository }}" \
+            --target "${{ github.sha }}" \
+            --latest=false \
+            --title "공!부!해! N4 (JLPT N4 합격용) v1.0.${{ github.run_number }}" \
+            --notes "gongbuhae-n4.apk 를 눌러 내려받아 설치하세요. (안드로이드 휴대폰) · 이전 버전 위에 그대로 설치하면 기록이 유지돼요."

@@ -3,6 +3,9 @@ name: 공부해 APK 만들기
 on:
   push:
     branches: [ main ]
+    paths-ignore:
+      - 'jlpt-n4/**'
+      - '.github/workflows/jlpt.yml'
   workflow_dispatch:
 
 permissions:
