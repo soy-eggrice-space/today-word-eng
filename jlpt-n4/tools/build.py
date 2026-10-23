@@ -262,6 +262,11 @@ if __name__ == '__main__':
             errs.append(f"{b['_w']}: hatsuwa incomplete")
         if b['type'] == 'sokuji' and (not b['a'] or len(b['lines']) != 1):
             errs.append(f"{b['_w']}: sokuji incomplete")
+    seen_id = {}
+    for b in bun + rd + ls:
+        if b['id'] in seen_id:
+            errs.append(f"{b['_w']}: duplicate id {b['id']} (first {seen_id[b['id']]})")
+        seen_id[b['id']] = b['_w']
     for b in bun:
         nums = re.findall('（([１２３４５])）', ''.join(b['t']))
         if len(nums) != len(b['q']):
