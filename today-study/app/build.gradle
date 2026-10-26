@@ -14,8 +14,9 @@ android {
         applicationId 'com.dayeon.today'
         minSdk 26
         targetSdk 34
-        versionCode runNumber
-        versionName "1.0.${runNumber}"
+        // 예전 저장소(jeeeeh/today-study, v1.0.9까지)보다 번호가 커야 덮어쓰기 업데이트가 돼요
+        versionCode runNumber + 100
+        versionName "2.0.${runNumber}"
     }
 
     // 항상 같은 서명키로 빌드해야 덮어쓰기 설치(업데이트) 때 기록이 지워지지 않아요.

@@ -60,5 +60,5 @@ jobs:
             --repo "${{ github.repository }}" \
             --target "${{ github.sha }}" \
             --latest=false \
-            --title "오늘공부 v1.0.${{ github.run_number }}" \
+            --title "오늘공부 v2.0.${{ github.run_number }}" \
             --notes "태블릿: today-study.apk · 휴대폰: today-study_for_mobile_ver1.0.apk 를 눌러 내려받아 설치하세요. 예전 오늘공부와 같은 서명이라 지금 깔린 앱 위에 그대로 설치하면 기록이 유지돼요."
