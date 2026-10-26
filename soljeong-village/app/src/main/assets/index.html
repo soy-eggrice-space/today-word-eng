@@ -426,6 +426,7 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-we
 .lvchip{background:var(--c,#fff);border:2.5px solid var(--ink);border-radius:999px;padding:4px 14px;font-size:18px;box-shadow:0 3px 0 var(--ink)}
 .lvchip b{font-family:Fredoka,Jua,sans-serif;font-size:22px;margin:0 2px}.lvchip small{font-size:13px}
 .lvchip.fire{background:#FFE3D1}
+.lvstar small{font-size:.75em;opacity:.8}
 .story{font-size:22px;line-height:1.6;background:#FFFDF4;border:2.5px solid var(--ink);border-radius:18px;padding:12px 16px;text-align:left;max-width:640px}
 .prep{display:inline-flex;align-items:center;gap:2px;font-size:44px;line-height:1}
 .prep.col{flex-direction:column;gap:0}
@@ -1025,24 +1026,30 @@ function rHome(){
   const p=P[who], t=p.today, all=SUBJ.every(s=>t[s.k]);
   app.innerHTML=topbar()+`<div class="choose">
     ${SUBJ.map(s=>`<button class="big press ${t[s.k]?'off':''}" style="--c:${s.c}" data-act="go" data-l="${s.k}" ${t[s.k]?'aria-disabled="true"':''}>
-      ${t[s.k]?'<span class="donebadge">✅ 오늘 끝!</span>':''}<div class="g ${s.k==='en'?'en':''}">${s.g}</div><div class="ic">${s.ic}</div><div class="l">${s.l}</div><div class="lvstar">⭐ ${lvOf(p,s.k)}단계</div>
-      <div class="lvprog" aria-label="다음 단계까지">${lvOf(p,s.k)>=MAXLV?'👑 최고 단계!':Array.from({length:5},(_,j)=>`<i class="${j<lvProg(p,s.k)?'on':''}"></i>`).join('')}</div></button>`).join('')}
+      ${t[s.k]?'<span class="donebadge">✅ 오늘 끝!</span>':''}<div class="g ${s.k==='en'?'en':''}">${s.g}</div><div class="ic">${s.ic}</div><div class="l">${s.l}</div><div class="lvstar">${STG[lvOf(p,s.k)][0]} ${lvOf(p,s.k)}단계 <small>${STG[lvOf(p,s.k)][1]}</small></div>
+      <div class="lvprog" aria-label="다음 단계까지">${lvOf(p,s.k)>=MAXST?'👑 최고 단계!':Array.from({length:UPN},(_,j)=>`<i class="${j<lvProg(p,s.k)?'on':''}"></i>`).join('')}</div></button>`).join('')}
     <button class="big press" style="--c:#CFB8FF" data-act="village"><div class="g">마을</div><div class="ic">🏡</div><div class="l">친구 ${p.friends.length}명</div></button>
-  </div><div class="lvbar">${SUBJ.map(s=>`<span class="lvchip" style="--c:${s.c}">${s.l} <b>${lvOf(p,s.k)}</b><small>/${MAXLV}단계</small></span>`).join('')}<span class="lvchip fire">🔥 <b>${pStreak(p)}</b>일 연속</span></div>
+  </div><div class="lvbar">${SUBJ.map(s=>`<span class="lvchip" style="--c:${s.c}">${s.l} <b>${lvOf(p,s.k)}</b><small>/${MAXST}단계</small></span>`).join('')}<span class="lvchip fire">🔥 <b>${pStreak(p)}</b>일 연속</span></div>
   ${(()=>{ const wr=wrOf(p), n=wr.items.length; if(!n) return ''; const seen=wr.items.every(x=>x.seen);
     return `<button class="wrbtn press ${seen?'seen':''}" data-act="review"><span class="wi">📝</span><span class="wt">오늘의 틀린 문제 <b>${n}</b>개</span><span class="wg">${seen?'✅ 다 봤어요':wr.star?'다시 보기':'보면 ⭐+1'}</span></button>`; })()}
-  <div class="hint">${all?`오늘 공부 다 했어! 내일 또 만나요 👋 마을에서 친구들이랑 놀 수 있어요`:`${p.call}, 뭐 할까? 큰 그림을 눌러 봐! 과목마다 하루에 한 번씩 할 수 있어요`}<br><small>⭐ 단계 아래 동그라미 5개를 모두 채우면 다음 단계로 올라가요</small></div>`;
+  <div class="hint">${all?`오늘 공부 다 했어! 내일 또 만나요 👋 마을에서 친구들이랑 놀 수 있어요`:`${p.call}, 뭐 할까? 큰 그림을 눌러 봐! 과목마다 하루에 한 번씩 할 수 있어요`}<br><small>단계 아래 동그라미 ${UPN}개를 모두 채우면 다음 단계로 올라가요 · 한 단계 오를 때마다 새로운 문제가 나와요</small></div>`;
   later(()=>say(all?`우와~ ${p.call}, 오늘 공부 다 했어요! 내일 또 만나요~!`:`${p.call}~ 안녕! 오늘은 뭐 할까요?`),250);
-  if(!p.seen20 && SUBJ.some(s=>lvOf(p,s.k)>=9)){ p.seen20=1; save();
+  if(p.v10new){ p.v10new=0; p.seen20=1; save();
     setTimeout(()=>{ if(view!=='home') return; const m=document.createElement('div'); m.className='modal';
-      m.innerHTML=`<div class="box"><div class="q">🎉 새 단계가 생겼어요!</div><div class="result" style="font-size:100px;line-height:1.1">🏫</div><div class="q" style="font-size:24px">이제 ${MAXLV}단계까지 있어요.<br>11단계부터는 초등학교 1~2학년 문제예요!</div><div class="acts"><button class="btn press" id="n20">좋아요! 💪</button></div></div>`;
-      document.body.appendChild(m); fanfare(); burst(40); say(`새 단계가 생겼어요! 이제 ${MAXLV}단계까지 있어요!`); m.querySelector('#n20').onclick=()=>m.remove(); },700); }
+      m.innerHTML=`<div class="box"><div class="q">🎉 단계가 새로워졌어요!</div><div style="font-size:30px;letter-spacing:2px;margin:6px 0">${STG.slice(1).map(x=>x[0]).join('')}</div>
+        <div class="q" style="font-size:22px">이제 10단계예요.<br>한 단계 오를 때마다 문제가 확 달라져요!<br>${SUBJ.map(x=>`${x.l} ${stName(lvOf(p,x.k))}`).join('<br>')}</div><div class="acts"><button class="btn press" id="n20">좋아요! 💪</button></div></div>`;
+      document.body.appendChild(m); fanfare(); burst(40); say('단계가 새로워졌어요! 이제 10단계예요. 한 단계 오를 때마다 문제가 확 달라져요!'); m.querySelector('#n20').onclick=()=>m.remove(); },700); }
 }
 
 /* =========================================================
    퀴즈 문제 만들기 — 과목마다 10단계 (5살 → 7살)
    ========================================================= */
-const MAXLV=20;
+const MAXLV=20;   /* 문제를 만드는 속 단계 (1~20) */
+/* 보이는 단계는 10개: 한 단계 = 속 단계 2개라서, 한 단계 오르면 문제가 확 달라져요 */
+const MAXST=10, UPN=4;   /* UPN: 한 번에 잘 푼 날이 이만큼 이어지면 다음 단계 */
+const STG=[null,['🥚','첫걸음'],['🐣','새싹'],['🌱','쑥쑥'],['🌼','꽃봉오리'],['🌳','튼튼 나무'],['⭐','반짝별'],['🌙','달님'],['☀️','해님'],['🌈','무지개'],['👑','왕관']];
+const stName=st=>`${STG[st][0]} ${st}단계 ${STG[st][1]}`;
+const stIL=st=>Math.min(MAXLV, 2*st-(Math.random()<.4?1:0));   /* 단계 → 속 단계 (높은 쪽이 조금 더 자주) */
 const NUMK=['','하나','둘','셋','넷','다섯','여섯','일곱','여덟','아홉','열'];
 const CNT=['','한','두','세','네','다섯','여섯','일곱','여덟','아홉','열'];
 const FRUIT=['🍎','🍓','🍌','🐟','⭐','🎈','🐥','🍩','🍪','🌸'];
@@ -1774,11 +1781,11 @@ function reviewNext(d){
   save(); fanfare(); burst(50); RV=null; view='home'; render(); later(()=>say(msg),300);
 }
 
-function roundSize(L){ return L<=3?5:L<=6?6:L<=10?7:8; }
+function roundSize(st){ return [5,5,5,6,6,7,7,8,8,8,8][st]||8; }
 function qxOf(p,k){ p.qx=p.qx||{ko:0,en:0,math:0}; return p.qx[k]||0; }
 function qCount(p,k){ return roundSize(lvOf(p,k))+qxOf(p,k); }
-/* 다음 단계까지: 한 번에 잘 푼 날이 5번 이어지면 올라가요 */
-function lvProg(p,k){ const h=(p.hist||{})[k]||[]; let n=0; for(let i=h.length-1;i>=0&&h[i]===1;i--) n++; return Math.min(5,n); }
+/* 다음 단계까지: 한 번에 잘 푼 날이 UPN번 이어지면 올라가요 */
+function lvProg(p,k){ const h=(p.hist||{})[k]||[]; let n=0; for(let i=h.length-1;i>=0&&h[i]===1;i--) n++; return Math.min(UPN,n); }
 /* ---------- 연속 학습 기념 마을 배경 ---------- */
 const BGS=[
   {id:'basic',ko:'우리 마을',need:0,ic:'🏡'},
@@ -1829,7 +1836,8 @@ function startQuiz(lang){
   view='quiz'; render();
 }
 /* 문제 하나 만들기 · noHear=true 면 소리를 들어야만 풀 수 있는 문제는 빼요 */
-function makeQ(lang,L,noHear){
+function makeQ(lang,ST,noHear){
+  const L=stIL(ST);
   const gen=(l)=>{ FRESH.last=null; let q=null;
     if(Math.random()<xRate(l)){ const t=xPick(lang,l); if(t){ try{ q=t.f(l,l<=2?3:4); }catch(e){ q=null; } } }
     if(!q) q=lang==='math'?mathQ(l):lang==='ko'?koQ(l):enQ(l);
@@ -1892,14 +1900,23 @@ function answer(k, el){
     hush(); if(it.replay && !it.replayed){ it.replayed=true; later(()=>speakQ(),700); }
   }
 }
-function lvOf(p,k){ p.lv=p.lv||{ko:1,en:1,math:1}; return p.lv[k]||1; }
-/* 단계 조절: 3일 연속 5문제 중 4개 이상 한 번에 맞히면 한 단계 위로, 2일 연속 2개 이하면 한 단계 아래로 */
+function lvOf(p,k){
+  p.lv=p.lv||{ko:1,en:1,math:1};
+  if(!p.v10){ p.v10=1; const had=['ko','en','math'].some(x=>(p.lv[x]||1)>1)||(p.log||[]).length>0;
+    ['ko','en','math'].forEach(x=>{ p.lv[x]=Math.max(1,Math.ceil((p.lv[x]||1)/2)); }); p.hist={ko:[],en:[],math:[]};
+    (p.log||[]).forEach(r=>{ if(r.lv) r.lv=Math.ceil(r.lv/2); }); if(had) p.v10new=1; }
+  return Math.max(1,Math.min(MAXST,p.lv[k]||1));
+}
+const stDesc=(x,st)=>`${LVDESC[x][2*st-1]} · ${LVDESC[x][2*st]}`;
+/* 단계 조절: 한 번에 80% 넘게 맞힌 날이 4번 이어지면 한 단계 위로, 40% 이하인 날이 2번 이어지면 한 단계 아래로 */
 function finishRound(){
   const p=P[who], k=Q.lang; p.today[k]=true;
   p.hist=p.hist||{ko:[],en:[],math:[]}; const n=Q.items.length, good=Q.first>=Math.ceil(n*.8)?1:0, h=p.hist[k]=(p.hist[k]||[]).concat(good).slice(-6);
   const L=lvOf(p,k); Q.lvUp=false; Q.lvDown=false;
-  if(L<MAXLV && h.length>=5 && h.slice(-5).every(x=>x===1)){ p.lv[k]=L+1; p.hist[k]=[]; Q.lvUp=true; }
-  else if(L>1 && Q.first<=Math.floor(n*.4)){ p.lv[k]=L-1; p.hist[k]=[]; Q.lvDown=true; }  /* 많이 틀리면 바로 한 단계 아래로 */
+  p.bad=p.bad||{};
+  if(L<MAXST && h.length>=UPN && h.slice(-UPN).every(x=>x===1)){ p.lv[k]=L+1; p.hist[k]=[]; p.bad[k]=0; Q.lvUp=true; }
+  else if(Q.first<=Math.floor(n*.4)){ p.bad[k]=(p.bad[k]||0)+1; if(L>1 && p.bad[k]>=2){ p.lv[k]=L-1; p.hist[k]=[]; p.bad[k]=0; Q.lvDown=true; } }
+  else p.bad[k]=0;
   p.log.unshift({d:Date.now(),s:k,n:Q.earned,f:Q.first,t:Q.items.length,lv:p.lv[k],ch:Q.lvUp?1:Q.lvDown?-1:0}); p.log=p.log.slice(0,300);
   p.best=Math.max(p.best||0,pStreak(p)); Q.newBgs=checkBgs(p); save();
 }
@@ -1907,14 +1924,14 @@ function rDone(){
   const p=P[who], s=SUBJ.find(x=>x.k===Q.lang);
   const left=SUBJ.filter(x=>!p.today[x.k]);
   app.innerHTML=topbar()+`<div class="done">${faceOf(who,150)}
-    <div class="row">${'⭐'.repeat(Q.earned)}</div><div class="t">${p.call}, 오늘 ${s.l} 끝!</div>${Q.lvUp?`<div class="lvup">🎉 ${s.l} ${p.lv[Q.lang]}단계로 올라갔어요!</div>`:''}
+    <div class="row">${'⭐'.repeat(Q.earned)}</div><div class="t">${p.call}, 오늘 ${s.l} 끝!</div>${Q.lvUp?`<div class="lvup">🎉 ${s.l} ${stName(p.lv[Q.lang])}로 올라갔어요!</div>`:''}
     <div class="hint" style="margin:0">${left.length?`남은 공부: ${left.map(x=>x.l).join(', ')}`:'오늘 공부를 모두 마쳤어요! 내일 또 만나요 👋'}</div>
     ${Q.items.some(x=>x.logged)?`<button class="btn rvbtn press" data-act="review" data-s="${Q.lang}">📝 틀린 문제 다시 보기 <b>${Q.items.filter(x=>x.logged).length}</b></button>`:`<div class="perfect">💯 한 번도 안 틀렸어요!</div>`}
     <div class="acts">${left.length?`<button class="btn press" data-act="home">다른 공부 하기</button>`:''}<button class="btn y press" data-act="village">마을 가기 🏡</button></div></div>`;
   fanfare(); burst(60);
   if(Q.lvUp || (Q.newBgs&&Q.newBgs.length)) setTimeout(()=>afterDone(s), 2600);
   const missN=Q.items.filter(x=>x.logged).length;
-  later(()=>say((Q.lvUp?`우와~ ${p.call}! 이제 ${s.l} ${p.lv[Q.lang]}단계예요! 정말 멋져요!`:`우와~ ${p.call}! 별을 ${Q.earned}개나 모았어요! 정말 멋져요!`)+(missN?' 틀린 문제를 한 번 보고 갈까요?':'')),400);
+  later(()=>say((Q.lvUp?`우와~ ${p.call}! 이제 ${s.l} ${p.lv[Q.lang]}단계, ${STG[p.lv[Q.lang]][1]} 단계예요! 새로운 문제가 나와요!`:`우와~ ${p.call}! 별을 ${Q.earned}개나 모았어요! 정말 멋져요!`)+(missN?' 틀린 문제를 한 번 보고 갈까요?':'')),400);
 }
 
 function afterDone(s){
@@ -1931,7 +1948,8 @@ function afterDone(s){
   Q.lvUp=false;
   const cur=qCount(p,k);
   const m=document.createElement('div'); m.className='modal';
-  m.innerHTML=`<div class="box"><div class="q">🎉 ${s.l} ${lvOf(p,k)}단계가 됐어요!<br>문제를 더 많이 풀어 볼까?</div><div class="ptxt" style="margin-top:8px">지금은 하루에 ${cur}문제씩 풀어요</div>
+  m.innerHTML=`<div class="box"><div class="q">🎉 ${s.l} ${stName(lvOf(p,k))}!</div><div class="result" style="font-size:96px;line-height:1.1">${STG[lvOf(p,k)][0]}</div>
+    <div class="ptxt sm" style="margin:4px 0 6px">✨ 이제 나오는 문제: ${stDesc(k,lvOf(p,k))}</div><div class="q" style="font-size:22px">문제를 더 많이 풀어 볼까?</div><div class="ptxt" style="margin-top:4px">지금은 하루에 ${cur}문제씩 풀어요</div>
     <div class="acts" style="flex-direction:column;align-items:stretch"><button class="btn press" data-qx="1">응! 1문제 더 (${cur+1}문제)</button><button class="btn press" data-qx="2">2문제 더 (${cur+2}문제)</button><button class="btn w press" data-qx="0">지금처럼 할래 (${cur}문제)</button></div></div>`;
   document.body.appendChild(m); say('새 단계가 됐어요! 문제를 더 많이 풀어 볼까요?');
   m.querySelectorAll('[data-qx]').forEach(b=>b.onclick=()=>{ const d=+b.dataset.qx; p.qx[k]=Math.min(6,qxOf(p,k)+d); save(); m.remove(); if(d){ boing(); toast(`이제 ${s.l}은 ${qCount(p,k)}문제씩 풀어요!`); } setTimeout(bgStep,300); });
@@ -2123,9 +2141,9 @@ function rReport(){
       const pct=tot?Math.round(ok/tot*100):null, ch=(recent[0]||{}).ch||0, L=lvOf(p,s);
       const tone=pct==null?'':pct>=80?'good':pct<50?'hard':'';
       return `<div class="rrow"><div class="rs">${SUBN[s]}</div>
-        <div class="rl"><b>${L}</b><small>/${MAXLV}단계</small>${ch>0?'<span class="up">▲</span>':ch<0?'<span class="dn">▼</span>':''}</div>
-        <div class="rbar"><i style="width:${L*100/MAXLV}%"></i></div>
-        <div class="rd">${LVDESC[s][L]}</div>
+        <div class="rl"><b>${STG[L][0]} ${L}</b><small>/${MAXST}단계</small>${ch>0?'<span class="up">▲</span>':ch<0?'<span class="dn">▼</span>':''}</div>
+        <div class="rbar"><i style="width:${L*100/MAXST}%"></i></div>
+        <div class="rd">${stDesc(s,L)}</div>
         <div class="rp ${tone}">${pct==null?'기록 없음':`정답률 ${pct}%`}</div>
         <div class="rt">${p.today[s]?'✅':'⬜'}</div></div>`;
     }).join('');
@@ -2160,11 +2178,11 @@ function parentTop(){
 function rParent(){
   const row=k=>{ const p=P[k], t=p.today, done=['ko','en','math'].filter(x=>t[x]).map(x=>({ko:'한글',en:'영어',math:'수학'})[x]);
     return `<div class="prow">${faceOf(k,80)}<div><div class="pt">${p.name}</div><div class="pd">⭐ 모은 별 ${p.stars} · 남은 별 ${wallet(p)} · 친구 ${p.friends.length} · 오늘 끝낸 공부: ${done.length?done.join(', '):'없음'}</div>
-      <div class="pd" style="margin-top:8px">단계 (최대 ${MAXLV}단계 · 11단계부터 초등 1~2학년 수준)</div>
+      <div class="pd" style="margin-top:8px">단계 (최대 ${MAXST}단계 · 6단계부터 초등 1~2학년 수준)</div>
       <div class="pa" style="margin:4px 0 0">${['ko','en','math'].map(x=>`<span class="lvctl"><button class="sbtn" data-p="lvdn" data-k="${k}" data-s="${x}" aria-label="단계 내리기">−</button><b>${({ko:'한글',en:'영어',math:'수학'})[x]} ${lvOf(p,x)}단계</b><button class="sbtn" data-p="lvup" data-k="${k}" data-s="${x}" aria-label="단계 올리기">＋</button></span>`).join('')}</div>
       <div class="pd" style="margin-top:8px">하루 문제 수</div>
       <div class="pa" style="margin:4px 0 0">${['ko','en','math'].map(x=>`<span class="lvctl"><button class="sbtn" data-p="qdn" data-k="${k}" data-s="${x}" aria-label="문제 줄이기">−</button><b>${({ko:'한글',en:'영어',math:'수학'})[x]} ${qCount(p,x)}문제</b><button class="sbtn" data-p="qup" data-k="${k}" data-s="${x}" aria-label="문제 늘리기">＋</button></span>`).join('')}</div>
-      <div class="pd" style="margin-top:6px">${['ko','en','math'].map(x=>`${({ko:'한글',en:'영어',math:'수학'})[x]}: ${LVDESC[x][lvOf(p,x)]}`).join('<br>')}</div></div>
+      <div class="pd" style="margin-top:6px">${['ko','en','math'].map(x=>`${({ko:'한글',en:'영어',math:'수학'})[x]}: ${stName(lvOf(p,x))} — ${stDesc(x,lvOf(p,x))}`).join('<br>')}</div></div>
       <div class="pa"><button class="sbtn c" data-p="photo" data-k="${k}">📷 사진</button><button class="sbtn" data-p="open" data-k="${k}">🔓 오늘 한 번 더</button>
       <button class="sbtn" data-p="minus" data-k="${k}">별 −5</button><button class="sbtn" data-p="plus" data-k="${k}">별 +5</button></div></div>`; };
   app.innerHTML=parentTop()+`
@@ -2181,7 +2199,7 @@ app.addEventListener('click',e=>{
   if(a==='tab'){ parentTab=b.dataset.t; rParent(); return; }
   if(a==='out'){ view='pick'; render(); }
   else if(a==='photo'){ photoFor=k; const inp=document.getElementById('photoInput'); inp.value=''; inp.click(); }
-  else if(a==='lvup'||a==='lvdn'){ const x=b.dataset.s; const v=lvOf(P[k],x)+(a==='lvup'?1:-1); P[k].lv[x]=Math.max(1,Math.min(MAXLV,v)); P[k].hist[x]=[]; save(); rParent(); }
+  else if(a==='lvup'||a==='lvdn'){ const x=b.dataset.s; const v=lvOf(P[k],x)+(a==='lvup'?1:-1); P[k].lv[x]=Math.max(1,Math.min(MAXST,v)); P[k].hist[x]=[]; save(); rParent(); }
   else if(a==='qup'||a==='qdn'){ const x=b.dataset.s, base=roundSize(lvOf(P[k],x)); P[k].qx[x]=Math.max(-2,Math.min(8,qxOf(P[k],x)+(a==='qup'?1:-1))); save(); rParent(); }
   else if(a==='open'){ P[k].today={ko:false,en:false,math:false}; save(); toast(`${P[k].name} 오늘 공부를 다시 열었어요`); rParent(); }
   else if(a==='plus'||a==='minus'){ P[k].stars=Math.max(0,P[k].stars+(a==='plus'?5:-5)); P[k].spent=Math.min(P[k].spent||0,P[k].stars); ensure(P[k]); save(); rParent(); }
@@ -2230,7 +2248,7 @@ window.appBack=function(){
   view='home'; render(); return true;
 };
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && (view==='home'||view==='pick')) render(); else if(document.visibilityState==='hidden') hush(); });
-if(location.hash==='#test') window.__sj={get Q(){return Q;},XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
+if(location.hash==='#test') window.__sj={get Q(){return Q;},STG,stIL,finishRound,roundSize,lvProg,XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
 render();
 })();
 </script>
