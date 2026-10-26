@@ -247,8 +247,8 @@ function settingsHTML() {
   <div class="prow"><div class="pl"><div class="pt">목표 시험</div><div class="pd">합격선·예상 점수가 이 급 기준으로 바뀌어요</div></div><div class="chips">${[5, 4].map(k => `<button class="chip ${S.examLv === k ? 'on' : ''}" onclick="setExamLv(${k});syncReminders();render(true)">N${k}</button>`).join('')}</div></div>
   <div class="prow"><div class="pl"><div class="pt">목표 점수</div><div class="pd">합격선 ${passLine()} · 안정권 ${passLine() + 20}~${passLine() + 30}</div></div><button class="chip on" onclick="targetEdit()">${S.target}점 ✎</button></div></div>
   <div class="card"><div class="h3">🪜 학습 단계</div>
-  <div class="prow"><div class="pl"><div class="pt">단계</div><div class="pd">자동: 가나 → N5 → N4 (N5 단어·문법 70%가 되면 N4로)<br>지금: <b>${STAGE_KO[stage()]}</b></div></div><div class="chips">${[['', '자동'], ['n5', 'N5'], ['n4', 'N4']].map(([k, n]) => `<button class="chip ${(S.stageSet || '') === k ? 'on' : ''}" onclick="S.stageSet='${k}';save();render(true)">${n}</button>`).join('')}</div></div>
-  <div class="prow"><div class="pl"><div class="pt">독해·청해 처음부터</div><div class="pd">끄면 기초(N5 단어·문법 30%)가 쌓인 뒤 쉬운 것부터 나와요</div></div>${tg('rlEarly', S.set.rlEarly)}</div></div>
+  <div class="prow"><div class="pl"><div class="pt">지금 단계</div><div class="pd">가나 → N5 단어 → N5 문법 → N5 독해·청해 → N4 단어 → N4 문법 → N4 실전<br>확인 시험을 통과하면 다음 단계가 열려요 · 지금: <b>${STAGE_IC[stage()]} ${STAGE_KO[stage()]}</b></div></div></div>
+  <div class="prow"><div class="pl"><div class="pt">모든 단계 미리 열기</div><div class="pd">추천하지 않아요. 켜면 문법·독해·청해·모의고사가 처음부터 다 나와요</div></div>${tg('rlEarly', S.set.rlEarly)}</div></div>
   <div class="card"><div class="h3">📅 하루 학습량</div>
   <div class="prow"><div class="pl"><div class="pt">새 단어</div><div class="pd">${planHint()}</div></div>${stepper('plan.v', 5, 80, 5)}</div>
   <div class="prow"><div class="pl"><div class="pt">새 문법</div></div>${stepper('plan.g', 0, 8, 1)}</div>

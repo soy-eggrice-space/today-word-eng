@@ -23,6 +23,9 @@ const TYPE = {
   hatsuwa: { ko: '발화 표현', jp: '発話表現', area: 'choukai', inst: '상황에 맞는 말을 1~3 중에서 고르세요.' },
   sokuji: { ko: '즉시 응답', jp: '即時応答', area: 'choukai', inst: '말을 듣고 알맞은 대답을 1~3 중에서 고르세요.' },
   kanji: { ko: '한자 뜻', jp: '漢字', area: 'kiso', inst: '이 한자의 뜻(훈음)은?' },
+  wyomi: { ko: '단어 읽기', jp: '読み', area: 'moji', inst: '이 단어는 어떻게 읽나요?' },
+  whyouki: { ko: '단어 한자 쓰기', jp: '表記', area: 'moji', inst: '이 단어를 한자로 쓰면?' },
+  kiki: { ko: '듣고 뜻 고르기', jp: '聞き取り', area: 'kiso', inst: '단어를 듣고 뜻을 고르세요.' },
   kana: { ko: '가나', jp: 'かな', area: 'kiso', inst: '' },
   conj: { ko: '활용 드릴', jp: '活用', area: 'kiso', inst: '' },
   counter: { ko: '조수사 읽기', jp: '助数詞', area: 'kiso', inst: '읽는 법으로 맞는 것은?' },
@@ -40,7 +43,7 @@ function defState() {
     plan: { v: 20, g: 2, rev: 100, r: 1, l: 3, kana: 15 },
     set: { furi: 'all', rate: 0.9, vib: true, mute: false, rlEarly: false, mockDay: null, mockTime: '20:00', notiMock: true, notiDaily: true, dailyTime: '21:00' },
     it: {}, area: { moji: { ft: 0, fc: 0, r: [] }, bunpou: { ft: 0, fc: 0, r: [] }, dokkai: { ft: 0, fc: 0, r: [] }, choukai: { ft: 0, fc: 0, r: [] } },
-    ty: {}, tg: {}, days: {}, mocks: [], pred: {}, streak: 0, lastDay: '', bad: {}, kana: {}, perfect: 0, setupDone: false, ach: { acc: { bow: 1 }, sp: {} },
+    ty: {}, tg: {}, days: {}, mocks: [], pred: {}, streak: 0, lastDay: '', bad: {}, kana: {}, perfect: 0, setupDone: false, ach: { acc: { bow: 1 }, sp: {} }, gate: {}, v2stage: 1,
   };
 }
 function loadState() {
@@ -51,9 +54,12 @@ function loadState() {
   try { s = raw ? JSON.parse(raw) : null; } catch (e) { s = null; }
   const d = defState();
   if (!s) return d;
+  const mig = !s.v2stage; // 예전 버전에서 넘어올 때: '독해·청해 미리 열기'와 수동 단계 설정을 꺼요
   for (const k in d) if (s[k] === undefined) s[k] = d[k];
   for (const k of ['plan', 'set', 'avatar']) s[k] = Object.assign({}, d[k], s[k]);
   AREAS.forEach(a => { if (!s.area[a]) s.area[a] = { ft: 0, fc: 0, r: [] }; });
+  if (!s.gate) s.gate = {};
+  if (mig) { s.v2stage = 1; s.set.rlEarly = false; s.stageSet = ''; }
   return s;
 }
 function save(now) {
@@ -213,9 +219,9 @@ function recordMulti(q, ok) { // 문단형(여러 문항이 하나의 아이템)
 }
 function dueKeys() {
   const td = today();
-  return Object.keys(S.it).filter(k => ITEM[k] && S.it[k].d <= td && !S.bad[k]).sort((a, b) => S.it[a].d - S.it[b].d || S.it[a].l - S.it[b].l);
+  return Object.keys(S.it).filter(k => ITEM[k] && S.it[k].d <= td && !S.bad[k] && allowedItem(ITEM[k])).sort((a, b) => S.it[a].d - S.it[b].d || S.it[a].l - S.it[b].l);
 }
-function wrongKeys() { return Object.keys(S.it).filter(k => ITEM[k] && S.it[k].wr && !S.bad[k]); }
+function wrongKeys() { return Object.keys(S.it).filter(k => ITEM[k] && S.it[k].wr && !S.bad[k] && allowedItem(ITEM[k])); }
 function mastered(list) { return list.filter(x => lvOf(x.key) >= MASTER).length; }
 function learned(list) { return list.filter(x => lvOf(x.key) >= 2).length; }
 function seen(list) { return list.filter(x => S.it[x.key]).length; }
@@ -225,35 +231,75 @@ function mLv(m) { return m.lv || 4; }
 function lastMock(lv) { for (let i = S.mocks.length - 1; i >= 0; i--) if (!lv || mLv(S.mocks[i]) === lv) return S.mocks[i]; return null; }
 function passLine(lv) { return (lv || S.examLv) === 5 ? 80 : 90; }
 
-/* ---------- 학습 단계: 가나 → N5 → N4 ---------- */
-const STAGE_KO = { kana: '가나', n5: 'N5 기초', n4: 'N4 실전' };
-function n5Prog() {
-  const v5 = VOC.filter(v => v.lv === 5), g5 = GRAM.filter(g => g.lv === 5);
-  return { vn: learned(v5), vt: v5.length, gn: learned(g5), gt: g5.length, v: learned(v5) / v5.length, g: learned(g5) / g5.length };
-}
-function n4Prog() {
-  const v4 = VOC.filter(v => v.lv === 4), g4 = GRAM.filter(g => g.lv === 4);
-  return { vn: learned(v4), vt: v4.length, gn: learned(g4), gt: g4.length };
-}
-const N4_GATE = .7, RL_GATE = .3; // N5 단어·문법 70% → N4 단계 / 30% → 독해·청해 시작
+/* ---------- 학습 단계: 한 단계를 끝내야 다음 단계가 열려요 ----------
+   가나 → N5 단어 → N5 문법 → N5 독해·청해 → N4 단어 → N4 문법 → N4 실전
+   · 단어 단계: 단어 하나만 보고 푸는 문제만 (문장·독해·청해 없음)
+   · 확인 시험을 통과해야 다음 단계가 열려요 (자신 있으면 언제든 도전) */
+const STAGES = ['kana', 'v5', 'g5', 'r5', 'v4', 'g4', 'r4'];
+const STAGE_KO = { kana: '가나', v5: 'N5 단어', g5: 'N5 문법', r5: 'N5 독해·청해', v4: 'N4 단어', g4: 'N4 문법', r4: 'N4 실전' };
+const STAGE_IC = { kana: '🔤', v5: '📗', g5: '🧩', r5: '📖', v4: '📘', g4: '🧠', r4: '🏆' };
+const GATE = { v5: { n: 40, pass: .85, lv: 5, kind: 'v' }, g5: { n: 20, pass: .8, lv: 5, kind: 'g' }, v4: { n: 40, pass: .85, lv: 4, kind: 'v' }, g4: { n: 20, pass: .8, lv: 4, kind: 'g' } };
+const READY_SEEN = .9, READY_LEARN = .7;   // 확인 시험 추천: 90% 이상 보고 70% 이상 외웠을 때
+function gates() { return S.gate || (S.gate = {}); }
 function stage() {
-  if (S.stageSet === 'n4' || S.stageSet === 'n5') return needKana() ? 'kana' : S.stageSet;
   if (needKana()) return 'kana';
-  const p = n5Prog();
-  return p.v >= N4_GATE && p.g >= N4_GATE ? 'n4' : 'n5';
+  const g = gates();
+  for (const s of ['v5', 'g5', 'r5', 'v4', 'g4']) if (!g[s]) return s;
+  return 'r4';
 }
-function rlOpen() {
-  if (S.set.rlEarly) return true;
-  const st = stage();
-  if (st === 'kana') return false;
-  if (st === 'n4') return true;
-  const p = n5Prog(); return p.v >= RL_GATE && p.g >= RL_GATE;
+function stageIdx() { return STAGES.indexOf(stage()); }
+function allOpen() { return !!S.set.rlEarly; }
+function isOpen(s) { return allOpen() || stageIdx() >= STAGES.indexOf(s); }
+function stageLv() { return stageIdx() <= 3 ? 5 : 4; }
+function progV(lv) { const L = VOC.filter(v => v.lv === lv && !S.bad[v.key]); return { t: L.length, seen: seen(L), learned: learned(L) }; }
+function progG(lv) { const L = GRAM.filter(g => g.lv === lv); return { t: L.length, seen: seen(L), learned: learned(L) }; }
+function gateProg(s) { const G = GATE[s]; return G.kind === 'v' ? progV(G.lv) : progG(G.lv); }
+function gateReady(s) { const p = gateProg(s); return p.seen >= p.t * READY_SEEN && p.learned >= p.t * READY_LEARN; }
+function rlPool(list, lvNeed) { return list.filter(x => (lvNeed === 5 ? x.lv === 5 : true) && !S.bad[x.key]); }
+function n5Passed() { return S.mocks.some(m => mLv(m) === 5 && m.pass); }
+function n4Passed() { return S.mocks.some(m => mLv(m) === 4 && m.pass); }
+/* 지금 단계에서 다룰 수 있는 아이템인지 (복습·오답·연습 모두 이 기준) */
+function allowedItem(it) {
+  if (!it || allOpen()) return true;
+  const i = stageIdx();
+  switch (it.kind) {
+    case 'v': case 'k': return true;
+    case 'g': return it.lv === 5 ? i >= 2 : i >= 5;
+    case 'p': case 'u': return i >= 5;
+    case 'b': case 'r': case 'l': return it.lv === 5 ? i >= 3 : i >= 6;
+  }
+  return true;
 }
-function stageLv() { return stage() === 'n4' ? 4 : 5; } // 지금 단계에 맞는 모의고사 급
+/* 단어만 보고 푸는 문제로만 낼지 (문법을 배우기 전엔 문장 문제를 안 내요) */
+function wordOnlyFor(v) { if (allOpen()) return false; const i = stageIdx(); return i < 2 || (v.lv === 4 && i < 5); }
 /* 지금 단계에 맞는 것만 (이미 공부한 것은 그대로 복습) */
-function stageVoc(list) { return stage() === 'n4' ? list : list.filter(x => x.lv === 5 || S.it[x.key]); }
+function stageVoc(list) { return stageIdx() >= 4 ? list : list.filter(x => x.lv === 5 || S.it[x.key]); }
 function easyFirst(list) { return list.slice().sort((a, b) => (a.d || 0) - (b.d || 0)); }
+/* 확인 시험 */
+function gateIntro(s) {
+  const G = GATE[s], p = gateProg(s), ready = gateReady(s), nm = G.kind === 'v' ? '단어' : '문법', nx = STAGES[STAGES.indexOf(s) + 1];
+  modal(`<div class="mt">✅ N${G.lv} ${nm} 확인 시험</div>
+  <div class="md">N${G.lv} ${nm} 전체에서 <b>${G.n}문제</b>를 골라 내요. <b>${Math.round(G.pass * 100)}% 이상</b> 맞히면 <b>${STAGE_IC[nx]} ${STAGE_KO[nx]}</b> 단계가 열려요.<br>
+  ${ready ? '지금 준비가 충분해 보여요. 화이팅! 💪' : `아직 본 ${nm} ${p.seen}/${p.t} · 외운 ${nm} ${p.learned}/${p.t}이에요. 이미 알고 있다면 도전해도 좋아요 (떨어져도 괜찮아요, 틀린 건 복습에 들어가요).`}</div>
+  <div class="acts"><button class="btn w" onclick="closeModal()">나중에</button><button class="btn" onclick="closeModal();startGate('${s}')">시험 보기 ▶</button></div>`);
+}
+function startGate(s) {
+  const G = GATE[s], steps = [];
+  if (G.kind === 'v') sample(VOC.filter(v => v.lv === G.lv && !S.bad[v.key]), G.n).forEach(v => steps.push({ kind: 'make', make: () => qWordAny(v) }));
+  else sample(GRAM.filter(g => g.lv === G.lv), G.n).forEach(g => steps.push({ kind: 'make', make: () => qGramAuto(g, true) }));
+  startSession(steps, { gate: s, exam: true, noRequeue: true });
+  setTimeout(() => { const st = curStep(); if (st) { const q = buildStep(st); render(); if (q && q.listen && !(S.set.mute || SES.mute)) playQ(); } }, 350);
+}
+function gateResultHTML() {
+  const s = SES.opt.gate, G = GATE[s]; if (!s) return '';
+  const pct = SES.n ? SES.ok / SES.n : 0, nx = STAGES[STAGES.indexOf(s) + 1], nm = G.kind === 'v' ? '단어' : '문법';
+  if (!SES.gateDone) { SES.gateDone = 1; if (pct >= G.pass && SES.n >= G.n * .8) { gates()[s] = 1; SES.gatePass = 1; save(true); setTimeout(() => burst(60), 300); } }
+  return SES.gatePass
+    ? `<div class="card" style="background:#E4F3EA;margin-bottom:14px"><div class="h3">🎉 N${G.lv} ${nm} 확인 시험 통과!</div><div class="sub">${Math.round(pct * 100)}% 맞혔어요. 이제 <b>${STAGE_IC[nx]} ${STAGE_KO[nx]}</b> 단계가 열렸어요.${G.kind === 'v' ? ' 단어 복습은 계속 함께 나와요.' : ''}</div></div>`
+    : `<div class="card" style="background:#FBEFCB;margin-bottom:14px"><div class="h3">조금만 더! (${Math.round(pct * 100)}% / 필요 ${Math.round(G.pass * 100)}%)</div><div class="sub">틀린 ${nm}은 복습에 넣어 뒀어요. 며칠 더 복습하고 다시 도전해요. 시험은 언제든 다시 볼 수 있어요.</div></div>`;
+}
 function coverage(a) {
+
   const V = S.examLv === 5 ? VOC.filter(v => v.lv === 5) : VOC, G = S.examLv === 5 ? GRAM.filter(g => g.lv === 5) : GRAM;
   const cv = learned(V) / V.length, cg = learned(G) / G.length;
   if (a === 'moji') return cv; if (a === 'bunpou') return cg;
@@ -293,10 +339,24 @@ function passInfo(lk, ls, lv) { const total = lk + ls; return { total, pass: tot
 
 /* ---------- 문제 만들기 ---------- */
 const VOC_Q_TYPES = ['yomi', 'hyouki', 'bunmyaku'];
+function exBlock(v) {
+  const ex = `<div class="ex">${sentHTML(v.ex, 'all', 'u')}</div><div class="tr">${esc(v.tr)}</div>`;
+  return wordOnlyFor(v) ? `<details class="exd"><summary>예문 보기 (문법 단계부터 본격적으로 나와요)</summary>${ex}</details>` : ex;
+}
 function vocabFB(v) {
-  return `<div class="row"><div class="jw">${rubyHTML(v.disp, 'all')}</div><button class="iconbtn" onclick="TTS.say('${esc(k2h(v.r))}')">🔊</button></div>
-  <div class="ko">${esc(v.m)} <span class="tag">N${v.lv}</span> <span class="tag k">${esc(POS_KO[v.p] || '')}</span></div>
-  <div class="ex">${sentHTML(v.ex, 'all', 'u')}</div><div class="tr">${esc(v.tr)}</div>`;
+  return `<div class="row"><div class="jw">${rubyHTML(v.disp, 'all')}</div><div class="jr">${esc(k2h(v.r))}</div><span class="sp"></span><button class="iconbtn" onclick="TTS.say('${esc(k2h(v.r))}')">🔊</button></div>
+  <div class="ko">${esc(v.m)} <span class="tag">N${v.lv}</span> <span class="tag k">${esc(POS_KO[v.p] || '')}</span></div>${exBlock(v)}`;
+}
+/* 단어 하나만 보고 푸는 문제 (단어 단계용) */
+function meaningWrongs(v) {
+  const g = VGROUP(v.p), pool = shuffle(VOC.filter(x => x !== v && x.m !== v.m && (VGROUP(x.p) === g || Math.random() < .15))), wr = [];
+  for (const x of pool) { if (!wr.some(y => y.m === x.m) && surf(x.w) !== surf(v.w)) wr.push(x); if (wr.length === 3) break; }
+  return wr;
+}
+function qWordAny(v) {
+  const order = shuffle(['imi', 'imi2', 'kiki'].concat(v.hasK ? ['wyomi', 'wyomi'] : []));
+  for (const t of order) { const q = qVocab(v, t); if (q) return q; }
+  return qVocab(v, 'imi');
 }
 const POS_KO = { n: '명사', vs: '명사(する)', v5: '1그룹 동사', v1: '2그룹 동사', vk: '3그룹 동사(来る)', vsi: '3그룹 동사(する)', 'adj-i': 'い형용사', 'adj-na': 'な형용사', adv: '부사', conj: '접속사', pron: '대명사', ctr: '조수사', exp: '표현', int: '감탄사' };
 function qVocab(v, type) {
@@ -314,6 +374,40 @@ function qVocab(v, type) {
     return Object.assign(base, {
       type, html: `<div class="qbig" style="font-family:var(--fd);font-size:30px">${esc(v.m)}</div><div class="qsub">${esc(POS_KO[v.p] || '')}</div>`,
       opts: shuffle([{ h: rubyHTML(v.disp, 'all'), ok: 1 }].concat(wr.map(x => ({ h: rubyHTML(x.disp, 'all') })))),
+    });
+  }
+  if (type === 'kiki') {
+    const wr = meaningWrongs(v), rd = k2h(v.r);
+    return Object.assign(base, {
+      type, listen: true, audio: [{ t: rd, spk: 'N' }, { pause: 900 }, { t: rd, spk: 'N' }], ko: true,
+      html: `<div class="small">단어를 듣고 뜻을 고르세요 (두 번 읽어 줘요)</div>`,
+      muteHTML: () => `<div class="qbig">${rubyHTML(v.disp, 'all')}</div>`,
+      opts: shuffle([{ h: esc(v.m), ok: 1 }].concat(wr.map(x => ({ h: esc(x.m) })))),
+    });
+  }
+  if (type === 'wyomi') {
+    const w = v.w.replace('〜', '');
+    if (!KJ1.test(w)) return null;
+    const right = k2h(v.r).replace('〜', '');
+    const bad = new Set(VOC.filter(x => surf(x.w) === surf(v.w)).map(x => k2h(x.r)));
+    const L = right.length;
+    const others = shuffle(VOC.filter(x => x !== v && KJ1.test(x.w) && Math.abs(k2h(x.r).length - L) <= 1 && surf(x.w)[0] === surf(w)[0]).map(x => k2h(x.r)))
+      .concat(shuffle(VOC.filter(x => x !== v && KJ1.test(x.w) && x.p === v.p && Math.abs(k2h(x.r).length - L) <= 1).map(x => k2h(x.r))).slice(0, 30));
+    const ds = readingDistractors(right, bad, readMask(v.disp), others); if (!ds) return null;
+    return Object.assign(base, {
+      type, html: `<div class="qbig" style="font-size:52px">${esc(w)}</div><div class="qsub">${esc(v.m)}</div>`, sayFirst: null,
+      opts: shuffle([{ h: esc(right), ok: 1 }].concat(ds.map(([x, t]) => ({ h: esc(x), tag: 'kana:' + t })))), speak: right,
+    });
+  }
+  if (type === 'whyouki') {
+    const w = v.w.replace('〜', '');
+    if (!KJ1.test(w)) return null;
+    const rr = k2h(v.r);
+    const bad = new Set(VOC.filter(x => x !== v && k2h(x.r) === rr).map(x => surf(x.w)));
+    const ds = writingDistractors(w, bad); if (!ds) return null;
+    return Object.assign(base, {
+      type, html: `<div class="qbig" style="font-size:40px">${esc(rr)}</div><div class="qsub">${esc(v.m)}</div>`,
+      opts: shuffle([{ h: esc(w), ok: 1 }].concat(ds.map(x => ({ h: esc(x), tag: 'hyouki' })))), speak: rr,
     });
   }
   if (type === 'yomi') {
@@ -363,6 +457,11 @@ function qVocab(v, type) {
 function qVocabAuto(v, exam) {
   const lv = lvOf(v.key);
   let order;
+  if (wordOnlyFor(v)) { /* 단어 단계: 문장 없이 단어만 */
+    order = lv < 2 ? shuffle(['imi', 'imi', 'kiki', 'imi2']).concat(lv >= 1 ? ['wyomi'] : []) : shuffle(['wyomi', 'wyomi', 'whyouki', 'imi2', 'kiki', 'imi']);
+    for (const t of order) { const q = qVocab(v, t); if (q) return q; }
+    return qVocab(v, 'imi');
+  }
   if (!exam && lv < 2) order = shuffle(['imi', 'imi', 'yomi', 'imi2']);
   else order = shuffle(VOC_Q_TYPES).concat(['imi']);
   for (const t of order) { const q = qVocab(v, t); if (q) return q; }
@@ -585,15 +684,9 @@ function questionsFor(key, exam) {
 }
 
 /* ---------- 오늘의 학습 ---------- */
-// N5 단계: N5만 / N4 단계: 남은 N5와 N4를 번갈아 (N4가 늦게 시작되지 않게)
-function lvOrder(list) {
-  const a = list.filter(x => x.lv === 5), b = list.filter(x => x.lv !== 5);
-  if (stage() !== 'n4') return a.length ? a : b;
-  const out = []; for (let i = 0; i < Math.max(a.length, b.length); i++) { if (a[i]) out.push(a[i]); if (b[i]) out.push(b[i]); }
-  return out;
-}
-function newVocab(n) { return lvOrder(VOC.filter(v => !S.it[v.key] && !S.bad[v.key]).sort((a, b) => a.i - b.i)).slice(0, n); }
-function newGram(n) { return lvOrder(GRAM.filter(g => !S.it[g.key])).slice(0, n); }
+/* 새 단어: N5 단계엔 N5만, N4 단계엔 남은 N5 먼저 그다음 N4 / 새 문법: 문법 단계가 열린 급만 */
+function newVocab(n) { const lvs = stageIdx() >= 4 || allOpen() ? [5, 4] : [5]; const un = VOC.filter(v => !S.it[v.key] && !S.bad[v.key] && lvs.includes(v.lv)).sort((a, b) => b.lv - a.lv || a.i - b.i); return un.slice(0, n); }
+function newGram(n) { const i = stageIdx(), lvs = allOpen() ? [5, 4] : i >= 5 ? [5, 4] : i >= 2 ? [5] : []; return GRAM.filter(g => !S.it[g.key] && lvs.includes(g.lv)).sort((a, b) => b.lv - a.lv).slice(0, n); }
 function pickUnseen(list, n) { const un = list.filter(x => !S.it[x.key]); return (un.length ? un : shuffle(list)).slice(0, n); }
 function kanaMastery() {
   const keys = KANA_ALL.map(x => 'kana:h' + x[0]).concat(KANA_ALL.map(x => 'kana:k' + x[0]));
@@ -609,9 +702,11 @@ function effPlan() {
     if (S.kanaLv === 0 && km < .5) { P.v = Math.min(P.v, 5); P.g = 0; P.r = 0; P.l = 0; }
     else { P.v = Math.min(P.v, 10); P.g = Math.min(P.g, 1); P.r = Math.min(P.r, 1); P.l = Math.min(P.l, 1); }
   } else P.kana = 0;
-  // 기초가 쌓이기 전에는 독해·청해를 넣지 않아요 (쌓이면 쉬운 것부터)
-  if (!rlOpen()) { P.r = 0; P.l = 0; }
-  else if (stage() !== 'n4' && !S.set.rlEarly) { P.r = Math.min(P.r, 1); P.l = Math.min(P.l, 2); }
+  // 독해·청해는 독해·청해 단계(N5: 3단계, N4: 7단계)에서만
+  const st = stage();
+  if (!allOpen() && st !== 'r5' && st !== 'r4') { P.r = 0; P.l = 0; }
+  // 문법은 문법 단계가 열린 뒤에만
+  if (!allOpen() && stageIdx() < 2) P.g = 0;
   return P;
 }
 function todayLeft() {
@@ -644,8 +739,10 @@ function buildToday() {
   let ri = 0;
   core.forEach((st, i) => { steps.push(st); if (i % 3 === 2 && ri < due.length) steps.push({ kind: 'item', key: due[ri++], cnt: 'rv' }); });
   while (ri < due.length) steps.push({ kind: 'item', key: due[ri++], cnt: 'rv' });
-  pickUnseen(easyFirst(READ.filter(r => r.type === 'short').concat(BUN)), n.r).forEach(r => steps.push({ kind: 'item', key: r.key, cnt: 'nr' }));
-  pickUnseen(easyFirst(LIS), n.l).forEach(l => steps.push({ kind: 'item', key: l.key, cnt: 'nl' }));
+  const rlv = stageIdx() >= 6 || allOpen() ? 4 : 5;
+  const rp = rlPool(READ.concat(BUN), rlv), lp = rlPool(LIS, rlv);
+  pickUnseen(easyFirst(rp.filter(r => r.type === 'short' || r.type === 'bunshou')).concat(easyFirst(rp.filter(r => r.type === 'mid' || r.type === 'info'))), n.r).forEach(r => steps.push({ kind: 'item', key: r.key, cnt: 'nr' }));
+  pickUnseen(easyFirst(lp), n.l).forEach(l => steps.push({ kind: 'item', key: l.key, cnt: 'nl' }));
   return steps;
 }
 function todayRemainSteps() { const L = todayLeft(); return L.kana + L.v * 2 + L.g * 3 + L.rev + L.r * 3 + L.l; }
@@ -696,8 +793,8 @@ function flashHTML(v) {
   setTimeout(() => TTS.say(k2h(v.r)), 200);
   return `<div class="card flash"><div class="row" style="justify-content:space-between"><span class="tag">새 단어 · N${v.lv}</span><span class="tag k">${esc(POS_KO[v.p] || '')}</span></div>
   <div class="w">${rubyHTML(v.disp, 'all')}</div><div class="r">${esc(v.r)}</div><div class="m">${esc(v.m)}</div>
-  <div class="ex">${sentHTML(v.ex, 'all', 'u')}<div class="tr">${esc(v.tr)}</div></div>
-  <div class="acts"><button class="btn w" onclick="TTS.say('${esc(k2h(v.r))}')">🔊 단어</button><button class="btn w" onclick="TTS.say(speech(VBY['${esc(v.key)}'].ex))">🔊 예문</button></div></div>
+  ${exBlock(v)}
+  <div class="acts"><button class="btn w" onclick="TTS.say('${esc(k2h(v.r))}')">🔊 단어</button>${wordOnlyFor(v) ? '' : `<button class="btn w" onclick="TTS.say(speech(VBY['${esc(v.key)}'].ex))">🔊 예문</button>`}</div></div>
   <div class="acts"><button class="btn full" onclick="flashNext('${esc(v.key)}')">외웠어요! 다음 ▶</button></div>`;
 }
 function flashNext(key) {
@@ -840,7 +937,8 @@ function summaryHTML() {
   const after = predict().total, d = after - SES.before;
   const wr = SES.wrongs.filter(q => q.key && !q.noSrs && q.type !== 'kana');
   const wk = SES.wrongs.filter(q => q.type === 'kana').map(q => q.kanaKey.slice(6));
-  return `<div class="card result"><div class="big">${creature(S.avatar, {})}</div><div class="t">${pct >= 90 ? '최고예요! 🎉' : pct >= 70 ? '잘했어요! 💪' : pct >= 40 ? '좋아요, 조금씩 늘고 있어요' : '틀린 건 다 내 거 될 거예요!'}</div>
+  const gh = SES.opt.gate ? gateResultHTML() : '';
+  return gh + `<div class="card result"><div class="big">${creature(S.avatar, {})}</div><div class="t">${pct >= 90 ? '최고예요! 🎉' : pct >= 70 ? '잘했어요! 💪' : pct >= 40 ? '좋아요, 조금씩 늘고 있어요' : '틀린 건 다 내 거 될 거예요!'}</div>
   <div class="score">${SES.ok}<small> / ${SES.n}</small></div><div class="small">정답률 ${pct}% · ${Math.max(1, Math.round((Date.now() - SES.t0) / 60000))}분</div>
   <div class="row" style="justify-content:center;margin-top:10px;gap:6px"><span class="tag">예상 점수 ${after}점</span>${d ? `<span class="tag ${d > 0 ? 'm' : 'p'}">${d > 0 ? '▲' : '▼'} ${Math.abs(d)}</span>` : ''}</div></div>
   ${wr.length ? `<div class="card" style="margin-top:14px"><div class="h3">📒 틀린 문제 ${wr.length}개</div><div class="sub">오답 노트에 모아 뒀어요. 두 번 더 맞히면 빠져요.</div><div class="clist" style="margin-top:10px">${wr.slice(0, 15).map(wrongRow).join('')}</div></div>` : ''}
@@ -861,12 +959,19 @@ function wrongRow(q) {
 
 /* ---------- 연습 모드 ---------- */
 const PRACTICE = [
-  { g: '🔤 기초', items: [['kana_h', '히라가나', 'ひらがな'], ['kana_k', '가타카나', 'カタカナ'], ['imi', '단어 뜻', '単語'], ['kanji', '한자', '漢字'], ['conj', '동사 활용', '活用'], ['counter', '조수사·날짜', '助数詞']] },
+  { g: '🔤 기초 (단어 단계)', items: [['kana_h', '히라가나', 'ひらがな'], ['kana_k', '가타카나', 'カタカナ'], ['imi', '단어 뜻', '単語'], ['kiki', '듣고 뜻 고르기', '聞き取り'], ['wyomi', '단어 읽기', '読み'], ['kanji', '한자', '漢字'], ['counter', '조수사·날짜', '助数詞'], ['conj', '동사 활용', '活用']] },
   { g: '📝 문자·어휘', items: [['yomi', '한자 읽기', '漢字読み'], ['hyouki', '표기', '表記'], ['bunmyaku', '문맥 규정', '文脈規定'], ['para', '바꿔 말하기', '言い換え類義'], ['usage', '용법', '用法']] },
   { g: '🧩 문법', items: [['gram', '문법 형식', '文の文法1'], ['star', '문장 배열 ★', '文の文法2'], ['bunshou', '글의 문법', '文章の文法']] },
   { g: '📖 독해', items: [['short', '단문', '内容理解（短文）'], ['mid', '중문', '内容理解（中文）'], ['info', '정보 검색', '情報検索']] },
   { g: '🎧 청해', items: [['kadai', '과제 이해', '課題理解'], ['point', '포인트 이해', 'ポイント理解'], ['hatsuwa', '발화 표현', '発話表現'], ['sokuji', '즉시 응답', '即時応答']] },
 ];
+const PRACTICE_REQ = { conj: 'g5', yomi: 'g5', hyouki: 'g5', bunmyaku: 'g5', gram: 'g5', star: 'g5', para: 'g4', usage: 'g4', bunshou: 'r5', short: 'r5', mid: 'r5', info: 'r5', kadai: 'r5', point: 'r5', hatsuwa: 'r5', sokuji: 'r5' };
+function practiceOpen(t) { const r = PRACTICE_REQ[t]; return !r || isOpen(r); }
+function lockedInfo(t) {
+  const r = PRACTICE_REQ[t];
+  modal(`<div class="mt">🔒 아직 잠겨 있어요</div><div class="md">이 연습은 <b>${STAGE_IC[r]} ${STAGE_KO[r]}</b> 단계에서 열려요.<br>지금은 <b>${STAGE_IC[stage()]} ${STAGE_KO[stage()]}</b> 단계예요. 차근차근 하나씩 끝내면 순서대로 열려요.</div>
+  <div class="acts"><button class="btn" onclick="closeModal()">알겠어요</button></div>`);
+}
 function practiceStats(t) {
   const T = S.ty[t] || { c: 0, t: 0 };
   return T.t ? `정답률 ${Math.round(T.c / T.t * 100)}% · ${T.t}문제` : '아직 안 풀었어요';
@@ -884,6 +989,8 @@ function practiceSteps(t, n) {
   switch (t) {
     case 'kana_h': case 'kana_k': for (let i = 0; i < 20; i++) st.push(mk(() => qKana(i < 10 ? KANA_BASIC : KANA_ALL, t === 'kana_k', pick(['read', 'read', 'write', 'listen'])))); break;
     case 'imi': vPick(() => true, n).slice(0, n).forEach(v => st.push(mk(() => qVocab(v, pick(['imi', 'imi2']))))); break;
+    case 'kiki': vPick(() => true, n).slice(0, n).forEach(v => st.push(mk(() => qVocab(v, 'kiki')))); break;
+    case 'wyomi': { let c = 0; for (const v of vPick(v => KJ1.test(v.w), n * 2)) { const q = qVocab(v, 'wyomi'); if (q) { st.push({ kind: 'q', q }); if (++c >= n) break; } } break; }
     case 'kanji': pickUnseen(KAN, 0); shuffle(KAN.filter(k => !S.it[k.key] || S.it[k.key].d <= today())).slice(0, n).forEach(k => st.push({ kind: 'item', key: k.key })); break;
     case 'conj': { const keys = Object.keys(DRILL_FORMS); for (let i = 0; i < n; i++) { const k = VIEW && VIEW.form ? VIEW.form : pick(keys); st.push(mk(() => qConj(k))); } break; }
     case 'counter': for (let i = 0; i < n; i++) st.push(mk(qCounter)); break;
@@ -896,23 +1003,26 @@ function practiceSteps(t, n) {
     case 'usage': pickSrs(USE, n).forEach(x => st.push({ kind: 'q', q: qUsage(x) })); break;
     case 'gram': pickSrs(stageVoc(GRAM), n).forEach(g => st.push({ kind: 'q', q: qGram(g, rnd(g.q.length)) })); break;
     case 'star': pickSrs(stageVoc(GRAM).filter(g => g.s.length), n).forEach(g => st.push({ kind: 'q', q: qStar(g, rnd(g.s.length)) })); break;
-    case 'bunshou': pickSrs(BUN, 2).forEach(b => qBunshou(b).forEach(q => st.push({ kind: 'q', q }))); break;
-    case 'short': pickSrs(READ.filter(r => r.type === 'short'), 5).forEach(b => qRead(b).forEach(q => st.push({ kind: 'q', q }))); break;
-    case 'mid': pickSrs(READ.filter(r => r.type === 'mid'), 2).forEach(b => qRead(b).forEach(q => st.push({ kind: 'q', q }))); break;
-    case 'info': pickSrs(READ.filter(r => r.type === 'info'), 2).forEach(b => qRead(b).forEach(q => st.push({ kind: 'q', q }))); break;
-    case 'kadai': case 'point': case 'hatsuwa': case 'sokuji': pickSrs(LIS.filter(l => l.type === t), t === 'sokuji' ? 8 : 5).forEach(b => st.push({ kind: 'q', q: qListen(b) })); break;
+    case 'bunshou': pickSrs(lvFit(BUN), 2).forEach(b => qBunshou(b).forEach(q => st.push({ kind: 'q', q }))); break;
+    case 'short': pickSrs(lvFit(READ.filter(r => r.type === 'short')), 5).forEach(b => qRead(b).forEach(q => st.push({ kind: 'q', q }))); break;
+    case 'mid': pickSrs(lvFit(READ.filter(r => r.type === 'mid')), 2).forEach(b => qRead(b).forEach(q => st.push({ kind: 'q', q }))); break;
+    case 'info': pickSrs(lvFit(READ.filter(r => r.type === 'info')), 2).forEach(b => qRead(b).forEach(q => st.push({ kind: 'q', q }))); break;
+    case 'kadai': case 'point': case 'hatsuwa': case 'sokuji': pickSrs(lvFit(LIS.filter(l => l.type === t)), t === 'sokuji' ? 8 : 5).forEach(b => st.push({ kind: 'q', q: qListen(b) })); break;
   }
   return st;
 }
+/* N5 독해·청해 단계엔 N5 지문만 (이미 푼 건 복습) */
+function lvFit(list) { if (allOpen() || stageIdx() >= 6) return list; const f = list.filter(x => x.lv === 5 || S.it[x.key]); return f.length ? f : list.filter(x => x.lv === 5); }
 function pickSrs(list, n) {
   const ok = list.filter(x => !S.bad[x.key]);
   const due = ok.filter(x => S.it[x.key] && S.it[x.key].d <= today());
   let un = ok.filter(x => !S.it[x.key]);
-  if (stage() !== 'n4' && un.length && un[0].d != null) { un = easyFirst(un); const k = Math.max(n, Math.ceil(un.length * .4)); un = shuffle(un.slice(0, k)); } // 기초 단계엔 쉬운 것부터
+  if (stageIdx() < 6 && un.length && un[0].d != null) { un = easyFirst(un); const k = Math.max(n, Math.ceil(un.length * .4)); un = shuffle(un.slice(0, k)); } // 기초 단계엔 쉬운 것부터
   const rest = ok.filter(x => S.it[x.key] && S.it[x.key].d > today());
-  return shuffle(due).concat(un[0] && un[0].d != null && stage() !== 'n4' ? un : shuffle(un)).concat(shuffle(rest)).slice(0, n);
+  return shuffle(due).concat(un[0] && un[0].d != null && stageIdx() < 6 ? un : shuffle(un)).concat(shuffle(rest)).slice(0, n);
 }
 function startPractice(t) {
+  if (!practiceOpen(t)) { lockedInfo(t); return; }
   const st = practiceSteps(t);
   startSession(st, { practice: t, exam: true, noRequeue: ['kadai', 'point', 'hatsuwa', 'sokuji', 'short', 'mid', 'info', 'bunshou'].includes(t) });
   setTimeout(() => { const s = curStep(); if (s && s.q && s.q.listen && !S.set.mute) playQ(); else if (s && s.kind === 'make') { const q = buildStep(s); render(); if (q && q.audio) TTS.play(q.audio); } }, 450);
@@ -950,7 +1060,7 @@ function setupHTML() {
     <div class="sub" style="text-align:center">2026년 12월 시험: <b>12월 6일(일)</b></div>
     <div class="sub" style="text-align:center;margin-top:6px">어느 급을 볼 거예요?</div>
     <div class="chips" style="justify-content:center">${[[5, 'N5 (가장 쉬운 급)'], [4, 'N4']].map(([k, n]) => `<button class="chip ${S.examLv === k ? 'on' : ''}" onclick="S.name=($('#nm').value.trim()||S.name);S.exam=$('#exd').value||S.exam;setExamLv(${k});render()">${n}</button>`).join('')}</div>
-    <div class="sub" style="text-align:center">어느 급이든 공부는 <b>가나 → N5 → N4</b> 순서로 쉬운 것부터 해요</div>
+    <div class="sub" style="text-align:center">어느 급이든 <b>가나 → 단어 → 문법 → 독해·청해</b> 순서로, 한 단계를 끝내야 다음 단계가 열려요</div>
     <button class="btn full" onclick="S.name=($('#nm').value.trim()||'나');S.exam=$('#exd').value||S.exam;SETUP.step=2;save();render()">다음 ▶</button></div>`;
   if (st === 2) {
     const ops = [['🥚', '히라가나도 아직 몰라요', '가나부터 차근차근 시작해요'], ['🐣', '히라가나는 읽어요', '가타카나 연습을 함께 넣어 줄게요'], ['🐥', '가나는 다 읽어요', '바로 단어·문법으로 들어가요']];
@@ -967,15 +1077,15 @@ function setupHTML() {
     return `<div class="setup">${dots}<div class="hero"><div class="q">하루에 얼마나 공부할까요?</div><div class="sub">시험까지 <b>${left}일</b> 남았어요. 시험 1주 전까지 전 범위를 한 번 끝내는 속도를 추천해요.</div></div>
     <div class="card"><div class="prow"><div class="pl"><div class="pt">새 단어 / 하루</div><div class="pd">추천 ${rec}개</div></div>${stepper('plan.v', 5, 80, 5)}</div>
     <div class="prow"><div class="pl"><div class="pt">새 문법 / 하루</div><div class="pd">추천 ${recG}개</div></div>${stepper('plan.g', 1, 8, 1)}</div>
-    <div class="prow"><div class="pl"><div class="pt">청해 / 하루</div><div class="pd">기초가 쌓이면 쉬운 것부터 시작돼요</div></div>${stepper('plan.l', 0, 10, 1)}</div>
-    <div class="prow"><div class="pl"><div class="pt">독해 / 하루</div><div class="pd">기초가 쌓이면 쉬운 것부터 시작돼요</div></div>${stepper('plan.r', 0, 5, 1)}</div></div>
+    <div class="prow"><div class="pl"><div class="pt">청해 / 하루</div><div class="pd">독해·청해 단계부터 시작돼요</div></div>${stepper('plan.l', 0, 10, 1)}</div>
+    <div class="prow"><div class="pl"><div class="pt">독해 / 하루</div><div class="pd">독해·청해 단계부터 시작돼요</div></div>${stepper('plan.r', 0, 5, 1)}</div></div>
     ${S.kanaLv === 0 ? '<div class="sub" style="text-align:center;background:#FBEFCB;border-radius:12px;padding:8px">🔤 처음 며칠은 <b>가나 집중 기간</b>이에요. 가나를 익히면 이 양으로 자동으로 늘어나요.</div>' : ''}
-    <div class="sub" style="text-align:center">하루 분량은 10분짜리 라운드로 나눠서 풀어요 · 설정에서 바꿀 수 있어요<br>🪜 <b>가나 → N5 → N4</b> 순서로 쉬운 것부터 해요</div>
+    <div class="sub" style="text-align:center">하루 분량은 10분짜리 라운드로 나눠서 풀어요 · 설정에서 바꿀 수 있어요<br>🪜 처음엔 <b>단어 문제만</b> 나와요. 단어 확인 시험을 통과하면 문법, 그다음 독해·청해가 열려요</div>
     <button class="btn full" onclick="SETUP.step=4;save();render()">다음 ▶</button></div>`;
   }
   return `<div class="setup">${dots}<div class="hero"><div class="q">나만의 캐릭터를 골라요</div><div class="sub">합격에 가까워질수록 꾸미기 아이템이 열려요</div><div class="big mon" style="margin-top:6px">${creature(S.avatar)}</div></div>
     ${avatarEditor()}
-    <button class="btn full" onclick="finishSetup()">완료! 실력 진단하러 가기 ▶</button></div>`;
+    <button class="btn full" onclick="finishSetup()">완료! 시작하기 ▶</button></div>`;
 }
 function stepper(path, min, max, step) {
   const [a, b] = path.split('.'); const v = S[a][b];
@@ -993,14 +1103,13 @@ function finishSetup() {
   S.setupDone = true; save(true);
   askNotify(); syncReminders();
   TAB = 'home'; VIEW = null; STACK = [];
-  if (stage() === 'kana') { // 가나를 아직 못 읽으면 진단은 가나를 익힌 뒤에
-    render();
-    modal(`<div class="mt">🔤 가나부터 시작해요</div><div class="md">아직 가나를 못 읽으면 모의고사는 거의 다 '모르겠어요'가 돼요. 가나를 익히면 <b>N5 진단 모의고사</b>로 출발점을 기록할게요.</div>
-    <div class="lv" style="margin-top:12px"><button class="lvopt on" onclick="closeModal();startToday()"><span class="e">🔤</span><div><div class="n">가나 공부 시작 (추천)</div></div></button>
-    <button class="lvopt" onclick="closeModal();mockIntro('quick5',true)"><span class="e">📝</span><div><div class="n">그래도 지금 N5 진단 보기</div></div></button></div>`, { sticky: true });
-    return;
-  }
-  mockIntro(stageLv() === 5 ? 'quick5' : 'quick', true); // 맨 처음엔 바로 실력 진단 모의고사
+  render();
+  const kana = stage() === 'kana';
+  modal(`<div class="mt">🪜 이렇게 공부해요</div>
+  <div class="road">${STAGES.slice(0, S.examLv === 5 ? 4 : 7).map((x, i) => `<div class="rd ${x === stage() ? 'on' : ''}"><span>${STAGE_IC[x]}</span><b>${i + 1}. ${STAGE_KO[x]}</b></div>`).join('')}</div>
+  <div class="md">${kana ? '먼저 <b>가나</b>부터 익혀요.' : '처음엔 <b>N5 단어 문제만</b> 나와요.'} 한 단계를 끝내면 확인 시험을 보고, 통과하면 다음 단계가 열려요. 문법·독해·청해는 그 전엔 나오지 않아요.</div>
+  <div class="lv" style="margin-top:12px"><button class="lvopt on" onclick="closeModal();startToday()"><span class="e">${kana ? '🔤' : '📗'}</span><div><div class="n">${kana ? '가나 공부 시작' : '단어 공부 시작'} (추천)</div></div></button>
+  ${kana ? '' : `<button class="lvopt" onclick="closeModal();gateIntro('v5')"><span class="e">✅</span><div><div class="n">N5 단어를 이미 많이 알아요</div><div class="d">단어 확인 시험으로 바로 문법 단계로</div></div></button>`}</div>`, { sticky: true });
 }
 
 /* ---------- 화면: 홈 ---------- */
@@ -1025,7 +1134,8 @@ function homeHTML() {
   let alert = '';
   const pz = mockPausedInfo(), due = mockDueDays();
   if (pz) alert = `<div class="alert"><span class="e">⏸</span><div class="sp"><div class="h3">멈춘 모의고사가 있어요</div><div class="sub">${esc(pz.txt)}</div></div><button class="btn sm" onclick="mockResume()">이어서</button></div>`;
-  else if (stage() === 'kana') alert = `<div class="alert" style="background:#FBEFCB"><span class="e">🔤</span><div class="sp"><div class="h3">가나를 먼저 익혀요</div><div class="sub">가나를 다 익히면 ${lastMock(5) ? 'N5 단어·문법이 본격적으로 시작돼요' : 'N5 진단 모의고사로 출발점을 기록할게요'}. 독해·청해는 기초가 쌓인 뒤에 쉬운 것부터 나와요.</div></div></div>`;
+  else if (stage() === 'kana') alert = `<div class="alert" style="background:#FBEFCB"><span class="e">🔤</span><div class="sp"><div class="h3">가나를 먼저 익혀요</div><div class="sub">가나를 다 익히면 N5 단어 단계가 시작돼요. 문법·독해·청해는 단어를 다 익힌 뒤에 차례로 열려요.</div></div></div>`;
+  else if (stageIdx() < 3) alert = '';
   else if (!lastMock(stageLv())) alert = `<div class="card result" style="background:#FBEFCB"><div class="t">📍 ${m ? `N${stageLv()} 기준 출발점 기록하기` : '먼저 실력 진단 모의고사!'}</div><div class="sub">${stageLv() === 5 ? 'N5 수준(가장 쉬운 급) 모의고사로 지금 실력을 재요.' : 'N4 모의고사로 지금 실력을 재요.'} 이 점수가 성장 그래프의 출발점이 돼요. 모르는 문제는 '모르겠어요'를 누르면 돼요.</div><div class="acts"><button class="btn full" onclick="mockIntro('quick${stageLv() === 5 ? '5' : ''}',true)">N${stageLv()} 진단 모의고사 보기 ▶</button></div></div>`;
   else if (due >= 0) alert = `<div class="alert"><span class="e">🗓️</span><div class="sp"><div class="h3">${due === 0 ? '오늘은 정기 모의고사 날!' : `정기 모의고사가 ${due}일 밀렸어요`}</div><div class="sub">마지막 모의고사 후 ${mockDays}일 · 실력 변화를 확인해요</div></div><button class="btn sm" onclick="mockMenu()">보기</button></div>`;
   if (!hasJa()) alert += `<div class="alert" style="background:#E3ECF8"><span class="e">🔈</span><div class="sp"><div class="h3">일본어 음성이 없어요</div><div class="sub">청해를 하려면 일본어 음성을 설치해 주세요</div></div><button class="btn sm w" onclick="voiceGuide()">방법</button></div>`;
@@ -1036,7 +1146,7 @@ function homeHTML() {
   ${stageCardHTML()}
   <div class="card"><div class="row"><div class="h2">🎯 N${S.examLv} 합격까지</div><span class="sp"></span><button class="chip" onclick="targetEdit()">목표 ${S.target}점 ✎</button></div>
     <div class="gauge">${gaugeSVG(pct)}<div class="mid"><div class="pct">${pct}<small>%</small></div><div class="lbl">목표 달성도</div></div></div>
-    <div style="text-align:center;font-size:18px;margin-top:-6px">${!hasData() ? '아직 측정 전이에요 · 진단 모의고사를 보면 계산돼요' : pct >= 100 ? '🎉 목표 점수 도달! 유지만 하면 돼요' : `목표까지 <b class="num" style="font-size:24px">${100 - pct}%</b> 남았어요 <span class="small">(${Math.max(0, S.target - p.total)}점)</span>`}</div>
+    <div style="text-align:center;font-size:18px;margin-top:-6px">${!hasData() ? (stageIdx() < 3 ? '아직 측정 전이에요 · 독해·청해 단계에서 첫 모의고사를 보면 계산돼요' : '아직 측정 전이에요 · 진단 모의고사를 보면 계산돼요') : pct >= 100 ? '🎉 목표 점수 도달! 유지만 하면 돼요' : `목표까지 <b class="num" style="font-size:24px">${100 - pct}%</b> 남았어요 <span class="small">(${Math.max(0, S.target - p.total)}점)</span>`}</div>
     <div class="scoreline"><div class="track"></div><div class="fill" style="width:${me}%"></div><div class="mk" style="left:${pass90}%"><span>합격선 ${PL}</span></div><div class="mk t" style="left:${tg}%"><span>목표 ${S.target}</span></div><div class="me" style="left:${me}%">${p.total}</div></div>
     <div class="small" style="text-align:center;margin-top:14px">예상 점수 <b class="num" style="color:var(--ink);font-size:16px">${p.total}</b> / 180 ${p.sure ? '' : '· 문제를 더 풀면 정확해져요'}<br>(다 찍으면 약 ${CHANCE}점 → 0%, 목표 ${S.target}점 → 100%)</div>
     <div class="secs"><div class="sec"><div class="t">언어지식·독해</div><b>${p.lk}<small>/120</small></b><div class="bar"><i style="width:${lkp}%"></i></div><div class="ok" style="color:${p.lk >= 38 ? 'var(--ok)' : 'var(--no)'}">기준점 38 ${p.lk >= 38 ? '통과 ✓' : '미달'}</div></div>
@@ -1045,7 +1155,7 @@ function homeHTML() {
     <div class="sub" style="margin-top:8px">💡 ${esc(nextAdvice(p))}</div>
   </div>
   <div class="plan"><div class="row"><div class="h2">📅 오늘의 학습</div><span class="sp"></span>${st.done ? '<span class="tag m">완료 ✓</span>' : ''}</div>
-    <div class="row2">${st.L.kana ? `<div class="bx"><b>${st.L.kana}</b><span>가나</span></div>` : ''}<div class="bx"><b>${st.L.v}</b><span>새 단어</span></div><div class="bx"><b>${st.L.g}</b><span>새 문법</span></div><div class="bx"><b>${st.L.rev}</b><span>복습</span></div><div class="bx"><b>${rlOpen() ? st.L.r + st.L.l : '🔒'}</b><span>독해·청해</span></div></div>
+    <div class="row2">${st.L.kana ? `<div class="bx"><b>${st.L.kana}</b><span>가나</span></div>` : ''}<div class="bx"><b>${st.L.v}</b><span>새 단어</span></div><div class="bx"><b>${isOpen('g5') ? st.L.g : '🔒'}</b><span>새 문법</span></div><div class="bx"><b>${st.L.rev}</b><span>복습</span></div><div class="bx"><b>${isOpen('r5') ? st.L.r + st.L.l : '🔒'}</b><span>독해·청해</span></div></div>
     ${needKana() ? `<div class="small" style="margin-bottom:8px">🔤 가나 집중 기간 (완성도 ${Math.round(kanaMastery() * 100)}%) · 85%가 되면 단어·문법이 원래 양으로 늘어나요</div>` : ''}
     ${st.done ? '' : `<div class="small" style="margin-bottom:8px">남은 양: 약 ${st.rounds}라운드 (1라운드 ≈ 10분)</div>`}
     <button class="btn full" onclick="startToday()">${st.done ? '더 공부하기 ▶' : st.D.n ? '다음 라운드 ▶' : '오늘의 학습 시작 ▶'}</button>
@@ -1059,7 +1169,10 @@ function nextAdvice(p) {
   const e = p.e;
   const low = AREAS.slice().sort((a, b) => e[a] - e[b])[0];
   if (needKana()) return '먼저 가나를 확실히! 가나를 읽을 수 있어야 모든 문제가 풀려요.';
-  if (stage() === 'n5' && !rlOpen()) return '지금은 N5 단어·문법을 쌓는 시기예요. 기초가 쌓이면 독해·청해가 쉬운 것부터 열려요.';
+  const sg = stage();
+  if (sg === 'v5' || sg === 'v4') return `지금은 N${sg === 'v5' ? 5 : 4} 단어만 쌓는 시기예요. 매일 새 단어와 복습을 빠뜨리지 않는 게 전부예요.`;
+  if (sg === 'g5' || sg === 'g4') return `지금은 N${sg === 'g5' ? 5 : 4} 문법 단계예요. 문법 카드를 읽고 예문을 소리 내어 따라 해 보세요.`;
+  if (sg === 'r5' && !lastMock(5)) return 'N5 독해·청해 단계예요. 이제 N5 모의고사로 실력을 재 볼 수 있어요.';
   if (!lastMock(S.examLv)) return `N${S.examLv} 모의고사를 한 번 보면 예상 점수가 훨씬 정확해져요.`;
   if (p.ls < 22) return '청해가 기준점(19점) 근처예요. 매일 청해 3문제는 꼭 들어요.';
   if (p.lk < 45) return '언어지식 기준점(38점)을 넉넉히 넘기려면 단어·문법 복습을 빠뜨리지 마세요.';
@@ -1067,19 +1180,26 @@ function nextAdvice(p) {
   return tips[low];
 }
 function stageCardHTML() {
-  const st = stage(), p5 = n5Prog(), p4 = n4Prog(), pct = (a, b) => Math.round(a / Math.max(1, b) * 100);
-  const steps = [['kana', '🔤', '가나'], ['n5', '🐣', 'N5 기초'], ['n4', '🐥', 'N4 실전']];
-  const idx = steps.findIndex(x => x[0] === st);
-  const bar = (n, t, lab, gate) => `<div class="trow"><span>${lab}</span><div class="bar"><i style="width:${pct(n, t)}%"></i></div><b>${n}/${t}</b></div>${gate ? `<div class="small" style="margin:-2px 0 4px;text-align:right">${gate}</div>` : ''}`;
+  const st = stage(), idx = stageIdx(), last = S.examLv === 5 ? 3 : 6, pct = (a, b) => Math.round(a / Math.max(1, b) * 100);
+  const bar = (n, t, lab) => `<div class="trow"><span>${lab}</span><div class="bar"><i style="width:${pct(n, t)}%"></i></div><b>${n}/${t}</b></div>`;
+  const road = `<div class="road">${STAGES.slice(0, last + 1).map((x, i) => `<div class="rd ${i === idx ? 'on' : i < idx ? 'done' : ''}"><span>${i < idx ? '✓' : STAGE_IC[x]}</span><b>${STAGE_KO[x]}</b></div>`).join('')}</div>`;
   let body = '';
-  if (st === 'kana') body = `<div class="trow"><span>가나</span><div class="bar"><i style="width:${Math.round(kanaMastery() * 100)}%"></i></div><b>${Math.round(kanaMastery() * 100)}%</b></div><div class="sub">가나 85%가 되면 N5 단어·문법이 본격적으로 시작돼요.</div>`;
-  else if (st === 'n5') {
-    const g5 = Math.ceil(N4_GATE * p5.vt), gg = Math.ceil(N4_GATE * p5.gt);
-    body = bar(p5.vn, p5.vt, 'N5 단어', '') + bar(p5.gn, p5.gt, 'N5 문법', '') +
-      `<div class="sub">${rlOpen() ? '📖🎧 독해·청해가 열렸어요 (쉬운 것부터 하루 조금씩)' : `🔒 독해·청해는 N5 단어 ${Math.ceil(RL_GATE * p5.vt)}개 · 문법 ${Math.ceil(RL_GATE * p5.gt)}개를 익히면 쉬운 것부터 시작해요`}<br>🐥 N5 단어 ${g5}개 · 문법 ${gg}개를 익히면 N4 단계로 넘어가요</div>`;
-  } else body = bar(p4.vn, p4.vt, 'N4 단어', '') + bar(p4.gn, p4.gt, 'N4 문법', '') + `<div class="sub">N5를 지나 N4 단어·문법과 실전 독해·청해를 해요.</div>`;
-  return `<div class="card"><div class="row"><div class="h2">🪜 학습 단계</div><span class="sp"></span><span class="tag">${idx + 1}단계 · ${STAGE_KO[st]}</span></div>
-  <div class="row" style="gap:6px;margin:10px 0 8px">${steps.map((x, i) => `<span class="tag ${i === idx ? 'p' : i < idx ? 'm' : ''}" style="flex:1;text-align:center">${i < idx ? '✓' : x[1]} ${x[2]}</span>`).join('')}</div>${body}</div>`;
+  if (st === 'kana') body = `<div class="trow"><span>가나</span><div class="bar"><i style="width:${Math.round(kanaMastery() * 100)}%"></i></div><b>${Math.round(kanaMastery() * 100)}%</b></div><div class="sub">가나 85%가 되면 <b>N5 단어</b> 단계가 시작돼요.</div>`;
+  else if (GATE[st]) {
+    const G = GATE[st], p = gateProg(st), nm = G.kind === 'v' ? '단어' : '문법', ready = gateReady(st), nx = STAGES[idx + 1];
+    const daily = G.kind === 'v' ? S.plan.v : Math.max(1, S.plan.g), days = Math.ceil((p.t - p.seen) / Math.max(1, daily));
+    body = bar(p.seen, p.t, `본 ${nm}`) + bar(p.learned, p.t, `외운 ${nm}`) +
+      `<div class="sub">${p.seen < p.t ? `하루 ${daily}개씩이면 약 <b>${days}일</b> 뒤에 N${G.lv} ${nm}을 다 봐요. ` : ''}${nm} ${Math.round(READY_SEEN * 100)}% 이상 보고 ${Math.round(READY_LEARN * 100)}% 이상 외우면 확인 시험을 추천해요.<br>🔒 다음: <b>${STAGE_IC[nx]} ${STAGE_KO[nx]}</b> — 확인 시험(${G.n}문제 · ${Math.round(G.pass * 100)}%)을 통과하면 열려요</div>
+      <div class="acts" style="margin-top:8px">${ready ? `<button class="btn full" onclick="gateIntro('${st}')">✅ N${G.lv} ${nm} 확인 시험 보기</button>` : `<button class="btn sm w" onclick="gateIntro('${st}')">자신 있으면 지금 확인 시험 도전</button>`}</div>`;
+  } else {
+    const lv = st === 'r5' ? 5 : 4, rp = rlPool(READ.concat(BUN), lv), lp = rlPool(LIS, lv);
+    body = bar(seen(rp), rp.length, `N${lv} 독해`) + bar(seen(lp), lp.length, `N${lv} 청해`);
+    if (st === 'r5') body += n5Passed()
+      ? `<div class="sub">🎉 N5 모의고사 합격 점수가 나왔어요!${S.examLv === 5 ? ' 목표가 N5라면 지금처럼 실전 연습과 모의고사를 계속하면 돼요.' : ''}</div><div class="acts" style="margin-top:8px"><button class="btn ${S.examLv === 5 ? 'sm w' : 'full'}" onclick="gates().r5=1;save();toast('N4 단어 단계로 넘어갔어요 📘');render()">📘 N4 단어 단계로 가기</button></div>`
+      : `<div class="sub">이제 N5 모의고사를 볼 수 있어요. <b>N5 모의고사 합격 점수(80점+)</b>가 나오면 ${S.examLv === 5 ? '합격 준비 완료!' : 'N4 단어 단계로 넘어갈 수 있어요.'}</div><div class="acts" style="margin-top:8px"><button class="btn sm w" onclick="tab('mock')">📝 모의고사 보러 가기</button></div>`;
+    else body += `<div class="sub">N4 실전 단계예요. 독해·청해와 정기 모의고사로 합격 점수를 굳혀요.</div>`;
+  }
+  return `<div class="card"><div class="row"><div class="h2">🪜 학습 단계</div><span class="sp"></span><span class="tag p">${idx + 1}단계 · ${STAGE_KO[st]}</span></div>${road}${body}</div>`;
 }
 function targetEdit() {
   const PL = passLine(), ops = S.examLv === 5 ? [85, 90, 100, 110, 120, 130, 140] : [95, 100, 110, 120, 130, 140, 150];
@@ -1112,14 +1232,15 @@ function quizTabHTML() {
   return `<div class="top"><div class="h2">🧩 유형별 연습</div></div>
   <div class="stack">
   <div class="card"><div class="row"><div class="sp"><div class="h3">📒 오답 노트</div><div class="sub">틀린 문제 ${wr}개 · 복습할 것 ${due}개</div></div><button class="btn sm p" onclick="startWrong()">풀기</button></div>
-  <div class="acts"><button class="btn sm w" onclick="startSession(dueKeys().slice(0,40).map(k=>({kind:'item',key:k})),{exam:true})">🔁 복습만 하기</button><button class="btn sm w" onclick="startMix()">🎲 실전 섞어 풀기</button></div></div>
-  ${PRACTICE.map(g => `<div class="grp"><div class="gt">${g.g}</div><div class="tiles">${g.items.map(([t, ko, jp]) => `<button class="tile" onclick="startPractice('${t}')"><span class="nm">${ko}</span><span class="jn">${jp}</span><span class="st">${t.startsWith('kana') ? '완성도 ' + Math.round(kanaPart(t === 'kana_k') * 100) + '%' : practiceStats(t === 'kana_h' ? 'kana' : t)}</span></button>`).join('')}</div></div>`).join('')}
+  <div class="sub" style="margin-top:6px">🪜 지금 단계: <b>${STAGE_IC[stage()]} ${STAGE_KO[stage()]}</b> · 🔒 표시는 다음 단계에서 열려요</div>
+  <div class="acts"><button class="btn sm w" onclick="startSession(dueKeys().slice(0,40).map(k=>({kind:'item',key:k})),{exam:true})">🔁 복습만 하기</button>${isOpen('g5') ? `<button class="btn sm w" onclick="startMix()">🎲 실전 섞어 풀기</button>` : ''}</div></div>
+  ${PRACTICE.map(g => `<div class="grp"><div class="gt">${g.g}</div><div class="tiles">${g.items.map(([t, ko, jp]) => `<button class="tile ${practiceOpen(t) ? '' : 'lock'}" onclick="startPractice('${t}')"><span class="nm">${practiceOpen(t) ? '' : '🔒 '}${ko}</span><span class="jn">${jp}</span><span class="st">${t.startsWith('kana') ? '완성도 ' + Math.round(kanaPart(t === 'kana_k') * 100) + '%' : practiceStats(t === 'kana_h' ? 'kana' : t)}</span></button>`).join('')}</div></div>`).join('')}
   </div>`;
 }
 function kanaPart(kata) { const keys = KANA_ALL.map(x => 'kana:' + (kata ? 'k' : 'h') + x[0]); return keys.filter(k => (S.kana[k] || 0) >= 2).length / keys.length; }
 function startMix() {
   const st = [];
-  ['yomi', 'hyouki', 'bunmyaku', 'gram', 'gram', 'star', 'para', 'usage'].forEach(t => practiceSteps(t, 3).forEach(s => st.push(s)));
+  ['yomi', 'hyouki', 'bunmyaku', 'gram', 'gram', 'star', 'para', 'usage'].filter(practiceOpen).forEach(t => practiceSteps(t, 3).forEach(s => st.push(s)));
   startSession(shuffle(st).slice(0, 20), { exam: true });
 }
 
@@ -1173,7 +1294,7 @@ function syncReminders() {
   try {
     if (HAS && Android.setReminders) Android.setReminders(JSON.stringify({
       dailyOn: !!(S.setupDone && S.set.notiDaily), dailyTime: S.set.dailyTime || '21:00',
-      mockOn: !!(S.setupDone && S.set.notiMock), mockDay: S.mocks.length ? mockDayOf() : -1, mockTime: S.set.mockTime || '20:00',
+      mockOn: !!(S.setupDone && S.set.notiMock && stageIdx() >= 3), mockDay: S.mocks.length ? mockDayOf() : -1, mockTime: S.set.mockTime || '20:00',
       exam: S.exam, name: S.name || '',
     }));
   } catch (e) { }
@@ -1193,5 +1314,5 @@ function boot() {
   render();
   syncReminders();
   // 진단 모의고사를 아직 안 봤으면 앱을 열 때마다 먼저 보여 줘요 (가나 단계는 가나부터)
-  if (S.setupDone && !S.mocks.length && !mockPausedInfo() && stage() !== 'kana') mockIntro(stageLv() === 5 ? 'quick5' : 'quick', true);
+  if (S.setupDone && !lastMock(stageLv()) && !mockPausedInfo() && (stage() === 'r5' || stage() === 'r4')) mockIntro(stageLv() === 5 ? 'quick5' : 'quick', true);
 }

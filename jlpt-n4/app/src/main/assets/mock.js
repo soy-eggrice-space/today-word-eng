@@ -289,7 +289,7 @@ function mockResultHTML(idx) {
   <div class="sec"><div class="t">청해</div><b>${r.ls}<small>/60</small></b><div class="bar k"><i style="width:${r.ls / .6}%"></i></div><div class="ok" style="color:${r.ls >= 19 ? 'var(--ok)' : 'var(--no)'}">기준점 19 ${r.ls >= 19 ? '통과' : '미달'}</div></div></div>
   <div class="card"><div class="h3">영역별 정답률</div>${AREAS.map(a => `<div class="trow"><span>${AREA_KO[a]}</span><div class="bar"><i style="width:${accp(a)}%"></i></div><b>${r.sec[a][0]}/${r.sec[a][1]}</b></div>`).join('')}
   <div class="h3" style="margin-top:14px">유형별</div>${Object.entries(r.ty).map(([t, v]) => `<div class="trow"><span>${esc(TYPE[t].ko)}</span><div class="bar ${TYPE[t].area === 'choukai' ? 'k' : TYPE[t].area === 'dokkai' ? 'm' : TYPE[t].area === 'bunpou' ? 'l' : ''}"><i style="width:${v[1] ? v[0] / v[1] * 100 : 0}%"></i></div><b>${v[0]}/${v[1]}</b></div>`).join('')}</div>
-  ${RL === 5 && r.pass && stage() === 'n5' && idx === S.mocks.length - 1 ? `<div class="card" style="background:#E4F3EA"><div class="h3">🐥 N5 합격 점수예요!</div><div class="sub">N5 실력은 충분해요. N4 단계로 넘어가서 N4 단어·문법과 실전 독해·청해를 시작할까요?</div><div class="acts"><button class="btn" onclick="S.stageSet='n4';save();toast('N4 단계로 넘어갔어요 🐥');render()">N4 단계로 가기</button></div></div>` : ''}
+  ${RL === 5 && r.pass && stage() === 'r5' && idx === S.mocks.length - 1 ? `<div class="card" style="background:#E4F3EA"><div class="h3">🐥 N5 합격 점수예요!</div><div class="sub">N5 실력은 충분해요.${S.examLv === 5 ? ' 목표가 N5라면 이대로 실전 연습을 계속하면 돼요. N4도 준비하고 싶으면' : ''} N4 단어 단계로 넘어갈까요? (N4도 단어 → 문법 → 실전 순서예요)</div><div class="acts"><button class="btn" onclick="gates().r5=1;save();toast('N4 단어 단계로 넘어갔어요 📘');render()">📘 N4 단어 단계로 가기</button></div></div>` : ''}
   <div class="card"><div class="h3">💡 다음 일주일 공부 포인트</div><div class="sub">${mockAdvice(r)}</div></div>
   ${idx === S.mocks.length - 1 ? `<div class="card"><div class="h3">🗓️ ${r.base ? '매주 몇 요일에 모의고사를 볼까요?' : '다음 정기 모의고사'}</div><div class="sub">${nextMockDate() ? `다음: <b>${fmtMD(nextMockDate())}</b> · 오늘 틀린 개념은 그날까지 학습 계획에 먼저 나와요` : ''}</div>${mockScheduleHTML()}</div>` : ''}
   ${S.mocks.filter(x => mLv(x) === RL).length > 1 ? mockChartCard(RL) : ''}
@@ -381,9 +381,14 @@ function mockButtonsHTML() {
   <button class="lvopt" onclick="mockIntro('quick')"><span class="e">⚡</span><div><div class="n">N4 빠른</div><div class="d">절반 구성 · 약 45문항 · 60분</div></div></button></div>`;
   return cur === 5 ? b5 + b4 : b4 + b5;
 }
+let MOCK_FORCE = false;
 function mockTabHTML() {
   const m = lastMock(), nx = nextMockDate(), due = mockDueDays(), pz = mockPausedInfo();
   let head;
+  if (stageIdx() < 3 && !MOCK_FORCE) return `<div class="top"><div class="h2">📝 모의고사</div></div><div class="stack"><div class="card"><div class="h3">🔒 모의고사는 독해·청해 단계부터</div>
+    <div class="sub">지금은 <b>${STAGE_IC[stage()]} ${STAGE_KO[stage()]}</b> 단계예요. 모의고사에는 문법·독해·청해가 다 나와서, 지금 보면 대부분 처음 보는 문제예요.<br>단어 → 문법을 끝내고 <b>📖 N5 독해·청해</b> 단계가 되면 첫 모의고사로 출발점을 기록할게요.</div>
+    <div class="acts"><button class="btn sm w" onclick="MOCK_FORCE=true;render()">그래도 모의고사 보기</button></div></div>
+    ${S.mocks.length ? mockChartCard() : ''}</div>`;
   if (!m) head = `<div class="h3">📍 먼저 실력 진단부터!</div><div class="sub">지금 단계(${STAGE_KO[stage()]})에 맞는 <b>N${stageLv()} 모의고사</b>로 출발점을 기록해요. 이후 매주 한 번 보면 성장 그래프가 쌓여요.</div>`;
   else if (due >= 0) head = `<div class="h3">🗓️ ${due === 0 ? '오늘은 정기 모의고사 날!' : `정기 모의고사가 ${due}일 밀렸어요`}</div><div class="sub">일주일 동안 얼마나 늘었는지 확인해 봐요.</div>`;
   else head = `<div class="h3">다음 정기 모의고사: ${fmtMD(nx)}</div><div class="sub">그 전에도 원할 때 언제든 볼 수 있어요. 지금 단계에서는 <b>N${stageLv()} 모의고사</b>를 추천해요.</div>`;
