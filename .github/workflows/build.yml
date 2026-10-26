@@ -10,6 +10,14 @@ on:
       - '.github/workflows/word-village.yml'
       - 'today-study/**'
       - '.github/workflows/today-study.yml'
+      - 'dayeon-village/**'
+      - '.github/workflows/dayeon-village.yml'
+      - 'soljeong-village/**'
+      - '.github/workflows/soljeong-village.yml'
+      - 'today-words/**'
+      - '.github/workflows/today-words.yml'
+      - 'keys/**'
+      - 'README.md'
   workflow_dispatch:
 
 permissions:

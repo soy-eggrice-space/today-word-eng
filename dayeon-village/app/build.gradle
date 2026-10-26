@@ -1,0 +1,59 @@
+plugins {
+    id 'com.android.application'
+}
+
+def runNumber = (System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger()
+// 서명키는 암호화(keys/dayeon.keystore.enc)해서 두고, 빌드할 때 GitHub Secrets(KEYSTORE_PASSWORD)로 풀어 씁니다.
+def ksFile = file('dayeon.keystore')
+def ksPass = System.getenv('KEYSTORE_PASSWORD') ?: ''
+
+android {
+    namespace 'com.dayeon.words'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.dayeon.words'
+        minSdk 26
+        targetSdk 34
+        // 예전 저장소(jeeeeh)보다 번호가 커야 덮어쓰기 업데이트가 돼요
+        versionCode runNumber + 100
+        versionName "2.0.${runNumber}"
+    }
+
+    // 항상 같은 서명키로 빌드해야 덮어쓰기 설치(업데이트) 때 기록이 지워지지 않아요.
+    signingConfigs {
+        release {
+            storeFile ksFile
+            storePassword ksPass
+            keyAlias 'dayeon'
+            keyPassword ksPass
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (ksFile.exists()) signingConfig signingConfigs.release
+        }
+    }
+
+    // tablet = 기존 태블릿용(같은 앱 ID라 기존 설치 위에 업데이트) · mobile = 휴대폰 세로용(별도 앱)
+    flavorDimensions 'device'
+    productFlavors {
+        tablet {
+            dimension 'device'
+            manifestPlaceholders = [orient: 'unspecified']
+        }
+        mobile {
+            dimension 'device'
+            applicationIdSuffix '.mobile'
+            versionName '1.0'
+            manifestPlaceholders = [orient: 'portrait']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
