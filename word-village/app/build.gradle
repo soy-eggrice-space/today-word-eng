@@ -1,0 +1,56 @@
+plugins {
+    id 'com.android.application'
+}
+
+def runNumber = (System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger()
+// 서명키는 저장소에 올리지 않아요. 빌드할 때 GitHub Secrets(KEYSTORE_PASSWORD)로 암호화된 키를 풀어 씁니다.
+def ksFile = file('release.keystore')
+def ksPass = System.getenv('KEYSTORE_PASSWORD') ?: ''
+
+android {
+    namespace 'com.soyeggrice.wordvillage'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.soyeggrice.wordvillage'
+        minSdk 26
+        targetSdk 34
+        versionCode runNumber
+        versionName "1.0.${runNumber}"
+    }
+
+    signingConfigs {
+        release {
+            storeFile ksFile
+            storePassword ksPass
+            keyAlias 'gongbuhae'
+            keyPassword ksPass
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (ksFile.exists()) signingConfig signingConfigs.release
+        }
+    }
+
+    // tablet = 태블릿(가로·세로 자유) · mobile = 휴대폰 세로용(별도 앱)
+    flavorDimensions 'device'
+    productFlavors {
+        tablet {
+            dimension 'device'
+            manifestPlaceholders = [orient: 'unspecified']
+        }
+        mobile {
+            dimension 'device'
+            applicationIdSuffix '.mobile'
+            manifestPlaceholders = [orient: 'portrait']
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

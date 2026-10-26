@@ -6,6 +6,10 @@ on:
     paths-ignore:
       - 'jlpt-n4/**'
       - '.github/workflows/jlpt.yml'
+      - 'word-village/**'
+      - '.github/workflows/word-village.yml'
+      - 'today-study/**'
+      - '.github/workflows/today-study.yml'
   workflow_dispatch:
 
 permissions:
