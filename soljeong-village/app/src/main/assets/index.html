@@ -1497,6 +1497,163 @@ function mathQ2(L){
   return mixLv(L,T[L],x=>T[x]());
 }
 
+
+/* =========================================================
+   더 다양한 문제 — 단계마다 원래 문제와 섞어서 나와요 (min~max 단계)
+   ========================================================= */
+const W=(t,cls)=>`<span class="${cls||'word'}">${t}</span>`;
+const picW=(e,w)=>`<span style="display:flex;flex-direction:column;align-items:center;gap:2px"><span class="pic" style="font-size:clamp(46px,12vw,60px)">${e}</span><span class="word" style="font-size:clamp(19px,5vw,30px);white-space:nowrap">${w}</span></span>`;
+const pickOpts=(ok,wrongs,html)=>shuffle([ok,...wrongs]).map(x=>({ok:x===ok,html:html(x)}));
+const CHO19='ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ';
+const choOf=w=>[...w].map(ch=>{ const c=ch.charCodeAt(0)-0xAC00; return c>=0&&c<11172?CHO19[Math.floor(c/588)]:ch; }).join('');
+const XCOL=[['#FF7BAC','분홍'],['#4FA8E8','파랑'],['#4CC46A','초록'],['#FFB020','노랑']];
+const barsSVG=lens=>`<svg viewBox="0 0 250 ${lens.length*42+8}" style="width:min(250px,60vw);height:auto">${lens.map((l,i)=>`<rect x="6" y="${8+i*42}" width="${l*23}" height="30" rx="10" fill="${XCOL[i][0]}" ${st}/>`).join('')}</svg>`;
+const towersSVG=hs=>`<svg viewBox="0 0 ${hs.length*62+8} 200" style="width:min(${hs.length*62+8}px,60vw);height:auto"><line x1="0" y1="196" x2="${hs.length*62+8}" y2="196" stroke="#5A3E72" stroke-width="3"/>${hs.map((h,i)=>`<rect x="${10+i*62}" y="${194-h*20}" width="44" height="${h*20}" rx="8" fill="${XCOL[i][0]}" ${st}/>`).join('')}</svg>`;
+const colDot=c=>`<svg viewBox="0 0 100 100" width="84" height="84"><circle cx="50" cy="50" r="38" fill="${c}" ${st}/></svg>`;
+const DICE_P={1:[[50,50]],2:[[28,28],[72,72]],3:[[26,26],[50,50],[74,74]],4:[[28,28],[72,28],[28,72],[72,72]],5:[[26,26],[74,26],[50,50],[26,74],[74,74]],6:[[28,24],[72,24],[28,50],[72,50],[28,76],[72,76]]};
+const diceSVG=n=>`<svg viewBox="0 0 100 100" width="120" height="120"><rect x="6" y="6" width="88" height="88" rx="18" fill="#fff" ${st}/>${DICE_P[n].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="9" fill="#5A3E72"/>`).join('')}</svg>`;
+
+const K_COLOR=[['빨간색','#FF5C5C'],['파란색','#4FA8E8'],['노란색','#FFD93D'],['초록색','#4CC46A'],['분홍색','#FF8FC6'],['보라색','#A97BEA'],['주황색','#FF9A3C'],['검은색','#333333']];
+const K_BODY=[['눈','👀'],['코','👃'],['입','👄'],['귀','👂'],['손','✋'],['발','🦶'],['이','🦷'],['다리','🦵']];
+const K_FEEL=[['기뻐요','😄'],['슬퍼요','😢'],['화가 나요','😠'],['졸려요','😴'],['무서워요','😱'],['깜짝 놀랐어요','😲']];
+const K_PAIR=[['🪥','칫솔','치약','🧴'],['🥄','숟가락','젓가락','🥢'],['🧦','양말','신발','👟'],['✏️','연필','공책','📒'],['🌧️','비','우산','☂️'],['🔑','열쇠','자물쇠','🔒'],['🍳','프라이팬','달걀','🥚'],['⚽','공','골대','🥅'],['🐶','강아지','뼈다귀','🦴'],['🐰','토끼','당근','🥕'],['🐝','벌','꽃','🌼'],['🐵','원숭이','바나나','🍌']].filter(x=>!x[0].includes('🪥'));
+const K_PLACE=[['수영장','🏊','수영을 해요'],['도서관','📚','책을 빌려요'],['병원','🏥','아플 때 가요'],['빵집','🥐','빵을 사요'],['공원','🌳','산책을 해요'],['학교','🏫','공부를 해요'],['소방서','🚒','불을 꺼요'],['우체국','📮','편지를 보내요'],['동물원','🦁','동물을 구경해요'],['바닷가','🏖️','모래 놀이를 해요']];
+const K_SEASON=[['봄','🌸',['🌸','🦋','🌷']],['여름','🍉',['🍉','🏖️','🍦']],['가을','🍁',['🍁','🌰','🍂']],['겨울','⛄',['⛄','🧤','❄️']]];
+const K_SOUND=[['🐶','강아지','멍멍'],['🐱','고양이','야옹'],['🦆','오리','꽥꽥'],['🐷','돼지','꿀꿀'],['🐮','소','음매'],['🐥','병아리','삐약삐약'],['🐸','개구리','개굴개굴'],['🐑','양','매에']];
+const K_FILL=[['나는 ( )를 마셔요.','우유','🥛',['의자','버스','구름']],['토끼가 ( )을 먹어요.','당근','🥕',['신발','시계','기차']],['비가 와서 ( )을 써요.','우산','☂️',['사과','양말','책']],['( )으로 그림을 그려요.','크레파스','🖍️',['숟가락','베개','바지']],['추워서 ( )을 껴요.','장갑','🧤',['안경','포도','우유']],['( )를 타고 학교에 가요.','버스','🚌',['피자','모자','오이']],['( )로 머리를 빗어요.','빗','🪮',['컵','공','연필']].slice(0,0),['배가 고파서 ( )을 먹어요.','밥','🍚',['신발','책상','구름']],['잠이 와서 ( )에 누워요.','침대','🛏️',['냉장고','버스','가방']],['( )을 차고 놀아요.','공','⚽',['우유','시계','빵']]].filter(x=>x.length);
+const E_SOUND=[['🐮','cow','moo'],['🐶','dog','woof'],['🐱','cat','meow'],['🦆','duck','quack'],['🐷','pig','oink'],['🐑','sheep','baa'],['🐝','bee','buzz'],['🦁','lion','roar']];
+const E_RHYME=[['cat',['hat','bat','mat']],['dog',['log','frog','fog']],['sun',['run','bun','fun']],['bee',['tree','see','tea']],['cake',['lake','snake','bake']],['star',['car','jar','far']],['ball',['tall','wall','fall']],['king',['ring','sing','wing']],['boat',['goat','coat','note']],['bed',['red','ted','fed']]];
+const E_COLOR_OF=[['🍌','banana','yellow'],['🍎','apple','red'],['🐸','frog','green'],['🥕','carrot','orange'],['🍇','grapes','purple'],['🐳','whale','blue'],['🐷','pig','pink'],['🌰','chestnut','brown']];
+const E_CAT=[['animal',['🐶','🐱','🐰','🐻','🦁','🐘']],['fruit',['🍎','🍌','🍇','🍓','🍉','🍑']],['vehicle',['🚗','🚌','🚂','✈️','🚲','🚢']],['clothes',['👕','👖','👗','🧦','🧥','🧢']]];
+const E_FEEL_W=[['happy','😄'],['sad','😢'],['angry','😠'],['sleepy','😴'],['hungry','🤤'],['scared','😱']];
+const MSHAPE=[['🍕','세모'],['⚽','동그라미'],['🍪','동그라미'],['📦','네모'],['🚪','네모'],['🔺','세모'],['⭐','별'],['💖','하트'],['🍩','동그라미'],['📺','네모'],['🧀','세모']];
+const xEW=()=>EW.filter(w=>!w[0].includes(' ')&&w[0].length<=5);
+
+const XQ={ko:[
+  {min:1,max:5,f:(L,no)=>{ const w=pick(KW_MID)[0], ch=w[0], s=new Set([ch]); const sim={'바':'파마비','가':'카나거','다':'타라더','사':'자차서','고':'코구노','나':'다라너','마':'바파머','오':'우어호','자':'차사저','하':'아허호','기':'키지니','도':'토로두','우':'오유구','포':'보토푸','시':'지씨사','토':'도포투','비':'피미바','거':'커너고','치':'지키차','피':'비티파','모':'보노무','버':'퍼머바','의':'으이외','해':'헤하애','소':'조쇼수','개':'게가캐','새':'세사재','배':'베바패','코':'고쿄커','귀':'기구위','가지':''}[ch]||'아이우';
+      [...sim].forEach(c=>{ if(s.size<no) s.add(c); }); while(s.size<no) s.add(pick(KW)[0][0]);
+      return {ask:say1('똑같은 글자를 찾아볼까요?'),praise:say1(`${cheerK()} ${ch}!`),note:`'${ch}'와 똑같은 글자를 찾았어요. 비슷한 글자를 잘 구별해요`,prompt:`<div class="word big2">${ch}</div><div class="ptxt">똑같은 글자는?</div>${speakBtn}`,opts:pickOpts(ch,[...s].filter(x=>x!==ch),x=>W(x))}; }},
+  {min:1,max:12,f:(L,no)=>{ const [cn,items]=pick(CATG), ok=pick(items), others=pickN(CATG.filter(x=>x[0]!==cn).map(x=>pick(x[1])),no-1);
+      return {ask:say1(`${jo(cn,'을','를')} 찾아볼까요?`),praise:say1(`${cheerK()} ${ok[1]}${jo(ok[1],'은','는').slice(-1)} ${jo(cn,'이에요','예요')}!`),note:`${jo(ok[1],'은','는')} ${jo(cn,'이에요','예요')}`,
+        prompt:`<div class="ptxt">${jo(cn,'을','를')} 찾아 봐!</div>${speakBtn}`,opts:pickOpts(ok,others,x=>L>=4?picW(x[0],x[1]):`<span class="pic">${x[0]}</span>`)}; }},
+  {min:2,max:12,f:(L,no)=>{ const p=pick(K_PAIR), wr=pickN(K_PAIR.filter(x=>x!==p),no-1);
+      return {ask:say1(`${jo(p[1],'과','와')} 짝꿍인 것을 찾아볼까요?`),praise:say1(`${cheerK()} ${jo(p[1],'과','와')} ${p[2]}!`),note:`${jo(p[1],'과','와')} ${jo(p[2],'은','는')} 함께 쓰는 짝꿍이에요`,
+        prompt:`<span class="pic">${p[0]}</span><div class="ptxt">짝꿍은?</div>${speakBtn}`,opts:pickOpts(p,wr,x=>L>=4?picW(x[3],x[2]):`<span class="pic">${x[3]}</span>`)}; }},
+  {min:2,max:10,f:(L,no)=>{ const cs=pickN(K_COLOR,no), c=cs[0];
+      return {ask:say1('무슨 색일까요?'),praise:say1(`${cheerK()} ${c[0]}!`),note:`이 색은 ${c[0]}이에요`,prompt:`${dot(c[1])}<div class="ptxt">무슨 색?</div>${speakBtn}`,opts:pickOpts(c,cs.slice(1),x=>W(x[0],'word sm2'))}; }},
+  {min:3,max:10,f:(L,no)=>{ const bs=pickN(K_BODY,no), b=bs[0];
+      return {ask:say1('이건 우리 몸의 어디일까요?'),praise:say1(`${cheerK()} ${b[0]}!`),note:`${b[1]} = ${b[0]}`,learn:LW(b[0],b[1],'ko'),prompt:`<div class="pic">${b[1]}</div>${speakBtn}`,opts:pickOpts(b,bs.slice(1),x=>W(x[0]))}; }},
+  {min:3,max:14,f:(L,no)=>{ const w=freshPick(KW.filter(x=>x[0].length>=2&&x[0].length<=4)), n=w[0].length;
+      return {ask:say1(`${w[0]}! 몇 글자일까요?`),praise:say1(`${cheerK()} ${jo(w[0],'은','는')} ${CNT[n]} 글자!`),note:`${[...w[0]].join(' · ')} → ${n}글자`,learn:LW(w[0],w[1],'ko',{note:`${[...w[0]].join(' · ')} → ${n}글자예요`}),
+        prompt:`<div class="pic">${w[1]}</div><div class="word">${w[0]}</div><div class="ptxt">몇 글자?</div>${speakBtn}`,opts:numOpts(n,no,1,5)}; }},
+  {min:4,max:16,f:(L,no)=>{ const w=freshPick(KW.filter(x=>x[0].length>=2)), ans=w[0][w[0].length-1], set=new Set([ans]);
+      while(set.size<no){ const o=pick(KW)[0]; set.add(o[o.length-1]); }
+      return {ask:say1(`이건 ${w[0]}예요. 끝 글자는 뭘까요?`),praise:say1(`${cheerK()} ${w[0]}의 끝 글자는 ${ans}!`),learn:LW(w[0],w[1],'ko',{hl:[w[0].length-1],note:`${w[0]}의 끝 글자는 '${ans}'예요`}),
+        prompt:`<div class="pic">${w[1]}</div><div class="ptxt">끝 글자는?</div>${speakBtn}`,opts:pickOpts(ans,[...set].filter(x=>x!==ans),x=>W(x))}; }},
+  {min:4,max:14,f:(L,no)=>{ const s=pick(K_SOUND), wr=pickN(K_SOUND.filter(x=>x!==s),no-1);
+      return {ask:say1(`${subjK(s[1])} 어떻게 울까요?`),praise:say1(`${cheerK()} ${s[2]}!`),note:`${subjK(s[1])} ${s[2]} 울어요`,prompt:`<span class="pic">${s[0]}</span><div class="ptxt">어떻게 울까?</div>${speakBtn}`,opts:pickOpts(s,wr,x=>W(x[2],'word sm2'))}; }},
+  {min:5,max:16,f:(L,no)=>{ const pool=KW.filter(x=>x[0].length>=2&&x[0].length<=3), w=freshPick(pool), c=choOf(w[0]);
+      const wr=pickN(pool.filter(x=>choOf(x[0])!==c),no-1);
+      return {ask:say1('초성을 보고 맞는 그림을 골라 볼까요?'),praise:say1(`${cheerK()} ${w[0]}!`),learn:LW(w[0],w[1],'ko',{note:`${w[0]}의 초성(첫소리)은 ${[...c].join(' ')}이에요`}),
+        prompt:`<div class="word big2">${c}</div><div class="ptxt">초성 퀴즈!</div>${speakBtn}`,opts:pickOpts(w,wr,x=>`<span class="pic">${x[1]}</span>`)}; }},
+  {min:5,max:16,f:(L,no)=>{ const w=freshPick(KW.filter(x=>(x[0].length===2||x[0].length===3)&&new Set(x[0]).size===x[0].length)), cs=[...w[0]], perms=new Set([w[0]]);
+      let g=0; while(perms.size<Math.min(no, cs.length===2?2:4) && g++<40) perms.add(shuffle(cs).join(''));
+      return {ask:say1('글자 순서가 바른 것을 골라 볼까요?'),praise:say1(`${cheerK()} ${w[0]}!`),learn:LW(w[0],w[1],'ko',{note:'글자를 왼쪽부터 차례로 읽어요'}),
+        prompt:`<div class="pic">${w[1]}</div><div class="ptxt">바르게 쓴 것은?</div>${speakBtn}`,opts:pickOpts(w[0],[...perms].filter(x=>x!==w[0]),x=>W(x))}; }},
+  {min:5,max:14,f:(L,no)=>{ const fs=pickN(K_FEEL,no), f=fs[0];
+      return {ask:say1('이 친구는 기분이 어떨까요?'),praise:say1(`${cheerK()} ${f[0]}!`),note:`${f[1]} 이런 얼굴은 '${f[0]}'`,prompt:`<div class="pic">${f[1]}</div><div class="ptxt">기분이 어때?</div>${speakBtn}`,opts:pickOpts(f,fs.slice(1),x=>W(x[0],'word sm2'))}; }},
+  {min:6,max:18,f:(L,no)=>{ const p=pick(K_PLACE), wr=pickN(K_PLACE.filter(x=>x!==p),no-1);
+      return {ask:say1(`${p[2]}. 어디일까요?`),praise:say1(`${cheerK()} ${p[0]}!`),note:`${p[0]}에서 ${p[2]}`,prompt:`<div class="sent sm">${p[2]}</div><div class="ptxt">어디일까?</div>${speakBtn}`,opts:pickOpts(p,wr,x=>picW(x[1],x[0]))}; }},
+  {min:7,max:18,f:(L,no)=>{ const a=pick([['고양이','🐱'],['강아지','🐶'],['토끼','🐰'],['곰','🐻']]), b=pick([['상자','📦'],['바구니','🧺']]), p=pick(PREP);
+      const sent=`${subjK(a[0])} ${b[0]} ${PREP_KO[p]} 있어요.`;
+      return {ask:say1('문장을 읽고 맞는 그림을 골라 볼까요?'),praise:say1(`${cheerK()} ${sent}`),learn:LW(sent,prepPic(p,a[1],b[1]),'ko'),
+        prompt:`<div class="sent sm">${sent}</div>${speakBtn}`,opts:pickOpts(p,PREP.filter(x=>x!==p).slice(0,no-1),x=>prepPic(x,a[1],b[1]))}; }},
+  {min:8,max:18,f:(L,no)=>{ const s=pick(K_SEASON), e=pick(s[2]), wr=K_SEASON.filter(x=>x!==s);
+      return {ask:say1('어느 계절에 볼 수 있을까요?'),praise:say1(`${cheerK()} ${s[0]}!`),note:`${e} 는 ${s[0]}에 볼 수 있어요`,prompt:`<div class="pic">${e}</div><div class="ptxt">어느 계절?</div>${speakBtn}`,opts:pickOpts(s,wr.slice(0,no-1),x=>picW(x[1],x[0]))}; }},
+  {min:9,max:20,f:(L,no)=>{ const f=pick(K_FILL), sent=f[0].replace('( )',f[1]);
+      return {ask:say1('빈칸에 알맞은 낱말을 골라 볼까요?'),praise:say1(`${cheerK()} ${sent}`),learn:LW(sent,f[2],'ko',{hlw:f[1]}),
+        prompt:`<div class="sent sm">${blankK(f[0])}</div>${speakBtn}`,opts:pickOpts(f[1],f[3].slice(0,no-1),x=>W(x,'word sm2'))}; }},
+],
+en:[
+  {min:1,max:6,f:(L,no)=>{ const ans=pick([...ABC]), sim={B:'DPR',D:'BOP',E:'FBL',F:'EPT',M:'NWH',N:'MHZ',O:'QCD',P:'RBF',Q:'OGD',W:'MVU',V:'UYW',C:'GOQ',G:'CQO',U:'VJO',I:'LJT'}[ans]||'XKS', s=new Set([ans]);
+      [...sim].forEach(c=>{ if(s.size<no) s.add(c); }); while(s.size<no) s.add(pick([...ABC]));
+      return {ask:say1('똑같은 알파벳을 찾아볼까요?'),praise:[[cheerK(),'ko'],[`letter ${ans}`,'en']],note:`${ans}와 똑같은 글자를 찾았어요`,prompt:`<div class="word en big2">${ans}</div><div class="ptxt">똑같은 글자는?</div>${speakBtn}`,opts:pickOpts(ans,[...s].filter(x=>x!==ans),x=>W(x,'word en'))}; }},
+  {min:2,max:9,f:(L,no)=>{ const cs=pickN(COLORS.slice(0,8),no), c=cs[0];
+      return {learn:LW(c[0],dot(c[1]),'en',{mean:c[2]}),ask:[[`${c[2]}은 영어로 뭘까요?`,'ko']],praise:[[cheerK(),'ko'],[c[0],'en']],prompt:`${dot(c[1])}${speakBtn}`,opts:pickOpts(c,cs.slice(1),x=>W(x[0],'word en'))}; }},
+  {min:3,max:10,f:(L,no)=>{ const n=RI(1,10), s=new Set([n]); while(s.size<no) s.add(RI(1,10));
+      return {learn:LW(ENUM[n],`<span class="num">${n}</span>`,'en',{mean:`${n} (${NUMK[n]})`}),ask:[['이 숫자를 영어로 골라 보세요~','ko']],praise:[[cheerK(),'ko'],[ENUM[n],'en']],prompt:`<div class="word en big2">${n}</div>${speakBtn}`,opts:shuffle([...s]).map(x=>({ok:x===n,html:W(ENUM[x],'word en sm2')}))}; }},
+  {min:4,max:10,f:(L,no)=>{ const lo='abcdefghijklmnopqrstuvwxyz', a=pick([...lo]), s=new Set([a.toUpperCase()]); while(s.size<no) s.add(pick([...ABC]));
+      return {ask:[['이 소문자의 대문자 짝꿍을 찾아볼까요?','ko'],[`letter ${a.toUpperCase()}`,'en']],praise:[[cheerK(),'ko'],[`letter ${a.toUpperCase()}`,'en']],note:`소문자 ${a}의 대문자는 ${a.toUpperCase()}예요`,
+        prompt:`<div class="word en big2">${a}</div><div class="ptxt">대문자 짝꿍은?</div>${speakBtn}`,opts:pickOpts(a.toUpperCase(),[...s].filter(x=>x!==a.toUpperCase()),x=>W(x,'word en'))}; }},
+  {min:4,max:12,f:(L,no)=>{ const i=RI(0,22), seq=ABC.slice(i,i+3), ans=ABC[i+3], s=new Set([ans]); while(s.size<no) s.add(ABC[RI(Math.max(0,i-2),Math.min(25,i+6))]);
+      return {ask:say1('다음에 올 알파벳은 뭘까요?'),praise:[[cheerK(),'ko'],[`${[...seq].join(', ')}, ${ans}`,'en']],note:`${[...seq].join(' ')} 다음은 ${ans}`,prompt:`${expr(`<span class="en">${[...seq].join(' ')}</span> <span class="blank">?</span>`)}${speakBtn}`,opts:pickOpts(ans,[...s].filter(x=>x!==ans),x=>W(x,'word en'))}; }},
+  {min:5,max:12,f:(L,no)=>{ const pool=xEW(), w=freshPick(pool), l=w[0][0], wr=pickN(pool.filter(x=>x[0][0]!==l&&x[1]!==w[1]),no-1);
+      return {learn:LW(w[0],w[1],'en',{hl:[0],mean:eko(w[0]),note:`${w[0]}는 ${l}로 시작해요`}),ask:[[`${l} 로 시작하는 그림을 찾아볼까요?`,'ko']],praise:[[cheerK(),'ko'],[`${l}, ${w[0]}`,'en']],
+        prompt:`<div class="word en big2">${l}</div><div class="ptxt">${l}로 시작하는 것은?</div>${speakBtn}`,opts:pickOpts(w,wr,x=>`<span class="pic">${x[1]}</span>`)}; }},
+  {min:5,max:14,f:(L,no)=>{ const pool=BODY.concat(FAM), w=freshPick(pool); return eWordQ(w,'read',no,pool.filter(x=>x[1]!==w[1])); }},
+  {min:6,max:14,f:(L,no)=>{ const fs=pickN(E_FEEL_W,no), f=fs[0];
+      return {learn:LW(f[0],f[1],'en',{mean:FEEL_KO[f[0]]}),ask:[['기분을 영어로 골라 볼까요?','ko']],praise:[[cheerK(),'ko'],[f[0],'en']],prompt:`<div class="pic">${f[1]}</div>${speakBtn}`,opts:pickOpts(f,fs.slice(1),x=>W(x[0],'word en sm2'))}; }},
+  {min:6,max:14,f:(L,no)=>{ const s=pick(E_SOUND), wr=pickN(E_SOUND.filter(x=>x!==s),no-1);
+      return {learn:LW(s[2],s[0],'en',{note:`영어로 ${s[1]}는 "${s[2]}" 하고 울어요`}),ask:[[`영어로 ${s[1]}는 어떻게 울까요?`,'ko']],praise:[[cheerK(),'ko'],[`The ${s[1]} says ${s[2]}.`,'en']],
+        prompt:`<div class="pic">${s[0]}</div><div class="sent en sm">The ${s[1]} says ...</div>${speakBtn}`,opts:pickOpts(s,wr,x=>W(x[2],'word en sm2'))}; }},
+  {min:6,max:14,f:(L,no)=>{ const [cn,items]=pick(E_CAT), three=pickN(items,3), odd=pick(pick(E_CAT.filter(x=>x[0]!==cn))[1]);
+      return {ask:say1('다른 하나를 찾아볼까요?'),praise:[[cheerK(),'ko']],note:`나머지는 모두 ${cn}`,prompt:`<div class="ptxt">다른 하나는?</div>${speakBtn}`,opts:shuffle([...three.map(e=>({ok:false,e})),{ok:true,e:odd}]).map(x=>({ok:x.ok,html:`<span class="pic">${x.e}</span>`}))}; }},
+  {min:7,max:16,f:(L,no)=>{ const pool=xEW().filter(x=>x[0].length>=3), w=freshPick(pool), s=new Set([w[0]]); let g=0;
+      while(s.size<no && g++<40){ const a=[...w[0]], i=RI(0,a.length-2); [a[i],a[i+1]]=[a[i+1],a[i]]; const v=a.join(''); if(Math.random()<.4){ const j=RI(0,a.length-1); a[j]=pick([...'aeioubdmnt']); } s.add(a.join('')||v); }
+      return {learn:LW(w[0],w[1],'en',{mean:eko(w[0])}),ask:[['바르게 쓴 낱말을 골라 볼까요?','ko']],praise:[[cheerK(),'ko'],[w[0],'en']],prompt:`<div class="pic">${w[1]}</div><div class="ptxt">바른 철자는?</div>${speakBtn}`,opts:pickOpts(w[0],[...s].filter(x=>x!==w[0]),x=>W(x,'word en sm2'))}; }},
+  {min:8,max:18,f:(L,no)=>{ const c=pick(E_COLOR_OF), cs=pickN(COLORS.filter(x=>x[0]!==c[2]).slice(0,8),no-1).map(x=>x[0]);
+      return {learn:LW(`The ${c[1]} is ${c[2]}.`,c[0],'en',{hlw:c[2]}),ask:[[`${c[1]}는 무슨 색일까요?`,'ko'],[`What color is the ${c[1]}?`,'en']],praise:[[cheerK(),'ko'],[`It is ${c[2]}.`,'en']],
+        prompt:`<div class="pic">${c[0]}</div><div class="sent en sm">What color is the ${c[1]}?</div>${speakBtn}`,opts:pickOpts(c[2],cs,x=>W(x,'word en sm2'))}; }},
+  {min:9,max:20,f:(L,no)=>{ const pool=xEW().filter(x=>!UNC.has(x[0])), w=freshPick(pool), yes=Math.random()<.5, o=pick(pool.filter(x=>x!==w&&x[1]!==w[1])), asked=yes?w:o, q=`Is it ${art(asked[0])}?`;
+      return {learn:LW(yes?`Yes, it is.`:`No, it isn't.`,w[1],'en',{note:`그림은 ${w[0]} (${eko(w[0])}) 예요`}),ask:[['그림을 보고 대답해 볼까요?','ko'],[q,'en']],praise:[[cheerK(),'ko'],[yes?'Yes, it is.':"No, it isn't.",'en']],
+        prompt:`<div class="pic">${w[1]}</div><div class="sent en sm">${q}</div>${speakBtn}`,opts:[{ok:yes,html:W('Yes!','word en sm2')},{ok:!yes,html:W('No!','word en sm2')}]}; }},
+  {min:10,max:20,f:(L,no)=>{ const r=pick(E_RHYME), ans=pick(r[1]), wr=pickN(E_RHYME.filter(x=>x!==r).map(x=>x[0]),no-1);
+      return {learn:LW(`${r[0]} · ${ans}`,'','en',{note:`${r[0]}와 ${ans}는 끝소리가 같아요 (-${r[0].slice(-2)})`}),ask:[['끝소리가 같은 낱말을 골라 볼까요?','ko'],[r[0],'en']],praise:[[cheerK(),'ko'],[`${r[0]}, ${ans}`,'en']],
+        prompt:`<div class="word en big2">${r[0]}</div><div class="ptxt">끝소리가 같은 것은?</div>${speakBtn}`,opts:pickOpts(ans,wr,x=>W(x,'word en sm2'))}; }},
+],
+math:[
+  {min:1,max:5,f:(L,no)=>{ const e=pick(FRUIT); let a=R(7), b=R(7); while(a===b) b=R(7);
+      return {note:`${Math.min(a,b)}개가 ${Math.max(a,b)}개보다 더 적어요`,ask:say1('어느 쪽이 더 적을까요?'),praise:say1(`${cheerK()} 이쪽이 더 적어요!`),prompt:`<div class="ptxt">더 적은 쪽을 골라 봐!</div>${speakBtn}`,opts:[{ok:a<b,html:grp(a,e,'sm')},{ok:b<a,html:grp(b,e,'sm')}]}; }},
+  {min:1,max:6,f:(L,no)=>{ const n=RI(1,6);
+      return {note:`점을 하나씩 세면 ${n}개`,ask:say1('주사위 눈은 몇 개일까요?'),praise:say1(`${cheerK()} ${cntSay(n)}!`),prompt:`${diceSVG(n)}<div class="ptxt">주사위 눈은?</div>${speakBtn}`,opts:numOpts(n,no,1,6)}; }},
+  {min:1,max:7,f:(L,no)=>{ const s=new Set(); while(s.size<(L<=2?2:3)) s.add(RI(2,10)); const arr=[...s], long=Math.random()<.5, tgt=long?Math.max(...arr):Math.min(...arr);
+      return {note:long?'왼쪽 끝을 맞추고 오른쪽 끝이 가장 멀리 간 막대가 가장 길어요':'왼쪽 끝을 맞추고 오른쪽 끝이 가장 가까운 막대가 가장 짧아요',ask:say1(long?'가장 긴 막대는 무슨 색일까요?':'가장 짧은 막대는 무슨 색일까요?'),praise:say1(`${cheerK()} ${XCOL[arr.indexOf(tgt)][1]}!`),
+        prompt:`${barsSVG(arr)}<div class="ptxt">${long?'가장 긴':'가장 짧은'} 막대는?</div>${speakBtn}`,opts:arr.map((l,i)=>({ok:l===tgt,html:colDot(XCOL[i][0])}))}; }},
+  {min:2,max:7,f:(L,no)=>{ const s=new Set(); while(s.size<(L<=3?3:4)) s.add(RI(2,9)); const arr=[...s], tall=Math.random()<.5, tgt=tall?Math.max(...arr):Math.min(...arr);
+      return {note:tall?'바닥에서부터 가장 높이 올라간 탑이 가장 높아요':'바닥에서부터 가장 조금 올라간 탑이 가장 낮아요',ask:say1(tall?'가장 높은 탑은 무슨 색일까요?':'가장 낮은 탑은 무슨 색일까요?'),praise:say1(`${cheerK()} ${XCOL[arr.indexOf(tgt)][1]}!`),
+        prompt:`${towersSVG(arr)}<div class="ptxt">${tall?'가장 높은':'가장 낮은'} 탑은?</div>${speakBtn}`,opts:arr.map((h,i)=>({ok:h===tgt,html:colDot(XCOL[i][0])}))}; }},
+  {min:2,max:8,f:(L,no)=>{ const n=RI(2,L<=3?6:9), e=pick(FRUIT), es=shuffle(FRUIT.filter(x=>x!==e)), cand=new Set([n]); while(cand.size<Math.min(no,3)) cand.add(RI(Math.max(1,n-3),n+3));
+      return {note:`왼쪽도 ${n}개, 정답도 ${n}개 — 수가 같아요`,ask:say1('똑같은 수만큼 있는 것을 골라 볼까요?'),praise:say1(`${cheerK()} 둘 다 ${cntSay(n)}!`),prompt:`${grp(n,e,'sm')}<div class="ptxt">같은 수만큼 있는 것은?</div>${speakBtn}`,
+        opts:shuffle([...cand]).map((k,i)=>({ok:k===n,html:grp(k,es[i],'sm')}))}; }},
+  {min:3,max:9,f:(L,no)=>{ const hi=L<=4?10:30, set=new Set(); while(set.size<no) set.add(R(hi)); const arr=[...set], mn=Math.min(...arr);
+      return {note:arr.slice().sort((x,y)=>x-y).join(' < '),ask:say1('가장 작은 숫자를 찾아볼까요?'),praise:say1(`${cheerK()} ${mn}!`),prompt:`<div class="ptxt">가장 작은 숫자는?</div>${speakBtn}`,opts:shuffle(arr).map(n=>({ok:n===mn,html:`<span class="num">${n}</span>`}))}; }},
+  {min:3,max:10,f:(L,no)=>{ const st0=RI(2,L<=4?8:18), before=Math.random()<.5;
+      return before?{note:'하나씩 작아지는 쪽으로 세면 돼요',ask:say1('앞에 올 숫자는 뭘까요?'),praise:say1(`${cheerK()} ${st0-1}!`),prompt:`${expr(`<span class="blank">?</span>, ${st0}, ${st0+1}, ${st0+2}`)}${speakBtn}`,opts:numOpts(st0-1,no,Math.max(0,st0-4),st0+3)}
+        :{note:`${st0}와 ${st0+2} 사이에는 ${st0+1}`,ask:say1('사이에 들어갈 숫자는 뭘까요?'),praise:say1(`${cheerK()} ${st0+1}!`),prompt:`${expr(`${st0}, <span class="blank">?</span>, ${st0+2}`)}${speakBtn}`,opts:numOpts(st0+1,no,Math.max(0,st0-2),st0+4)}; }},
+  {min:3,max:10,f:(L,no)=>{ const m=pick(MSHAPE), names=pickN(Object.keys(SHAPES).filter(x=>x!==m[1]),no-1);
+      return {note:`${m[0]} 는 ${jo(m[1],'을','를')} 닮았어요`,ask:say1('어떤 모양을 닮았을까요?'),praise:say1(`${cheerK()} ${m[1]}!`),prompt:`<div class="pic">${m[0]}</div><div class="ptxt">어떤 모양?</div>${speakBtn}`,opts:shuffle([m[1],...names]).map(n=>({ok:n===m[1],html:SHAPES[n]}))}; }},
+  {min:5,max:12,f:(L,no)=>{ const row=pickN(FRUIT,5), k=RI(1,5), ord=['','첫째','둘째','셋째','넷째','다섯째'][k], fromL=Math.random()<.6, tgt=fromL?row[k-1]:row[5-k];
+      return {note:`${fromL?'왼쪽':'오른쪽'}부터 하나씩 세면 ${ord}는 ${tgt}`,ask:say1(`${fromL?'왼쪽':'오른쪽'}에서 ${ord}는 무엇일까요?`),praise:say1(`${cheerK()}`),prompt:`<span style="display:flex;gap:4px;font-size:clamp(32px,7vw,56px);white-space:nowrap">${row.map(x=>`<span>${x}</span>`).join('')}</span><div class="ptxt">${fromL?'왼쪽':'오른쪽'}에서 ${ord}는?</div>${speakBtn}`,
+        opts:pickOpts(tgt,pickN(row.filter(x=>x!==tgt),no-1),x=>`<span class="pic">${x}</span>`)}; }},
+  {min:5,max:14,f:(L,no)=>{ const s=pick(['세모','네모']), n=s==='세모'?3:4;
+      return {note:`${jo(s,'은','는')} 뾰족한 곳(꼭짓점)이 ${n}개`,ask:say1(`${s}의 뾰족한 곳은 몇 개일까요?`),praise:say1(`${cheerK()} ${cntSay(n)}!`),prompt:`${SHAPES[s]}<div class="ptxt">뾰족한 곳은 몇 개?</div>${speakBtn}`,opts:numOpts(n,no,0,6)}; }},
+  {min:6,max:16,f:(L,no)=>{ const hi=L<=8?10:50; let a=RI(1,hi), b=RI(1,hi); if(Math.random()<.2) b=a; const sg=a>b?'>':a<b?'<':'=';
+      return {note:a===b?'두 수가 같으면 =':`큰 수 쪽으로 입이 벌어져요: ${a} ${sg} ${b}`,ask:say1('알맞은 기호를 골라 볼까요?'),praise:say1(`${cheerK()}`),prompt:`${expr(`${a} <span class="blank">?</span> ${b}`)}${speakBtn}`,opts:['>','<','='].map(x=>({ok:x===sg,html:`<span class="num">${x}</span>`}))}; }},
+  {min:6,max:12,f:(L,no)=>{ const n=RI(1,L<=8?5:9);
+      return {note:`같은 수 두 번: ${n} + ${n} = ${n*2}`,ask:say1('똑같은 수를 두 번 더하면?'),praise:say1(`${cheerK()} ${n*2}!`),prompt:`${expr(`${n} + ${n} = <span class="blank">?</span>`)}${speakBtn}`,opts:numOpts(n*2,no,Math.max(0,n*2-4),n*2+4)}; }},
+  {min:6,max:12,f:(L,no)=>{ const st0=RI(L<=8?5:10,L<=8?10:20), seq=[st0,st0-1,st0-2];
+      return {note:'하나씩 작아져요',ask:say1('거꾸로 세어 볼까요? 다음 숫자는?'),praise:say1(`${cheerK()} ${st0-3}!`),prompt:`${expr(`${seq.join(', ')}, <span class="blank">?</span>`)}${speakBtn}`,opts:numOpts(st0-3,no,Math.max(0,st0-7),st0)}; }},
+  {min:7,max:14,f:(L,no)=>{ const e=pick(FRUIT), e2=pick(FRUIT.filter(x=>x!==e)); let a=RI(2,8), b=RI(1,7); while(a<=b){ a=RI(2,9); b=RI(1,7); }
+      return {note:`${a} − ${b} = ${a-b}`,ask:say1('위가 아래보다 몇 개 더 많을까요?'),praise:say1(`${cheerK()} ${a-b}개 더 많아요!`),prompt:`<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">${grp(a,e,'sm')}${grp(b,e2,'sm')}</div><div class="ptxt">몇 개 더 많아?</div>${speakBtn}`,opts:numOpts(a-b,no,0,8)}; }},
+]};
+/* 같은 판에서 같은 종류가 겹치지 않게 골라요 */
+function xPick(lang,L){
+  const pool=(XQ[lang]||[]).filter(t=>L>=t.min&&L<=t.max); if(!pool.length) return null;
+  FRESH.xused=FRESH.xused||new Set(); let fresh=pool.filter(t=>!FRESH.xused.has(t)); if(!fresh.length){ FRESH.xused.clear(); fresh=pool; }
+  const t=pick(fresh); FRESH.xused.add(t); return t;
+}
+const xRate=L=>L<=10?.55:.3;
+
 /* =========================================================
    단어 고르기 — 최근에 본 낱말은 잠시 쉬고, 틀린 낱말은 며칠 뒤 다시 나와요
    ========================================================= */
@@ -1673,7 +1830,10 @@ function startQuiz(lang){
 }
 /* 문제 하나 만들기 · noHear=true 면 소리를 들어야만 풀 수 있는 문제는 빼요 */
 function makeQ(lang,L,noHear){
-  const gen=(l)=>{ FRESH.last=null; const q=lang==='math'?mathQ(l):lang==='ko'?koQ(l):enQ(l); q.key=FRESH.last; return q; };
+  const gen=(l)=>{ FRESH.last=null; let q=null;
+    if(Math.random()<xRate(l)){ const t=xPick(lang,l); if(t){ try{ q=t.f(l,l<=2?3:4); }catch(e){ q=null; } } }
+    if(!q) q=lang==='math'?mathQ(l):lang==='ko'?koQ(l):enQ(l);
+    q.key=FRESH.last; return q; };
   let q=gen(L), g=0;
   while(noHear && q.listen && g++<30) q=gen(L);
   /* 그 단계가 듣기 문제뿐이면 가까운 단계의 보고 푸는 문제로 */
@@ -2070,7 +2230,7 @@ window.appBack=function(){
   view='home'; render(); return true;
 };
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && (view==='home'||view==='pick')) render(); else if(document.visibilityState==='hidden') hush(); });
-if(location.hash==='#test') window.__sj={get Q(){return Q;},startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
+if(location.hash==='#test') window.__sj={get Q(){return Q;},XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
 render();
 })();
 </script>
