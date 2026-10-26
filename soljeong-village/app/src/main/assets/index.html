@@ -594,6 +594,9 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-we
 .dexm .box,.objm .box{max-width:760px}
 .mon.objleg svg{filter:drop-shadow(0 0 10px #FFD36E)}
 @media (max-width:600px){ .opick{grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:6px} .op .om svg{width:56px;height:52px} .op small{font-size:12px} .oslot{width:52px;height:50px}.oslot svg{width:46px;height:44px} .dgrid{grid-template-columns:repeat(auto-fill,minmax(88px,1fr))} .chip2{font-size:14px} .dsec{font-size:15px} }
+.mutebtn{align-self:center;margin:-6px 0 2px;border:2.5px dashed rgba(90,62,114,.5);background:rgba(255,255,255,.7);border-radius:999px;padding:5px 18px;font-size:19px;color:var(--ink);font-family:inherit}
+.mtxt{color:var(--ink)}
+@media (max-width:600px){ .mutebtn{font-size:15px;padding:4px 12px;margin:-2px 0 0} }
 </style>
 </head>
 <body>
@@ -659,8 +662,10 @@ window.__ttsDone=id=>{ const f=ttsWait[id]; delete ttsWait[id]; if(f) f(); };
 function hush(){ sayToken++; sayTimers.forEach(clearTimeout); sayTimers=[]; ttsWait={}; try{ if(HAS_A&&Android.stopSpeak) Android.stopSpeak(); else speechSynthesis.cancel(); }catch(e){} }
 function later(fn,ms){ const t=setTimeout(fn,ms); sayTimers.push(t); return t; }
 /* parts: [[문장,'ko'|'en'], ...]  done: 다 말한 뒤에 할 일 */
+let MUTE=false;   /* 🔇 소리 못 들어요 (앱을 다시 켜면 풀려요) */
 function speakSeq(parts, done){
   hush(); const my=sayToken;
+  if(MUTE){ if(done) later(done,500); return; }
   if(!HAS_A && !('speechSynthesis' in window)){ if(done) later(done,600); return; }
   let i=0;
   const next=()=>{
@@ -1658,24 +1663,45 @@ function startQuiz(lang){
   FRESH={used:new Set(),recent:pp.recent[lang]||[],again:pp.again[lang]||[],last:null};
   let guard=0;
   while(items.length<n && guard++<120){
-    FRESH.last=null;
-    const q = lang==='math'?mathQ(L):lang==='ko'?koQ(L):enQ(L);
-    q.key=FRESH.last;
+    const q=makeQ(lang,L,MUTE);
     const key=q.prompt+'|'+(q.opts.find(o=>o.ok)||{}).html; if(seen.has(key)) continue; seen.add(key);
-    q.replay=!!q.listen;
-    if(lang==='math'){ q.voice=q.ask; q.listen=true; }
-    else if(!q.voice){ const en=(q.ask||[]).filter(x=>x[1]==='en'); q.voice=en.length?en:null; }
     items.push(q);
   }
   pp.recent[lang]=[...new Set(items.map(x=>x.key).filter(Boolean).concat(pp.recent[lang]||[]))].slice(0,90); save();
   Q={lang,items,i:0,earned:0,first:0};
   view='quiz'; render();
 }
+/* 문제 하나 만들기 · noHear=true 면 소리를 들어야만 풀 수 있는 문제는 빼요 */
+function makeQ(lang,L,noHear){
+  const gen=(l)=>{ FRESH.last=null; const q=lang==='math'?mathQ(l):lang==='ko'?koQ(l):enQ(l); q.key=FRESH.last; return q; };
+  let q=gen(L), g=0;
+  while(noHear && q.listen && g++<30) q=gen(L);
+  /* 그 단계가 듣기 문제뿐이면 가까운 단계의 보고 푸는 문제로 */
+  for(const dl of [1,-1,2,-2,3,-3]){ if(!noHear||!q.listen) break; const l=L+dl; if(l<1||l>MAXLV) continue; for(let t=0;t<12&&q.listen;t++) q=gen(l); }
+  if(noHear && q.listen){ FRESH.last=null;
+    q = lang==='en' ? eWordQ(freshPick(EW3),'read',3,EW3) : lang==='ko' ? kWordQ(freshPick(KW_EASY),'read',3,KW_EASY) : q; q.key=FRESH.last; }
+  q.hear=!!q.listen; q.replay=!!q.listen;
+  if(lang==='math'){ q.voice=q.ask; q.listen=true; }
+  else if(!q.voice){ const en=(q.ask||[]).filter(x=>x[1]==='en'); q.voice=en.length?en:null; }
+  return q;
+}
+function toggleMute(){
+  MUTE=!MUTE; hush();
+  if(MUTE && Q && Q.items){
+    const L=lvOf(P[who],Q.lang); let n=0;
+    for(let j=Q.i;j<Q.items.length;j++){ const it=Q.items[j]; if(j===Q.i&&it.done) continue; if(it.hear){ Q.items[j]=makeQ(Q.lang,L,true); n++; } }
+    toast(n?'🔇 보고 푸는 문제로 바꿨어요':'🔇 소리 없이 할게요');
+  } else toast('🔊 소리를 다시 켰어요');
+  rQuiz();
+}
+const askText=it=>(it.ask||[]).filter(x=>x[1]==='ko').map(x=>String(x[0]).replace(/~/g,'')).join(' ');
 function rQuiz(){
   const it=Q.items[Q.i]; it.done=false;
   const dots=`<div class="dots">${Q.items.map((_,j)=>`<i class="${j<Q.i?'on':j===Q.i?'now':''}">${j<Q.i?'⭐':''}</i>`).join('')}</div>`;
   const cards=it.opts.map((o,k)=>`<button class="card press" data-act="ans" data-k="${k}">${o.html}</button>`).join('');
-  app.innerHTML=topbar().replace('<div class="sp"></div>',`<div class="sp"></div>${dots}<div class="sp"></div>`)+`<div class="qbox"><div class="prompt">${it.prompt}</div><div class="cards ${it.opts.some(o=>o.html.includes('class="sent'))?'wide':it.opts.length===2?'two':it.opts.length===4?'four':''}">${cards}</div></div>`;
+  const muted=MUTE&&!/class="ptxt/.test(it.prompt)&&askText(it)?`<div class="ptxt sm mtxt">${askText(it)}</div>`:'';
+  const mb=`<button class="mutebtn press" data-act="mute">${MUTE?'🔊 소리 다시 켜기':'🔇 소리 못 들어요'}</button>`;
+  app.innerHTML=topbar().replace('<div class="sp"></div>',`<div class="sp"></div>${dots}<div class="sp"></div>`)+`<div class="qbox"><div class="prompt">${MUTE?it.prompt.replace(speakBtn,''):it.prompt}${muted}</div>${mb}<div class="cards ${it.opts.some(o=>o.html.includes('class="sent'))?'wide':it.opts.length===2?'two':it.opts.length===4?'four':''}">${cards}</div></div>`;
   if(!it.voice){ const sp=document.getElementById('spk'); if(sp) sp.remove(); }
   later(()=>speakQ(true),350);
 }
@@ -1864,6 +1890,7 @@ app.addEventListener('click',e=>{
   else if(a==='home'){ view='home'; render(); }
   else if(a==='go'){ if(P[who].today[b.dataset.l]){ oops(); say('오늘은 다 했어요~ 내일 또 해요!'); b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); } else startQuiz(b.dataset.l); }
   else if(a==='speak') speakQ();
+  else if(a==='mute') toggleMute();
   else if(a==='ans') answer(+b.dataset.k,b);
   else if(a==='again') startQuiz(Q.lang);
   else if(a==='village'){ view='village'; render(); }
@@ -2043,7 +2070,7 @@ window.appBack=function(){
   view='home'; render(); return true;
 };
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && (view==='home'||view==='pick')) render(); else if(document.visibilityState==='hidden') hush(); });
-if(location.hash==='#test') window.__sj={get Q(){return Q;},answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
+if(location.hash==='#test') window.__sj={get Q(){return Q;},startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
 render();
 })();
 </script>
