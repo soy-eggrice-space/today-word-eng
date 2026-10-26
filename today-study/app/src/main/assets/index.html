@@ -1673,6 +1673,8 @@ math:[
   {min:7,max:14,f:(L,no)=>{ const e=pick(FRUIT), e2=pick(FRUIT.filter(x=>x!==e)); let a=RI(2,8), b=RI(1,7); while(a<=b){ a=RI(2,9); b=RI(1,7); }
       return {note:`${a} − ${b} = ${a-b}`,ask:say1('위가 아래보다 몇 개 더 많을까요?'),praise:say1(`${cheerK()} ${a-b}개 더 많아요!`),prompt:`<div style="display:flex;flex-direction:column;gap:6px;align-items:flex-start">${grp(a,e,'sm')}${grp(b,e2,'sm')}</div><div class="ptxt">몇 개 더 많아?</div>${speakBtn}`,opts:numOpts(a-b,no,0,8)}; }},
 ]};
+/* 똑같은 글자 찾기는 빼요 (시력 검사 같아서) */
+XQ.ko=XQ.ko.filter(t=>!/똑같은/.test(t.f.toString())); XQ.en=XQ.en.filter(t=>!/똑같은/.test(t.f.toString()));
 /* 같은 판에서 같은 종류가 겹치지 않게 골라요 */
 function xPick(lang,L){
   const pool=(XQ[lang]||[]).filter(t=>L>=t.min&&L<=t.max); if(!pool.length) return null;
