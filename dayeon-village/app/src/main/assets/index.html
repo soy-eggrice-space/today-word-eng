@@ -565,6 +565,23 @@ input{font-family:inherit;color:inherit;-webkit-user-select:text;user-select:tex
 .dchip.ok{background:var(--okbg)}.dchip.no{background:var(--nobg)}.dchip.dim{opacity:.4}
 .dchip.ghost{position:fixed;z-index:100;pointer-events:none;opacity:.95;transform:rotate(-4deg) scale(1.08);box-shadow:0 10px 20px rgba(90,62,114,.35)}
 @media (max-width:640px){ .ssent{font-size:26px} .sentk{font-size:16px} .dchip{min-width:90px;min-height:56px;font-size:24px;padding:4px 14px} .dchips{gap:10px} }
+.hbub{position:absolute;top:-18%;right:-14%;font-size:calc(var(--w,84px)*.3);background:#fff;border:2px solid var(--ink);border-radius:50%;width:1.6em;height:1.6em;display:grid;place-items:center;z-index:4;animation:hb 1.4s ease-in-out infinite;pointer-events:none}
+.petbox .hbub{font-size:30px;top:0;right:22%}
+@keyframes hb{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-6px) rotate(6deg)}}
+.petbox{position:relative;display:flex;justify-content:center;align-items:flex-end;min-height:200px;margin:6px 0 10px}
+.petm{touch-action:none;user-select:none;-webkit-user-select:none}
+.petbox .petm svg{width:170px!important;height:170px!important}
+@media (max-width:640px){ .petbox .petm svg{width:140px!important;height:140px!important} }
+.mon.petted .bob{animation:petsq .5s ease-in-out 2}
+@keyframes petsq{0%,100%{transform:scale(1,1)}30%{transform:scale(1.12,.86)}60%{transform:scale(.94,1.08)}}
+.eatf{position:absolute;left:12%;bottom:40%;font-size:56px;animation:eat .9s ease-in forwards}
+@keyframes eat{0%{transform:translate(0,0) scale(1)}70%{transform:translate(90px,-10px) scale(.8)}100%{transform:translate(110px,-6px) scale(0);opacity:0}}
+.petacts .btn{flex:1}.btn.hungry{box-shadow:0 0 0 4px #FFB020,var(--pop);animation:hb 1.2s ease-in-out infinite}
+.invg{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:10px;max-height:46vh;overflow:auto;padding:4px;margin:8px 0}
+.invi{position:relative;border:2.5px solid var(--ink);border-radius:18px;background:#fff;display:flex;flex-direction:column;align-items:center;padding:8px 4px;font-family:inherit;color:var(--ink);cursor:pointer}
+.invi span{font-size:44px;line-height:1.1}.invi small{font-size:15px}
+.invi b{position:absolute;top:-8px;right:-8px;min-width:28px;height:28px;border-radius:14px;background:#FF6FA8;color:#fff;border:2px solid var(--ink);display:grid;place-items:center;font-size:15px;padding:0 5px}
+@media (max-width:640px){ .petbox{min-height:160px} .invg{grid-template-columns:repeat(auto-fill,minmax(78px,1fr))} .invi span{font-size:36px} .hbub{top:-26%;right:-20%} }
 </style>
 </head>
 <body>
@@ -1951,13 +1968,86 @@ const ITEM_KO=Object.fromEntries(FOODS.concat(ACCS).map(x=>[x[0],x[1]]));
 /* 합치면 덤으로: 꾸미기 물품이나 간식 하나 */
 function mergeBonus(made,srcs){
   if(made.kind==='obj') return null;
-  srcs.forEach(f=>{ if(f.acc&&!made.acc) made.acc=f.acc; if(f.food&&!made.food) made.food=f.food; });
-  if(Math.random()>=.8 || (made.acc&&made.food)) return null;
-  const useAcc=made.acc?false:made.food?true:Math.random()<.5, x=useAcc?pick(ACCS):pick(FOODS);
-  if(useAcc) made.acc=x[0]; else made.food=x[0];
+  srcs.forEach(f=>{ if(f.acc&&!made.acc) made.acc=f.acc; });
+  if(Math.random()>=.8) return null;
+  const useAcc=!made.acc&&Math.random()<.5, x=useAcc?pick(ACCS):pick(FOODS);
+  if(useAcc) made.acc=x[0]; else invAdd(x[0]);
   return {k:useAcc?'acc':'food',e:x[0],ko:x[1]};
 }
-const itemSpans=f=>(f.acc?`<span class="facc">${f.acc}</span>`:'')+(f.food?`<span class="ffood">${f.food}</span>`:'');
+const itemSpans=f=>(f.acc?`<span class="facc">${f.acc}</span>`:'');
+
+/* ---------- 🎒 가방 · 🤚 쓰다듬기 · 🍽️ 밥 주기 ----------
+   간식은 가방에 모아 두고, 배고픈 친구에게 골라서 줘요. 친구는 날마다 몇 명씩 배가 고파져요. */
+function invOf(){ S.inv=S.inv||{}; S.friends.forEach(f=>{ if(f.food){ S.inv[f.food]=(S.inv[f.food]||0)+1; delete f.food; } }); return S.inv; }
+function invAdd(e,n){ const v=invOf(); v[e]=(v[e]||0)+(n||1); }
+const invCount=()=>Object.values(invOf()).reduce((a,b)=>a+b,0);
+function dayHash(str){ let h=2166136261; for(const c of str){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return ((h>>>0)%1000)/1000; }
+const petFriend=f=>f&&f.hatched&&f.kind!=='obj'&&f.sp!=='poop';
+function isHungry(f,i){ if(!petFriend(f)||homeOfFriend(f)) return false; if(f.fed===dkey()) return false; return dayHash(dkey()+'|'+(f.id||('i'+i))+'|'+f.sp) < .45; }
+function hungryN(){ return S.friends.filter((f,i)=>isHungry(f,i)).length; }
+function fName(f){ return f.name||spName(f); }
+function hearts(el,n,list){ for(let k=0;k<(n||3);k++) setTimeout(()=>{ const h=document.createElement('span'); h.className='heart'; h.style.left=(30+Math.random()*40)+'%'; h.textContent=pick(list||['💖','💕','💗','🥰','✨']); el.appendChild(h); setTimeout(()=>h.remove(),1100); },k*130); }
+function petIt(i,el){
+  const f=S.friends[i]; if(!petFriend(f)||!el) return;
+  f.pet=(f.petd===dkey()?f.pet||0:0)+1; f.petd=dkey(); save();
+  el.classList.remove('petted'); void el.offsetWidth; el.classList.add('petted'); sfx.tap(); hearts(el,4);
+  const lines=isHungry(f,i)?['헤헤 좋아~ 근데 배고파… 🍽️','꼬르륵… 쓰다듬어 줘서 고마워!']:f.pet>6?['너무 좋아서 졸려~ 😪','헤헤, 행복해!']:['헤헤 좋아~','간지러워! 😆','또 해 줘!','기분 최고야!','사랑해 💕'];
+  el.querySelectorAll('.say').forEach(x=>x.remove()); const sy=document.createElement('div'); sy.className='say'; sy.textContent=pick(lines); el.appendChild(sy); setTimeout(()=>sy.remove(),1800);
+}
+function openFriend(i){
+  const f=S.friends[i]; if(!petFriend(f)){ jump(i); return; }
+  const L=f.lv||1, hungry=isHungry(f,i), n=invCount();
+  modal(`<div class="mt">${esc(fName(f))}</div>
+    <div class="md" style="font-size:18px">${hungry?'꼬르륵~ 배가 고파요 🍽️':f.fed===dkey()?'배불러요! 😊':'기분 좋아요 😊'}</div>
+    <div class="petbox"><div class="mon petm ${f.sh?'sh':''} ${L>=4?'leg':''}" id="petm" style="--w:170px">${mon(SP[f.sp]?f.sp:'slime')}${itemSpans(f)}</div>${hungry?'<span class="hbub">🍽️</span>':''}</div>
+    <div class="md" style="font-size:15px;margin-top:-4px">친구를 손가락으로 문질러도 쓰다듬어져요</div>
+    <div class="acts petacts"><button class="btn" id="pp">🤚 쓰다듬기</button><button class="btn y ${hungry?'hungry':''}" id="pf">🍽️ 간식 주기 <small>(${n})</small></button></div>
+    <div class="acts"><button class="btn w sm" id="pt">💬 말 걸기</button><button class="btn w sm" id="px">닫기</button></div>`);
+  const pm=$('#petm'); rubbable(pm,()=>petIt(i,pm));
+  $('#pp').onclick=()=>petIt(i,pm);
+  $('#pf').onclick=()=>pickFood(i);
+  $('#pt').onclick=()=>{ closeModal(); jump(i); };
+  $('#px').onclick=()=>{ closeModal(); refreshVillage(); };
+}
+function pickFood(i){
+  const f=S.friends[i], v=invOf(), list=FOODS.filter(x=>v[x[0]]>0);
+  if(!isHungry(f,i)){ sfx.boing(); toast(`${fName(f)}${batchimEnd(fName(f))?'은':'는'} 아직 배불러요! 배고픈 친구에게 줘요`); return; }
+  if(!list.length){ $('.modal .box').innerHTML=`<div class="mt">🎒 가방이 비었어요</div><div class="md">상점에서 간식을 사서 가방에 넣어 와요!</div>
+      <div class="acts"><button class="btn" id="gs">🛒 상점 가기</button><button class="btn w" id="gb">돌아가기</button></div>`;
+    $('#gs').onclick=()=>openShop(); $('#gb').onclick=()=>openFriend(i); return; }
+  $('.modal .box').innerHTML=`<div class="mt">무엇을 줄까요?</div><div class="md">${esc(fName(f))}에게 줄 간식을 골라요</div>
+    <div class="invg">${list.map(x=>`<button class="invi" data-food="${x[0]}"><span>${x[0]}</span><small>${x[1]}</small><b>${v[x[0]]}</b></button>`).join('')}</div>
+    <div class="acts"><button class="btn w" id="gb">돌아가기</button></div>`;
+  $('#gb').onclick=()=>openFriend(i);
+  document.querySelectorAll('[data-food]').forEach(b=>b.onclick=()=>feed(i,b.dataset.food));
+}
+function feed(i,e){
+  const f=S.friends[i], v=invOf(); if(!(v[e]>0)) return;
+  v[e]--; if(!v[e]) delete v[e]; f.fed=dkey(); f.ate=e; save();
+  const L=f.lv||1;
+  $('.modal .box').innerHTML=`<div class="mt">냠냠! 😋</div>
+    <div class="petbox"><div class="mon petm ${f.sh?'sh':''} ${L>=4?'leg':''}" id="petm" style="--w:170px">${mon(SP[f.sp]?f.sp:'slime')}${itemSpans(f)}</div><span class="eatf">${e}</span></div>
+    <div class="md" style="font-size:20px">${esc(fName(f))}: "${pick(['맛있어! 고마워~','배불러! 최고야!','또 먹고 싶어 💕','냠냠 꿀맛!'])}"</div>
+    <div class="acts"><button class="btn" id="gok">좋아! 🎉</button></div>`;
+  const pm=$('#petm'); setTimeout(()=>{ pm.classList.add('jump'); hearts(pm,5,['💖','😋','✨','💕']); sfx.win(); },650);
+  $('#gok').onclick=()=>{ closeModal(); refreshVillage(); const h=hungryN(); if(h) toast(`배고픈 친구가 ${h}명 더 있어요 🍽️`); };
+}
+function openBag(){
+  const v=invOf(), list=FOODS.filter(x=>v[x[0]]>0), h=hungryN();
+  modal(`<div class="mt">🎒 내 가방</div><div class="md">${h?`배고픈 친구가 <b>${h}명</b> 있어요! 🍽️ 친구를 눌러 간식을 줘요`:'지금은 배고픈 친구가 없어요 😊'}</div>
+    ${list.length?`<div class="invg">${list.map(x=>`<div class="invi"><span>${x[0]}</span><small>${x[1]}</small><b>${v[x[0]]}</b></div>`).join('')}</div>`:'<div class="md" style="font-size:40px;margin:10px 0">텅~</div><div class="md">상점에서 간식을 사면 가방에 들어와요</div>'}
+    <div class="acts"><button class="btn" id="bgs">🛒 간식 사러 가기</button><button class="btn w" id="bgx">닫기</button></div>`);
+  $('#bgs').onclick=()=>openShop(); $('#bgx').onclick=()=>{ closeModal(); refreshVillage(); };
+}
+/* 손가락으로 문지르면 쓰다듬기 */
+let RUBBED=0;
+function rubbable(el,fn){
+  let sx=0,sy=0,dist=0,on=false,last=0,did=false;
+  el.addEventListener('pointerdown',e=>{ on=true; did=false; sx=e.clientX; sy=e.clientY; dist=0; try{ el.setPointerCapture(e.pointerId); }catch(_){} });
+  el.addEventListener('pointermove',e=>{ if(!on) return; dist+=Math.abs(e.clientX-sx)+Math.abs(e.clientY-sy); sx=e.clientX; sy=e.clientY;
+    if(dist>70 && Date.now()-last>700){ last=Date.now(); dist=0; did=true; RUBBED=Date.now(); fn(); } });
+  ['pointerup','pointercancel'].forEach(t=>el.addEventListener(t,()=>{ on=false; if(did) RUBBED=Date.now(); }));
+}
 
 function isNight(){ const h=new Date().getHours(); return h>=19||h<6; }
 function sky(){
@@ -1997,13 +2087,13 @@ function villageHTML(){
     if(homeOfFriend(f)) return '';
     const L=f.lv||1, w=L>=3?170:L===2?128:88;
     return `<div class="plot"><span class="tag ${L>1?'lv'+L:''} ${f.sh&&L<4?'shiny':''}">${f.sh&&L<4?'✨':''}${LVTAG(L)}${esc(f.name||spName(f))}</span>
-      <div class="mon ${f.sh?'sh':''} ${L>=4?'leg':''}" style="--w:${w}px" data-mon="${i}" role="button" tabindex="0" aria-label="${esc(f.name||spName(f))}">${mon(SP[f.sp]?f.sp:'slime')}${itemSpans(f)}</div><div class="shadow"></div></div>`;
+      <div class="mon ${f.sh?'sh':''} ${L>=4?'leg':''}" style="--w:${w}px" data-mon="${i}" role="button" tabindex="0" aria-label="${esc(f.name||spName(f))}">${mon(SP[f.sp]?f.sp:'slime')}${itemSpans(f)}${isHungry(f,i)?'<span class="hbub" aria-label="배고파요">🍽️</span>':''}</div><div class="shadow"></div></div>`;
   }).join('');
   const decos=(S.decos||[]).map((d,j)=>`<div class="plot deco"><span class="decoi" style="animation-delay:-${(j*.7)%3}s">${d}</span><div class="shadow"></div></div>`).join('');
   return `<section class="panel village" id="village">
     <div class="vhead">
       <div><div class="h2">🏡 다연이네 마을</div><div class="muted" style="font-size:18px;margin-top:4px">주민 ${hatched}명${eggs?` · 알 ${eggs}개`:''}${homesOf().length?` · 보금자리 ${homesOf().length}개`:''} · 장식 ${(S.decos||[]).length}개</div></div>
-      ${(lv1>=3||lv2>=3||lv3>=3)?`<button class="mergebtn" data-merge="1">✨ 친구 합치기</button>`:''}${canObjMerge()?`<button class="mergebtn" data-objm="1" style="background:#FFD3B5">🔨 물건 합치기</button>`:''}<button class="mergebtn" data-dex="1" style="background:#E4F3EA">📖 도감 <b>${OBJ_ORDER.filter(id=>dexOf()[id]).length}/${OBJ_ORDER.length}</b></button><button class="mergebtn" data-shop="1" style="background:#FFE680">🛒 상점 <b>⭐${wallet()}</b></button><button class="mergebtn" data-bgpick="1" style="background:#CFE8FF">🎨 배경</button>
+      ${(lv1>=3||lv2>=3||lv3>=3)?`<button class="mergebtn" data-merge="1">✨ 친구 합치기</button>`:''}${canObjMerge()?`<button class="mergebtn" data-objm="1" style="background:#FFD3B5">🔨 물건 합치기</button>`:''}<button class="mergebtn" data-bag="1" style="background:#FFF1B8">🎒 가방 <b>${invCount()}</b>${hungryN()?` · 🍽️${hungryN()}`:''}</button><button class="mergebtn" data-dex="1" style="background:#E4F3EA">📖 도감 <b>${OBJ_ORDER.filter(id=>dexOf()[id]).length}/${OBJ_ORDER.length}</b></button><button class="mergebtn" data-shop="1" style="background:#FFE680">🛒 상점 <b>⭐${wallet()}</b></button><button class="mergebtn" data-bgpick="1" style="background:#CFE8FF">🎨 배경</button>
       <div class="next">⭐${left}개 더 모으면 새 알이 생겨요<div class="bar pink"><i style="width:${(S.stars%PER_FRIEND)/PER_FRIEND*100}%"></i></div></div>
     </div>
     <div class="scene ${sc.cls}" style="${sc.style}">${sc.deco}
@@ -2019,13 +2109,15 @@ function wireVillage(autoAsk){
   el.onclick=e=>{
     if(e.target.closest('[data-act="mail"]')){ openMail(); return; }
     const egg=e.target.closest('[data-egg]'); if(egg){ hatch(+egg.dataset.egg); return; }
-    const mon=e.target.closest('[data-mon]'); if(mon){ jump(+mon.dataset.mon); return; }
+    const mon=e.target.closest('[data-mon]'); if(mon){ if(Date.now()-RUBBED<600) return; openFriend(+mon.dataset.mon); return; }
     const hm=e.target.closest('[data-home]'); if(hm) openHome(+hm.dataset.home);
   };
-  el.onkeydown=e=>{ const mon=e.target.closest('[data-mon]'); if(mon&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); jump(+mon.dataset.mon); return; } const hm=e.target.closest('[data-home]'); if(hm&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); openHome(+hm.dataset.home); } };
+  el.querySelectorAll('[data-mon]').forEach(m=>rubbable(m,()=>petIt(+m.dataset.mon,m)));
+  el.onkeydown=e=>{ const mon=e.target.closest('[data-mon]'); if(mon&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); openFriend(+mon.dataset.mon); return; } const hm=e.target.closest('[data-home]'); if(hm&&(e.key==='Enter'||e.key===' ')){ e.preventDefault(); openHome(+hm.dataset.home); } };
   const mb=document.querySelector('[data-merge]'); if(mb) mb.onclick=()=>askMerge();
   const ob=document.querySelector('[data-objm]'); if(ob) ob.onclick=()=>openObjMerge();
   const dx=document.querySelector('[data-dex]'); if(dx) dx.onclick=()=>openDex();
+  const bg=document.querySelector('[data-bag]'); if(bg) bg.onclick=()=>openBag();
   const sb=document.querySelector('[data-shop]'); if(sb) sb.onclick=()=>openShop();
   const bb=document.querySelector('[data-bgpick]'); if(bb) bb.onclick=()=>openBgPicker();
   const fr=S.friends, can=[1,2,3].some(l=>fr.filter(f=>freeF(f)&&fLv(f)===l).length>=3);
@@ -2062,7 +2154,8 @@ function jump(i, text){
   const f=S.friends[i], s=document.createElement('div'); s.className='say';
   if(text) s.textContent=text;
   else if(f.kind==='obj') s.textContent=`${spName(f)}${batchimEnd(spName(f))?'이에요':'예요'}!`;
-  else if(f.food&&Math.random()<.4){ s.textContent=`${f.food} 냠냠! 맛있어!`; }
+  else if(f.fed===dkey()&&f.ate&&Math.random()<.4){ s.textContent=`아까 먹은 ${f.ate} 맛있었어!`; }
+  else if(isHungry(f,i)&&Math.random()<.6){ s.textContent='꼬르륵… 배고파 🍽️'; }
   else if(f.acc&&Math.random()<.3){ s.textContent=`${f.acc} 나 멋지지?`; }
   else if(f.sp==='poop') s.textContent='뿌직! 😆';
   else{
@@ -2107,7 +2200,7 @@ function askMerge(){
       const nm = made.kind==='obj' ? OBJ[made.obj].ko : made.lv===4 ? made.name : `${made.lv===3?'왕':'큰'} ${spName(made)}`;
       $('.modal .box').innerHTML=`<div class="mt">짜잔! ${nm}${made.kind==='obj'?(batchimEnd(nm)?'이':'가')+' 생겼어!':' 친구가 됐어!'}</div>
         <div class="result ${made.lv===4?'legr':''}"><span class="mon" style="--w:180px">${made.kind==='obj'?OBJ[made.obj].svg():mon(SP[made.sp]?made.sp:'slime')+itemSpans(made)}</span></div>
-        ${bonus?`<div class="bonus">🎁 덤으로 <b>${bonus.e} ${bonus.ko}</b>${bonus.k==='acc'?'도 쓰고 있어요!':'도 들고 왔어요!'}</div>`:''}
+        ${bonus?`<div class="bonus">🎁 덤으로 <b>${bonus.e} ${bonus.ko}</b>${bonus.k==='acc'?'도 쓰고 있어요!':'도 생겼어요! 🎒 가방에 넣었어요'}</div>`:''}
         <div class="acts"><button class="btn" id="mok">좋아! 🎉</button></div>`;
       sfx.win(); burst(70);
       $('#mok').onclick=()=>{ closeModal(); refreshVillage(); };
@@ -2180,8 +2273,8 @@ const SHOP=[
   {sec:'🛏️ 보금자리 · 친구를 살게 해요'},
   ...Object.entries(HOMES).map(([id,T])=>({id:'h_'+id,ic:T.ic,ko:T.ko,d:T.sleep?'쿨쿨 잠자는 곳':'친구가 사는 집',c:T.c,give:()=>homesOf().push({t:id,who:null})})),
   {id:'castle',ic:'🏰',ko:'성',d:'마을에 큰 성을 지어요',c:60,give:()=>S.friends.push({name:'',sp:'slime',kind:'obj',obj:'castle',lv:3,hatched:true})},
-  {sec:'🍰 간식 · 친구에게 줘요'},
-  ...FOODS.map(([e,k,c])=>({id:'f_'+k,ic:e,ko:k,d:'냠냠 간식',c,food:e})),
+  {sec:'🍰 간식 · 가방에 넣었다가 배고픈 친구에게 줘요'},
+  ...FOODS.map(([e,k,c])=>({id:'f_'+k,ic:e,ko:k,d:`가방에 ${(S.inv||{})[e]||0}개`,c,food:e})),
   {sec:'🎀 꾸미기 · 친구에게 씌워 줘요'},
   ...ACCS.map(([e,k,c])=>({id:'a_'+k,ic:e,ko:k,d:'친구 꾸미기',c,acc:e})),
   {sec:'🌷 마을 꾸미기'},
@@ -2201,7 +2294,11 @@ function openShop(){
   const buy=it=>{
     const w=wallet();
     if(w<it.c){ sfx.boing(); toast(`별이 ${it.c-w}개 더 필요해요`); return; }
-    if(it.food||it.acc){ /* 줄 친구를 고르면 바로 사요 */
+    if(it.food){ /* 간식은 가방에 넣어요 */
+      S.spent=(S.spent||0)+it.c; invAdd(it.food); save(); sfx.win(); burst(30); draw();
+      toast(`${it.ic} ${it.ko}${batchimEnd(it.ko)?'을':'를'} 가방에 넣었어요! 🎒 ${invOf()[it.food]}개`); return;
+    }
+    if(it.acc){ /* 줄 친구를 고르면 바로 사요 */
       const list=S.friends.map((f,i)=>({f,i})).filter(x=>x.f.hatched&&x.f.kind!=='obj');
       if(!list.length){ sfx.boing(); toast('먼저 알을 깨워서 친구를 만나요!'); return; }
       $('.modal .box').innerHTML=`<div class="mt">${it.ic} ${it.ko}</div><div class="md">누구에게 ${it.food?'줄까':'씌워 줄까'}? (별 ${it.c}개)</div>
@@ -2927,7 +3024,7 @@ document.addEventListener('keydown',e=>{
 });
 if('speechSynthesis' in window){ try{ speechSynthesis.getVoices(); }catch(e){} }
 ensureFriends();
-if(location.hash==='#test') window.__dy={get S(){return S;},set S(v){S=v;},go,render,openShop,askMerge,refreshVillage,openHome,BGS,checkBgs,streak,ALL,wordProgress};
+if(location.hash==='#test') window.__dy={get S(){return S;},openFriend,pickFood,feed,openBag,isHungry,invOf,petIt,set S(v){S=v;},go,render,openShop,askMerge,refreshVillage,openHome,BGS,checkBgs,streak,ALL,wordProgress};
 go(S.photo?'home':'setup');
 </script>
 </body>
