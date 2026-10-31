@@ -24,7 +24,7 @@ button{font-family:inherit;color:var(--ink);cursor:pointer}
 .btn{pointer-events:auto;background:var(--cream);border:3px solid var(--line);border-radius:999px;padding:6px 14px;font-size:18px;box-shadow:0 3px 0 rgba(0,0,0,.08)}
 #hint{position:fixed;left:50%;top:64px;transform:translateX(-50%);background:rgba(255,248,236,.95);border:3px solid var(--line);border-radius:18px;padding:10px 18px;font-size:19px;pointer-events:none;transition:opacity .2s;max-width:92vw;width:max-content;text-align:center;line-height:1.35}
 #hint.off{opacity:0}
-.modal{position:fixed;inset:0;background:rgba(40,30,20,.35);display:flex;align-items:center;justify-content:center;padding:16px}
+.modal{z-index:50;position:fixed;inset:0;background:rgba(40,30,20,.35);display:flex;align-items:center;justify-content:center;padding:16px}
 .panel{background:var(--cream);border:4px solid var(--line);border-radius:26px;padding:20px;width:min(320px,100%);display:flex;flex-direction:column;gap:12px;text-align:center}
 .panel h2{margin:0 0 4px;font-weight:400;font-size:24px}
 .big{font-size:21px;padding:12px;border-radius:18px;border:3px solid var(--line);background:#fff}
@@ -45,6 +45,15 @@ button{font-family:inherit;color:var(--ink);cursor:pointer}
 h1{margin:0;font-weight:400;font-size:26px}
 @media (max-width:700px){.cwrap{flex-direction:column}.preview{flex:none}#pv{width:220px;height:230px}}
 .hidden{display:none!important}
+#who{position:fixed;inset:0;z-index:40;background:var(--cream);display:flex;padding:16px;overflow:auto}
+.whobox{margin:auto;text-align:center}
+.wholist{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:18px;max-width:760px}
+.pc{position:relative;width:150px;background:#fff;border:4px solid var(--line);border-radius:22px;padding:10px 8px;font-size:20px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.06)}
+.pc canvas{width:120px;height:120px;display:block;margin:0 auto 4px;background:radial-gradient(circle at 50% 70%,#eaf7dc,#cdeab5);border-radius:18px}
+.pc .sub{font-size:14px;opacity:.7}
+.pc .del{position:absolute;top:4px;right:6px;border:none;background:none;font-size:16px;opacity:.45;padding:4px}
+.pc.add{display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:44px;color:var(--accent);min-height:196px;border-style:dashed}
+.pc.add div{font-size:18px;color:var(--ink)}
 .wide{width:min(460px,100%);max-height:88vh}
 .mbody{overflow:auto;display:flex;flex-direction:column;gap:8px;text-align:left}
 .it{display:flex;align-items:center;gap:8px;background:#fff;border:2px solid var(--line);border-radius:14px;padding:8px 10px;font-size:18px}
@@ -88,6 +97,7 @@ h1{margin:0;font-weight:400;font-size:26px}
     <button class="big" id="editBtn">✏️ 꾸미기</button>
     <button class="big" id="musicBtn">🎵 음악 켜짐</button>
     <button class="big" id="sfxBtn">🔊 효과음 켜짐</button>
+    <button class="big" id="swBtn">👥 플레이어 바꾸기</button>
     <button class="big" id="closeSet">닫기</button>
   </div>
 </div>
@@ -96,6 +106,7 @@ h1{margin:0;font-weight:400;font-size:26px}
 <button id="act" class="hidden"><span class="ae">✋</span><span class="al"></span></button>
 <div id="modal" class="modal hidden"><div class="panel wide"><h2 id="mTitle"></h2><div id="mBody" class="mbody"></div><button class="big" onclick="closeModal()">닫기</button></div></div>
 
+<div id="who" class="hidden"><div class="whobox"><h1>누가 놀까요? 🐾</h1><div id="whoList" class="wholist"></div></div></div>
 <div id="creator">
   <div class="cwrap">
     <div class="preview">
@@ -103,6 +114,7 @@ h1{margin:0;font-weight:400;font-size:26px}
       <canvas id="pv"></canvas>
       <input id="name" maxlength="8" placeholder="이름을 지어주세요">
       <button class="go" id="goBtn">이 친구로 시작하기!</button>
+      <button class="btn hidden" id="creatorBack">↩ 돌아가기</button>
     </div>
     <div id="opts"></div>
   </div>
@@ -119,8 +131,7 @@ const OPTS={
   outfit:[['#ff8fa3','분홍'],['#ffd166','노랑'],['#7cc8a4','초록'],['#6fa8ff','파랑'],['#b79cff','보라'],['#ff9f68','주황'],['#ffffff','하양']]
 };
 let state={name:'다다',char:{species:'cat',fur:'#f6b26b',eye:'sparkle',nose:'triangle',outfit:'#ff8fa3'},stars:0,coins:0,happy:0,sleeping:false,bag:{},tools:{},req:{},dex:{},xp:0,wear:{},planted:[]};
-function load(){try{let raw=null;try{raw=window.Android&&Android.loadData()}catch(e){}if(!raw)raw=localStorage.getItem(SAVE);const s=JSON.parse(raw);if(s&&s.char){state=Object.assign(state,s);return true}}catch(e){}return false}
-function save(){const j=JSON.stringify(state);try{localStorage.setItem(SAVE,j)}catch(e){}try{window.Android&&Android.saveData(j)}catch(e){}}
+const DEFAULT_STATE=JSON.stringify(state);
 
 /* ---------- 그리기 도구 ---------- */
 const TAU=Math.PI*2;
@@ -216,8 +227,8 @@ function buildCreator(){
       chips.appendChild(b)});
     row.appendChild(chips);box.appendChild(row)});
 }
-function openCreator(){draft={...state.char};$('#name').value=state.name;$('#goBtn').textContent=started?'완료!':'이 친구로 시작하기!';buildCreator();$('#settings').classList.add('hidden');$('#creator').classList.remove('hidden');$('#hud').classList.add('hidden');$('#menu').classList.add('hidden');$('#mini').classList.add('hidden');$('#act').classList.add('hidden');lastActKey='';$('#hint').classList.add('off');lastHint='';mode='creator';setTimeout(resize,0)}
-$('#goBtn').onclick=()=>{state.char={...draft};state.name=$('#name').value.trim()||'다다';save();showVillage()};
+function openCreator(){draft={...state.char};$('#creatorBack').classList.toggle('hidden',started||!world.order.some(i=>i!==curId));$('#name').value=state.name;$('#goBtn').textContent=started?'완료!':'이 친구로 시작하기!';buildCreator();$('#settings').classList.add('hidden');$('#creator').classList.remove('hidden');$('#hud').classList.add('hidden');$('#menu').classList.add('hidden');$('#mini').classList.add('hidden');$('#act').classList.add('hidden');lastActKey='';$('#hint').classList.add('off');lastHint='';mode='creator';setTimeout(resize,0)}
+$('#goBtn').onclick=()=>{state.char={...draft};state.name=$('#name').value.trim()||'다다';save();initGame();showVillage()};
 
 /* ---------- 설정 (재우기/깨우기) ---------- */
 function syncSleepBtn(){$('#sleepBtn').textContent=state.sleeping?'☀️ 깨우기':'😴 재우기'}
@@ -262,7 +273,8 @@ const NEWH=[
   {id:'bao',lv:5,x:300,y:1350,hx:330,hy:1470,roof:'#7cc8a4',wall:'#fff8ec',door:'#4f9a75',inWall:'#e4f6ea',rug:'#b8f2a0',e:'🎋',items:['🎋','🍙','🎵','🪴']},
   {id:'danpung',lv:6,x:1000,y:330,hx:820,hy:440,roof:'#ff9f68',wall:'#fff3d6',door:'#d9703a',inWall:'#fff1e6',rug:'#ffd8a8',e:'🍂',items:['🍂','📚','🔭','🍄']}
 ];
-const ALLH=[...HOUSES,...NEWH];
+const PSLOTS=[{x:160,y:330,hx:200,hy:450},{x:1260,y:330,hx:1260,hy:440},{x:2020,y:260,hx:1990,hy:370},{x:2470,y:960,hx:2470,hy:1070},{x:800,y:1290,hx:1000,hy:1390},{x:600,y:1500,hx:660,hy:1570}];
+const ALLH=[...HOUSES,...NEWH,...PSLOTS];
 const pondK=(x,y,s)=>((x-pond.x)/(pond.rx*s))**2+((y-pond.y)/(pond.ry*s))**2;
 const b1=riverX(745),b2=riverX(1240);
 const roads=[
@@ -565,6 +577,7 @@ function cook(k){if(time>=fireUntil){closeModal();toast('불이 꺼졌어요. �
 function talk(n){
   Snd.sfx('pop');
   if(n.owner)return talkOwner();
+  if(n.player)return talkPlayer(n);
   if(n.newbie&&!(state.met||{})[n.id])return greetNew(n);
   let r=state.req[n.id];
   if(!r){const q=REQ[Math.floor(Math.random()*REQ.length)];r=state.req[n.id]={item:q[0],n:q[1],reward:100+Math.floor(Math.random()*5)*50};save()}
@@ -699,7 +712,7 @@ function drawExtras(items){
   if(vis(shop.x,shop.y,200))items.push([shop.y,drawShop]);
   pickups.forEach(p=>{if(vis(p.x,p.y,20))items.push([p.y-20,()=>drawPickup(p)])});
   bugs.forEach(b=>{if(b.x!==undefined&&vis(b.x,b.y,60))items.push([b.tree?b.y:b.y+(b.alt?40:0),()=>drawBug(b)])});
-  NPCS.forEach(n=>{if(outside(n)&&vis(n.x,n.y,120))items.push([n.y,()=>{drawChar(ctx,n.x,n.y,1.05,n.char,time+n.hx,n.dir,n.walking,(time+n.hx/100)%4<.12,false);ctx.font='14px Jua, sans-serif';ctx.textAlign='center';ctx.fillStyle='#4a3b32';ctx.fillText(n.owner?'👑 마을 주인 '+n.name:n.name,n.x,n.y-108);drawEmote(n,n.x,n.y);if((n.owner&&!state.metOwner)||(n.newbie&&!(state.met||{})[n.id])){ctx.font='24px sans-serif';ctx.fillText('❗',n.x,n.y-128-Math.abs(Math.sin(time*4))*6)}}])});
+  NPCS.forEach(n=>{if(outside(n)&&vis(n.x,n.y,120))items.push([n.y,()=>{drawChar(ctx,n.x,n.y,1.05,n.char,time+n.hx,n.dir,n.walking,(time+n.hx/100)%4<.12,false);ctx.font='14px Jua, sans-serif';ctx.textAlign='center';ctx.fillStyle='#4a3b32';ctx.fillText(n.owner?'👑 마을 주인 '+n.name:n.player?'⭐ '+n.name:n.name,n.x,n.y-108);drawEmote(n,n.x,n.y);if((n.owner&&!state.metOwner)||(n.newbie&&!(state.met||{})[n.id])){ctx.font='24px sans-serif';ctx.fillText('❗',n.x,n.y-128-Math.abs(Math.sin(time*4))*6)}}])});
   SEATS.forEach(b=>{if(vis(b.x,b.y,60))items.push([b.y,()=>drawSeat(b)])});
   HOUSES.forEach(h=>{if(vis(h.x,h.y,220))items.push([h.y,()=>drawHouse(h)])});
   if(fishing)items.push([P.y+.5,drawFishing]);
@@ -1281,6 +1294,8 @@ let backAt=-9;
 window.appBack=function(){
   if(!$('#modal').classList.contains('hidden')){closeModal();return true}
   if(!$('#settings').classList.contains('hidden')){$('#settings').classList.add('hidden');return true}
+  if(mode==='who')return false;
+  if(mode==='creator'&&!started){location.reload();return true}
   if(mode==='creator'&&started){showVillage();return true}
   if(miniBig){miniBig=false;mini.classList.remove('big');return true}
   if(scene!=='village'){exitRoom();return true}
@@ -1290,6 +1305,68 @@ window.appBack=function(){
 window.appPause=()=>{save();Snd.pause()};
 window.appResume=()=>Snd.resume();
 document.addEventListener('visibilitychange',()=>{document.hidden?window.appPause():window.appResume()});
+
+/* ---------- 여러 명이 함께 (플레이어마다 따로 저장) ---------- */
+const WKEY='animalVillage_world';
+let world={v:2,players:{},order:[],last:null},curId=null,inited=false;
+const lvOf=p=>1+Math.floor(Math.sqrt((p.xp||0)/20));
+function persistWorld(){const j=JSON.stringify(world);try{localStorage.setItem(WKEY,j)}catch(e){}try{window.Android&&Android.saveData(j)}catch(e){}}
+function save(){if(!curId)return;world.players[curId]=state;persistWorld()}
+function loadWorld(){
+  let raw=null;try{raw=window.Android&&Android.loadData()}catch(e){}
+  if(!raw)try{raw=localStorage.getItem(WKEY)}catch(e){}
+  let w=null;try{w=JSON.parse(raw)}catch(e){}
+  if(w&&w.v===2&&w.players){world=w;world.order=world.order.filter(id=>world.players[id]);return}
+  // 예전(혼자 하던) 기록은 첫 번째 플레이어로 옮겨요
+  let old=w;if(!(old&&old.char))try{old=JSON.parse(localStorage.getItem(SAVE))}catch(e){}
+  if(old&&old.char){const id='p'+Date.now().toString(36);old.slot=0;world.players[id]=old;world.order=[id];world.last=id;persistWorld()}
+}
+function hideGameUI(){['#hud','#menu','#mini','#act','#settings'].forEach(s=>$(s).classList.add('hidden'));$('#hint').classList.add('off');lastHint='';lastActKey=''}
+function showWho(){
+  mode='who';hideGameUI();$('#creator').classList.add('hidden');
+  if(!world.order.length){newPlayer();return}
+  const box=$('#whoList');box.innerHTML='';
+  world.order.forEach(id=>{
+    const p=world.players[id],card=document.createElement('div');card.className='pc';
+    card.innerHTML=`<button class="del" aria-label="지우기">✕</button><canvas width="240" height="240"></canvas><div>${p.name}</div><div class="sub">Lv.${lvOf(p)} · ⭐${p.stars||0}</div>`;
+    const cv=card.querySelector('canvas');drawChar(cv.getContext('2d'),120,222,2.15,{...p.char,wear:p.wear||{}},0,1,false,false,false);
+    card.onclick=e=>{if(e.target.classList.contains('del'))askDel(id);else choosePlayer(id)};
+    box.appendChild(card);
+  });
+  if(world.order.length<PSLOTS.length+1){const add=document.createElement('div');add.className='pc add';add.innerHTML='＋<div>새 친구</div>';add.onclick=newPlayer;box.appendChild(add)}
+  $('#who').classList.remove('hidden');
+}
+function askDel(id){const p=world.players[id];openModal('🗑️ 지울까요?',`<p class="say">${p.name}의 기록이 모두 사라져요.<br>정말 지울까요?</p><button class="big main" onclick="delPlayer('${id}')">지우기</button>`)}
+function delPlayer(id){delete world.players[id];world.order=world.order.filter(i=>i!==id);if(world.last===id)world.last=null;persistWorld();closeModal();showWho()}
+function choosePlayer(id){
+  curId=id;world.last=id;state=Object.assign(JSON.parse(DEFAULT_STATE),world.players[id]);
+  $('#who').classList.add('hidden');initGame();showVillage();save();
+}
+function newPlayer(){
+  const used=world.order.map(i=>world.players[i].slot);let slot=0;while(used.includes(slot))slot++;
+  curId='p'+Date.now().toString(36);state=JSON.parse(DEFAULT_STATE);state.slot=slot;state.name='';
+  world.players[curId]=state;world.order.push(curId);world.last=curId;
+  $('#who').classList.add('hidden');openCreator();
+}
+function initGame(){if(inited)return;inited=true;applyPlanted();unlockResidents(false);addOtherPlayers()}
+
+/* 다른 플레이어는 내 마을에서 주민처럼 지내요 */
+function addOtherPlayers(){
+  world.order.forEach(id=>{
+    if(id===curId)return;const p=world.players[id],sl=PSLOTS[p.slot];if(!sl||!p.char)return;
+    const roof=p.char.outfit==='#ffffff'?'#ffb3c4':p.char.outfit,hid='pl_'+id;
+    const own=[...GEAR,...FURN].filter(k=>(p.tools||{})[k]).map(k=>TOOLS[k][0]);
+    HOUSES.push({id:hid,x:sl.x,y:sl.y,hx:sl.hx,hy:sl.hy,roof,wall:'#fff8ec',door:shade(roof,-.3),inWall:shade(roof,.82),rug:shade(roof,.55),e:'⭐',items:[...own,'⭐','🌸','🧸','🎀'].slice(0,4)});
+    NPCS.push({id:hid,player:true,pid:id,name:p.name,char:{...p.char,wear:p.wear||{}},hx:sl.hx,hy:sl.hy,r:260,x:sl.x,y:sl.y+26,dir:1,walking:false,wait:1,st:'out',timer:20+Math.random()*30,rx:280,ry:300,rtx:280,rty:300,leg:0});
+    FAV[hid]=['😊','🎵','⭐','💗'];
+  });
+}
+function talkPlayer(n){
+  const p=world.players[n.pid],dex=Object.keys(p.dex||{}).length;
+  openModal(`💬 ${n.name}`,`<p class="say">안녕, ${state.name}! 나는 ${josa(n.name,'이야','야')} 😊<br>나는 지금 Lv.${lvOf(p)}이고, 도감은 ${dex}종 모았어!<br>⭐ 별 ${p.stars||0}개 · 💰 ${p.coins||0}</p><p class="say" style="font-size:16px;opacity:.75">설정 → 👥 플레이어 바꾸기에서 ${n.name} 캐릭터로 놀 수 있어요</p>`);
+}
+$('#swBtn').onclick=()=>{save();location.reload()};
+$('#creatorBack').onclick=()=>location.reload();
 
 /* ---------- 그리기: 지형 ---------- */
 let vx0=0,vx1=0,vy0=0,vy1=0;
@@ -1452,10 +1529,10 @@ let last=performance.now();
 function loop(now){
   requestAnimationFrame(loop);
   const dt=Math.max(0,Math.min(.05,(now-last)/1000));last=now;time+=dt;
-  try{Snd.track(mode==='creator'?'room':state.sleeping?'night':scene==='village'?'village':'room');if(mode==='creator')renderPreview();else{update(dt);scene==='village'?render():renderRoom();drawMini()}}catch(e){console.error(e)}
+  try{Snd.track(mode==='creator'?'room':state.sleeping?'night':scene==='village'?'village':'room');if(mode==='creator')renderPreview();else if(mode==='village'){update(dt);scene==='village'?render():renderRoom();drawMini()}}catch(e){console.error(e)}
 }
 resize();
-const loaded=load();applyPlanted();unlockResidents(false);if(loaded){showVillage()}else openCreator();
+loadWorld();showWho();
 requestAnimationFrame(loop);
 </script>
 </body>
