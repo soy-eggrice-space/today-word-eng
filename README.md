@@ -19,6 +19,7 @@
 | 오늘공부 (`today-study/`) | [today-study.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/today-study/today-study.apk) | [today-study_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/today-study/today-study_for_mobile_ver1.0.apk) |
 | 모여봐요 단어마을 (친구용) (`word-village/`) | [word-village.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/word-village/word-village.apk) | [word-village_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/word-village/word-village_for_mobile_ver1.0.apk) |
 | 오늘단어 (`today-words/`) | [today-words.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/today-words/today-words.apk) | [today-words_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/today-words/today-words_for_mobile_ver1.0.apk) |
+| 우리 동물 마을 (베타) (`animal-village/`) | [animal-village.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/animal-village/animal-village.apk) | — |
 | 공!부!해! N4 (`jlpt-n4/`) | — | [gongbuhae-n4.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/jlpt-n4/gongbuhae-n4.apk) |
 
 앱마다 폴더와 빌드(.github/workflows/<폴더>.yml)가 따로 있어서, 그 폴더를 고치면 그 앱만 다시 만들어져요.

@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.application'
+}
+
+def runNumber = (System.getenv('GITHUB_RUN_NUMBER') ?: '1').toInteger()
+def ksFile = file('today.keystore')
+def ksPass = System.getenv('KEYSTORE_PASSWORD') ?: ''
+
+android {
+    namespace 'com.dayeon.animalvillage'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.dayeon.animalvillage'
+        minSdk 26
+        targetSdk 34
+        versionCode runNumber
+        versionName "0.1.${runNumber}-beta"
+    }
+
+    // 항상 같은 서명키로 빌드해야 다음 베타를 덮어 설치할 때 게임 기록이 유지돼요.
+    signingConfigs {
+        release {
+            storeFile ksFile
+            storePassword ksPass
+            keyAlias 'today'
+            keyPassword ksPass
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (ksFile.exists()) signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}

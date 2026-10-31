@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- 고양이 귀 -->
+    <path android:fillColor="#F6B26B" android:strokeColor="#5A3C2D" android:strokeWidth="3" android:strokeLineJoin="round"
+        android:pathData="M36,48 L34,26 L50,38 Z" />
+    <path android:fillColor="#F6B26B" android:strokeColor="#5A3C2D" android:strokeWidth="3" android:strokeLineJoin="round"
+        android:pathData="M72,48 L74,26 L58,38 Z" />
+    <path android:fillColor="#FFB3C4" android:pathData="M38,42 L37,31 L46,38 Z" />
+    <path android:fillColor="#FFB3C4" android:pathData="M70,42 L71,31 L62,38 Z" />
+    <!-- 얼굴 -->
+    <path android:fillColor="#F6B26B" android:strokeColor="#5A3C2D" android:strokeWidth="3"
+        android:pathData="M54,36 C70,36 80,46 80,59 C80,72 68,80 54,80 C40,80 28,72 28,59 C28,46 38,36 54,36 Z" />
+    <!-- 눈 -->
+    <path android:fillColor="#2E2420" android:pathData="M44,58 m-5,0 a5,5.6 0 1,0 10,0 a5,5.6 0 1,0 -10,0" />
+    <path android:fillColor="#2E2420" android:pathData="M64,58 m-5,0 a5,5.6 0 1,0 10,0 a5,5.6 0 1,0 -10,0" />
+    <path android:fillColor="#FFFFFF" android:pathData="M46,55.5 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" />
+    <path android:fillColor="#FFFFFF" android:pathData="M66,55.5 m-2,0 a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0" />
+    <!-- 볼 -->
+    <path android:fillColor="#FF8FA3" android:pathData="M36,67 m-4,0 a4,2.6 0 1,0 8,0 a4,2.6 0 1,0 -8,0" />
+    <path android:fillColor="#FF8FA3" android:pathData="M72,67 m-4,0 a4,2.6 0 1,0 8,0 a4,2.6 0 1,0 -8,0" />
+    <!-- 코·입 -->
+    <path android:fillColor="#FF6F91" android:pathData="M51,64 L57,64 L54,67.5 Z" />
+    <path android:strokeColor="#5A3C2D" android:strokeWidth="1.8" android:strokeLineCap="round"
+        android:pathData="M54,67.5 Q51,71 48.5,68.5 M54,67.5 Q57,71 59.5,68.5" />
+    <!-- 잎사귀 -->
+    <path android:fillColor="#5FB36A" android:strokeColor="#3F7F4A" android:strokeWidth="2"
+        android:pathData="M60,30 C64,22 72,20 78,22 C76,28 70,34 60,30 Z" />
+</vector>
