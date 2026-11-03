@@ -368,6 +368,16 @@ h1,h2,h3,p{margin:0}
 /* message */
 .msg-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.6fr);gap:18px;padding-block:18px 160px;align-items:start}
 .msg-col{display:flex;flex-direction:column;gap:18px;min-width:0}
+.msg-grid.p1{grid-template-columns:minmax(0,1.5fr) minmax(0,1fr)}
+.msg-grid.p2{grid-template-columns:minmax(0,1fr);max-width:1120px}
+.step.who-sum{flex-direction:row;align-items:center;gap:14px;flex-wrap:wrap;padding:14px 18px}
+.who-sum .pv-faces .ava+.ava,.who-sum .pv-faces .pava+.pava{margin-left:-12px}
+.who-sum .ws-txt{flex:1;min-width:180px;font:24px/1.25 var(--f-d)}
+.who-sum .tbtn{box-shadow:none;background:var(--surface-2);height:56px}
+.pager{display:inline-flex;gap:6px;align-items:center;flex:none}
+.pager i{width:10px;height:10px;border-radius:5px;background:color-mix(in oklab,var(--ink) 22%,transparent);transition:width .25s,background .25s}
+.pager i.on{width:28px;background:var(--bub-ink)}
+.sendbtn .ui.after{order:2}
 .step{background:var(--surface);border-radius:30px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;min-width:0;border:3px solid transparent;transition:border-color .2s}
 .step.need{border-color:var(--bub-ink);animation:need .45s ease 3}
 .step h2{display:flex;align-items:center;gap:10px;font:24px/1.1 var(--f-d);font-weight:400}
@@ -474,7 +484,7 @@ h1,h2,h3,p{margin:0}
 .tg-chat small{color:var(--ink-3);font-size:13px;flex:none}
 @keyframes fly{0%{transform:translate(-140px,90px) rotate(-14deg) scale(.5);opacity:0}45%{opacity:1}100%{transform:none}}
 @keyframes need{50%{transform:translateY(-4px)}}
-@media (max-width:860px){.msg-grid{grid-template-columns:1fr}.fam-cards{grid-template-columns:1fr}.fcard{min-height:0}}
+@media (max-width:860px){.msg-grid,.msg-grid.p1{grid-template-columns:1fr}.fam-cards{grid-template-columns:1fr}.fcard{min-height:0}}
 @media (max-width:560px){.sendbtn{min-height:62px;padding:0 20px;font-size:23px}.phr{grid-template-columns:repeat(auto-fill,minmax(118px,1fr))}.ph{min-height:108px;font-size:17px}.ph .ic{width:48px;height:48px}.pk{font-size:18px}.fcard{padding:24px;border-radius:32px}.fcard .sc-ico{width:84px;height:84px;border-radius:26px}.fcard .sc-ico .ic{width:58px;height:58px}}
 
 .sync-chip{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 16px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow);font-weight:600;font-size:14px;color:var(--ink-2)}
@@ -1154,7 +1164,7 @@ function renderFamily(){
 }
 
 /* ===== 마음 전하기 ===== */
-const M={to:new Set(),from:new Set(),pick:[],rec:'idle',voice:null,t0:0,sending:false,req:'',need:false};
+const M={page:1,to:new Set(),from:new Set(),pick:[],rec:'idle',voice:null,t0:0,sending:false,req:'',need:false};
 const TG={token:'',busy:false,chats:null,err:''};
 const hasBatchim=n=>{const c=n.charCodeAt(n.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28>0};
 const withI=n=>hasBatchim(n)?n+'이':n;
@@ -1198,15 +1208,21 @@ function renderMsg(){
   }else rec=`<div class="recbox"><button class="recbtn" data-act="mrec" ${canRec?'':'disabled'} aria-label="녹음 시작">${ui('mic')}</button><div class="rec-txt"><b>${M.rec==='perm'?'마이크를 허락해 주세요':'눌러서 말하기'}</b><small>${canRec?'버튼을 누르고 하고 싶은 말을 해요. 다시 누르면 끝나요.':'녹음은 태블릿 앱에서 할 수 있어요'}</small></div></div>`;
   const phr=`<div class="phr">${S.msg.phrases.map(p=>`<button class="ph" data-act="mph" data-pid="${p.id}" aria-pressed="${M.pick.includes(p.id)}">${ico(p.icon)}<span>${esc(p.label)}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
   const chip=!IS_APP?'<span class="fc-note">메시지는 앱에서 보낼 수 있어요</span>':info.chat?'':'<span class="fc-note"><span class="sync-dot"></span>텔레그램 연결이 필요해요</span>';
+  const p1=M.page===1, whoReady=to.length>0&&from.length>0;
+  const summary=`<section class="step ok who-sum"><span class="pv-faces">${from.map(k=>avatar(k,56)).join('')}</span><svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg><span class="pv-faces">${to.map(p=>parentAva(p,56)).join('')}</span>
+    <span class="ws-txt">${esc(dot(from.map(k=>withI(k.name))))}가 → ${esc(dot(to.map(p=>p.name)))}에게</span><button class="tbtn" data-act="mpage1">${ui('back')}바꾸기</button></section>`;
   $('#msg').innerHTML=`
   <header class="band scene" data-rid="msg"><div class="wrap band-in">
-    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
-    <div class="band-title"><span class="sc-ico">${ico('bubble')}</span><div><h1>마음 전하기</h1><p class="band-date">엄마 아빠에게 하고 싶은 말을 보내요</p></div></div>${chip}
+    <button class="back bubble" data-act="${p1?'family':'mpage1'}" aria-label="${p1?'처음 화면으로':'앞 페이지로'}">${ui('back')}</button>
+    <div class="band-title"><span class="sc-ico">${ico('bubble')}</span><div><h1>마음 전하기</h1><p class="band-date">${p1?'누구에게, 누가 보내는지 골라요':'하고 싶은 말을 골라요'}</p></div></div>
+    <span class="pager" aria-label="${M.page}/2 페이지"><i class="${p1?'on':''}"></i><i class="${p1?'':'on'}"></i></span>${chip}
   </div></header>
-  <div class="wrap msg-grid">
-    <div class="msg-col">${step(1,'누구에게?',to.length>0,parents)}${step(2,'누가 보내요?',from.length>0,kids)}</div>
-    <div class="msg-col">${step(3,'무슨 말?',ph.length>0||!!M.voice,rec+phr)}</div>
-  </div>
+  ${p1?`<div class="wrap msg-grid p1">
+    <div class="msg-col">${step(1,'누구에게?',to.length>0,parents)}</div>
+    <div class="msg-col">${step(2,'누가 보내요?',from.length>0,kids)}</div>
+  </div>`:`<div class="wrap msg-grid p2">
+    <div class="msg-col">${summary}${step(3,'무슨 말?',ph.length>0||!!M.voice,rec+phr)}</div>
+  </div>`}
   <div class="sendbar"><div class="wrap sendbar-in">
     <div class="preview">
       <span class="pv-faces">${from.length?from.map(k=>avatar(k,40)).join(''):'<span class="pv-empty"></span>'}</span>
@@ -1215,7 +1231,8 @@ function renderMsg(){
       <span class="pv-items">${ph.map(p=>`<span class="pv-ph">${ico(p.icon)}</span>`).join('')}${M.voice?`<span class="pv-ph">${ui('mic')}</span>`:''}</span>
       <p class="pv-text">${esc(previewLine())}</p>
     </div>
-    <button class="sendbtn" data-act="msend" aria-disabled="${!ready}">${M.sending?'보내는 중…':ui('send')+'보내기'}</button>
+    ${p1?`<button class="sendbtn" data-act="mnext" aria-disabled="${!whoReady}">다음${ui('next')}</button>`
+      :`<button class="sendbtn" data-act="msend" aria-disabled="${!ready}">${M.sending?'보내는 중…':ui('send')+'보내기'}</button>`}
   </div></div>`;
   window.scrollTo(0,y);
 }
@@ -1246,7 +1263,7 @@ function recStop(){
 }
 window.onRecPerm=ok=>{ M.rec='idle'; if(view.screen!=='msg') return; if(ok) recStart(); else { renderMsg(); toast('마이크 사용을 허락해야 녹음할 수 있어요'); } };
 window.onTranscript=(seq,text)=>{ if(!M.voice||M.voice.seq!==seq) return; M.voice.pending=false; M.voice.text=String(text||'').trim(); if(view.screen==='msg') renderMsg(); };
-function resetMsg(){ if(M.voice){ try{window.Android.recDiscard()}catch(e){} } M.to.clear(); M.from.clear(); M.pick=[]; M.voice=null; M.rec='idle'; M.need=false; M.sending=false; }
+function resetMsg(){ if(M.voice){ try{window.Android.recDiscard()}catch(e){} } M.to.clear(); M.from.clear(); M.pick=[]; M.voice=null; M.rec='idle'; M.need=false; M.sending=false; M.page=1; }
 function sendMsg(){
   if(!msgReady()){
     if(M.sending) return;
@@ -1547,6 +1564,8 @@ document.addEventListener('click',e=>{
     case 'mdel': try{ window.Android.recDiscard(); }catch(e){} M.voice=null; M.rec='idle'; renderMsg(); break;
     case 'mtrans': if(M.voice){ M.voice.useText=!M.voice.useText; renderMsg(); } break;
     case 'msend': sendMsg(); break;
+    case 'mnext': if(M.to.size&&M.from.size){ M.page=2; M.need=false; renderMsg(); window.scrollTo(0,0); tone([660,880],.08,'sine'); } else { M.need=true; renderMsg(); tone([330],.14,'sine'); setTimeout(()=>{M.need=false},1500); } break;
+    case 'mpage1': if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); break;
     case 'tgfind': { const tk=($('#tgToken')?.value||'').trim(); TG.token=tk; if(!tk&&!tgInfo().hasToken){ TG.err='토큰을 먼저 붙여 넣어 주세요.'; rerenderEdit(); break; } TG.busy=true; TG.err=''; rerenderEdit(); try{ window.Android.tgSetup(tk); }catch(e){ TG.busy=false; TG.err='이 기기에서는 텔레그램 연결을 할 수 없어요.'; rerenderEdit(); } break; }
     case 'tgpick': try{ window.Android.tgChoose(d.id,d.title||''); }catch(e){} TG.chats=null; TG.token=''; rerenderEdit(); toast('연결했어요. 단톡방에 확인 메시지를 보내는 중이에요'); break;
     case 'tgtest': try{ window.Android.tgSend('test','🔔 우리가족 앱 테스트 메시지예요',false); }catch(e){} break;
@@ -1617,7 +1636,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.sent')) return true; const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.sent')) return true; if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 show();
