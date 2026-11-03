@@ -394,6 +394,7 @@ const ICONS={
   syringe:'<g transform="rotate(45 24 24)"><rect class="t" x="18" y="11" width="12" height="21" rx="2"/><path d="M14 11h20M24 11V5M19 5h10M24 32v11M18 18h5M18 24h5"/></g>',
   strip:'<g transform="rotate(-18 24 24)"><rect class="t" x="4" y="17" width="40" height="14" rx="7"/><rect x="17" y="19.5" width="14" height="9" rx="2.5"/><path class="s" d="M9.5 22.5h2v3h-2zM36.5 22.5h2v3h-2z"/></g>',
   fold:'<rect class="t" x="7" y="29" width="34" height="12" rx="3"/><rect class="t" x="10" y="17" width="28" height="12" rx="3"/><path d="M19 17l5 5 5-5"/><path class="s" d="M27 7.5a4 4 0 1 0 3 6.8 3.2 3.2 0 0 1-3-6.8z"/>',
+  hotpack:'<rect class="t" x="9" y="17" width="30" height="25" rx="6"/><path d="M15 29h18M15 35h11"/><path d="M17 12c-2-2.5 2-3.5 0-7M24 12c-2-2.5 2-3.5 0-7M31 12c-2-2.5 2-3.5 0-7"/>',
   sunscreen:'<path class="t" d="M14 11h20l-2.2 28.5a2.6 2.6 0 0 1-2.6 2.5H18.8a2.6 2.6 0 0 1-2.6-2.5z"/><rect x="18" y="4" width="12" height="7" rx="1.8"/><circle cx="24" cy="26" r="4.2"/><path d="M24 17.5v2M24 32.5v2M15.8 26h2M30.2 26h2"/>',
   star:'<path class="t" d="M24 5l5.6 11.6 12.7 1.8-9.2 9 2.2 12.7L24 34l-11.3 6 2.2-12.6-9.2-9 12.7-1.8z"/>'
 };
@@ -435,7 +436,7 @@ const ROUT={
 };
 const RIDS=['morning','evening','out'];
 const KID_COLORS=['#8B5CF6','#2BA8E0','#F0A41C','#E5487A','#16A39A','#4C6FFF','#FF7A3D','#3BAA4E'];
-const CATALOG=[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['syringe','주사 맞기'],['strip','코르릉 붙이기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['notebook','언어전달장'],['toilet','아침 쉬'],['toilet','저녁 쉬'],['water','물 떠오기'],['vitamin','영양제 먹기'],['bed','이불 정리'],['toilet','화장실 가기'],['wash','세수하기'],['brush','양치하기'],['shirt','옷 입기'],['meal','아침 먹기'],['meal','저녁 먹기'],['comb','머리 빗기'],['hair','머리 묶기'],['lotion','로션 바르기'],['vitamin','비타민 먹기'],['water','물 마시기'],['backpack','가방 챙기기'],['backpack','내일 가방 챙기기'],['bottle','물병 챙기기'],['notebook','알림장 보여주기'],['homework','숙제하기'],['book','책 읽기'],['piano','악기 연습'],['toys','장난감 정리'],['plate','그릇 갖다 놓기'],['laundry','빨래통에 옷 넣기'],['handwash','손 씻기'],['bath','목욕하기'],['pajama','잠옷 입기'],['sleep','불 끄고 눕기'],['socks','양말 신기'],['coat','외투 입기'],['shoes','신발 신기'],['hat','모자 쓰기'],['mask','마스크 쓰기'],['umbrella','우산 챙기기'],['plant','화분 물 주기'],['heart','엄마 아빠 안아 주기']];
+const CATALOG=[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['syringe','주사 맞기'],['strip','코르릉 붙이기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['hotpack','핫팩 챙기기'],['notebook','언어전달장'],['toilet','아침 쉬'],['toilet','저녁 쉬'],['water','물 떠오기'],['vitamin','영양제 먹기'],['bed','이불 정리'],['toilet','화장실 가기'],['wash','세수하기'],['brush','양치하기'],['shirt','옷 입기'],['meal','아침 먹기'],['meal','저녁 먹기'],['comb','머리 빗기'],['hair','머리 묶기'],['lotion','로션 바르기'],['vitamin','비타민 먹기'],['water','물 마시기'],['backpack','가방 챙기기'],['backpack','내일 가방 챙기기'],['bottle','물병 챙기기'],['notebook','알림장 보여주기'],['homework','숙제하기'],['book','책 읽기'],['piano','악기 연습'],['toys','장난감 정리'],['plate','그릇 갖다 놓기'],['laundry','빨래통에 옷 넣기'],['handwash','손 씻기'],['bath','목욕하기'],['pajama','잠옷 입기'],['sleep','불 끄고 눕기'],['socks','양말 신기'],['coat','외투 입기'],['shoes','신발 신기'],['hat','모자 쓰기'],['mask','마스크 쓰기'],['umbrella','우산 챙기기'],['plant','화분 물 주기'],['heart','엄마 아빠 안아 주기']];
 const ICON_PICK=['star','heart',...Object.keys(ICONS).filter(k=>!['sun','moon','door','star','heart'].includes(k))];
 const IS_APP=!!(window.Android&&window.Android.loadData);
 const KEY='dadada-routine-v1';
@@ -447,7 +448,7 @@ const T=(icon,label,once)=>({id:uid(),icon,label,...(once?{once}:{})});
 function defaults(){
   const L=a=>a.map(([i,l])=>T(i,l));
   const P={
-    morning:{big:[['wash','세수'],['vitamin','영양제 먹기'],['brush','양치'],['shirt','옷 입기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['bottle','물병 체크']],
+    morning:{big:[['wash','세수'],['vitamin','영양제 먹기'],['brush','양치'],['shirt','옷 입기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['bottle','물병 체크'],['hotpack','핫팩 챙기기']],
              small:[['wash','세수'],['toilet','아침 쉬'],['vitamin','영양제 먹기'],['brush','양치'],['shirt','옷 입기'],['socks','양말 신기'],['fold','벗어둔 잠옷 정리']]},
     evening:{big:[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['backpack','책가방 싸기'],['brush','양치질'],['syringe','주사 맞기'],['strip','코르릉 붙이기']],
              small:[['toys','장난감 정리'],['notebook','언어전달장'],['brush','양치질'],['toilet','저녁 쉬'],['water','물 떠오기']]},
@@ -456,8 +457,8 @@ function defaults(){
   };
   const routines={};
   for(const r of RIDS) routines[r]={k1:L(P[r].big),k2:L(P[r].small),k3:L(P[r].small)};
-  return {v:2,
-    kids:[{id:'k1',name:'다연',color:'#8B5CF6',animal:'rabbit'},{id:'k2',name:'다솔',color:'#2BA8E0',animal:'bear'},{id:'k3',name:'다정',color:'#F0A41C',animal:'chick'}],
+  return {v:3,
+    kids:[{id:'k1',name:'다연',color:'#8B5CF6',animal:'cat'},{id:'k2',name:'다솔',color:'#2BA8E0',animal:'bear'},{id:'k3',name:'다정',color:'#F0A41C',animal:'chick'}],
     routines,log:{},bank:{k1:0,k2:0,k3:0},sound:true};
 }
 function load(){
@@ -466,6 +467,7 @@ function load(){
   if(!s) try{s=JSON.parse(localStorage.getItem(KEY))}catch(e){}
   if(!s||!Array.isArray(s.kids)||!s.routines) s=defaults();
   if((s.v||1)<2){ const D=defaults(); s.routines.morning=D.routines.morning; s.routines.evening=D.routines.evening; s.v=2; }
+  if(s.v<3){ const k1=s.kids.find(k=>k.id==='k1'); if(k1) k1.animal='cat'; const m=s.routines.morning?.k1; if(m&&!m.some(t=>!t.once&&t.label==='핫팩 챙기기')) m.push(T('hotpack','핫팩 챙기기')); s.v=3; }
   for(const r of RIDS){ s.routines[r]=s.routines[r]||{}; for(const k of s.kids) s.routines[r][k.id]=s.routines[r][k.id]||[]; }
   s.log=s.log||{}; s.bank=s.bank||{}; for(const k of s.kids) s.bank[k.id]=s.bank[k.id]||0;
   if(typeof s.sound!=='boolean') s.sound=true;
