@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 
     static final String PREFS = "dadada_routine";
     private static final String KEY_DATA = "data";
-    private static final String BG = "#EEF1F6";
+    private static final String BG = "#F3F3F5";
     private static final int SR = 16000;
     private static final int REQ_MIC = 7, REQ_NOTIF = 8;
 
