@@ -15,7 +15,7 @@ android {
         minSdk 26
         targetSdk 34
         versionCode runNumber
-        versionName "1.0.${runNumber}"
+        versionName "1.1.${runNumber}"
     }
 
     // 항상 같은 서명키로 빌드해야 다음 버전을 덮어 설치할 때 별 기록이 유지돼요.

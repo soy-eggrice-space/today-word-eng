@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24">
+    <!-- 말풍선 속 하트 (알림 아이콘) -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M4,3h16a2,2 0 0 1 2,2v11a2,2 0 0 1 -2,2h-8l-5,4v-4H4a2,2 0 0 1 -2,-2V5a2,2 0 0 1 2,-2z M12,14.6c0,0 -4.2,-2.4 -4.2,-5.1a2.2,2.2 0 0 1 4.2,-0.8 2.2,2.2 0 0 1 4.2,0.8c0,2.7 -4.2,5.1 -4.2,5.1z"
+        android:fillType="evenOdd" />
+</vector>
