@@ -15,55 +15,55 @@
 <style>
 /* Layout: three racing lanes, one per child — pictogram tiles, a podium at the finish line */
 :root{
-  --bg:#F3F3F5; --surface:#FFFFFF; --surface-2:#F5F5F8; --line:#E4E5EB;
-  --ink:#2E3142; --ink-2:#6C7080; --ink-3:#A0A3AF;
-  --accent:#7E86C2; --on-accent:#FFFFFF; --mixc:#1C1F2E; --danger:#CF7B72;
-  --gold:#EDCB78; --silver:#C8CDD6; --bronze:#DDB08E; --rib-a:#A9B0E0; --rib-b:#EBB2C2;
-  --badge-bg:#F7EED3; --badge-ink:#7A6533;
-  --chip-bg:#FFFFFF; --chip-ink:#2E3142;
-  --shadow:0 1px 2px rgba(40,44,70,.04),0 8px 24px rgba(40,44,70,.06);
-  --sc-m-a:#E6EEF8; --sc-m-b:#FAEDE2; --sun-ink:#D29A68; --sun-tint:#F8E4B4; --sun-glow:rgba(255,222,176,.5);
-  --sc-e-a:#5B5F8C; --sc-e-b:#8576A8; --sc-e-ink:#F7F5FF; --moon-ink:#6F6AA8; --moon-tint:#F4E6BC; --starlight:#FFFFFF;
-  --sc-o-a:#E0F0E8; --sc-o-b:#F0F4E4; --door-ink:#5E9A7E; --door-tint:#CDE9DB; --hill:rgba(120,180,145,.22);
+  --bg:#F4F6FB; --surface:#FFFFFF; --surface-2:#F3F5FA; --line:#E1E5EE;
+  --ink:#232A3D; --ink-2:#5F6880; --ink-3:#959DB0;
+  --accent:#5B6AD9; --on-accent:#FFFFFF; --mixc:#141A2E; --danger:#E25C52;
+  --gold:#F5C142; --silver:#B9C3D1; --bronze:#E19A5F; --rib-a:#6E7EEB; --rib-b:#F07294;
+  --badge-bg:#FFF0C2; --badge-ink:#7A5A00;
+  --chip-bg:#FFFFFF; --chip-ink:#232A3D;
+  --shadow:0 1px 2px rgba(30,40,80,.05),0 8px 22px rgba(30,40,80,.07);
+  --sc-m-a:#CFE5FF; --sc-m-b:#FFE0C4; --sun-ink:#F08A3C; --sun-tint:#FFD66E; --sun-glow:rgba(255,205,110,.55);
+  --sc-e-a:#4A50A3; --sc-e-b:#7D62BC; --sc-e-ink:#F7F5FF; --moon-ink:#5D58B8; --moon-tint:#FFE38C; --starlight:#FFFFFF;
+  --sc-o-a:#C9F0DC; --sc-o-b:#E8F7C8; --door-ink:#2F9C6B; --door-tint:#A5E5C4; --hill:rgba(70,175,110,.24);
   --bubble:rgba(255,255,255,.9);
-  --sc-t-a:#E7E9F6; --sc-t-b:#F0EBF7; --todo-ink:#7E86C2; --todo-tint:#DDE0F4;
-  --sc-g-a:#FBECEF; --sc-g-b:#FBF2E7; --bub-ink:#C07489; --bub-tint:#F6DCE3; --on-bub:#FFFFFF;
-  --glow:rgba(255,255,255,.65); --ok:#78B794; --hair:#4A3A38;
+  --sc-t-a:#D8E2FF; --sc-t-b:#EADCFF; --todo-ink:#5967D6; --todo-tint:#C8CEFF;
+  --sc-g-a:#FFDDE6; --sc-g-b:#FFEDCF; --bub-ink:#E2607F; --bub-tint:#FFC8D5; --on-bub:#FFFFFF;
+  --glow:rgba(255,255,255,.6); --ok:#3DB874; --hair:#3B2A2A;
   --f-d:"Jua","IBM Plex Sans KR",system-ui,sans-serif;
   --f-b:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#15171E; --surface:#1E212B; --surface-2:#262A35; --line:#323744;
-  --ink:#ECEDF2; --ink-2:#A9ADBA; --ink-3:#737887;
-  --accent:#B4BAE6; --on-accent:#15171E; --mixc:#FFFFFF; --danger:#E8A39C;
-  --gold:#E6C77A; --silver:#C2C8D2; --bronze:#D6AE8E; --rib-a:#8D95CF; --rib-b:#D99AAE;
-  --badge-bg:#3A3424; --badge-ink:#EBD7A0;
-  --chip-bg:#ECEDF2; --chip-ink:#15171E;
+  --bg:#11141C; --surface:#1A1F2B; --surface-2:#222836; --line:#2E3546;
+  --ink:#ECEFF6; --ink-2:#A7AFC2; --ink-3:#717A90;
+  --accent:#A0AAFF; --on-accent:#11141C; --mixc:#FFFFFF; --danger:#FF928A;
+  --gold:#EFC44E; --silver:#B9C2CF; --bronze:#DCA06A; --rib-a:#7381EE; --rib-b:#EE7598;
+  --badge-bg:#3A3116; --badge-ink:#F2D27A;
+  --chip-bg:#ECEFF6; --chip-ink:#11141C;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.25);
-  --sc-m-a:#262C3D; --sc-m-b:#3A2F33; --sun-ink:#EBC08F; --sun-tint:#7D6440; --sun-glow:rgba(255,200,140,.12);
-  --sc-e-a:#1D1F35; --sc-e-b:#2D2744; --sc-e-ink:#F4F2FF; --moon-ink:#C9C5F0; --moon-tint:#6E6340; --starlight:#FFFFFF;
-  --sc-o-a:#1D2E28; --sc-o-b:#262D22; --door-ink:#A6D8C0; --door-tint:#335A49; --hill:rgba(120,180,145,.12);
-  --bubble:rgba(255,255,255,.08);
-  --sc-t-a:#23263A; --sc-t-b:#2A2539; --todo-ink:#BEC3EC; --todo-tint:#3C4170;
-  --sc-g-a:#35242B; --sc-g-b:#332B24; --bub-ink:#E8AFBE; --bub-tint:#5E3442; --on-bub:#2A1A20;
-  --glow:rgba(255,255,255,.05); --ok:#92CCAB; --hair:#2E2423;
+  --sc-m-a:#24334F; --sc-m-b:#45313A; --sun-ink:#FFB474; --sun-tint:#9A6A2A; --sun-glow:rgba(255,170,70,.16);
+  --sc-e-a:#171A3A; --sc-e-b:#2E2356; --sc-e-ink:#F4F2FF; --moon-ink:#CDC8FF; --moon-tint:#8A7A35; --starlight:#FFFFFF;
+  --sc-o-a:#16352A; --sc-o-b:#25321D; --door-ink:#8EDDB7; --door-tint:#2D6A50; --hill:rgba(80,170,110,.16);
+  --bubble:rgba(255,255,255,.09);
+  --sc-t-a:#212850; --sc-t-b:#2E2552; --todo-ink:#B5BCFF; --todo-tint:#3E4697;
+  --sc-g-a:#3C2030; --sc-g-b:#3A2B1E; --bub-ink:#FF93AE; --bub-tint:#7A2F47; --on-bub:#2A121B;
+  --glow:rgba(255,255,255,.06); --ok:#55CF8D; --hair:#2A1E1E;
   color-scheme:dark;
 }}
 :root[data-theme="dark"]{
-  --bg:#15171E; --surface:#1E212B; --surface-2:#262A35; --line:#323744;
-  --ink:#ECEDF2; --ink-2:#A9ADBA; --ink-3:#737887;
-  --accent:#B4BAE6; --on-accent:#15171E; --mixc:#FFFFFF; --danger:#E8A39C;
-  --gold:#E6C77A; --silver:#C2C8D2; --bronze:#D6AE8E; --rib-a:#8D95CF; --rib-b:#D99AAE;
-  --badge-bg:#3A3424; --badge-ink:#EBD7A0;
-  --chip-bg:#ECEDF2; --chip-ink:#15171E;
+  --bg:#11141C; --surface:#1A1F2B; --surface-2:#222836; --line:#2E3546;
+  --ink:#ECEFF6; --ink-2:#A7AFC2; --ink-3:#717A90;
+  --accent:#A0AAFF; --on-accent:#11141C; --mixc:#FFFFFF; --danger:#FF928A;
+  --gold:#EFC44E; --silver:#B9C2CF; --bronze:#DCA06A; --rib-a:#7381EE; --rib-b:#EE7598;
+  --badge-bg:#3A3116; --badge-ink:#F2D27A;
+  --chip-bg:#ECEFF6; --chip-ink:#11141C;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 22px rgba(0,0,0,.25);
-  --sc-m-a:#262C3D; --sc-m-b:#3A2F33; --sun-ink:#EBC08F; --sun-tint:#7D6440; --sun-glow:rgba(255,200,140,.12);
-  --sc-e-a:#1D1F35; --sc-e-b:#2D2744; --sc-e-ink:#F4F2FF; --moon-ink:#C9C5F0; --moon-tint:#6E6340; --starlight:#FFFFFF;
-  --sc-o-a:#1D2E28; --sc-o-b:#262D22; --door-ink:#A6D8C0; --door-tint:#335A49; --hill:rgba(120,180,145,.12);
-  --bubble:rgba(255,255,255,.08);
-  --sc-t-a:#23263A; --sc-t-b:#2A2539; --todo-ink:#BEC3EC; --todo-tint:#3C4170;
-  --sc-g-a:#35242B; --sc-g-b:#332B24; --bub-ink:#E8AFBE; --bub-tint:#5E3442; --on-bub:#2A1A20;
-  --glow:rgba(255,255,255,.05); --ok:#92CCAB; --hair:#2E2423;
+  --sc-m-a:#24334F; --sc-m-b:#45313A; --sun-ink:#FFB474; --sun-tint:#9A6A2A; --sun-glow:rgba(255,170,70,.16);
+  --sc-e-a:#171A3A; --sc-e-b:#2E2356; --sc-e-ink:#F4F2FF; --moon-ink:#CDC8FF; --moon-tint:#8A7A35; --starlight:#FFFFFF;
+  --sc-o-a:#16352A; --sc-o-b:#25321D; --door-ink:#8EDDB7; --door-tint:#2D6A50; --hill:rgba(80,170,110,.16);
+  --bubble:rgba(255,255,255,.09);
+  --sc-t-a:#212850; --sc-t-b:#2E2552; --todo-ink:#B5BCFF; --todo-tint:#3E4697;
+  --sc-g-a:#3C2030; --sc-g-b:#3A2B1E; --bub-ink:#FF93AE; --bub-tint:#7A2F47; --on-bub:#2A121B;
+  --glow:rgba(255,255,255,.06); --ok:#55CF8D; --hair:#2A1E1E;
   color-scheme:dark;
 }
 
@@ -89,7 +89,7 @@ h1,h2,h3,p{margin:0}
 .stars{display:inline-flex;gap:2px;align-items:center}
 
 /* kid color system */
-.kid{--k-soft:color-mix(in oklab,var(--k) 22%,var(--surface));--k-tint:color-mix(in oklab,var(--k) 48%,var(--surface));--k-deep:color-mix(in oklab,var(--k) 66%,var(--mixc));--k-line:color-mix(in oklab,var(--k) 78%,var(--mixc))}
+.kid{--k-soft:color-mix(in oklab,var(--k) 15%,var(--surface));--k-tint:color-mix(in oklab,var(--k) 36%,var(--surface));--k-deep:color-mix(in oklab,var(--k) 72%,var(--mixc));--k-line:color-mix(in oklab,var(--k) 88%,var(--mixc))}
 .ava{width:var(--s);height:var(--s);border-radius:50%;background:var(--k);display:grid;place-items:center;flex:none;overflow:hidden;color:color-mix(in oklab,var(--k) 35%,#121427)}
 .ava svg{width:88%;height:88%;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 .ava .w{fill:#FFFFFF}.ava .s{fill:currentColor;stroke:none}.ava .bk{fill:#F28C28;stroke:#C9661A}
@@ -163,7 +163,7 @@ h1,h2,h3,p{margin:0}
 .pod.p1 .pod-slot{width:66px;height:66px;font-size:26px}
 .pod-slot .ava{--s:100% !important}
 .lanes{--ico:64px;--fs:26px;--chk:42px;--th:88px;--gap:10px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-block:20px 48px;align-items:start}
-.lane{position:relative;overflow:hidden;border-radius:32px;padding:16px;display:flex;flex-direction:column;gap:12px;background:color-mix(in oklab,var(--k) 14%,var(--bg));border:2px solid color-mix(in oklab,var(--k) 34%,transparent);min-width:0}
+.lane{position:relative;overflow:hidden;border-radius:32px;padding:16px;display:flex;flex-direction:column;gap:12px;background:color-mix(in oklab,var(--k) 11%,var(--bg));border:2px solid color-mix(in oklab,var(--k) 28%,transparent);min-width:0}
 .lane-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:2px 2px 0}
 .lane-name{font:30px/1.05 var(--f-d)}
 .prog{display:flex;gap:4px;margin-top:8px}
@@ -334,11 +334,11 @@ h1,h2,h3,p{margin:0}
 .scene[data-rid="msg"]{--a:var(--sc-g-a);--b:var(--sc-g-b);--sink:var(--ink);--sc-ic:var(--bub-ink);--sc-tint:var(--bub-tint)}
 .scene[data-rid="todo"]::before,.scene[data-rid="msg"]::before{background:radial-gradient(280px 280px at 96% -6%,var(--glow),transparent 70%)}
 .ava .hair{fill:var(--hair);stroke:none}
-.ava .g{fill:#AEA8A1;stroke:none}
+.ava .g{fill:#C9C2BA;stroke:none}
 .pava{position:relative;display:inline-flex;flex:none}
 .pbadge{position:absolute;right:-4%;bottom:-4%;width:40%;height:40%;border-radius:50%;background:#FFFFFF;color:#8A6E5C;display:grid;place-items:center;box-shadow:0 1px 4px rgba(0,0,0,.14)}
 .pbadge svg{width:72%;height:72%;fill:currentColor}
-.pbadge.tree{color:#5E9A7E}
+.pbadge.tree{color:#2F8A55}
 .pick-row.people{grid-template-columns:repeat(auto-fill,minmax(112px,1fr))}
 .pick-row.people .pk{font-size:18px;padding:12px 4px 10px}
 
@@ -414,9 +414,10 @@ h1,h2,h3,p{margin:0}
 .trans q.off{text-decoration:line-through;color:var(--ink-3)}
 .trans .ib{width:36px;height:36px;border-radius:12px}
 .phr{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:10px}
-.ph{position:relative;--k:var(--bub-ink);--k-deep:var(--bub-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:124px;padding:14px 8px 12px;border-radius:24px;background:var(--surface-2);border:3px solid transparent;font:19px/1.15 var(--f-d);text-align:center;transition:transform .12s ease,background .2s,border-color .2s;min-width:0;overflow-wrap:anywhere}
-.ph .ic{width:56px;height:56px;color:var(--bub-ink);--ic-tint:var(--bub-tint)}
-.ph[aria-pressed="true"]{background:color-mix(in oklab,var(--bub-ink) 12%,var(--surface));border-color:var(--bub-ink)}
+.ph{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-height:124px;padding:14px 8px 12px;border-radius:24px;background:var(--surface-2);border:3px solid transparent;font:19px/1.15 var(--f-d);text-align:center;transition:transform .12s ease,background .2s,border-color .2s;min-width:0;overflow-wrap:anywhere}
+.ph .ic{width:56px;height:56px;color:var(--k-deep);--ic-tint:var(--k-tint)}
+.ph{background:var(--k-soft)}
+.ph[aria-pressed="true"]{background:var(--surface);border-color:var(--k-line);box-shadow:0 4px 14px color-mix(in oklab,var(--k) 30%,transparent)}
 .sendbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in oklab,var(--surface) 94%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
 .sendbar-in{display:flex;align-items:center;gap:16px;padding-block:14px}
 .preview{flex:1;min-width:0;display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap}
@@ -426,7 +427,7 @@ h1,h2,h3,p{margin:0}
 .pv-empty{width:40px;height:40px;border-radius:50%;border:2.5px dashed var(--line);display:inline-block}
 .pv-arrow{color:var(--ink-3)}
 .pv-items{display:flex;gap:4px;flex-wrap:wrap}
-.pv-ph{width:40px;height:40px;border-radius:12px;background:color-mix(in oklab,var(--bub-ink) 12%,var(--surface));display:grid;place-items:center;color:var(--bub-ink);--ic-tint:var(--bub-tint)}
+.pv-ph{width:40px;height:40px;border-radius:12px;background:var(--k-soft,color-mix(in oklab,var(--bub-ink) 12%,var(--surface)));display:grid;place-items:center;color:var(--k-deep,var(--bub-ink));--ic-tint:var(--k-tint,var(--bub-tint))}
 .pv-ph .ic{width:30px;height:30px}
 .pv-ph .ui{width:22px;height:22px}
 .pv-text{flex-basis:100%;font-size:14px;color:var(--ink-2);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -615,7 +616,7 @@ const ico=(id)=>`<svg class="ic" viewBox="0 0 48 48" aria-hidden="true">${ICONS[
 const ui=(id)=>`<svg class="ui" viewBox="0 0 24 24" aria-hidden="true">${UI[id]}</svg>`;
 const star=(s=18,off=false)=>`<svg class="st${off?' off':''}" viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z"/></svg>`;
 const starRow=(n,s=18,of=0)=>`<span class="stars">${Array.from({length:n},()=>star(s)).join('')}${Array.from({length:of},()=>star(s,true)).join('')}</span>`;
-const avatar=(k,s=56)=>`<span class="ava kid" style="--k:${pastel(k.color)};--s:${s}px"><svg viewBox="0 0 48 48" aria-hidden="true">${ANIMALS[k.animal]||ANIMALS.rabbit}</svg></span>`;
+const avatar=(k,s=56)=>`<span class="ava kid" style="--k:${crayon(k.color)};--s:${s}px"><svg viewBox="0 0 48 48" aria-hidden="true">${ANIMALS[k.animal]||ANIMALS.rabbit}</svg></span>`;
 const MEDAL={1:'var(--gold)',2:'var(--silver)',3:'var(--bronze)'};
 function medal(r,s=48){return `<svg viewBox="0 0 48 48" width="${s}" height="${s}" aria-hidden="true" style="flex:none"><path d="M14 2h8.5l4.5 16h-8.5z" fill="var(--rib-a)"/><path d="M34 2h-8.5L21 18h8.5z" fill="var(--rib-b)"/><circle cx="24" cy="30.5" r="15" fill="${MEDAL[r]||MEDAL[3]}"/><circle cx="24" cy="30.5" r="11" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"/><text x="24" y="37" text-anchor="middle" font-family="Jua, sans-serif" font-size="18" fill="rgba(55,38,0,.78)">${r}</text></svg>`}
 const esc=(s)=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -627,20 +628,20 @@ const ROUT={
   out:{name:'외출 루틴',short:'외출',icon:'door',hint:'현관문을 나서기 전에'}
 };
 const RIDS=['morning','evening','out'];
-const KID_COLORS=['#B9A4E8','#8EC5E6','#F2C77E','#EFA8BE','#8FD0C4','#A3B2EE','#F4B08F','#A9D39A'];
-const PASTEL={'#8B5CF6':'#B9A4E8','#2BA8E0':'#8EC5E6','#F0A41C':'#F2C77E','#E5487A':'#EFA8BE','#16A39A':'#8FD0C4','#4C6FFF':'#A3B2EE','#FF7A3D':'#F4B08F','#3BAA4E':'#A9D39A'};
-const pastel=c=>PASTEL[String(c||'').toUpperCase()]||c;
+const KID_COLORS=['#9C7BEA','#4FB3E8','#F7B23B','#F07FA2','#3EC4B4','#6F8BF2','#FF9264','#6CC46B'];
+const CRAYON={'#8B5CF6':'#9C7BEA','#B9A4E8':'#9C7BEA','#2BA8E0':'#4FB3E8','#8EC5E6':'#4FB3E8','#F0A41C':'#F7B23B','#F2C77E':'#F7B23B','#E5487A':'#F07FA2','#EFA8BE':'#F07FA2','#16A39A':'#3EC4B4','#8FD0C4':'#3EC4B4','#4C6FFF':'#6F8BF2','#A3B2EE':'#6F8BF2','#FF7A3D':'#FF9264','#F4B08F':'#FF9264','#3BAA4E':'#6CC46B','#A9D39A':'#6CC46B'};
+const crayon=c=>CRAYON[String(c||'').toUpperCase()]||c;
 const CATALOG=[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['syringe','주사 맞기'],['strip','코르릉 붙이기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['hotpack','핫팩 챙기기'],['notebook','언어전달장'],['toilet','아침 쉬'],['toilet','저녁 쉬'],['water','물 떠오기'],['vitamin','영양제 먹기'],['bed','이불 정리'],['toilet','화장실 가기'],['wash','세수하기'],['brush','양치하기'],['shirt','옷 입기'],['meal','아침 먹기'],['meal','저녁 먹기'],['comb','머리 빗기'],['hair','머리 묶기'],['lotion','로션 바르기'],['vitamin','비타민 먹기'],['water','물 마시기'],['backpack','가방 챙기기'],['backpack','내일 가방 챙기기'],['bottle','물병 챙기기'],['notebook','알림장 보여주기'],['homework','숙제하기'],['book','책 읽기'],['piano','악기 연습'],['toys','장난감 정리'],['plate','그릇 갖다 놓기'],['laundry','빨래통에 옷 넣기'],['handwash','손 씻기'],['bath','목욕하기'],['pajama','잠옷 입기'],['sleep','불 끄고 눕기'],['socks','양말 신기'],['coat','외투 입기'],['shoes','신발 신기'],['hat','모자 쓰기'],['mask','마스크 쓰기'],['umbrella','우산 챙기기'],['plant','화분 물 주기'],['heart','엄마 아빠 안아 주기']];
 const ICON_PICK=['star','heart',...Object.keys(ICONS).filter(k=>!['sun','moon','door','star','heart'].includes(k))];
 const IS_APP=!!(window.Android&&window.Android.loadData);
 const PARENTS=[
-  {id:'mom',name:'엄마',color:'#EDA3B4',face:'mom'},
-  {id:'dad',name:'아빠',color:'#8CC6B7',face:'dad'},
-  {id:'dgma',name:'둔포할머니',color:'#BBA6E3',face:'gma',badge:'tree'},
-  {id:'dgpa',name:'둔포할아버지',color:'#9DB6E6',face:'gpa',badge:'tree'},
-  {id:'mgma',name:'멍멍할머니',color:'#F1BC8D',face:'gma',badge:'paw'},
-  {id:'mgpa',name:'멍멍할아버지',color:'#CDAA8C',face:'gpa',badge:'paw'},
-  {id:'uncle',name:'삼촌',color:'#A6CF95',face:'uncle'}];
+  {id:'mom',name:'엄마',color:'#F2809B',face:'mom'},
+  {id:'dad',name:'아빠',color:'#4CB8A0',face:'dad'},
+  {id:'dgma',name:'둔포할머니',color:'#A98BE6',face:'gma',badge:'tree'},
+  {id:'dgpa',name:'둔포할아버지',color:'#6F9BEA',face:'gpa',badge:'tree'},
+  {id:'mgma',name:'멍멍할머니',color:'#F5A25A',face:'gma',badge:'paw'},
+  {id:'mgpa',name:'멍멍할아버지',color:'#C08A5E',face:'gpa',badge:'paw'},
+  {id:'uncle',name:'삼촌',color:'#7CC46A',face:'uncle'}];
 const ROOMS=[
   {id:'r1',name:'엄마아빠방',members:['mom','dad']},
   {id:'r2',name:'둔포 가족방',members:['dgma','dgpa','mom','dad']},
@@ -683,7 +684,7 @@ function defaults(){
   const routines={};
   for(const r of RIDS) routines[r]={k1:L(P[r].big),k2:L(P[r].small),k3:L(P[r].small)};
   return {v:4,msg:{v:1,phrases:defaultPhrases()},
-    kids:[{id:'k1',name:'다연',color:'#B9A4E8',animal:'cat'},{id:'k2',name:'다솔',color:'#8EC5E6',animal:'bear'},{id:'k3',name:'다정',color:'#F2C77E',animal:'chick'}],
+    kids:[{id:'k1',name:'다연',color:'#9C7BEA',animal:'cat'},{id:'k2',name:'다솔',color:'#4FB3E8',animal:'bear'},{id:'k3',name:'다정',color:'#F7B23B',animal:'chick'}],
     routines,log:{},bank:{k1:0,k2:0,k3:0},sound:true};
 }
 function load(){
@@ -703,7 +704,7 @@ function load(){
 const toArr=x=>(Array.isArray(x)?x:(x&&typeof x==='object')?Object.keys(x).sort((a,b)=>a-b).map(k=>x[k]):[]).filter(v=>v!=null);
 function normalize(s){
   s.kids=toArr(s.kids); if(!s.kids.length) s.kids=defaults().kids;
-  for(const k of s.kids) if(k&&k.color) k.color=pastel(k.color);
+  for(const k of s.kids) if(k&&k.color) k.color=crayon(k.color);
   s.routines=(s.routines&&typeof s.routines==='object')?s.routines:{};
   for(const r of RIDS){ s.routines[r]=s.routines[r]||{}; for(const k of s.kids) s.routines[r][k.id]=toArr(s.routines[r][k.id]); }
   s.log=(s.log&&typeof s.log==='object')?s.log:{};
@@ -1044,7 +1045,7 @@ setInterval(()=>{ if(view.screen==='run'&&S.kids.some(k=>peek(view.rid,k.id).wai
 function celebrate(kid,rank,stars){
   const ln=$(`.lane[data-kid="${kid}"]`); if(!ln) return;
   const c=document.createElement('div'); c.className='cele';
-  const cols=[pastel(kidById(kid).color),'#FFFFFF','#F3D58E','#F8D6E0','#D6E6F7'];
+  const cols=[crayon(kidById(kid).color),'#FFFFFF','#FFD45E','#FF9FB8','#8FD3FF','#9BE3A6'];
   let conf=''; const H=ln.offsetHeight+40;
   for(let n=0;n<28;n++){conf+=`<span class="cf" style="left:${Math.random()*100}%;background:${cols[n%cols.length]};--dx:${(Math.random()*80-40).toFixed(0)}px;--dy:${H}px;--rot:${(Math.random()*720-360).toFixed(0)}deg;animation-delay:${(Math.random()*.5).toFixed(2)}s;width:${6+Math.random()*7|0}px"></span>`}
   c.innerHTML=`${conf}<div class="cele-in"><div class="cele-medal">${medal(rank,136)}</div><div class="cele-t">${rank}등!</div>${starRow(stars,34)}<div class="cele-sub">다 했어요</div></div>`;
@@ -1109,7 +1110,7 @@ function renderInbox(){
       <header class="ib-head"><span class="pv-faces">${kids.map(k=>avatar(k,64)).join('')}</span>
         <div class="ib-who"><b>${esc(dot(kids.map(k=>withI(k.name))))}가 보냈어요</b><small>${whenText(it.at)} · ${to.includes(me.id)?'나에게':esc(dot(to.map(id=>personById(id)?.name||'')))+'에게'}${myRooms().length>1?` · ${esc(roomById(it.room)?.name||'')}`:''}</small></div>
         ${isNew?'<span class="ib-new">새 마음</span>':''}</header>
-      ${ph.length?`<ul class="ib-ph">${ph.map(p=>`<li><span class="pv-ph">${ico(p.icon)}</span><span>${esc(p.label)} ${esc(p.emoji||'')}</span></li>`).join('')}</ul>`:''}
+      ${ph.length?`<ul class="ib-ph">${ph.map(p=>`<li><span class="pv-ph kid" style="--k:${phColor(p)}">${ico(p.icon)}</span><span>${esc(p.label)} ${esc(p.emoji||'')}</span></li>`).join('')}</ul>`:''}
       ${it.voice?`<button class="ib-voice" data-act="ivoice" data-mid="${it.id}">${ui(INB.playing===it.id?'stop':'play')}<span>${INB.playing===it.id?'멈추기':'목소리 듣기'}</span><small>${it.voice}초</small></button>`:''}
       ${it.stt?`<p class="ib-stt">“${esc(it.stt)}”<small>받아쓰기라서 틀릴 수 있어요</small></p>`:''}
       ${others.length?`<div class="ib-others">${others.map(([r,v])=>`<span class="ib-o">${parentAva(personById(r),30)}${esc(v.text)}</span>`).join('')}</div>`:''}
@@ -1172,6 +1173,8 @@ const TG={token:'',busy:false,chats:null,err:''};
 const hasBatchim=n=>{const c=n.charCodeAt(n.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28>0};
 const withI=n=>hasBatchim(n)?n+'이':n;
 const dot=a=>a.join('·');
+const PH_COLORS=['#F07FA2','#FF9264','#F7B23B','#6CC46B','#3EC4B4','#4FB3E8','#6F8BF2','#9C7BEA'];
+const phColor=p=>{ if(p.color) return p.color; const i=(S.msg&&S.msg.phrases||[]).findIndex(x=>x.id===p.id); if(i>=0) return PH_COLORS[i%PH_COLORS.length]; let h=0; for(const ch of String(p.icon||'')+String(p.label||'')) h=(h*31+ch.charCodeAt(0))>>>0; return PH_COLORS[h%PH_COLORS.length]; };
 const phraseOut=p=>p.emoji?`${p.label} ${p.emoji}`:p.label;
 function msgParts(){ return { to:PARENTS.filter(p=>M.to.has(p.id)), from:S.kids.filter(k=>M.from.has(k.id)), ph:M.pick.map(id=>S.msg.phrases.find(p=>p.id===id)).filter(Boolean) }; }
 const voiceSecs=()=>M.voice?Math.max(1,Math.round(M.voice.ms/1000)):0;
@@ -1209,7 +1212,7 @@ function renderMsg(){
     rec=`<div class="recbox"><div class="voice"><span class="vchip"><button class="ib" data-act="mplay" aria-label="들어 보기">${ui('play')}</button><span class="wave">${WAVE.map(h=>`<i style="height:${h}px"></i>`).join('')}</span>${voiceSecs()}초</span>
       <button class="tbtn" data-act="mrec">${ui('mic')}다시 녹음</button><button class="ib del" data-act="mdel" aria-label="녹음 지우기">${ui('x')}</button>${tr}</div></div>`;
   }else rec=`<div class="recbox"><button class="recbtn" data-act="mrec" ${canRec?'':'disabled'} aria-label="녹음 시작">${ui('mic')}</button><div class="rec-txt"><b>${M.rec==='perm'?'마이크를 허락해 주세요':'눌러서 말하기'}</b><small>${canRec?'버튼을 누르고 하고 싶은 말을 해요. 다시 누르면 끝나요.':'녹음은 태블릿 앱에서 할 수 있어요'}</small></div></div>`;
-  const phr=`<div class="phr">${S.msg.phrases.map(p=>`<button class="ph" data-act="mph" data-pid="${p.id}" aria-pressed="${M.pick.includes(p.id)}">${ico(p.icon)}<span>${esc(p.label)}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
+  const phr=`<div class="phr">${S.msg.phrases.map(p=>`<button class="ph kid" style="--k:${phColor(p)}" data-act="mph" data-pid="${p.id}" aria-pressed="${M.pick.includes(p.id)}">${ico(p.icon)}<span>${esc(p.label)}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
   const chip=!IS_APP?'<span class="fc-note">메시지는 앱에서 보낼 수 있어요</span>':info.chat?'':'<span class="fc-note"><span class="sync-dot"></span>텔레그램 연결이 필요해요</span>';
   const p1=M.page===1, whoReady=to.length>0&&from.length>0;
   const summary=`<section class="step ok who-sum"><span class="pv-faces">${from.map(k=>avatar(k,56)).join('')}</span><svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg><span class="pv-faces">${to.map(p=>parentAva(p,56)).join('')}</span>
@@ -1231,7 +1234,7 @@ function renderMsg(){
       <span class="pv-faces">${from.length?from.map(k=>avatar(k,40)).join(''):'<span class="pv-empty"></span>'}</span>
       <svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg>
       <span class="pv-faces">${to.length?to.map(p=>parentAva(p,40)).join(''):'<span class="pv-empty"></span>'}</span>
-      <span class="pv-items">${ph.map(p=>`<span class="pv-ph">${ico(p.icon)}</span>`).join('')}${M.voice?`<span class="pv-ph">${ui('mic')}</span>`:''}</span>
+      <span class="pv-items">${ph.map(p=>`<span class="pv-ph kid" style="--k:${phColor(p)}">${ico(p.icon)}</span>`).join('')}${M.voice?`<span class="pv-ph">${ui('mic')}</span>`:''}</span>
       <p class="pv-text">${esc(previewLine())}</p>
     </div>
     ${p1?`<button class="sendbtn" data-act="mnext" aria-disabled="${!whoReady}">다음${ui('next')}</button>`
@@ -1279,7 +1282,7 @@ function sendMsg(){
   if(needApp&&!S.sync){ toast('할머니·할아버지·삼촌에게 보내려면 편집 → 폰 연결을 먼저 해 주세요'); return; }
   if(!S.sync&&!tgInfo().chat){ toast('아직 보낼 곳이 없어요. 편집에서 텔레그램이나 폰 연결을 해 주세요'); return; }
   const mid='m'+Date.now()+Math.random().toString(36).slice(2,6);
-  const item={at:Date.now(),from:from.map(k=>({id:k.id,name:k.name,color:k.color,animal:k.animal})),to:toIds,ph:ph.map(p=>({icon:p.icon,label:p.label,emoji:p.emoji||''})),voice:M.voice?voiceSecs():0,stt:M.voice&&M.voice.useText?(M.voice.text||''):''};
+  const item={at:Date.now(),from:from.map(k=>({id:k.id,name:k.name,color:k.color,animal:k.animal})),to:toIds,ph:ph.map(p=>({icon:p.icon,label:p.label,emoji:p.emoji||'',color:phColor(p)})),voice:M.voice?voiceSecs():0,stt:M.voice&&M.voice.useText?(M.voice.text||''):''};
   let fb=null;
   if(S.sync){ const patch={}; for(const r of roomsFor(toIds)) patch[`rooms/${r}/${mid}`]=item; fb={base:S.sync,mid,patch}; }
   M.sending=true; M.req=mid; renderMsg();
