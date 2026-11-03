@@ -321,6 +321,16 @@ h1,h2,h3,p{margin:0}
 @media (max-width:900px){.cal-grid{grid-template-columns:1fr}}
 @media (max-width:560px){.cd{min-height:66px;padding:4px;border-radius:12px}.cd-dot{font-size:12px;gap:3px}.cd-dot i{width:7px;height:7px}.cd-big{font-size:15px}.cd-big .st{width:12px;height:12px}.days,.wk{gap:4px}.mnav b{font-size:20px;min-width:6.4em}}
 
+.sync-chip{display:inline-flex;align-items:center;gap:8px;height:52px;padding:0 16px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow);font-weight:600;font-size:14px;color:var(--ink-2)}
+.sync-dot{width:10px;height:10px;border-radius:50%;background:var(--ink-3);flex:none}
+.sync-chip[data-st="on"] .sync-dot,.sync-state[data-st="on"] .sync-dot{background:#2FB36D}
+.sync-chip[data-st="err"] .sync-dot,.sync-state[data-st="err"] .sync-dot{background:var(--danger)}
+.sync-chip[data-st="wait"] .sync-dot,.sync-state[data-st="wait"] .sync-dot{background:var(--gold)}
+.sync-state{display:flex;align-items:center;gap:10px;padding:14px 16px;border-radius:18px;background:var(--surface-2);font-weight:600}
+.sync-state small{display:block;font-weight:400;color:var(--ink-3);font-size:13px}
+.fld.url{font:15px/1.3 var(--f-b);height:auto;min-height:54px;padding:12px 14px;word-break:break-all}
+.sync-steps{margin:0;padding-left:20px;color:var(--ink-2);font-size:15px;display:flex;flex-direction:column;gap:6px}
+
 .toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 22px;border-radius:999px;font-weight:600;transition:opacity .25s,transform .25s;z-index:50;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
@@ -468,17 +478,153 @@ function load(){
   if(!s||!Array.isArray(s.kids)||!s.routines) s=defaults();
   if((s.v||1)<2){ const D=defaults(); s.routines.morning=D.routines.morning; s.routines.evening=D.routines.evening; s.v=2; }
   if(s.v<3){ const k1=s.kids.find(k=>k.id==='k1'); if(k1) k1.animal='cat'; const m=s.routines.morning?.k1; if(m&&!m.some(t=>!t.once&&t.label==='핫팩 챙기기')) m.push(T('hotpack','핫팩 챙기기')); s.v=3; }
-  for(const r of RIDS){ s.routines[r]=s.routines[r]||{}; for(const k of s.kids) s.routines[r][k.id]=s.routines[r][k.id]||[]; }
-  s.log=s.log||{}; s.bank=s.bank||{}; for(const k of s.kids) s.bank[k.id]=s.bank[k.id]||0;
+  normalize(s);
   if(typeof s.sound!=='boolean') s.sound=true;
+  if(typeof s.sync!=='string') s.sync='';
   return s;
+}
+const toArr=x=>(Array.isArray(x)?x:(x&&typeof x==='object')?Object.keys(x).sort((a,b)=>a-b).map(k=>x[k]):[]).filter(v=>v!=null);
+function normalize(s){
+  s.kids=toArr(s.kids); if(!s.kids.length) s.kids=defaults().kids;
+  s.routines=(s.routines&&typeof s.routines==='object')?s.routines:{};
+  for(const r of RIDS){ s.routines[r]=s.routines[r]||{}; for(const k of s.kids) s.routines[r][k.id]=toArr(s.routines[r][k.id]); }
+  s.log=(s.log&&typeof s.log==='object')?s.log:{};
+  for(const d in s.log){ const day=s.log[d]; if(!day||typeof day!=='object'){delete s.log[d];continue}
+    for(const r of RIDS){ if(!day[r]) continue; for(const k in day[r]){ const e=day[r][k]; if(!e||typeof e!=='object'){delete day[r][k];continue} e.done=toArr(e.done); } } }
+  s.bank=(s.bank&&typeof s.bank==='object')?s.bank:{}; for(const k of s.kids) s.bank[k.id]=Math.max(0,Number(s.bank[k.id])||0);
 }
 let S=load();
 function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}}
+/* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
+const SYNC_KEYS=['kids','routines','log','bank'];
+const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
+function parseSync(v){
+  v=String(v||'').trim().replace(/\s+/g,'').replace(/\.json$/,'').replace(/\/+$/,'');
+  return /^https?:\/\/[^\/]+\/dadada\/[A-Za-z0-9_-]{20,}$/.test(v)?v:'';
+}
+const ref=(path)=>`${S.sync}${path?'/'+path:''}.json`;
+function setSt(st){ SYNC.st=st; document.querySelectorAll('[data-sync]').forEach(el=>{ el.dataset.st=st; const t=el.querySelector('.sync-txt'); if(t) t.textContent=syncText(); }); }
+function syncText(){ return {on:'폰·태블릿 연결됨',wait:'연결하는 중',err:'연결 끊김 · 다시 시도 중',off:'연결 안 됨'}[SYNC.st]; }
+const clone=v=>v===undefined?null:JSON.parse(JSON.stringify(v));
+function setIn(obj,parts,val){ let o=obj; for(let i=0;i<parts.length-1;i++){ const k=parts[i]; if(o[k]==null||typeof o[k]!=='object') o[k]={}; o=o[k]; } const last=parts[parts.length-1]; if(val===null){ if(Array.isArray(o)) o[last]=null; else delete o[last]; } else o[last]=val; }
+function rset(path,val){
+  if(!S.sync) return; val=clone(val);
+  for(const k of Object.keys(SYNC.q)) if(k.startsWith(path+'/')) delete SYNC.q[k];
+  for(const k of Object.keys(SYNC.inc)) if(k===path||k.startsWith(path+'/')) delete SYNC.inc[k];
+  const anc=Object.keys(SYNC.q).find(k=>path.startsWith(k+'/'));
+  if(anc){ if(SYNC.q[anc]==null||typeof SYNC.q[anc]!=='object') SYNC.q[anc]={}; setIn(SYNC.q[anc],path.slice(anc.length+1).split('/'),val); }
+  else SYNC.q[path]=val;
+  schedule();
+}
+function rinc(path,n){ if(!S.sync||!n) return; SYNC.inc[path]=(SYNC.inc[path]||0)+n; schedule(); }
+const pushConfig=()=>{ rset('kids',S.kids); rset('routines',S.routines); };
+const pushEntry=(rid,kid,d=todayKey())=>rset(`log/${d}/${rid}/${kid}`,S.log[d]?.[rid]?.[kid]??null);
+const hasPending=()=>Object.keys(SYNC.q).length+Object.keys(SYNC.inc).length>0;
+function schedule(ms=250){ clearTimeout(SYNC.timer); SYNC.timer=setTimeout(flush,ms); }
+async function flush(){
+  if(!S.sync||!hasPending()) return;
+  const q=SYNC.q, inc=SYNC.inc; SYNC.q={}; SYNC.inc={}; SYNC.fly={...SYNC.fly,...q};
+  const body={...q}; for(const p in inc) body[p]={'.sv':{increment:inc[p]}};
+  const done=()=>{ for(const p in q) if(SYNC.fly[p]===q[p]) delete SYNC.fly[p]; };
+  try{ const r=await fetch(ref(''),{method:'PATCH',body:JSON.stringify(body)}); if(!r.ok) throw new Error('http '+r.status); SYNC.last=Date.now(); if(SYNC.st!=='on') setSt('on'); setTimeout(done,600); }
+  catch(e){ done();
+    for(const p in q) if(!(p in SYNC.q)&&!Object.keys(SYNC.q).some(k=>p.startsWith(k+'/'))) SYNC.q[p]=q[p];
+    for(const p in inc) SYNC.inc[p]=(SYNC.inc[p]||0)+inc[p];
+    setSt('err'); schedule(5000);
+  }
+}
+function todayRanks(){ const o={},d=S.log[todayKey()]||{}; for(const r of RIDS) for(const k in (d[r]||{})) if(d[r][k]?.rank) o[r+'|'+k]=d[r][k].rank; return o; }
+function adopt(fn){
+  const before=todayRanks();
+  fn();
+  // local changes not yet confirmed by the server always win over older remote copies
+  for(const [p,v] of Object.entries({...SYNC.fly,...SYNC.q})) setIn(S,p.split('/'),clone(v));
+  for(const [p,n] of Object.entries(SYNC.inc)){ const parts=p.split('/'); let o=S; for(const k of parts.slice(0,-1)) o=o?.[k]; setIn(S,parts,(Number(o?.[parts[parts.length-1]])||0)+n); }
+  normalize(S); save();
+  const after=todayRanks(), fresh=Object.keys(after).filter(k=>!before[k]);
+  requestRender();
+  for(const key of fresh){ const [r,k]=key.split('|'); if(view.screen==='run'&&view.rid===r){ const e=peek(r,k); tone([523,659,784,1047],.32,'triangle',.11); celebrate(k,e.rank,e.stars); } }
+}
+function applyRemote(path,data,isPatch){
+  const parts=path.split('/').filter(Boolean);
+  adopt(()=>{
+    if(!parts.length){
+      if(data==null) return;
+      if(isPatch){ for(const k in data){ const pp=k.split('/').filter(Boolean); if(SYNC_KEYS.includes(pp[0])) setIn(S,pp,data[k]); } }
+      else for(const k of SYNC_KEYS) if(k in data) S[k]=data[k];
+      return;
+    }
+    if(!SYNC_KEYS.includes(parts[0])) return;
+    if(isPatch){ for(const k in data) setIn(S,[...parts,...k.split('/').filter(Boolean)],data[k]); }
+    else setIn(S,parts,data);
+  });
+}
+function closeStream(){ if(SYNC.es){ try{SYNC.es.close()}catch(e){} SYNC.es=null; } }
+function stopPoll(){ clearInterval(SYNC.poll); SYNC.poll=null; clearTimeout(SYNC.retry); }
+function connectStream(){
+  closeStream(); stopPoll(); if(!S.sync) return;
+  if(!window.EventSource){ startPoll(); return; }
+  setSt('wait');
+  try{
+    const es=new EventSource(ref('')); SYNC.es=es;
+    const h=ev=>{ let m; try{m=JSON.parse(ev.data)}catch(e){return} if(!m||typeof m.path!=='string') return; SYNC.fails=0; SYNC.last=Date.now(); setSt('on'); applyRemote(m.path,m.data,ev.type==='patch'); };
+    es.addEventListener('put',h); es.addEventListener('patch',h);
+    es.addEventListener('keep-alive',()=>{ SYNC.last=Date.now(); if(SYNC.st!=='on') setSt('on'); });
+    es.addEventListener('cancel',()=>{ closeStream(); setSt('err'); startPoll(); });
+    es.onerror=()=>{ setSt('err'); if(++SYNC.fails>=3){ closeStream(); startPoll(); } };
+  }catch(e){ startPoll(); }
+}
+function startPoll(){
+  stopPoll(); if(!S.sync) return;
+  SYNC.poll=setInterval(pollOnce,5000); pollOnce();
+  SYNC.retry=setTimeout(()=>{ if(SYNC.poll){ SYNC.fails=0; connectStream(); } },60000);
+}
+async function pollOnce(){
+  if(!S.sync) return;
+  try{
+    const t=todayKey();
+    const [kids,routines,bank,day]=await Promise.all(['kids','routines','bank','log/'+t].map(p=>fetch(ref(p)).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })));
+    setSt('on'); SYNC.last=Date.now();
+    if(hasPending()) return;
+    adopt(()=>{ if(kids) S.kids=kids; if(routines) S.routines=routines; if(bank) S.bank=bank; if(day) S.log[t]=day; else delete S.log[t]; });
+  }catch(e){ setSt('err'); }
+}
+async function syncConnect(raw){
+  const u=parseSync(raw);
+  if(!u) return '주소가 맞지 않아요. 받은 연결 주소를 통째로 붙여 넣어 주세요.';
+  let remote;
+  try{ const r=await fetch(u+'.json'); if(r.status===401||r.status===403) return '데이터베이스 규칙이 막고 있어요. Firebase 규칙을 다시 확인해 주세요.'; if(!r.ok) throw 0; remote=await r.json(); }
+  catch(e){ return '인터넷에 연결할 수 없어요. 와이파이를 확인해 주세요.'; }
+  if(remote&&remote.kids){
+    S.sync=u; SYNC.q={}; SYNC.inc={};
+    for(const k of SYNC_KEYS) S[k]=k in remote?remote[k]:(k==='log'?{}:S[k]);
+    normalize(S); save(); toast('연결했어요. 저장된 기록을 받아왔어요');
+  }else{
+    try{ const r=await fetch(u+'.json',{method:'PATCH',body:JSON.stringify({kids:S.kids,routines:S.routines,log:S.log,bank:S.bank})}); if(!r.ok) throw 0; }
+    catch(e){ return '기록을 올리지 못했어요. 인터넷과 Firebase 규칙을 확인해 주세요.'; }
+    S.sync=u; save(); toast('연결했어요. 이 기기 기록을 올렸어요');
+  }
+  setSt('on'); connectStream(); return '';
+}
+function syncOff(){ closeStream(); stopPoll(); clearTimeout(SYNC.timer); SYNC.q={}; SYNC.inc={}; S.sync=''; save(); setSt('off'); }
+let renderPending=false;
+function requestRender(){
+  if(typeof view==='undefined') return;
+  const a=document.activeElement;
+  if(a&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA')){ renderPending=true; return; }
+  renderPending=false;
+  if(view.screen==='run') refreshLanes();
+  else if(view.screen==='home') renderHome();
+  else if(view.screen==='cal'){ const y=window.scrollY; renderCal(); window.scrollTo(0,y); }
+  else rerenderEdit();
+}
+document.addEventListener('focusout',()=>setTimeout(()=>{ if(renderPending) requestRender(); },50));
+
 function prune(){
-  const t=todayKey();
-  for(const r of RIDS) for(const k in S.routines[r]) S.routines[r][k]=S.routines[r][k].filter(x=>!x.once||x.once===t);
+  const t=todayKey(); let changed=false;
+  for(const r of RIDS) for(const k in S.routines[r]){ const a=S.routines[r][k], b=a.filter(x=>!x.once||x.once===t); if(b.length!==a.length){ S.routines[r][k]=b; changed=true; } }
   const keys=Object.keys(S.log).sort(); while(keys.length>800) delete S.log[keys.shift()];
+  if(changed) pushConfig();
 }
 prune(); save();
 
@@ -503,7 +649,7 @@ function tone(freqs,dur=.14,type='triangle',gap=.09){
 const buzz=()=>{try{if(IS_APP&&window.Android.vibrate)window.Android.vibrate(25);else navigator.vibrate&&navigator.vibrate(18)}catch(e){}};
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(()=>t.classList.remove('show'),1900)}
 let wl=null;
-async function keepAwake(on){try{if(on&&!wl&&'wakeLock' in navigator){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null})}if(!on&&wl){await wl.release();wl=null}}catch(e){}}
+async function keepAwake(on){try{if(IS_APP&&window.Android.keepAwake){window.Android.keepAwake(!!on);return}if(on&&!wl&&'wakeLock' in navigator){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null})}if(!on&&wl){await wl.release();wl=null}}catch(e){}}
 
 /* ===== views ===== */
 const view={screen:'home',rid:'morning'};
@@ -547,6 +693,7 @@ function renderHome(){
       <div class="tools">
         <button class="tbtn icon-only" data-act="sound" aria-label="${S.sound?'소리 끄기':'소리 켜기'}">${ui(S.sound?'sound':'mute')}</button>
         ${IS_APP?'':`<button class="tbtn icon-only" data-act="fs" aria-label="전체 화면">${ui('expand')}</button>`}
+        ${S.sync?`<span class="sync-chip" data-sync data-st="${SYNC.st}"><span class="sync-dot"></span><span class="sync-txt">${syncText()}</span></span>`:''}
         <button class="tbtn" id="editBtn" aria-label="꾹 눌러서 편집 열기">${ui('lock')}꾹 눌러 편집</button>
       </div>
     </header>
@@ -604,14 +751,24 @@ function renderRun(){
     <div class="band-title"><span class="sc-ico">${ico(R.icon)}</span><div><h1>${R.name}</h1><p class="band-date">${dateLabel()}</p></div></div>
     <div class="podium bubble" id="podium">${podiumHtml(rid)}</div>
   </div></header>
-  <div class="wrap"><div class="lanes">${S.kids.map(k=>laneHtml(rid,k)).join('')}</div></div>`;
+  <div class="wrap"><div class="lanes">${S.kids.map(k=>{ const h=laneHtml(rid,k); laneCache.set(k.id,h); return h; }).join('')}</div></div>`;
   bindHolds();
+}
+const laneCache=new Map();
+function swapLane(el,kid,html){ const cele=el.querySelector('.cele'); el.outerHTML=html; laneCache.set(kid,html); if(cele){ const n=$(`.lane[data-kid="${kid}"]`); if(n) n.appendChild(cele); } }
+function refreshLanes(){
+  const rid=view.rid, lanes=document.querySelectorAll('.lane');
+  if(lanes.length!==S.kids.length){ renderRun(); return; }
+  for(const k of S.kids){ const el=$(`.lane[data-kid="${k.id}"]`), html=laneHtml(rid,k);
+    if(!el){ renderRun(); return; }
+    if(laneCache.get(k.id)!==html) swapLane(el,k.id,html); }
+  $('#podium').innerHTML=podiumHtml(rid); bindHolds();
 }
 function refreshRun(kid){
   const rid=view.rid;
   const old=$(`.lane[data-kid="${kid}"]`);
-  if(old) old.outerHTML=laneHtml(rid,kidById(kid));
-  for(const k of S.kids) if(k.id!==kid){const rw=$(`.lane[data-kid="${k.id}"] .rw`); if(rw) rw.innerHTML=rewardHtml(rid,status(rid,k.id));}
+  if(old) swapLane(old,kid,laneHtml(rid,kidById(kid)));
+  for(const k of S.kids) if(k.id!==kid){const rw=$(`.lane[data-kid="${k.id}"] .rw`); if(rw) rw.innerHTML=rewardHtml(rid,status(rid,k.id)); laneCache.set(k.id,laneHtml(rid,k));}
   $('#podium').innerHTML=podiumHtml(rid);
   bindHolds();
 }
@@ -628,19 +785,19 @@ function tapTask(kid,tid){
     if(tasksOf(rid,kid).every(t=>e.done.includes(t.id))){ e.wait=true; e.at=Date.now(); dingdong(); }
     else tone([784,1046],.12,'triangle',.06);
   }
-  save(); refreshRun(kid);
+  save(); pushEntry(rid,kid); refreshRun(kid);
   const btn=$(`.lane[data-kid="${kid}"] [data-tid="${tid}"]`); if(btn&&i<0) btn.classList.add('pop');
 }
 function confirmKid(kid){
   const rid=view.rid,e=entry(rid,kid); if(!e.wait||e.rank) return;
   e.wait=false; const r=Math.min(maxRank(rid)+1,3); e.rank=r; e.stars=4-r; e.ok=Date.now();
   S.bank[kid]=(S.bank[kid]||0)+e.stars;
-  save(); refreshRun(kid); tone([523,659,784,1047],.32,'triangle',.11); celebrate(kid,r,e.stars);
+  save(); pushEntry(rid,kid); rinc(`bank/${kid}`,e.stars); refreshRun(kid); tone([523,659,784,1047],.32,'triangle',.11); celebrate(kid,r,e.stars);
 }
 function callNo(kid){
   const e=entry(view.rid,kid); e.wait=false;
   const j=e.done.lastIndexOf(e.last||e.done[e.done.length-1]); if(j>=0) e.done.splice(j,1);
-  save(); refreshRun(kid); toast(`${kidById(kid).name}, 마저 해 볼까?`);
+  save(); pushEntry(view.rid,kid); refreshRun(kid); toast(`${kidById(kid).name}, 마저 해 볼까?`);
 }
 setInterval(()=>{ if(view.screen==='run'&&S.kids.some(k=>peek(view.rid,k.id).wait)) dingdong(); },15000);
 function celebrate(kid,rank,stars){
@@ -775,11 +932,33 @@ function editStars(){
     </section>
   </div>`;
 }
+function editSync(){
+  const on=!!S.sync, t=SYNC.last?new Date(SYNC.last):null;
+  return `<div class="ed-grid">
+    <section class="panel"><h2><span>폰·태블릿 같이 쓰기</span></h2>
+      <div class="sync-state" data-sync data-st="${SYNC.st}"><span class="sync-dot"></span><div><span class="sync-txt">${syncText()}</span>${t?`<small>마지막으로 맞춘 시각 ${t.getHours()}:${pad(t.getMinutes())}</small>`:''}</div></div>
+      ${on?`<p class="hint">이 기기는 우리 집 기록과 연결돼 있어요. 아이가 체크하거나 엄마 아빠가 확인하면 다른 기기에도 바로 보여요.</p>
+        <div class="btns"><button class="btn sec" data-act="syncoff" data-confirm="syncoff">연결 끊기</button></div>`
+      :`<p class="hint">받은 연결 주소를 붙여 넣고 연결하기를 누르세요. 태블릿과 폰에 같은 주소를 넣으면 돼요.</p>
+        <textarea class="fld url" id="syncUrl" rows="3" placeholder="https://….firebasedatabase.app/dadada/…" aria-label="연결 주소"></textarea>
+        <p class="err" id="syncErr" hidden></p>
+        <div class="btns"><button class="btn pri" data-act="syncgo">연결하기</button></div>`}
+    </section>
+    <section class="panel"><h2><span>이렇게 맞춰져요</span></h2>
+      <ol class="sync-steps">
+        <li>처음 연결한 기기의 기록이 올라가요. 그다음 연결하는 기기는 그 기록을 받아와요.</li>
+        <li>체크, 엄마 아빠 확인, 별, 할 일 편집, 아이 설정이 모두 같이 바뀌어요.</li>
+        <li>아이가 다 하면 폰에서도 "다 했어요!" 창이 떠요. 폰에서 꾹 눌러 확인하면 태블릿에서 메달이 터져요.</li>
+        <li>인터넷이 잠깐 끊겨도 기기 안에 저장해 뒀다가, 다시 연결되면 올려요.</li>
+      </ol>
+    </section>
+  </div>`;
+}
 function renderEdit(){
   $('#edit').innerHTML=`<div class="wrap">
     <header class="ed-top"><button class="back" data-act="home" aria-label="편집 마치기">${ui('back')}</button><h1>루틴 편집</h1>
-      <div class="seg">${[['tasks','할 일'],['kids','아이'],['stars','별·기록']].map(([t,l])=>`<button data-act="etab" data-tab="${t}" aria-pressed="${ed.tab===t}">${l}</button>`).join('')}</div></header>
-    ${ed.tab==='tasks'?editTasks():ed.tab==='kids'?editKids():editStars()}</div>`;
+      <div class="seg">${[['tasks','할 일'],['kids','아이'],['stars','별·기록'],...(IS_APP?[['sync','폰 연결']]:[])].map(([t,l])=>`<button data-act="etab" data-tab="${t}" aria-pressed="${ed.tab===t}">${l}</button>`).join('')}</div></header>
+    ${ed.tab==='tasks'?editTasks():ed.tab==='kids'?editKids():ed.tab==='sync'?editSync():editStars()}</div>`;
 }
 function rerenderEdit(){const y=window.scrollY;renderEdit();window.scrollTo(0,y)}
 
@@ -810,6 +989,9 @@ document.addEventListener('click',e=>{
     case 'home': view.screen='home'; show(); break;
     case 'tap': tapTask(d.kid,d.tid); break;
     case 'callno': callNo(d.kid); break;
+    case 'syncgo': { const ta=$('#syncUrl'), er=$('#syncErr'); b.disabled=true; b.textContent='연결하는 중…'; setSt('wait');
+      syncConnect(ta?.value).then(msg=>{ if(msg){ setSt(S.sync?SYNC.st:'off'); const t=$('#syncErr'), x=$('#syncUrl'); if(t){t.textContent=msg;t.hidden=false} if(x) x.value=ta?.value||''; const bb=$('[data-act="syncgo"]'); if(bb){bb.disabled=false;bb.textContent='연결하기'} } else rerenderEdit(); }); break; }
+    case 'syncoff': if(!confirmTap(b)) break; syncOff(); rerenderEdit(); toast('연결을 끊었어요. 이제 이 기기에만 저장돼요'); break;
     case 'cal': openCal(); break;
     case 'cmon': { const n=new Date(cal.y,cal.m+Number(d.d),1); cal.y=n.getFullYear(); cal.m=n.getMonth(); renderCal(); break; }
     case 'ckid': cal.kid=d.kid; renderCal(); break;
@@ -824,45 +1006,47 @@ document.addEventListener('click',e=>{
       const arr=S.routines[ed.rid][ed.kid], vis=tasksOf(ed.rid,ed.kid);
       const vi=vis.findIndex(t=>t.id===d.tid), vj=vi+Number(d.d); if(vj<0||vj>=vis.length) break;
       const i=arr.indexOf(vis[vi]), j=arr.indexOf(vis[vj]); [arr[i],arr[j]]=[arr[j],arr[i]];
-      save(); rerenderEdit(); break; }
+      save(); pushConfig(); rerenderEdit(); break; }
     case 'del': {
       const arr=S.routines[ed.rid][ed.kid], t=arr.find(x=>x.id===d.tid); if(!t) break;
       S.routines[ed.rid][ed.kid]=arr.filter(x=>x.id!==d.tid);
-      const e=peek(ed.rid,ed.kid); e.done=e.done.filter(x=>x!==d.tid);
-      save(); rerenderEdit(); toast(`'${t.label}'을 지웠어요`); break; }
+      const e=S.log[todayKey()]?.[ed.rid]?.[ed.kid]; if(e){ e.done=e.done.filter(x=>x!==d.tid); pushEntry(ed.rid,ed.kid); }
+      save(); pushConfig(); rerenderEdit(); toast(`'${t.label}'을 지웠어요`); break; }
     case 'preset': {
       const c=CATALOG[Number(d.i)], targets=ed.all?S.kids.map(k=>k.id):[ed.kid];
       const has=id=>S.routines[ed.rid][id].some(t=>!t.once&&t.icon===c[0]&&t.label===c[1]);
       if(b.getAttribute('aria-pressed')==='true'){ for(const id of targets) S.routines[ed.rid][id]=S.routines[ed.rid][id].filter(t=>!( !t.once&&t.icon===c[0]&&t.label===c[1])); toast(`'${c[1]}'을 뺐어요`); }
       else { addTask(targets.filter(id=>!has(id)),c[0],c[1],false); toast(ed.all?`세 명 모두에게 '${c[1]}'을 넣었어요`:`${kidById(ed.kid).name}에게 '${c[1]}'을 넣었어요`); }
-      save(); rerenderEdit(); break; }
+      save(); pushConfig(); rerenderEdit(); break; }
     case 'pick': ed.icon=d.icon; document.querySelectorAll('.ipk').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.icon===ed.icon))); break;
     case 'addnew': {
       const inp=$('#newLabel'), label=(inp?.value||'').trim();
       if(!label){ $('#newErr').hidden=false; inp?.focus(); break; }
       const once=d.mode==='once', targets=ed.all?S.kids.map(k=>k.id):[ed.kid];
-      addTask(targets,ed.icon,label,once); ed.label=''; save(); rerenderEdit();
+      addTask(targets,ed.icon,label,once); ed.label=''; save(); pushConfig(); rerenderEdit();
       toast(`${ed.all?'세 명 모두':kidById(ed.kid).name}에게 ${once?'오늘만 ':''}'${label}'을 넣었어요`); break; }
-    case 'kcolor': kidById(d.kid).color=d.c; save(); rerenderEdit(); break;
-    case 'kanimal': kidById(d.kid).animal=d.a; save(); rerenderEdit(); break;
-    case 'adj': S.bank[d.kid]=Math.max(0,(S.bank[d.kid]||0)+Number(d.d)); save(); rerenderEdit(); break;
-    case 'zero': if(!confirmTap(b)) break; for(const k of S.kids) S.bank[k.id]=0; save(); rerenderEdit(); toast('별을 모두 0개로 되돌렸어요'); break;
-    case 'rreset': if(!confirmTap(b)) break; { const day=S.log[todayKey()]; if(day&&day[d.rid]){ day._x=day._x||{}; for(const [k,e] of Object.entries(day[d.rid])) if(e.stars) day._x[k]=(day._x[k]||0)+e.stars; delete day[d.rid]; } save(); rerenderEdit(); toast(`${ROUT[d.rid].name}을 처음부터 다시 시작해요`); } break;
+    case 'kcolor': kidById(d.kid).color=d.c; save(); pushConfig(); rerenderEdit(); break;
+    case 'kanimal': kidById(d.kid).animal=d.a; save(); pushConfig(); rerenderEdit(); break;
+    case 'adj': { const before=S.bank[d.kid]||0; S.bank[d.kid]=Math.max(0,before+Number(d.d)); rinc(`bank/${d.kid}`,S.bank[d.kid]-before); save(); rerenderEdit(); break; }
+    case 'zero': if(!confirmTap(b)) break; for(const k of S.kids) S.bank[k.id]=0; rset('bank',S.bank); save(); rerenderEdit(); toast('별을 모두 0개로 되돌렸어요'); break;
+    case 'rreset': if(!confirmTap(b)) break; { const day=S.log[todayKey()]; if(day&&day[d.rid]){ day._x=day._x||{}; for(const [k,e] of Object.entries(day[d.rid])) if(e.stars){ day._x[k]=(day._x[k]||0)+e.stars; rinc(`log/${todayKey()}/_x/${k}`,e.stars); } delete day[d.rid]; rset(`log/${todayKey()}/${d.rid}`,null); } save(); rerenderEdit(); toast(`${ROUT[d.rid].name}을 처음부터 다시 시작해요`); } break;
   }
 });
 document.addEventListener('input',e=>{ if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
 document.addEventListener('change',e=>{
   const t=e.target;
-  if(t.classList.contains('rn')){ const it=S.routines[ed.rid][ed.kid].find(x=>x.id===t.dataset.tid); const v=t.value.trim(); if(it&&v){it.label=v;save();toast('이름을 바꿨어요')} else if(it) t.value=it.label; }
-  if(t.id&&t.id.startsWith('kn-')){ const k=kidById(t.dataset.kid); const v=t.value.trim(); if(k&&v){k.name=v;save();rerenderEdit()} else if(k) t.value=k.name; }
+  if(t.classList.contains('rn')){ const it=S.routines[ed.rid][ed.kid].find(x=>x.id===t.dataset.tid); const v=t.value.trim(); if(it&&v){it.label=v;save();pushConfig();toast('이름을 바꿨어요')} else if(it) t.value=it.label; }
+  if(t.id&&t.id.startsWith('kn-')){ const k=kidById(t.dataset.kid); const v=t.value.trim(); if(k&&v){k.name=v;save();pushConfig();rerenderEdit()} else if(k) t.value=k.name; }
 });
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&view.screen==='run'){wl=null;keepAwake(true)} });
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); show(); } },30000);
 
 window.appBack=()=>{ if(view.screen!=='home'){ view.screen='home'; show(); return true } return false };
-window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } show(); };
+window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); } show(); };
+window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 show();
+if(S.sync){ flush(); connectStream(); }
 </script>
 
 </body>

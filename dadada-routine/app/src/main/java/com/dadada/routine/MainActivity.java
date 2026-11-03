@@ -14,9 +14,12 @@ import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import androidx.webkit.WebViewAssetLoader;
 
 public class MainActivity extends Activity {
 
@@ -32,8 +35,6 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         prefs = getSharedPreferences(PREFS, Context.MODE_PRIVATE);
 
-        // 루틴 하는 동안 화면이 꺼지지 않게
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         getWindow().setStatusBarColor(Color.parseColor(BG));
         getWindow().setNavigationBarColor(Color.parseColor(BG));
 
@@ -49,15 +50,25 @@ public class MainActivity extends Activity {
         ws.setMediaPlaybackRequiresUserGesture(false);
         ws.setTextZoom(100);
 
+        // 앱 화면을 https 주소로 열어야 폰·태블릿 동기화(Firebase) 요청이 막히지 않아요.
+        final WebViewAssetLoader loader = new WebViewAssetLoader.Builder()
+                .addPathHandler("/assets/", new WebViewAssetLoader.AssetsPathHandler(this))
+                .build();
+
         web.addJavascriptInterface(new Bridge(), "Android");
         web.setWebViewClient(new WebViewClient() {
             @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                return loader.shouldInterceptRequest(request.getUrl());
+            }
+
+            @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                return !"file".equals(request.getUrl().getScheme());
+                return !WebViewAssetLoader.DEFAULT_DOMAIN.equals(request.getUrl().getHost());
             }
         });
 
-        web.loadUrl("file:///android_asset/index.html");
+        web.loadUrl("https://" + WebViewAssetLoader.DEFAULT_DOMAIN + "/assets/index.html");
     }
 
     private void hideSystemBars() {
@@ -104,6 +115,15 @@ public class MainActivity extends Activity {
         @JavascriptInterface
         public void saveData(String json) {
             if (json != null) prefs.edit().putString(KEY_DATA, json).apply();
+        }
+
+        // 루틴 화면에서만 화면이 꺼지지 않게
+        @JavascriptInterface
+        public void keepAwake(final boolean on) {
+            runOnUiThread(() -> {
+                if (on) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+                else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+            });
         }
 
         @JavascriptInterface
