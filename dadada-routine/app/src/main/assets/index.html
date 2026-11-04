@@ -1062,6 +1062,18 @@ const isAdult=()=>!!S.role&&S.role!=='kids'&&!!personById(S.role);
 const myRooms=()=>ROOMS.filter(r=>r.members.includes(S.role)).map(r=>r.id);
 const REPLIES=['사랑해 ❤️','알았어 👍','곧 갈게 🚗','잘했어 👏','전화할게 📞'];
 const receiverState=()=>{ try{ return IS_APP&&window.Android.receiverState?JSON.parse(window.Android.receiverState()):{} }catch(e){ return {} } };
+// 받는 폰을 처음 정하면 알림 허용 → 배터리 제한 풀기 창을 차례로 띄워요
+let rxSetup='', rxTimer=null;
+const rxSoon=(ms=400)=>{ clearTimeout(rxTimer); rxTimer=setTimeout(rxSetupNext,ms); };
+function rxSetupNext(){
+  if(!rxSetup) return;
+  if(!IS_APP||!isAdult()){ rxSetup=''; return; }
+  const rs=receiverState();
+  if(!rs.notif&&rxSetup==='start'){ rxSetup='notif'; try{ window.Android.askNotif(); }catch(e){} return; }
+  if(!rs.battery&&rxSetup!=='battery'){ rxSetup='battery'; try{ window.Android.askBattery(); }catch(e){} return; }
+  rxSetup=''; if(view.screen==='family') renderFamily();
+  toast(rs.notif&&rs.battery?'알림 준비가 끝났어요. 새 마음이 오면 알려 드릴게요':'알림 설정이 덜 됐어요. 화면의 버튼으로 다시 할 수 있어요');
+}
 function inboxClose(){ INB.es.forEach(e=>{ try{e.close()}catch(_){} }); INB.es=[]; }
 function inboxConnect(){
   inboxClose(); if(!S.sync||!isAdult()||!window.EventSource) return;
@@ -1507,7 +1519,7 @@ function editSync(){
       ${on?`<p class="hint">이 기기는 우리 집 기록과 연결돼 있어요. 아이가 체크하거나 엄마 아빠가 확인하면 다른 기기에도 바로 보여요.</p>
         <h3>이 기기는 누구 거예요?</h3>
         <div class="role-grid"><button class="role" data-act="role" data-r="kids" aria-pressed="${S.role==='kids'}">${ico('checklist')}<span>아이들 태블릿</span></button>${PARENTS.map(p=>`<button class="role" data-act="role" data-r="${p.id}" aria-pressed="${S.role===p.id}">${parentAva(p,48)}<span>${p.name}</span></button>`).join('')}</div>
-        <p class="hint">할머니·할아버지·삼촌 폰에서는 그분 이름을 고르세요. 첫 화면이 받은 마음으로 바뀌고 알림이 와요.</p>
+        <p class="hint">할머니·할아버지·삼촌 폰에서는 그분 이름을 고르세요. 받은 마음 화면으로 넘어가면서 알림 허용 창과 배터리 창이 차례로 떠요. 둘 다 '허용'을 눌러 주세요.</p>
         <div class="btns"><button class="btn sec" data-act="syncoff" data-confirm="syncoff">연결 끊기</button></div>`
       :`<p class="hint">받은 연결 주소를 붙여 넣고 연결하기를 누르세요. 태블릿과 폰에 같은 주소를 넣으면 돼요.</p>
         <textarea class="fld url" id="syncUrl" rows="3" placeholder="https://….firebasedatabase.app/dadada/…" aria-label="연결 주소"></textarea>
@@ -1581,7 +1593,9 @@ document.addEventListener('click',e=>{
     case 'phpick': ed.phIcon=d.icon; document.querySelectorAll('[data-act="phpick"]').forEach(x=>x.setAttribute('aria-pressed',String(x.dataset.icon===ed.phIcon))); break;
     case 'phadd': { const label=($('#phLabel')?.value||'').trim(), emoji=($('#phEmoji')?.value||'').trim(); if(!label){ const er=$('#phErr'); if(er) er.hidden=false; $('#phLabel')?.focus(); break; }
       S.msg.phrases.push({id:uid(),icon:ed.phIcon,label,emoji}); ed.phLabel=''; ed.phEmoji=''; save(); pushMsg(); rerenderEdit(); toast(`'${label}'을 넣었어요`); break; }
-    case 'role': S.role=d.r; save(); applyRole(); rerenderEdit(); toast(d.r==='kids'?'아이들 태블릿으로 정했어요':`${personById(d.r).name} 폰으로 정했어요`); break;
+    case 'role': S.role=d.r; save(); applyRole();
+      if(isAdult()){ view.screen='family'; show(); toast(`${personById(d.r).name} 폰으로 정했어요`); rxSetup='start'; rxSoon(700); }
+      else { rerenderEdit(); toast('아이들 태블릿으로 정했어요'); } break;
     case 'ivoice': playVoice(d.mid); break;
     case 'ireply': { const t=d.t, m=d.mid; S.replies[m]=S.replies[m]||{}; S.replies[m][S.role]={at:Date.now(),text:t}; rset(`replies/${m}/${S.role}`,S.replies[m][S.role]); save(); tone([784,988],.12,'triangle',.08); renderFamily(); toast('답장을 보냈어요'); break; }
     case 'inotif': try{ window.Android.askNotif(); }catch(e){} break;
@@ -1643,7 +1657,7 @@ let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); show(); } },30000);
 
 window.appBack=()=>{ if(document.querySelector('.sent')) return true; if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
-window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); };
+window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 show();
 if(S.sync){ flush(); connectStream(); applyRole(); roomPrune(); }
