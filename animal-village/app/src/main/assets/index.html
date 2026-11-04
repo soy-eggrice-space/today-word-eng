@@ -2709,19 +2709,19 @@ let job=null;
 function itemName(it){if(JITEM[it])return JITEM[it];if(it.startsWith('dish:'))return it.split(':')[2];if(it.startsWith('box:'))return BOXN[it.slice(4)][1];return it}
 function drawItem(it,x,y,s=1){if(JOBDRAW[it])return JOBDRAW[it](x,y+6*s,s);if(it.startsWith('dish:'))return emo(it.split(':')[1],x,y+8*s,20*s);if(it.startsWith('box:')){ctx.fillStyle='#c99a6b';rr(ctx,x-11*s,y-8*s,22*s,18*s,3*s);ctx.fill();ctx.fillStyle='#a0714f';ctx.fillRect(x-11*s,y-2*s,22*s,3*s);emo(BOXN[it.slice(4)][0],x,y+6*s,11*s)}}
 function openJobs(){
-  openModal('📋 아르바이트 게시판',`<p class="say">원하는 일을 골라 1분 동안 일하고 돈을 벌어요! 💰</p>`+Object.entries(JOBS).map(([k,j])=>{const ok=j.need();return row(j.e,j.name,ok?`한 번에 💰${j.pay} · ${({hospital:'🏥 병원',restaurant:'🍽️ 음식점',dept:'🏬 백화점 1층',shop:'🛒 잡화점'})[j.scene]}`:'🔒 아직 건물이 없어요 (도담에게 지어 달라고 해요)',ok?`<button class="sm" onclick="goJob('${k}')">일하러 가기</button>`:'')}).join(''));
+  openModal('📋 아르바이트 게시판',`<p class="say">원하는 일을 골라 하고 싶은 만큼 일해요!<br>한 번 할 때마다 바로 돈을 받아요 💰<br><span style="font-size:15px;opacity:.7">그만하고 싶으면 위쪽 [그만] 버튼을 눌러요</span></p>`+Object.entries(JOBS).map(([k,j])=>{const ok=j.need();return row(j.e,j.name,ok?`한 번에 💰${j.pay} · ${({hospital:'🏥 병원',restaurant:'🍽️ 음식점',dept:'🏬 백화점 1층',shop:'🛒 잡화점'})[j.scene]}`:'🔒 아직 건물이 없어요 (도담에게 지어 달라고 해요)',ok?`<button class="sm" onclick="goJob('${k}')">일하러 가기</button>`:'')}).join(''));
 }
 function goJob(k){const j=JOBS[k];closeModal();if(scene!==j.scene){if(scene!=='village')exitRoom();if(j.scene==='dept'){deptFloor=1;setDeptBlk();makeShoppers()}enterRoom(j.scene)}else if(j.scene==='dept'&&deptFloor!==1){goFloor(1)}startJob(k)}
 function startJob(k){
-  job={k,scene:JOBS[k].scene,end:time+60,done:0,earned:0,carry:null,tasks:[],next:time+.5};
+  job={k,scene:JOBS[k].scene,end:Infinity,done:0,earned:0,carry:null,tasks:[],next:time+.5};
   $('#gamebar').classList.remove('hidden');document.body.classList.add('playing');Snd.sfx('pop');
-  toast(`${JOBS[k].e} ${JOBS[k].name} 아르바이트 시작! ${k==='stock'?'창고 상자를 알맞은 선반에 가져다 놓아요':'손님이 원하는 걸 가져다줘요'}`,3.5);
+  toast(`${JOBS[k].e} ${JOBS[k].name} 아르바이트 시작! ${k==='stock'?'창고 상자를 알맞은 선반에 가져다 놓아요':'손님이 원하는 걸 가져다줘요'} · 그만할 땐 [그만]`,4);
 }
 function endJob(quit){
   if(!job)return;const j=JOBS[job.k],e=job.earned,d=job.done;job=null;$('#gamebar').classList.add('hidden');document.body.classList.remove('playing');
   if(quit&&!d){toast('아르바이트를 그만했어요');return}
-  const bonus=d>=8?100:d>=5?50:0;state.coins+=e+bonus;updHUD();addHappy(5+d);addXP(3+d);save();Snd.sfx('star');
-  openModal(`${j.e} 아르바이트 끝!`,`<p class="say">${d}번 성공했어요! 수고했어요 💗<br>💰 일한 돈 ${e}${bonus?` + 보너스 ${bonus}`:''}</p><button class="big main" onclick="closeModal();startJob('${Object.keys(JOBS).find(k=>JOBS[k]===j)}')">한 번 더 할래요! 🔁</button>`);
+  addHappy(Math.min(20,3+d));addXP(Math.min(30,2+d));save();Snd.sfx('star');
+  openModal(`${j.e} 아르바이트 끝!`,`<p class="say">${d}번 일했어요! 수고했어요 💗<br>💰 오늘 번 돈 ${e} (일할 때마다 바로 받았어요)</p><button class="big main" onclick="closeModal();startJob('${Object.keys(JOBS).find(k=>JOBS[k]===j)}')">한 번 더 할래요! 🔁</button>`);
 }
 function jobTick(dt){
   if(!job)return;if(scene!==job.scene){endJob(true);return}
@@ -2732,7 +2732,7 @@ function jobTick(dt){
     const free=pool.filter(p=>!job.tasks.some(t=>(p.ref&&t.ref===p.ref)||(!p.ref&&t.item===p.item)));
     if(free.length){const p=free[Math.floor(Math.random()*free.length)],st=j.stations[Math.floor(Math.random()*j.stations.length)],items=typeof st.items==='function'?st.items():st.items;
       const it=p.item||items[Math.floor(Math.random()*items.length)];job.tasks.push({ref:p.ref,item:it,t0:time});if(p.ref&&p.ref.wait!==undefined&&p.live)p.ref.wait=999}}
-  $('#gbText').textContent=`${j.e} ${j.name} ⏱ ${Math.ceil(job.end-time)}초 · ✅${job.done} · 💰${job.earned}${job.carry?' · 들고 있는 것: '+itemName(job.carry):''}`;
+  $('#gbText').textContent=`${j.e} ${j.name} · ✅${job.done}번 · 💰${job.earned} 벌었어요${job.carry?' · 들고 있는 것: '+itemName(job.carry):''}`;
 }
 function taskPos(t){const p=JOBS[job.k].targets().find(p=>p.ref?p.ref===t.ref:p.item===t.item);return p}
 function jobAction(near){
@@ -2742,7 +2742,7 @@ function jobAction(near){
   for(const t of job.tasks){const p=taskPos(t);if(p&&near(p.x,p.y,62))return{e:job.carry===t.item?'✅':'❓',l:job.carry?'건네주기':'뭐가 필요해?',pulse:job.carry===t.item?1:0,f:()=>{
     if(!job.carry){toast(`${itemName(t.item)}이(가) 필요해요! ${j.stations.length>1?'진열대':j.stations[0].label}에서 가져와요`,2.5);return}
     if(job.carry!==t.item){Snd.sfx('fail');toast(`앗, 그게 아니에요! ${itemName(t.item)}이(가) 필요해요`,2.5);return}
-    job.carry=null;job.done++;job.earned+=j.pay;job.tasks=job.tasks.filter(x=>x!==t);Snd.sfx('coin');toast(`💗 고마워요! 💰+${j.pay}`,1.6);if(t.ref){t.ref.emote={e:'😊',t:time+2};if(t.ref.wait===999)t.ref.wait=1;if(t.ref.happy!==undefined||t.ref.b)t.ref.happy=time+3}}}}
+    job.carry=null;job.done++;job.earned+=j.pay;state.coins+=j.pay;updHUD();save();job.tasks=job.tasks.filter(x=>x!==t);Snd.sfx('coin');toast(`💗 고마워요! 💰+${j.pay}`,1.6);if(t.ref){t.ref.emote={e:'😊',t:time+2};if(t.ref.wait===999)t.ref.wait=1;if(t.ref.happy!==undefined||t.ref.b)t.ref.happy=time+3}}}}
   return null;
 }
 function drawJobFx(items){
