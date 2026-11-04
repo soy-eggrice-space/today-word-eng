@@ -542,6 +542,8 @@ h1,h2,h3,p{margin:0}
 .wel-me b{font:30px/1.15 var(--f-d);font-weight:400}
 .wel-me small{display:block;color:var(--ink-2);font-size:15px}
 .wel .btn{min-height:64px;font-size:18px}
+.wel-q{font:24px/1.3 var(--f-d);font-weight:400}
+.fld.pw{font:24px var(--f-d);height:64px;letter-spacing:.02em}
 .wel .btn.ghost{background:transparent;color:var(--ink-2);box-shadow:none;flex:0 1 auto}
 .reply-strip{display:flex;align-items:center;gap:16px 20px;flex-wrap:wrap;width:100%;padding:18px 22px;border-radius:30px;background:var(--surface);box-shadow:var(--shadow);text-align:left;margin-bottom:6px;border:3px solid transparent;transition:transform .15s}
 .reply-strip:active{transform:scale(.99)}
@@ -807,6 +809,31 @@ function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
 const SYNC_KEYS=['kids','routines','log','bank','msg','replies'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
+// 데이터베이스 주소는 앱에 넣고, 가족 공간 코드는 우리집 암호로만 만들어요 (암호는 어디에도 저장하지 않아요)
+const FAMILY_DB=window.__FAMILY_DB||'https://dadada-family-default-rtdb.asia-southeast1.firebasedatabase.app/dadada/';
+const normPw=pw=>String(pw||'').normalize('NFC').replace(/\s+/g,'').toLowerCase();
+async function familyUrl(pw){
+  const enc=new TextEncoder();
+  const key=await crypto.subtle.importKey('raw',enc.encode(normPw(pw)),'PBKDF2',false,['deriveBits']);
+  const bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:enc.encode('wooriga|dadada-family|v1'),iterations:300000,hash:'SHA-256'},key,192);
+  return FAMILY_DB+btoa(String.fromCharCode(...new Uint8Array(bits))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+/** 암호로 연결. 돌려주는 값: {ok} / {msg} / {confirm:true} (태블릿이 새 가족 공간을 만들 때 한 번 더 확인) */
+async function connectWithPassword(pw,role,pw2){
+  if(normPw(pw).length<4) return {msg:'암호는 4글자 이상으로 해 주세요.'};
+  if(!(window.crypto&&crypto.subtle)) return {msg:'이 기기에서는 암호 연결을 할 수 없어요.'};
+  let u; try{ u=await familyUrl(pw); }catch(e){ return {msg:'암호를 확인하지 못했어요. 다시 눌러 주세요.'}; }
+  let exists=false;
+  try{ const r=await fetch(u+'/app.json?shallow=true'); if(r.status===401||r.status===403) return {msg:'연결이 막혀 있어요. 엄마에게 알려 주세요.'}; if(!r.ok) throw 0; exists=!!(await r.json()); }
+  catch(e){ return {msg:'인터넷에 연결할 수 없어요. 와이파이를 확인해 주세요.'}; }
+  if(!exists){
+    if(role!=='kids') return {msg:'암호가 달라요. 다시 확인해 주세요. (아이들 태블릿을 먼저 연결해야 해요)'};
+    if(pw2===undefined) return {confirm:true};
+    if(normPw(pw2)!==normPw(pw)) return {msg:'두 번 입력한 암호가 달라요. 다시 입력해 주세요.'};
+  }
+  const m=await syncConnect(u,role);
+  return m?{msg:m}:{ok:true};
+}
 function parseSync(v){
   v=String(v||'').trim().replace(/\s+/g,'').replace(/\.json$/,'').replace(/\/+$/,'');
   return /^https?:\/\/[^\/]+\/dadada\/[A-Za-z0-9_-]{20,}$/.test(v)?v:'';
@@ -1342,7 +1369,7 @@ function renderFamily(){
   holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
 }
 /* ===== 처음 설치: 누구예요? → 연결 ===== */
-const W={step:1,role:'',err:'',busy:false,url:''};
+const W={step:1,role:'',err:'',busy:false,url:'',pw:'',confirm:false,mode:'pw'};
 const roleName=r=>r==='kids'?'아이들 태블릿':(personById(r)?.name||'');
 function renderWelcome(){
   if(W.step===1){
@@ -1356,28 +1383,45 @@ function renderWelcome(){
   }
   const me=W.role==='kids'?`<span class="sc-ico" style="width:84px;height:84px;border-radius:26px;background:var(--sc-t-a);display:grid;place-items:center;color:var(--todo-ink);--ic-tint:var(--todo-tint)">${ico('checklist')}</span>`:parentAva(personById(W.role),84);
   const canClip=IS_APP&&!!window.Android.clipText;
+  const pwBox=W.mode==='url'?`
+      <h2 class="wel-q">연결 주소를 넣어 주세요</h2>
+      ${canClip?`<button class="btn pri" data-act="wpaste" ${W.busy?'disabled':''}>${ui('plus')}복사한 주소 붙여넣기</button>`:''}
+      <textarea class="fld url" id="welUrl" rows="3" placeholder="https://….firebasedatabase.app/dadada/…" aria-label="연결 주소">${esc(W.url)}</textarea>`
+    :`<h2 class="wel-q">${W.confirm?'처음이라 우리 가족 공간을 새로 만들어요.<br>같은 암호를 한 번 더 입력해 주세요':'우리집 암호를 입력해 주세요'}</h2>
+      ${W.confirm?`<p class="hint">이 암호를 엄마·아빠·할머니·할아버지·삼촌 폰에도 똑같이 넣어요. 잊지 않게 적어 두세요.</p>`:''}
+      <input class="fld pw" id="welPw" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="예: 우리집암호" value="${esc(W.pw)}" aria-label="우리집 암호" ${W.confirm?'readonly':''}>
+      ${W.confirm?`<input class="fld pw" id="welPw2" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="한 번 더" aria-label="암호 한 번 더">`:''}`;
   $('#welcome').innerHTML=`<div class="wrap"><div class="wel">
     <div class="wel-box">
       <div class="wel-me">${me}<div><b>${esc(roleName(W.role))}${W.role==='kids'?'으로':' 폰으로'} 시작해요</b><small>${W.role==='kids'?'할 일과 마음 전하기를 써요':['mom','dad'].includes(W.role)?'받은 마음과 아이들 할 일을 볼 수 있어요':'아이들이 보낸 마음을 받고 답장할 수 있어요'}</small></div></div>
-      <h2 style="font:24px var(--f-d);font-weight:400">엄마가 보내 준 연결 주소를 넣어 주세요</h2>
-      ${canClip?`<button class="btn pri" data-act="wpaste" ${W.busy?'disabled':''}>${ui('plus')}복사한 주소 붙여넣기</button>`:''}
-      <textarea class="fld url" id="welUrl" rows="3" placeholder="https://….firebasedatabase.app/dadada/…" aria-label="연결 주소">${esc(W.url)}</textarea>
+      ${pwBox}
       <p class="err" ${W.err?'':'hidden'}>${esc(W.err)}</p>
       <div class="btns">
-        <button class="btn pri" data-act="wgo" ${W.busy?'disabled':''}>${W.busy?'연결하는 중…':'연결하기'}</button>
-        <button class="btn sec" data-act="wback">다른 사람 고르기</button>
+        <button class="btn pri" data-act="wgo" ${W.busy?'disabled':''}>${W.busy?'확인하는 중…':W.confirm?'새로 만들고 연결하기':'연결하기'}</button>
+        <button class="btn sec" data-act="wback">${W.confirm?'암호 다시 정하기':'다른 사람 고르기'}</button>
       </div>
-      ${W.role==='kids'?'<button class="btn ghost" data-act="wskip">연결은 나중에 할게요</button>':''}
+      ${W.role==='kids'&&!W.confirm?'<button class="btn ghost" data-act="wskip">연결은 나중에 할게요</button>':''}
+      <button class="btn ghost" data-act="wmode">${W.mode==='url'?'암호로 연결하기':'연결 주소로 연결하기'}</button>
     </div></div></div>`;
 }
 async function welcomeConnect(){
-  const raw=($('#welUrl')?.value||W.url||'').trim(); W.url=raw;
-  if(!raw){ W.err='연결 주소를 넣어 주세요.'; renderWelcome(); return; }
-  W.busy=true; W.err=''; renderWelcome();
-  const msg=await syncConnect(raw,W.role);
-  W.busy=false;
-  if(msg){ W.err=msg; renderWelcome(); return; }
-  finishWelcome();
+  W.err='';
+  if(W.mode==='url'){
+    const raw=($('#welUrl')?.value||W.url||'').trim(); W.url=raw;
+    if(!raw){ W.err='연결 주소를 넣어 주세요.'; renderWelcome(); return; }
+    W.busy=true; renderWelcome();
+    const msg=await syncConnect(raw,W.role); W.busy=false;
+    if(msg){ W.err=msg; renderWelcome(); return; }
+    finishWelcome(); return;
+  }
+  const pw=W.confirm?W.pw:($('#welPw')?.value||'').trim(), pw2=W.confirm?($('#welPw2')?.value||''):undefined;
+  W.pw=pw;
+  if(!pw){ W.err='암호를 입력해 주세요.'; renderWelcome(); return; }
+  W.busy=true; renderWelcome();
+  const r=await connectWithPassword(pw,W.role,pw2); W.busy=false;
+  if(r.confirm){ W.confirm=true; renderWelcome(); setTimeout(()=>$('#welPw2')?.focus(),50); return; }
+  if(r.msg){ W.err=r.msg; renderWelcome(); return; }
+  W.pw=''; W.confirm=false; finishWelcome();
 }
 function finishWelcome(){
   S.role=W.role; S.onboard=false; save(); applyRole();
@@ -1764,6 +1808,7 @@ function editStars(){
     </section>
   </div>`;
 }
+const ED_SYNC={url:false,pw:'',confirm:false,err:''};
 function editSync(){
   const on=!!S.sync, t=SYNC.last?new Date(SYNC.last):null;
   return `<div class="ed-grid">
@@ -1774,10 +1819,15 @@ function editSync(){
         <div class="role-grid"><button class="role" data-act="role" data-r="kids" aria-pressed="${S.role==='kids'}">${ico('checklist')}<span>아이들 태블릿</span></button>${PARENTS.map(p=>`<button class="role" data-act="role" data-r="${p.id}" aria-pressed="${S.role===p.id}">${parentAva(p,48)}<span>${p.name}</span></button>`).join('')}</div>
         <p class="hint">할머니·할아버지·삼촌 폰에서는 그분 이름을 고르세요. 받은 마음 화면으로 넘어가면서 알림 허용 창과 배터리 창이 차례로 떠요. 둘 다 '허용'을 눌러 주세요.</p>
         <div class="btns"><button class="btn sec" data-act="syncoff" data-confirm="syncoff">연결 끊기</button></div>`
-      :`<p class="hint">받은 연결 주소를 붙여 넣고 연결하기를 누르세요. 태블릿과 폰에 같은 주소를 넣으면 돼요.</p>
+      :ED_SYNC.url?`<p class="hint">연결 주소를 붙여 넣고 연결하기를 누르세요.</p>
         <textarea class="fld url" id="syncUrl" rows="3" placeholder="https://….firebasedatabase.app/dadada/…" aria-label="연결 주소"></textarea>
         <p class="err" id="syncErr" hidden></p>
-        <div class="btns"><button class="btn pri" data-act="syncgo">연결하기</button></div>`}
+        <div class="btns"><button class="btn pri" data-act="syncgo">연결하기</button><button class="btn sec" data-act="syncmode">암호로 연결하기</button></div>`
+      :`<p class="hint">${ED_SYNC.confirm?'처음이라 우리 가족 공간을 새로 만들어요. 같은 암호를 한 번 더 입력해 주세요. 다른 폰에도 이 암호를 똑같이 넣어요.':'우리집 암호를 입력하고 연결하기를 누르세요. 태블릿과 폰에 같은 암호를 넣으면 돼요.'}</p>
+        <input class="fld pw" id="syncPw" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="우리집 암호" value="${esc(ED_SYNC.pw)}" ${ED_SYNC.confirm?'readonly':''} aria-label="우리집 암호">
+        ${ED_SYNC.confirm?'<input class="fld pw" id="syncPw2" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="한 번 더" aria-label="암호 한 번 더">':''}
+        <p class="err" id="syncErr" ${ED_SYNC.err?'':'hidden'}>${esc(ED_SYNC.err)}</p>
+        <div class="btns"><button class="btn pri" data-act="syncpw">${ED_SYNC.confirm?'새로 만들고 연결하기':'연결하기'}</button><button class="btn sec" data-act="syncmode">연결 주소로 연결하기</button></div>`}
     </section>
     <section class="panel"><h2><span>이렇게 맞춰져요</span></h2>
       <ol class="sync-steps">
@@ -1860,13 +1910,19 @@ document.addEventListener('click',e=>{
     case 'replies': view.screen='replies'; show(); tone([660],.08,'sine'); break;
     case 'rsay': { const v=S.replies?.[d.mid]?.[d.k], p=personById(pk(d.k||'')); if(v&&p) sayText(`${particle(p.name)} 답장했어요. ${stripEmoji(v.text)}`); break; }
     case 'wrole': W.role=d.r; W.step=2; W.err=''; renderWelcome(); window.scrollTo(0,0); break;
-    case 'wback': W.step=1; W.err=''; renderWelcome(); break;
+    case 'wback': if(W.confirm){ W.confirm=false; W.pw=''; W.err=''; renderWelcome(); break; } W.step=1; W.err=''; renderWelcome(); break;
+    case 'wmode': W.mode=W.mode==='url'?'pw':'url'; W.err=''; W.confirm=false; renderWelcome(); break;
     case 'wpaste': { let t=''; try{ t=window.Android.clipText()||''; }catch(e){} t=t.trim(); if(!t){ toast('복사한 주소가 없어요. 카톡에서 주소를 길게 눌러 복사해 주세요'); break; } W.url=t; const ta=$('#welUrl'); if(ta) ta.value=t; if(parseSync(t)) welcomeConnect(); else { W.err='복사한 내용이 연결 주소가 아니에요. 엄마가 보낸 주소를 다시 복사해 주세요.'; renderWelcome(); } break; }
     case 'wgo': welcomeConnect(); break;
     case 'wskip': finishWelcome(); break;
     case 'callno': callNo(d.kid); break;
     case 'syncgo': { const ta=$('#syncUrl'), er=$('#syncErr'); b.disabled=true; b.textContent='연결하는 중…'; setSt('wait');
       syncConnect(ta?.value).then(msg=>{ if(msg){ setSt(S.sync?SYNC.st:'off'); const t=$('#syncErr'), x=$('#syncUrl'); if(t){t.textContent=msg;t.hidden=false} if(x) x.value=ta?.value||''; const bb=$('[data-act="syncgo"]'); if(bb){bb.disabled=false;bb.textContent='연결하기'} } else rerenderEdit(); }); break; }
+    case 'syncmode': ED_SYNC.url=!ED_SYNC.url; ED_SYNC.confirm=false; ED_SYNC.err=''; rerenderEdit(); break;
+    case 'syncpw': { const pw=ED_SYNC.confirm?ED_SYNC.pw:($('#syncPw')?.value||'').trim(), pw2=ED_SYNC.confirm?($('#syncPw2')?.value||''):undefined; ED_SYNC.pw=pw;
+      if(!pw){ ED_SYNC.err='암호를 입력해 주세요.'; rerenderEdit(); break; }
+      b.disabled=true; b.textContent='확인하는 중…'; setSt('wait');
+      connectWithPassword(pw,S.role,pw2).then(r=>{ if(r.confirm){ ED_SYNC.confirm=true; ED_SYNC.err=''; setSt('off'); rerenderEdit(); return; } if(r.msg){ ED_SYNC.err=r.msg; setSt(S.sync?SYNC.st:'off'); rerenderEdit(); return; } ED_SYNC.pw=''; ED_SYNC.confirm=false; ED_SYNC.err=''; rerenderEdit(); }); break; }
     case 'syncoff': if(!confirmTap(b)) break; syncOff(); rerenderEdit(); toast('연결을 끊었어요. 이제 이 기기에만 저장돼요'); break;
     case 'cal': openCal(); break;
     case 'cmon': { const n=new Date(cal.y,cal.m+Number(d.d),1); cal.y=n.getFullYear(); cal.m=n.getMonth(); renderCal(); break; }
@@ -1908,7 +1964,8 @@ document.addEventListener('click',e=>{
     case 'rreset': if(!confirmTap(b)) break; { const day=S.log[todayKey()]; if(day&&day[d.rid]){ day._x=day._x||{}; for(const [k,e] of Object.entries(day[d.rid])) if(e.stars){ day._x[k]=(day._x[k]||0)+e.stars; rinc(`log/${todayKey()}/_x/${k}`,e.stars); } delete day[d.rid]; rset(`log/${todayKey()}/${d.rid}`,null); } save(); rerenderEdit(); toast(`${ROUT[d.rid].name}을 처음부터 다시 시작해요`); } break;
   }
 });
-document.addEventListener('input',e=>{ const id=e.target.id; if(id==='welUrl') W.url=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
+document.addEventListener('input',e=>{ const id=e.target.id; if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.classList.contains('ph-l')||t.classList.contains('ph-e')){ const it=S.msg.phrases.find(x=>x.id===t.dataset.pid); if(!it) return; const v=t.value.trim();
