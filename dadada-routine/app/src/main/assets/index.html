@@ -480,6 +480,69 @@ h1,h2,h3,p{margin:0}
 .role[aria-pressed="true"]{border-color:var(--accent);background:var(--surface)}
 .role .ic{width:48px;height:48px;color:var(--todo-ink);--ic-tint:var(--todo-tint)}
 .tg-chats{display:flex;flex-direction:column;gap:8px}
+.chat-wrap{max-width:780px;margin-inline:auto;display:flex;flex-direction:column;gap:12px;padding-block:16px 200px}
+.chat-head{position:sticky;top:env(safe-area-inset-top,0px);z-index:15}
+.chat-head .band-in{flex-wrap:nowrap}
+.chat-head .band-title{min-width:0}
+.chat-head h1{font-size:clamp(24px,3vw,32px)}
+.chat-head .tbtn{flex:none}
+.room-faces{display:flex;flex:none}
+.room-faces .pava+.pava{margin-left:-12px}
+.room-faces .ava{box-shadow:0 0 0 2px var(--surface)}
+.chat-day{align-self:center;padding:5px 14px;border-radius:999px;background:var(--surface-2);font-size:13px;color:var(--ink-2);margin-block:6px}
+.msgrow{display:flex;gap:10px;align-items:flex-start;min-width:0}
+.msgrow.me{justify-content:flex-end;align-items:flex-end}
+.chat-ava{flex:none}
+.bub-col{display:flex;flex-direction:column;gap:6px;min-width:0;max-width:min(82%,560px)}
+.bub-name{font:16px/1.2 var(--f-d);color:var(--ink-2)}
+.bub-line{display:flex;align-items:flex-end;gap:6px;min-width:0}
+.bub{background:var(--surface);border-radius:6px 22px 22px 22px;padding:12px 16px;box-shadow:var(--shadow);text-align:left;min-width:0;overflow-wrap:anywhere;font:24px/1.3 var(--f-d);border:3px solid transparent}
+.bub.kidb{display:flex;flex-direction:column;gap:8px}
+.bub.kidb.sel{border-color:var(--bub-ink)}
+.bub-ph{display:flex;align-items:center;gap:10px;font:26px/1.2 var(--f-d)}
+.bub-ph .pv-ph{width:46px;height:46px;border-radius:14px;flex:none}
+.bub-ph .pv-ph .ic{width:34px;height:34px}
+.bub-stt{font:22px/1.3 var(--f-d);color:var(--ink-2)}
+.bub.repb{background:var(--surface-2)}
+.bub.meb{background:var(--bub-ink);color:var(--on-bub);border-radius:22px 6px 22px 22px;max-width:min(78%,520px)}
+.bub-time{font-size:12px;color:var(--ink-3);white-space:nowrap;flex:none;padding-bottom:4px}
+.chat-voice{min-height:56px;font-size:22px;padding:0 20px 0 14px}
+.chat-voice .ui{width:26px;height:26px}
+.reply-bar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:color-mix(in oklab,var(--surface) 95%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding-block:10px calc(12px + env(safe-area-inset-bottom,0px))}
+.reply-bar .wrap{max-width:812px}
+.rb-target{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-2);margin-bottom:8px;min-width:0}
+.rb-target .ui{width:16px;height:16px;transform:rotate(90deg);flex:none}
+.rb-target span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rb-chips{display:flex;gap:8px;flex-wrap:wrap}
+.rb-chips .ib-r{min-height:54px;font-size:20px;padding:0 16px}
+.room-list{display:flex;flex-direction:column;gap:10px}
+.room-item{display:flex;align-items:center;gap:14px;padding:16px;border-radius:26px;background:var(--surface);box-shadow:var(--shadow);text-align:left;min-width:0}
+.room-item:active{transform:scale(.99)}
+.ri-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ri-main b{font:24px/1.15 var(--f-d);font-weight:400}
+.ri-main small{font-size:15px;color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ri-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
+.ri-side small{font-size:12px;color:var(--ink-3)}
+.ri-badge{min-width:26px;height:26px;padding:0 8px;border-radius:13px;background:var(--bub-ink);color:var(--on-bub);font:700 14px/26px var(--f-b);text-align:center}
+.wel{max-width:980px;margin-inline:auto;padding-block:36px 56px;display:flex;flex-direction:column;gap:22px}
+.wel-head{display:flex;align-items:center;gap:18px}
+.wel-head .sc-ico{width:84px;height:84px;border-radius:26px;background:var(--sc-t-a);color:var(--todo-ink);--ic-tint:var(--todo-tint);display:grid;place-items:center;flex:none}
+.wel-head .sc-ico .ic{width:60px;height:60px}
+.wel h1{font:clamp(32px,4.4vw,46px)/1.1 var(--f-d)}
+.wel h1+p{color:var(--ink-2);font-size:17px;margin-top:4px}
+.who-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.who{display:flex;flex-direction:column;align-items:center;gap:10px;padding:18px 8px 16px;border-radius:28px;background:var(--surface);box-shadow:var(--shadow);font:22px/1.15 var(--f-d);text-align:center;transition:transform .12s;border:3px solid transparent}
+.who:active{transform:scale(.96)}
+.who.kids{grid-column:1/-1;flex-direction:row;justify-content:flex-start;gap:18px;padding:18px 22px;text-align:left;background:linear-gradient(140deg,var(--sc-t-a),var(--sc-t-b))}
+.who.kids .sc-ico{width:80px;height:80px;border-radius:24px;background:var(--bubble);color:var(--todo-ink);--ic-tint:var(--todo-tint);display:grid;place-items:center;flex:none}
+.who.kids .sc-ico .ic{width:56px;height:56px}
+.who.kids small{display:block;font:15px var(--f-b);color:var(--ink-2);margin-top:4px}
+.wel-box{background:var(--surface);border-radius:32px;padding:24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px}
+.wel-me{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.wel-me b{font:30px/1.15 var(--f-d);font-weight:400}
+.wel-me small{display:block;color:var(--ink-2);font-size:15px}
+.wel .btn{min-height:64px;font-size:18px}
+.wel .btn.ghost{background:transparent;color:var(--ink-2);box-shadow:none;flex:0 1 auto}
 .reply-strip{display:flex;align-items:center;gap:16px 20px;flex-wrap:wrap;width:100%;padding:18px 22px;border-radius:30px;background:var(--surface);box-shadow:var(--shadow);text-align:left;margin-bottom:6px;border:3px solid transparent;transition:transform .15s}
 .reply-strip:active{transform:scale(.99)}
 .reply-strip.has-new{border-color:var(--bub-ink)}
@@ -541,9 +604,11 @@ h1,h2,h3,p{margin:0}
 
 </head>
 <body>
+<main id="welcome" class="screen" hidden></main>
 <main id="family" class="screen"></main>
 <main id="msg" class="screen" hidden></main>
 <main id="replies" class="screen" hidden></main>
+<main id="room" class="screen" hidden></main>
 <main id="home" class="screen" hidden></main>
 <main id="run" class="screen" hidden></main>
 <main id="edit" class="screen" hidden></main>
@@ -713,7 +778,7 @@ function load(){
   let s=null;
   try{ if(IS_APP) s=JSON.parse(window.Android.loadData()||'null') }catch(e){}
   if(!s) try{s=JSON.parse(localStorage.getItem(KEY))}catch(e){}
-  if(!s||!Array.isArray(s.kids)||!s.routines) s=defaults();
+  if(!s||!Array.isArray(s.kids)||!s.routines){ s=defaults(); s.onboard=true; }
   if((s.v||1)<2){ const D=defaults(); s.routines.morning=D.routines.morning; s.routines.evening=D.routines.evening; s.v=2; }
   if(s.v<4){ s.v=Math.max(4,s.v); }
   if(s.v<3){ const k1=s.kids.find(k=>k.id==='k1'); if(k1) k1.animal='cat'; const m=s.routines.morning?.k1; if(m&&!m.some(t=>!t.once&&t.label==='핫팩 챙기기')) m.push(T('hotpack','핫팩 챙기기')); s.v=3; }
@@ -780,6 +845,7 @@ async function flush(){
   }
 }
 function todayRanks(){ const o={},d=S.log[todayKey()]||{}; for(const r of RIDS) for(const k in (d[r]||{})) if(d[r][k]?.rank) o[r+'|'+k]=d[r][k].rank; return o; }
+const pk=k=>String(k).split('~')[0];
 const replyKeys=()=>{ const o=new Set(); for(const m in S.replies||{}) for(const r in (S.replies[m]||{})) o.add(m+'|'+r); return o; };
 function adopt(fn){
   const before=todayRanks(), rb=replyKeys();
@@ -837,20 +903,32 @@ async function pollOnce(){
     adopt(()=>{ if(kids) S.kids=kids; if(msg) S.msg=msg; if(routines) S.routines=routines; if(bank) S.bank=bank; if(day) S.log[t]=day; else delete S.log[t]; });
   }catch(e){ setSt('err'); }
 }
-async function syncConnect(raw){
+async function syncConnect(raw,role=S.role){
   const u=parseSync(raw);
   if(!u) return '주소가 맞지 않아요. 받은 연결 주소를 통째로 붙여 넣어 주세요.';
   let remote;
   try{ const r=await fetch(u+'/app.json'); if(r.status===401||r.status===403) return '데이터베이스 규칙이 막고 있어요. Firebase 규칙을 다시 확인해 주세요.'; if(!r.ok) throw 0; remote=await r.json(); }
   catch(e){ return '인터넷에 연결할 수 없어요. 와이파이를 확인해 주세요.'; }
-  if(remote&&remote.kids){
-    S.sync=u; SYNC.q={}; SYNC.inc={};
-    for(const k of SYNC_KEYS) S[k]=k in remote?remote[k]:(k==='log'?{}:S[k]);
-    normalize(S); save(); if(!remote.msg){ S.sync=u; pushMsg(); } toast('연결했어요. 저장된 기록을 받아왔어요');
+  const adult=role!=='kids';
+  const score=x=>{ if(!x) return 0; let n=0; const L=x.log||{}; for(const d in L) for(const r in (L[d]||{})) if(r!=='_x') n+=Object.keys(L[d][r]||{}).length; for(const k in (x.bank||{})) n+=Number(x.bank[k])||0; return n; };
+  const hasRemote=!!(remote&&remote.kids);
+  SYNC.q={}; SYNC.inc={};
+  if(hasRemote&&(adult||score(remote)>=score(S))){
+    for(const k of SYNC_KEYS) S[k]=k in remote?remote[k]:(k==='log'||k==='replies'?{}:S[k]);
+    normalize(S); S.sync=u; save(); if(!remote.msg&&!adult) pushMsg(); toast('연결했어요. 저장된 기록을 받아왔어요');
+  }else if(adult){
+    S.sync=u; save(); toast('연결했어요');
   }else{
+    // 이 기기(아이들 태블릿)에 기록이 더 많아요: 저장된 별·기록과 합쳐서 올려요
+    if(hasRemote){
+      for(const k in (remote.bank||{})) S.bank[k]=Math.max(S.bank[k]||0,Number(remote.bank[k])||0);
+      const L=remote.log||{}; for(const d in L) for(const r in (L[d]||{})) for(const k in (L[d][r]||{})){ S.log[d]=S.log[d]||{}; S.log[d][r]=S.log[d][r]||{}; if(!S.log[d][r][k]) S.log[d][r][k]=L[d][r][k]; }
+      if(remote.replies) S.replies={...remote.replies,...(S.replies||{})};
+      normalize(S);
+    }
     try{ const r=await fetch(u+'/app.json',{method:'PATCH',body:JSON.stringify({kids:S.kids,routines:S.routines,log:S.log,bank:S.bank,msg:S.msg})}); if(!r.ok) throw 0; }
     catch(e){ return '기록을 올리지 못했어요. 인터넷과 Firebase 규칙을 확인해 주세요.'; }
-    S.sync=u; save(); toast('연결했어요. 이 기기 기록을 올렸어요');
+    S.sync=u; save(); toast('연결했어요. 이 기기의 별과 기록을 올렸어요');
   }
   setSt('on'); connectStream(); applyRole(); roomPrune(); return '';
 }
@@ -873,9 +951,12 @@ function requestRender(){
   renderPending=false;
   if(view.screen==='run') refreshLanes();
   else if(view.screen==='home') renderHome();
-  else if(view.screen==='family') renderFamily();
+  else if(view.screen==='family'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderFamily(); if(!CH.stick) window.scrollTo(0,y); }
+  else if(view.screen==='room'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderRoom(); if(!CH.stick) window.scrollTo(0,y); }
   else if(view.screen==='msg') renderMsg();
   else if(view.screen==='replies') renderReplies();
+  else if(view.screen==='room') renderRoom();
+  else if(view.screen==='welcome') return;
   else if(view.screen==='cal'){ const y=window.scrollY; renderCal(); window.scrollTo(0,y); }
   else rerenderEdit();
 }
@@ -924,10 +1005,11 @@ const dateLabel=()=>{const d=new Date();return `${d.getMonth()+1}월 ${d.getDate
 
 function show(){
   if(view.screen!=='msg'&&typeof M!=='undefined'&&M.rec==='rec') recStop();
-  for(const s of ['family','msg','replies','home','run','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
+  for(const s of ['welcome','family','room','msg','replies','home','run','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
   if(view.screen==='family'&&isAdult()){ INB.prevSeen=S.inboxSeen||0; S.inboxSeen=Date.now(); save(); }
   if(view.screen==='replies'){ RP.prevSeen=S.repliesSeen||0; S.repliesSeen=Date.now(); save(); }
-  if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='cal') renderCal(); else renderEdit();
+  if(view.screen==='room'||(view.screen==='family'&&isElder())) CH.stick=true;
+  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='cal') renderCal(); else renderEdit();
   keepAwake(view.screen==='run');
   window.scrollTo(0,0);
 }
@@ -1083,6 +1165,7 @@ const tgInfo=()=>{ try{ return IS_APP&&window.Android.tgInfo?JSON.parse(window.A
 const hhmm=t=>{const d=new Date(t);return `${d.getHours()}:${pad(d.getMinutes())}`};
 /* ===== receiving phones (grandparents, uncle, parents) ===== */
 const INB={items:{},es:[],prevSeen:0,audio:null,playing:''};
+const isElder=()=>isAdult()&&!['mom','dad'].includes(S.role);
 const isAdult=()=>!!S.role&&S.role!=='kids'&&!!personById(S.role);
 const myRooms=()=>ROOMS.filter(r=>r.members.includes(S.role)).map(r=>r.id);
 const REPLIES=['사랑해 ❤️','알았어 👍','곧 갈게 🚗','잘했어 👏','전화할게 📞'];
@@ -1108,9 +1191,9 @@ function inboxConnect(){
       const parts=m.path.split('/').filter(Boolean);
       if(!parts.length){
         if(ev.type==='put') for(const k of Object.keys(INB.items)) if(INB.items[k].room===r) delete INB.items[k];
-        if(m.data&&typeof m.data==='object') for(const k in m.data) if(m.data[k]) INB.items[k]={...m.data[k],room:r};
-      } else if(parts.length===1){ if(m.data) INB.items[parts[0]]={...m.data,room:r}; else delete INB.items[parts[0]]; }
-      if(view.screen==='family') renderFamily(); };
+        if(m.data&&typeof m.data==='object') for(const k in m.data) if(m.data[k]) INB.items[r+'|'+k]={...m.data[k],mid:k,room:r};
+      } else if(parts.length===1){ if(m.data) INB.items[r+'|'+parts[0]]={...m.data,mid:parts[0],room:r}; else delete INB.items[r+'|'+parts[0]]; }
+      CH.stick=true; requestRender(); };
     es.addEventListener('put',h); es.addEventListener('patch',h); INB.es.push(es);
   }
 }
@@ -1124,55 +1207,109 @@ function applyRole(){
 const whenText=t=>{ const d=new Date(t), n=new Date(), y=new Date(n); y.setDate(n.getDate()-1); const h=d.getHours();
   const day=d.toDateString()===n.toDateString()?'오늘':d.toDateString()===y.toDateString()?'어제':`${d.getMonth()+1}월 ${d.getDate()}일`;
   return `${day} ${h<12?'오전':'오후'} ${h%12||12}:${pad(d.getMinutes())}`; };
+const rerenderKeep=()=>{ const y=window.scrollY; if(view.screen==='room') renderRoom(); else renderFamily(); window.scrollTo(0,y); };
 async function playVoice(mid){
-  if(INB.audio){ const was=INB.playing; try{INB.audio.pause()}catch(e){} INB.audio=null; INB.playing=''; renderFamily(); if(was===mid) return; }
+  if(INB.audio){ const was=INB.playing; try{INB.audio.pause()}catch(e){} INB.audio=null; INB.playing=''; rerenderKeep(); if(was===mid) return; }
   try{
     const b64=await fetch(bref(`voice/${mid}`)).then(r=>r.json());
     if(!b64){ toast('목소리를 찾을 수 없어요'); return; }
     const a=new Audio('data:audio/mp4;base64,'+b64); INB.audio=a; INB.playing=mid;
-    a.onended=()=>{ INB.audio=null; INB.playing=''; renderFamily(); };
-    renderFamily(); await a.play();
-  }catch(e){ INB.audio=null; INB.playing=''; renderFamily(); toast('목소리를 못 불러왔어요. 인터넷을 확인해 주세요'); }
+    a.onended=()=>{ INB.audio=null; INB.playing=''; rerenderKeep(); };
+    rerenderKeep(); await a.play();
+  }catch(e){ INB.audio=null; INB.playing=''; rerenderKeep(); toast('목소리를 못 불러왔어요. 인터넷을 확인해 주세요'); }
 }
+/* 채팅방: 엄마·아빠는 방 3개, 할머니·할아버지·삼촌은 자기 방 하나 */
+const CH={target:'',stick:true};
+const roomItems=r=>Object.values(INB.items).filter(x=>x.room===r&&x.at).sort((a,b)=>a.at-b.at);
+const roomUnread=r=>{ const seen=(S.roomSeen||{})[r]||0; return roomItems(r).filter(x=>x.at>seen).length; };
+const hm=t=>{ const d=new Date(t), h=d.getHours(); return `${h<12?'오전':'오후'} ${h%12||12}:${pad(d.getMinutes())}`; };
+const dayLabel=t=>{ const d=new Date(t); return `${d.getMonth()+1}월 ${d.getDate()}일 ${WD[d.getDay()]}요일`; };
+function markRoomSeen(r){ S.roomSeen=S.roomSeen||{}; S.roomSeen[r]=Date.now(); save(); }
 function renderInbox(){
   const me=personById(S.role);
-  const kidWord=['mom','dad'].includes(me.id)?'아이들이':me.id==='uncle'?'조카들이':'손주들이';
-  const list=Object.entries(INB.items).map(([id,v])=>({id,...v})).filter(x=>x&&x.at).sort((a,b)=>b.at-a.at).slice(0,60);
-  const rs=receiverState(), needSetup=IS_APP&&rs.svc!==undefined&&!(rs.notif&&rs.battery);
-  const card=it=>{
-    const kids=toArr(it.from), to=toArr(it.to), ph=toArr(it.ph), reps=S.replies[it.id]||{}, mine=reps[me.id];
-    const others=Object.entries(reps).filter(([r])=>r!==me.id&&personById(r));
-    const isNew=it.at>INB.prevSeen;
-    return `<article class="ib-card${isNew?' new':''}">
-      <header class="ib-head"><span class="pv-faces">${kids.map(k=>avatar(k,64)).join('')}</span>
-        <div class="ib-who"><b>${esc(dot(kids.map(k=>withI(k.name))))}가 보냈어요</b><small>${whenText(it.at)} · ${to.includes(me.id)?'나에게':esc(dot(to.map(id=>personById(id)?.name||'')))+'에게'}${myRooms().length>1?` · ${esc(roomById(it.room)?.name||'')}`:''}</small></div>
-        ${isNew?'<span class="ib-new">새 마음</span>':''}</header>
-      ${ph.length?`<ul class="ib-ph">${ph.map(p=>`<li><span class="pv-ph kid" style="--k:${phColor(p)}">${ico(p.icon)}</span><span>${esc(p.label)} ${esc(p.emoji||'')}</span></li>`).join('')}</ul>`:''}
-      ${it.voice?`<button class="ib-voice" data-act="ivoice" data-mid="${it.id}">${ui(INB.playing===it.id?'stop':'play')}<span>${INB.playing===it.id?'멈추기':'목소리 듣기'}</span><small>${it.voice}초</small></button>`:''}
-      ${it.stt?`<p class="ib-stt">“${esc(it.stt)}”<small>받아쓰기라서 틀릴 수 있어요</small></p>`:''}
-      ${others.length?`<div class="ib-others">${others.map(([r,v])=>`<span class="ib-o">${parentAva(personById(r),30)}${esc(v.text)}</span>`).join('')}</div>`:''}
-      <div class="ib-replies">${mine?`<span class="ib-sent">${ui('check')}내 답장: ${esc(mine.text)}</span>`:REPLIES.map(t=>`<button class="ib-r" data-act="ireply" data-mid="${it.id}" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>
-    </article>`;
-  };
+  if(isElder()){ const r=myRooms()[0]; markRoomSeen(r); $('#family').innerHTML=roomHtml(r,false); afterRoom(); return; }
+  const rows=myRooms().map(r=>{
+    const R=roomById(r), items=roomItems(r), last=items[items.length-1], un=roomUnread(r);
+    const others=R.members.filter(id=>id!==S.role).map(personById);
+    const prev=last?`${dot(toArr(last.from).map(k=>withI(k.name)))}가: ${toArr(last.ph).map(p=>p.label).join(', ')||(last.voice?'목소리':'')}`:'아직 대화가 없어요';
+    return `<button class="room-item" data-act="room" data-r="${r}">
+      <span class="room-faces">${others.slice(0,4).map(p=>parentAva(p,44)).join('')}</span>
+      <span class="ri-main"><b>${esc(R.name)}</b><small>${esc(prev)}</small></span>
+      <span class="ri-side">${last?`<small>${last.at>Date.now()-864e5?hm(last.at):dayLabel(last.at).replace(/ \S+요일/,'')}</small>`:''}${un?`<span class="ri-badge">${un}</span>`:''}</span>
+    </button>`;
+  }).join('');
   $('#family').innerHTML=`<div class="wrap">
     <header class="fam-top">
-      <div style="display:flex;gap:16px;align-items:center">${parentAva(me,84)}<div><div class="eyebrow">${dateLabel()}</div><h1 class="fam-name">${esc(me.name)}</h1><p class="greet">${kidWord} 보낸 마음이에요</p></div></div>
+      <div style="display:flex;gap:16px;align-items:center">${parentAva(me,72)}<div><div class="eyebrow">${dateLabel()}</div><h1 class="fam-name" style="font-size:clamp(34px,5vw,48px)">가족 채팅방</h1></div></div>
       <div class="tools">
-        ${['mom','dad'].includes(me.id)?`<button class="tbtn" data-act="todo">${ico('checklist').replace('class="ic"','class="ic" style="width:26px;height:26px"')}할 일 보기</button>`:''}
-        <button class="tbtn" id="famEditBtn" aria-label="꾹 눌러서 설정 열기">${ui('lock')}꾹 눌러 설정</button>
+        <button class="tbtn" data-act="todo">${ico('checklist').replace('class="ic"','class="ic" style="width:26px;height:26px"')}할 일 보기</button>
+        <button class="tbtn" id="famEditBtn" aria-label="꾹 눌러서 편집 열기">${ui('lock')}꾹 눌러 편집</button>
       </div>
     </header>
-    <div class="ib-wrap">
-      ${needSetup?`<section class="ib-setup"><h2>새 마음이 오면 알려 드릴게요</h2>
-        <div class="btns">
-          <button class="btn ${rs.notif?'sec':'pri'}" data-act="inotif" ${rs.notif?'disabled':''}>${rs.notif?ui('check')+'알림 허용됨':'1. 알림 허용하기'}</button>
-          <button class="btn ${rs.battery?'sec':'pri'}" data-act="ibatt" ${rs.battery?'disabled':''}>${rs.battery?ui('check')+'배터리 설정 끝':'2. 배터리 제한 풀기'}</button>
-        </div><p class="hint">두 버튼을 다 눌러 두면 앱을 닫아 두어도 알림이 와요.</p></section>`:''}
-      ${!S.sync?`<div class="ib-empty">${ico('bubble')}<b>아직 연결이 안 됐어요</b><p>꾹 눌러 설정 → 폰 연결에서 연결 주소를 넣어 주세요.</p></div>`
-        :list.length?list.map(card).join(''):`<div class="ib-empty">${ico('bubble')}<b>아직 받은 마음이 없어요</b><p>${kidWord} 보내면 여기에 와요.</p></div>`}
-    </div></div>`;
+    <div class="ib-wrap" style="padding-top:8px">${setupCard()}<div class="room-list">${rows}</div>
+    ${!S.sync?`<div class="ib-empty">${ico('bubble')}<b>아직 연결이 안 됐어요</b><p>꾹 눌러 편집 → 폰 연결에서 연결 주소를 넣어 주세요.</p></div>`:''}</div></div>`;
   holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
 }
+function setupCard(){
+  const rs=receiverState();
+  if(!(IS_APP&&rs.svc!==undefined&&!(rs.notif&&rs.battery))) return '';
+  return `<section class="ib-setup"><h2>새 마음이 오면 알려 드릴게요</h2>
+    <div class="btns">
+      <button class="btn ${rs.notif?'sec':'pri'}" data-act="inotif" ${rs.notif?'disabled':''}>${rs.notif?ui('check')+'알림 허용됨':'1. 알림 허용하기'}</button>
+      <button class="btn ${rs.battery?'sec':'pri'}" data-act="ibatt" ${rs.battery?'disabled':''}>${rs.battery?ui('check')+'배터리 설정 끝':'2. 배터리 제한 풀기'}</button>
+    </div><p class="hint">두 버튼을 다 눌러 두면 앱을 닫아 두어도 알림이 와요.</p></section>`;
+}
+function roomHtml(r,withBack){
+  const R=roomById(r), me=personById(S.role), items=roomItems(r);
+  const members=R.members.map(personById);
+  // 이 방 아이 메시지 + 이 방 사람들이 단 답장을 시간순으로
+  const ev=[];
+  for(const it of items){
+    ev.push({t:'kid',at:it.at,it});
+    for(const [key,v] of Object.entries(S.replies[it.mid]||{})){ const who=pk(key); if(v&&v.at&&R.members.includes(who)) ev.push({t:'rep',at:v.at,who,v,mid:it.mid,key}); }
+  }
+  ev.sort((a,b)=>a.at-b.at);
+  const last=items[items.length-1];
+  if(!CH.target||!items.some(x=>x.mid===CH.target)) CH.target=last?last.mid:'';
+  let html='', day='';
+  for(const e of ev){
+    const dl=dayLabel(e.at); if(dl!==day){ day=dl; html+=`<div class="chat-day">${dl}</div>`; }
+    if(e.t==='kid'){
+      const it=e.it, kids=toArr(it.from), to=toArr(it.to), ph=toArr(it.ph);
+      html+=`<div class="msgrow"><span class="pv-faces chat-ava">${kids.map(k=>avatar(k,44)).join('')}</span>
+        <div class="bub-col"><div class="bub-name">${esc(dot(kids.map(k=>withI(k.name))))}가 → ${to.includes(me.id)&&to.length===1?'나에게':esc(dot(to.map(id=>personById(id)?.name||'')))+'에게'}</div>
+          <div class="bub-line"><button class="bub kidb${CH.target===it.mid?' sel':''}" data-act="rtarget" data-mid="${it.mid}" aria-label="이 말에 답장하기">
+            ${ph.map(p=>`<span class="bub-ph"><span class="pv-ph kid" style="--k:${p.color||phColor(p)}">${ico(p.icon)}</span>${esc(p.label)} ${esc(p.emoji||'')}</span>`).join('')}
+            ${it.stt?`<span class="bub-stt">“${esc(it.stt)}”</span>`:''}
+          </button><span class="bub-time">${hm(it.at)}</span></div>
+          ${it.voice?`<button class="ib-voice chat-voice" data-act="ivoice" data-mid="${it.mid}">${ui(INB.playing===it.mid?'stop':'play')}<span>${INB.playing===it.mid?'멈추기':'목소리 듣기'}</span><small>${it.voice}초</small></button>`:''}
+        </div></div>`;
+    } else {
+      const p=personById(e.who), mine=e.who===S.role;
+      html+=mine?`<div class="msgrow me"><span class="bub-time">${hm(e.at)}</span><div class="bub meb">${esc(e.v.text)}</div></div>`
+        :`<div class="msgrow">${parentAva(p,44)}<div class="bub-col"><div class="bub-name">${esc(p.name)}</div><div class="bub-line"><div class="bub repb">${esc(e.v.text)}</div><span class="bub-time">${hm(e.at)}</span></div></div></div>`;
+    }
+  }
+  const tgt=items.find(x=>x.mid===CH.target);
+  const kidWord=['mom','dad'].includes(me.id)?'아이들이':me.id==='uncle'?'조카들이':'손주들이';
+  return `<header class="band scene chat-head" data-rid="msg"><div class="wrap band-in">
+      ${withBack?`<button class="back bubble" data-act="family" aria-label="채팅방 목록으로">${ui('back')}</button>`:''}
+      <div class="band-title"><span class="room-faces">${members.filter(p=>p.id!==S.role).slice(0,5).map(p=>parentAva(p,40)).join('')}</span><div><h1>${esc(R.name)}</h1><p class="band-date">${members.length}명 · ${esc(me.name)}</p></div></div>
+      ${withBack?'':`<button class="tbtn" id="famEditBtn" aria-label="꾹 눌러서 설정 열기">${ui('lock')}꾹 눌러 설정</button>`}
+    </div></header>
+    <div class="wrap"><div class="chat-wrap">
+      ${withBack?'':setupCard()}
+      ${!S.sync?`<div class="ib-empty">${ico('bubble')}<b>아직 연결이 안 됐어요</b><p>꾹 눌러 설정 → 연결에서 연결 주소를 넣어 주세요.</p></div>`
+        :ev.length?html:`<div class="ib-empty">${ico('bubble')}<b>아직 대화가 없어요</b><p>${kidWord} 마음을 보내면 여기에 와요.</p></div>`}
+    </div></div>
+    ${tgt?`<div class="reply-bar"><div class="wrap"><p class="rb-target">${ui('back')}<span>${esc(dot(toArr(tgt.from).map(k=>withI(k.name))))}의 “${esc(toArr(tgt.ph).map(p=>p.label).join(', ')||'목소리')}”에 답장</span></p>
+      <div class="rb-chips">${REPLIES.map(t=>`<button class="ib-r" data-act="ireply" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div></div></div>`:''}`;
+}
+function afterRoom(){
+  holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
+  if(CH.stick){ CH.stick=false; requestAnimationFrame(()=>window.scrollTo(0,document.documentElement.scrollHeight)); }
+}
+function renderRoom(){ markRoomSeen(view.room); $('#room').innerHTML=roomHtml(view.room,true); afterRoom(); }
 function renderFamily(){
   if(isAdult()) return renderInbox();
   const h=new Date().getHours();
@@ -1204,11 +1341,55 @@ function renderFamily(){
   </div>`;
   holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
 }
+/* ===== 처음 설치: 누구예요? → 연결 ===== */
+const W={step:1,role:'',err:'',busy:false,url:''};
+const roleName=r=>r==='kids'?'아이들 태블릿':(personById(r)?.name||'');
+function renderWelcome(){
+  if(W.step===1){
+    $('#welcome').innerHTML=`<div class="wrap"><div class="wel">
+      <div class="wel-head"><span class="sc-ico">${ico('comehome')}</span><div><h1>우리가족에 오신 걸 환영해요</h1><p>이 기기는 누구 거예요?</p></div></div>
+      <div class="who-grid">
+        <button class="who kids" data-act="wrole" data-r="kids"><span class="sc-ico">${ico('checklist')}</span><span>아이들 태블릿<small>다연·다솔·다정이가 할 일을 하고 마음을 보내요</small></span></button>
+        ${PARENTS.map(p=>`<button class="who" data-act="wrole" data-r="${p.id}">${parentAva(p,96)}<span>${esc(p.name)}</span></button>`).join('')}
+      </div></div></div>`;
+    return;
+  }
+  const me=W.role==='kids'?`<span class="sc-ico" style="width:84px;height:84px;border-radius:26px;background:var(--sc-t-a);display:grid;place-items:center;color:var(--todo-ink);--ic-tint:var(--todo-tint)">${ico('checklist')}</span>`:parentAva(personById(W.role),84);
+  const canClip=IS_APP&&!!window.Android.clipText;
+  $('#welcome').innerHTML=`<div class="wrap"><div class="wel">
+    <div class="wel-box">
+      <div class="wel-me">${me}<div><b>${esc(roleName(W.role))}${W.role==='kids'?'으로':' 폰으로'} 시작해요</b><small>${W.role==='kids'?'할 일과 마음 전하기를 써요':['mom','dad'].includes(W.role)?'받은 마음과 아이들 할 일을 볼 수 있어요':'아이들이 보낸 마음을 받고 답장할 수 있어요'}</small></div></div>
+      <h2 style="font:24px var(--f-d);font-weight:400">엄마가 보내 준 연결 주소를 넣어 주세요</h2>
+      ${canClip?`<button class="btn pri" data-act="wpaste" ${W.busy?'disabled':''}>${ui('plus')}복사한 주소 붙여넣기</button>`:''}
+      <textarea class="fld url" id="welUrl" rows="3" placeholder="https://….firebasedatabase.app/dadada/…" aria-label="연결 주소">${esc(W.url)}</textarea>
+      <p class="err" ${W.err?'':'hidden'}>${esc(W.err)}</p>
+      <div class="btns">
+        <button class="btn pri" data-act="wgo" ${W.busy?'disabled':''}>${W.busy?'연결하는 중…':'연결하기'}</button>
+        <button class="btn sec" data-act="wback">다른 사람 고르기</button>
+      </div>
+      ${W.role==='kids'?'<button class="btn ghost" data-act="wskip">연결은 나중에 할게요</button>':''}
+    </div></div></div>`;
+}
+async function welcomeConnect(){
+  const raw=($('#welUrl')?.value||W.url||'').trim(); W.url=raw;
+  if(!raw){ W.err='연결 주소를 넣어 주세요.'; renderWelcome(); return; }
+  W.busy=true; W.err=''; renderWelcome();
+  const msg=await syncConnect(raw,W.role);
+  W.busy=false;
+  if(msg){ W.err=msg; renderWelcome(); return; }
+  finishWelcome();
+}
+function finishWelcome(){
+  S.role=W.role; S.onboard=false; save(); applyRole();
+  view.screen='family'; show();
+  if(isAdult()){ toast(`${personById(S.role).name} 폰으로 연결했어요`); rxSetup='start'; rxSoon(700); }
+}
+
 /* ===== 받은 답장 (아이들 쪽) ===== */
 const RP={prevSeen:0};
 function allReplies(){
   const out=[];
-  for(const mid in (S.replies||{})) for(const r in (S.replies[mid]||{})){ const v=S.replies[mid][r]; if(v&&v.at&&personById(r)) out.push({mid,r,...v}); }
+  for(const mid in (S.replies||{})) for(const key in (S.replies[mid]||{})){ const v=S.replies[mid][key]; if(v&&v.at&&personById(pk(key))) out.push({mid,key,r:pk(key),...v}); }
   return out.sort((a,b)=>b.at-a.at);
 }
 function replyStrip(){
@@ -1236,7 +1417,7 @@ function renderReplies(){
       <small>${esc(dot(kids.map(k=>withI(k.name))))}가 보낸 마음 · ${whenText(sentAt)}${toArr(sent.ph).length?' · '+esc(toArr(sent.ph).map(p=>p.label).join(', ')):''}</small>`
       :`<small>보낸 마음 · ${whenText(sentAt)}</small>`;
     return `<article class="rp-card"><div class="rp-sent">${head}</div>
-      ${g.reps.map(x=>{ const p=personById(x.r); return `<div class="rp-row${x.at>RP.prevSeen?' new':''}">${parentAva(p,64)}<div class="rp-txt"><b>${esc(p.name)}</b><p>${esc(x.text)}</p><small>${whenText(x.at)}</small></div><button class="rp-say" data-act="rsay" data-mid="${g.mid}" data-r="${x.r}" aria-label="소리로 듣기">${ui('sound')}</button></div>`; }).join('')}
+      ${g.reps.map(x=>{ const p=personById(x.r); return `<div class="rp-row${x.at>RP.prevSeen?' new':''}">${parentAva(p,64)}<div class="rp-txt"><b>${esc(p.name)}</b><p>${esc(x.text)}</p><small>${whenText(x.at)}</small></div><button class="rp-say" data-act="rsay" data-mid="${g.mid}" data-k="${x.key}" aria-label="소리로 듣기">${ui('sound')}</button></div>`; }).join('')}
     </article>`;
   };
   $('#replies').innerHTML=`
@@ -1381,7 +1562,7 @@ const particle=n=>hasBatchim(n)?n+'이':n+'가';
 const stripEmoji=t=>String(t).replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE0F}\u{200D}]/gu,'').trim();
 function onNewReply(mid,rid,rp){
   if(S.role!=='kids') { if(view.screen==='family') renderFamily(); return; }
-  const p=personById(rid); if(!p) return;
+  const p=personById(pk(rid)); if(!p) return;
   const el=document.createElement('div'); el.className='reply-pop'; el.setAttribute('role','status');
   el.innerHTML=`${parentAva(p,72)}<div><b>${esc(particle(p.name))} 답장했어요</b><p>${esc(rp.text)}</p></div>`;
   el.addEventListener('click',()=>{ el.remove(); view.screen='replies'; show(); });
@@ -1610,9 +1791,9 @@ function editSync(){
 }
 function renderEdit(){
   $('#edit').innerHTML=`<div class="wrap">
-    <header class="ed-top"><button class="back" data-act="edback" aria-label="편집 마치기">${ui('back')}</button><h1>편집</h1>
-      <div class="seg">${[['tasks','할 일'],['kids','아이'],['stars','별·기록'],['phr','자주 쓰는 말'],...(IS_APP?[['tg','텔레그램'],['sync','폰 연결']]:[])].map(([t,l])=>`<button data-act="etab" data-tab="${t}" aria-pressed="${ed.tab===t}">${l}</button>`).join('')}</div></header>
-    ${ed.tab==='tasks'?editTasks():ed.tab==='kids'?editKids():ed.tab==='sync'?editSync():ed.tab==='phr'?editPhr():ed.tab==='tg'?editTg():editStars()}</div>`;
+    <header class="ed-top"><button class="back" data-act="edback" aria-label="편집 마치기">${ui('back')}</button><h1>${isElder()?'설정':'편집'}</h1>
+      <div class="seg">${(isElder()?[['sync','연결']]:[['tasks','할 일'],['kids','아이'],['stars','별·기록'],['phr','자주 쓰는 말'],...(IS_APP?[['tg','텔레그램'],['sync','폰 연결']]:[])]).map(([t,l])=>`<button data-act="etab" data-tab="${t}" aria-pressed="${ed.tab===t}">${l}</button>`).join('')}</div></header>
+    ${isElder()&&(ed.tab='sync'),''}${ed.tab==='tasks'?editTasks():ed.tab==='kids'?editKids():ed.tab==='sync'?editSync():ed.tab==='phr'?editPhr():ed.tab==='tg'?editTg():editStars()}</div>`;
 }
 function rerenderEdit(){const y=window.scrollY;renderEdit();window.scrollTo(0,y)}
 
@@ -1669,11 +1850,20 @@ document.addEventListener('click',e=>{
       if(isAdult()){ view.screen='family'; show(); toast(`${personById(d.r).name} 폰으로 정했어요`); rxSetup='start'; rxSoon(700); }
       else { rerenderEdit(); toast('아이들 태블릿으로 정했어요'); } break;
     case 'ivoice': playVoice(d.mid); break;
-    case 'ireply': { const t=d.t, m=d.mid; S.replies[m]=S.replies[m]||{}; S.replies[m][S.role]={at:Date.now(),text:t}; rset(`replies/${m}/${S.role}`,S.replies[m][S.role]); save(); tone([784,988],.12,'triangle',.08); renderFamily(); toast('답장을 보냈어요'); break; }
+    case 'ireply': { const m=d.mid||CH.target; if(!m) break; const key=`${S.role}~${Date.now()}`; const v={at:Date.now(),text:d.t};
+      S.replies[m]=S.replies[m]||{}; S.replies[m][key]=v; rset(`replies/${m}/${key}`,v); save(); tone([784,988],.12,'triangle',.08);
+      CH.stick=true; requestRender(); break; }
+    case 'rtarget': CH.target=d.mid; requestRender(); break;
+    case 'room': view.room=d.r; view.screen='room'; show(); break;
     case 'inotif': try{ window.Android.askNotif(); }catch(e){} break;
     case 'ibatt': try{ window.Android.askBattery(); }catch(e){} break;
     case 'replies': view.screen='replies'; show(); tone([660],.08,'sine'); break;
-    case 'rsay': { const v=S.replies?.[d.mid]?.[d.r], p=personById(d.r); if(v&&p) sayText(`${particle(p.name)} 답장했어요. ${stripEmoji(v.text)}`); break; }
+    case 'rsay': { const v=S.replies?.[d.mid]?.[d.k], p=personById(pk(d.k||'')); if(v&&p) sayText(`${particle(p.name)} 답장했어요. ${stripEmoji(v.text)}`); break; }
+    case 'wrole': W.role=d.r; W.step=2; W.err=''; renderWelcome(); window.scrollTo(0,0); break;
+    case 'wback': W.step=1; W.err=''; renderWelcome(); break;
+    case 'wpaste': { let t=''; try{ t=window.Android.clipText()||''; }catch(e){} t=t.trim(); if(!t){ toast('복사한 주소가 없어요. 카톡에서 주소를 길게 눌러 복사해 주세요'); break; } W.url=t; const ta=$('#welUrl'); if(ta) ta.value=t; if(parseSync(t)) welcomeConnect(); else { W.err='복사한 내용이 연결 주소가 아니에요. 엄마가 보낸 주소를 다시 복사해 주세요.'; renderWelcome(); } break; }
+    case 'wgo': welcomeConnect(); break;
+    case 'wskip': finishWelcome(); break;
     case 'callno': callNo(d.kid); break;
     case 'syncgo': { const ta=$('#syncUrl'), er=$('#syncErr'); b.disabled=true; b.textContent='연결하는 중…'; setSt('wait');
       syncConnect(ta?.value).then(msg=>{ if(msg){ setSt(S.sync?SYNC.st:'off'); const t=$('#syncErr'), x=$('#syncUrl'); if(t){t.textContent=msg;t.hidden=false} if(x) x.value=ta?.value||''; const bb=$('[data-act="syncgo"]'); if(bb){bb.disabled=false;bb.textContent='연결하기'} } else rerenderEdit(); }); break; }
@@ -1718,7 +1908,7 @@ document.addEventListener('click',e=>{
     case 'rreset': if(!confirmTap(b)) break; { const day=S.log[todayKey()]; if(day&&day[d.rid]){ day._x=day._x||{}; for(const [k,e] of Object.entries(day[d.rid])) if(e.stars){ day._x[k]=(day._x[k]||0)+e.stars; rinc(`log/${todayKey()}/_x/${k}`,e.stars); } delete day[d.rid]; rset(`log/${todayKey()}/${d.rid}`,null); } save(); rerenderEdit(); toast(`${ROUT[d.rid].name}을 처음부터 다시 시작해요`); } break;
   }
 });
-document.addEventListener('input',e=>{ const id=e.target.id; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
+document.addEventListener('input',e=>{ const id=e.target.id; if(id==='welUrl') W.url=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.classList.contains('ph-l')||t.classList.contains('ph-e')){ const it=S.msg.phrases.find(x=>x.id===t.dataset.pid); if(!it) return; const v=t.value.trim();
@@ -1730,9 +1920,10 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.sent')) return true; if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.sent')) return true; if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
+if(S.onboard) view.screen='welcome';
 show();
 if(S.sync){ flush(); connectStream(); applyRole(); roomPrune(); }
 </script>

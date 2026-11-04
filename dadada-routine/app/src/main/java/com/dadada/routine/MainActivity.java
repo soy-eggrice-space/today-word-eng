@@ -324,6 +324,18 @@ public class MainActivity extends Activity {
         @JavascriptInterface public void saveData(String json) { if (json != null) prefs.edit().putString(KEY_DATA, json).apply(); }
 
         // 루틴 화면에서만 화면이 꺼지지 않게
+        // 처음 설치할 때 카톡에서 복사한 연결 주소를 붙여 넣어요
+        @JavascriptInterface public String clipText() {
+            try {
+                android.content.ClipboardManager cm = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                if (cm == null || !cm.hasPrimaryClip()) return "";
+                android.content.ClipData cd = cm.getPrimaryClip();
+                if (cd == null || cd.getItemCount() == 0) return "";
+                CharSequence t = cd.getItemAt(0).coerceToText(MainActivity.this);
+                return t == null ? "" : t.toString();
+            } catch (Exception e) { return ""; }
+        }
+
         @JavascriptInterface public void keepAwake(final boolean on) {
             runOnUiThread(() -> {
                 if (on) getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
