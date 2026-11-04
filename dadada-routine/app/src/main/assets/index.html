@@ -829,6 +829,13 @@ const FACES={
   dad:'<circle class="w" cx="24" cy="26" r="13"/><path class="hair" d="M11 24.5C11 16.5 16.8 11 24 11s13 5.5 13 13.5c-2.5-3.2-4.6-4.6-6.6-5.1-2.2 2-5.8 3-9.6 3-3.6 0-6.4-.9-7.8-2-1.3 1.1-2 2.4-2 4.1z"/><circle class="s" cx="19" cy="28" r="1.6"/><circle class="s" cx="29" cy="28" r="1.6"/><path d="M20.2 32.6q3.8 2.8 7.6 0"/>'
 };
 const MSG_DEFAULTS=[['goodmorning','잘 잤어요','☀️'],['poop','응가 했어요','💩'],['comehome','빨리 오세요','🏃'],['where','어디에요?','📍'],['heartface','사랑해요','😍'],['missyou','보고 싶어요','🥺'],['snack','과자 먹고 싶어요','🍪'],['meal','배고파요','🍚'],['tv','TV 봐도 돼요?','📺'],['hwcheck','숙제 다 했어요','✅'],['strip','아파요','🤕'],['phone','전화해 주세요','📞'],['help','도와주세요','🆘'],['sleep','졸려요','😴']];
+const MSG_DEFV=2, MSG_NEW={2:[['poop','응가 했어요','💩'],['goodmorning','잘 잤어요','☀️']]};
+function upgradeMsg(m){
+  if(!m||!Array.isArray(m.phrases)) return false;
+  let v=Number(m.defv)||1, changed=false;
+  while(v<MSG_DEFV){ v++; for(const [icon,label,emoji] of (MSG_NEW[v]||[])) if(!m.phrases.some(x=>x&&x.label===label)){ m.phrases.unshift({id:Math.random().toString(36).slice(2,10),icon,label,emoji}); } changed=true; }
+  m.defv=v; return changed;
+}
 function defaultPhrases(){ return MSG_DEFAULTS.map(([icon,label,emoji])=>({id:Math.random().toString(36).slice(2,10),icon,label,emoji})); }
 const KEY='dadada-routine-v1';
 const pad=n=>String(n).padStart(2,'0');
@@ -848,7 +855,7 @@ function defaults(){
   };
   const routines={};
   for(const r of RIDS) routines[r]={k1:L(P[r].big),k2:L(P[r].small),k3:L(P[r].small)};
-  return {v:4,mig5:true,mig6:true,msg:{v:1,phrases:defaultPhrases()},
+  return {v:4,mig5:true,mig6:true,msg:{v:1,defv:MSG_DEFV,phrases:defaultPhrases()},
     kids:[{id:'k1',name:'다연',color:'#9C7BEA',animal:'cat'},{id:'k2',name:'다솔',color:'#4FB3E8',animal:'bear'},{id:'k3',name:'다정',color:'#F7B23B',animal:'chick'}],
     routines,log:{},bank:{k1:0,k2:0,k3:0},sound:true};
 }
@@ -859,10 +866,7 @@ function load(){
   if(!s||!Array.isArray(s.kids)||!s.routines){ s=defaults(); s.onboard=true; }
   if((s.v||1)<2){ const D=defaults(); s.routines.morning=D.routines.morning; s.routines.evening=D.routines.evening; s.v=2; }
   if(s.v<4){ s.v=Math.max(4,s.v); }
-  if(!s.mig6){ s.mig6=true;
-    const ph=s.msg&&Array.isArray(s.msg.phrases)?s.msg.phrases:null;
-    if(ph){ const add=[['poop','응가 했어요','💩'],['goodmorning','잘 잤어요','☀️']];
-      for(const [icon,label,emoji] of add) if(!ph.some(x=>x&&x.label===label)){ ph.unshift({id:Math.random().toString(36).slice(2,10),icon,label,emoji}); s.needPush=true; } } }
+  if(s.msg&&!s.sync) upgradeMsg(s.msg);   // 연결된 기기는 가족 목록을 받은 뒤에 맞춰요
   if(!s.mig5){ s.mig5=true; s.needPush=true;
     const k1=(s.kids||[]).find(k=>k.id==='k1'); if(k1) k1.animal='cat';
     const mo=s.routines?.morning?.k1; if(Array.isArray(mo)&&!mo.some(t=>t&&!t.once&&String(t.label).includes('핫팩'))) mo.push(T('hotpack','핫팩 챙기기'));
@@ -885,7 +889,7 @@ function normalize(s){
     for(const r of RIDS){ if(!day[r]) continue; for(const k in day[r]){ const e=day[r][k]; if(!e||typeof e!=='object'){delete day[r][k];continue} e.done=toArr(e.done); } } }
   s.bank=(s.bank&&typeof s.bank==='object')?s.bank:{}; for(const k of s.kids) s.bank[k.id]=Math.max(0,Number(s.bank[k.id])||0);
   if(!s.msg||typeof s.msg!=='object') s.msg={v:1,phrases:defaultPhrases()};
-  s.msg.v=1; s.msg.phrases=toArr(s.msg.phrases).filter(p=>p&&typeof p.label==='string');
+  s.msg.v=1; s.msg.defv=Number(s.msg.defv)||1; s.msg.phrases=toArr(s.msg.phrases).filter(p=>p&&typeof p.label==='string');
   s.replies=(s.replies&&typeof s.replies==='object')?s.replies:{};
   s.meds=toArr(s.meds).filter(m=>m&&m.start&&m.slot&&m.days).map(m=>({...m,kids:toArr(m.kids)}));
 }
@@ -963,6 +967,7 @@ const replyKeys=()=>{ const o=new Set(); for(const m in S.replies||{}) for(const
 function adopt(fn){
   const before=todayRanks(), rb=replyKeys();
   fn();
+  if(S.role==='kids'&&S.msg&&upgradeMsg(S.msg)) pushMsg();
   // local changes not yet confirmed by the server always win over older remote copies
   for(const [p,v] of Object.entries({...SYNC.fly,...SYNC.q})) setIn(S,p.split('/'),clone(v));
   for(const [p,n] of Object.entries(SYNC.inc)){ const parts=p.split('/'); let o=S; for(const k of parts.slice(0,-1)) o=o?.[k]; setIn(S,parts,(Number(o?.[parts[parts.length-1]])||0)+n); }
@@ -1028,7 +1033,7 @@ async function syncConnect(raw,role=S.role){
   SYNC.q={}; SYNC.inc={};
   if(hasRemote&&(adult||score(remote)>=score(S))){
     for(const k of SYNC_KEYS) S[k]=k in remote?remote[k]:(k==='log'||k==='replies'?{}:S[k]);
-    normalize(S); S.sync=u; save(); if(!remote.msg&&!adult) pushMsg(); toast('연결했어요. 저장된 기록을 받아왔어요');
+    normalize(S); S.sync=u; if(!adult&&upgradeMsg(S.msg)) remote.msg=null; save(); if(!remote.msg&&!adult) pushMsg(); toast('연결했어요. 저장된 기록을 받아왔어요');
   }else if(adult){
     S.sync=u; save(); toast('연결했어요');
   }else{
