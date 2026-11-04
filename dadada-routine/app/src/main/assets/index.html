@@ -524,6 +524,65 @@ h1,h2,h3,p{margin:0}
 .ri-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
 .ri-side small{font-size:12px;color:var(--ink-3)}
 .ri-badge{min-width:26px;height:26px;padding:0 8px;border-radius:13px;background:var(--bub-ink);color:var(--on-bub);font:700 14px/26px var(--f-b);text-align:center}
+.gava{display:inline-flex;flex:none}
+.gava .pava+.pava{margin-left:-14px}
+.gava .ava{box-shadow:0 0 0 3px var(--surface)}
+.pick-col{display:flex;flex-direction:column;gap:10px}
+.pk.grp{flex-direction:row;justify-content:flex-start;gap:16px;padding:14px 18px;font-size:28px;min-height:104px}
+.pk.grp .tick{top:50%;right:16px;margin-top:-14px}
+.rb-input{display:flex;gap:8px;margin-top:10px}
+.rb-input .fld{flex:1;min-width:0;height:56px;font:20px var(--f-b)}
+.rb-send{width:56px;height:56px;border-radius:16px;background:var(--bub-ink);color:var(--on-bub);display:grid;place-items:center;flex:none}
+.rb-send .ui{width:26px;height:26px}
+.chat-wrap{padding-bottom:280px !important}
+.dash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-block:22px 18px;align-items:stretch}
+.dash .fcard{min-height:300px;padding:26px}
+.dash .fcard .sc-ico{width:92px;height:92px;border-radius:28px}
+.dash .fcard .sc-ico .ic{width:64px;height:64px}
+.dash .fc-title{font-size:clamp(32px,3.4vw,44px)}
+.dash-card{background:var(--surface);border-radius:32px;padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+.dash-card.today{grid-column:1 / span 2}
+.dash-replies{display:flex;min-width:0}
+.dash-replies .reply-strip{flex-direction:column;align-items:flex-start;justify-content:center;margin:0;height:100%}
+.dash-replies .rs-main{flex:none}
+.dc-head{display:flex;align-items:center;gap:12px}
+.dc-head .sc-ico{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;flex:none}
+.dc-head .sc-ico .ic{width:40px;height:40px}
+.dc-head b{font:26px/1.1 var(--f-d);font-weight:400;display:block}
+.dc-head small{font-size:14px;color:var(--ink-2)}
+.dash-card.med .dc-head .sc-ico{background:#E3F5EC;color:#2F9C6B;--ic-tint:#B8E8CF}
+.dash-card.today .dc-head .sc-ico{background:var(--sc-t-a);color:var(--todo-ink);--ic-tint:var(--todo-tint)}
+.med-row{display:flex;align-items:center;gap:10px;padding:10px;border-radius:18px;background:var(--surface-2)}
+.med-txt{flex:1;min-width:0}
+.med-txt b{font:19px/1.2 var(--f-d);font-weight:400;display:block}
+.med-txt small{font-size:13px;color:var(--ink-2)}
+.btn.mini{min-height:44px;padding:0 14px;font-size:14px;flex:none}
+.btn.hosp-btn{flex:none !important;margin-top:auto;min-height:64px;font-size:19px;background:#2F9C6B;color:#FFFFFF}
+.hosp-btn .ic{width:32px;height:32px;--ic-tint:rgba(255,255,255,.3)}
+.tr-row{display:grid;grid-template-columns:auto 4.2em minmax(0,1fr) auto;align-items:center;gap:12px;padding:8px 10px;border-radius:20px;background:var(--surface-2);text-align:left}
+.tr-ico{border-radius:16px;padding:0;background:linear-gradient(150deg,var(--a),var(--b))}
+.tr-ico .sc-ico{width:48px;height:48px;border-radius:16px;background:transparent}
+.tr-ico .sc-ico .ic{width:36px;height:36px}
+.tr-name{font:22px var(--f-d)}
+.tr-kids{display:flex;gap:10px}
+.tr-kids .ring{width:48px;height:48px}
+.tr-kids .ring .ava{--s:36px !important;width:36px;height:36px}
+.tr-row small{font-size:13px;color:var(--ink-2);white-space:nowrap}
+.once.med{background:#DDF3E8;color:#1E6B47}
+.sheet{position:fixed;inset:0;z-index:65;background:rgba(20,24,40,.45);display:grid;place-items:center;padding:16px;animation:callIn .2s ease both}
+.sheet-in{width:min(100%,720px);max-height:100%;overflow:auto;background:var(--surface);border-radius:32px;padding:22px;display:flex;flex-direction:column;gap:12px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.sh-head{display:flex;align-items:center;gap:12px}
+.sh-head h2{flex:1;font:30px var(--f-d);font-weight:400}
+.sh-head .sc-ico{width:56px;height:56px;border-radius:18px;background:#E3F5EC;color:#2F9C6B;--ic-tint:#B8E8CF;display:grid;place-items:center}
+.sh-head .sc-ico .ic{width:40px;height:40px}
+.sheet-in h3{font:20px var(--f-d);font-weight:400;color:var(--ink-2);margin-top:6px}
+.hchips{display:flex;flex-wrap:wrap;gap:8px}
+.hchip{min-width:72px;min-height:56px;padding:0 16px;border-radius:18px;background:var(--surface-2);border:3px solid transparent;font:22px var(--f-d)}
+.hchip.wide{flex:1 1 150px}
+.hchip[aria-pressed="true"]{background:#E3F5EC;border-color:#2F9C6B;color:#1E6B47}
+.h-prev{padding:12px 14px;border-radius:16px;background:var(--surface-2);font-size:15px;color:var(--ink-2)}
+@media (max-width:1000px){.dash{grid-template-columns:repeat(2,minmax(0,1fr))}.dash-card.today{grid-column:1 / -1}}
+@media (max-width:640px){.dash{grid-template-columns:1fr}.dash .fcard{min-height:0}.tr-row{grid-template-columns:auto minmax(0,1fr) auto}.tr-row .tr-kids{grid-column:1 / -1}}
 .wel{max-width:980px;margin-inline:auto;padding-block:36px 56px;display:flex;flex-direction:column;gap:22px}
 .wel-head{display:flex;align-items:center;gap:18px}
 .wel-head .sc-ico{width:84px;height:84px;border-radius:26px;background:var(--sc-t-a);color:var(--todo-ink);--ic-tint:var(--todo-tint);display:grid;place-items:center;flex:none}
@@ -672,6 +731,8 @@ const ICONS={
   phone:'<rect class="t" x="13" y="5" width="20" height="38" rx="4"/><path d="M20 37h6"/><path d="M37 15a8 8 0 0 1 0 11M41 11a14 14 0 0 1 0 19"/>',
   tv:'<rect class="t" x="6" y="13" width="36" height="25" rx="4"/><path d="M17 5l7 8 7-8M16 43h16"/>',
   help:'<path class="t" d="M15 27V14a2.5 2.5 0 0 1 5 0v9V10a2.5 2.5 0 0 1 5 0v13V12a2.5 2.5 0 0 1 5 0v12-6a2.5 2.5 0 0 1 5 0v12c0 7.5-5 13-12 13h-1.5c-4 0-7-2-9-5.5L9 29.5a2.7 2.7 0 0 1 4.4-3.1z"/>',
+  medicine:'<rect class="t" x="10" y="15" width="21" height="27" rx="4"/><rect x="12.5" y="7" width="16" height="8" rx="2"/><path d="M20.5 23v11M15 28.5h11"/><g transform="rotate(-40 38 31)"><rect class="t" x="31.5" y="26.5" width="13" height="8" rx="4"/><path d="M38 26.5v8"/></g>',
+  hospital:'<path class="t" d="M7 42V17l17-10 17 10v25z"/><path d="M3 42h42"/><rect x="19" y="32" width="10" height="10" rx="1"/><path d="M24 15v10M19 20h10"/>',
   hotpack:'<rect class="t" x="9" y="17" width="30" height="25" rx="6"/><path d="M15 29h18M15 35h11"/><path d="M17 12c-2-2.5 2-3.5 0-7M24 12c-2-2.5 2-3.5 0-7M31 12c-2-2.5 2-3.5 0-7"/>',
   sunscreen:'<path class="t" d="M14 11h20l-2.2 28.5a2.6 2.6 0 0 1-2.6 2.5H18.8a2.6 2.6 0 0 1-2.6-2.5z"/><rect x="18" y="4" width="12" height="7" rx="1.8"/><circle cx="24" cy="26" r="4.2"/><path d="M24 17.5v2M24 32.5v2M15.8 26h2M30.2 26h2"/>',
   star:'<path class="t" d="M24 5l5.6 11.6 12.7 1.8-9.2 9 2.2 12.7L24 34l-11.3 6 2.2-12.6-9.2-9 12.7-1.8z"/>'
@@ -735,7 +796,14 @@ const ROOMS=[
   {id:'r1',name:'엄마아빠방',members:['mom','dad']},
   {id:'r2',name:'둔포 가족방',members:['dgma','dgpa','mom','dad']},
   {id:'r3',name:'멍멍 가족방',members:['mgma','mgpa','mom','dad','uncle']}];
+// 아이들이 고르는 '가족' = 방
+const GROUPS=[{id:'r1',name:'엄마아빠',faces:['mom','dad']},{id:'r2',name:'둔포 가족',faces:['dgma','dgpa']},{id:'r3',name:'멍멍 가족',faces:['mgma','mgpa','uncle']}];
+const groupById=id=>GROUPS.find(g=>g.id===id);
+const groupAva=(g,sz)=>`<span class="gava">${g.faces.map(f=>parentAva(personById(f),sz)).join('')}</span>`;
+const toName=id=>groupById(id)?.name||personById(id)?.name||'';
+const toAva=(id,sz)=>groupById(id)?groupAva(groupById(id),sz):personById(id)?parentAva(personById(id),sz):'';
 function roomsFor(toIds){
+  if(toIds.some(id=>groupById(id))) return toIds.filter(id=>groupById(id));
   const extra=toIds.filter(id=>id!=='mom'&&id!=='dad');
   if(!extra.length) return ['r1'];
   return ROOMS.filter(r=>r.id!=='r1'&&extra.some(id=>r.members.includes(id))).map(r=>r.id);
@@ -765,14 +833,14 @@ function defaults(){
   const P={
     morning:{big:[['wash','세수'],['vitamin','영양제 먹기'],['brush','양치'],['shirt','옷 입기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['bottle','물병 체크'],['hotpack','핫팩 챙기기']],
              small:[['wash','세수'],['toilet','아침 쉬'],['vitamin','영양제 먹기'],['brush','양치'],['shirt','옷 입기'],['socks','양말 신기'],['fold','벗어둔 잠옷 정리']]},
-    evening:{big:[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['backpack','책가방 싸기'],['brush','양치질'],['syringe','주사 맞기'],['strip','코르릉 붙이기']],
+    evening:{big:[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['backpack','책가방 싸기'],['pajama','잠옷 입기'],['brush','양치질'],['syringe','주사 맞기'],['strip','코르릉 붙이기']],
              small:[['toys','장난감 정리'],['notebook','언어전달장'],['brush','양치질'],['toilet','저녁 쉬'],['water','물 떠오기']]},
     out:{big:[['toilet','화장실 가기'],['shirt','옷 입기'],['socks','양말 신기'],['coat','외투 입기'],['shoes','신발 신기'],['bottle','물병 챙기기']],
          small:[['toilet','화장실 가기'],['shirt','옷 입기'],['socks','양말 신기'],['coat','외투 입기'],['shoes','신발 신기'],['bottle','물병 챙기기']]}
   };
   const routines={};
   for(const r of RIDS) routines[r]={k1:L(P[r].big),k2:L(P[r].small),k3:L(P[r].small)};
-  return {v:4,msg:{v:1,phrases:defaultPhrases()},
+  return {v:4,mig5:true,msg:{v:1,phrases:defaultPhrases()},
     kids:[{id:'k1',name:'다연',color:'#9C7BEA',animal:'cat'},{id:'k2',name:'다솔',color:'#4FB3E8',animal:'bear'},{id:'k3',name:'다정',color:'#F7B23B',animal:'chick'}],
     routines,log:{},bank:{k1:0,k2:0,k3:0},sound:true};
 }
@@ -783,6 +851,10 @@ function load(){
   if(!s||!Array.isArray(s.kids)||!s.routines){ s=defaults(); s.onboard=true; }
   if((s.v||1)<2){ const D=defaults(); s.routines.morning=D.routines.morning; s.routines.evening=D.routines.evening; s.v=2; }
   if(s.v<4){ s.v=Math.max(4,s.v); }
+  if(!s.mig5){ s.mig5=true; s.needPush=true;
+    const k1=(s.kids||[]).find(k=>k.id==='k1'); if(k1) k1.animal='cat';
+    const mo=s.routines?.morning?.k1; if(Array.isArray(mo)&&!mo.some(t=>t&&!t.once&&String(t.label).includes('핫팩'))) mo.push(T('hotpack','핫팩 챙기기'));
+    const ev=s.routines?.evening?.k1; if(Array.isArray(ev)&&!ev.some(t=>t&&!t.once&&String(t.label).includes('잠옷 입기'))){ const i=ev.findIndex(t=>t&&String(t.label).includes('양치')); ev.splice(i>=0?i:ev.length,0,T('pajama','잠옷 입기')); } }
   if(s.v<3){ const k1=s.kids.find(k=>k.id==='k1'); if(k1) k1.animal='cat'; const m=s.routines.morning?.k1; if(m&&!m.some(t=>!t.once&&t.label==='핫팩 챙기기')) m.push(T('hotpack','핫팩 챙기기')); s.v=3; }
   normalize(s);
   if(typeof s.sound!=='boolean') s.sound=true;
@@ -803,11 +875,12 @@ function normalize(s){
   if(!s.msg||typeof s.msg!=='object') s.msg={v:1,phrases:defaultPhrases()};
   s.msg.v=1; s.msg.phrases=toArr(s.msg.phrases).filter(p=>p&&typeof p.label==='string');
   s.replies=(s.replies&&typeof s.replies==='object')?s.replies:{};
+  s.meds=toArr(s.meds).filter(m=>m&&m.start&&m.slot&&m.days).map(m=>({...m,kids:toArr(m.kids)}));
 }
 let S=load();
 function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}}
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
-const SYNC_KEYS=['kids','routines','log','bank','msg','replies'];
+const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
 // 데이터베이스 주소는 앱에 넣고, 가족 공간 코드는 우리집 암호로만 만들어요 (암호는 어디에도 저장하지 않아요)
 const FAMILY_DB=window.__FAMILY_DB||'https://dadada-family-default-rtdb.asia-southeast1.firebasedatabase.app/dadada/';
@@ -856,6 +929,7 @@ function rset(path,val){
 function rinc(path,n){ if(!S.sync||!n) return; SYNC.inc[path]=(SYNC.inc[path]||0)+n; schedule(); }
 const pushConfig=()=>{ rset('kids',S.kids); rset('routines',S.routines); };
 const pushMsg=()=>rset('msg',S.msg);
+const pushMeds=()=>rset('meds',S.meds);
 const pushEntry=(rid,kid,d=todayKey())=>rset(`log/${d}/${rid}/${kid}`,S.log[d]?.[rid]?.[kid]??null);
 const hasPending=()=>Object.keys(SYNC.q).length+Object.keys(SYNC.inc).length>0;
 function schedule(ms=250){ clearTimeout(SYNC.timer); SYNC.timer=setTimeout(flush,ms); }
@@ -1004,7 +1078,24 @@ const kidById=id=>S.kids.find(k=>k.id===id);
 const peek=(rid,kid)=>S.log[todayKey()]?.[rid]?.[kid]||{done:[],rank:null,stars:0};
 function entry(rid,kid){const d=S.log[todayKey()]||(S.log[todayKey()]={});const r=d[rid]||(d[rid]={});return r[kid]||(r[kid]={done:[],rank:null,stars:0});}
 const tasksOf=(rid,kid)=>{const t=todayKey();return (S.routines[rid][kid]||[]).filter(x=>!x.once||x.once===t)};
-function status(rid,kid){const ts=tasksOf(rid,kid),e=peek(rid,kid);const done=ts.filter(t=>e.done.includes(t.id)).length;return {ts,e,done,total:ts.length,finished:!!e.rank}}
+/* 병원 약: 하루 세 번(아침·점심·저녁) 기준으로 며칠치를 세고, 아침·저녁 할 일에 '약 먹기'를 넣어요 */
+const SLOTS=['m','l','e'], SLOT_NAME={m:'아침',l:'점심',e:'저녁'};
+const dayNum=dk=>{const [y,m,d]=dk.split('-').map(Number);return Math.round(Date.UTC(y,m-1,d)/864e5)};
+const keyOfDay=n=>{const d=new Date(n*864e5);return `${d.getUTCFullYear()}-${pad(d.getUTCMonth()+1)}-${pad(d.getUTCDate())}`};
+const medRange=m=>{ const a=dayNum(m.start)*3+SLOTS.indexOf(m.slot); return [a,a+Number(m.days)*3-1]; };
+const medOn=(m,dk,slot)=>{ const i=dayNum(dk)*3+SLOTS.indexOf(slot), [a,b]=medRange(m); return i>=a&&i<=b; };
+const slotLabel=i=>{ const dk=keyOfDay(Math.floor(i/3)), [,mo,da]=dk.split('-').map(Number); const t=dayNum(todayKey()), n=Math.floor(i/3);
+  return `${n===t?'오늘':n===t+1?'내일':`${mo}월 ${da}일`} ${SLOT_NAME[SLOTS[i%3]]}`; };
+const medEndDay=m=>Math.floor(medRange(m)[1]/3);
+const medActive=m=>medEndDay(m)>=dayNum(todayKey());
+function medTasks(rid,kid){
+  if(rid!=='morning'&&rid!=='evening') return [];
+  const slot=rid==='morning'?'m':'e', t=todayKey();
+  return toArr(S.meds).filter(m=>toArr(m.kids).includes(kid)&&medOn(m,t,slot)).map(m=>({id:'med-'+m.id,icon:'medicine',label:'약 먹기',med:true}));
+}
+const dayTasks=(rid,kid)=>[...tasksOf(rid,kid),...medTasks(rid,kid)];
+function pruneMeds(){ const before=S.meds.length; S.meds=S.meds.filter(m=>medEndDay(m)>=dayNum(todayKey())-1); if(S.meds.length!==before){ save(); pushMeds(); } }
+function status(rid,kid){const ts=dayTasks(rid,kid),e=peek(rid,kid);const done=ts.filter(t=>e.done.includes(t.id)).length;return {ts,e,done,total:ts.length,finished:!!e.rank}}
 function maxRank(rid){const d=S.log[todayKey()]?.[rid]||{};return Math.max(0,...Object.values(d).map(e=>e.rank||0))}
 const nextStars=rid=>Math.max(1,3-maxRank(rid));
 const todayStars=kid=>RIDS.reduce((a,r)=>a+(peek(r,kid).stars||0),0);
@@ -1104,7 +1195,7 @@ function laneHtml(rid,k){
   const prog=st.ts.map(t=>`<i class="${st.e.done.includes(t.id)?'on':''}"></i>`).join('');
   const items=st.ts.map(t=>{const d=st.e.done.includes(t.id);
     return `<li><button class="task${t.id===nextId?' next':''}" data-act="tap" data-kid="${k.id}" data-tid="${t.id}" aria-pressed="${d}">
-      <span class="t-ico">${ico(t.icon)}</span><span class="t-label">${esc(t.label)}${t.once?'<span class="once">오늘만</span>':''}</span><span class="t-check">${ui('check')}</span></button></li>`}).join('');
+      <span class="t-ico">${ico(t.icon)}</span><span class="t-label">${esc(t.label)}${t.once?'<span class="once">오늘만</span>':''}${t.med?'<span class="once med">병원 약</span>':''}</span><span class="t-check">${ui('check')}</span></button></li>`}).join('');
   return `<section class="lane kid" data-kid="${k.id}" style="--k:${k.color}" aria-label="${esc(k.name)}">
     <div class="lane-head">${avatar(k,64)}<div style="min-width:0"><div class="lane-name">${esc(k.name)}</div>${st.total?`<div class="prog" aria-label="${st.total}개 중 ${st.done}개 완료">${prog}</div>`:''}</div><span class="bank" aria-label="모은 별">${star(18)}${S.bank[k.id]||0}</span></div>
     <div class="rw">${rewardHtml(rid,st)}</div>
@@ -1157,7 +1248,7 @@ function tapTask(kid,tid){
   if(i>=0){ e.done.splice(i,1); tone([392],.1,'sine'); }
   else{
     e.done.push(tid); e.last=tid; buzz();
-    if(tasksOf(rid,kid).every(t=>e.done.includes(t.id))){ e.wait=true; e.at=Date.now(); dingdong(); }
+    if(dayTasks(rid,kid).every(t=>e.done.includes(t.id))){ e.wait=true; e.at=Date.now(); dingdong(); }
     else tone([784,1046],.12,'triangle',.06);
   }
   save(); pushEntry(rid,kid); refreshRun(kid);
@@ -1245,7 +1336,15 @@ async function playVoice(mid){
   }catch(e){ INB.audio=null; INB.playing=''; rerenderKeep(); toast('목소리를 못 불러왔어요. 인터넷을 확인해 주세요'); }
 }
 /* 채팅방: 엄마·아빠는 방 3개, 할머니·할아버지·삼촌은 자기 방 하나 */
-const CH={target:'',stick:true};
+const CH={target:'',stick:true,draft:''};
+function sendReply(text,mid){
+  const m=mid||CH.target; text=String(text||'').trim(); if(!m||!text) return false;
+  const key=`${S.role}~${Date.now()}`, v={at:Date.now(),text};
+  S.replies[m]=S.replies[m]||{}; S.replies[m][key]=v; rset(`replies/${m}/${key}`,v); save(); tone([784,988],.12,'triangle',.08);
+  CH.stick=true; renderPending=false;
+  if(view.screen==='room') renderRoom(); else renderFamily();
+  return true;
+}
 const roomItems=r=>Object.values(INB.items).filter(x=>x.room===r&&x.at).sort((a,b)=>a.at-b.at);
 const roomUnread=r=>{ const seen=(S.roomSeen||{})[r]||0; return roomItems(r).filter(x=>x.at>seen).length; };
 const hm=t=>{ const d=new Date(t), h=d.getHours(); return `${h<12?'오전':'오후'} ${h%12||12}:${pad(d.getMinutes())}`; };
@@ -1303,7 +1402,7 @@ function roomHtml(r,withBack){
     if(e.t==='kid'){
       const it=e.it, kids=toArr(it.from), to=toArr(it.to), ph=toArr(it.ph);
       html+=`<div class="msgrow"><span class="pv-faces chat-ava">${kids.map(k=>avatar(k,44)).join('')}</span>
-        <div class="bub-col"><div class="bub-name">${esc(dot(kids.map(k=>withI(k.name))))}가 → ${to.includes(me.id)&&to.length===1?'나에게':esc(dot(to.map(id=>personById(id)?.name||'')))+'에게'}</div>
+        <div class="bub-col"><div class="bub-name">${esc(dot(kids.map(k=>withI(k.name))))}가 → ${to.includes(me.id)&&to.length===1?'나에게':esc(dot(to.map(toName)))+'에게'}</div>
           <div class="bub-line"><button class="bub kidb${CH.target===it.mid?' sel':''}" data-act="rtarget" data-mid="${it.mid}" aria-label="이 말에 답장하기">
             ${ph.map(p=>`<span class="bub-ph"><span class="pv-ph kid" style="--k:${p.color||phColor(p)}">${ico(p.icon)}</span>${esc(p.label)} ${esc(p.emoji||'')}</span>`).join('')}
             ${it.stt?`<span class="bub-stt">“${esc(it.stt)}”</span>`:''}
@@ -1329,7 +1428,8 @@ function roomHtml(r,withBack){
         :ev.length?html:`<div class="ib-empty">${ico('bubble')}<b>아직 대화가 없어요</b><p>${kidWord} 마음을 보내면 여기에 와요.</p></div>`}
     </div></div>
     ${tgt?`<div class="reply-bar"><div class="wrap"><p class="rb-target">${ui('back')}<span>${esc(dot(toArr(tgt.from).map(k=>withI(k.name))))}의 “${esc(toArr(tgt.ph).map(p=>p.label).join(', ')||'목소리')}”에 답장</span></p>
-      <div class="rb-chips">${REPLIES.map(t=>`<button class="ib-r" data-act="ireply" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div></div></div>`:''}`;
+      <div class="rb-chips">${REPLIES.map(t=>`<button class="ib-r" data-act="ireply" data-t="${esc(t)}">${esc(t)}</button>`).join('')}</div>
+      <div class="rb-input"><input class="fld" id="chatIn" type="text" maxlength="300" placeholder="직접 써서 답장하기" value="${esc(CH.draft||'')}" aria-label="답장 쓰기"><button class="rb-send" data-act="isend" aria-label="보내기">${ui('send')}</button></div></div></div>`:''}`;
 }
 function afterRoom(){
   holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
@@ -1354,15 +1454,17 @@ function renderFamily(){
         <button class="tbtn" id="famEditBtn" aria-label="꾹 눌러서 편집 열기">${ui('lock')}꾹 눌러 편집</button>
       </div>
     </header>
-    <section class="fam-cards">
+    <section class="dash">
       <button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
         <span class="sc-ico">${ico('checklist')}</span><span class="fc-title">할 일</span><span class="fc-sub">아침 · 저녁 · 외출 루틴</span>
         <span class="fc-foot"><span class="fc-kids">${kids}</span></span></button>
       <button class="fcard scene" data-rid="msg" data-act="msg" aria-label="마음 전하기">
-        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">마음 전하기</span><span class="fc-sub">엄마 아빠에게 하고 싶은 말 보내기</span>
-        <span class="fc-foot"><span class="duo">${PARENTS.map(p=>parentAva(p,48)).join('')}</span>${note}</span></button>
+        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">마음 전하기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
+        <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${note}</span></button>
+      ${medCard()}
+      ${todayCard()}
+      <div class="dash-replies">${replyStrip()}</div>
     </section>
-    ${replyStrip()}
     <p class="foot">편집 버튼은 아이들이 실수로 열지 않도록 1초쯤 꾹 눌러야 열려요.</p>
   </div>`;
   holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
@@ -1428,6 +1530,46 @@ function finishWelcome(){
   if(isAdult()){ toast(`${personById(S.role).name} 폰으로 연결했어요`); rxSetup='start'; rxSoon(700); }
 }
 
+/* ===== 대시보드 카드 ===== */
+function todayCard(){
+  return `<section class="dash-card today"><div class="dc-head"><span class="sc-ico">${ico('checklist')}</span><div><b>오늘 할 일</b><small>${dateLabel()}</small></div></div>
+    ${RIDS.map(rid=>{ const R=ROUT[rid], sts=S.kids.map(k=>status(rid,k.id)), act=sts.filter(x=>x.total).length, fin=sts.filter(x=>x.finished).length;
+      return `<button class="tr-row" data-act="run" data-rid="${rid}"><span class="tr-ico scene" data-rid="${rid}"><span class="sc-ico">${ico(R.icon)}</span></span><span class="tr-name">${R.short}</span>
+        <span class="tr-kids">${S.kids.map((k,i)=>ring(k,sts[i])).join('')}</span><small>${act?`${fin}/${act} 끝`:'쉬어요'}</small></button>`; }).join('')}
+  </section>`;
+}
+function medCard(){
+  const act=S.meds.filter(medActive);
+  return `<section class="dash-card med"><div class="dc-head"><span class="sc-ico">${ico('medicine')}</span><div><b>약 먹기</b><small>${act.length?`먹는 약 ${act.length}가지`:'지금 먹는 약이 없어요'}</small></div></div>
+    ${act.map(m=>{ const [a,b]=medRange(m), ks=m.kids.map(kidById).filter(Boolean);
+      return `<div class="med-row"><span class="pv-faces">${ks.map(k=>avatar(k,40)).join('')}</span><div class="med-txt"><b>${esc(dot(ks.map(k=>k.name)))} · ${m.days}일치</b><small>${slotLabel(a)}부터 ${slotLabel(b)}까지</small></div>
+        <button class="btn sec mini" data-act="hdel" data-id="${m.id}" data-confirm="hd-${m.id}">그만</button></div>`; }).join('')}
+    <button class="btn pri hosp-btn" data-act="hosp">${ico('hospital')}병원 다녀왔어</button>
+  </section>`;
+}
+const H={open:false,kids:new Set(),days:3,slot:'e'};
+function openHosp(){ const h=new Date().getHours(); H.open=true; H.kids=new Set(); H.days=3; H.slot=h<10?'m':h<15?'l':'e'; renderHosp(); }
+function renderHosp(){
+  let el=document.getElementById('sheet');
+  if(!H.open){ if(el) el.remove(); return; }
+  if(!el){ el=document.createElement('div'); el.id='sheet'; el.className='sheet'; document.body.appendChild(el); }
+  const ks=S.kids.filter(k=>H.kids.has(k.id));
+  let prev='누가 다녀왔는지 골라 주세요';
+  if(ks.length){ const m={start:todayKey(),slot:H.slot,days:H.days}, [a,b]=medRange(m); let n=0; for(let i=a;i<=b;i++) if(i%3!==1) n++;
+    prev=`${dot(ks.map(k=>withI(k.name)))}: ${slotLabel(a)}부터 ${slotLabel(b)}까지 · 아침·저녁 할 일에 '약 먹기'가 ${n}번 들어가요`; }
+  el.innerHTML=`<div class="sheet-in" role="dialog" aria-label="병원 다녀왔어">
+    <div class="sh-head"><span class="sc-ico">${ico('hospital')}</span><h2>병원 다녀왔어요</h2><button class="ib" data-act="hclose" aria-label="닫기">${ui('x')}</button></div>
+    <h3>누가 다녀왔어요?</h3>
+    <div class="pick-row" style="--n:${S.kids.length}">${S.kids.map(k=>`<button class="pk kid" style="--k:${k.color}" data-act="hkid" data-kid="${k.id}" aria-pressed="${H.kids.has(k.id)}">${avatar(k,64)}<span>${esc(k.name)}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>
+    <h3>며칠치 약이에요?</h3>
+    <div class="hchips">${[1,2,3,4,5,7,10,14].map(n=>`<button class="hchip" data-act="hdays" data-n="${n}" aria-pressed="${H.days===n}">${n}일</button>`).join('')}</div>
+    <h3>언제부터 먹여요?</h3>
+    <div class="hchips">${SLOTS.map(sl=>`<button class="hchip wide" data-act="hslot" data-s="${sl}" aria-pressed="${H.slot===sl}">오늘 ${SLOT_NAME[sl]}</button>`).join('')}</div>
+    <p class="h-prev">${esc(prev)}</p>
+    <div class="btns"><button class="btn pri" data-act="hsave" ${ks.length?'':'disabled'}>할 일에 약 먹기 넣기</button><button class="btn sec" data-act="hclose">취소</button></div>
+  </div>`;
+}
+
 /* ===== 받은 답장 (아이들 쪽) ===== */
 const RP={prevSeen:0};
 function allReplies(){
@@ -1455,8 +1597,8 @@ function renderReplies(){
   const list=Object.entries(groups).map(([mid,reps])=>({mid,reps:reps.sort((a,b)=>a.at-b.at),last:Math.max(...reps.map(r=>r.at))})).sort((a,b)=>b.last-a.last).slice(0,40);
   const card=g=>{
     const sent=(S.sent||{})[g.mid], sentAt=sent?.at||Number(g.mid.slice(1,14));
-    const kids=sent?toArr(sent.from).map(kidById).filter(Boolean):[], to=sent?toArr(sent.to).map(personById).filter(Boolean):[];
-    const head=sent?`<span class="pv-faces">${kids.map(k=>avatar(k,44)).join('')}</span><svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg><span class="pv-faces">${to.map(p=>parentAva(p,44)).join('')}</span><span class="pv-items">${toArr(sent.ph).map(p=>`<span class="pv-ph kid" style="--k:${p.color||phColor(p)}">${ico(p.icon)}</span>`).join('')}${sent.voice?`<span class="pv-ph">${ui('mic')}</span>`:''}</span>
+    const kids=sent?toArr(sent.from).map(kidById).filter(Boolean):[], to=sent?toArr(sent.to):[];
+    const head=sent?`<span class="pv-faces">${kids.map(k=>avatar(k,44)).join('')}</span><svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg><span class="pv-faces">${to.map(id=>toAva(id,40)).join('')}</span><span class="pv-items">${toArr(sent.ph).map(p=>`<span class="pv-ph kid" style="--k:${p.color||phColor(p)}">${ico(p.icon)}</span>`).join('')}${sent.voice?`<span class="pv-ph">${ui('mic')}</span>`:''}</span>
       <small>${esc(dot(kids.map(k=>withI(k.name))))}가 보낸 마음 · ${whenText(sentAt)}${toArr(sent.ph).length?' · '+esc(toArr(sent.ph).map(p=>p.label).join(', ')):''}</small>`
       :`<small>보낸 마음 · ${whenText(sentAt)}</small>`;
     return `<article class="rp-card"><div class="rp-sent">${head}</div>
@@ -1482,12 +1624,11 @@ const dot=a=>a.join('·');
 const PH_COLORS=['#F07FA2','#FF9264','#F7B23B','#6CC46B','#3EC4B4','#4FB3E8','#6F8BF2','#9C7BEA'];
 const phColor=p=>{ if(p.color) return p.color; const i=(S.msg&&S.msg.phrases||[]).findIndex(x=>x.id===p.id); if(i>=0) return PH_COLORS[i%PH_COLORS.length]; let h=0; for(const ch of String(p.icon||'')+String(p.label||'')) h=(h*31+ch.charCodeAt(0))>>>0; return PH_COLORS[h%PH_COLORS.length]; };
 const phraseOut=p=>p.emoji?`${p.label} ${p.emoji}`:p.label;
-function msgParts(){ return { to:PARENTS.filter(p=>M.to.has(p.id)), from:S.kids.filter(k=>M.from.has(k.id)), ph:M.pick.map(id=>S.msg.phrases.find(p=>p.id===id)).filter(Boolean) }; }
+function msgParts(){ return { to:GROUPS.filter(g=>M.to.has(g.id)), from:S.kids.filter(k=>M.from.has(k.id)), ph:M.pick.map(id=>S.msg.phrases.find(p=>p.id===id)).filter(Boolean) }; }
 const voiceSecs=()=>M.voice?Math.max(1,Math.round(M.voice.ms/1000)):0;
 function msgText(){
   const {to,from,ph}=msgParts();
-  const rooms=roomsFor(to.map(p=>p.id)).filter(r=>r!=='r1').map(r=>roomById(r).name);
-  const lines=[`💌 ${dot(from.map(k=>withI(k.name)))}가 → ${dot(to.map(p=>p.name))}에게${rooms.length?` (${rooms.join(', ')})`:''}`];
+  const lines=[`💌 ${dot(from.map(k=>withI(k.name)))}가 → ${dot(to.map(p=>p.name))}에게`];
   if(M.voice){ lines.push(`🎙 목소리 ${voiceSecs()}초`); if(M.voice.text&&M.voice.useText) lines.push(`📝 받아쓰기: “${M.voice.text}”`); }
   if(ph.length){ lines.push(''); for(const p of ph) lines.push(phraseOut(p)); }
   return lines.join('\n');
@@ -1505,7 +1646,7 @@ function renderMsg(){
   const y=window.scrollY;
   const {to,from,ph}=msgParts(), ready=msgReady(), info=tgInfo();
   const step=(n,title,ok,body)=>`<section class="step${ok?' ok':''}${M.need&&!ok?' need':''}"><h2><span class="num">${ok?ui('check'):n}</span>${title}</h2>${body}</section>`;
-  const parents=`<div class="pick-row people">${PARENTS.map(p=>`<button class="pk kid" style="--k:${p.color}" data-act="mto" data-id="${p.id}" aria-pressed="${M.to.has(p.id)}">${parentAva(p,72)}<span>${p.name}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
+  const parents=`<div class="pick-col">${GROUPS.map(g=>`<button class="pk grp kid" style="--k:${personById(g.faces[0]).color}" data-act="mto" data-id="${g.id}" aria-pressed="${M.to.has(g.id)}">${groupAva(g,72)}<span>${g.name}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
   const kids=`<div class="pick-row" style="--n:${S.kids.length}">${S.kids.map(k=>`<button class="pk kid" style="--k:${k.color}" data-act="mfrom" data-kid="${k.id}" aria-pressed="${M.from.has(k.id)}">${avatar(k,72)}<span>${esc(withI(k.name))}가</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
   const canRec=IS_APP&&!!window.Android.recStart;
   let rec;
@@ -1521,7 +1662,7 @@ function renderMsg(){
   const phr=`<div class="phr">${S.msg.phrases.map(p=>`<button class="ph kid" style="--k:${phColor(p)}" data-act="mph" data-pid="${p.id}" aria-pressed="${M.pick.includes(p.id)}">${ico(p.icon)}<span>${esc(p.label)}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
   const chip=!IS_APP?'<span class="fc-note">메시지는 앱에서 보낼 수 있어요</span>':info.chat?'':'<span class="fc-note"><span class="sync-dot"></span>텔레그램 연결이 필요해요</span>';
   const p1=M.page===1, whoReady=to.length>0&&from.length>0;
-  const summary=`<section class="step ok who-sum"><span class="pv-faces">${from.map(k=>avatar(k,56)).join('')}</span><svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg><span class="pv-faces">${to.map(p=>parentAva(p,56)).join('')}</span>
+  const summary=`<section class="step ok who-sum"><span class="pv-faces">${from.map(k=>avatar(k,56)).join('')}</span><svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg><span class="pv-faces">${to.map(g=>groupAva(g,48)).join('')}</span>
     <span class="ws-txt">${esc(dot(from.map(k=>withI(k.name))))}가 → ${esc(dot(to.map(p=>p.name)))}에게</span><button class="tbtn" data-act="mpage1">${ui('back')}바꾸기</button></section>`;
   $('#msg').innerHTML=`
   <header class="band scene" data-rid="msg"><div class="wrap band-in">
@@ -1539,7 +1680,7 @@ function renderMsg(){
     <div class="preview">
       <span class="pv-faces">${from.length?from.map(k=>avatar(k,40)).join(''):'<span class="pv-empty"></span>'}</span>
       <svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg>
-      <span class="pv-faces">${to.length?to.map(p=>parentAva(p,40)).join(''):'<span class="pv-empty"></span>'}</span>
+      <span class="pv-faces">${to.length?to.map(g=>groupAva(g,36)).join(''):'<span class="pv-empty"></span>'}</span>
       <span class="pv-items">${ph.map(p=>`<span class="pv-ph kid" style="--k:${phColor(p)}">${ico(p.icon)}</span>`).join('')}${M.voice?`<span class="pv-ph">${ui('mic')}</span>`:''}</span>
       <p class="pv-text">${esc(previewLine())}</p>
     </div>
@@ -1583,8 +1724,8 @@ function sendMsg(){
     M.need=true; renderMsg(); tone([330],.14,'sine'); setTimeout(()=>{M.need=false},1500); return;
   }
   if(!IS_APP||!window.Android.famSend){ toast('메시지는 태블릿 앱에서 보낼 수 있어요'); return; }
-  const {to,from,ph}=msgParts(), toIds=to.map(p=>p.id);
-  const needApp=toIds.some(id=>id!=='mom'&&id!=='dad');
+  const {to,from,ph}=msgParts(), toIds=to.map(g=>g.id);
+  const needApp=toIds.some(id=>id!=='r1');
   if(needApp&&!S.sync){ toast('할머니·할아버지·삼촌에게 보내려면 편집 → 폰 연결을 먼저 해 주세요'); return; }
   if(!S.sync&&!tgInfo().chat){ toast('아직 보낼 곳이 없어요. 편집에서 텔레그램이나 폰 연결을 해 주세요'); return; }
   const mid='m'+Date.now()+Math.random().toString(36).slice(2,6);
@@ -1620,7 +1761,7 @@ function onNewReply(mid,rid,rp){
 const PLANE='<svg class="plane" viewBox="0 0 48 48" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4.5 22.5L43.5 6.5 33 41.5l-9.5-12.5z" fill="rgba(255,255,255,.18)"/><path d="M23.5 29L43.5 6.5M23.5 29v10.5l5.2-5.6"/></svg>';
 function showSent(){
   const {to}=msgParts(); const el=document.createElement('div'); el.className='sent'; el.setAttribute('role','status');
-  el.innerHTML=`<div class="sent-in">${PLANE}<p class="sent-t">보냈어요!</p><div class="duo">${to.map(p=>parentAva(p,72)).join('')}</div><p class="sent-s">${dot(to.map(p=>p.name))}에게 갔어요</p></div>`;
+  el.innerHTML=`<div class="sent-in">${PLANE}<p class="sent-t">보냈어요!</p><div class="duo">${to.map(g=>groupAva(g,64)).join('')}</div><p class="sent-s">${dot(to.map(p=>p.name))}에게 갔어요</p></div>`;
   document.body.appendChild(el); tone([659,880,1175],.22,'triangle',.1);
   setTimeout(()=>{ el.remove(); resetMsg(); if(view.screen==='msg') renderMsg(); },2600);
 }
@@ -1899,9 +2040,8 @@ document.addEventListener('click',e=>{
       if(isAdult()){ view.screen='family'; show(); toast(`${personById(d.r).name} 폰으로 정했어요`); rxSetup='start'; rxSoon(700); }
       else { rerenderEdit(); toast('아이들 태블릿으로 정했어요'); } break;
     case 'ivoice': playVoice(d.mid); break;
-    case 'ireply': { const m=d.mid||CH.target; if(!m) break; const key=`${S.role}~${Date.now()}`; const v={at:Date.now(),text:d.t};
-      S.replies[m]=S.replies[m]||{}; S.replies[m][key]=v; rset(`replies/${m}/${key}`,v); save(); tone([784,988],.12,'triangle',.08);
-      CH.stick=true; requestRender(); break; }
+    case 'ireply': sendReply(d.t,d.mid); break;
+    case 'isend': { const inp=$('#chatIn'); const t=(inp?.value||'').trim(); if(!t){ inp?.focus(); break; } CH.draft=''; if(sendReply(t)) setTimeout(()=>$('#chatIn')?.focus(),60); break; }
     case 'rtarget': CH.target=d.mid; requestRender(); break;
     case 'room': view.room=d.r; view.screen='room'; show(); break;
     case 'inotif': try{ window.Android.askNotif(); }catch(e){} break;
@@ -1914,6 +2054,15 @@ document.addEventListener('click',e=>{
     case 'wpaste': { let t=''; try{ t=window.Android.clipText()||''; }catch(e){} t=t.trim(); if(!t){ toast('복사한 주소가 없어요. 카톡에서 주소를 길게 눌러 복사해 주세요'); break; } W.url=t; const ta=$('#welUrl'); if(ta) ta.value=t; if(parseSync(t)) welcomeConnect(); else { W.err='복사한 내용이 연결 주소가 아니에요. 엄마가 보낸 주소를 다시 복사해 주세요.'; renderWelcome(); } break; }
     case 'wgo': welcomeConnect(); break;
     case 'wskip': finishWelcome(); break;
+    case 'hosp': openHosp(); break;
+    case 'hclose': H.open=false; renderHosp(); break;
+    case 'hkid': H.kids.has(d.kid)?H.kids.delete(d.kid):H.kids.add(d.kid); renderHosp(); break;
+    case 'hdays': H.days=Number(d.n); renderHosp(); break;
+    case 'hslot': H.slot=d.s; renderHosp(); break;
+    case 'hsave': { if(!H.kids.size) break; const m={id:uid(),kids:[...H.kids],days:H.days,start:todayKey(),slot:H.slot,at:Date.now()};
+      S.meds.push(m); save(); pushMeds(); H.open=false; renderHosp(); renderFamily();
+      toast(`${dot(m.kids.map(id=>kidById(id).name))} 할 일에 약 먹기를 넣었어요`); break; }
+    case 'hdel': if(!confirmTap(b)) break; S.meds=S.meds.filter(m=>m.id!==d.id); save(); pushMeds(); renderFamily(); toast('약 먹기를 뺐어요'); break;
     case 'callno': callNo(d.kid); break;
     case 'syncgo': { const ta=$('#syncUrl'), er=$('#syncErr'); b.disabled=true; b.textContent='연결하는 중…'; setSt('wait');
       syncConnect(ta?.value).then(msg=>{ if(msg){ setSt(S.sync?SYNC.st:'off'); const t=$('#syncErr'), x=$('#syncUrl'); if(t){t.textContent=msg;t.hidden=false} if(x) x.value=ta?.value||''; const bb=$('[data-act="syncgo"]'); if(bb){bb.disabled=false;bb.textContent='연결하기'} } else rerenderEdit(); }); break; }
@@ -1963,8 +2112,8 @@ document.addEventListener('click',e=>{
     case 'rreset': if(!confirmTap(b)) break; { const day=S.log[todayKey()]; if(day&&day[d.rid]){ day._x=day._x||{}; for(const [k,e] of Object.entries(day[d.rid])) if(e.stars){ day._x[k]=(day._x[k]||0)+e.stars; rinc(`log/${todayKey()}/_x/${k}`,e.stars); } delete day[d.rid]; rset(`log/${todayKey()}/${d.rid}`,null); } save(); rerenderEdit(); toast(`${ROUT[d.rid].name}을 처음부터 다시 시작해요`); } break;
   }
 });
-document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
-document.addEventListener('input',e=>{ const id=e.target.id; if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.id==='chatIn'&&!e.isComposing){ e.preventDefault(); $('[data-act="isend"]')?.click(); return; } if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
+document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.classList.contains('ph-l')||t.classList.contains('ph-e')){ const it=S.msg.phrases.find(x=>x.id===t.dataset.pid); if(!it) return; const v=t.value.trim();
@@ -1974,13 +2123,15 @@ document.addEventListener('change',e=>{
 });
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible'&&view.screen==='run'){wl=null;keepAwake(true)} });
 let lastDay=todayKey();
-setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); show(); } },30000);
+setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); pruneMeds(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.sent')) return true; if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
+pruneMeds();
 if(S.onboard) view.screen='welcome';
 show();
+if(S.needPush){ S.needPush=false; save(); if(S.sync&&S.role==='kids') pushConfig(); }
 if(S.sync){ flush(); connectStream(); applyRole(); roomPrune(); }
 </script>
 

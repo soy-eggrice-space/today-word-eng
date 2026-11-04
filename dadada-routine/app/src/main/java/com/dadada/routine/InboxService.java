@@ -204,7 +204,7 @@ public class InboxService extends Service {
                 String stt = item.optString("stt", "");
                 if (!stt.isEmpty()) body.append(" · “").append(stt).append("”");
             }
-            String title = "💌 " + who + "가 " + (forMe ? "보냈어요" : "가족에게 보냈어요");
+            String title = "💌 " + who + "가 보냈어요";
             Notification n = new Notification.Builder(this, CH_MSG)
                     .setSmallIcon(R.drawable.ic_stat)
                     .setContentTitle(title)
