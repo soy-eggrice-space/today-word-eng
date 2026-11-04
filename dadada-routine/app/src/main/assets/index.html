@@ -541,6 +541,13 @@ h1,h2,h3,p{margin:0}
 .rb-send{width:56px;height:56px;border-radius:16px;background:var(--bub-ink);color:var(--on-bub);display:grid;place-items:center;flex:none}
 .rb-send .ui{width:26px;height:26px}
 .chat-wrap{padding-bottom:280px !important}
+.picker{position:relative;display:flex;align-items:center;gap:20px;margin-top:22px;padding:18px 26px;border-radius:32px;background:linear-gradient(120deg,var(--k-tint),var(--k-soft));box-shadow:var(--shadow);border:3px solid var(--k-line)}
+.picker .pk-crown{position:absolute;left:84px;top:6px;filter:drop-shadow(0 2px 3px rgba(0,0,0,.15))}
+.picker .pk-txt{flex:1;min-width:0}
+.picker .pk-txt small{font:22px var(--f-d);color:var(--k-deep);display:block}
+.picker .pk-txt b{font:clamp(44px,5vw,64px)/1 var(--f-d);font-weight:400;color:var(--ink)}
+.picker .pk-next{display:flex;align-items:center;gap:8px;padding:8px 14px 8px 8px;border-radius:999px;background:var(--bubble);font:15px/1.2 var(--f-d);color:var(--ink-2);flex:none}
+@media (max-width:560px){.picker{gap:14px;padding:14px 16px}.picker .ava{--s:72px !important;width:72px;height:72px}.picker .pk-crown{left:62px}.picker .pk-next span{display:none}}
 .dash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-block:22px 18px;align-items:stretch}
 .dash .fcard{min-height:300px;padding:26px}
 .dash .fcard .sc-ico{width:92px;height:92px;border-radius:28px}
@@ -1471,6 +1478,7 @@ function renderFamily(){
         <button class="tbtn" id="famEditBtn" aria-label="꾹 눌러서 편집 열기">${ui('lock')}꾹 눌러 편집</button>
       </div>
     </header>
+    ${pickerCard()}
     <section class="dash">
       <button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
         <span class="sc-ico">${ico('checklist')}</span><span class="fc-title">할 일</span><span class="fc-sub">아침 · 저녁 · 외출 루틴</span>
@@ -1548,6 +1556,18 @@ function finishWelcome(){
 }
 
 /* ===== 대시보드 카드 ===== */
+// 오늘 고르는 사람: 2026-11-05(목)가 다솔, 다솔 → 다정 → 다연 순서로 매일 바뀌어요
+const PICK_ORDER=['k2','k3','k1'], PICK_START='2026-11-05';
+const pickerOf=dk=>{ const n=PICK_ORDER.length, i=(((dayNum(dk)-dayNum(PICK_START))%n)+n)%n; return kidById(PICK_ORDER[i]); };
+function pickerCard(){
+  const t=todayKey(), k=pickerOf(t), nx=pickerOf(keyOfDay(dayNum(t)+1));
+  if(!k) return '';
+  return `<section class="picker kid" style="--k:${k.color}" aria-label="오늘 고르는 사람 ${esc(k.name)}">
+    <span class="pk-crown">${star(30)}</span>${avatar(k,96)}
+    <div class="pk-txt"><small>오늘 고르는 사람!</small><b>${esc(k.name)}</b></div>
+    ${nx?`<div class="pk-next">${avatar(nx,44)}<span>내일은<br>${esc(withI(nx.name))}</span></div>`:''}
+  </section>`;
+}
 function todayCard(){
   return `<section class="dash-card today"><div class="dc-head"><span class="sc-ico">${ico('checklist')}</span><div><b>오늘 할 일</b><small>${dateLabel()}</small></div></div>
     ${RIDS.map(rid=>{ const R=ROUT[rid], sts=S.kids.map(k=>status(rid,k.id)), act=sts.filter(x=>x.total).length, fin=sts.filter(x=>x.finished).length;
