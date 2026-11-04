@@ -172,6 +172,8 @@ public class MainActivity extends Activity {
         in.removeExtra("alarm_type");
         if (Build.VERSION.SDK_INT >= 27) { setShowWhenLocked(true); setTurnScreenOn(true); }
         else getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        hideSystemBars();
         if (pageReady) js("window.onAlarm && window.onAlarm(" + q(type) + "," + q(text) + ")");
         else {
             try { JSONObject o = new JSONObject(); o.put("type", type); o.put("text", text); pendingAlarm = o.toString(); } catch (Exception ignored) { }
@@ -605,6 +607,7 @@ public class MainActivity extends Activity {
             main.post(() -> {
                 if (Build.VERSION.SDK_INT >= 27) { setShowWhenLocked(false); setTurnScreenOn(false); }
                 else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
             });
         }
 

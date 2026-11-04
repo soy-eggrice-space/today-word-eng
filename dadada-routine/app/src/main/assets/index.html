@@ -539,6 +539,14 @@ h1,h2,h3,p{margin:0}
 .rb-send{width:56px;height:56px;border-radius:16px;background:var(--bub-ink);color:var(--on-bub);display:grid;place-items:center;flex:none}
 .rb-send .ui{width:26px;height:26px}
 .chat-wrap{padding-bottom:280px !important}
+.ov-need{display:flex;align-items:center;gap:16px;margin-top:18px;padding:16px 18px;border-radius:26px;background:#FFF4E0;border:2px solid #F7C77A}
+.ov-need .sc-ico{width:56px;height:56px;border-radius:18px;background:#FFE3B0;color:#B86A00;--ic-tint:#FFF3D6;display:grid;place-items:center;flex:none}
+.ov-need .sc-ico .ic{width:40px;height:40px}
+.ov-need div{flex:1;min-width:0}
+.ov-need b{font:21px/1.25 var(--f-d);font-weight:400;display:block}
+.ov-need small{font-size:14px;color:var(--ink-2);display:block;margin-top:2px}
+.ov-need .btn{flex:none}
+@media (max-width:640px){.ov-need{flex-wrap:wrap}.ov-need .btn{width:100%}}
 .alarm-pop.stop{background:linear-gradient(160deg,#B8A4FF,#86C5FF 55%,#7EE0C0)}
 .alarm-pop.stop .ap-clock .ic{color:#4B3FB8;--ic-tint:#EFEAFF}
 .alarm-pop.stop .ap-time{color:#2E2A78}
@@ -1399,9 +1407,17 @@ function syncAlarms(){
   try{ window.Android.setAlarms(JSON.stringify(list)); }catch(e){}
 }
 let alarmRepeat=null;
-function alarmPop(text,kind){
+// 아이들 태블릿: '다른 앱 위에 표시'가 꺼져 있으면 알림이 앱 화면이 아니라 알림으로만 와요 → 대시보드에서 바로 켤 수 있게
+function overlayCard(){
+  if(!IS_APP||S.role!=='kids'||!window.Android.alarmState||alarmState().overlay!==false) return '';
+  return `<section class="ov-need"><span class="sc-ico">${ico('tv')}</span><div><b>시간 알림·그만! 알림이 앱 화면으로 뜨게 해 주세요</b>
+    <small>지금은 알림 소리만 와요. '다른 앱 위에 표시'를 허용하면 영상을 보고 있어도 우리가족 앱이 전체 화면으로 떠요. 나오는 화면에서 '우리가족'을 켜 주세요.</small></div>
+    <button class="btn pri" data-act="askoverlay">허용하기</button></section>`;
+}
+function alarmPop(text,kind,go){
   document.querySelector('.alarm-pop')?.remove(); clearInterval(alarmRepeat);
   const d=new Date(), el=document.createElement('div'); el.className='alarm-pop'+(kind==='stop'?' stop':''); el.setAttribute('role','alertdialog');
+  if(go) el.dataset.go='1';
   el.innerHTML=`<div class="ap-in"><div class="ap-clock">${ico(kind==='stop'?'toys':'sun')}</div><div class="ap-time">${d.getHours()}:${pad(d.getMinutes())}</div>
     <p class="ap-text">${esc(text)}</p><button class="ap-ok" data-act="alarmok">${ui('check')}알겠어요!</button></div>`;
   document.body.appendChild(el); tone([784,988,1175,988,784],.28,'triangle',.18);
@@ -1412,8 +1428,8 @@ window.onAlarm=(type,text)=>{
   if(S.role!=='kids') return;
   if(H.open){ H.open=false; renderHosp(); }
   if(view.screen!=='family'&&view.screen!=='run'){ view.screen='family'; show(); }
-  if(type==='say') alarmPop(text||'');
-  else if(type==='stop'){ alarmPop(text||STOP_TEXT,'stop'); const st=S.stop; if(st&&st.done!==st.id){ st.done=st.id; rset('stop/done',st.id); save(); } }
+  if(type==='say') alarmPop(text||'','say',true);
+  else if(type==='stop'){ alarmPop(text||STOP_TEXT,'stop',true); const st=S.stop; if(st&&st.done!==st.id){ st.done=st.id; rset('stop/done',st.id); save(); } }
 };
 /* ===== 그만! 알림: 엄마·아빠 폰에서 5·10·20·30분 뒤를 고르면 아이들 태블릿에 크게 떠요 ===== */
 const STOP_TEXT='이제 그만! 정리하자!', STOP_MINS=[5,10,20,30];
@@ -1636,6 +1652,7 @@ function renderFamily(){
         <button class="tbtn" id="famEditBtn" aria-label="꾹 눌러서 편집 열기">${ui('lock')}꾹 눌러 편집</button>
       </div>
     </header>
+    ${overlayCard()}
     ${pickerCard()}
     <section class="dash">
       <button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
@@ -2272,7 +2289,10 @@ document.addEventListener('click',e=>{
       S.meds.push(m); save(); pushMeds(); H.open=false; renderHosp(); renderFamily();
       toast(`${dot(m.kids.map(id=>kidById(id).name))} 할 일에 약 먹기를 넣었어요`); break; }
     case 'hdel': if(!confirmTap(b)) break; S.meds=S.meds.filter(m=>m.id!==d.id); save(); pushMeds(); renderFamily(); toast('약 먹기를 뺐어요'); break;
-    case 'alarmok': clearInterval(alarmRepeat); document.querySelector('.alarm-pop')?.remove(); try{ window.Android.alarmDone&&window.Android.alarmDone(); }catch(e){} break;
+    case 'alarmok': { const pop=document.querySelector('.alarm-pop'), go=pop?.dataset.go==='1'; clearInterval(alarmRepeat); pop?.remove(); try{ window.Android.alarmDone&&window.Android.alarmDone(); }catch(e){}
+      // 확인을 누르면 지금 시간에 맞는 할 일로 (낮 12시 전: 아침 / 그 뒤: 저녁)
+      if(go&&S.role==='kids'){ H.open=false; renderHosp(); view.rid=new Date().getHours()<12?'morning':'evening'; view.screen='run'; show(); window.scrollTo(0,0); }
+      break; }
     case 'altog': { const a=S.alarmCfg.says.find(x=>x.id===d.aid); if(a){ a.on=!a.on; save(); syncAlarms(); rerenderEdit(); } break; }
     case 'alwk': { const a=S.alarmCfg.says.find(x=>x.id===d.aid); if(a){ a.weekdays=!a.weekdays; save(); syncAlarms(); rerenderEdit(); } break; }
     case 'aladd': S.alarmCfg.says.push({id:uid(),time:'19:30',text:'이제 씻을 시간이야!',on:true,weekdays:false}); save(); syncAlarms(); rerenderEdit(); break;
