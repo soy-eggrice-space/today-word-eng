@@ -524,6 +524,12 @@ h1,h2,h3,p{margin:0}
 .ri-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex:none}
 .ri-side small{font-size:12px;color:var(--ink-3)}
 .ri-badge{min-width:26px;height:26px;padding:0 8px;border-radius:13px;background:var(--bub-ink);color:var(--on-bub);font:700 14px/26px var(--f-b);text-align:center}
+.sendleft{display:flex;gap:3px}
+.sendleft i{width:20px;height:20px;color:color-mix(in oklab,var(--ink) 18%,transparent)}
+.sendleft i.on{color:var(--bub-ink)}
+.sendleft svg{width:100%;height:100%;fill:currentColor}
+.pk.locked{opacity:.55;filter:grayscale(.5)}
+.pk .again{font:600 13px var(--f-b);color:var(--ink-2)}
 .gava{display:inline-flex;flex:none}
 .gava .pava+.pava{margin-left:-14px}
 .gava .ava{box-shadow:0 0 0 3px var(--surface)}
@@ -1631,6 +1637,12 @@ const PH_COLORS=['#F07FA2','#FF9264','#F7B23B','#6CC46B','#3EC4B4','#4FB3E8','#6
 const phColor=p=>{ if(p.color) return p.color; const i=(S.msg&&S.msg.phrases||[]).findIndex(x=>x.id===p.id); if(i>=0) return PH_COLORS[i%PH_COLORS.length]; let h=0; for(const ch of String(p.icon||'')+String(p.label||'')) h=(h*31+ch.charCodeAt(0))>>>0; return PH_COLORS[h%PH_COLORS.length]; };
 const phraseOut=p=>p.emoji?`${p.label} ${p.emoji}`:p.label;
 function msgParts(){ return { to:GROUPS.filter(g=>M.to.has(g.id)), from:S.kids.filter(k=>M.from.has(k.id)), ph:M.pick.map(id=>S.msg.phrases.find(p=>p.id===id)).filter(Boolean) }; }
+// 아이 한 명당 1시간에 3번까지
+const SEND_MAX=3, SEND_WIN=3600000;
+const sendTimes=kid=>(((S.sendLog||{})[kid])||[]).filter(t=>t>Date.now()-SEND_WIN).sort((a,b)=>a-b);
+const sendsLeft=kid=>Math.max(0,SEND_MAX-sendTimes(kid).length);
+const sendAgainAt=kid=>{ const t=sendTimes(kid); return t.length>=SEND_MAX?t[t.length-SEND_MAX]+SEND_WIN:0; };
+const HEART='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5S3.5 15.4 3.5 9.2a4.3 4.3 0 0 1 8.5-1.6 4.3 4.3 0 0 1 8.5 1.6c0 6.2-8.5 11.3-8.5 11.3z"/></svg>';
 const voiceSecs=()=>M.voice?Math.max(1,Math.round(M.voice.ms/1000)):0;
 function msgText(){
   const {to,from,ph}=msgParts();
@@ -1653,7 +1665,10 @@ function renderMsg(){
   const {to,from,ph}=msgParts(), ready=msgReady(), info=tgInfo();
   const step=(n,title,ok,body)=>`<section class="step${ok?' ok':''}${M.need&&!ok?' need':''}"><h2><span class="num">${ok?ui('check'):n}</span>${title}</h2>${body}</section>`;
   const parents=`<div class="pick-col">${GROUPS.map(g=>`<button class="pk grp kid" style="--k:${personById(g.faces[0]).color}" data-act="mto" data-id="${g.id}" aria-pressed="${M.to.has(g.id)}">${groupAva(g,72)}<span>${g.name}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
-  const kids=`<div class="pick-row" style="--n:${S.kids.length}">${S.kids.map(k=>`<button class="pk kid" style="--k:${k.color}" data-act="mfrom" data-kid="${k.id}" aria-pressed="${M.from.has(k.id)}">${avatar(k,72)}<span>${esc(withI(k.name))}가</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>`;
+  const kids=`<div class="pick-row" style="--n:${S.kids.length}">${S.kids.map(k=>{ const left=sendsLeft(k.id), again=sendAgainAt(k.id);
+    return `<button class="pk kid${left?'':' locked'}" style="--k:${k.color}" data-act="mfrom" data-kid="${k.id}" aria-pressed="${M.from.has(k.id)}" aria-label="${esc(k.name)}, 남은 횟수 ${left}번">${avatar(k,72)}<span>${esc(withI(k.name))}가</span>
+      <span class="sendleft">${Array.from({length:SEND_MAX},(_,i)=>`<i class="${i<left?'on':''}">${HEART}</i>`).join('')}</span>
+      ${left?'':`<small class="again">${hm(again)}부터</small>`}<span class="tick">${ui('check')}</span></button>`; }).join('')}</div>`;
   const canRec=IS_APP&&!!window.Android.recStart;
   let rec;
   if(M.rec==='rec') rec=`<div class="recbox"><button class="recbtn on" data-act="mrec" aria-label="녹음 끝내기">${ui('stop')}</button><div class="rec-txt"><span class="rec-time">0:${pad(Math.min(60,Math.floor((Date.now()-M.t0)/1000)))}</span><small>다 말했으면 빨간 버튼을 눌러요</small></div></div>`;
@@ -1729,6 +1744,7 @@ function sendMsg(){
     if(M.voice&&M.voice.pending){ toast('받아쓰는 중이에요. 잠깐만 기다려요'); return; }
     M.need=true; renderMsg(); tone([330],.14,'sine'); setTimeout(()=>{M.need=false},1500); return;
   }
+  { const k=S.kids.find(x=>M.from.has(x.id)); if(k&&!sendsLeft(k.id)){ toast(`${withI(k.name)}는 1시간에 ${SEND_MAX}번까지 보낼 수 있어요. ${hm(sendAgainAt(k.id))}부터 다시 보낼 수 있어요`); return; } }
   if(!IS_APP||!window.Android.famSend){ toast('메시지는 태블릿 앱에서 보낼 수 있어요'); return; }
   const {to,from,ph}=msgParts(), toIds=to.map(g=>g.id);
   const needApp=toIds.some(id=>id!=='r1');
@@ -1745,7 +1761,8 @@ window.onFamSent=(id,res)=>{
   if(id!==M.req) return;
   M.sending=false; res=res||{};
   const ok=res.tg===true||res.fb===true;
-  if(ok){ S.lastSent={at:Date.now()}; S.sent=S.sent||{}; if(M.item) S.sent[id]=M.item; save(); showSent(); if(res.tg===false||res.fb===false) setTimeout(()=>toast(res.fb===false?'텔레그램에는 갔는데 가족 앱으로는 못 보냈어요':'가족 앱에는 갔는데 텔레그램으로는 못 보냈어요'),2800); }
+  if(ok){ S.lastSent={at:Date.now()}; S.sent=S.sent||{}; if(M.item) S.sent[id]=M.item;
+    S.sendLog=S.sendLog||{}; for(const k of (M.item?.from||[])){ S.sendLog[k]=[...sendTimes(k),Date.now()]; } save(); showSent(); if(res.tg===false||res.fb===false) setTimeout(()=>toast(res.fb===false?'텔레그램에는 갔는데 가족 앱으로는 못 보냈어요':'가족 앱에는 갔는데 텔레그램으로는 못 보냈어요'),2800); }
   else { toast('못 보냈어요. 와이파이를 확인해 주세요'); if(view.screen==='msg') renderMsg(); }
 };
 const particle=n=>hasBatchim(n)?n+'이':n+'가';
@@ -2024,7 +2041,8 @@ document.addEventListener('click',e=>{
     case 'msg': view.screen='msg'; show(); tone([660],.08,'sine'); break;
     case 'edback': view.screen=view.from||'home'; show(); break;
     case 'mto': M.to.has(d.id)?M.to.delete(d.id):M.to.add(d.id); buzz(); tone([M.to.has(d.id)?784:523],.08,'sine'); renderMsg(); break;
-    case 'mfrom': M.from.has(d.kid)?M.from.delete(d.kid):M.from.add(d.kid); buzz(); tone([M.from.has(d.kid)?784:523],.08,'sine'); renderMsg(); break;
+    case 'mfrom': { if(!sendsLeft(d.kid)){ const k=kidById(d.kid); tone([330,262],.14,'sine',.12); toast(`${withI(k.name)}는 1시간에 ${SEND_MAX}번까지 보낼 수 있어요. ${hm(sendAgainAt(d.kid))}부터 다시 보낼 수 있어요`); break; }
+      const had=M.from.has(d.kid); M.from.clear(); if(!had) M.from.add(d.kid); buzz(); tone([had?523:784],.08,'sine'); renderMsg(); break; }
     case 'mph': { const i=M.pick.indexOf(d.pid); if(i>=0) M.pick.splice(i,1); else M.pick.push(d.pid); buzz(); tone([i<0?880:523],.08,'sine'); renderMsg(); break; }
     case 'mrec': if(M.rec==='rec') recStop(); else recStart(); break;
     case 'mplay': try{ window.Android.recPlay(); }catch(e){} break;
