@@ -480,6 +480,27 @@ h1,h2,h3,p{margin:0}
 .role[aria-pressed="true"]{border-color:var(--accent);background:var(--surface)}
 .role .ic{width:48px;height:48px;color:var(--todo-ink);--ic-tint:var(--todo-tint)}
 .tg-chats{display:flex;flex-direction:column;gap:8px}
+.reply-strip{display:flex;align-items:center;gap:16px 20px;flex-wrap:wrap;width:100%;padding:18px 22px;border-radius:30px;background:var(--surface);box-shadow:var(--shadow);text-align:left;margin-bottom:6px;border:3px solid transparent;transition:transform .15s}
+.reply-strip:active{transform:scale(.99)}
+.reply-strip.has-new{border-color:var(--bub-ink)}
+.reply-strip .sc-ico{width:72px;height:72px;border-radius:22px;background:var(--sc-g-a);color:var(--bub-ink);--ic-tint:var(--bub-tint);display:grid;place-items:center;flex:none}
+.reply-strip .sc-ico .ic{width:50px;height:50px}
+.rs-main{flex:1;min-width:180px;display:flex;flex-direction:column;gap:2px}
+.rs-title{font:30px/1.1 var(--f-d)}
+.rs-sub{font-size:15px;color:var(--ink-2)}
+.rs-new{padding:8px 16px;border-radius:999px;background:var(--bub-ink);color:var(--on-bub);font:22px var(--f-d);flex:none;animation:need .6s ease 3}
+.rp-card{background:var(--surface);border-radius:30px;padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;min-width:0}
+.rp-sent{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.rp-sent small{font-size:15px;color:var(--ink-2);flex-basis:100%}
+.rp-row{display:flex;align-items:center;gap:16px;padding:10px;border-radius:24px;border:3px solid transparent}
+.rp-row.new{background:color-mix(in oklab,var(--bub-tint) 45%,var(--surface));border-color:var(--bub-ink)}
+.rp-txt{flex:1;min-width:0}
+.rp-txt b{font:20px/1.2 var(--f-d);font-weight:400;color:var(--ink-2);display:block}
+.rp-txt p{font:34px/1.2 var(--f-d);overflow-wrap:anywhere}
+.rp-txt small{font-size:14px;color:var(--ink-3)}
+.rp-say{width:68px;height:68px;border-radius:50%;background:var(--bub-ink);color:var(--on-bub);display:grid;place-items:center;flex:none}
+.rp-say .ui{width:32px;height:32px}
+.reply-pop{cursor:pointer}
 .tg-chat{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;border-radius:18px;background:var(--surface-2);text-align:left;border:2px solid transparent}
 .tg-chat b{font:20px var(--f-d);font-weight:400}
 .tg-chat small{color:var(--ink-3);font-size:13px;flex:none}
@@ -522,6 +543,7 @@ h1,h2,h3,p{margin:0}
 <body>
 <main id="family" class="screen"></main>
 <main id="msg" class="screen" hidden></main>
+<main id="replies" class="screen" hidden></main>
 <main id="home" class="screen" hidden></main>
 <main id="run" class="screen" hidden></main>
 <main id="edit" class="screen" hidden></main>
@@ -853,6 +875,7 @@ function requestRender(){
   else if(view.screen==='home') renderHome();
   else if(view.screen==='family') renderFamily();
   else if(view.screen==='msg') renderMsg();
+  else if(view.screen==='replies') renderReplies();
   else if(view.screen==='cal'){ const y=window.scrollY; renderCal(); window.scrollTo(0,y); }
   else rerenderEdit();
 }
@@ -864,6 +887,7 @@ function prune(){
   const keys=Object.keys(S.log).sort(); while(keys.length>800) delete S.log[keys.shift()];
   if(changed) pushConfig();
   const old=Date.now()-30*864e5;
+  for(const m in (S.sent||{})){ const at=Number(String(m).slice(1,14)); if(at&&at<old) delete S.sent[m]; }
   for(const m in S.replies){ const at=Number(String(m).slice(1,14)); if(at&&at<old){ delete S.replies[m]; if(S.role==='kids') rset(`replies/${m}`,null); } }
 }
 prune(); save();
@@ -900,9 +924,10 @@ const dateLabel=()=>{const d=new Date();return `${d.getMonth()+1}월 ${d.getDate
 
 function show(){
   if(view.screen!=='msg'&&typeof M!=='undefined'&&M.rec==='rec') recStop();
-  for(const s of ['family','msg','home','run','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
+  for(const s of ['family','msg','replies','home','run','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
   if(view.screen==='family'&&isAdult()){ INB.prevSeen=S.inboxSeen||0; S.inboxSeen=Date.now(); save(); }
-  if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='cal') renderCal(); else renderEdit();
+  if(view.screen==='replies'){ RP.prevSeen=S.repliesSeen||0; S.repliesSeen=Date.now(); save(); }
+  if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='cal') renderCal(); else renderEdit();
   keepAwake(view.screen==='run');
   window.scrollTo(0,0);
 }
@@ -1174,9 +1199,54 @@ function renderFamily(){
         <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">마음 전하기</span><span class="fc-sub">엄마 아빠에게 하고 싶은 말 보내기</span>
         <span class="fc-foot"><span class="duo">${PARENTS.map(p=>parentAva(p,48)).join('')}</span>${note}</span></button>
     </section>
+    ${replyStrip()}
     <p class="foot">편집 버튼은 아이들이 실수로 열지 않도록 1초쯤 꾹 눌러야 열려요.</p>
   </div>`;
   holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
+}
+/* ===== 받은 답장 (아이들 쪽) ===== */
+const RP={prevSeen:0};
+function allReplies(){
+  const out=[];
+  for(const mid in (S.replies||{})) for(const r in (S.replies[mid]||{})){ const v=S.replies[mid][r]; if(v&&v.at&&personById(r)) out.push({mid,r,...v}); }
+  return out.sort((a,b)=>b.at-a.at);
+}
+function replyStrip(){
+  const all=allReplies(), seen=S.repliesSeen||0, fresh=all.filter(x=>x.at>seen);
+  const faces=[...new Set((fresh.length?fresh:all).map(x=>x.r))].slice(0,5).map(r=>parentAva(personById(r),48)).join('');
+  return `<button class="reply-strip${fresh.length?' has-new':''}" data-act="replies" aria-label="받은 답장">
+    <span class="sc-ico">${ico('heartface')}</span>
+    <span class="rs-main"><span class="rs-title">받은 답장</span><span class="rs-sub">${all.length?(fresh.length?`${esc(personById(fresh[0].r).name)}: ${esc(fresh[0].text)}`:`마지막 답장 ${whenText(all[0].at)}`):'마음을 보내면 답장이 여기에 모여요'}</span></span>
+    ${faces?`<span class="duo">${faces}</span>`:''}
+    ${fresh.length?`<span class="rs-new">새 답장 ${fresh.length}</span>`:''}
+  </button>`;
+}
+function sayText(t){
+  try{ if(IS_APP&&window.Android.speak){ window.Android.speak(t); return; } }catch(e){}
+  try{ const u=new SpeechSynthesisUtterance(t); u.lang='ko-KR'; speechSynthesis.cancel(); speechSynthesis.speak(u); }catch(e){}
+}
+function renderReplies(){
+  const groups={};
+  for(const x of allReplies()) (groups[x.mid]=groups[x.mid]||[]).push(x);
+  const list=Object.entries(groups).map(([mid,reps])=>({mid,reps:reps.sort((a,b)=>a.at-b.at),last:Math.max(...reps.map(r=>r.at))})).sort((a,b)=>b.last-a.last).slice(0,40);
+  const card=g=>{
+    const sent=(S.sent||{})[g.mid], sentAt=sent?.at||Number(g.mid.slice(1,14));
+    const kids=sent?toArr(sent.from).map(kidById).filter(Boolean):[], to=sent?toArr(sent.to).map(personById).filter(Boolean):[];
+    const head=sent?`<span class="pv-faces">${kids.map(k=>avatar(k,44)).join('')}</span><svg class="ui pv-arrow" viewBox="0 0 24 24" aria-hidden="true">${UI.next}</svg><span class="pv-faces">${to.map(p=>parentAva(p,44)).join('')}</span><span class="pv-items">${toArr(sent.ph).map(p=>`<span class="pv-ph kid" style="--k:${p.color||phColor(p)}">${ico(p.icon)}</span>`).join('')}${sent.voice?`<span class="pv-ph">${ui('mic')}</span>`:''}</span>
+      <small>${esc(dot(kids.map(k=>withI(k.name))))}가 보낸 마음 · ${whenText(sentAt)}${toArr(sent.ph).length?' · '+esc(toArr(sent.ph).map(p=>p.label).join(', ')):''}</small>`
+      :`<small>보낸 마음 · ${whenText(sentAt)}</small>`;
+    return `<article class="rp-card"><div class="rp-sent">${head}</div>
+      ${g.reps.map(x=>{ const p=personById(x.r); return `<div class="rp-row${x.at>RP.prevSeen?' new':''}">${parentAva(p,64)}<div class="rp-txt"><b>${esc(p.name)}</b><p>${esc(x.text)}</p><small>${whenText(x.at)}</small></div><button class="rp-say" data-act="rsay" data-mid="${g.mid}" data-r="${x.r}" aria-label="소리로 듣기">${ui('sound')}</button></div>`; }).join('')}
+    </article>`;
+  };
+  $('#replies').innerHTML=`
+  <header class="band scene" data-rid="msg"><div class="wrap band-in">
+    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
+    <div class="band-title"><span class="sc-ico">${ico('heartface')}</span><div><h1>받은 답장</h1><p class="band-date">스피커 버튼을 누르면 소리로 읽어 줘요</p></div></div>
+  </div></header>
+  <div class="wrap"><div class="ib-wrap" style="margin-inline:auto;padding-top:20px">
+    ${list.length?list.map(card).join(''):`<div class="ib-empty">${ico('heartface')}<b>아직 받은 답장이 없어요</b><p>마음을 보내면 답장이 여기에 모여요.</p></div>`}
+  </div></div>`;
 }
 
 /* ===== 마음 전하기 ===== */
@@ -1297,14 +1367,14 @@ function sendMsg(){
   const item={at:Date.now(),from:from.map(k=>({id:k.id,name:k.name,color:k.color,animal:k.animal})),to:toIds,ph:ph.map(p=>({icon:p.icon,label:p.label,emoji:p.emoji||'',color:phColor(p)})),voice:M.voice?voiceSecs():0,stt:M.voice&&M.voice.useText?(M.voice.text||''):''};
   let fb=null;
   if(S.sync){ const patch={}; for(const r of roomsFor(toIds)) patch[`rooms/${r}/${mid}`]=item; fb={base:S.sync,mid,patch}; }
-  M.sending=true; M.req=mid; renderMsg();
+  M.sending=true; M.req=mid; M.item={at:item.at,from:from.map(k=>k.id),to:toIds,ph:item.ph,voice:item.voice}; renderMsg();
   window.Android.famSend(mid,JSON.stringify({text:msgText(),voice:!!M.voice,fb}));
 }
 window.onFamSent=(id,res)=>{
   if(id!==M.req) return;
   M.sending=false; res=res||{};
   const ok=res.tg===true||res.fb===true;
-  if(ok){ S.lastSent={at:Date.now()}; save(); showSent(); if(res.tg===false||res.fb===false) setTimeout(()=>toast(res.fb===false?'텔레그램에는 갔는데 가족 앱으로는 못 보냈어요':'가족 앱에는 갔는데 텔레그램으로는 못 보냈어요'),2800); }
+  if(ok){ S.lastSent={at:Date.now()}; S.sent=S.sent||{}; if(M.item) S.sent[id]=M.item; save(); showSent(); if(res.tg===false||res.fb===false) setTimeout(()=>toast(res.fb===false?'텔레그램에는 갔는데 가족 앱으로는 못 보냈어요':'가족 앱에는 갔는데 텔레그램으로는 못 보냈어요'),2800); }
   else { toast('못 보냈어요. 와이파이를 확인해 주세요'); if(view.screen==='msg') renderMsg(); }
 };
 const particle=n=>hasBatchim(n)?n+'이':n+'가';
@@ -1314,12 +1384,14 @@ function onNewReply(mid,rid,rp){
   const p=personById(rid); if(!p) return;
   const el=document.createElement('div'); el.className='reply-pop'; el.setAttribute('role','status');
   el.innerHTML=`${parentAva(p,72)}<div><b>${esc(particle(p.name))} 답장했어요</b><p>${esc(rp.text)}</p></div>`;
-  el.addEventListener('click',()=>el.remove());
+  el.addEventListener('click',()=>{ el.remove(); view.screen='replies'; show(); });
   document.body.appendChild(el); tone([784,988,1319],.2,'triangle',.12);
   setTimeout(()=>el.classList.add('out'),6500); setTimeout(()=>el.remove(),7000);
   try{ window.Android.speak&&window.Android.speak(`${particle(p.name)} 답장했어요. ${stripEmoji(rp.text)}`); }catch(e){}
   try{ if(tgInfo().chat) window.Android.tgSend('reply',`💬 ${p.name} 답장: ${rp.text}`,false); }catch(e){}
   if(view.screen==='msg') renderMsg();
+  if(view.screen==='family') renderFamily();
+  if(view.screen==='replies') renderReplies();
 }
 const PLANE='<svg class="plane" viewBox="0 0 48 48" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" aria-hidden="true"><path d="M4.5 22.5L43.5 6.5 33 41.5l-9.5-12.5z" fill="rgba(255,255,255,.18)"/><path d="M23.5 29L43.5 6.5M23.5 29v10.5l5.2-5.6"/></svg>';
 function showSent(){
@@ -1600,6 +1672,8 @@ document.addEventListener('click',e=>{
     case 'ireply': { const t=d.t, m=d.mid; S.replies[m]=S.replies[m]||{}; S.replies[m][S.role]={at:Date.now(),text:t}; rset(`replies/${m}/${S.role}`,S.replies[m][S.role]); save(); tone([784,988],.12,'triangle',.08); renderFamily(); toast('답장을 보냈어요'); break; }
     case 'inotif': try{ window.Android.askNotif(); }catch(e){} break;
     case 'ibatt': try{ window.Android.askBattery(); }catch(e){} break;
+    case 'replies': view.screen='replies'; show(); tone([660],.08,'sine'); break;
+    case 'rsay': { const v=S.replies?.[d.mid]?.[d.r], p=personById(d.r); if(v&&p) sayText(`${particle(p.name)} 답장했어요. ${stripEmoji(v.text)}`); break; }
     case 'callno': callNo(d.kid); break;
     case 'syncgo': { const ta=$('#syncUrl'), er=$('#syncErr'); b.disabled=true; b.textContent='연결하는 중…'; setSt('wait');
       syncConnect(ta?.value).then(msg=>{ if(msg){ setSt(S.sync?SYNC.st:'off'); const t=$('#syncErr'), x=$('#syncUrl'); if(t){t.textContent=msg;t.hidden=false} if(x) x.value=ta?.value||''; const bb=$('[data-act="syncgo"]'); if(bb){bb.disabled=false;bb.textContent='연결하기'} } else rerenderEdit(); }); break; }
@@ -1656,7 +1730,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.sent')) return true; if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.sent')) return true; if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 show();
