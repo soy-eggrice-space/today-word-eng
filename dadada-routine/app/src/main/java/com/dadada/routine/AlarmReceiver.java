@@ -16,6 +16,10 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context c, Intent in) {
         String type = in.getStringExtra("type");
         String text = in.getStringExtra("text");
+        if ("stop".equals(type)) {
+            String id = in.getStringExtra("id");
+            c.getSharedPreferences(MainActivity.PREFS, Context.MODE_PRIVATE).edit().putString("stop_fired", id == null ? "" : id).apply();
+        }
         Intent a = new Intent(c, MainActivity.class);
         a.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         a.putExtra("alarm_type", type == null ? "say" : type);
@@ -44,7 +48,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     .setCategory(Notification.CATEGORY_ALARM)
                     .setAutoCancel(true)
                     .build();
-            nm.notify(7720, n);
+            nm.notify("stop".equals(type) ? 7721 : 7720, n);
         } catch (Exception ignored) { }
     }
 }

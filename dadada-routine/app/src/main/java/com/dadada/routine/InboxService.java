@@ -14,6 +14,7 @@ import android.os.IBinder;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -62,10 +63,11 @@ public class InboxService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        boolean kids = "kids".equals(prefs.getString("rx_person", ""));
         Notification n = new Notification.Builder(this, CH_RUN)
                 .setSmallIcon(R.drawable.ic_stat)
                 .setContentTitle("우리가족")
-                .setContentText("아이들이 보내는 마음을 기다리고 있어요")
+                .setContentText(kids ? "엄마·아빠의 그만! 알림을 기다리고 있어요" : "아이들이 보내는 마음을 기다리고 있어요")
                 .setContentIntent(openApp())
                 .setOngoing(true)
                 .build();
@@ -74,14 +76,24 @@ public class InboxService extends Service {
 
         String base = prefs.getString("rx_base", "");
         String rooms = prefs.getString("rx_rooms", "");
-        if (base.isEmpty() || rooms.isEmpty()) { stopSelf(); return START_NOT_STICKY; }
-        restart(base, rooms.split(","));
+        if (base.isEmpty() || (!kids && rooms.isEmpty())) { stopSelf(); return START_NOT_STICKY; }
+        restart(base, kids ? new String[0] : rooms.split(","));
         return START_STICKY;
     }
+
+    private static final String STOP = "__stop";
 
     private synchronized void restart(String base, String[] rooms) {
         stopAll();
         alive = true;
+        if (rooms.length == 0) {
+            // 아이들 태블릿: 엄마·아빠가 보낸 '그만! 알림'만 기다려요
+            final String url = base + "/app/stop.json";
+            Thread t = new Thread(() -> loop(url, STOP), "stop");
+            threads.add(t);
+            t.start();
+            return;
+        }
         for (String r : rooms) {
             if (r.trim().isEmpty()) continue;
             final String url = base + "/rooms/" + r.trim() + ".json";
@@ -131,7 +143,9 @@ public class InboxService extends Service {
             while (alive && (line = br.readLine()) != null) {
                 if (line.startsWith("event:")) event = line.substring(6).trim();
                 else if (line.startsWith("data:")) {
-                    if ("put".equals(event) || "patch".equals(event)) handle(line.substring(5).trim(), room);
+                    if ("put".equals(event) || "patch".equals(event)) {
+                        if (STOP.equals(room)) checkStop(); else handle(line.substring(5).trim(), room);
+                    }
                     else if ("cancel".equals(event) || "auth_revoked".equals(event)) throw new Exception(event);
                 }
             }
@@ -139,6 +153,17 @@ public class InboxService extends Service {
             synchronized (this) { conns.remove(c); }
             c.disconnect();
         }
+    }
+
+    /** 지금 저장된 그만! 알림을 읽어 예약하고, 받았다고 엄마·아빠 폰에 알려요. */
+    private void checkStop() {
+        String base = prefs.getString("rx_base", "");
+        if (base.isEmpty()) return;
+        try {
+            Object v = new JSONTokener(Net.http("GET", base + "/app/stop.json", null)).nextValue();
+            String got = AlarmScheduler.applyStop(this, v instanceof JSONObject ? (JSONObject) v : null);
+            if (got != null) Net.http("PATCH", base + "/app/stop.json", new JSONObject().put("got", got).toString());
+        } catch (Exception ignored) { }
     }
 
     private void handle(String data, String room) {

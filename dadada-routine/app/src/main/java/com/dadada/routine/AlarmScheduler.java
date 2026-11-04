@@ -22,10 +22,53 @@ final class AlarmScheduler {
     }
 
     private static PendingIntent op(Context c, int code, String type, String text, int flags) {
+        return op(c, code, type, text, null, flags);
+    }
+
+    private static PendingIntent op(Context c, int code, String type, String text, String id, int flags) {
         Intent i = new Intent(c, AlarmReceiver.class);
         i.setAction("wooriga.ALARM." + code);
         if (type != null) { i.putExtra("type", type); i.putExtra("text", text); }
+        if (id != null) i.putExtra("id", id);
         return PendingIntent.getBroadcast(c, 1000 + code, i, flags | PendingIntent.FLAG_IMMUTABLE);
+    }
+
+    private static final int STOP_CODE = 900;
+
+    private static void at(Context c, AlarmManager am, long t, PendingIntent pi) {
+        if (canExact(c)) {
+            Intent show = new Intent(c, MainActivity.class);
+            PendingIntent showPi = PendingIntent.getActivity(c, 999, show, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            am.setAlarmClock(new AlarmManager.AlarmClockInfo(t, showPi), pi);
+        } else {
+            am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi);
+        }
+    }
+
+    /**
+     * 엄마·아빠 폰에서 보낸 '그만! 알림'을 이 태블릿에 예약하거나(같은 것이면 다시 예약) 취소해요.
+     * 돌려주는 값: 태블릿이 받았다고 알려야 할 id (이미 알렸거나 받을 게 없으면 null).
+     */
+    static synchronized String applyStop(Context c, JSONObject o) {
+        SharedPreferences p = c.getSharedPreferences(MainActivity.PREFS, Context.MODE_PRIVATE);
+        AlarmManager am = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+        if (am == null) return null;
+        String id = o == null ? "" : o.optString("id", "");
+        long t = o == null ? 0 : o.optLong("at", 0);
+        if (id.isEmpty() || t == 0) {
+            PendingIntent pi = op(c, STOP_CODE, null, null, PendingIntent.FLAG_NO_CREATE);
+            if (pi != null) { am.cancel(pi); pi.cancel(); }
+            p.edit().remove("stop_id").apply();
+            return null;
+        }
+        // 이미 띄운 것, 3분 넘게 지난 것은 다시 띄우지 않아요
+        if (id.equals(p.getString("stop_fired", "")) || id.equals(o.optString("done")) || t < System.currentTimeMillis() - 180000) return null;
+        String text = o.optString("text", "");
+        if (text.isEmpty()) text = "이제 그만! 정리하자!";
+        PendingIntent pi = op(c, STOP_CODE, "stop", text, id, PendingIntent.FLAG_UPDATE_CURRENT);
+        at(c, am, Math.max(t, System.currentTimeMillis() + 1000), pi);
+        p.edit().putString("stop_id", id).apply();
+        return id.equals(o.optString("got")) ? null : id;
     }
 
     static long nextTime(int h, int m, boolean weekdays) {
@@ -63,13 +106,7 @@ final class AlarmScheduler {
                 if (hm.length != 2) continue;
                 long t = nextTime(Integer.parseInt(hm[0]), Integer.parseInt(hm[1]), a.optBoolean("weekdays"));
                 PendingIntent pi = op(c, n, a.optString("type"), a.optString("text"), PendingIntent.FLAG_UPDATE_CURRENT);
-                if (canExact(c)) {
-                    Intent show = new Intent(c, MainActivity.class);
-                    PendingIntent showPi = PendingIntent.getActivity(c, 999, show, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-                    am.setAlarmClock(new AlarmManager.AlarmClockInfo(t, showPi), pi);
-                } else {
-                    am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, t, pi);
-                }
+                at(c, am, t, pi);
                 if (soonest == 0 || t < soonest) soonest = t;
                 n++;
             }

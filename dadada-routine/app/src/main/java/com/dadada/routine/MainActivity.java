@@ -593,6 +593,10 @@ public class MainActivity extends Activity {
             AlarmScheduler.scheduleAll(MainActivity.this);
         }
 
+        @JavascriptInterface public void armStop(String json) {
+            try { AlarmScheduler.applyStop(MainActivity.this, json == null || json.isEmpty() ? null : new JSONObject(json)); } catch (Exception ignored) { }
+        }
+
         @JavascriptInterface public String takeAlarm() {
             String a = pendingAlarm; pendingAlarm = null; return a;
         }

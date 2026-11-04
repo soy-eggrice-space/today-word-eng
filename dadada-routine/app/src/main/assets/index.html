@@ -539,6 +539,36 @@ h1,h2,h3,p{margin:0}
 .rb-send{width:56px;height:56px;border-radius:16px;background:var(--bub-ink);color:var(--on-bub);display:grid;place-items:center;flex:none}
 .rb-send .ui{width:26px;height:26px}
 .chat-wrap{padding-bottom:280px !important}
+.alarm-pop.stop{background:linear-gradient(160deg,#B8A4FF,#86C5FF 55%,#7EE0C0)}
+.alarm-pop.stop .ap-clock .ic{color:#4B3FB8;--ic-tint:#EFEAFF}
+.alarm-pop.stop .ap-time{color:#2E2A78}
+.alarm-pop.stop .ap-text,.alarm-pop.stop .ap-ok{color:#1C1B4A}
+.pdash{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;padding-block:18px 10px;align-items:start}
+.pcol{display:flex;flex-direction:column;gap:18px;min-width:0}
+.pdash .picker{margin-top:0}
+.pdash .dash-card.today{grid-column:auto}
+.dash-card.stopc .dc-head .sc-ico{background:#ECE6FF;color:#6B55D6;--ic-tint:#D6CCFF}
+.dash-card.rooms .dc-head .sc-ico{background:var(--sc-g-a);color:var(--bub-ink);--ic-tint:var(--bub-tint)}
+.dash-card.rooms .room-item{box-shadow:none;background:var(--surface-2);padding:12px 14px;border-radius:22px}
+.stop-btns{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.stop-b{min-height:92px;border-radius:24px;background:#F1EDFF;color:#3D2E9C;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:3px solid transparent}
+.stop-b b{font:40px/1 var(--f-d);font-weight:400}
+.stop-b span{font:16px var(--f-d)}
+.stop-b:active{transform:scale(.97);border-color:#8C78F0}
+.stop-st{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:4px 12px;padding:14px 16px;border-radius:22px;background:linear-gradient(120deg,#EFEAFF,#E2F1FF)}
+.stop-st .ss-main{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font:20px var(--f-d);color:#2E2A78}
+.stop-st .ss-main b{font:44px/1 var(--f-d);font-weight:400;color:#4B3FB8;font-variant-numeric:tabular-nums}
+.stop-st .btn{grid-row:1 / span 2;grid-column:2}
+.stop-st .ss-got{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-2)}
+.stop-st .ss-got[data-on="true"]{color:#2F9C6B}
+.stop-st .ss-got .ui{width:18px;height:18px}
+.stop-st.done{grid-template-columns:1fr;background:#E3F5EC}
+.stop-st.done .ss-main{align-items:center;color:#1E6B47;font-size:19px}
+.stop-st.done .ui{width:24px;height:24px}
+.mini-link{margin-left:auto;min-height:40px;padding:0 12px;font-size:15px}
+.mini-link .ui{width:18px;height:18px}
+@media (max-width:760px){.pdash{display:flex;flex-direction:column;align-items:stretch}.pcol{display:contents}.pdash .stopc{order:1}.pdash .rooms{order:2}.pdash .today{order:3}.pdash .med{order:4}.pdash .picker{order:5}}
+@media (max-width:420px){.stop-b{min-height:80px}.stop-b b{font-size:34px}}
 .alarm-pop{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:24px;background:linear-gradient(160deg,#FFD66E,#FF9F6E 55%,#F07FA2);animation:callIn .3s ease both}
 .ap-in{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;max-width:1000px}
 .ap-clock{width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.35);display:grid;place-items:center;animation:ring 1.6s ease-in-out infinite}
@@ -559,7 +589,7 @@ h1,h2,h3,p{margin:0}
 .picker .pk-txt small{font:22px var(--f-d);color:var(--k-deep);display:block}
 .picker .pk-txt b{font:clamp(44px,5vw,64px)/1 var(--f-d);font-weight:400;color:var(--ink)}
 .picker .pk-next{display:flex;align-items:center;gap:8px;padding:8px 14px 8px 8px;border-radius:999px;background:var(--bubble);font:15px/1.2 var(--f-d);color:var(--ink-2);flex:none}
-@media (max-width:560px){.picker{gap:14px;padding:14px 16px}.picker .ava{--s:72px !important;width:72px;height:72px}.picker .pk-crown{left:62px}.picker .pk-next span{display:none}}
+@media (max-width:560px){.picker{gap:14px;padding:14px 16px}.picker>.ava{--s:72px !important;width:72px;height:72px}.picker .pk-crown{left:62px}.picker .pk-txt small{font-size:17px}.picker .pk-txt b{font-size:40px}.picker .pk-next{padding:6px 10px 6px 6px;font-size:13px}.picker .pk-next .ava{--s:36px !important;width:36px;height:36px}}
 .dash{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;padding-block:22px 18px;align-items:stretch}
 .dash .fcard{min-height:300px;padding:26px}
 .dash .fcard .sc-ico{width:92px;height:92px;border-radius:28px}
@@ -755,6 +785,7 @@ const ICONS={
   snack:'<circle class="t" cx="24" cy="24" r="17"/><circle class="s" cx="18" cy="18" r="2.3"/><circle class="s" cx="29" cy="19" r="2.3"/><circle class="s" cx="20" cy="30" r="2.3"/><circle class="s" cx="31" cy="29.5" r="2"/><circle class="s" cx="25" cy="24.5" r="1.5"/>',
   phone:'<rect class="t" x="13" y="5" width="20" height="38" rx="4"/><path d="M20 37h6"/><path d="M37 15a8 8 0 0 1 0 11M41 11a14 14 0 0 1 0 19"/>',
   tv:'<rect class="t" x="6" y="13" width="36" height="25" rx="4"/><path d="M17 5l7 8 7-8M16 43h16"/>',
+  timer:'<circle class="t" cx="24" cy="27" r="16"/><path d="M24 27l6-6M19 5h10M24 5v6M37 13l3-3"/>',
   help:'<path class="t" d="M15 27V14a2.5 2.5 0 0 1 5 0v9V10a2.5 2.5 0 0 1 5 0v13V12a2.5 2.5 0 0 1 5 0v12-6a2.5 2.5 0 0 1 5 0v12c0 7.5-5 13-12 13h-1.5c-4 0-7-2-9-5.5L9 29.5a2.7 2.7 0 0 1 4.4-3.1z"/>',
   goodmorning:'<circle class="t" cx="24" cy="27" r="11"/><path d="M24 7v4M7 27H3.5M44.5 27H41M11.5 14.5l2.8 2.8M36.5 14.5l-2.8 2.8"/><path d="M19.2 25.6q1.6-1.8 3.2 0M25.6 25.6q1.6-1.8 3.2 0M20 30.5q4 3.6 8 0"/>',
   poop:'<path class="t" d="M9 40.5a4.5 4.5 0 0 1 1.6-8.7 5.4 5.4 0 0 1 4.6-7.6 6.3 6.3 0 0 1 8.3-6.6c.3-3.6 2.6-6 6-6.6-1 3.2.8 4.8 2.8 5.8a5.4 5.4 0 0 1 1.6 8 5.4 5.4 0 0 1 4 7.7 4.5 4.5 0 0 1-.4 8z"/><circle class="s" cx="19.5" cy="31" r="1.7"/><circle class="s" cx="28.5" cy="31" r="1.7"/><path d="M21 35.5q3 2.6 6 0"/>',
@@ -913,11 +944,12 @@ function normalize(s){
   s.msg.v=1; s.msg.defv=Number(s.msg.defv)||1; s.msg.phrases=toArr(s.msg.phrases).filter(p=>p&&typeof p.label==='string');
   s.replies=(s.replies&&typeof s.replies==='object')?s.replies:{};
   s.meds=toArr(s.meds).filter(m=>m&&m.start&&m.slot&&m.days).map(m=>({...m,kids:toArr(m.kids)}));
+  s.stop=(s.stop&&typeof s.stop==='object'&&s.stop.id&&Number(s.stop.at))?s.stop:null;
 }
 let S=load();
 function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}}
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
-const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds'];
+const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
 // 데이터베이스 주소는 앱에 넣고, 가족 공간 코드는 우리집 암호로만 만들어요 (암호는 어디에도 저장하지 않아요)
 const FAMILY_DB=window.__FAMILY_DB||'https://dadada-family-default-rtdb.asia-southeast1.firebasedatabase.app/dadada/';
@@ -990,9 +1022,12 @@ function adopt(fn){
   fn();
   if(S.role==='kids'&&S.msg&&upgradeMsg(S.msg)) pushMsg();
   // local changes not yet confirmed by the server always win over older remote copies
+  const rStop=S.stop;
   for(const [p,v] of Object.entries({...SYNC.fly,...SYNC.q})) setIn(S,p.split('/'),clone(v));
+  // …but the tablet's 받았어요/떴어요 marks on the same 그만! 알림 are kept
+  if(rStop&&S.stop&&rStop.id===S.stop.id){ for(const f of ['got','done']) if(rStop[f]) S.stop[f]=rStop[f]; }
   for(const [p,n] of Object.entries(SYNC.inc)){ const parts=p.split('/'); let o=S; for(const k of parts.slice(0,-1)) o=o?.[k]; setIn(S,parts,(Number(o?.[parts[parts.length-1]])||0)+n); }
-  normalize(S); save();
+  normalize(S); save(); kidsStop();
   const after=todayRanks(), fresh=Object.keys(after).filter(k=>!before[k]);
   for(const key of replyKeys()) if(!rb.has(key)){ const [m,r]=key.split('|'), rp=S.replies[m]?.[r]; if(rp&&rp.at>Date.now()-120000) onNewReply(m,r,rp); }
   requestRender();
@@ -1004,7 +1039,7 @@ function applyRemote(path,data,isPatch){
     if(!parts.length){
       if(data==null) return;
       if(isPatch){ for(const k in data){ const pp=k.split('/').filter(Boolean); if(SYNC_KEYS.includes(pp[0])) setIn(S,pp,data[k]); } }
-      else for(const k of SYNC_KEYS) if(k in data) S[k]=data[k];
+      else { for(const k of SYNC_KEYS) if(k in data) S[k]=data[k]; if(!('stop' in data)) S.stop=null; }
       return;
     }
     if(!SYNC_KEYS.includes(parts[0])) return;
@@ -1364,10 +1399,10 @@ function syncAlarms(){
   try{ window.Android.setAlarms(JSON.stringify(list)); }catch(e){}
 }
 let alarmRepeat=null;
-function alarmPop(text){
+function alarmPop(text,kind){
   document.querySelector('.alarm-pop')?.remove(); clearInterval(alarmRepeat);
-  const d=new Date(), el=document.createElement('div'); el.className='alarm-pop'; el.setAttribute('role','alertdialog');
-  el.innerHTML=`<div class="ap-in"><div class="ap-clock">${ico('sun')}</div><div class="ap-time">${d.getHours()}:${pad(d.getMinutes())}</div>
+  const d=new Date(), el=document.createElement('div'); el.className='alarm-pop'+(kind==='stop'?' stop':''); el.setAttribute('role','alertdialog');
+  el.innerHTML=`<div class="ap-in"><div class="ap-clock">${ico(kind==='stop'?'toys':'sun')}</div><div class="ap-time">${d.getHours()}:${pad(d.getMinutes())}</div>
     <p class="ap-text">${esc(text)}</p><button class="ap-ok" data-act="alarmok">${ui('check')}알겠어요!</button></div>`;
   document.body.appendChild(el); tone([784,988,1175,988,784],.28,'triangle',.18);
   let n=0; const say=()=>{ if(!document.querySelector('.alarm-pop')||n>=3){ clearInterval(alarmRepeat); return; } n++; sayText(stripEmoji(text)); };
@@ -1378,7 +1413,46 @@ window.onAlarm=(type,text)=>{
   if(H.open){ H.open=false; renderHosp(); }
   if(view.screen!=='family'&&view.screen!=='run'){ view.screen='family'; show(); }
   if(type==='say') alarmPop(text||'');
+  else if(type==='stop'){ alarmPop(text||STOP_TEXT,'stop'); const st=S.stop; if(st&&st.done!==st.id){ st.done=st.id; rset('stop/done',st.id); save(); } }
 };
+/* ===== 그만! 알림: 엄마·아빠 폰에서 5·10·20·30분 뒤를 고르면 아이들 태블릿에 크게 떠요 ===== */
+const STOP_TEXT='이제 그만! 정리하자!', STOP_MINS=[5,10,20,30];
+const isParent=()=>['mom','dad'].includes(S.role);
+let stopT=null;
+function kidsStop(){
+  if(S.role!=='kids') return;
+  const st=S.stop, live=!!(st&&st.done!==st.id&&st.at>Date.now()-180000);
+  // 앱: 태블릿이 직접 시각을 예약해요 (앱을 안 보고 있어도 떠요) / 웹: 화면이 열려 있을 때만
+  if(IS_APP&&window.Android.armStop){ try{ window.Android.armStop(st?JSON.stringify(st):''); }catch(e){} }
+  else { clearTimeout(stopT); if(live) stopT=setTimeout(()=>window.onAlarm('stop',st.text||STOP_TEXT),Math.max(0,st.at-Date.now())); }
+  if(live&&st.got!==st.id){ st.got=st.id; rset('stop/got',st.id); save(); }
+}
+function setStop(min){
+  const now=Date.now(), at=now+min*60000;
+  S.stop={id:'s'+now.toString(36),at,min,by:S.role,text:STOP_TEXT};
+  rset('stop',S.stop); save(); tone([660,880],.12,'triangle',.08); renderFamily();
+  toast(`${min}분 뒤 ${hm(at)}에 태블릿에 떠요`);
+}
+function cancelStop(){ S.stop=null; rset('stop',null); save(); renderFamily(); toast('그만! 알림을 취소했어요'); }
+function stopCard(){
+  const st=S.stop, now=Date.now(); let status='';
+  if(st){
+    const fired=st.done===st.id||st.at<=now;
+    if(!fired){
+      const left=Math.max(1,Math.ceil((st.at-now)/60000)), got=st.got===st.id;
+      status=`<div class="stop-st"><div class="ss-main"><b>${left}분</b><span>뒤 ${hm(st.at)}에 떠요</span></div>
+        <small class="ss-got" data-on="${got}">${got?ui('check')+'태블릿이 받았어요':'<span class="sync-dot"></span>태블릿에 보내는 중'}</small>
+        <button class="btn sec mini" data-act="stopx">취소</button></div>`;
+    } else if(now-st.at<30*60000){
+      status=`<div class="stop-st done"><div class="ss-main">${ui('check')}<span>${hm(st.at)}에 ${st.done===st.id?'태블릿에 떴어요':'뜰 시간이었어요'}</span></div></div>`;
+    }
+  }
+  return `<section class="dash-card stopc"><div class="dc-head"><span class="sc-ico">${ico('timer')}</span><div><b>그만! 알림</b><small>고른 시간 뒤에 태블릿에 '${STOP_TEXT}'가 크게 뜨고 읽어 줘요</small></div></div>
+    ${status}
+    <div class="stop-btns">${STOP_MINS.map(m=>`<button class="stop-b" data-act="stopset" data-min="${m}"><b>${m}</b><span>분 뒤</span></button>`).join('')}</div>
+  </section>`;
+}
+setInterval(()=>{ if(view.screen==='family'&&isParent()&&S.stop&&Date.now()-S.stop.at<31*60000){ const a=document.activeElement; if(!(a&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA'))&&!H.open) rerenderKeep(); } },15000);
 function editAlarm(){
   const c=S.alarmCfg, st=alarmState();
   const sw=(act,on,extra='')=>`<button class="switch" role="switch" aria-checked="${!!on}" data-act="${act}" ${extra}><span class="sw"></span></button>`;
@@ -1412,6 +1486,7 @@ function editAlarm(){
 function applyRole(){
   try{
     if(isAdult()&&S.sync){ window.Android.setReceiver&&window.Android.setReceiver(S.sync,myRooms().join(','),S.role); }
+    else if(S.role==='kids'&&S.sync&&window.Android.armStop){ window.Android.setReceiver(S.sync,'','kids'); }
     else window.Android.stopReceiver&&window.Android.stopReceiver();
   }catch(e){}
   if(isAdult()) inboxConnect(); else inboxClose();
@@ -1448,6 +1523,7 @@ function markRoomSeen(r){ S.roomSeen=S.roomSeen||{}; S.roomSeen[r]=Date.now(); s
 function renderInbox(){
   const me=personById(S.role);
   if(isElder()){ const r=myRooms()[0]; markRoomSeen(r); $('#family').innerHTML=roomHtml(r,false); afterRoom(); return; }
+  const unread=myRooms().reduce((n,r)=>n+roomUnread(r),0);
   const rows=myRooms().map(r=>{
     const R=roomById(r), items=roomItems(r), last=items[items.length-1], un=roomUnread(r);
     const others=R.members.filter(id=>id!==S.role).map(personById);
@@ -1460,14 +1536,25 @@ function renderInbox(){
   }).join('');
   $('#family').innerHTML=`<div class="wrap">
     <header class="fam-top">
-      <div style="display:flex;gap:16px;align-items:center">${parentAva(me,72)}<div><div class="eyebrow">${dateLabel()}</div><h1 class="fam-name" style="font-size:clamp(34px,5vw,48px)">가족 채팅방</h1></div></div>
+      <div style="display:flex;gap:16px;align-items:center">${parentAva(me,72)}<div><div class="eyebrow">${dateLabel()}</div><h1 class="fam-name" style="font-size:clamp(34px,5vw,48px)">우리가족</h1></div></div>
       <div class="tools">
-        <button class="tbtn" data-act="todo">${ico('checklist').replace('class="ic"','class="ic" style="width:26px;height:26px"')}할 일 보기</button>
+        ${S.sync?`<span class="sync-chip" data-sync data-st="${SYNC.st}"><span class="sync-dot"></span><span class="sync-txt">${syncText()}</span></span>`:''}
         <button class="tbtn" id="famEditBtn" aria-label="꾹 눌러서 편집 열기">${ui('lock')}꾹 눌러 편집</button>
       </div>
     </header>
-    <div class="ib-wrap" style="padding-top:8px">${setupCard()}<div class="room-list">${rows}</div>
-    ${!S.sync?`<div class="ib-empty">${ico('bubble')}<b>아직 연결이 안 됐어요</b><p>꾹 눌러 편집 → 폰 연결에서 연결 주소를 넣어 주세요.</p></div>`:''}</div></div>`;
+    ${setupCard()}
+    ${!S.sync?`<div class="ib-empty">${ico('bubble')}<b>아직 연결이 안 됐어요</b><p>꾹 눌러 편집 → 폰 연결에서 우리집 암호로 연결해 주세요.</p></div>`:''}
+    <section class="pdash"><div class="pcol">
+      ${stopCard()}
+      ${todayCard().replace('</div></div>',`</div><button class="tbtn mini-link" data-act="todo">별·기록 ${ui('next')}</button></div>`)}
+      ${pickerCard()}
+      </div><div class="pcol">
+      <section class="dash-card rooms"><div class="dc-head"><span class="sc-ico">${ico('bubble')}</span><div><b>가족 채팅방</b><small>${unread?`안 읽은 마음 ${unread}개`:'아이들이 보낸 마음'}</small></div></div>
+        <div class="room-list">${rows}</div></section>
+      ${medCard()}
+    </div></section>
+    <p class="foot">그만! 알림은 아이들 태블릿에 우리가족 앱 새 버전이 깔려 있어야 떠요.</p>
+  </div>`;
   holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
 }
 function setupCard(){
@@ -2175,6 +2262,8 @@ document.addEventListener('click',e=>{
     case 'wgo': welcomeConnect(); break;
     case 'wskip': finishWelcome(); break;
     case 'hosp': openHosp(); break;
+    case 'stopset': setStop(Number(d.min)); break;
+    case 'stopx': cancelStop(); break;
     case 'hclose': H.open=false; renderHosp(); break;
     case 'hkid': H.kids.has(d.kid)?H.kids.delete(d.kid):H.kids.add(d.kid); renderHosp(); break;
     case 'hdays': H.days=Number(d.n); renderHosp(); break;
@@ -2269,7 +2358,7 @@ if(S.onboard) view.screen='welcome';
 show();
 if(S.needPush){ S.needPush=false; save(); if(S.sync&&S.role==='kids'){ pushConfig(); pushMsg(); } }
 if(S.sync){ flush(); connectStream(); applyRole(); roomPrune(); }
-if(!S.onboard) syncAlarms();
+if(!S.onboard){ syncAlarms(); kidsStop(); }
 try{ const pa=IS_APP&&window.Android.takeAlarm?JSON.parse(window.Android.takeAlarm()||'null'):null; if(pa) setTimeout(()=>window.onAlarm(pa.type,pa.text),700); }catch(e){}
 </script>
 
