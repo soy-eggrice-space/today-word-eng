@@ -78,6 +78,8 @@ public class MainActivity extends Activity {
     private AudioTrack player;
     private TextToSpeech tts;
     private boolean ttsReady;
+    private boolean pageReady;
+    private volatile String pendingAlarm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +117,15 @@ public class MainActivity extends Activity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return !WebViewAssetLoader.DEFAULT_DOMAIN.equals(request.getUrl().getHost());
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                pageReady = true;
+            }
         });
 
+        handleAlarm(getIntent());
+        AlarmScheduler.scheduleAll(this);
         web.loadUrl("https://" + WebViewAssetLoader.DEFAULT_DOMAIN + "/assets/index.html");
     }
 
@@ -147,6 +156,26 @@ public class MainActivity extends Activity {
         web.evaluateJavascript("(window.appBack && window.appBack()) ? 'yes' : 'no'", value -> {
             if (value == null || !value.contains("yes")) finish();
         });
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleAlarm(intent);
+    }
+
+    /** 시간 알림으로 열렸으면 잠금화면 위에서도 화면을 켜고, 웹 화면에 알려 줘요. */
+    private void handleAlarm(Intent in) {
+        if (in == null || in.getStringExtra("alarm_type") == null) return;
+        String type = in.getStringExtra("alarm_type"), text = in.getStringExtra("alarm_text");
+        in.removeExtra("alarm_type");
+        if (Build.VERSION.SDK_INT >= 27) { setShowWhenLocked(true); setTurnScreenOn(true); }
+        else getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        if (pageReady) js("window.onAlarm && window.onAlarm(" + q(type) + "," + q(text) + ")");
+        else {
+            try { JSONObject o = new JSONObject(); o.put("type", type); o.put("text", text); pendingAlarm = o.toString(); } catch (Exception ignored) { }
+        }
     }
 
     @Override
@@ -556,6 +585,48 @@ public class MainActivity extends Activity {
                 o.put("battery", batteryFree());
             } catch (Exception ignored) { }
             return o.toString();
+        }
+
+        // ----- 시간 알림 / 자동 켜기 -----
+        @JavascriptInterface public void setAlarms(String json) {
+            prefs.edit().putString("alarms", json == null ? "[]" : json).apply();
+            AlarmScheduler.scheduleAll(MainActivity.this);
+        }
+
+        @JavascriptInterface public String takeAlarm() {
+            String a = pendingAlarm; pendingAlarm = null; return a;
+        }
+
+        @JavascriptInterface public void alarmDone() {
+            main.post(() -> {
+                if (Build.VERSION.SDK_INT >= 27) { setShowWhenLocked(false); setTurnScreenOn(false); }
+                else getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+            });
+        }
+
+        @JavascriptInterface public String alarmState() {
+            JSONObject o = new JSONObject();
+            try {
+                o.put("overlay", Build.VERSION.SDK_INT < 23 || Settings.canDrawOverlays(MainActivity.this));
+                if (Build.VERSION.SDK_INT >= 31) o.put("exact", AlarmScheduler.canExact(MainActivity.this));
+                o.put("battery", batteryFree());
+                o.put("next", prefs.getLong("alarm_next", 0));
+            } catch (Exception ignored) { }
+            return o.toString();
+        }
+
+        @JavascriptInterface public void askOverlay() {
+            main.post(() -> {
+                try { startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()))); }
+                catch (Exception e) { try { startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)); } catch (Exception ignored) { } }
+            });
+        }
+
+        @JavascriptInterface public void askExact() {
+            if (Build.VERSION.SDK_INT < 31) return;
+            main.post(() -> {
+                try { startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, Uri.parse("package:" + getPackageName()))); } catch (Exception ignored) { }
+            });
         }
 
         @JavascriptInterface public void askNotif() {

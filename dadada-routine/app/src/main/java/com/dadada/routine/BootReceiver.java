@@ -10,6 +10,7 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context c, Intent i) {
         String a = i.getAction();
         if (!Intent.ACTION_BOOT_COMPLETED.equals(a) && !Intent.ACTION_MY_PACKAGE_REPLACED.equals(a)) return;
+        AlarmScheduler.scheduleAll(c);
         String base = c.getSharedPreferences(MainActivity.PREFS, Context.MODE_PRIVATE).getString("rx_base", "");
         if (!base.isEmpty()) InboxService.start(c);
     }
