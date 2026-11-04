@@ -48,6 +48,15 @@ jobs:
           cp animal-village/app/build/outputs/apk/release/app-release.apk animal-village.apk
           AS=$(ls -d $ANDROID_HOME/build-tools/*/ | sort -V | tail -1)apksigner
           "$AS" verify --print-certs animal-village.apk | grep -i "SHA-256"
+      - name: 기기 연동 서버 확인
+        run: |
+          U="https://ozpwyqymmfygldqdcqki.supabase.co/rest/v1/av_players"
+          K="sb_publishable_7hV0ZJy5kLwk_yIkwJRq8g_r8_Yh8mA"
+          G=$(curl -s -o /tmp/g.txt -w "%{http_code}" "$U?select=id&limit=1" -H "apikey: $K")
+          P=$(curl -s -o /tmp/p.txt -w "%{http_code}" -X POST "$U?on_conflict=id" -H "apikey: $K" -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" -d '[{"id":"zz_check","t":0,"del":true,"data":null}]')
+          D=$(curl -s -o /tmp/d.txt -w "%{http_code}" -X DELETE "$U?id=eq.zz_check" -H "apikey: $K")
+          echo "SYNC_CHECK=읽기 $G · 쓰기 $P · 지우기 $D" >> $GITHUB_ENV
+          echo "읽기 $G 쓰기 $P 지우기 $D"; cat /tmp/g.txt /tmp/p.txt /tmp/d.txt
       - name: 릴리스에 올리기 (항상 같은 주소)
         env:
           GH_TOKEN: ${{ github.token }}
@@ -59,4 +68,4 @@ jobs:
             --target "${{ github.sha }}" \
             --latest=false --prerelease \
             --title "우리 동물 마을 베타 v0.1.${{ github.run_number }}" \
-            --notes "태블릿 베타 버전이에요. animal-village.apk 를 눌러 내려받아 설치하세요. 다음 베타도 같은 서명이라 지금 깔린 앱 위에 그대로 설치하면 게임 기록이 유지돼요."
+            --notes "태블릿 베타 버전이에요. animal-village.apk 를 눌러 내려받아 설치하세요. 다음 베타도 같은 서명이라 지금 깔린 앱 위에 그대로 설치하면 게임 기록이 유지돼요. (연동 서버: ${{ env.SYNC_CHECK }})"
