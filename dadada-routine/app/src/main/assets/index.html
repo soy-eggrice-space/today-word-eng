@@ -13,7 +13,7 @@
 @font-face{font-family:'IBM Plex Sans KR';src:url('fonts/IBMPlexSansKR-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
 </style>
 <style>
-/* Layout: three racing lanes, one per child — pictogram tiles, a podium at the finish line */
+/* Layout: three lanes, one per child — pictogram tiles; everyone who finishes gets the same stars */
 :root{
   --bg:#F4F6FB; --surface:#FFFFFF; --surface-2:#F3F5FA; --line:#E1E5EE;
   --ink:#232A3D; --ink-2:#5F6880; --ink-3:#959DB0;
@@ -1043,7 +1043,7 @@ function show(){
 
 function ring(k,st){
   const C=2*Math.PI*21,p=st.total?st.done/st.total:0;
-  return `<span class="ring kid" style="--k:${k.color}"><svg class="r" viewBox="0 0 48 48"><circle class="bg" cx="24" cy="24" r="21"/><circle class="fg" cx="24" cy="24" r="21" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${(C*(1-p)).toFixed(2)}"/></svg>${avatar(k,44)}${st.finished?`<span class="ring-medal">${medal(st.e.rank,28)}</span>`:''}</span>`;
+  return `<span class="ring kid" style="--k:${k.color}"><svg class="r" viewBox="0 0 48 48"><circle class="bg" cx="24" cy="24" r="21"/><circle class="fg" cx="24" cy="24" r="21" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${(C*(1-p)).toFixed(2)}"/></svg>${avatar(k,44)}${st.finished?`<span class="ring-medal">${doneBadge(26)}</span>`:''}</span>`;
 }
 
 function renderHome(){
@@ -1075,7 +1075,7 @@ function renderHome(){
     </header>
     <section class="cards">${cards}</section>
     <section class="board" aria-label="별 모으기">
-      <div class="board-h"><div><h2>별 모으기</h2><p>엄마 아빠 확인을 먼저 받으면 별 3개, 그다음 2개, 그다음 1개</p></div>
+      <div class="board-h"><div><h2>별 모으기</h2><p>루틴을 다 하고 엄마 아빠 확인을 받으면 누구나 별 3개</p></div>
         <button class="tbtn" data-act="cal">${ui('cal')}달력 보기</button></div>
       <div class="board-row">${board}</div>
     </section>
@@ -1084,6 +1084,8 @@ function renderHome(){
   holdable($('#editBtn'),900,()=>{view.from='home';view.screen='edit';show()});
 }
 
+const STARS_DONE=3;
+const doneBadge=(sz=48)=>`<svg viewBox="0 0 48 48" width="${sz}" height="${sz}" aria-hidden="true" style="flex:none"><circle cx="24" cy="24" r="21" fill="var(--gold)"/><circle cx="24" cy="24" r="16.5" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"/><path d="M15 24.5l6 6 12-13" fill="none" stroke="#FFFFFF" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 function podiumHtml(rid){
   const d=S.log[todayKey()]?.[rid]||{};
   const slot=r=>{const k=S.kids.find(k=>d[k.id]?.rank===r);
@@ -1092,10 +1094,9 @@ function podiumHtml(rid){
 }
 function rewardHtml(rid,st){
   if(!st.total) return '';
-  if(st.finished) return `<div class="finish" style="--m:${MEDAL[st.e.rank]}">${medal(st.e.rank,52)}<div><b>${st.e.rank}등!</b>${starRow(st.e.stars,20)}</div></div>`;
+  if(st.finished) return `<div class="finish" style="--m:var(--gold)">${doneBadge(52)}<div><b>다 했어요!</b>${starRow(st.e.stars,20)}</div></div>`;
   if(st.e.wait) return `<div class="reward">엄마 아빠 확인을 기다려요</div>`;
-  const n=nextStars(rid);
-  return `<div class="reward">지금 끝내면 ${starRow(n,22,3-n)}</div>`;
+  return `<div class="reward">다 하면 ${starRow(STARS_DONE,22)}</div>`;
 }
 function laneHtml(rid,k){
   const st=status(rid,k.id);
@@ -1113,7 +1114,7 @@ function laneHtml(rid,k){
       <p class="call-t">엄마 아빠,<br>다 했어요!</p>
       <p class="call-s">엄마나 아빠를 불러 주세요</p>
       <button class="call-ok" data-hold="ok" data-kid="${k.id}">${ui('check')}꾹 눌러 최종 확인</button>
-      <span class="call-hint">엄마 아빠가 확인하면 등수가 정해져요</span>
+      <span class="call-hint">엄마 아빠가 확인하면 별을 받아요</span>
       <button class="call-no" data-act="callno" data-kid="${k.id}">아직 덜 했어요</button>
     </div>`:''}
   </section>`;
@@ -1125,7 +1126,6 @@ function renderRun(){
   <header class="band scene" data-rid="${rid}"><div class="wrap band-in">
     <button class="back bubble" data-act="home" aria-label="처음 화면으로">${ui('back')}</button>
     <div class="band-title"><span class="sc-ico">${ico(R.icon)}</span><div><h1>${R.name}</h1><p class="band-date">${dateLabel()}</p></div></div>
-    <div class="podium bubble" id="podium">${podiumHtml(rid)}</div>
   </div></header>
   <div class="wrap"><div class="lanes">${S.kids.map(k=>{ const h=laneHtml(rid,k); laneCache.set(k.id,h); return h; }).join('')}</div></div>`;
   bindHolds();
@@ -1138,14 +1138,13 @@ function refreshLanes(){
   for(const k of S.kids){ const el=$(`.lane[data-kid="${k.id}"]`), html=laneHtml(rid,k);
     if(!el){ renderRun(); return; }
     if(laneCache.get(k.id)!==html) swapLane(el,k.id,html); }
-  $('#podium').innerHTML=podiumHtml(rid); bindHolds();
+  bindHolds();
 }
 function refreshRun(kid){
   const rid=view.rid;
   const old=$(`.lane[data-kid="${kid}"]`);
   if(old) swapLane(old,kid,laneHtml(rid,kidById(kid)));
   for(const k of S.kids) if(k.id!==kid){const rw=$(`.lane[data-kid="${k.id}"] .rw`); if(rw) rw.innerHTML=rewardHtml(rid,status(rid,k.id)); laneCache.set(k.id,laneHtml(rid,k));}
-  $('#podium').innerHTML=podiumHtml(rid);
   bindHolds();
 }
 
@@ -1166,7 +1165,7 @@ function tapTask(kid,tid){
 }
 function confirmKid(kid){
   const rid=view.rid,e=entry(rid,kid); if(!e.wait||e.rank) return;
-  e.wait=false; const r=Math.min(maxRank(rid)+1,3); e.rank=r; e.stars=4-r; e.ok=Date.now();
+  e.wait=false; const r=1; e.rank=r; e.stars=STARS_DONE; e.ok=Date.now();
   S.bank[kid]=(S.bank[kid]||0)+e.stars;
   save(); pushEntry(rid,kid); rinc(`bank/${kid}`,e.stars); refreshRun(kid); tone([523,659,784,1047],.32,'triangle',.11); celebrate(kid,r,e.stars);
 }
@@ -1182,7 +1181,7 @@ function celebrate(kid,rank,stars){
   const cols=[crayon(kidById(kid).color),'#FFFFFF','#FFD45E','#FF9FB8','#8FD3FF','#9BE3A6'];
   let conf=''; const H=ln.offsetHeight+40;
   for(let n=0;n<28;n++){conf+=`<span class="cf" style="left:${Math.random()*100}%;background:${cols[n%cols.length]};--dx:${(Math.random()*80-40).toFixed(0)}px;--dy:${H}px;--rot:${(Math.random()*720-360).toFixed(0)}deg;animation-delay:${(Math.random()*.5).toFixed(2)}s;width:${6+Math.random()*7|0}px"></span>`}
-  c.innerHTML=`${conf}<div class="cele-in"><div class="cele-medal">${medal(rank,136)}</div><div class="cele-t">${rank}등!</div>${starRow(stars,34)}<div class="cele-sub">다 했어요</div></div>`;
+  c.innerHTML=`${conf}<div class="cele-in"><div class="cele-medal">${doneBadge(136)}</div><div class="cele-t">다 했어요!</div>${starRow(stars,34)}<div class="cele-sub">별 ${stars}개를 받았어요</div></div>`;
   ln.appendChild(c); setTimeout(()=>c.remove(),3100);
 }
 
@@ -1690,11 +1689,11 @@ function editPhr(){
 const cal={y:0,m:0,sel:null,kid:'all'};
 const dKey=(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`;
 function dayStars(dk,kid){const d=S.log[dk];if(!d)return 0;let n=d._x?.[kid]||0;for(const r of RIDS)n+=d[r]?.[kid]?.stars||0;return n}
-const firsts=(dk,kid)=>{const d=S.log[dk];return d?RIDS.filter(r=>d[r]?.[kid]?.rank===1).length:0};
+const firsts=(dk,kid)=>{const d=S.log[dk];return d?RIDS.filter(r=>d[r]?.[kid]?.rank).length:0};
 function openCal(){const t=new Date();cal.y=t.getFullYear();cal.m=t.getMonth();cal.sel=todayKey();view.screen='cal';show()}
 function detailHtml(dk,kids){
   const [Y,M,D]=dk.split('-').map(Number), dd=S.log[dk]||{};
-  const cell=e=>e?.rank?`${medal(e.rank,30)}${starRow(e.stars,13)}`:e?.wait?'<span class="muted">확인 대기</span>':e?.done?.length?`<span class="muted">${e.done.length}개 했어요</span>`:'<span class="muted">–</span>';
+  const cell=e=>e?.rank?`${doneBadge(28)}${starRow(e.stars,13)}`:e?.wait?'<span class="muted">확인 대기</span>':e?.done?.length?`<span class="muted">${e.done.length}개 했어요</span>`:'<span class="muted">–</span>';
   const head=`<span></span>${kids.map(k=>`<span class="dt-h">${avatar(k,40)}${esc(k.name)}</span>`).join('')}`;
   const rows=RIDS.map(r=>`<span class="dt-r scene flat" data-rid="${r}"><span class="sc-ico">${ico(ROUT[r].icon)}</span>${ROUT[r].short}</span>${kids.map(k=>`<span class="dt-c">${cell(dd[r]?.[k.id])}</span>`).join('')}`).join('');
   const extra=kids.some(k=>dd._x?.[k.id])?`<span class="dt-r">다시 시작 전</span>${kids.map(k=>`<span class="dt-c">${dd._x?.[k.id]?starRow(Math.min(dd._x[k.id],6),13)+`<span class="muted">${dd._x[k.id]}개</span>`:'<span class="muted">–</span>'}</span>`).join('')}`:'';
@@ -1714,13 +1713,13 @@ function renderCal(){
     let inner='',style='';
     if(one){const k=kids[0],n=dayStars(dk,k.id),f=firsts(dk,k.id);
       style=`--k:${k.color};--p:${Math.min(n*7,56)}%`;
-      inner=n?`${f?`<span class="cd-first">${Array.from({length:f},()=>medal(1,18)).join('')}</span>`:''}<span class="cd-big">${star(16)}${n}</span>`:'';}
+      inner=n?`${f?`<span class="cd-first">${Array.from({length:f},()=>doneBadge(16)).join('')}</span>`:''}<span class="cd-big">${star(16)}${n}</span>`:'';}
     else inner=kids.map(k=>{const n=dayStars(dk,k.id);return n?`<span class="cd-dot kid" style="--k:${k.color}"><i></i>${n}</span>`:''}).join('');
     cells+=`<button class="${cls}" data-act="csel" data-date="${dk}" ${fut?'disabled':''} style="${style}" aria-label="${m+1}월 ${d}일"><span class="cd-n">${d}</span><span class="cd-k">${inner}</span></button>`;
   }
   const sums=S.kids.filter(k=>one?k.id===cal.kid:true).map(k=>{let s=0,f=0,act=0;
     for(let d=1;d<=days;d++){const dk=dKey(y,m,d),n=dayStars(dk,k.id);s+=n;f+=firsts(dk,k.id);if(n)act++}
-    return `<div class="ms kid" style="--k:${k.color}">${avatar(k,50)}<div style="min-width:0"><b>${esc(k.name)}</b><small>1등 ${f}번 · 별 받은 날 ${act}일</small></div><span class="big">${star(26)}${s}</span></div>`}).join('');
+    return `<div class="ms kid" style="--k:${k.color}">${avatar(k,50)}<div style="min-width:0"><b>${esc(k.name)}</b><small>다 한 루틴 ${f}번 · 별 받은 날 ${act}일</small></div><span class="big">${star(26)}${s}</span></div>`}).join('');
   const t=new Date(), isNow=y===t.getFullYear()&&m===t.getMonth();
   $('#cal').innerHTML=`<div class="wrap">
     <header class="cal-top"><button class="back" data-act="home" aria-label="처음 화면으로">${ui('back')}</button><h1>별 달력</h1>
@@ -1730,7 +1729,7 @@ function renderCal(){
       <section class="panel">
         <div class="wk">${WD.map(w=>`<span>${w}</span>`).join('')}</div>
         <div class="days">${cells}</div>
-        <p class="hint">${one?'색이 진할수록 별을 많이 받은 날이에요. 작은 메달은 1등 한 횟수예요.':'날짜를 누르면 그날 루틴별 등수를 볼 수 있어요.'}</p>
+        <p class="hint">${one?'색이 진할수록 별을 많이 받은 날이에요. 작은 체크는 그날 다 한 루틴 수예요.':'날짜를 누르면 그날 루틴별로 다 했는지 볼 수 있어요.'}</p>
       </section>
       <div class="cal-side">
         <section class="panel"><h2><span>${m+1}월 모은 별</span></h2>${sums}</section>
@@ -1833,7 +1832,7 @@ function editSync(){
       <ol class="sync-steps">
         <li>처음 연결한 기기의 기록이 올라가요. 그다음 연결하는 기기는 그 기록을 받아와요.</li>
         <li>체크, 엄마 아빠 확인, 별, 할 일 편집, 아이 설정이 모두 같이 바뀌어요.</li>
-        <li>아이가 다 하면 폰에서도 "다 했어요!" 창이 떠요. 폰에서 꾹 눌러 확인하면 태블릿에서 메달이 터져요.</li>
+        <li>아이가 다 하면 폰에서도 "다 했어요!" 창이 떠요. 폰에서 꾹 눌러 확인하면 태블릿에서 축하 화면이 나와요.</li>
         <li>인터넷이 잠깐 끊겨도 기기 안에 저장해 뒀다가, 다시 연결되면 올려요.</li>
       </ol>
     </section>
