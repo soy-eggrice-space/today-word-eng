@@ -539,6 +539,87 @@ h1,h2,h3,p{margin:0}
 .rb-send{width:56px;height:56px;border-radius:16px;background:var(--bub-ink);color:var(--on-bub);display:grid;place-items:center;flex:none}
 .rb-send .ui{width:26px;height:26px}
 .chat-wrap{padding-bottom:280px !important}
+:root{--sc-f-a:#FFE9C7;--sc-f-b:#FFF6BF;--food-ink:#E07A1F;--food-tint:#FFD28A}
+.scene[data-rid="food"]{--a:var(--sc-f-a);--b:var(--sc-f-b);--sink:var(--ink);--sc-ic:var(--food-ink);--sc-tint:var(--food-tint)}
+.scene[data-rid="food"]::before{background:radial-gradient(280px 280px at 96% -6%,rgba(255,200,90,.45),transparent 70%)}
+.fico{--fz:44px;width:var(--fz);height:var(--fz);flex:none;display:grid;place-items:center;border-radius:30%;background:color-mix(in oklab,var(--ft) 55%,#fff);color:var(--fc);--ic-tint:var(--ft)}
+.fico .ic{width:82%;height:82%}
+.fd-mini{display:flex;gap:14px;flex-wrap:wrap}
+.fdm{display:flex;align-items:center;gap:6px}
+.fdm b{font:44px/1 var(--f-d);font-weight:400;color:color-mix(in oklab,var(--k) 75%,#000);font-variant-numeric:tabular-nums}
+.dash .dash-replies{grid-column:auto}
+.fd-lanes{align-items:stretch}
+.fd-lane{gap:14px}
+.fd-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px}
+.fd-who small{font-size:14px;color:var(--ink-2)}
+.fd-num{font:78px/.9 var(--f-d);color:color-mix(in oklab,var(--k) 78%,#000);font-variant-numeric:tabular-nums;display:flex;align-items:baseline;gap:2px;padding-right:4px}
+.fd-num small{font-size:20px;color:var(--ink-2)}
+.fd-num.bump{animation:fdBump .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes fdBump{0%{transform:scale(1)}35%{transform:scale(1.45) rotate(-6deg)}100%{transform:scale(1)}}
+.fd-can,.fd-try{border-radius:24px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.fd-can{background:var(--surface);box-shadow:0 2px 0 color-mix(in oklab,var(--k) 25%,transparent)}
+.fd-can h3,.fd-try h3{font:20px var(--f-d);font-weight:400;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fd-can h3{color:#2F9C6B}
+.fd-can h3 .ui{width:22px;height:22px;stroke-width:3}
+.fd-try h3 small{font:13px var(--f-b,inherit);color:var(--ink-2)}
+.fd-chips{display:flex;flex-wrap:wrap;gap:8px;max-height:min(30vh,260px);overflow:auto;align-content:flex-start;min-height:64px}
+.fd-chip{display:flex;align-items:center;gap:6px;padding:5px 12px 5px 5px;border-radius:999px;background:color-mix(in oklab,var(--k) 12%,var(--surface));font:17px var(--f-d);color:var(--ink);max-width:100%}
+.fd-chip .fico{--fz:36px;border-radius:50%}
+.fd-chip span:last-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fd-chip.arriving{visibility:hidden}
+.fd-chip.pop{animation:fdPop .45s cubic-bezier(.3,1.6,.5,1)}
+.fd-chip.wig{animation:fdWig .5s ease}
+@keyframes fdPop{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+@keyframes fdWig{25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+.fd-try{border:3px dashed color-mix(in oklab,var(--k) 40%,transparent);background:color-mix(in oklab,var(--k) 6%,transparent);position:relative}
+.fd-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:10px}
+.fd-tile{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px 10px;border-radius:22px;background:var(--surface);box-shadow:var(--shadow);font:20px/1.15 var(--f-d);text-align:center;min-height:150px;justify-content:center}
+.fd-tile .fico{--fz:72px}
+.fd-tile .ft-name{word-break:keep-all}
+.fd-tile .ft-hint{display:flex;align-items:center;gap:2px;font:13px var(--f-b,inherit);color:color-mix(in oklab,var(--k) 70%,#000);background:color-mix(in oklab,var(--k) 14%,transparent);border-radius:999px;padding:3px 9px 3px 5px}
+.fd-tile .ft-hint .ui{width:15px;height:15px;stroke-width:3}
+.fd-tile:active{transform:scale(.95)}
+.fd-empty{font-size:15px;color:var(--ink-3,var(--ink-2));padding:6px 4px}
+.fd-undo{align-self:flex-start;display:flex;align-items:center;gap:4px;font-size:14px;padding:6px 12px;border-radius:999px;background:var(--surface);color:var(--ink-2);box-shadow:var(--shadow)}
+.fd-undo .ui{width:16px;height:16px}
+.fd-ghost{position:fixed;z-index:80;pointer-events:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-radius:22px;background:var(--surface);box-shadow:0 12px 30px rgba(0,0,0,.2);font:20px var(--f-d);transform-origin:0 0}
+.fd-ghost .fico{--fz:64px}
+.fd-burst{position:absolute;width:0;height:0;pointer-events:none;z-index:5}
+.fd-burst i{position:absolute;width:10px;height:10px;border-radius:3px;left:-5px;top:-5px;animation:fdBurst .8s ease-out forwards}
+@keyframes fdBurst{to{transform:translate(var(--x),var(--y)) rotate(200deg);opacity:0}}
+.dash-card.foodc .dc-head .sc-ico{background:var(--sc-f-a);color:var(--food-ink);--ic-tint:var(--food-tint)}
+.fd-tally{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ftl{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:20px;background:color-mix(in oklab,var(--k) 11%,var(--surface))}
+.ftl span{display:flex;flex-direction:column;line-height:1}
+.ftl small{font-size:13px;color:var(--ink-2)}
+.ftl b{font:36px/1 var(--f-d);font-weight:400;color:color-mix(in oklab,var(--k) 78%,#000)}
+.btn.fd-addbtn{min-height:62px;font-size:21px;gap:8px;display:flex;align-items:center;justify-content:center;width:100%;flex:none !important;background:#F08A2C}
+.fd-addbtn .ui{width:26px;height:26px;stroke-width:3}
+.fd-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.fd-list li{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:20px;background:var(--surface-2)}
+.fl-name{flex:1;min-width:0;font:19px var(--f-d);display:flex;flex-direction:column}
+.fl-name small{font:12px var(--f-b,inherit);color:var(--ink-2)}
+.fl-kids{display:flex;gap:4px}
+.fl-k{position:relative;border-radius:50%;opacity:.35;filter:grayscale(.7);transition:opacity .15s}
+.fl-k.on{opacity:1;filter:none}
+.fl-k .tick{position:absolute;right:-3px;bottom:-3px;width:18px;height:18px;border-radius:50%;background:#2F9C6B;color:#fff;display:none;place-items:center}
+.fl-k .tick .ui{width:12px;height:12px;stroke-width:3.5}
+.fl-k.on .tick{display:grid}
+.fd-note{font-size:13px;color:var(--ink-2)}
+.fd-form{display:flex;align-items:center;gap:10px}
+.fd-form input{flex:1;min-width:0;height:64px;border-radius:20px;border:2px solid var(--line,#DDE2EE);background:var(--surface-2);padding:0 16px;font:22px var(--f-d);color:var(--ink)}
+.fd-form .btn{flex:none !important;min-height:64px;padding:0 22px;background:#F08A2C}
+.fd-sheet h3 small{font:13px var(--f-b,inherit);color:var(--ink-3,var(--ink-2));margin-left:6px}
+.fd-pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:6px}
+.fdp{display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px;border-radius:18px;border:3px solid transparent;font-size:13px;color:var(--ink-2)}
+.fdp[aria-pressed="true"]{border-color:#F08A2C;background:#FFF3E3;color:var(--ink)}
+.fd-today{display:flex;flex-wrap:wrap;gap:8px}
+.fdt{display:flex;align-items:center;gap:6px;padding:4px 4px 4px 4px;border-radius:999px;background:var(--surface-2);font:17px var(--f-d)}
+.fdt>span:not(.fico){padding-right:2px}
+.fdt .ib{width:34px;height:34px}
+.fdt.re{padding-right:12px;color:var(--ink)}
+.fdt.re .ui{width:18px;height:18px;color:#F08A2C;stroke-width:3}
+@media (max-width:640px){.fd-tally{grid-template-columns:1fr 1fr 1fr}.ftl{flex-direction:column;gap:4px;align-items:center;text-align:center}.ftl span{align-items:center}.fd-form{flex-wrap:wrap}.fd-form .btn{width:100%}.fl-k .ava{--s:30px !important;width:30px;height:30px}}
 .ov-need{display:flex;align-items:center;gap:16px;margin-top:18px;padding:16px 18px;border-radius:26px;background:#FFF4E0;border:2px solid #F7C77A}
 .ov-need .sc-ico{width:56px;height:56px;border-radius:18px;background:#FFE3B0;color:#B86A00;--ic-tint:#FFF3D6;display:grid;place-items:center;flex:none}
 .ov-need .sc-ico .ic{width:40px;height:40px}
@@ -575,7 +656,7 @@ h1,h2,h3,p{margin:0}
 .stop-st.done .ui{width:24px;height:24px}
 .mini-link{margin-left:auto;min-height:40px;padding:0 12px;font-size:15px}
 .mini-link .ui{width:18px;height:18px}
-@media (max-width:760px){.pdash{display:flex;flex-direction:column;align-items:stretch}.pcol{display:contents}.pdash .stopc{order:1}.pdash .rooms{order:2}.pdash .today{order:3}.pdash .med{order:4}.pdash .picker{order:5}}
+@media (max-width:760px){.pdash{display:flex;flex-direction:column;align-items:stretch}.pcol{display:contents}.pdash .stopc{order:1}.pdash .foodc{order:1}.pdash .rooms{order:2}.pdash .today{order:3}.pdash .med{order:4}.pdash .picker{order:5}}
 @media (max-width:420px){.stop-b{min-height:80px}.stop-b b{font-size:34px}}
 .alarm-pop{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:24px;background:linear-gradient(160deg,#FFD66E,#FF9F6E 55%,#F07FA2);animation:callIn .3s ease both}
 .ap-in{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;max-width:1000px}
@@ -735,6 +816,7 @@ h1,h2,h3,p{margin:0}
 <main id="room" class="screen" hidden></main>
 <main id="home" class="screen" hidden></main>
 <main id="run" class="screen" hidden></main>
+<main id="food" class="screen" hidden></main>
 <main id="edit" class="screen" hidden></main>
 <main id="cal" class="screen" hidden></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -794,6 +876,23 @@ const ICONS={
   phone:'<rect class="t" x="13" y="5" width="20" height="38" rx="4"/><path d="M20 37h6"/><path d="M37 15a8 8 0 0 1 0 11M41 11a14 14 0 0 1 0 19"/>',
   tv:'<rect class="t" x="6" y="13" width="36" height="25" rx="4"/><path d="M17 5l7 8 7-8M16 43h16"/>',
   daycare:'<path class="t" d="M8 42V22l16-11 16 11v20z"/><path d="M4 42h40M20 42v-8a4 4 0 0 1 8 0v8M24 11V3l8 3-8 3"/><circle cx="15.5" cy="27" r="2.6"/><circle cx="32.5" cy="27" r="2.6"/>',
+  yum:'<circle class="t" cx="24" cy="25" r="11"/><circle cx="24" cy="25" r="6"/><path d="M6 8v8a3 3 0 0 0 6 0V8M9 8v34M40 8c-3 0-4.5 4-4.5 9s1.5 7 4.5 7v18"/>',
+  fd_rice:'<path class="t" d="M10 24c0-7 6.3-12 14-12s14 5 14 12z"/><path d="M6 24h36c0 9-7.5 15-18 15S6 33 6 24zM18 43h12"/><path d="M19 18.5l1.5 1M26 16.5l1.5 1M29.5 21l1.5 1M21.5 21.5l1.5 1"/>',
+  fd_noodle:'<path class="t" d="M6 24h36c0 9-7.5 15-18 15S6 33 6 24z"/><path d="M15 24c-2-3 2-5 0-8M21 24c-2-3 2-5 0-8M18 43h12M28 22L40 6M33 22L44 9"/>',
+  fd_soup:'<path d="M6 22h36c0 10-7.5 16-18 16S6 32 6 22zM18 42h12"/><path class="tf" d="M8.6 27h30.8c-2.2 6-8.2 9-15.4 9S10.8 33 8.6 27z"/><path d="M17 16c-2-3 2-4.5 0-8M24 16c-2-3 2-4.5 0-8M31 16c-2-3 2-4.5 0-8"/>',
+  fd_meat:'<path class="t" d="M8 22c0-8 8-13 17-13s15 6 15 14-6 14-16 14c-5 0-7-3-10-4S8 29 8 22z"/><circle cx="31" cy="21" r="4.5"/><path d="M15 26c3 0 5-2 6-5"/>',
+  fd_fish:'<path class="t" d="M4 24c5-8 12-12 19-12s12 5 14 12c-2 7-7 12-14 12S9 32 4 24z"/><path d="M37 24l7-8v16z"/><circle class="s" cx="13" cy="22" r="2"/><path d="M24 16.5c2 4 2 11 0 15"/>',
+  fd_egg:'<path style="fill:#fff" d="M9 25c-3-7 3-14 10-13 4-5 14-4 16 3 6 2 7 12 1 16-2 6-12 8-17 4-6 1-12-4-10-10z"/><circle class="t" cx="23" cy="24" r="6.5"/>',
+  fd_veg:'<path d="M24 27v15M19 42h10M24 34l-5-5M24 33l5-5"/><path class="t" d="M14 28a7 7 0 0 1-1.5-13.5A8.5 8.5 0 0 1 24 7a8.5 8.5 0 0 1 11.5 7.5A7 7 0 0 1 34 28z"/>',
+  fd_carrot:'<path class="t" d="M33 15c-3-3-7-3-10 0L7 38c-1 1.3.4 3 2 2l24-15c3-3 3-7 0-10z"/><path d="M33 15l3-9M33 15l9-3M33 15l9 4M18 24l3 3M13 31l3 3"/>',
+  fd_fruit:'<path class="t" d="M24 16c-4-3-15-3-15 8 0 9 6 18 11 18 2 0 3-1 4-1s2 1 4 1c5 0 11-9 11-18 0-11-11-11-15-8z"/><path d="M24 16c0-4 1-7 3-9M26 11c3-3 8-2 9 0-3 3-7 3-9 0z"/>',
+  fd_bread:'<path class="t" d="M9 22c-4-2-4-12 6-12h18c10 0 10 10 6 12v16a3 3 0 0 1-3 3H12a3 3 0 0 1-3-3z"/><path d="M17 26l4-4M25 28l4-4"/>',
+  fd_tofu:'<path class="t" d="M8 18l16-8 16 8v16l-16 8-16-8z"/><path d="M8 18l16 8 16-8M24 26v16"/>',
+  fd_mushroom:'<path class="t" d="M6 24C6 14 14 7 24 7s18 7 18 17z"/><path d="M17 24v11a7 7 0 0 0 14 0V24"/><circle class="s" cx="17" cy="16" r="2.4"/><circle class="s" cx="29" cy="14" r="2"/><circle class="s" cx="33" cy="20" r="1.6"/>',
+  fd_kimbap:'<circle cx="24" cy="24" r="17"/><circle class="t" cx="24" cy="24" r="11"/><circle class="s" cx="20.5" cy="21" r="2.4"/><circle class="s" cx="27.5" cy="22" r="2.4"/><circle class="s" cx="23" cy="28.5" r="2.4"/>',
+  fd_dumpling:'<path class="t" d="M5 30c0-10 9-17 19-17s19 7 19 17c-5 4-12 6-19 6S10 34 5 30z"/><path d="M15 17c1 3 1 6 0 9M24 14v11M33 17c-1 3-1 6 0 9"/>',
+  fd_chili:'<path class="t" d="M35 15C33 28 22 38 8 40c6-5 11-13 15-23 3-5 9-6 12-2z"/><path d="M35 15c0-4 2-7 6-8M30 13c2-2 5-2 7 0"/>',
+  fd_dish:'<path class="t" d="M7 24h34c0 9.5-7.6 16-17 16S7 33.5 7 24z"/><path d="M18 43h12M17 18c-2-3 2-4.5 0-8M24 18c-2-3 2-4.5 0-8M31 18c-2-3 2-4.5 0-8"/>',
   timer:'<circle class="t" cx="24" cy="27" r="16"/><path d="M24 27l6-6M19 5h10M24 5v6M37 13l3-3"/>',
   help:'<path class="t" d="M15 27V14a2.5 2.5 0 0 1 5 0v9V10a2.5 2.5 0 0 1 5 0v13V12a2.5 2.5 0 0 1 5 0v12-6a2.5 2.5 0 0 1 5 0v12c0 7.5-5 13-12 13h-1.5c-4 0-7-2-9-5.5L9 29.5a2.7 2.7 0 0 1 4.4-3.1z"/>',
   goodmorning:'<circle class="t" cx="24" cy="27" r="11"/><path d="M24 7v4M7 27H3.5M44.5 27H41M11.5 14.5l2.8 2.8M36.5 14.5l-2.8 2.8"/><path d="M19.2 25.6q1.6-1.8 3.2 0M25.6 25.6q1.6-1.8 3.2 0M20 30.5q4 3.6 8 0"/>',
@@ -813,6 +912,7 @@ const ANIMALS={
 };
 const ANIMAL_NAMES={rabbit:'토끼',bear:'곰',cat:'고양이',puppy:'강아지',chick:'병아리'};
 const UI={
+  plus:'<path d="M12 5v14M5 12h14"/>',
   back:'<path d="M15 5l-7 7 7 7"/>',
   sound:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19.5 5.5a9 9 0 0 1 0 13"/>',
   mute:'<path d="M4 9v6h4l5 4V5L8 9z"/><path d="M17 9.5l5 5M22 9.5l-5 5"/>',
@@ -959,11 +1059,15 @@ function normalize(s){
   s.replies=(s.replies&&typeof s.replies==='object')?s.replies:{};
   s.meds=toArr(s.meds).filter(m=>m&&m.start&&m.slot&&m.days).map(m=>({...m,kids:toArr(m.kids)}));
   s.stop=(s.stop&&typeof s.stop==='object'&&s.stop.id&&Number(s.stop.at))?s.stop:null;
+  { const f=(s.foods&&typeof s.foods==='object')?s.foods:{}; const items={}, ate={};
+    for(const [id,v] of Object.entries(f.items||{})) if(v&&typeof v==='object'&&v.name) items[id]={...v,id};
+    for(const [k,v] of Object.entries(f.ate||{})) if(v&&typeof v==='object'){ ate[k]={}; for(const [id,t] of Object.entries(v)) if(t) ate[k][id]=t; }
+    s.foods={items,ate}; }
 }
 let S=load();
 function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}}
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
-const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop'];
+const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
 // 데이터베이스 주소는 앱에 넣고, 가족 공간 코드는 우리집 암호로만 만들어요 (암호는 어디에도 저장하지 않아요)
 const FAMILY_DB=window.__FAMILY_DB||'https://dadada-family-default-rtdb.asia-southeast1.firebasedatabase.app/dadada/';
@@ -1138,6 +1242,7 @@ function requestRender(){
   if(a&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA')){ renderPending=true; return; }
   renderPending=false;
   if(view.screen==='run') refreshLanes();
+  else if(view.screen==='food') renderFood(true);
   else if(view.screen==='home') renderHome();
   else if(view.screen==='family'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderFamily(); if(!CH.stick) window.scrollTo(0,y); }
   else if(view.screen==='room'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderRoom(); if(!CH.stick) window.scrollTo(0,y); }
@@ -1210,11 +1315,11 @@ const dateLabel=()=>{const d=new Date();return `${d.getMonth()+1}월 ${d.getDate
 
 function show(){
   if(view.screen!=='msg'&&typeof M!=='undefined'&&M.rec==='rec') recStop();
-  for(const s of ['welcome','family','room','msg','replies','home','run','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
+  for(const s of ['welcome','family','room','msg','replies','home','run','food','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
   if(view.screen==='family'&&isAdult()){ INB.prevSeen=S.inboxSeen||0; S.inboxSeen=Date.now(); save(); }
   if(view.screen==='replies'){ RP.prevSeen=S.repliesSeen||0; S.repliesSeen=Date.now(); save(); }
   if(view.screen==='room'||(view.screen==='family'&&isElder())) CH.stick=true;
-  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='cal') renderCal(); else renderEdit();
+  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='cal') renderCal(); else renderEdit();
   keepAwake(view.screen==='run');
   window.scrollTo(0,0);
 }
@@ -1568,6 +1673,7 @@ function renderInbox(){
     ${!S.sync?`<div class="ib-empty">${ico('bubble')}<b>아직 연결이 안 됐어요</b><p>꾹 눌러 편집 → 폰 연결에서 우리집 암호로 연결해 주세요.</p></div>`:''}
     <section class="pdash"><div class="pcol">
       ${stopCard()}
+      ${foodParentCard()}
       ${todayCard().replace('</div></div>',`</div><button class="tbtn mini-link" data-act="todo">별·기록 ${ui('next')}</button></div>`)}
       ${pickerCard()}
       </div><div class="pcol">
@@ -1667,8 +1773,9 @@ function renderFamily(){
       <button class="fcard scene" data-rid="msg" data-act="msg" aria-label="마음 전하기">
         <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">마음 전하기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
         <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${note}</span></button>
-      ${medCard()}
+      ${foodDashCard()}
       ${todayCard()}
+      ${medCard()}
       <div class="dash-replies">${replyStrip()}</div>
     </section>
     <p class="foot">편집 버튼은 아이들이 실수로 열지 않도록 1초쯤 꾹 눌러야 열려요.</p>
@@ -1785,6 +1892,147 @@ function renderHosp(){
     <div class="hchips">${SLOTS.map(sl=>`<button class="hchip wide" data-act="hslot" data-s="${sl}" aria-pressed="${H.slot===sl}">오늘 ${SLOT_NAME[sl]}</button>`).join('')}</div>
     <p class="h-prev">${esc(prev)}</p>
     <div class="btns"><button class="btn pri" data-act="hsave" ${ks.length?'':'disabled'}>할 일에 약 먹기 넣기</button><button class="btn sec" data-act="hclose">취소</button></div>
+  </div>`;
+}
+
+/* ===== 새 음식 도전 (편식 고치기) =====
+   엄마·아빠 폰: 오늘의 음식 넣기 → 아이들 태블릿: 아이마다 '오늘의 음식'에 있다가, 한 입이라도 먹어 본 아이가 누르면 '먹을 수 있어요!'로 옮겨져요 */
+const FOOD_ICONS={rice:{n:'밥',c:'#9A7B4F',t:'#FFF8E6'},soup:{n:'국',c:'#D0663A',t:'#FFD2B8'},noodle:{n:'면',c:'#C98A2E',t:'#FFE7A8'},meat:{n:'고기',c:'#B4483E',t:'#FFC2B8'},
+  fish:{n:'생선',c:'#3F86C6',t:'#CFE6FA'},egg:{n:'계란',c:'#D69A1A',t:'#FFD54F'},veg:{n:'채소',c:'#3C9A52',t:'#BDE8B0'},carrot:{n:'뿌리채소',c:'#E0731F',t:'#FFC08A'},
+  fruit:{n:'과일',c:'#D9443F',t:'#FFB8B0'},bread:{n:'빵',c:'#B27A35',t:'#F8D9A8'},tofu:{n:'두부·치즈',c:'#9A8F7A',t:'#FFFBEF'},mushroom:{n:'버섯',c:'#9A6A4B',t:'#E9CBB5'},
+  kimbap:{n:'김밥',c:'#2F5E3D',t:'#E7F5DB'},dumpling:{n:'만두',c:'#B58A4E',t:'#FFF1D6'},chili:{n:'김치·매운',c:'#D23B3B',t:'#FFB0A8'},dish:{n:'그 밖에',c:'#7A6FD0',t:'#E3DEFF'}};
+const FOOD_GUESS=[[/김밥|초밥|주먹밥|유부|^김$|김구이/,'kimbap'],[/만두/,'dumpling'],[/국수|면$|라면|우동|스파게티|파스타|짜장|짬뽕|냉면|쌀국수/,'noodle'],
+  [/밥|죽$|리조또/,'rice'],[/국$|탕$|찌개|스프|수프|전골/,'soup'],[/김치|깍두기|고추|떡볶이|매운/,'chili'],[/버섯/,'mushroom'],[/두부|치즈|묵$|요거트|요구르트/,'tofu'],
+  [/빵|토스트|샌드위치|케이크|와플|팬케이크|피자|베이글|머핀|쿠키/,'bread'],[/계란|달걀|메추리알|오믈렛|에그/,'egg'],
+  [/생선|고등어|갈치|연어|참치|새우|오징어|조개|굴$|굴무침|멸치|꽁치|삼치|동태|명태|대구|가자미|조기|낙지|문어|게살|전복|홍합|어묵/,'fish'],
+  [/고기|소고기|돼지|닭|불고기|갈비|스테이크|돈까스|돈가스|햄|소시지|치킨|너겟|미트볼|떡갈비|제육|오리|베이컨/,'meat'],
+  [/당근|^무$|무생채|무나물|고구마|감자|연근|우엉|비트|도라지/,'carrot'],
+  [/브로콜리|시금치|나물|상추|배추|양배추|오이|호박|콩나물|숙주|샐러드|채소|야채|가지|파프리카|피망|양파|아스파라거스|케일|깻잎|부추|미역|콩/,'veg'],
+  [/사과|^배$|딸기|포도|귤|오렌지|바나나|키위|수박|참외|복숭아|^감$|블루베리|망고|토마토|과일|자두|체리|파인애플|멜론|석류|레몬/,'fruit']];
+function guessFood(name){ const n=String(name||'').replace(/\s+/g,''); for(const [re,ic] of FOOD_GUESS) if(re.test(n)) return ic; return 'dish'; }
+const foodKey=name=>{ const n=String(name).normalize('NFC').replace(/\s+/g,'').toLowerCase(); let h=7; for(const ch of n) h=(Math.imul(h,31)+ch.codePointAt(0))>>>0; return 'f'+h.toString(36); };
+const fIco=(icon,s)=>{ const f=FOOD_ICONS[icon]||FOOD_ICONS.dish; return `<span class="fico" style="--fc:${f.c};--ft:${f.t}${s?`;--fz:${s}px`:''}">${ico('fd_'+(FOOD_ICONS[icon]?icon:'dish'))}</span>`; };
+const FD=()=>{ if(!S.foods||typeof S.foods!=='object') S.foods={items:{},ate:{}}; S.foods.items||(S.foods.items={}); S.foods.ate||(S.foods.ate={}); return S.foods; };
+const ateOf=kid=>FD().ate[kid]||{};
+const foodCount=kid=>{ const it=FD().items; return Object.keys(ateOf(kid)).filter(id=>it[id]).length; };
+const dayKeyOf=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const yesterdayKey=()=>{ const d=new Date(); d.setDate(d.getDate()-1); return dayKeyOf(d); };
+// '오늘의 음식' 칸에는 오늘·어제 넣은 음식이 있어요 (이틀 지나면 저절로 빠져요)
+const recentFoods=()=>{ const t=todayKey(), y=yesterdayKey(); return Object.values(FD().items).filter(f=>f.day===t||f.day===y).sort((a,b)=>(b.ts||0)-(a.ts||0)); };
+const pendingFoods=kid=>{ const a=ateOf(kid); return recentFoods().filter(f=>!a[f.id]); };
+const eatenFoods=kid=>{ const a=ateOf(kid), it=FD().items; return Object.keys(a).filter(id=>it[id]).sort((x,y)=>a[y]-a[x]).map(id=>it[id]); };
+const F={open:false,name:'',icon:'dish',manual:false,undo:null,fly:null};
+function addFood(name,icon){
+  name=String(name||'').trim().replace(/\s+/g,' ').slice(0,20); if(!name) return null;
+  const fd=FD(), id=foodKey(name), old=fd.items[id];
+  const it={id,name,icon:icon||old?.icon||guessFood(name),day:todayKey(),ts:Date.now(),by:S.role};
+  fd.items[id]=it; rset('foods/items/'+id,it); save(); return it;
+}
+function submitFood(){
+  const inp=$('#fdName'), name=(inp?inp.value:F.name).trim(); if(!name){ inp?.focus(); return; }
+  const it=addFood(name,F.icon); if(!it) return;
+  tone([660,880],.1,'triangle',.08); toast(`${it.name}, 태블릿 '오늘의 음식'에 넣었어요`);
+  F.name=''; F.icon='dish'; F.manual=false; renderFoodSheet(); requestRender(); setTimeout(()=>$('#fdName')?.focus(),60);
+}
+function delFood(fid){
+  const fd=FD(), f=fd.items[fid]; if(!f) return;
+  const eaten=S.kids.some(k=>ateOf(k.id)[fid]);
+  if(eaten){ f.day=''; rset(`foods/items/${fid}/day`,''); }        // 먹어 본 아이가 있으면 기록은 남기고 오늘 칸에서만 빼요
+  else { delete fd.items[fid]; rset('foods/items/'+fid,null); }
+  save(); toast(`${f.name}, 오늘의 음식에서 뺐어요`);
+}
+function setAte(kid,fid,on){
+  const fd=FD(); fd.ate[kid]||(fd.ate[kid]={});
+  if(on){ const t=Date.now(); fd.ate[kid][fid]=t; rset(`foods/ate/${kid}/${fid}`,t); }
+  else { delete fd.ate[kid][fid]; rset(`foods/ate/${kid}/${fid}`,null); }
+  save();
+}
+function togFood(kid,fid){ const on=!ateOf(kid)[fid]; setAte(kid,fid,on); const k=kidById(kid), f=FD().items[fid]; if(k&&f) toast(on?`${withI(k.name)} ${f.name}을(를) 먹었어요`:`${withI(k.name)} 기록을 지웠어요`); }
+function eatFood(kid,fid){
+  const k=kidById(kid), f=FD().items[fid]; if(!k||!f||ateOf(kid)[fid]) return;
+  const tile=document.querySelector(`.fd-lane[data-kid="${kid}"] .fd-tile[data-fid="${fid}"]`), r0=tile?.getBoundingClientRect();
+  setAte(kid,fid,true);
+  clearTimeout(F.undoT); F.undo={kid,fid}; F.undoT=setTimeout(()=>{ F.undo=null; if(view.screen==='food') swapFoodLane(kid); },7000);
+  F.fly={kid,fid}; swapFoodLane(kid);
+  const lane=document.querySelector(`.fd-lane[data-kid="${kid}"]`), chip=lane?.querySelector(`.fd-chip[data-fid="${fid}"]`);
+  tone([523,659,784,1047],.28,'triangle',.1); buzz();
+  sayText(`${withI(k.name)} ${f.name} 먹을 수 있어요! 최고!`);
+  if(r0&&chip){
+    const r1=chip.getBoundingClientRect(), g=document.createElement('div'); g.className='fd-ghost'; g.innerHTML=`${fIco(f.icon)}<span>${esc(f.name)}</span>`;
+    g.style.cssText=`left:${r0.left}px;top:${r0.top}px;width:${r0.width}px;height:${r0.height}px;--k:${k.color}`; document.body.appendChild(g);
+    const dx=r1.left-r0.left, dy=r1.top-r0.top, sx=r1.width/r0.width, sy=r1.height/r0.height;
+    const an=g.animate([{transform:'translate(0,0) scale(1)'},{transform:`translate(${dx*.5}px,${dy*.5-70}px) scale(1.15)`,offset:.45},{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`}],{duration:650,easing:'cubic-bezier(.3,.7,.3,1)'});
+    an.onfinish=()=>{ g.remove(); chip.classList.remove('arriving'); chip.classList.add('pop'); burstAt(lane,chip); };
+  } else chip?.classList.remove('arriving');
+  F.fly=null;
+}
+function undoFood(kid,fid){ clearTimeout(F.undoT); F.undo=null; setAte(kid,fid,false); swapFoodLane(kid); }
+function burstAt(lane,el){
+  if(!lane||!el) return; const lr=lane.getBoundingClientRect(), r=el.getBoundingClientRect(), c=document.createElement('div'); c.className='fd-burst';
+  c.style.left=(r.left-lr.left+r.width/2)+'px'; c.style.top=(r.top-lr.top+r.height/2)+'px';
+  const cols=['#FFD45E','#FF9FB8','#8FD3FF','#9BE3A6',crayon(kidById(lane.dataset.kid).color)];
+  c.innerHTML=Array.from({length:14},(_,i)=>{ const a=i/14*Math.PI*2, d=50+Math.random()*40; return `<i style="--x:${(Math.cos(a)*d).toFixed(0)}px;--y:${(Math.sin(a)*d).toFixed(0)}px;background:${cols[i%cols.length]}"></i>`; }).join('');
+  lane.appendChild(c); setTimeout(()=>c.remove(),900);
+  const n=lane.querySelector('.fd-num'); n?.classList.remove('bump'); void n?.offsetWidth; n?.classList.add('bump');
+}
+function foodLane(k){
+  const eaten=eatenFoods(k.id), pend=pendingFoods(k.id), n=eaten.length, u=F.undo&&F.undo.kid===k.id?F.undo:null;
+  const chips=eaten.map(f=>`<button class="fd-chip${F.fly&&F.fly.kid===k.id&&F.fly.fid===f.id?' arriving':''}" data-act="fdsay" data-fid="${f.id}">${fIco(f.icon)}<span>${esc(f.name)}</span></button>`).join('');
+  const tiles=pend.map(f=>`<button class="fd-tile" data-act="fdeat" data-kid="${k.id}" data-fid="${f.id}" aria-label="${esc(f.name)} 먹어 봤어요">${fIco(f.icon)}<span class="ft-name">${esc(f.name)}</span><span class="ft-hint">${ui('up')}먹어 봤어요</span></button>`).join('');
+  return `<section class="lane kid fd-lane" data-kid="${k.id}" style="--k:${k.color}" aria-label="${esc(k.name)}">
+    <div class="fd-head">${avatar(k,76)}<div class="fd-who"><div class="lane-name">${esc(k.name)}</div><small>먹어 본 음식</small></div><div class="fd-num" aria-label="${n}가지">${n}<small>가지</small></div></div>
+    <div class="fd-can"><h3>${ui('check')}먹을 수 있어요!</h3>
+      <div class="fd-chips">${chips||'<p class="fd-empty">오늘의 음식을 한 입 먹어 보면 여기로 와요</p>'}</div></div>
+    <div class="fd-try"><h3>오늘의 음식 <small>${pend.length?'한 입이라도 먹었으면 눌러요':''}</small></h3>
+      ${u?`<button class="fd-undo" data-act="fdundo" data-kid="${k.id}" data-fid="${u.fid}">${ui('back')}잘못 눌렀어요</button>`:''}
+      <div class="fd-tiles">${tiles||`<p class="fd-empty">${recentFoods().length?'오늘의 음식을 다 먹어 봤어요!':'엄마·아빠가 오늘의 음식을 넣으면 여기 나와요'}</p>`}</div></div>
+  </section>`;
+}
+function swapFoodLane(kid){ const el=document.querySelector(`.fd-lane[data-kid="${kid}"]`), k=kidById(kid); if(!el||!k) return; const sc=el.querySelector('.fd-chips')?.scrollTop||0; el.outerHTML=foodLane(k); const n=document.querySelector(`.fd-lane[data-kid="${kid}"] .fd-chips`); if(n) n.scrollTop=sc; }
+function renderFood(keep){
+  if(keep&&$('#food .lanes')){ if(document.querySelector('.fd-ghost')) return; for(const k of S.kids) swapFoodLane(k.id); return; }
+  const today=recentFoods().filter(f=>f.day===todayKey());
+  $('#food').innerHTML=`
+  <header class="band scene" data-rid="food"><div class="wrap band-in">
+    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
+    <div class="band-title"><span class="sc-ico">${ico('yum')}</span><div><h1>새 음식 도전</h1><p class="band-date">${today.length?`오늘의 음식 ${today.map(f=>esc(f.name)).join(' · ')}`:dateLabel()}</p></div></div>
+  </div></header>
+  <div class="wrap"><div class="lanes fd-lanes">${S.kids.map(foodLane).join('')}</div></div>`;
+}
+function foodDashCard(){
+  const pend=S.kids.reduce((n,k)=>n+pendingFoods(k.id).length,0);
+  return `<button class="fcard scene" data-rid="food" data-act="food" aria-label="새 음식 도전">
+    <span class="sc-ico">${ico('yum')}</span><span class="fc-title">새 음식 도전</span><span class="fc-sub">${pend?`오늘의 음식이 기다려요`:'먹어 본 음식을 모아요'}</span>
+    <span class="fc-foot"><span class="fd-mini">${S.kids.map(k=>`<span class="fdm kid" style="--k:${k.color}">${avatar(k,46)}<b>${foodCount(k.id)}</b></span>`).join('')}</span></span></button>`;
+}
+function foodParentCard(){
+  const rec=recentFoods(), t=todayKey();
+  return `<section class="dash-card foodc"><div class="dc-head"><span class="sc-ico">${ico('yum')}</span><div><b>새 음식 도전</b><small>아이들이 먹어 본 음식</small></div></div>
+    <div class="fd-tally">${S.kids.map(k=>`<span class="ftl kid" style="--k:${k.color}">${avatar(k,44)}<span><small>${esc(k.name)}</small><b>${foodCount(k.id)}</b></span></span>`).join('')}</div>
+    <button class="btn pri fd-addbtn" data-act="fdopen">${ui('plus')}오늘의 음식 추가</button>
+    ${rec.length?`<ul class="fd-list">${rec.map(f=>`<li>${fIco(f.icon)}<span class="fl-name">${esc(f.name)}<small>${f.day===t?'오늘':'어제'}</small></span><span class="fl-kids">${S.kids.map(k=>`<button class="fl-k kid${ateOf(k.id)[f.id]?' on':''}" style="--k:${k.color}" data-act="fdtog" data-kid="${k.id}" data-fid="${f.id}" aria-pressed="${!!ateOf(k.id)[f.id]}" aria-label="${esc(k.name)} 먹었어요">${avatar(k,34)}<span class="tick">${ui('check')}</span></button>`).join('')}</span></li>`).join('')}</ul>
+      <small class="fd-note">얼굴을 누르면 먹었어요 / 안 먹었어요를 바꿔요</small>`:`<p class="fd-note">넣은 음식은 태블릿 '오늘의 음식' 칸에 이틀 동안 있어요</p>`}
+  </section>`;
+}
+function paintFoodForm(){
+  const pv=$('#fdPrev'); if(pv) pv.innerHTML=fIco(F.icon,64);
+  document.querySelectorAll('.fdp').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ic===F.icon)));
+}
+function renderFoodSheet(){
+  let el=document.getElementById('fsheet');
+  if(!F.open){ if(el) el.remove(); return; }
+  if(!el){ el=document.createElement('div'); el.id='fsheet'; el.className='sheet'; document.body.appendChild(el); }
+  const t=todayKey(), today=Object.values(FD().items).filter(f=>f.day===t).sort((a,b)=>b.ts-a.ts);
+  const old=Object.values(FD().items).filter(f=>f.day!==t).sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,24);
+  el.innerHTML=`<div class="sheet-in fd-sheet" role="dialog" aria-label="오늘의 음식 추가">
+    <div class="sh-head"><span class="sc-ico">${ico('yum')}</span><h2>오늘의 음식 추가</h2><button class="ib" data-act="fdclose" aria-label="닫기">${ui('x')}</button></div>
+    <div class="fd-form"><span id="fdPrev">${fIco(F.icon,64)}</span><input id="fdName" type="text" maxlength="20" placeholder="예: 브로콜리, 고등어구이" value="${esc(F.name)}" enterkeyhint="done" autocomplete="off"><button class="btn pri" data-act="fdadd">넣기</button></div>
+    <h3>그림 <small>이름을 쓰면 알아서 골라요. 다르면 눌러서 바꿔요</small></h3>
+    <div class="fd-pal">${Object.keys(FOOD_ICONS).map(ic=>`<button class="fdp" data-act="fdicon" data-ic="${ic}" aria-pressed="${F.icon===ic}">${fIco(ic,40)}<span>${FOOD_ICONS[ic].n}</span></button>`).join('')}</div>
+    <h3>오늘 넣은 음식</h3>
+    ${today.length?`<div class="fd-today">${today.map(f=>`<span class="fdt">${fIco(f.icon,34)}<span>${esc(f.name)}</span><button class="ib" data-act="fddel" data-fid="${f.id}" aria-label="${esc(f.name)} 빼기">${ui('x')}</button></span>`).join('')}</div>`:'<p class="fd-note">아직 없어요</p>'}
+    ${old.length?`<h3>전에 넣은 음식 <small>누르면 오늘의 음식으로 다시 넣어요</small></h3><div class="fd-today">${old.map(f=>`<button class="fdt re" data-act="fdre" data-fid="${f.id}">${fIco(f.icon,34)}<span>${esc(f.name)}</span>${ui('plus')}</button>`).join('')}</div>`:''}
+    <div class="btns"><button class="btn sec" data-act="fdclose">다 됐어요</button></div>
   </div>`;
 }
 
@@ -2286,6 +2534,17 @@ document.addEventListener('click',e=>{
     case 'wskip': finishWelcome(); break;
     case 'hosp': openHosp(); break;
     case 'stopset': setStop(Number(d.min)); break;
+    case 'food': view.screen='food'; show(); tone([660],.08,'sine'); break;
+    case 'fdeat': eatFood(d.kid,d.fid); break;
+    case 'fdundo': undoFood(d.kid,d.fid); break;
+    case 'fdsay': { const f=FD().items[d.fid]; if(f){ sayText(f.name); const el=e.target.closest('.fd-chip'); el?.classList.remove('wig'); void el?.offsetWidth; el?.classList.add('wig'); } break; }
+    case 'fdopen': F.open=true; F.name=''; F.icon='dish'; F.manual=false; renderFoodSheet(); setTimeout(()=>$('#fdName')?.focus(),120); break;
+    case 'fdclose': F.open=false; renderFoodSheet(); requestRender(); break;
+    case 'fdicon': F.icon=d.ic; F.manual=true; paintFoodForm(); break;
+    case 'fdadd': submitFood(); break;
+    case 'fdre': { const f=FD().items[d.fid]; if(f){ addFood(f.name,f.icon); toast(`${f.name}, 오늘의 음식에 넣었어요`); renderFoodSheet(); requestRender(); } break; }
+    case 'fddel': delFood(d.fid); renderFoodSheet(); requestRender(); break;
+    case 'fdtog': togFood(d.kid,d.fid); requestRender(); break;
     case 'stopx': cancelStop(); break;
     case 'hclose': H.open=false; renderHosp(); break;
     case 'hkid': H.kids.has(d.kid)?H.kids.delete(d.kid):H.kids.add(d.kid); renderHosp(); break;
@@ -2357,8 +2616,8 @@ document.addEventListener('click',e=>{
     case 'rreset': if(!confirmTap(b)) break; { const day=S.log[todayKey()]; if(day&&day[d.rid]){ day._x=day._x||{}; for(const [k,e] of Object.entries(day[d.rid])) if(e.stars){ day._x[k]=(day._x[k]||0)+e.stars; rinc(`log/${todayKey()}/_x/${k}`,e.stars); } delete day[d.rid]; rset(`log/${todayKey()}/${d.rid}`,null); } save(); rerenderEdit(); toast(`${ROUT[d.rid].name}을 처음부터 다시 시작해요`); } break;
   }
 });
-document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.id==='chatIn'&&!e.isComposing){ e.preventDefault(); $('[data-act="isend"]')?.click(); return; } if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
-document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.id==='fdName'&&!e.isComposing){ e.preventDefault(); submitFood(); return; } if(e.key==='Enter'&&e.target.id==='chatIn'&&!e.isComposing){ e.preventDefault(); $('[data-act="isend"]')?.click(); return; } if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
+document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(id==='fdName'){ F.name=e.target.value; if(!F.manual) F.icon=e.target.value.trim()?guessFood(e.target.value):'dish'; paintFoodForm(); } if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.classList.contains('al-time')||t.classList.contains('al-text')){
@@ -2376,7 +2635,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); pruneMeds(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } const up={run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } const up={food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 pruneMeds();
