@@ -700,6 +700,58 @@ button.tc:active{transform:scale(.95)}
 .fdt{display:flex;align-items:center;gap:6px;padding:4px 12px 4px 4px;border-radius:999px;background:var(--surface-2);font:17px var(--f-d);color:var(--ink)}
 .btn.fd-save{background:#F08A2C}
 @media (max-width:640px){.ftl{flex-direction:column;gap:4px;align-items:center;text-align:center}.ftl span{align-items:center}.fl-k .ava{--s:28px !important;width:28px;height:28px}.tray{gap:7px;padding:8px}.tray .tc{min-height:104px}.tc .fico{--fz:46px}.tc{font-size:16px}.fp-btns{grid-template-columns:1fr 1fr}.fp{min-height:110px;font-size:18px;border-radius:22px}.fp .ic{width:46px;height:46px}.fdc{padding:6px 8px}.fdc b{font-size:26px}}
+.btn.fd-statbtn{min-height:52px;font-size:18px;gap:8px;display:flex;align-items:center;justify-content:center;width:100%;flex:none !important;color:var(--food-ink)}
+.btn.fd-statbtn .ic{width:28px;height:28px;--ic-tint:var(--food-tint)}
+.st-wrap{display:flex;flex-direction:column;gap:16px;padding-block:16px 40px;max-width:900px}
+.st-tabs{display:flex;gap:6px;padding:5px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow);align-self:flex-start}
+.st-tabs button{min-height:44px;padding:0 20px;border-radius:999px;font:18px var(--f-d);color:var(--ink-2)}
+.st-tabs button[aria-selected="true"]{background:#F08A2C;color:#fff}
+.st-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.st-kid{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:14px;border-radius:24px;background:color-mix(in oklab,var(--k) 11%,var(--surface))}
+.st-kn{display:flex;flex-direction:column}
+.st-kn b{font:22px var(--f-d);font-weight:400}
+.st-kn small{font-size:12px;color:var(--ink-2)}
+.st-big{font:52px/1 var(--f-d);color:var(--ink);font-variant-numeric:tabular-nums}
+.st-big small{font-size:16px;color:var(--ink-2)}
+.st-lv{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:6px}
+.st-lv span{font-size:13px;padding:4px 10px;border-radius:999px;background:var(--surface);color:var(--ink-2)}
+.st-lv b{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.st-lv .lv1{box-shadow:inset 0 0 0 2px #C3C9D3}
+.st-lv .lv2{box-shadow:inset 0 0 0 2px #FF8FB8}
+.st-lv .lvno{box-shadow:inset 0 0 0 2px #E2BDBD}
+.st-lv .rb::before{border-width:2px;inset:0}.st-lv .rb::after{filter:blur(4px);inset:0}
+.st-card h2{font:22px var(--f-d);font-weight:400;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.st-card h2 small{font:13px var(--f-b,inherit);color:var(--ink-2)}
+.st-legend{display:flex;gap:14px;font-size:14px;color:var(--ink-2)}
+.st-legend i,.st-sel i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.st-chart{width:100%;height:auto;display:block;overflow:visible}
+.st-chart .gl{stroke:var(--line,#E3E7EF);stroke-width:1}
+.st-chart .ax{font-size:10px;fill:var(--ink-2);font-family:inherit}
+.st-chart .hit{fill:transparent;cursor:pointer}
+.st-chart .wk.sel .hit{fill:color-mix(in oklab,#F08A2C 10%,transparent)}
+.st-chart .wk.sel .ax{fill:var(--ink);font-weight:700}
+.st-sel{display:flex;gap:14px;flex-wrap:wrap;align-items:center;font-size:15px;color:var(--ink-2);padding:8px 12px;border-radius:14px;background:var(--surface-2)}
+.st-sel b{color:var(--ink)}
+.st-cat,.st-food{width:100%;border-collapse:separate;border-spacing:0 6px}
+.st-cat thead th,.st-food thead th{font:13px var(--f-b,inherit);color:var(--ink-2);text-align:left;padding:0 6px}
+.st-cat tbody th,.st-food tbody th{display:flex;align-items:center;gap:8px;font:17px var(--f-d);font-weight:400;text-align:left;padding:4px 6px;min-width:0}
+.st-food tbody th span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.st-cat td{padding:0 6px;width:24%}
+.st-cat td{white-space:nowrap}
+.st-cat .cb{display:inline-block;width:calc(100% - 26px);height:10px;border-radius:5px;background:var(--surface-2);vertical-align:middle;overflow:hidden}
+.st-cat .cb i{display:block;height:100%;border-radius:0 4px 4px 0}
+.st-cat td b{display:inline-block;width:22px;text-align:right;font-size:15px;font-variant-numeric:tabular-nums}
+.st-food thead th:not(:first-child),.st-food td{text-align:center;width:18%}
+.st-food tbody tr{background:var(--surface-2)}
+.st-food tbody tr th{border-radius:14px 0 0 14px}
+.st-food tbody tr td:last-child{border-radius:0 14px 14px 0}
+.bd{display:inline-block;font-size:12px;padding:3px 8px;border-radius:999px;background:var(--surface);white-space:nowrap;position:relative}
+.bd.lv1{box-shadow:inset 0 0 0 2px #C3C9D3;color:#6B7487}
+.bd.lv2{box-shadow:inset 0 0 0 2px #FF8FB8;color:#C2477A;background:#FFF2F7}
+.bd.lvno{box-shadow:inset 0 0 0 2px #E2BDBD;color:#9A6565}
+.bd.none{color:var(--ink-3,#AEB6C4);background:none}
+.bd.rb{color:var(--ink)}.bd.rb::before{border-width:2px;inset:0}.bd.rb::after{inset:0;filter:blur(4px)}
+@media (max-width:760px){.st-sum{grid-template-columns:1fr}.st-big{font-size:44px}}
 .ov-need{display:flex;align-items:center;gap:16px;margin-top:18px;padding:16px 18px;border-radius:26px;background:#FFF4E0;border:2px solid #F7C77A}
 .ov-need .sc-ico{width:56px;height:56px;border-radius:18px;background:#FFE3B0;color:#B86A00;--ic-tint:#FFF3D6;display:grid;place-items:center;flex:none}
 .ov-need .sc-ico .ic{width:40px;height:40px}
@@ -735,6 +787,13 @@ button.tc:active{transform:scale(.95)}
 .stop-st .ss-main{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;font:20px var(--f-d);color:#2E2A78}
 .stop-st .ss-main b{font:44px/1 var(--f-d);font-weight:400;color:#4B3FB8;font-variant-numeric:tabular-nums}
 .stop-st .btn{grid-row:1 / span 2;grid-column:2}
+.ss-adj{grid-column:1 / -1;display:flex;gap:8px;margin-top:6px}
+.ss-a{flex:1;min-height:44px;border-radius:14px;background:var(--surface);font:17px var(--f-d);color:#4B3FB8}
+.ss-a:active{transform:scale(.96)}
+.stop-at{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border-radius:18px;background:var(--surface-2)}
+.stop-at label{font:16px var(--f-d);color:var(--ink-2);flex:1 1 100%}
+.stop-at input{flex:1;min-width:0;height:52px;border-radius:14px;border:2px solid #D6CCFF;background:var(--surface);font:24px var(--f-d);color:#2E2A78;padding:0 12px}
+.stop-at .btn{flex:none !important;min-height:52px}
 .stop-st .ss-got{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--ink-2)}
 .stop-st .ss-got[data-on="true"]{color:#2F9C6B}
 .stop-st .ss-got .ui{width:18px;height:18px}
@@ -904,6 +963,7 @@ button.tc:active{transform:scale(.95)}
 <main id="home" class="screen" hidden></main>
 <main id="run" class="screen" hidden></main>
 <main id="food" class="screen" hidden></main>
+<main id="fstats" class="screen" hidden></main>
 <main id="edit" class="screen" hidden></main>
 <main id="cal" class="screen" hidden></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -981,6 +1041,7 @@ const ICONS={
   fd_chili:'<path class="t" d="M35 15C33 28 22 38 8 40c6-5 11-13 15-23 3-5 9-6 12-2z"/><path d="M35 15c0-4 2-7 6-8M30 13c2-2 5-2 7 0"/>',
   bite:'<path class="t" d="M30 7.5A18 18 0 1 0 41 22a5.5 5.5 0 0 1-6.5-5.5A5.5 5.5 0 0 1 29 11a5.5 5.5 0 0 1 1-3.5z"/><circle class="s" cx="17" cy="22" r="2"/><circle class="s" cx="24" cy="31" r="2"/><circle class="s" cx="31" cy="26" r="2"/>',
   nope:'<circle class="t" cx="24" cy="24" r="17"/><circle class="s" cx="18" cy="21" r="2.2"/><circle class="s" cx="30" cy="21" r="2.2"/><path d="M18 31h12"/>',
+  chart:'<rect class="t" x="7" y="26" width="8" height="15" rx="2"/><rect class="t" x="20" y="16" width="8" height="25" rx="2"/><rect class="t" x="33" y="8" width="8" height="33" rx="2"/><path d="M4 43h40"/>',
   half:'<path d="M6 22h36c0 10-7.5 16-18 16S6 32 6 22zM18 42h12"/><path class="tf" d="M9.5 29h29c-2.6 5.5-8.2 9-14.5 9S12.1 34.5 9.5 29z"/>',
   clean:'<path class="t" d="M6 24h36c0 9.5-7.5 15-18 15S6 33.5 6 24z"/><path d="M18 43h12M24 6v8M13 9l4 5M35 9l-4 5"/>',
   fd_dish:'<path class="t" d="M7 24h34c0 9.5-7.6 16-17 16S7 33.5 7 24z"/><path d="M18 43h12M17 18c-2-3 2-4.5 0-8M24 18c-2-3 2-4.5 0-8M31 18c-2-3 2-4.5 0-8"/>',
@@ -1335,6 +1396,7 @@ function requestRender(){
   renderPending=false;
   if(view.screen==='run') refreshLanes();
   else if(view.screen==='food') renderFood(true);
+  else if(view.screen==='fstats') renderStats();
   else if(view.screen==='home') renderHome();
   else if(view.screen==='family'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderFamily(); if(!CH.stick) window.scrollTo(0,y); }
   else if(view.screen==='room'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderRoom(); if(!CH.stick) window.scrollTo(0,y); }
@@ -1407,11 +1469,11 @@ const dateLabel=()=>{const d=new Date();return `${d.getMonth()+1}월 ${d.getDate
 
 function show(){
   if(view.screen!=='msg'&&typeof M!=='undefined'&&M.rec==='rec') recStop();
-  for(const s of ['welcome','family','room','msg','replies','home','run','food','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
+  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
   if(view.screen==='family'&&isAdult()){ INB.prevSeen=S.inboxSeen||0; S.inboxSeen=Date.now(); save(); }
   if(view.screen==='replies'){ RP.prevSeen=S.repliesSeen||0; S.repliesSeen=Date.now(); save(); }
   if(view.screen==='room'||(view.screen==='family'&&isElder())) CH.stick=true;
-  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='cal') renderCal(); else renderEdit();
+  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='cal') renderCal(); else renderEdit();
   keepAwake(view.screen==='run');
   window.scrollTo(0,0);
 }
@@ -1661,7 +1723,8 @@ function stopCard(){
       const left=Math.max(1,Math.ceil((st.at-now)/60000)), got=st.got===st.id;
       status=`<div class="stop-st"><div class="ss-main"><b>${left}분</b><span>뒤 ${hm(st.at)}에 떠요</span></div>
         <small class="ss-got" data-on="${got}">${got?ui('check')+'태블릿이 받았어요':'<span class="sync-dot"></span>태블릿에 보내는 중'}</small>
-        <button class="btn sec mini" data-act="stopx">취소</button></div>`;
+        <button class="btn sec mini" data-act="stopx">취소</button>
+        <div class="ss-adj"><button class="ss-a" data-act="stopadj" data-d="-5">−5분</button><button class="ss-a" data-act="stopadj" data-d="5">+5분</button><button class="ss-a" data-act="stopadj" data-d="10">+10분</button></div></div>`;
     } else if(now-st.at<30*60000){
       status=`<div class="stop-st done"><div class="ss-main">${ui('check')}<span>${hm(st.at)}에 ${st.done===st.id?'태블릿에 떴어요':'뜰 시간이었어요'}</span></div></div>`;
     }
@@ -1669,7 +1732,22 @@ function stopCard(){
   return `<section class="dash-card stopc"><div class="dc-head"><span class="sc-ico">${ico('timer')}</span><div><b>그만! 알림</b><small>고른 시간 뒤에 태블릿에 '${STOP_TEXT}'가 크게 뜨고 읽어 줘요</small></div></div>
     ${status}
     <div class="stop-btns">${STOP_MINS.map(m=>`<button class="stop-b" data-act="stopset" data-min="${m}"><b>${m}</b><span>분 뒤</span></button>`).join('')}</div>
+    <div class="stop-at"><label for="stopTime">끝내는 시간 직접 정하기</label><input id="stopTime" type="time" value="${hm24(st&&st.at>now&&st.done!==st.id?st.at:now+20*60000)}"><button class="btn sec mini" data-act="stopat">${st&&st.at>now&&st.done!==st.id?'시간 바꾸기':'이 시간에'}</button></div>
   </section>`;
+}
+const hm24=t=>{ const d=new Date(t); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+// 시:분을 다음에 올 그 시각으로 (지났으면 내일). 12시간 넘게 남으면 잘못 고른 걸로 봐요
+function stopAtFromInput(v){
+  const m=/^(\d{1,2}):(\d{2})/.exec(v||''); if(!m) return null;
+  const d=new Date(); d.setHours(+m[1],+m[2],0,0); let t=d.getTime();
+  if(t<=Date.now()+30000) t+=86400000;
+  return t-Date.now()>12*3600000?-1:t;
+}
+function setStopAt(at){
+  const now=Date.now(), min=Math.max(1,Math.round((at-now)/60000));
+  S.stop={id:'s'+now.toString(36),at,min,by:S.role,text:STOP_TEXT};
+  rset('stop',S.stop); save(); tone([660,880],.12,'triangle',.08); renderFamily();
+  toast(`${hm(at)}에 태블릿에 떠요 (${min}분 뒤)`);
 }
 setInterval(()=>{ if(view.screen==='family'&&isParent()&&S.stop&&Date.now()-S.stop.at<31*60000){ const a=document.activeElement; if(!(a&&(a.tagName==='INPUT'||a.tagName==='TEXTAREA'))&&!H.open) rerenderKeep(); } },15000);
 function editAlarm(){
@@ -2127,6 +2205,7 @@ function foodParentCard(){
   const face=(k,f)=>{ const lv=lvOf(k.id,f.id); return `<button class="fl-k kid${lvCls(lv)}${lv>0?' on':''}" style="--k:${k.color}" data-act="fdcyc" data-kid="${k.id}" data-fid="${f.id}" aria-label="${esc(k.name)} ${LV_SAY[lv]}">${avatar(k,32)}${lv<0?`<span class="fl-x">${ui('x')}</span>`:''}</button>`; };
   return `<section class="dash-card foodc"><div class="dc-head"><span class="sc-ico">${ico('yum')}</span><div><b>새 음식 도전</b><small>아이들이 먹어 본 음식</small></div></div>
     <div class="fd-tally">${S.kids.map(k=>`<span class="ftl kid" style="--k:${k.color}">${avatar(k,44)}<span><small>${esc(k.name)}</small><b>${foodCount(k.id)}</b></span><span class="ftl-cats">${LVS.map(c=>`<i class="${c.cls}" title="${c.n}">${lvCount(k.id,c.lv)}</i>`).join('')}</span></span>`).join('')}</div>
+    <button class="btn sec fd-statbtn" data-act="fstats">${ico('chart')}먹어 본 음식 통계</button>
     <button class="btn pri fd-addbtn" data-act="fdopen">${ui('plus')}${trayFor(t)?'오늘의 식판 고치기':'오늘의 음식 추가'}</button>
     ${ct?`<div class="fd-ptitle">${ct.day===t?'오늘의 식판':'어제 식판'}</div><ul class="fd-list">${TRAY.filter(sl=>ct.slots[sl.k]).map(sl=>{ const f=ct.slots[sl.k]; return `<li><span class="fl-slot">${TRAY_NAME[sl.k]}</span>${fIco(f.icon,40)}<span class="fl-name">${esc(f.name)}</span><span class="fl-kids">${S.kids.map(k=>face(k,f)).join('')}</span></li>`; }).join('')}</ul>
       <small class="fd-note">얼굴을 누르면 1번 → 적당히 → 전부 → 안 먹음 → 지우기 순서로 바뀌어요
@@ -2171,6 +2250,67 @@ function saveTray(){
 }
 function cycLv(kid,fid){ const nx={0:1,1:2,2:3,3:-1,'-1':0}[lvOf(kid,fid)]; setLv(kid,fid,nx); const k=kidById(kid), f=FD().items[fid]; if(k&&f) toast(`${withI(k.name)} ${f.name}: ${LV_SAY[nx]}`); }
 
+
+/* ===== 먹어 본 음식 통계 (엄마·아빠 폰) ===== */
+const FS={period:'all',wk:-1};
+// 그래프 색: 아이 색을 바탕으로 밝기를 맞춘 색 (색약·밝기 검사 통과)
+const CHART_K={'#9C7BEA':'#9B5BD8','#4FB3E8':'#1E9CC0','#F7B23B':'#C27E0B'};
+const kChart=k=>CHART_K[String(crayon(k.color)).toUpperCase()]||CHART_K[k.color]||`color-mix(in oklab,${k.color} 75%,#000)`;
+const weekStart=t=>{ const d=new Date(t); d.setHours(0,0,0,0); d.setDate(d.getDate()-((d.getDay()+6)%7)); return d.getTime(); };
+function periodStart(p){ const d=new Date(); d.setHours(0,0,0,0); if(p==='week') return weekStart(Date.now()); if(p==='month'){ d.setDate(1); return d.getTime(); } return 0; }
+// 기록 t = 처음 먹어 본(또는 안 먹은) 때
+function recsOf(kid,since){ const a=ateOf(kid), it=FD().items; return Object.keys(a).filter(id=>it[id]&&(a[id].t||0)>=since).map(id=>({f:it[id],lv:a[id].lv,t:a[id].t||0})); }
+const LV_NAME={'-1':'안 먹음','1':'1번','2':'적당히','3':'전부'};
+function renderStats(){
+  const since=periodStart(FS.period), P={week:'이번 주',month:'이번 달',all:'전체'}[FS.period];
+  const kids=S.kids, recs=Object.fromEntries(kids.map(k=>[k.id,recsOf(k.id,since)]));
+  const cnt=(kid,lv)=>recs[kid].filter(r=>lv==null?r.lv>0:r.lv===lv).length;
+  // 요약
+  const sum=kids.map(k=>`<div class="st-kid kid" style="--k:${k.color}">${avatar(k,52)}<div class="st-kn"><b>${esc(k.name)}</b><small>${FS.period==='all'?'먹어 본 음식':P+' 새로 먹은 음식'}</small></div><div class="st-big">${cnt(k.id)}<small>가지</small></div>
+      <div class="st-lv"><span class="lv1">1번 <b>${cnt(k.id,1)}</b></span><span class="lv2">적당히 <b>${cnt(k.id,2)}</b></span><span class="lv3 rb">전부 <b>${cnt(k.id,3)}</b></span><span class="lvno">안 먹음 <b>${cnt(k.id,-1)}</b></span></div></div>`).join('');
+  // 주별 그래프 (최근 8주, 처음 먹어 본 음식 수)
+  const W=8, w0=weekStart(Date.now()), weeks=[...Array(W)].map((_,i)=>w0-(W-1-i)*7*86400000);
+  const wcount=[]; // 지워진 메뉴는 빼고 세요
+  for(const [ki,k] of kids.entries()){ const a=ateOf(k.id), it=FD().items; wcount[ki]=weeks.map(ws=>Object.keys(a).filter(id=>it[id]&&a[id].lv>0&&a[id].t>=ws&&a[id].t<ws+7*86400000).length); }
+  const maxV=Math.max(1,...wcount.flat()), sel=FS.wk>=0&&FS.wk<W?FS.wk:W-1;
+  const CW=340, CH=150, padL=26, padB=24, padT=10, gw=(CW-padL)/W, bw=Math.min(10,(gw-10)/kids.length);
+  const ticks=maxV<=4?[...Array(maxV+1).keys()]:[0,Math.round(maxV/2),maxV];
+  const y=v=>padT+(CH-padT-padB)*(1-v/maxV);
+  const wl=ws=>{ const d=new Date(ws); return `${d.getMonth()+1}/${d.getDate()}`; };
+  let bars='';
+  weeks.forEach((ws,i)=>{ const gx=padL+i*gw, x0=gx+(gw-bw*kids.length-2*(kids.length-1))/2;
+    bars+=`<g class="wk${i===sel?' sel':''}" data-act="fswk" data-i="${i}"><rect class="hit" x="${gx}" y="0" width="${gw}" height="${CH}"/>`;
+    kids.forEach((k,ki)=>{ const v=wcount[ki][i], h=Math.max(v?3:0,(CH-padT-padB)*v/maxV), x=x0+ki*(bw+2);
+      if(v){ const r=Math.min(3,bw/2,h), top=CH-padB-h; bars+=`<path d="M${x} ${CH-padB}V${top+r}Q${x} ${top} ${x+r} ${top}H${x+bw-r}Q${x+bw} ${top} ${x+bw} ${top+r}V${CH-padB}Z" fill="${kChart(k)}"/>`; } });
+    bars+=`<text class="ax" x="${gx+gw/2}" y="${CH-6}" text-anchor="middle">${i===W-1?'이번 주':wl(ws)}</text></g>`; });
+  const grid=ticks.map(v=>`<line class="gl" x1="${padL}" x2="${CW}" y1="${y(v)}" y2="${y(v)}"/><text class="ax" x="${padL-6}" y="${y(v)+4}" text-anchor="end">${v}</text>`).join('');
+  const selTxt=`<b>${sel===W-1?'이번 주':wl(weeks[sel])+' 주'}</b>${kids.map((k,ki)=>`<span><i style="background:${kChart(k)}"></i>${esc(k.name)} ${wcount[ki][sel]}</span>`).join('')}`;
+  // 종류별
+  const cats=Object.keys(FOOD_ICONS).map(ic=>({ic,v:kids.map(k=>recs[k.id].filter(r=>r.lv>0&&(r.f.icon||'dish')===ic).length)})).filter(c=>c.v.some(Boolean));
+  const cmax=Math.max(1,...cats.flatMap(c=>c.v));
+  const catRows=cats.map(c=>`<tr><th>${fIco(c.ic,30)}<span>${FOOD_ICONS[c.ic].n}</span></th>${c.v.map((v,ki)=>`<td><span class="cb"><i style="width:${(v/cmax*100).toFixed(0)}%;background:${kChart(kids[ki])}"></i></span><b>${v}</b></td>`).join('')}</tr>`).join('');
+  // 음식별
+  const foods={}; for(const k of kids) for(const r of recs[k.id]){ (foods[r.f.id]||(foods[r.f.id]={f:r.f,t:0,lv:{}})); foods[r.f.id].lv[k.id]=r.lv; foods[r.f.id].t=Math.max(foods[r.f.id].t,r.t); }
+  const flist=Object.values(foods).sort((a,b)=>b.t-a.t);
+  const badge=lv=>lv==null?'<span class="bd none">—</span>':`<span class="bd ${lv>=3?'lv3 rb':lv===2?'lv2':lv===1?'lv1':'lvno'}">${LV_NAME[lv]}</span>`;
+  $('#fstats').innerHTML=`
+  <header class="band scene" data-rid="food"><div class="wrap band-in">
+    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
+    <div class="band-title"><span class="sc-ico">${ico('chart')}</span><div><h1>먹어 본 음식 통계</h1><p class="band-date">${P}</p></div></div>
+  </div></header>
+  <div class="wrap st-wrap">
+    <div class="st-tabs" role="tablist">${[['week','이번 주'],['month','이번 달'],['all','전체']].map(([k,n])=>`<button role="tab" data-act="fsp" data-p="${k}" aria-selected="${FS.period===k}">${n}</button>`).join('')}</div>
+    <section class="st-sum">${sum}</section>
+    <section class="dash-card st-card"><h2>주마다 새로 먹어 본 음식 <small>최근 8주 · 막대를 누르면 숫자가 보여요</small></h2>
+      <div class="st-legend">${kids.map(k=>`<span><i style="background:${kChart(k)}"></i>${esc(k.name)}</span>`).join('')}</div>
+      <svg class="st-chart" viewBox="0 0 ${CW} ${CH}" role="img" aria-label="주별로 새로 먹어 본 음식 수">${grid}${bars}</svg>
+      <div class="st-sel">${selTxt}</div></section>
+    <section class="dash-card st-card"><h2>종류별 <small>${P} · 1번 이상 먹은 음식</small></h2>
+      ${cats.length?`<table class="st-cat"><thead><tr><th></th>${kids.map(k=>`<th>${esc(k.name)}</th>`).join('')}</tr></thead><tbody>${catRows}</tbody></table>`:'<p class="fd-note">아직 기록이 없어요</p>'}</section>
+    <section class="dash-card st-card"><h2>음식별 기록 <small>${flist.length}가지 · 최근 순</small></h2>
+      ${flist.length?`<table class="st-food"><thead><tr><th>음식</th>${kids.map(k=>`<th>${avatar(k,28)}</th>`).join('')}</tr></thead><tbody>${flist.map(x=>`<tr><th>${fIco(x.f.icon,30)}<span>${esc(x.f.name)}</span></th>${kids.map(k=>`<td>${badge(x.lv[k.id])}</td>`).join('')}</tr>`).join('')}</tbody></table>`:'<p class="fd-note">아직 기록이 없어요</p>'}</section>
+  </div>`;
+}
 /* ===== 받은 답장 (아이들 쪽) ===== */
 const RP={prevSeen:0};
 function allReplies(){
@@ -2686,6 +2826,11 @@ document.addEventListener('click',e=>{
     case 'fdsave': saveTray(); break;
     case 'fdcyc': cycLv(d.kid,d.fid); requestRender(); break;
     case 'stopx': cancelStop(); break;
+    case 'stopat': { const t=stopAtFromInput($('#stopTime')?.value); if(t===null){ toast('시간을 골라 주세요'); break; } if(t<0){ toast('이미 지난 시간이에요. 다시 골라 주세요'); break; } setStopAt(t); break; }
+    case 'stopadj': { const st=S.stop; if(!st) break; const t=st.at+Number(d.d)*60000; if(t<=Date.now()+30000){ toast('너무 가까워요. 지금 바로 띄우려면 5분 뒤를 눌러 주세요'); break; } setStopAt(t); break; }
+    case 'fstats': view.screen='fstats'; show(); break;
+    case 'fsp': FS.period=d.p; renderStats(); break;
+    case 'fswk': FS.wk=Number(d.i); renderStats(); break;
     case 'hclose': H.open=false; renderHosp(); break;
     case 'hkid': H.kids.has(d.kid)?H.kids.delete(d.kid):H.kids.add(d.kid); renderHosp(); break;
     case 'hdays': H.days=Number(d.n); renderHosp(); break;
@@ -2776,7 +2921,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); pruneMeds(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } const up={food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } const up={fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 pruneMeds();
