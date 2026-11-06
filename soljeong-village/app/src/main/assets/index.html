@@ -631,6 +631,17 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-we
 .vn .ve{font-size:34px}.vn b{margin-right:4px;white-space:nowrap}
 .vt{min-width:0}
 @media (max-width:640px){ .vbar{padding:6px 10px;gap:5px;border-radius:22px} .vwho{font-size:15px;flex:1 0 100%;min-width:0} .vb{font-size:14px;padding:4px 10px} .vp b{font-size:18px} .stk{font-size:34px} .vn{font-size:15px}.vn .ve{font-size:26px} }
+.vcount{display:flex;flex-wrap:wrap;gap:6px;width:100%;margin:-2px 0 2px}
+.vc{border:2.5px solid var(--ink);border-radius:999px;background:#fff;padding:2px 11px;font-size:17px;line-height:1.5;white-space:nowrap}
+.vc b{font-size:19px}
+.vc.eg{background:#FFF3C4}.vc.f1{background:#EAF7E6}.vc.f2{background:#FFE6F2}.vc.f3{background:#FFF0C2}.vc.f4{background:linear-gradient(90deg,#FFE0F0,#E0F0FF)}
+.vc.o1{background:#FFE9DA}.vc.o2{background:#FFDCC2}.vc.o3{background:#FFD0A8}.vc.o4{background:linear-gradient(90deg,#FFE9A8,#FFD0E8)}
+.vc.dc{background:#E4F3EA}
+.mrow{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:12px 0;max-height:44vh;overflow:auto}
+.mone{display:flex;flex-direction:column;align-items:center;gap:2px}
+.mone small{font-size:15px;word-break:keep-all;max-width:120px;line-height:1.2}
+.mone.legr .mon svg{filter:drop-shadow(0 0 10px #FFD36E)}
+@media (max-width:640px){ .vc{font-size:14px;padding:1px 8px}.vc b{font-size:16px} .vcount{gap:4px} .mone small{font-size:12px} }
 </style>
 </head>
 <body>
@@ -986,19 +997,45 @@ function drawObjMerge(){
     <div class="otabs">${tabs}</div>
     <div class="opick">${list.map(i=>{ const f=p.friends[i], k=OM.sel.indexOf(i); return `<button class="op press ${k>=0?'on':''}" data-oi="${i}">${k>=0?`<span class="on1">${k+1}</span>`:''}<span class="om">${OBJ[f.obj].svg()}</span><small>${OBJ[f.obj].ko}</small></button>`; }).join('')}</div>
     <div class="orow">${[0,1,2].map(k=>`<span class="oslot">${sel[k]?OBJ[sel[k]].svg():''}</span>${k<2?'<b>+</b>':''}`).join('')}<b>➜</b><span class="oslot res">${sel.length<3?'':known?OBJ[res].svg():'❓'}</span></div>
-    <div class="acts"><button class="btn w press" id="omx">그만</button><button class="btn press" id="omgo" ${sel.length<3?'disabled':''}>합치기 ✨</button></div></div>`;
+    <div class="acts"><button class="btn w press" id="omx">그만</button>${objAllN()>1?`<button class="btn y press" id="omall">⚡ 모두 합치기 (${objAllN()}번)</button>`:''}<button class="btn press" id="omgo" ${sel.length<3?'disabled':''}>합치기 ✨</button></div></div>`;
+  const oa=OM.m.querySelector('#omall'); if(oa) oa.onclick=()=>{ boing(); const o=objMergeAll(); OM.m.remove(); OM=null; showObjAll(o); };
   OM.m.querySelector('#omx').onclick=()=>{ OM.m.remove(); OM=null; };
   OM.m.querySelectorAll('[data-ot]').forEach(b=>b.onclick=()=>{ OM.tier=+b.dataset.ot; OM.sel=[]; drawObjMerge(); });
   OM.m.querySelectorAll('[data-oi]').forEach(b=>b.onclick=()=>{ const i=+b.dataset.oi, k=OM.sel.indexOf(i); if(k>=0) OM.sel.splice(k,1); else if(OM.sel.length<3) OM.sel.push(i); boing(); drawObjMerge(); });
   const go=OM.m.querySelector('#omgo'); if(go&&sel.length===3) go.onclick=doObjMerge;
 }
-function doObjMerge(){
-  const p=P[who], sel=OM.sel.slice(); if(sel.length<3) return;
+/* 물건 세 개를 합쳐요 */
+function objMergeSel(sel){
+  const p=P[who];
   let res=objRecipe(sel.map(i=>p.friends[i].obj)); const surprise=!res; if(!res) res=pick(C_SURPRISE);
   const fresh=!dexOf(p)[res], idx=new Set(sel);
   p.friends=p.friends.filter((_,i)=>!idx.has(i));
   p.friends.push({sp:'apple',kind:'obj',obj:res,lv:Math.min(4,objTier(res)+1),h:true});
-  dexOf(p)[res]=1; p.asked=p.friends.length; save();
+  dexOf(p)[res]=1; p.asked=p.friends.length;
+  return {res,fresh,surprise};
+}
+const objAllN=()=>{ const g=objGroups(P[who]); return [1,2,3].reduce((a,t)=>a+Math.floor(g[t].length/3),0); };
+/* 같은 종류끼리 먼저, 합칠 수 있는 만큼 쭉 합쳐요 */
+function objMergeAll(){
+  const p=P[who], out=[]; let g=0;
+  while(g++<80){
+    const gr=objGroups(p), tier=[1,2,3].find(t=>gr[t].length>=3); if(!tier) break;
+    const by={}; gr[tier].forEach(i=>{ const o=p.friends[i].obj; (by[o]=by[o]||[]).push(i); });
+    const same=Object.values(by).find(a=>a.length>=3);
+    out.push(objMergeSel((same||gr[tier]).slice(0,3)));
+  }
+  save(); return out;
+}
+function showObjAll(out){
+  const p=P[who], fresh=out.filter(x=>x.fresh).length;
+  const m=bigResult('우르르 합쳤어요! 🔨', out.map(x=>({pic:OBJ[x.res].svg(),ko:OBJ[x.res].ko,leg:objTier(x.res)>=3})),
+    `물건 <b>${out.length}개</b>가 새로 생겼어요!${fresh?` · 🆕 도감 ${fresh}개 등록 (${OBJ_ORDER.filter(id=>dexOf(p)[id]).length}/${OBJ_ORDER.length})`:''}`,
+    `우르르 합쳤어요! 물건 ${out.length}개가 새로 생겼어요!`, canObjMerge(p));
+  const mo=m.querySelector('#bmore'); if(mo) mo.onclick=()=>{ const o=objMergeAll(); m.remove(); if(o.length) showObjAll(o); else rVillage(); };
+}
+function doObjMerge(){
+  const p=P[who], sel=OM.sel.slice(); if(sel.length<3) return;
+  const {res,fresh,surprise}=objMergeSel(sel); save();
   const nm=OBJ[res].ko;
   OM.m.querySelector('.box').innerHTML=`<div class="q">짜잔! ${nm}${batchim(nm)?'이':'가'} 생겼어!</div>
     <div class="result ${objTier(res)>=3?'legr':''}"><span class="mon" style="--w:180px">${OBJ[res].svg()}</span></div>
@@ -2130,6 +2167,21 @@ function showVisits(){
   m.querySelector('#vnx').onclick=()=>m.remove();
   return true;
 }
+/* 등급별로 친구와 물건이 몇인지 한눈에 */
+function countBar(p){
+  const c={1:0,2:0,3:0,4:0}, o={1:0,2:0,3:0,4:0}; let eg=0;
+  (p.friends||[]).forEach(f=>{ if(!f.h){ eg++; return; }
+    if(f.kind==='obj') o[Math.min(4,objTier(f.obj))]++; else c[Math.min(4,f.lv||1)]++; });
+  const FL=[[1,'🐣','기본'],[2,'🎀','큰'],[3,'👑','왕'],[4,'🌈','전설']];
+  const OL=[[1,'🏠','물건'],[2,'🏘️','물건2'],[3,'🏯','물건3'],[4,'🌠','물건4']];
+  const chip=(cls,ic,ko,n)=>`<span class="vc ${cls}">${ic} ${ko} <b>${n}</b></span>`;
+  let h='';
+  if(eg) h+=chip('eg','🥚','알',eg);
+  FL.forEach(([L,ic,ko])=>{ if(c[L]) h+=chip('f'+L,ic,ko,c[L]); });
+  OL.forEach(([t,ic,ko])=>{ if(o[t]) h+=chip('o'+t,ic,ko,o[t]); });
+  if((p.decos||[]).length) h+=chip('dc','🌼','장식',(p.decos||[]).length);
+  return h?`<div class="vcount">${h}</div>`:'';
+}
 function rVillage(){
   const VIS=!!(VISIT&&P[VISIT]); if(VISIT&&!P[VISIT]) VISIT=null;
   const p=hostP(); ensure(p); bgUnlocked(p); syncDex(p); const sa=sceneAttrs(p), nb=nextBg(p);
@@ -2145,7 +2197,7 @@ function rVillage(){
       <div class="mon ${f.sh?'sh':''} ${f.lv>=4?'leg':''}" style="--w:${w}px" data-act="poke" data-i="${i}">${f.lv>1?`<span class="crown">${f.lv>=4?'🌟':f.lv===3?'👑':'🎀'}</span>`:''}${mon(f.sp)}${itemSpans(f)}</div><div class="shadow"></div></div>`;
   }).join('') : `<div class="vempty">별 ${PER}개를 모으면 알이 생겨요 🥚</div>`;
   app.innerHTML=topbar()+(VIS?visitBar():'')+`<section class="village ${VIS?'visiting':''}">
-    <div class="vhead"><div class="ttl">🏡 ${p.name}네 마을</div>
+    <div class="vhead"><div class="ttl">🏡 ${p.name}네 마을</div>${countBar(p)}
       ${VIS?'':`${otherKids().length?`<button class="mergebtn press" data-act="visit" style="background:#D8E9FF">🚶 놀러 가기</button>`:''}`}${VIS?'':`${(lv1>=3||lv2>=3||lv3>=3)?`<button class="mergebtn press" data-act="merge">✨ 친구 합치기</button>`:''}`}${VIS?'':canObjMerge(p)?`<button class="mergebtn press" data-act="objm" style="background:#FFD3B5">🔨 물건 합치기</button>`:''}${VIS?'':`<button class="mergebtn press" data-act="dex" style="background:#E4F3EA">📖 도감 ${OBJ_ORDER.filter(id=>dexOf(p)[id]).length}/${OBJ_ORDER.length}</button><button class="mergebtn press" data-act="shop" style="background:#FFE680">🛒 상점</button><button class="mergebtn press" data-act="bg" style="background:#CFE8FF">🎨 배경</button>`}
       ${VIS?'':`<div class="next">⭐ ${left}개 더 모으면 알이 생겨요<div class="bar">${Array.from({length:10},(_,j)=>`<i class="${j<filled?'on':''}"></i>`).join('')}</div></div>`}</div>
     <div class="scene ${sa.cls}" style="${sa.style}">${BG(p.bg).id==='basic'?sky():''}${sa.deco}
@@ -2181,11 +2233,21 @@ function openMail(){
   document.body.appendChild(m); fanfare(); burst(30);
   m.querySelector('#mok').onclick=()=>{ m.remove(); rVillage(); };
 }
+/* 알이 여러 개면 하나만 눌러도 다 같이 깨어나요 */
 function hatch(i,el){
-  el.classList.add('crack'); boing();
-    setTimeout(()=>{ const f=P[who].friends[i]; f.h=true; save(); fanfare(); burst(30); rVillage();
-    const m=document.querySelector(`[data-act="poke"][data-i="${i}"]`); if(m) m.classList.add('born');
-    later(()=>say(`우와~ ${f.sh?'반짝반짝 ':''}${SP[f.sp].ko} 친구가 태어났어요!${SP[f.sp].r?' 정말 귀한 친구예요!':''}`),250);
+  const p=P[who], eggs=p.friends.map((f,k)=>({f,k})).filter(x=>!x.f.h);
+  if(!eggs.length) return;
+  document.querySelectorAll('.egg').forEach(e=>e.classList.add('crack')); boing();
+  setTimeout(()=>{
+    eggs.forEach(x=>{ x.f.h=true; }); save(); fanfare(); burst(eggs.length>1?70:30); rVillage();
+    eggs.forEach(x=>{ const m=document.querySelector(`[data-act="poke"][data-i="${x.k}"]`); if(m) m.classList.add('born'); });
+    if(eggs.length===1){ const f=eggs[0].f;
+      later(()=>say(`우와~ ${f.sh?'반짝반짝 ':''}${SP[f.sp].ko} 친구가 태어났어요!${SP[f.sp].r?' 정말 귀한 친구예요!':''}`),250);
+    } else {
+      const nm=[...new Set(eggs.map(x=>SP[x.f.sp].ko))].join(', ');
+      toast(`🐣 알 ${eggs.length}개가 한꺼번에 깨어났어요!`);
+      later(()=>say(`우와~ 알 ${eggs.length}개가 한꺼번에 깨어났어요! ${nm} 친구가 태어났어요!`),250);
+    }
   },520);
 }
 function poke(i,el){
@@ -2199,33 +2261,70 @@ function poke(i,el){
   el.appendChild(s); setTimeout(()=>s.remove(),1800);
   say(yum?`냠냠! ${ITEM_KO[f.food]||'간식'} 정말 맛있어!`:cool?`${ITEM_KO[f.acc]||'꾸미기'} 어때? 나 멋지지?`:f.sp==='poop'&&f.kind!=='obj'?'뿌직! 히히~':`안녕~ 나는 ${jo(name,'이야','야')}!`);
 }
+const freeCnt=L=>P[who].friends.filter(f=>f.h&&f.kind!=='obj'&&f.lv===L).length;
+const pickThree=L=>P[who].friends.map((f,i)=>({f,i})).filter(x=>x.f.h&&x.f.kind!=='obj'&&x.f.lv===L).slice(0,3);
+const nextMergeLv=()=>[1,2,3].find(L=>freeCnt(L)>=3);
+const mergeAllN=()=>[1,2,3].reduce((a,L)=>a+Math.floor(freeCnt(L)/3),0);
+/* 세 명을 합쳐서 새 친구(또는 물건)를 만들어요 */
+function mergeOnce(three,lv){
+  const p=P[who], keep=three[0].f.sp, r=Math.random(), shiny=three.some(x=>x.f.sh); let made;
+  if(lv===1) made = r<.6 ? {sp:pick(three.map(x=>x.f.sp)),lv:2,h:true,sh:shiny} : {sp:keep,kind:'obj',obj:pick(['house','tree','rainbow','balloon','windmill']),lv:2,h:true};
+  else if(lv===3) made = {sp:pick(three.map(x=>x.f.sp)),lv:4,h:true,sh:shiny};
+  else made = r<.5 ? {sp:pick(three.map(x=>x.f.sp)),lv:3,h:true,sh:shiny} : {sp:keep,kind:'obj',obj:pick(['castle','ferris']),lv:3,h:true};
+  const bonus=mergeBonus(made,three.map(x=>x.f));
+  if(made.kind==='obj') dexOf(p)[made.obj]=1;
+  const idx=new Set(three.map(x=>x.i));
+  p.friends=p.friends.filter((_,i)=>!idx.has(i)); p.friends.push(made); p.asked=p.friends.length;
+  return {made,bonus};
+}
+const mName=m=>m.kind==='obj'?OBJ[m.obj].ko:`${lvName(m.lv)}${SP[m.sp].ko}`;
+const mPic=m=>m.kind==='obj'?OBJ[m.obj].svg():mon(m.sp)+itemSpans(m);
+/* 합칠 수 있는 만큼 쭉 합쳐요 */
+function mergeAllFriends(){
+  const out=[]; let g=0, lv;
+  while((lv=nextMergeLv()) && g++<80) out.push(mergeOnce(pickThree(lv),lv).made);
+  save(); return out;
+}
+function bigResult(title, items, sumline, voice, more){
+  document.querySelectorAll('.mergem,.objm').forEach(x=>x.remove());
+  const m=document.createElement('div'); m.className='modal mergem';
+  const w=items.length>6?74:items.length>3?96:130;
+  m.innerHTML=`<div class="box"><div class="q">${title}</div>
+    <div class="mrow">${items.map(it=>`<span class="mone ${it.leg?'legr':''}"><span class="mon" style="--w:${w}px">${it.pic}</span><small>${it.ko}</small></span>`).join('')}</div>
+    <div class="bonus">${sumline}</div>
+    <div class="acts">${more?'<button class="btn y press" id="bmore">⚡ 더 합치기</button>':''}<button class="btn press" id="bok">좋아! 🎉</button></div></div>`;
+  document.body.appendChild(m); fanfare(); burst(80); say(voice);
+  m.querySelector('#bok').onclick=()=>{ m.remove(); rVillage(); };
+  return m;
+}
+function showMergeAll(out){
+  const sum=[['큰 친구',out.filter(m=>m.kind!=='obj'&&m.lv===2).length],['왕 친구',out.filter(m=>m.kind!=='obj'&&m.lv===3).length],['전설 친구',out.filter(m=>m.kind!=='obj'&&m.lv===4).length],['물건',out.filter(m=>m.kind==='obj').length]].filter(x=>x[1]);
+  const m=bigResult('우르르 합쳤어요! ✨', out.map(x=>({pic:mPic(x),ko:mName(x),leg:(x.lv||1)>=4})),
+    sum.map(x=>`${x[0]} <b>${x[1]}</b>`).join(' · ')+' 생겼어요!',
+    `우르르 합쳤어요! ${sum.map(x=>x[0]+' '+x[1]+'개').join(', ')} 생겼어요!`, !!nextMergeLv());
+  const mo=m.querySelector('#bmore'); if(mo) mo.onclick=()=>{ const o=mergeAllFriends(); m.remove(); if(o.length) showMergeAll(o); else rVillage(); };
+}
 function askMerge(){
   const p=P[who];
-  const cnt=l=>p.friends.filter(f=>f.h&&f.kind!=='obj'&&f.lv===l).length;
+  const cnt=l=>freeCnt(l);
   const lv=cnt(3)>=3?3:cnt(2)>=3?2:1;
-  const three=p.friends.map((f,i)=>({f,i})).filter(x=>x.f.h&&x.f.kind!=='obj'&&x.f.lv===lv).slice(0,3);
+  const three=pickThree(lv);
   if(three.length<3 || document.querySelector('.mergem')) return;
+  const total=mergeAllN();
   const m=document.createElement('div'); m.className='modal mergem';
   m.innerHTML=`<div class="box"><div class="q">${lv===3?'왕 친구 셋을 합쳐서<br>🌈 전설의 친구로 만들까?':'친구 셋을 합쳐서<br>더 큰 친구로 만들까?'}</div>
     <div class="three" id="three">${three.map((x,k)=>`<span class="src" style="--dx:${(1-k)*110+170}px">${mon(x.f.sp)}</span>${k<2?'<span class="plus">+</span>':''}`).join('')}<span class="arrow">➜</span><span class="mystery">❓</span></div>
-    <div class="acts"><button class="btn press" id="yes">응! 합칠래 ✨</button><button class="btn w press" id="no">그대로 둘래</button></div></div>`;
+    ${total>1?`<div class="ptxt sm">지금 <b>${total}번</b> 합칠 수 있어요</div>`:''}
+    <div class="acts"><button class="btn press" id="yes">셋만 합칠래 ✨</button>${total>1?'<button class="btn y press" id="mall">⚡ 모두 합치기</button>':''}<button class="btn w press" id="no">그대로 둘래</button></div></div>`;
   document.body.appendChild(m);
-  say('친구 셋을 합쳐서 더 큰 친구로 만들어 볼까요?');
+  say(total>1?`친구를 ${total}번이나 합칠 수 있어요! 한 번에 다 합쳐 볼까요?`:'친구 셋을 합쳐서 더 큰 친구로 만들어 볼까요?');
   m.querySelector('#no').onclick=()=>{ m.remove(); save(); };
+  const all=m.querySelector('#mall'); if(all) all.onclick=()=>{ boing(); const o=mergeAllFriends(); m.remove(); showMergeAll(o); };
   m.querySelector('#yes').onclick=()=>{
     m.querySelector('#three').classList.add('merging'); boing();
     setTimeout(()=>{
-      const keep=three[0].f.sp;
-      const r=Math.random();
-      let made;
-      const shiny=three.some(x=>x.f.sh);
-      if(lv===1) made = r<.6 ? {sp:pick(three.map(x=>x.f.sp)),lv:2,h:true,sh:shiny} : {sp:keep,kind:'obj',obj:pick(['house','tree','rainbow','balloon','windmill']),lv:2,h:true};
-      else if(lv===3) made = {sp:pick(three.map(x=>x.f.sp)),lv:4,h:true,sh:shiny};
-      else made = r<.5 ? {sp:pick(three.map(x=>x.f.sp)),lv:3,h:true,sh:shiny} : {sp:keep,kind:'obj',obj:pick(['castle','ferris']),lv:3,h:true};
-      const bonus=mergeBonus(made,three.map(x=>x.f));
-      const idx=new Set(three.map(x=>x.i));
-      p.friends=p.friends.filter((_,i)=>!idx.has(i)); p.friends.push(made); save();
-      const name = made.kind==='obj' ? OBJ[made.obj].ko : `${lvName(made.lv)}${SP[made.sp].ko}`;
+      const {made,bonus}=mergeOnce(three,lv); save();
+      const name = mName(made);
       m.querySelector('.box').innerHTML=`<div class="q">짜잔! ${name}${made.kind==='obj'?(batchim(name)?'이':'가')+' 생겼어!':' 친구가 됐어!'}</div>
         <div class="result ${made.lv>=4?'legr':''}"><span class="mon" style="--w:180px">${made.kind==='obj'?OBJ[made.obj].svg():mon(made.sp)+itemSpans(made)}</span></div>
         ${bonus?`<div class="bonus">🎁 덤으로 <b>${bonus.e} ${bonus.ko}</b>${bonus.k==='acc'?'도 쓰고 있어요!':'도 들고 왔어요!'}</div>`:''}
@@ -2429,7 +2528,7 @@ window.appBack=function(){
   view='home'; render(); return true;
 };
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && (view==='home'||view==='pick')) render(); else if(document.visibilityState==='hidden') hush(); });
-if(location.hash==='#test') window.__sj={get Q(){return Q;},openVisitPick,visitGift,visitStick,showVisits,get VISIT(){return VISIT;},set VISIT(v){VISIT=v;},otherKids,growHTML,growIdx,studyDays,GROW,askVoice,KW,EW,STG,stIL,finishRound,roundSize,lvProg,XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
+if(location.hash==='#test') window.__sj={get Q(){return Q;},hatch,askMerge,mergeAllFriends,objMergeAll,objAllN,countBar,nextMergeLv,freeCnt,mergeAllN,openObjMerge,openVisitPick,visitGift,visitStick,showVisits,get VISIT(){return VISIT;},set VISIT(v){VISIT=v;},otherKids,growHTML,growIdx,studyDays,GROW,askVoice,KW,EW,STG,stIL,finishRound,roundSize,lvProg,XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
 render();
 })();
 </script>
