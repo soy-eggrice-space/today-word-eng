@@ -547,7 +547,7 @@ h1,h2,h3,p{margin:0}
 .scene[data-rid="food"]::before{background:radial-gradient(280px 280px at 96% -6%,rgba(255,200,90,.45),transparent 70%)}
 .fico{--fz:44px;width:var(--fz);height:var(--fz);flex:none;display:grid;place-items:center;border-radius:30%;background:color-mix(in oklab,var(--ft) 55%,#fff);color:var(--fc);--ic-tint:var(--ft)}
 .fico .ic{width:82%;height:82%}
-/* 무지개 테두리: 전부 먹은 음식 */
+/* 무지개 테두리: 충분히 먹은 음식 */
 .rb{position:relative;isolation:isolate;background:transparent !important;--rb-fill:var(--surface)}
 .rb::before,.rb::after{content:'';position:absolute;inset:-4px;border-radius:inherit;pointer-events:none;animation:rbSpin 2.6s linear infinite}
 .rb::before{z-index:-1;border:4px solid transparent;background:linear-gradient(var(--rb-fill),var(--rb-fill)) padding-box,var(--rainbow) border-box}
@@ -1957,7 +1957,7 @@ function renderHosp(){
 
 /* ===== 새 음식 도전 (편식 고치기) =====
    엄마·아빠 폰: 식판(반찬 3칸 · 밥 · 국)에 오늘의 메뉴를 적어요 → 아이들 태블릿: 아이마다 같은 식판이 보이고,
-   메뉴를 눌러 '1번 먹었어' / '전부 먹었어'를 골라요. 1번은 회색 테두리, 전부는 무지개 테두리. 먹어 본 음식은 '먹을 수 있어요!'에 모여요 */
+   메뉴를 눌러 '조금 먹었어' / '충분히 먹었어'를 골라요. 조금은 회색 테두리, 충분히는 무지개 테두리. 먹어 본 음식은 '먹을 수 있어요!'에 모여요 */
 const FOOD_ICONS={rice:{n:'밥',c:'#9A7B4F',t:'#FFF8E6'},soup:{n:'국',c:'#D0663A',t:'#FFD2B8'},noodle:{n:'면',c:'#C98A2E',t:'#FFE7A8'},meat:{n:'고기',c:'#B4483E',t:'#FFC2B8'},
   fish:{n:'생선',c:'#3F86C6',t:'#CFE6FA'},egg:{n:'계란',c:'#D69A1A',t:'#FFD54F'},veg:{n:'채소',c:'#3C9A52',t:'#BDE8B0'},carrot:{n:'뿌리채소',c:'#E0731F',t:'#FFC08A'},
   fruit:{n:'과일',c:'#D9443F',t:'#FFB8B0'},bread:{n:'빵',c:'#B27A35',t:'#F8D9A8'},tofu:{n:'두부·치즈',c:'#9A8F7A',t:'#FFFBEF'},mushroom:{n:'버섯',c:'#9A6A4B',t:'#E9CBB5'},
@@ -1992,7 +1992,7 @@ const eatenFoods=kid=>{ const a=ateOf(kid), it=FD().items; return Object.keys(a)
 // 안 먹었어 → '다음에 도전!' 칸
 const noFoods=kid=>{ const a=ateOf(kid), it=FD().items; return Object.keys(a).filter(id=>it[id]&&a[id].lv<0).sort((x,y)=>(a[y].t||0)-(a[x].t||0)).map(id=>it[id]); };
 const lvCls=lv=>lv>=2?' lv2 rb':lv===1?' lv1':lv<0?' lvno':'';
-const LV_SAY={'-1':'안 먹었어요','1':'1번 먹었어요','2':'전부 먹었어요','0':'아직 안 골랐어요'};
+const LV_SAY={'-1':'안 먹었어요','1':'조금 먹었어요','2':'충분히 먹었어요','0':'아직 안 골랐어요'};
 const F={open:false,slot:'s1',draft:{},pick:null,pop:null};
 function addFood(name,icon){
   name=String(name||'').trim().replace(/\s+/g,' ').slice(0,20); if(!name) return null;
@@ -2011,14 +2011,14 @@ function trayHtml(k,ct,mode){
   const cell=sl=>{ const f=ct&&ct.slots[sl.k]; if(!f) return `<div class="tc ${sl.k} empty"><span class="tc-tag">${sl.n}</span></div>`;
     const lv=lvOf(k.id,f.id);
     return `<button class="tc ${sl.k}${lvCls(lv)}${F.pop&&F.pop.kid===k.id&&F.pop.fid===f.id?' pop':''}" data-act="fdpick" data-kid="${k.id}" data-fid="${f.id}" aria-label="${esc(f.name)} ${lv?LV_SAY[lv]:''}">
-      ${fIco(f.icon)}<span class="tc-name">${esc(f.name)}</span>${lv?`<span class="tc-badge">${lv>=2?'전부':lv>0?'1번':'안 먹음'}</span>`:''}</button>`; };
+      ${fIco(f.icon)}<span class="tc-name">${esc(f.name)}</span>${lv?`<span class="tc-badge">${lv>=2?'충분히':lv>0?'조금':'안 먹음'}</span>`:''}</button>`; };
   return `<div class="tray">${TRAY.map(cell).join('')}</div>`;
 }
 function foodLane(k){
   const eaten=eatenFoods(k.id), n=eaten.length, ct=curTray(), all=allCount(k.id), nos=noFoods(k.id);
   const chips=eaten.map(f=>{ const lv=lvOf(k.id,f.id); return `<button class="fd-chip${lvCls(lv)}${F.pop&&F.pop.kid===k.id&&F.pop.fid===f.id&&F.pop.first?' pop':''}" data-act="fdsay" data-fid="${f.id}">${fIco(f.icon)}<span>${esc(f.name)}</span></button>`; }).join('');
   return `<section class="lane kid fd-lane" data-kid="${k.id}" style="--k:${k.color}" aria-label="${esc(k.name)}">
-    <div class="fd-head">${avatar(k,76)}<div class="fd-who"><div class="lane-name">${esc(k.name)}</div><small>${all?`<span class="rb-dot"></span>전부 먹은 음식 ${all}가지`:'먹어 본 음식'}</small></div><div class="fd-num" aria-label="먹어 본 음식 ${n}가지">${n}<small>가지</small></div></div>
+    <div class="fd-head">${avatar(k,76)}<div class="fd-who"><div class="lane-name">${esc(k.name)}</div><small>${all?`<span class="rb-dot"></span>충분히 먹은 음식 ${all}가지`:'먹어 본 음식'}</small></div><div class="fd-num" aria-label="먹어 본 음식 ${n}가지">${n}<small>가지</small></div></div>
     <div class="fd-can"><h3>${ui('check')}먹을 수 있어요!</h3>
       <div class="fd-chips">${chips||'<p class="fd-empty">식판에서 먹어 본 음식을 누르면 여기로 모여요</p>'}</div></div>
     <div class="fd-no${nos.length?'':' none'}"><h3>${ico('nope')}다음에 도전! <small>${nos.length?'안 먹었어요':'안 먹은 음식이 없어요'}</small></h3>
@@ -2035,7 +2035,7 @@ function renderFood(keep){
   <header class="band scene" data-rid="food"><div class="wrap band-in">
     <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
     <div class="band-title"><span class="sc-ico">${ico('yum')}</span><div><h1>새 음식 도전</h1><p class="band-date">${ct?`${ct.day===todayKey()?'오늘':'어제'}의 식판 · ${TRAY.map(sl=>ct.slots[sl.k]).filter(Boolean).map(f=>esc(f.name)).join(' · ')}`:dateLabel()}</p></div></div>
-    <div class="fd-legend"><span class="lg lvno">안 먹었어</span><span class="lg lv1">1번 먹었어</span><span class="lg lv2 rb">전부 먹었어</span></div>
+    <div class="fd-legend"><span class="lg lvno">안 먹었어</span><span class="lg lv1">조금 먹었어</span><span class="lg lv2 rb">충분히 먹었어</span></div>
   </div></header>
   <div class="wrap"><div class="lanes fd-lanes">${S.kids.map(foodLane).join('')}</div></div>`;
 }
@@ -2050,8 +2050,8 @@ function renderPick(){
     <div class="fp-top">${avatar(k,64)}<div class="fp-food${lvCls(lv)}">${fIco(f.icon,104)}</div><b>${esc(f.name)}</b></div>
     <div class="fp-btns">
       <button class="fp no" data-act="fdlv" data-lv="-1" aria-pressed="${lv===-1}">${ico('nope')}<span>안 먹었어</span></button>
-      <button class="fp once" data-act="fdlv" data-lv="1" aria-pressed="${lv===1}">${ico('bite')}<span>1번 먹었어</span></button>
-      <button class="fp all rb" data-act="fdlv" data-lv="2" aria-pressed="${lv===2}">${ico('clean')}<span>전부 먹었어</span></button>
+      <button class="fp once" data-act="fdlv" data-lv="1" aria-pressed="${lv===1}">${ico('bite')}<span>조금 먹었어</span></button>
+      <button class="fp all rb" data-act="fdlv" data-lv="2" aria-pressed="${lv===2}">${ico('clean')}<span>충분히 먹었어</span></button>
     </div>
   </div>`;
   sayText(f.name);
@@ -2067,7 +2067,7 @@ function chooseLv(lv){
     const lane=document.querySelector(`.fd-lane[data-kid="${p.kid}"]`), cellEl=lane?.querySelector(`.tc[data-fid="${p.fid}"]`);
     burstAt(lane,cellEl,prev<=0);
     tone(lv>=2?[523,659,784,1047,1319]:[523,659,784],.28,'triangle',.1); buzz();
-    sayText(lv>=2?`${withI(k.name)} ${f.name} 전부 먹었어요! 최고!`:`${withI(k.name)} ${f.name} 1번 먹어 봤어요! 잘했어요!`);
+    sayText(lv>=2?`${withI(k.name)} ${f.name} 충분히 먹었어요! 최고!`:`${withI(k.name)} ${f.name} 조금 먹어 봤어요! 잘했어요!`);
   }
 }
 function burstAt(lane,el,bump){
@@ -2089,10 +2089,10 @@ function foodParentCard(){
   const ct=curTray(), t=todayKey();
   const face=(k,f)=>{ const lv=lvOf(k.id,f.id); return `<button class="fl-k kid${lvCls(lv)}${lv>0?' on':''}" style="--k:${k.color}" data-act="fdcyc" data-kid="${k.id}" data-fid="${f.id}" aria-label="${esc(k.name)} ${LV_SAY[lv]}">${avatar(k,32)}${lv<0?`<span class="fl-x">${ui('x')}</span>`:''}</button>`; };
   return `<section class="dash-card foodc"><div class="dc-head"><span class="sc-ico">${ico('yum')}</span><div><b>새 음식 도전</b><small>아이들이 먹어 본 음식</small></div></div>
-    <div class="fd-tally">${S.kids.map(k=>`<span class="ftl kid" style="--k:${k.color}">${avatar(k,44)}<span><small>${esc(k.name)}</small><b>${foodCount(k.id)}</b>${allCount(k.id)?`<small class="ftl-all"><span class="rb-dot"></span>전부 ${allCount(k.id)}</small>`:''}</span></span>`).join('')}</div>
+    <div class="fd-tally">${S.kids.map(k=>`<span class="ftl kid" style="--k:${k.color}">${avatar(k,44)}<span><small>${esc(k.name)}</small><b>${foodCount(k.id)}</b>${allCount(k.id)?`<small class="ftl-all"><span class="rb-dot"></span>충분히 ${allCount(k.id)}</small>`:''}</span></span>`).join('')}</div>
     <button class="btn pri fd-addbtn" data-act="fdopen">${ui('plus')}${trayFor(t)?'오늘의 식판 고치기':'오늘의 음식 추가'}</button>
     ${ct?`<div class="fd-ptitle">${ct.day===t?'오늘의 식판':'어제 식판'}</div><ul class="fd-list">${TRAY.filter(sl=>ct.slots[sl.k]).map(sl=>{ const f=ct.slots[sl.k]; return `<li><span class="fl-slot">${TRAY_NAME[sl.k]}</span>${fIco(f.icon,40)}<span class="fl-name">${esc(f.name)}</span><span class="fl-kids">${S.kids.map(k=>face(k,f)).join('')}</span></li>`; }).join('')}</ul>
-      <small class="fd-note">얼굴을 누르면 1번 → 전부 → 안 먹음 → 지우기 순서로 바뀌어요</small>`:`<p class="fd-note">식판 칸마다 메뉴를 적으면 아이들 태블릿에 같은 식판이 떠요</p>`}
+      <small class="fd-note">얼굴을 누르면 조금 → 충분히 → 안 먹음 → 지우기 순서로 바뀌어요</small>`:`<p class="fd-note">식판 칸마다 메뉴를 적으면 아이들 태블릿에 같은 식판이 떠요</p>`}
   </section>`;
 }
 function openTray(){
