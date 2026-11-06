@@ -708,6 +708,13 @@ button.tc:active{transform:scale(.95)}
 .ov-need small{font-size:14px;color:var(--ink-2);display:block;margin-top:2px}
 .ov-need .btn{flex:none}
 @media (max-width:640px){.ov-need{flex-wrap:wrap}.ov-need .btn{width:100%}}
+.ph-limit{display:flex;align-items:center;gap:8px;margin:2px 0 10px;font-size:16px;color:var(--ink-2)}
+.ph-limit i{width:16px;height:16px;border-radius:50%;box-shadow:inset 0 0 0 3px var(--bub-ink);flex:none}
+.ph-limit i.on{background:var(--bub-ink)}
+.ph-limit b{color:var(--bub-ink)}
+.ph-limit.nope,.ph.nope{animation:phNope .4s ease}
+@keyframes phNope{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+.phr.full .ph[aria-pressed="false"]{opacity:.42;filter:grayscale(.5)}
 .alarm-pop.stop{background:linear-gradient(160deg,#B8A4FF,#86C5FF 55%,#7EE0C0)}
 .alarm-pop.stop .ap-clock .ic{color:#4B3FB8;--ic-tint:#EFEAFF}
 .alarm-pop.stop .ap-time{color:#2E2A78}
@@ -1071,10 +1078,10 @@ const FACES={
   uncle:'<circle class="w" cx="24" cy="26" r="12.5"/><path class="hair" d="M11.4 24.6c-.6-8 5-13.6 12.6-13.6 6.2 0 10.8 3.2 12.2 8.4-4.2-2.2-9.2-2.6-14.2-1.6-3.6.7-6.6 3-10.6 6.8z"/><circle class="s" cx="19" cy="27.5" r="1.6"/><circle class="s" cx="29" cy="27.5" r="1.6"/><path d="M19 31.8q5 4.6 10 0z"/>',
   dad:'<circle class="w" cx="24" cy="26" r="13"/><path class="hair" d="M11 24.5C11 16.5 16.8 11 24 11s13 5.5 13 13.5c-2.5-3.2-4.6-4.6-6.6-5.1-2.2 2-5.8 3-9.6 3-3.6 0-6.4-.9-7.8-2-1.3 1.1-2 2.4-2 4.1z"/><circle class="s" cx="19" cy="28" r="1.6"/><circle class="s" cx="29" cy="28" r="1.6"/><path d="M20.2 32.6q3.8 2.8 7.6 0"/>'
 };
-const MSG_DEFAULTS=[['goodmorning','잘 잤어요','☀️'],['poop','응가 했어요','💩'],['comehome','빨리 오세요','🏃'],['where','어디에요?','📍'],['heartface','사랑해요','😍'],['missyou','보고 싶어요','🥺'],['snack','과자 먹고 싶어요','🍪'],['meal','배고파요','🍚'],['tv','TV 봐도 돼요?','📺'],['hwcheck','숙제 다 했어요','✅'],['strip','아파요','🤕'],['phone','전화해 주세요','📞'],['help','도와주세요','🆘'],['daycare','어린이집 갔다올게요','🏫']];
-const MSG_DEFV=3, MSG_NEW={2:[['poop','응가 했어요','💩'],['goodmorning','잘 잤어요','☀️']],3:[['daycare','어린이집 갔다올게요','🏫']]};
+const MSG_DEFAULTS=[['goodmorning','잘 잤어요','☀️'],['poop','응가 했어요','💩'],['comehome','빨리 오세요','🏃'],['where','어디에요?','📍'],['heartface','사랑해요','😍'],['missyou','보고 싶어요','🥺'],['snack','과자 먹고 싶어요','🍪'],['moon','안녕히 주무세요','🌙'],['tv','TV 봐도 돼요?','📺'],['hwcheck','숙제 다 했어요','✅'],['strip','아파요','🤕'],['phone','전화해 주세요','📞'],['help','도와주세요','🆘'],['daycare','어린이집 갔다올게요','🏫']];
+const MSG_DEFV=4, MSG_NEW={2:[['poop','응가 했어요','💩'],['goodmorning','잘 잤어요','☀️']],3:[['daycare','어린이집 갔다올게요','🏫']],4:[['moon','안녕히 주무세요','🌙']]};
 // 버전마다 빼는 말 (같은 자리에 새 말이 들어가요)
-const MSG_DEL={3:['졸려요']};
+const MSG_DEL={3:['졸려요'],4:['배고파요']};
 function upgradeMsg(m){
   if(!m||!Array.isArray(m.phrases)) return false;
   let v=Number(m.defv)||1, changed=false;
@@ -2211,6 +2218,9 @@ function renderReplies(){
 
 /* ===== 마음 전하기 ===== */
 const M={page:1,to:new Set(),from:new Set(),pick:[],rec:'idle',voice:null,t0:0,sending:false,req:'',need:false};
+// 할머니·할아버지(둔포 가족·멍멍 가족)에게 보낼 때는 말을 2개까지만 골라요
+const PH_MAX_GP=2;
+const phMax=()=>[...M.to].some(g=>g!=='r1')?PH_MAX_GP:Infinity;
 const TG={token:'',busy:false,chats:null,err:''};
 const hasBatchim=n=>{const c=n.charCodeAt(n.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28>0};
 const withI=n=>hasBatchim(n)?n+'이':n;
@@ -2277,7 +2287,7 @@ function renderMsg(){
     <div class="msg-col">${step(1,'누구에게?',to.length>0,parents)}</div>
     <div class="msg-col">${step(2,'누가 보내요?',from.length>0,kids)}</div>
   </div>`:`<div class="wrap msg-grid p2">
-    <div class="msg-col">${summary}${step(3,'무슨 말?',ph.length>0||!!M.voice,rec+phr)}</div>
+    <div class="msg-col">${summary}${step(3,'무슨 말?',ph.length>0||!!M.voice,rec+(phMax()<Infinity?`<p class="ph-limit">${[...Array(phMax())].map((_,n)=>`<i class="${n<M.pick.length?'on':''}"></i>`).join('')}<span>할머니·할아버지께는 <b>${phMax()}개</b>까지 골라요</span></p>`:'')+phr.replace('<div class="phr">',`<div class="phr${M.pick.length>=phMax()?' full':''}">`))}</div>
   </div>`}
   <div class="sendbar"><div class="wrap sendbar-in">
     <div class="preview">
@@ -2622,10 +2632,12 @@ document.addEventListener('click',e=>{
     case 'todo': view.screen='home'; show(); tone([660],.08,'sine'); break;
     case 'msg': view.screen='msg'; show(); tone([660],.08,'sine'); break;
     case 'edback': view.screen=view.from||'home'; show(); break;
-    case 'mto': M.to.has(d.id)?M.to.delete(d.id):M.to.add(d.id); buzz(); tone([M.to.has(d.id)?784:523],.08,'sine'); renderMsg(); break;
+    case 'mto': M.to.has(d.id)?M.to.delete(d.id):M.to.add(d.id); if(M.pick.length>phMax()) M.pick.length=phMax(); buzz(); tone([M.to.has(d.id)?784:523],.08,'sine'); renderMsg(); break;
     case 'mfrom': { if(!sendsLeft(d.kid)){ const k=kidById(d.kid); tone([330,262],.14,'sine',.12); toast(`${withI(k.name)}는 1시간에 ${SEND_MAX}번까지 보낼 수 있어요. ${hm(sendAgainAt(d.kid))}부터 다시 보낼 수 있어요`); break; }
       const had=M.from.has(d.kid); M.from.clear(); if(!had) M.from.add(d.kid); buzz(); tone([had?523:784],.08,'sine'); renderMsg(); break; }
-    case 'mph': { const i=M.pick.indexOf(d.pid); if(i>=0) M.pick.splice(i,1); else M.pick.push(d.pid); buzz(); tone([i<0?880:523],.08,'sine'); renderMsg(); break; }
+    case 'mph': { const i=M.pick.indexOf(d.pid);
+      if(i<0&&M.pick.length>=phMax()){ tone([330,262],.12,'sine',.07); buzz(); toast(`할머니·할아버지께는 ${phMax()}개까지 고를 수 있어요`); const el=e.target.closest('.ph'); el?.classList.remove('nope'); void el?.offsetWidth; el?.classList.add('nope'); const lm=$('.ph-limit'); lm?.classList.remove('nope'); void lm?.offsetWidth; lm?.classList.add('nope'); break; }
+      if(i>=0) M.pick.splice(i,1); else M.pick.push(d.pid); buzz(); tone([i<0?880:523],.08,'sine'); renderMsg(); break; }
     case 'mrec': if(M.rec==='rec') recStop(); else recStart(); break;
     case 'mplay': try{ window.Android.recPlay(); }catch(e){} break;
     case 'mdel': try{ window.Android.recDiscard(); }catch(e){} M.voice=null; M.rec='idle'; renderMsg(); break;
