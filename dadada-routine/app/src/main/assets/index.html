@@ -756,6 +756,7 @@ button.tc:active{transform:scale(.95)}
 :root{--sc-c-a:#F1E6FF;--sc-c-b:#FFE4F1;--char-ink:#9A4FD0;--char-tint:#E9D6FF}
 .scene[data-rid="char"]{--a:var(--sc-c-a);--b:var(--sc-c-b);--sink:var(--ink);--sc-ic:var(--char-ink);--sc-tint:var(--char-tint)}
 .charsvg{display:block;overflow:visible}
+.charsvg.crop{overflow:hidden;border-radius:16px}
 .char-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
 .char-card{display:flex;align-items:center;gap:12px;padding:12px 16px 12px 10px;border-radius:30px;background:linear-gradient(150deg,color-mix(in oklab,var(--k) 16%,var(--surface)),var(--surface));box-shadow:var(--shadow);text-align:left;min-width:0}
 .char-card:active{transform:scale(.98)}
@@ -772,7 +773,7 @@ button.tc:active{transform:scale(.95)}
 .cr-k[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 4px color-mix(in oklab,var(--k) 60%,transparent)}
 .cr-wrap{display:grid;grid-template-columns:minmax(300px,420px) minmax(0,1fr);gap:20px;padding-block:18px 30px;align-items:start}
 .cr-stage{position:sticky;top:12px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px;border-radius:32px;background:linear-gradient(170deg,color-mix(in oklab,var(--k) 14%,var(--surface)),var(--surface));box-shadow:var(--shadow)}
-.cr-art{width:100%;max-width:360px}
+.cr-art{width:100%;max-width:300px}
 .cr-art .charsvg{width:100%;height:auto}
 .cr-money{display:flex;flex-direction:column;align-items:center;gap:4px}
 .cm-big{display:flex;align-items:center;gap:6px}
@@ -2390,7 +2391,6 @@ const CH_CHEEK=[['pink','분홍 볼'],['none','없음'],['dots','주근깨']];
 const CH_DEFAULT={skin:1,eyes:'big',hair:'short',hc:1,mouth:'smile',cheek:'pink'};
 const shade=(hex,amt)=>{ const n=parseInt(hex.slice(1),16); let r=n>>16,g=n>>8&255,b=n&255; const t=amt<0?0:255, p=Math.abs(amt); r=Math.round(r+(t-r)*p); g=Math.round(g+(t-g)*p); b=Math.round(b+(t-b)*p); return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1); };
 const INK='#2E2A3A';
-const TORSO='M54 260 C56 198 78 171 104 167 Q120 181 136 167 C162 171 184 198 186 260 Z';
 // --- 머리 ---
 const HF={
   short:'M67 99 C62 56 92 39 120 39 C150 39 179 57 173 99 C166 82 152 70 133 68 C124 79 104 81 90 75 C80 79 72 87 67 99Z',
@@ -2425,52 +2425,37 @@ function hairSvg(style,hc,part){
   return out+hl;
 }
 function eyesSvg(t){
-  const pair=f=>f(100)+f(140);
-  const shine=x=>`<circle cx="${x+2.4}" cy="101.5" r="2.4" fill="#fff"/><circle cx="${x-2.2}" cy="107" r="1.2" fill="#fff"/>`;
-  const big=x=>`<ellipse cx="${x}" cy="104" rx="6.6" ry="8.2" fill="${INK}"/>${shine(x)}`;
-  const arcUp=x=>`<path d="M${x-7} 106 Q${x} 97 ${x+7} 106" fill="none" stroke="${INK}" stroke-width="3.6" stroke-linecap="round"/>`;
+  const Y=110, pair=f=>f(97)+f(143);
+  const shine=x=>`<circle cx="${x+2.8}" cy="${Y-3.6}" r="2.9" fill="#fff"/><circle cx="${x-2.6}" cy="${Y+3.2}" r="1.4" fill="#fff"/>`;
+  const big=x=>`<ellipse cx="${x}" cy="${Y}" rx="7.6" ry="9.2" fill="${INK}"/>${shine(x)}`;
+  const arcUp=x=>`<path d="M${x-8} ${Y+2} Q${x} ${Y-8} ${x+8} ${Y+2}" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`;
   switch(t){
-    case 'dot': return pair(x=>`<circle cx="${x}" cy="104" r="5" fill="${INK}"/><circle cx="${x+1.8}" cy="102.2" r="1.6" fill="#fff"/>`);
-    case 'spark': return pair(x=>`<ellipse cx="${x}" cy="104" rx="7.4" ry="9" fill="${INK}"/><path d="M${x+2.6} 97.5 l1.2 2.6 2.6 1.2 -2.6 1.2 -1.2 2.6 -1.2 -2.6 -2.6 -1.2 2.6 -1.2z" fill="#fff"/><circle cx="${x-2.6}" cy="108" r="1.6" fill="#fff"/><ellipse cx="${x}" cy="110" rx="4" ry="1.6" fill="#8FB6FF" opacity=".7"/>`);
+    case 'dot': return pair(x=>`<circle cx="${x}" cy="${Y}" r="5.8" fill="${INK}"/><circle cx="${x+2}" cy="${Y-2}" r="1.9" fill="#fff"/>`);
+    case 'spark': return pair(x=>`<ellipse cx="${x}" cy="${Y}" rx="8.4" ry="10" fill="${INK}"/><path d="M${x+3} ${Y-7} l1.3 2.8 2.8 1.3 -2.8 1.3 -1.3 2.8 -1.3 -2.8 -2.8 -1.3 2.8 -1.3z" fill="#fff"/><circle cx="${x-3}" cy="${Y+4}" r="1.8" fill="#fff"/><ellipse cx="${x}" cy="${Y+6.5}" rx="4.6" ry="1.8" fill="#8FB6FF" opacity=".75"/>`);
     case 'smile': return pair(arcUp);
-    case 'sleepy': return pair(x=>`<path d="M${x-7} 103 Q${x} 110 ${x+7} 103" fill="none" stroke="${INK}" stroke-width="3.6" stroke-linecap="round"/>`);
-    case 'wink': return big(100)+arcUp(140);
-    case 'lash': return pair(x=>big(x)+`<path d="M${x-6} 97 l-3.5 -3 M${x-1} 95.6 l-1 -4 M${x+5} 97 l3 -3.4" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/>`);
+    case 'sleepy': return pair(x=>`<path d="M${x-8} ${Y-1} Q${x} ${Y+7} ${x+8} ${Y-1}" fill="none" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`);
+    case 'wink': return big(97)+arcUp(143);
+    case 'lash': return pair(x=>big(x)+`<path d="M${x-7} ${Y-7} l-4 -3 M${x-1.5} ${Y-9} l-1 -4.4 M${x+5} ${Y-7.5} l3.4 -3.6" stroke="${INK}" stroke-width="2.4" stroke-linecap="round"/>`);
     default: return pair(big);
   }
 }
 function mouthSvg(t){
   switch(t){
-    case 'open': return `<path d="M110 123 Q120 140 130 123 Z" fill="#B8434F" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><path d="M114 131 Q120 127 126 131 Q120 136 114 131Z" fill="#FF8FA0"/>`;
-    case 'cat': return `<path d="M110 124 q5 6 10 0 q5 6 10 0" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
-    case 'o': return `<ellipse cx="120" cy="127" rx="4.4" ry="5.2" fill="#B8434F" stroke="${INK}" stroke-width="2.4"/>`;
-    default: return `<path d="M111 124 Q120 133 129 124" fill="none" stroke="${INK}" stroke-width="3.2" stroke-linecap="round"/>`;
+    case 'open': return `<path d="M113 127 Q120 139 127 127 Z" fill="#B8434F" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><path d="M116 133 Q120 130 124 133 Q120 136.5 116 133Z" fill="#FF8FA0"/>`;
+    case 'cat': return `<path d="M112 128 q4 5 8 0 q4 5 8 0" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+    case 'o': return `<ellipse cx="120" cy="130" rx="3.8" ry="4.6" fill="#B8434F" stroke="${INK}" stroke-width="2.4"/>`;
+    default: return `<path d="M114 128 Q120 134 126 128" fill="none" stroke="${INK}" stroke-width="3.2" stroke-linecap="round"/>`;
   }
 }
 function cheekSvg(t){
   if(t==='none') return '';
-  if(t==='dots') return [[86,118],[91,122],[84,124],[154,118],[149,122],[156,124]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.5" fill="#B9774E" opacity=".7"/>`).join('');
-  return `<ellipse cx="87" cy="120" rx="8.5" ry="5" fill="#FF8FA6" opacity=".5"/><ellipse cx="153" cy="120" rx="8.5" ry="5" fill="#FF8FA6" opacity=".5"/>`;
+  if(t==='dots') return [[84,124],[89,128],[82,130],[156,124],[151,128],[158,130]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.6" fill="#B9774E" opacity=".7"/>`).join('');
+  return `<ellipse cx="85" cy="125" rx="10" ry="6" fill="#FF8FA6" opacity=".5"/><ellipse cx="155" cy="125" rx="10" ry="6" fill="#FF8FA6" opacity=".5"/>`;
 }
 // --- 상점 물건 ---
 // 옷: 몸통 모양(TORSO) 안에 그려요. clip=몸통 클립 id
 const star5=(cx,cy,r,ir)=>{ let d=''; for(let i=0;i<10;i++){ const a=-Math.PI/2+i*Math.PI/5, rr=i%2?ir:r; d+=(i?'L':'M')+(cx+Math.cos(a)*rr).toFixed(1)+' '+(cy+Math.sin(a)*rr).toFixed(1); } return d+'Z'; };
 const heart=(cx,cy,s)=>`M${cx} ${cy+s*.9} C${cx-s*1.4} ${cy} ${cx-s*1.1} ${cy-s} ${cx} ${cy-s*.35} C${cx+s*1.1} ${cy-s} ${cx+s*1.4} ${cy} ${cx} ${cy+s*.9}Z`;
-const TOPS={
-  tee:{n:'기본 흰 티',p:0,c:'#FFFFFF',draw:()=>''},
-  stripe:{n:'줄무늬 티',p:8,c:'#FFFFFF',draw:()=>[176,192,208,224,240].map(y=>`<rect x="40" y="${y}" width="160" height="7" fill="#7DB7F0"/>`).join('')},
-  star:{n:'별 티셔츠',p:10,c:'#FFD45E',draw:()=>`<path d="${star5(120,214,20,9)}" fill="#fff"/>`},
-  heart:{n:'하트 티셔츠',p:10,c:'#FF9FC0',draw:()=>`<path d="${heart(120,212,15)}" fill="#fff"/>`},
-  hood:{n:'초록 후드티',p:15,c:'#8ED07A',draw:()=>`<path d="M98 170 Q120 196 142 170" fill="none" stroke="#6FB45C" stroke-width="7" stroke-linecap="round"/><path d="M112 186 v22 M128 186 v22" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="112" cy="209" r="3" fill="#fff"/><circle cx="128" cy="209" r="3" fill="#fff"/><rect x="96" y="226" width="48" height="24" rx="8" fill="#7BC067"/>`},
-  overall:{n:'멜빵바지',p:18,c:'#FFFFFF',draw:()=>`<path d="M84 260 V206 Q84 200 90 200 H150 Q156 200 156 206 V260Z" fill="#5B8BD6"/><path d="M90 202 L82 176 M150 202 L158 176" stroke="#5B8BD6" stroke-width="9" stroke-linecap="round"/><circle cx="92" cy="208" r="4" fill="#FFD45E"/><circle cx="148" cy="208" r="4" fill="#FFD45E"/><rect x="108" y="218" width="24" height="16" rx="4" fill="#4A78C2"/>`},
-  dress:{n:'분홍 프릴 원피스',p:20,c:'#F7A8C8',draw:()=>`<path d="M100 170 q5 8 10 2 q5 8 10 2 q5 8 10 2 q5 8 10 2" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M112 190 l-10 -6 v12z M128 190 l10 -6 v12z" fill="#FF6B9A"/><circle cx="120" cy="190" r="4" fill="#FF6B9A"/><path d="M60 246 q10 -8 20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="#fff" stroke-width="4"/>`},
-  sailor:{n:'세일러복',p:22,c:'#FFFFFF',draw:()=>`<path d="M80 176 L120 214 L160 176 L150 168 L120 196 L90 168Z" fill="#2F4F9E"/><path d="M84 180 L120 214 L156 180" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M112 206 L120 222 L128 206 L120 212Z" fill="#E8434F"/>`},
-  rainbow:{n:'무지개 스웨터',p:25,c:'#FF8C8C',draw:()=>['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'].map((c,i)=>`<rect x="40" y="${172+i*15}" width="160" height="15" fill="${c}"/>`).join('')},
-  dino:{n:'공룡 옷',p:30,c:'#7CCB6B',draw:()=>`<ellipse cx="120" cy="236" rx="30" ry="34" fill="#D9F2B8"/>${[[70,190],[62,212],[170,190],[178,212]].map(([x,y])=>`<path d="M${x} ${y} l${x<120?-10:10} -6 l2 14z" fill="#F7C64A"/>`).join('')}`},
-  princess:{n:'공주 드레스',p:35,c:'#C9A8F5',draw:()=>`<circle cx="74" cy="190" r="17" fill="#E3D2FF" stroke="#B48FEA" stroke-width="2.5"/><circle cx="166" cy="190" r="17" fill="#E3D2FF" stroke="#B48FEA" stroke-width="2.5"/><path d="M96 172 Q120 196 144 172" fill="none" stroke="#F5C84C" stroke-width="5" stroke-linecap="round"/><path d="${star5(120,206,7,3)}" fill="#F5C84C"/><path d="M92 240 l3 -6 3 6 -3 6z M146 230 l3 -6 3 6 -3 6z M118 246 l3 -6 3 6 -3 6z" fill="#fff"/>`},
-  prince:{n:'왕자 옷',p:35,c:'#3E5DAE',draw:()=>`<path d="M60 186 Q74 174 92 178 L88 190 Q74 186 64 196Z M180 186 Q166 174 148 178 L152 190 Q166 186 176 196Z" fill="#F5C84C"/><path d="M120 172 V260" stroke="#2D4790" stroke-width="3"/>${[196,214,232].map(y=>`<circle cx="128" cy="${y}" r="3.6" fill="#F5C84C"/>`).join('')}<path d="M104 168 L120 186 L136 168" fill="#fff"/><path d="M60 230 H180" stroke="#E8434F" stroke-width="8"/>`},
-  space:{n:'우주복',p:40,c:'#EEF1F6',draw:()=>`<rect x="98" y="200" width="44" height="32" rx="8" fill="#C9D3E2"/><circle cx="110" cy="212" r="4" fill="#FF6B6B"/><circle cx="122" cy="212" r="4" fill="#FFD45E"/><circle cx="134" cy="212" r="4" fill="#5EC8FF"/><rect x="106" y="222" width="28" height="4" rx="2" fill="#8C98AD"/><path d="M78 186 h-8 M162 186 h8" stroke="#C9D3E2" stroke-width="10" stroke-linecap="round"/><path d="M96 172 Q120 190 144 172" fill="none" stroke="#C9D3E2" stroke-width="8"/>`},
-};
 // 머리 장식 (앞머리 위에)
 const HEADS={
   band:{n:'분홍 머리띠',p:6,draw:()=>`<path d="M68 90 C74 50 166 50 172 90" fill="none" stroke="#FF8FB8" stroke-width="9" stroke-linecap="round"/><path d="M68 90 C74 50 166 50 172 90" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.5" stroke-dasharray="3 7" stroke-linecap="round"/>`},
@@ -2493,62 +2478,100 @@ const FACEACC={
   hearts:{n:'하트 안경',p:15,draw:()=>`<path d="${heart(100,104,12)}" fill="#FF6B9A" fill-opacity=".85" stroke="#D9437A" stroke-width="2.5"/><path d="${heart(140,104,12)}" fill="#FF6B9A" fill-opacity=".85" stroke="#D9437A" stroke-width="2.5"/><path d="M112 100 Q120 96 128 100" fill="none" stroke="#D9437A" stroke-width="3"/>`},
   sun:{n:'선글라스',p:12,draw:()=>`<rect x="84" y="94" width="32" height="20" rx="9" fill="#2E2A3A"/><rect x="124" y="94" width="32" height="20" rx="9" fill="#2E2A3A"/><path d="M116 101 H124 M84 100 L72 96 M156 100 L168 96" stroke="#2E2A3A" stroke-width="3.5" stroke-linecap="round"/><path d="M90 99 l8 0" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/><path d="M130 99 l8 0" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>`},
 };
-// 배경 (동그라미 안쪽)
-const BGS={
-  basic:{n:'기본',p:0,draw:()=>`<rect width="240" height="260" fill="#F1EEFB"/>`},
-  sky:{n:'파란 하늘',p:8,draw:()=>`<rect width="240" height="260" fill="#BFE5FF"/><g fill="#fff"><ellipse cx="54" cy="64" rx="22" ry="11"/><ellipse cx="68" cy="58" rx="14" ry="11"/><ellipse cx="186" cy="88" rx="20" ry="10"/><ellipse cx="198" cy="82" rx="12" ry="9"/></g>`},
-  sunset:{n:'노을',p:10,draw:u=>`<defs><linearGradient id="g${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB37A"/><stop offset=".6" stop-color="#FF8FB1"/><stop offset="1" stop-color="#B99CFF"/></linearGradient></defs><rect width="240" height="260" fill="url(#g${u})"/><circle cx="186" cy="76" r="20" fill="#FFE59A" opacity=".9"/>`},
-  night:{n:'별밤',p:15,draw:()=>`<rect width="240" height="260" fill="#2C3570"/><path d="M190 46 a18 18 0 1 0 14 30 a15 15 0 0 1 -14 -30z" fill="#FFE59A"/>${[[40,50],[70,30],[60,90],[168,120],[200,150],[34,140],[120,26],[150,60]].map(([x,y],i)=>`<path d="${star5(x,y,i%2?3.4:5,i%2?1.4:2)}" fill="#fff"/>`).join('')}`},
-  sea:{n:'바다',p:15,draw:()=>`<rect width="240" height="260" fill="#CDEFFF"/><path d="M0 150 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V260 H0Z" fill="#7FCBF2"/><path d="M0 172 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V260 H0Z" fill="#52B2E6"/><circle cx="196" cy="56" r="16" fill="#FFE07A"/>`},
-  flowers:{n:'꽃밭',p:15,draw:()=>`<rect width="240" height="260" fill="#E3F6E3"/>${[[34,150,'#FFB3C8'],[200,140,'#FFD45E'],[52,190,'#B9A4FF'],[192,196,'#FF9F8C'],[24,226,'#FFD45E'],[214,240,'#FFB3C8'],[40,90,'#B9A4FF'],[204,84,'#FFB3C8']].map(([x,y,c])=>`<g transform="translate(${x} ${y})">${[0,72,144,216,288].map(a=>`<circle r="6" transform="rotate(${a}) translate(0 -7)" fill="${c}"/>`).join('')}<circle r="4.5" fill="#fff"/></g>`).join('')}`},
-  rainbow:{n:'무지개',p:25,draw:()=>`<rect width="240" height="260" fill="#FFF7EC"/>${['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'].map((c,i)=>`<path d="M${10+i*11} 200 A${110-i*11} ${110-i*11} 0 0 1 ${230-i*11} 200" fill="none" stroke="${c}" stroke-width="11"/>`).join('')}`},
+// --- 몸 (3등신, 목 없이) ---
+const HEAD_T='translate(120 88) scale(.86) translate(-120 -100)';
+const FACE_D='M69 98 C69 64 92 52 120 52 C148 52 171 64 171 98 C171 128 150 146 120 146 C90 146 69 128 69 98Z';
+const TORSO='M90 124 Q120 114 150 124 Q158 160 160 198 Q160 208 150 208 H90 Q80 208 80 198 Q82 160 90 124Z';
+const SHORTS='M82 194 H158 L161 222 Q161 229 154 229 H127 L120 214 L113 229 H86 Q79 229 79 222Z';
+const SKIRT='M88 186 H152 Q170 222 176 240 Q120 254 64 240 Q70 222 88 186Z';
+const limb=(d,fill,edge,w=16)=>`<path d="${d}" fill="none" stroke="${edge}" stroke-width="${w+5}" stroke-linecap="round"/><path d="${d}" fill="none" stroke="${fill}" stroke-width="${w}" stroke-linecap="round"/>`;
+const TOPS={
+  tee:{n:'기본 흰 옷',p:0,c:'#FFFFFF',b:'#FFFFFF',draw:()=>''},
+  stripe:{n:'줄무늬 티',p:8,c:'#FFFFFF',b:'#5B7FC9',draw:()=>[128,142,156,170,184,198].map(y=>`<rect x="70" y="${y}" width="100" height="6" fill="#7DB7F0"/>`).join('')},
+  star:{n:'별 티셔츠',p:10,c:'#FFD45E',b:'#6E8BD8',draw:()=>`<path d="${star5(120,160,16,7)}" fill="#fff"/>`},
+  heart:{n:'하트 티셔츠',p:10,c:'#FF9FC0',b:'#FFFFFF',draw:()=>`<path d="${heart(120,158,13)}" fill="#fff"/>`},
+  hood:{n:'초록 후드티',p:15,c:'#8ED07A',b:'#5E8F4E',draw:()=>`<path d="M98 122 Q120 140 142 122" fill="none" stroke="#6FB45C" stroke-width="7" stroke-linecap="round"/><path d="M113 134 v18 M127 134 v18" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="113" cy="153" r="3" fill="#fff"/><circle cx="127" cy="153" r="3" fill="#fff"/><rect x="100" y="174" width="40" height="18" rx="7" fill="#7BC067"/>`},
+  overall:{n:'멜빵바지',p:18,c:'#FFFFFF',b:'#5B8BD6',draw:()=>`<path d="M100 210 V156 Q100 152 104 152 H136 Q140 152 140 156 V210Z" fill="#5B8BD6"/><path d="M103 154 L96 120 M137 154 L144 120" stroke="#5B8BD6" stroke-width="7" stroke-linecap="round"/><circle cx="105" cy="158" r="3.5" fill="#FFD45E"/><circle cx="135" cy="158" r="3.5" fill="#FFD45E"/><rect x="110" y="168" width="20" height="13" rx="4" fill="#4A78C2"/>`},
+  dress:{n:'분홍 프릴 원피스',p:20,c:'#F7A8C8',b:'#F7A8C8',skirt:'#FFFFFF',draw:()=>`<path d="M100 124 q5 7 10 1 q5 7 10 1 q5 7 10 1 q5 7 10 1" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M112 146 l-11 -7 v14z M128 146 l11 -7 v14z" fill="#FF6B9A"/><circle cx="120" cy="146" r="4.5" fill="#FF6B9A"/>`},
+  sailor:{n:'세일러복',p:22,c:'#FFFFFF',b:'#2F4F9E',draw:()=>`<path d="M88 124 L120 160 L152 124 L144 116 L120 144 L96 116Z" fill="#2F4F9E"/><path d="M93 128 L120 158 L147 128" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M111 150 L120 168 L129 150 L120 156Z" fill="#E8434F"/>`},
+  rainbow:{n:'무지개 스웨터',p:25,c:'#FF8C8C',b:'#6E8BD8',sleeve:'#A68CF0',draw:()=>['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'].map((c,i)=>`<rect x="70" y="${114+i*16}" width="100" height="16" fill="${c}"/>`).join('')},
+  dino:{n:'공룡 옷',p:30,c:'#7CCB6B',b:'#7CCB6B',tail:'#7CCB6B',draw:()=>`<ellipse cx="120" cy="172" rx="22" ry="30" fill="#D9F2B8"/>${[150,164,178].map(y=>`<path d="M${y==150?150:y==164?156:158} ${y} l9 -3 -4 9z" fill="#F7C64A"/>`).join('')}`},
+  princess:{n:'공주 드레스',p:35,c:'#C9A8F5',b:'#C9A8F5',skirt:'#F5C84C',puff:'#E3D2FF',draw:()=>`<path d="M98 124 Q120 146 142 124" fill="none" stroke="#F5C84C" stroke-width="5" stroke-linecap="round"/><path d="${star5(120,158,7,3)}" fill="#F5C84C"/><path d="M104 186 l2.5 -5 2.5 5 -2.5 5z M132 176 l2.5 -5 2.5 5 -2.5 5z" fill="#fff"/>`},
+  prince:{n:'왕자 옷',p:35,c:'#3E5DAE',b:'#FFFFFF',epaulet:'#F5C84C',shoe:'#3A3550',draw:()=>`<path d="M120 128 V210" stroke="#2D4790" stroke-width="3"/>${[146,164,182].map(y=>`<circle cx="128" cy="${y}" r="3.4" fill="#F5C84C"/>`).join('')}<path d="M104 120 L120 140 L136 120" fill="#fff"/><path d="M84 132 L156 192" stroke="#E8434F" stroke-width="8"/>`},
+  space:{n:'우주복',p:40,c:'#EEF1F6',b:'#EEF1F6',shoe:'#9AA6BA',draw:()=>`<rect x="100" y="148" width="40" height="28" rx="7" fill="#C9D3E2"/><circle cx="111" cy="159" r="3.8" fill="#FF6B6B"/><circle cx="120" cy="159" r="3.8" fill="#FFD45E"/><circle cx="129" cy="159" r="3.8" fill="#5EC8FF"/><rect x="107" y="168" width="26" height="4" rx="2" fill="#8C98AD"/><path d="M96 122 Q120 138 144 122" fill="none" stroke="#C9D3E2" stroke-width="8"/><rect x="82" y="190" width="76" height="8" fill="#C9D3E2"/>`},
 };
-// 프레임 (동그라미 테두리)
-const ringDots=(n,r,f)=>[...Array(n)].map((_,i)=>{ const a=-Math.PI/2+i*2*Math.PI/n; return f(120+Math.cos(a)*r,125+Math.sin(a)*r,i,a); }).join('');
+// --- 카드 프레임 ---
+const CARD={x:14,y:14,w:212,h:272,r:34};
+const cardRect=a=>`<rect x="${CARD.x}" y="${CARD.y}" width="${CARD.w}" height="${CARD.h}" rx="${CARD.r}" ${a}/>`;
+const perimDots=(n,f,inset=0)=>{ const x0=CARD.x+inset, y0=CARD.y+inset, w=CARD.w-2*inset, h=CARD.h-2*inset, P=2*(w+h); return [...Array(n)].map((_,i)=>{ let d=(i+.5)*P/n, x, y; if(d<w){ x=x0+d; y=y0; } else if((d-=w)<h){ x=x0+w; y=y0+d; } else if((d-=h)<w){ x=x0+w-d; y=y0+h; } else { d-=w; x=x0; y=y0+h-d; } return f(x,y,i); }).join(''); };
+const flowerAt=(x,y,c,r=7)=>`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${[0,72,144,216,288].map(a=>`<circle r="${r}" transform="rotate(${a}) translate(0 -${r+1})" fill="${c}" stroke="#fff" stroke-width="1.5"/>`).join('')}<circle r="${r*.7}" fill="#fff"/></g>`;
+const RAINBOW=['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'];
 const FRAMES={
-  basic:{n:'기본',p:0,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#fff" stroke-width="9"/>`},
-  star:{n:'별 테두리',p:10,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#FFD45E" stroke-width="9"/>${ringDots(10,104,(x,y)=>`<path d="${star5(x,y,11,5)}" fill="#FFC22E" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>`)}`},
-  heart:{n:'하트 테두리',p:10,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#FFB3CB" stroke-width="9"/>${ringDots(9,104,(x,y)=>`<path d="${heart(x,y,9)}" fill="#FF6B9A" stroke="#fff" stroke-width="2.5"/>`)}`},
-  flower:{n:'꽃 테두리',p:15,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#8ED07A" stroke-width="8"/>${ringDots(8,104,(x,y,i)=>`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${[0,72,144,216,288].map(a=>`<circle r="7" transform="rotate(${a}) translate(0 -8)" fill="${['#FFB3C8','#FFD45E','#B9A4FF','#FF9F8C'][i%4]}" stroke="#fff" stroke-width="1.5"/>`).join('')}<circle r="5" fill="#fff"/></g>`)}`},
-  cloud:{n:'구름 테두리',p:15,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#BFE5FF" stroke-width="10"/>${ringDots(14,106,(x,y)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="14" fill="#fff" stroke="#D6EEFF" stroke-width="2"/>`)}`},
-  gold:{n:'황금 테두리',p:30,draw:u=>`<defs><linearGradient id="f${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE68A"/><stop offset=".5" stop-color="#F2B52E"/><stop offset="1" stop-color="#FFE68A"/></linearGradient></defs><circle cx="120" cy="125" r="104" fill="none" stroke="url(#f${u})" stroke-width="14"/><circle cx="120" cy="125" r="97" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1.5"/>${ringDots(4,104,(x,y,i)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8" fill="${['#FF5C7A','#5EC8FF','#6BD98B','#B98CFF'][i]}" stroke="#fff" stroke-width="2.5"/>`)}`},
-  rainbow:{n:'무지개 테두리',p:40,draw:()=>['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'].map((c,i,a)=>{ const a0=-Math.PI/2+i*2*Math.PI/a.length, a1=a0+2*Math.PI/a.length, r=104; return `<path d="M${(120+Math.cos(a0)*r).toFixed(1)} ${(125+Math.sin(a0)*r).toFixed(1)} A${r} ${r} 0 0 1 ${(120+Math.cos(a1)*r).toFixed(1)} ${(125+Math.sin(a1)*r).toFixed(1)}" fill="none" stroke="${c}" stroke-width="13"/>`; }).join('')+`<circle cx="120" cy="125" r="104" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="3"/>`},
+  basic:{n:'기본',p:0,draw:()=>cardRect('fill="none" stroke="#fff" stroke-width="10"')},
+  star:{n:'별 테두리',p:10,draw:()=>cardRect('fill="none" stroke="#FFD45E" stroke-width="9"')+perimDots(14,(x,y)=>`<path d="${star5(x,y,11,5)}" fill="#FFC22E" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>`)},
+  heart:{n:'하트 테두리',p:10,draw:()=>cardRect('fill="none" stroke="#FFB3CB" stroke-width="9"')+perimDots(14,(x,y)=>`<path d="${heart(x,y,9)}" fill="#FF6B9A" stroke="#fff" stroke-width="2.5"/>`)},
+  flower:{n:'꽃 테두리',p:15,draw:()=>cardRect('fill="none" stroke="#8ED07A" stroke-width="8"')+perimDots(12,(x,y,i)=>flowerAt(x,y,['#FFB3C8','#FFD45E','#B9A4FF','#FF9F8C'][i%4]))},
+  cloud:{n:'구름 테두리',p:15,draw:()=>cardRect('fill="none" stroke="#BFE5FF" stroke-width="10"')+perimDots(24,(x,y)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="13" fill="#fff" stroke="#D6EEFF" stroke-width="2"/>`)},
+  gold:{n:'황금 테두리',p:30,draw:u=>`<defs><linearGradient id="f${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE68A"/><stop offset=".5" stop-color="#F2B52E"/><stop offset="1" stop-color="#FFE68A"/></linearGradient></defs>`+cardRect(`fill="none" stroke="url(#f${u})" stroke-width="14"`)+[[CARD.x+12,CARD.y+12,'#FF5C7A'],[CARD.x+CARD.w-12,CARD.y+12,'#5EC8FF'],[CARD.x+CARD.w-12,CARD.y+CARD.h-12,'#6BD98B'],[CARD.x+12,CARD.y+CARD.h-12,'#B98CFF']].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="8" fill="${c}" stroke="#fff" stroke-width="2.5"/>`).join('')},
+  rainbow:{n:'무지개 테두리',p:40,draw:u=>`<defs><linearGradient id="r${u}" x1="0" y1="0" x2="1" y2="1">${RAINBOW.map((c,i)=>`<stop offset="${(i/5).toFixed(2)}" stop-color="${c}"/>`).join('')}</linearGradient></defs>`+cardRect(`fill="none" stroke="url(#r${u})" stroke-width="13"`)+cardRect('fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.5"')},
 };
-// 친구 (오른쪽 아래)
+// --- 배경 (카드 안쪽) ---
+const floor=c=>`<rect x="0" y="236" width="240" height="70" fill="${c}"/>`;
+const BGS={
+  basic:{n:'기본',p:0,draw:()=>`<rect width="240" height="300" fill="#F1EEFB"/>${floor('#E5E0F6')}`},
+  sky:{n:'파란 하늘',p:8,draw:()=>`<rect width="240" height="300" fill="#BFE5FF"/><g fill="#fff"><ellipse cx="54" cy="56" rx="22" ry="11"/><ellipse cx="68" cy="50" rx="14" ry="11"/><ellipse cx="188" cy="92" rx="20" ry="10"/><ellipse cx="200" cy="86" rx="12" ry="9"/></g>${floor('#B7E39E')}`},
+  sunset:{n:'노을',p:10,draw:u=>`<defs><linearGradient id="g${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB37A"/><stop offset=".6" stop-color="#FF8FB1"/><stop offset="1" stop-color="#B99CFF"/></linearGradient></defs><rect width="240" height="300" fill="url(#g${u})"/><circle cx="188" cy="70" r="20" fill="#FFE59A" opacity=".9"/>${floor('#9A82E0')}`},
+  night:{n:'별밤',p:15,draw:()=>`<rect width="240" height="300" fill="#2C3570"/><path d="M192 40 a18 18 0 1 0 14 30 a15 15 0 0 1 -14 -30z" fill="#FFE59A"/>${[[40,46],[70,28],[56,96],[176,130],[204,170],[34,150],[120,24],[156,58]].map(([x,y],i)=>`<path d="${star5(x,y,i%2?3.4:5,i%2?1.4:2)}" fill="#fff"/>`).join('')}${floor('#232A5C')}`},
+  sea:{n:'바다',p:15,draw:()=>`<rect width="240" height="300" fill="#CDEFFF"/><path d="M0 184 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V300 H0Z" fill="#7FCBF2"/><path d="M0 206 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V300 H0Z" fill="#52B2E6"/>${floor('#F6E3B4')}<circle cx="196" cy="52" r="16" fill="#FFE07A"/>`},
+  flowers:{n:'꽃밭',p:15,draw:()=>`<rect width="240" height="300" fill="#E8F7E3"/>${floor('#C8EDB8')}${[[32,252,'#FFB3C8'],[208,250,'#FFD45E'],[54,278,'#B9A4FF'],[190,280,'#FF9F8C'],[24,212,'#FFD45E'],[216,208,'#FFB3C8'],[40,90,'#B9A4FF'],[204,80,'#FFB3C8']].map(([x,y,c])=>flowerAt(x,y,c,6)).join('')}`},
+  rainbow:{n:'무지개',p:25,draw:()=>`<rect width="240" height="300" fill="#FFF7EC"/>${RAINBOW.map((c,i)=>`<path d="M${8+i*11} 236 A${112-i*11} ${112-i*11} 0 0 1 ${232-i*11} 236" fill="none" stroke="${c}" stroke-width="11"/>`).join('')}${floor('#FFE9C7')}`},
+};
+// --- 친구 (오른쪽 아래, 발 옆) ---
+const petAt=g=>`<g transform="translate(194 246) scale(1.12)">${g}</g>`;
 const PETS={
-  chick:{n:'병아리',p:20,draw:()=>`<g transform="translate(196 212)"><ellipse cx="0" cy="6" rx="22" ry="20" fill="#FFD84D" stroke="#E6B42A" stroke-width="2.5"/><path d="M-4 -14 q4 -8 8 0" fill="none" stroke="#E6B42A" stroke-width="2.5"/><circle cx="-7" cy="0" r="2.6" fill="${INK}"/><circle cx="7" cy="0" r="2.6" fill="${INK}"/><path d="M-4 5 L0 10 L4 5Z" fill="#FF9A3D"/><ellipse cx="-13" cy="7" rx="4" ry="2.6" fill="#FF9AA8" opacity=".6"/><ellipse cx="13" cy="7" rx="4" ry="2.6" fill="#FF9AA8" opacity=".6"/></g>`},
-  kitty:{n:'아기 고양이',p:20,draw:()=>`<g transform="translate(196 210)"><path d="M-20 -6 L-18 -26 L-6 -16Z M20 -6 L18 -26 L6 -16Z" fill="#FFB46B" stroke="#E08E3E" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="0" cy="4" rx="23" ry="21" fill="#FFB46B" stroke="#E08E3E" stroke-width="2.5"/><circle cx="-8" cy="1" r="2.6" fill="${INK}"/><circle cx="8" cy="1" r="2.6" fill="${INK}"/><path d="M-4 9 q2 3 4 0 q2 3 4 0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M-14 -4 h6 M8 -4 h6" stroke="#E08E3E" stroke-width="2.5" stroke-linecap="round"/></g>`},
-  puppy:{n:'아기 강아지',p:20,draw:()=>`<g transform="translate(196 210)"><ellipse cx="0" cy="4" rx="23" ry="21" fill="#F4E2C8" stroke="#C9A97E" stroke-width="2.5"/><ellipse cx="-21" cy="0" rx="8" ry="15" fill="#A9774E" transform="rotate(16 -21 0)"/><ellipse cx="21" cy="0" rx="8" ry="15" fill="#A9774E" transform="rotate(-16 21 0)"/><circle cx="-8" cy="1" r="2.6" fill="${INK}"/><circle cx="8" cy="1" r="2.6" fill="${INK}"/><ellipse cx="0" cy="8" rx="4" ry="3" fill="${INK}"/><path d="M0 11 v3" stroke="${INK}" stroke-width="2"/></g>`},
-  dino:{n:'아기 공룡',p:30,draw:()=>`<g transform="translate(194 210)"><path d="M-6 -22 l5 -9 5 9 M4 -22 l5 -8 4 9" fill="#F7C64A" stroke="#E0A92E" stroke-width="2" stroke-linejoin="round"/><ellipse cx="0" cy="4" rx="24" ry="22" fill="#7CCB6B" stroke="#5BAA4C" stroke-width="2.5"/><ellipse cx="0" cy="12" rx="13" ry="10" fill="#D9F2B8"/><circle cx="-8" cy="-2" r="2.8" fill="${INK}"/><circle cx="8" cy="-2" r="2.8" fill="${INK}"/><path d="M-5 7 q5 4 10 0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/></g>`},
+  chick:{n:'병아리',p:20,draw:()=>petAt(`<ellipse cx="0" cy="6" rx="22" ry="20" fill="#FFD84D" stroke="#E6B42A" stroke-width="2.5"/><path d="M-4 -14 q4 -8 8 0" fill="none" stroke="#E6B42A" stroke-width="2.5"/><circle cx="-7" cy="0" r="2.8" fill="${INK}"/><circle cx="7" cy="0" r="2.8" fill="${INK}"/><path d="M-4 5 L0 10 L4 5Z" fill="#FF9A3D"/><ellipse cx="-13" cy="7" rx="4" ry="2.6" fill="#FF9AA8" opacity=".6"/><ellipse cx="13" cy="7" rx="4" ry="2.6" fill="#FF9AA8" opacity=".6"/>`)},
+  kitty:{n:'아기 고양이',p:20,draw:()=>petAt(`<path d="M-20 -6 L-18 -26 L-6 -16Z M20 -6 L18 -26 L6 -16Z" fill="#FFB46B" stroke="#E08E3E" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="0" cy="4" rx="23" ry="21" fill="#FFB46B" stroke="#E08E3E" stroke-width="2.5"/><circle cx="-8" cy="1" r="2.8" fill="${INK}"/><circle cx="8" cy="1" r="2.8" fill="${INK}"/><path d="M-4 9 q2 3 4 0 q2 3 4 0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M-14 -4 h6 M8 -4 h6" stroke="#E08E3E" stroke-width="2.5" stroke-linecap="round"/>`)},
+  puppy:{n:'아기 강아지',p:20,draw:()=>petAt(`<ellipse cx="0" cy="4" rx="23" ry="21" fill="#F4E2C8" stroke="#C9A97E" stroke-width="2.5"/><ellipse cx="-21" cy="0" rx="8" ry="15" fill="#A9774E" transform="rotate(16 -21 0)"/><ellipse cx="21" cy="0" rx="8" ry="15" fill="#A9774E" transform="rotate(-16 21 0)"/><circle cx="-8" cy="1" r="2.8" fill="${INK}"/><circle cx="8" cy="1" r="2.8" fill="${INK}"/><ellipse cx="0" cy="8" rx="4" ry="3" fill="${INK}"/><path d="M0 11 v3" stroke="${INK}" stroke-width="2"/>`)},
+  dino:{n:'아기 공룡',p:30,draw:()=>petAt(`<path d="M-6 -22 l5 -9 5 9 M4 -22 l5 -8 4 9" fill="#F7C64A" stroke="#E0A92E" stroke-width="2" stroke-linejoin="round"/><ellipse cx="0" cy="4" rx="24" ry="22" fill="#7CCB6B" stroke="#5BAA4C" stroke-width="2.5"/><ellipse cx="0" cy="12" rx="13" ry="10" fill="#D9F2B8"/><circle cx="-8" cy="-2" r="2.8" fill="${INK}"/><circle cx="8" cy="-2" r="2.8" fill="${INK}"/><path d="M-5 7 q5 4 10 0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/>`)},
 };
 const SHOP=[['top','옷',TOPS],['head','머리 장식',HEADS],['face','얼굴 꾸미기',FACEACC],['frame','프레임',FRAMES],['bg','배경',BGS],['pet','친구',PETS]];
 const SHOP_BASE={top:'tee',frame:'basic',bg:'basic'};
 let charUid=0;
 function charSvg(look,wear,o={}){
   const L={...CH_DEFAULT,...(look||{})}, W={top:'tee',frame:'basic',bg:'basic',...(wear||{})}, u='c'+(++charUid);
-  const skin=CH_SKIN[L.skin]||CH_SKIN[1], ss=shade(skin,-.18);
-  const top=TOPS[W.top]||TOPS.tee, tc=top.c, ts=tc==='#FFFFFF'?'#DADDE6':shade(tc,-.22);
-  const bg=(BGS[W.bg]||BGS.basic).draw(u);
-  const body=`<g clip-path="url(#k${u})">${bg}
-      ${hairSvg(L.hair,L.hc,'behind')}
-      <path d="M107 132 h26 v40 h-26z" fill="${skin}" stroke="${ss}" stroke-width="2.5"/>
-      <path d="${TORSO}" fill="${tc}" stroke="${ts}" stroke-width="2.5"/>
-      <g clip-path="url(#t${u})">${top.draw()}</g>
-      <path d="${TORSO}" fill="none" stroke="${ts}" stroke-width="2.5"/>
-      <path d="M84 206 Q88 232 86 260 M156 206 Q152 232 154 260" fill="none" stroke="${ts}" stroke-width="2" opacity=".7"/>
+  const skin=CH_SKIN[L.skin]||CH_SKIN[1], ss=shade(skin,-.2);
+  const top=TOPS[W.top]||TOPS.tee, tc=top.c, edge=c=>c.toUpperCase()==='#FFFFFF'||c==='#EEF1F6'?'#D3D7E2':shade(c,-.22), ts=edge(tc);
+  const bc=top.b||'#FFFFFF', bs=edge(bc), sl=top.sleeve||tc, shoe=top.shoe||'#FFFFFF', shs=edge(shoe);
+  const skirt=!!top.skirt, legY=skirt?236:222;
+  const body=`
+    ${top.tail?`<path d="M148 196 Q178 204 190 226 Q170 222 150 214Z" fill="${top.tail}" stroke="${edge(top.tail)}" stroke-width="2.5" stroke-linejoin="round"/>`:''}
+    <ellipse cx="120" cy="266" rx="54" ry="7" fill="#000" opacity=".1"/>
+    ${limb(`M104 ${legY} V252`,skin,ss,17)}${limb(`M136 ${legY} V252`,skin,ss,17)}
+    <ellipse cx="101" cy="258" rx="13.5" ry="8.5" fill="${shoe}" stroke="${shs}" stroke-width="2.5"/><ellipse cx="139" cy="258" rx="13.5" ry="8.5" fill="${shoe}" stroke="${shs}" stroke-width="2.5"/>
+    ${skirt?`<path d="${SKIRT}" fill="${bc}" stroke="${bs}" stroke-width="2.5" stroke-linejoin="round"/><path d="M66 238 q9 -7 18 0 t18 0 t18 0 t18 0 t18 0 t18 0" fill="none" stroke="${top.skirt}" stroke-width="4" stroke-linecap="round"/>`
+      :`<path d="${SHORTS}" fill="${bc}" stroke="${bs}" stroke-width="2.5" stroke-linejoin="round"/>`}
+    <path d="${TORSO}" fill="${tc}" stroke="${ts}" stroke-width="2.5"/>
+    <g clip-path="url(#t${u})">${top.draw()}</g>
+    <path d="${TORSO}" fill="none" stroke="${ts}" stroke-width="2.5"/>
+    ${limb('M92 132 Q78 150 77 178',skin,ss,15)}${limb('M148 132 Q162 150 163 178',skin,ss,15)}
+    ${limb('M92 132 Q84 140 81 152',sl,edge(sl),17)}${limb('M148 132 Q156 140 159 152',sl,edge(sl),17)}
+    ${top.puff?`<circle cx="88" cy="134" r="12" fill="${top.puff}" stroke="${edge(top.puff)}" stroke-width="2.5"/><circle cx="152" cy="134" r="12" fill="${top.puff}" stroke="${edge(top.puff)}" stroke-width="2.5"/>`:''}
+    ${top.epaulet?`<path d="M80 130 Q90 120 102 124 L98 134 Q90 130 84 138Z M160 130 Q150 120 138 124 L142 134 Q150 130 156 138Z" fill="${top.epaulet}"/>`:''}
+    <circle cx="77" cy="181" r="8.5" fill="${skin}" stroke="${ss}" stroke-width="2.5"/><circle cx="163" cy="181" r="8.5" fill="${skin}" stroke="${ss}" stroke-width="2.5"/>`;
+  const head=`<g transform="${HEAD_T}">
       ${hairSvg(L.hair,L.hc,'back')}
-      <ellipse cx="120" cy="100" rx="50" ry="47" fill="${skin}" stroke="${ss}" stroke-width="2.5"/>
+      <path d="${FACE_D}" fill="${skin}" stroke="${ss}" stroke-width="2.5"/>
       ${cheekSvg(L.cheek)}${eyesSvg(L.eyes)}${mouthSvg(L.mouth)}
       ${hairSvg(L.hair,L.hc,'front')}
-      ${W.face&&FACEACC[W.face]?FACEACC[W.face].draw():''}
-    </g>
-    ${hairSvg(L.hair,L.hc,'top')}
-    ${W.head&&HEADS[W.head]?HEADS[W.head].draw(L.hc):''}`;
+      ${W.face&&FACEACC[W.face]?FACEACC[W.face].draw():''}</g>`;
+  const headTop=`<g transform="${HEAD_T}">${hairSvg(L.hair,L.hc,'top')}${W.head&&HEADS[W.head]?HEADS[W.head].draw(L.hc):''}</g>`;
+  const behind=`<g transform="${HEAD_T}">${hairSvg(L.hair,L.hc,'behind')}</g>`;
+  const bg=(BGS[W.bg]||BGS.basic).draw(u);
   const frame=o.plain?'':(FRAMES[W.frame]||FRAMES.basic).draw(u), pet=o.plain||!(W.pet&&PETS[W.pet])?'':PETS[W.pet].draw();
-  const vb=o.crop==='face'?[62,44,116,106]:[-8,-14,256,272];
-  return `<svg class="charsvg" viewBox="${vb.join(' ')}" ${o.size?`width="${o.size}" height="${Math.round(o.size*vb[3]/vb[2])}"`:''} aria-hidden="true">
-    <defs><clipPath id="k${u}"><circle cx="120" cy="125" r="102"/></clipPath><clipPath id="t${u}"><path d="${TORSO}"/></clipPath></defs>
-    ${body}${frame}${pet}</svg>`;
+  const vb=o.crop==='face'?[70,40,100,91]:o.crop==='head'?[50,14,140,128]:[-6,-14,252,316];
+  return `<svg class="charsvg${o.crop?' crop':''}" viewBox="${vb.join(' ')}" ${o.size?`width="${o.size}" height="${Math.round(o.size*vb[3]/vb[2])}"`:''} aria-hidden="true">
+    <defs><clipPath id="k${u}">${cardRect('')}</clipPath><clipPath id="t${u}"><path d="${TORSO}"/></clipPath></defs>
+    <g clip-path="url(#k${u})">${bg}${behind}${body}${head}</g>${headTop}${frame}${pet}</svg>`;
 }
 
 /* --- 캐릭터 저장·별 지갑 (아이들 태블릿) --- */
@@ -2581,14 +2604,14 @@ function crBurst(){
 }
 function lookPanel(k,c){
   const L=c.look, sw=(f,arr)=>`<div class="cr-sw">${arr.map((col,i)=>`<button class="sw-c" style="--c:${col}" data-act="crlook" data-f="${f}" data-v="${i}" aria-pressed="${L[f]===i}" aria-label="${i+1}번"></button>`).join('')}</div>`;
-  const opt=(f,arr,crop)=>`<div class="cr-opts${crop?' face':''}">${arr.map(([v,n])=>`<button class="cr-opt" data-act="crlook" data-f="${f}" data-v="${v}" aria-pressed="${L[f]===v}">${charSvg({...L,[f]:v},{},{plain:true,crop:crop?'face':null,size:crop?74:86})}<span>${n}</span></button>`).join('')}</div>`;
+  const opt=(f,arr,crop)=>`<div class="cr-opts${crop==='face'?' face':''}">${arr.map(([v,n])=>`<button class="cr-opt" data-act="crlook" data-f="${f}" data-v="${v}" aria-pressed="${L[f]===v}">${charSvg({...L,[f]:v},{},{plain:true,crop,size:crop==='face'?74:86})}<span>${n}</span></button>`).join('')}</div>`;
   return `${c.made?'':`<div class="cr-hello">${ico('star')}<div><b>나랑 닮은 캐릭터를 만들어요!</b><small>피부색, 머리, 눈을 골라요. 처음엔 하얀 옷을 입고 있어요.</small></div></div>`}
     <h3>피부색</h3>${sw('skin',CH_SKIN)}
-    <h3>머리 모양</h3>${opt('hair',CH_HAIR)}
+    <h3>머리 모양</h3>${opt('hair',CH_HAIR,'head')}
     <h3>머리 색</h3>${sw('hc',CH_HAIRC)}
-    <h3>눈</h3>${opt('eyes',CH_EYES,true)}
-    <h3>입</h3>${opt('mouth',CH_MOUTH,true)}
-    <h3>볼</h3>${opt('cheek',CH_CHEEK,true)}
+    <h3>눈</h3>${opt('eyes',CH_EYES,'face')}
+    <h3>입</h3>${opt('mouth',CH_MOUTH,'face')}
+    <h3>볼</h3>${opt('cheek',CH_CHEEK,'face')}
     ${c.made?'':`<button class="btn pri cr-done" data-act="crdone">${ui('check')}다 만들었어요!</button>`}`;
 }
 function shopPanel(k,c,cat){
@@ -2597,7 +2620,7 @@ function shopPanel(k,c,cat){
   return `<div class="cr-items">${list.map(([id,it])=>{ const own=owns(c,cat,id), on=worn(c,cat,id), tr=CR.try&&CR.try.cat===cat&&CR.try.id===id;
     const w={...c.wear,[cat]:id};
     return `<button class="cr-item${on?' on':''}${tr?' trying':''}${own?' own':''}" data-act="critem" data-cat="${cat}" data-id="${id}">
-      <span class="ci-art">${charSvg(c.look,w,{size:112})}</span><span class="ci-name">${esc(it.n)}</span>
+      <span class="ci-art">${['head','face'].includes(cat)?charSvg(c.look,w,{size:112,crop:'head'}):charSvg(c.look,w,{size:104})}</span><span class="ci-name">${esc(it.n)}</span>
       <span class="ci-tag">${on?`${ui('check')}입는 중`:own?'가졌어요':`${star(16)}${it.p}`}</span>${!own&&it.p>money?'<span class="ci-lock"></span>':''}</button>`; }).join('')}</div>`;
 }
 function renderChar(){
