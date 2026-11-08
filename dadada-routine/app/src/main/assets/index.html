@@ -752,6 +752,69 @@ button.tc:active{transform:scale(.95)}
 .bd.none{color:var(--ink-3,#AEB6C4);background:none}
 .bd.rb{color:var(--ink)}.bd.rb::before{border-width:2px;inset:0}.bd.rb::after{inset:0;filter:blur(4px)}
 @media (max-width:760px){.st-sum{grid-template-columns:1fr}.st-big{font-size:44px}}
+
+:root{--sc-c-a:#F1E6FF;--sc-c-b:#FFE4F1;--char-ink:#9A4FD0;--char-tint:#E9D6FF}
+.scene[data-rid="char"]{--a:var(--sc-c-a);--b:var(--sc-c-b);--sink:var(--ink);--sc-ic:var(--char-ink);--sc-tint:var(--char-tint)}
+.charsvg{display:block;overflow:visible}
+.char-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:18px}
+.char-card{display:flex;align-items:center;gap:12px;padding:12px 16px 12px 10px;border-radius:30px;background:linear-gradient(150deg,color-mix(in oklab,var(--k) 16%,var(--surface)),var(--surface));box-shadow:var(--shadow);text-align:left;min-width:0}
+.char-card:active{transform:scale(.98)}
+.cc-art{position:relative;flex:none}
+.cc-new{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);white-space:nowrap;font:14px var(--f-d);padding:4px 10px;border-radius:999px;background:var(--char-ink);color:#fff;box-shadow:0 4px 10px rgba(154,79,208,.35)}
+.cc-info{display:flex;flex-direction:column;gap:6px;min-width:0}
+.cc-info b{font:26px var(--f-d);font-weight:400}
+.cc-wallet{display:flex;align-items:center;gap:4px}
+.cc-wallet em{font:40px/1 var(--f-d);font-style:normal;font-variant-numeric:tabular-nums}
+.cc-go{display:flex;align-items:center;gap:2px;font:15px var(--f-d);color:var(--char-ink)}
+.cc-go .ui{width:16px;height:16px}
+.cr-kids{margin-left:auto;display:flex;gap:8px}
+.cr-k{border-radius:50%;padding:3px;opacity:.55}
+.cr-k[aria-pressed="true"]{opacity:1;box-shadow:0 0 0 4px color-mix(in oklab,var(--k) 60%,transparent)}
+.cr-wrap{display:grid;grid-template-columns:minmax(300px,420px) minmax(0,1fr);gap:20px;padding-block:18px 30px;align-items:start}
+.cr-stage{position:sticky;top:12px;display:flex;flex-direction:column;align-items:center;gap:12px;padding:18px;border-radius:32px;background:linear-gradient(170deg,color-mix(in oklab,var(--k) 14%,var(--surface)),var(--surface));box-shadow:var(--shadow)}
+.cr-art{width:100%;max-width:360px}
+.cr-art .charsvg{width:100%;height:auto}
+.cr-money{display:flex;flex-direction:column;align-items:center;gap:4px}
+.cm-big{display:flex;align-items:center;gap:6px}
+.cm-big b{font:52px/1 var(--f-d);font-weight:400;font-variant-numeric:tabular-nums}
+.cm-big small{font-size:15px;color:var(--ink-2);align-self:flex-end;margin-bottom:6px}
+.cm-how{font-size:13px;color:var(--ink-2);display:flex;align-items:center;gap:3px;flex-wrap:wrap;justify-content:center}
+.cr-buy{width:100%;display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px;border-radius:22px;background:#FFF6D9;box-shadow:inset 0 0 0 3px #FFD45E}
+.cr-buy>span{flex:1 1 100%;font:19px var(--f-d);display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.cr-buy .btn{flex:1 !important;min-height:58px;font-size:22px;display:flex;align-items:center;justify-content:center;gap:4px}
+.cr-buy .btn.pri{background:#F5A524}
+.cr-buy .btn[disabled]{opacity:.45}
+.cr-panel{min-width:0;display:flex;flex-direction:column;gap:12px}
+.cr-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.cr-tabs button{min-height:48px;padding:0 18px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow);font:18px var(--f-d);color:var(--ink-2)}
+.cr-tabs button[aria-selected="true"]{background:var(--char-ink);color:#fff}
+.cr-tabs button[disabled]{opacity:.4}
+.cr-body{background:var(--surface);border-radius:28px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px}
+.cr-body h3{font:19px var(--f-d);font-weight:400;color:var(--ink-2);margin-top:6px}
+.cr-sw{display:flex;gap:10px;flex-wrap:wrap}
+.sw-c{width:52px;height:52px;border-radius:50%;background:var(--c);box-shadow:inset 0 0 0 2px rgba(0,0,0,.08)}
+.sw-c[aria-pressed="true"]{box-shadow:0 0 0 4px var(--surface),0 0 0 7px var(--char-ink)}
+.cr-opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}
+.cr-opts.face{grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}
+.cr-opt{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 4px 8px;border-radius:20px;background:var(--surface-2);border:3px solid transparent;font-size:13px;color:var(--ink-2)}
+.cr-opt[aria-pressed="true"]{border-color:var(--char-ink);background:color-mix(in oklab,var(--char-tint) 45%,var(--surface));color:var(--ink)}
+.cr-hello{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:20px;background:#FFF6D9}
+.cr-hello .ic{width:44px;height:44px;color:#E0A21E;--ic-tint:#FFE7A0;flex:none}
+.cr-hello b{font:20px var(--f-d);font-weight:400;display:block}
+.cr-hello small{font-size:14px;color:var(--ink-2)}
+.cr-done{min-height:64px;font-size:22px;display:flex;align-items:center;justify-content:center;gap:6px;flex:none !important;background:var(--char-ink);margin-top:8px}
+.cr-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
+.cr-item{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px 10px;border-radius:22px;background:var(--surface-2);border:3px solid transparent}
+.cr-item .ci-name{font:15px/1.2 var(--f-d);text-align:center;word-break:keep-all}
+.cr-item .ci-tag{display:flex;align-items:center;gap:3px;font:16px var(--f-d);padding:3px 10px;border-radius:999px;background:#FFF1C9;color:#9A6B00}
+.cr-item.own .ci-tag{background:var(--surface);color:var(--ink-2)}
+.cr-item.on{border-color:var(--char-ink);background:color-mix(in oklab,var(--char-tint) 45%,var(--surface))}
+.cr-item.on .ci-tag{background:var(--char-ink);color:#fff}
+.cr-item.on .ci-tag .ui{width:14px;height:14px;stroke-width:3}
+.cr-item.trying{border-color:#F5A524;background:#FFF6D9}
+.ci-lock{position:absolute;inset:0;border-radius:inherit;background:rgba(255,255,255,.35);pointer-events:none}
+.cr-item:active{transform:scale(.97)}
+@media (max-width:900px){.char-row{grid-template-columns:1fr}.cr-wrap{grid-template-columns:1fr}.cr-stage{position:static}}
 .ov-need{display:flex;align-items:center;gap:16px;margin-top:18px;padding:16px 18px;border-radius:26px;background:#FFF4E0;border:2px solid #F7C77A}
 .ov-need .sc-ico{width:56px;height:56px;border-radius:18px;background:#FFE3B0;color:#B86A00;--ic-tint:#FFF3D6;display:grid;place-items:center;flex:none}
 .ov-need .sc-ico .ic{width:40px;height:40px}
@@ -964,6 +1027,7 @@ button.tc:active{transform:scale(.95)}
 <main id="run" class="screen" hidden></main>
 <main id="food" class="screen" hidden></main>
 <main id="fstats" class="screen" hidden></main>
+<main id="char" class="screen" hidden></main>
 <main id="edit" class="screen" hidden></main>
 <main id="cal" class="screen" hidden></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
@@ -1216,11 +1280,14 @@ function normalize(s){
     for(const [k,v] of Object.entries(f.ate||{})) if(v&&typeof v==='object'){ ate[k]={}; for(const [id,t] of Object.entries(v)){ if(typeof t==='number'&&t) ate[k][id]={t,lv:1}; else if(t&&typeof t==='object'&&t.lv){ const lv=t.v===2?(t.lv<0?-1:Math.min(3,Math.max(1,t.lv|0))):(t.lv<0?-1:t.lv>=2?3:1); ate[k][id]={t:Number(t.t)||0,lv,v:2}; } } }
     const trays={}; for(const [d,v] of Object.entries(f.trays||{})) if(v&&typeof v==='object'){ const o={}; for(const sl of ['s1','s2','s3','rice','soup']) if(typeof v[sl]==='string'&&v[sl]) o[sl]=v[sl]; trays[d]=o; }
     s.foods={items,ate,trays}; }
+  { const c=(s.chars&&typeof s.chars==='object')?s.chars:{}, out={};
+    for(const [k,v] of Object.entries(c)) if(v&&typeof v==='object') out[k]={made:!!v.made,look:(v.look&&typeof v.look==='object')?v.look:{},wear:(v.wear&&typeof v.wear==='object')?v.wear:{},own:(v.own&&typeof v.own==='object')?v.own:{}};
+    s.chars=out; }
 }
 let S=load();
 function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}}
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
-const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods'];
+const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods','chars'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
 // 데이터베이스 주소는 앱에 넣고, 가족 공간 코드는 우리집 암호로만 만들어요 (암호는 어디에도 저장하지 않아요)
 const FAMILY_DB=window.__FAMILY_DB||'https://dadada-family-default-rtdb.asia-southeast1.firebasedatabase.app/dadada/';
@@ -1397,6 +1464,7 @@ function requestRender(){
   if(view.screen==='run') refreshLanes();
   else if(view.screen==='food') renderFood(true);
   else if(view.screen==='fstats') renderStats();
+  else if(view.screen==='char'&&!document.querySelector('.fd-burst')) renderChar();
   else if(view.screen==='home') renderHome();
   else if(view.screen==='family'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderFamily(); if(!CH.stick) window.scrollTo(0,y); }
   else if(view.screen==='room'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderRoom(); if(!CH.stick) window.scrollTo(0,y); }
@@ -1469,11 +1537,11 @@ const dateLabel=()=>{const d=new Date();return `${d.getMonth()+1}월 ${d.getDate
 
 function show(){
   if(view.screen!=='msg'&&typeof M!=='undefined'&&M.rec==='rec') recStop();
-  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
+  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','char','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
   if(view.screen==='family'&&isAdult()){ INB.prevSeen=S.inboxSeen||0; S.inboxSeen=Date.now(); save(); }
   if(view.screen==='replies'){ RP.prevSeen=S.repliesSeen||0; S.repliesSeen=Date.now(); save(); }
   if(view.screen==='room'||(view.screen==='family'&&isElder())) CH.stick=true;
-  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='cal') renderCal(); else renderEdit();
+  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='char') renderChar(); else if(view.screen==='cal') renderCal(); else renderEdit();
   keepAwake(view.screen==='run');
   window.scrollTo(0,0);
 }
@@ -1935,6 +2003,7 @@ function renderFamily(){
       </div>
     </header>
     ${overlayCard()}
+    ${charRow()}
     ${pickerCard()}
     <section class="dash">
       <button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
@@ -2309,6 +2378,251 @@ function renderStats(){
       ${cats.length?`<table class="st-cat"><thead><tr><th></th>${kids.map(k=>`<th>${esc(k.name)}</th>`).join('')}</tr></thead><tbody>${catRows}</tbody></table>`:'<p class="fd-note">아직 기록이 없어요</p>'}</section>
     <section class="dash-card st-card"><h2>음식별 기록 <small>${flist.length}가지 · 최근 순</small></h2>
       ${flist.length?`<table class="st-food"><thead><tr><th>음식</th>${kids.map(k=>`<th>${avatar(k,28)}</th>`).join('')}</tr></thead><tbody>${flist.map(x=>`<tr><th>${fIco(x.f.icon,30)}<span>${esc(x.f.name)}</span></th>${kids.map(k=>`<td>${badge(x.lv[k.id])}</td>`).join('')}</tr>`).join('')}</tbody></table>`:'<p class="fd-note">아직 기록이 없어요</p>'}</section>
+  </div>`;
+}
+/* ===== 캐릭터 (아이들 꾸미기) ===== */
+const CH_SKIN=['#FFE6D5','#FAD3B6','#EDBB91','#D59D6E','#AD7149','#7B4B2C'];
+const CH_HAIRC=['#2B2320','#4B3123','#7C4A2A','#B37A45','#E6BF62','#C9592C','#F29BC0','#7FA8EE'];
+const CH_HAIR=[['short','짧은 머리'],['bowl','바가지'],['bob','단발'],['long','긴 머리'],['pig','양갈래'],['pony','포니테일'],['bun','똥머리'],['spiky','삐죽 머리'],['curly','곱슬']];
+const CH_EYES=[['dot','콩'],['big','동글'],['spark','반짝'],['smile','웃는 눈'],['sleepy','졸린 눈'],['wink','윙크'],['lash','속눈썹']];
+const CH_MOUTH=[['smile','방긋'],['open','활짝'],['cat','고양이'],['o','오']];
+const CH_CHEEK=[['pink','분홍 볼'],['none','없음'],['dots','주근깨']];
+const CH_DEFAULT={skin:1,eyes:'big',hair:'short',hc:1,mouth:'smile',cheek:'pink'};
+const shade=(hex,amt)=>{ const n=parseInt(hex.slice(1),16); let r=n>>16,g=n>>8&255,b=n&255; const t=amt<0?0:255, p=Math.abs(amt); r=Math.round(r+(t-r)*p); g=Math.round(g+(t-g)*p); b=Math.round(b+(t-b)*p); return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1); };
+const INK='#2E2A3A';
+const TORSO='M54 260 C56 198 78 171 104 167 Q120 181 136 167 C162 171 184 198 186 260 Z';
+// --- 머리 ---
+const HF={
+  short:'M67 99 C62 56 92 39 120 39 C150 39 179 57 173 99 C166 82 152 70 133 68 C124 79 104 81 90 75 C80 79 72 87 67 99Z',
+  bowl:'M64 103 C58 54 92 37 120 37 C148 37 182 54 176 103 C173 93 171 86 169 81 L71 81 C69 86 67 93 64 103Z',
+  side:'M65 101 C59 53 94 37 124 38 C157 39 181 60 175 101 C166 79 147 66 121 66 C112 75 96 84 82 88 C75 91 69 95 65 101Z',
+  fringe:'M64 103 C58 55 92 37 120 37 C148 37 182 55 176 103 C171 89 161 80 147 82 C139 75 129 84 120 79 C111 84 101 75 93 82 C79 80 69 89 64 103Z',
+  spiky:'M65 101 L69 62 L82 72 L86 43 L102 60 L112 33 L124 57 L137 35 L145 59 L160 44 L161 70 L174 63 L175 101 C164 80 142 69 120 69 C98 69 78 80 65 101Z',
+};
+function hairSvg(style,hc,part){
+  const c=CH_HAIRC[hc]||CH_HAIRC[1], s=shade(c,-.28), st=`fill="${c}" stroke="${s}" stroke-width="2.5" stroke-linejoin="round"`;
+  const hl=`<path d="M86 56 C98 46 116 43 132 46" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="5" stroke-linecap="round"/>`;
+  if(part==='back'){ // 머리 뒤쪽 (얼굴 뒤에 그려요)
+    let b=`<ellipse cx="120" cy="93" rx="57" ry="53" ${st}/>`;
+    if(style==='bob'||style==='curly') b=`<path d="M63 92 C58 152 68 158 84 156 L156 156 C172 158 182 152 177 92 C176 60 150 40 120 40 C90 40 64 60 63 92Z" ${st}/>`;
+    if(style==='long') b=`<path d="M63 92 C55 160 60 204 70 216 C82 222 94 214 96 200 L96 142 L144 142 L144 200 C146 214 158 222 170 216 C180 204 185 160 177 92 C176 60 150 40 120 40 C90 40 64 60 63 92Z" ${st}/>`;
+    if(style==='pig') b+=`<g ${st}><path d="M64 104 C40 106 34 140 44 166 C50 150 58 136 70 124Z"/><path d="M176 104 C200 106 206 140 196 166 C190 150 182 136 170 124Z"/></g><circle cx="66" cy="110" r="6" fill="#FF7FA8"/><circle cx="174" cy="110" r="6" fill="#FF7FA8"/>`;
+    if(style==='curly') b+=`<g ${st}>${[[62,96],[60,122],[66,146],[178,96],[180,122],[174,146]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13"/>`).join('')}</g>`;
+    return b;
+  }
+  if(part==='top'){ // 머리 위로 튀어나오는 부분 (동그라미 밖까지)
+    if(style==='bun') return `<circle cx="120" cy="30" r="20" ${st}/><path d="M106 22 C112 16 122 14 130 17" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="4" stroke-linecap="round"/><path d="M104 46 Q120 54 136 46" fill="none" stroke="#FF7FA8" stroke-width="6" stroke-linecap="round"/>`;
+    return '';
+  }
+  if(part==='behind'){ // 머리통 뒤 (포니테일·똥머리)
+    if(style==='pony') return `<path d="M150 58 C192 56 208 102 198 156 C188 136 176 120 162 112Z" ${st}/><circle cx="160" cy="62" r="7" fill="#FF7FA8"/>`;
+    return '';
+  }
+  // 앞머리
+  const f={short:'short',bowl:'bowl',bob:'side',long:'side',pig:'fringe',pony:'side',bun:'fringe',spiky:'spiky',curly:'short'}[style]||'short';
+  let out=`<path d="${HF[f]}" ${st}/>`;
+  if(style==='curly') out=`<g ${st}>${[[72,82],[86,62],[106,50],[128,48],[150,56],[166,72],[172,92],[68,98]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="15"/>`).join('')}<path d="M70 96 C70 60 96 46 120 46 C146 46 170 60 170 96 C150 78 92 78 70 96Z" stroke="none"/></g>`;
+  return out+hl;
+}
+function eyesSvg(t){
+  const pair=f=>f(100)+f(140);
+  const shine=x=>`<circle cx="${x+2.4}" cy="101.5" r="2.4" fill="#fff"/><circle cx="${x-2.2}" cy="107" r="1.2" fill="#fff"/>`;
+  const big=x=>`<ellipse cx="${x}" cy="104" rx="6.6" ry="8.2" fill="${INK}"/>${shine(x)}`;
+  const arcUp=x=>`<path d="M${x-7} 106 Q${x} 97 ${x+7} 106" fill="none" stroke="${INK}" stroke-width="3.6" stroke-linecap="round"/>`;
+  switch(t){
+    case 'dot': return pair(x=>`<circle cx="${x}" cy="104" r="5" fill="${INK}"/><circle cx="${x+1.8}" cy="102.2" r="1.6" fill="#fff"/>`);
+    case 'spark': return pair(x=>`<ellipse cx="${x}" cy="104" rx="7.4" ry="9" fill="${INK}"/><path d="M${x+2.6} 97.5 l1.2 2.6 2.6 1.2 -2.6 1.2 -1.2 2.6 -1.2 -2.6 -2.6 -1.2 2.6 -1.2z" fill="#fff"/><circle cx="${x-2.6}" cy="108" r="1.6" fill="#fff"/><ellipse cx="${x}" cy="110" rx="4" ry="1.6" fill="#8FB6FF" opacity=".7"/>`);
+    case 'smile': return pair(arcUp);
+    case 'sleepy': return pair(x=>`<path d="M${x-7} 103 Q${x} 110 ${x+7} 103" fill="none" stroke="${INK}" stroke-width="3.6" stroke-linecap="round"/>`);
+    case 'wink': return big(100)+arcUp(140);
+    case 'lash': return pair(x=>big(x)+`<path d="M${x-6} 97 l-3.5 -3 M${x-1} 95.6 l-1 -4 M${x+5} 97 l3 -3.4" stroke="${INK}" stroke-width="2.2" stroke-linecap="round"/>`);
+    default: return pair(big);
+  }
+}
+function mouthSvg(t){
+  switch(t){
+    case 'open': return `<path d="M110 123 Q120 140 130 123 Z" fill="#B8434F" stroke="${INK}" stroke-width="2.6" stroke-linejoin="round"/><path d="M114 131 Q120 127 126 131 Q120 136 114 131Z" fill="#FF8FA0"/>`;
+    case 'cat': return `<path d="M110 124 q5 6 10 0 q5 6 10 0" fill="none" stroke="${INK}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+    case 'o': return `<ellipse cx="120" cy="127" rx="4.4" ry="5.2" fill="#B8434F" stroke="${INK}" stroke-width="2.4"/>`;
+    default: return `<path d="M111 124 Q120 133 129 124" fill="none" stroke="${INK}" stroke-width="3.2" stroke-linecap="round"/>`;
+  }
+}
+function cheekSvg(t){
+  if(t==='none') return '';
+  if(t==='dots') return [[86,118],[91,122],[84,124],[154,118],[149,122],[156,124]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="1.5" fill="#B9774E" opacity=".7"/>`).join('');
+  return `<ellipse cx="87" cy="120" rx="8.5" ry="5" fill="#FF8FA6" opacity=".5"/><ellipse cx="153" cy="120" rx="8.5" ry="5" fill="#FF8FA6" opacity=".5"/>`;
+}
+// --- 상점 물건 ---
+// 옷: 몸통 모양(TORSO) 안에 그려요. clip=몸통 클립 id
+const star5=(cx,cy,r,ir)=>{ let d=''; for(let i=0;i<10;i++){ const a=-Math.PI/2+i*Math.PI/5, rr=i%2?ir:r; d+=(i?'L':'M')+(cx+Math.cos(a)*rr).toFixed(1)+' '+(cy+Math.sin(a)*rr).toFixed(1); } return d+'Z'; };
+const heart=(cx,cy,s)=>`M${cx} ${cy+s*.9} C${cx-s*1.4} ${cy} ${cx-s*1.1} ${cy-s} ${cx} ${cy-s*.35} C${cx+s*1.1} ${cy-s} ${cx+s*1.4} ${cy} ${cx} ${cy+s*.9}Z`;
+const TOPS={
+  tee:{n:'기본 흰 티',p:0,c:'#FFFFFF',draw:()=>''},
+  stripe:{n:'줄무늬 티',p:8,c:'#FFFFFF',draw:()=>[176,192,208,224,240].map(y=>`<rect x="40" y="${y}" width="160" height="7" fill="#7DB7F0"/>`).join('')},
+  star:{n:'별 티셔츠',p:10,c:'#FFD45E',draw:()=>`<path d="${star5(120,214,20,9)}" fill="#fff"/>`},
+  heart:{n:'하트 티셔츠',p:10,c:'#FF9FC0',draw:()=>`<path d="${heart(120,212,15)}" fill="#fff"/>`},
+  hood:{n:'초록 후드티',p:15,c:'#8ED07A',draw:()=>`<path d="M98 170 Q120 196 142 170" fill="none" stroke="#6FB45C" stroke-width="7" stroke-linecap="round"/><path d="M112 186 v22 M128 186 v22" stroke="#fff" stroke-width="3" stroke-linecap="round"/><circle cx="112" cy="209" r="3" fill="#fff"/><circle cx="128" cy="209" r="3" fill="#fff"/><rect x="96" y="226" width="48" height="24" rx="8" fill="#7BC067"/>`},
+  overall:{n:'멜빵바지',p:18,c:'#FFFFFF',draw:()=>`<path d="M84 260 V206 Q84 200 90 200 H150 Q156 200 156 206 V260Z" fill="#5B8BD6"/><path d="M90 202 L82 176 M150 202 L158 176" stroke="#5B8BD6" stroke-width="9" stroke-linecap="round"/><circle cx="92" cy="208" r="4" fill="#FFD45E"/><circle cx="148" cy="208" r="4" fill="#FFD45E"/><rect x="108" y="218" width="24" height="16" rx="4" fill="#4A78C2"/>`},
+  dress:{n:'분홍 프릴 원피스',p:20,c:'#F7A8C8',draw:()=>`<path d="M100 170 q5 8 10 2 q5 8 10 2 q5 8 10 2 q5 8 10 2" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><path d="M112 190 l-10 -6 v12z M128 190 l10 -6 v12z" fill="#FF6B9A"/><circle cx="120" cy="190" r="4" fill="#FF6B9A"/><path d="M60 246 q10 -8 20 0 t20 0 t20 0 t20 0 t20 0 t20 0" fill="none" stroke="#fff" stroke-width="4"/>`},
+  sailor:{n:'세일러복',p:22,c:'#FFFFFF',draw:()=>`<path d="M80 176 L120 214 L160 176 L150 168 L120 196 L90 168Z" fill="#2F4F9E"/><path d="M84 180 L120 214 L156 180" fill="none" stroke="#fff" stroke-width="2.5"/><path d="M112 206 L120 222 L128 206 L120 212Z" fill="#E8434F"/>`},
+  rainbow:{n:'무지개 스웨터',p:25,c:'#FF8C8C',draw:()=>['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'].map((c,i)=>`<rect x="40" y="${172+i*15}" width="160" height="15" fill="${c}"/>`).join('')},
+  dino:{n:'공룡 옷',p:30,c:'#7CCB6B',draw:()=>`<ellipse cx="120" cy="236" rx="30" ry="34" fill="#D9F2B8"/>${[[70,190],[62,212],[170,190],[178,212]].map(([x,y])=>`<path d="M${x} ${y} l${x<120?-10:10} -6 l2 14z" fill="#F7C64A"/>`).join('')}`},
+  princess:{n:'공주 드레스',p:35,c:'#C9A8F5',draw:()=>`<circle cx="74" cy="190" r="17" fill="#E3D2FF" stroke="#B48FEA" stroke-width="2.5"/><circle cx="166" cy="190" r="17" fill="#E3D2FF" stroke="#B48FEA" stroke-width="2.5"/><path d="M96 172 Q120 196 144 172" fill="none" stroke="#F5C84C" stroke-width="5" stroke-linecap="round"/><path d="${star5(120,206,7,3)}" fill="#F5C84C"/><path d="M92 240 l3 -6 3 6 -3 6z M146 230 l3 -6 3 6 -3 6z M118 246 l3 -6 3 6 -3 6z" fill="#fff"/>`},
+  prince:{n:'왕자 옷',p:35,c:'#3E5DAE',draw:()=>`<path d="M60 186 Q74 174 92 178 L88 190 Q74 186 64 196Z M180 186 Q166 174 148 178 L152 190 Q166 186 176 196Z" fill="#F5C84C"/><path d="M120 172 V260" stroke="#2D4790" stroke-width="3"/>${[196,214,232].map(y=>`<circle cx="128" cy="${y}" r="3.6" fill="#F5C84C"/>`).join('')}<path d="M104 168 L120 186 L136 168" fill="#fff"/><path d="M60 230 H180" stroke="#E8434F" stroke-width="8"/>`},
+  space:{n:'우주복',p:40,c:'#EEF1F6',draw:()=>`<rect x="98" y="200" width="44" height="32" rx="8" fill="#C9D3E2"/><circle cx="110" cy="212" r="4" fill="#FF6B6B"/><circle cx="122" cy="212" r="4" fill="#FFD45E"/><circle cx="134" cy="212" r="4" fill="#5EC8FF"/><rect x="106" y="222" width="28" height="4" rx="2" fill="#8C98AD"/><path d="M78 186 h-8 M162 186 h8" stroke="#C9D3E2" stroke-width="10" stroke-linecap="round"/><path d="M96 172 Q120 190 144 172" fill="none" stroke="#C9D3E2" stroke-width="8"/>`},
+};
+// 머리 장식 (앞머리 위에)
+const HEADS={
+  band:{n:'분홍 머리띠',p:6,draw:()=>`<path d="M68 90 C74 50 166 50 172 90" fill="none" stroke="#FF8FB8" stroke-width="9" stroke-linecap="round"/><path d="M68 90 C74 50 166 50 172 90" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="2.5" stroke-dasharray="3 7" stroke-linecap="round"/>`},
+  ribbon:{n:'리본',p:8,draw:()=>`<g transform="translate(152 52) rotate(18)"><path d="M0 0 L-22 -12 Q-26 0 -22 12Z M0 0 L22 -12 Q26 0 22 12Z" fill="#FF6B8A" stroke="#D9496B" stroke-width="2.5" stroke-linejoin="round"/><circle r="6" fill="#FF8FA6" stroke="#D9496B" stroke-width="2.5"/></g>`},
+  flower:{n:'꽃 머리핀',p:8,draw:()=>`<g transform="translate(154 62)">${[0,72,144,216,288].map(a=>`<ellipse rx="7" ry="10" transform="rotate(${a}) translate(0 -9)" fill="#FFB3C8" stroke="#F08AA8" stroke-width="2"/>`).join('')}<circle r="6" fill="#FFD45E" stroke="#E6B23A" stroke-width="2"/></g>`},
+  cat:{n:'고양이 귀',p:12,draw:hc=>{ const c=CH_HAIRC[hc]||CH_HAIRC[1], s=shade(c,-.28); return `<path d="M72 74 L74 34 L104 54Z M168 74 L166 34 L136 54Z" fill="${c}" stroke="${s}" stroke-width="2.5" stroke-linejoin="round"/><path d="M78 64 L79 44 L95 55Z M162 64 L161 44 L145 55Z" fill="#FFB3C8"/>`; }},
+  bunny:{n:'토끼 귀',p:12,draw:()=>`<g stroke="#D9D6E4" stroke-width="2.5"><ellipse cx="96" cy="22" rx="12" ry="32" transform="rotate(-12 96 22)" fill="#fff"/><ellipse cx="144" cy="22" rx="12" ry="32" transform="rotate(12 144 22)" fill="#fff"/></g><ellipse cx="96" cy="24" rx="5.5" ry="22" transform="rotate(-12 96 24)" fill="#FFC2D3"/><ellipse cx="144" cy="24" rx="5.5" ry="22" transform="rotate(12 144 24)" fill="#FFC2D3"/><path d="M76 64 C90 52 150 52 164 64" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/>`},
+  bear:{n:'곰 귀',p:12,draw:()=>`<circle cx="78" cy="52" r="17" fill="#A9774E" stroke="#835A39" stroke-width="2.5"/><circle cx="162" cy="52" r="17" fill="#A9774E" stroke="#835A39" stroke-width="2.5"/><circle cx="78" cy="52" r="8" fill="#E8B98F"/><circle cx="162" cy="52" r="8" fill="#E8B98F"/>`},
+  beanie:{n:'털모자',p:12,draw:()=>`<path d="M64 84 C62 40 92 26 120 26 C148 26 178 40 176 84Z" fill="#FF8C6B" stroke="#E0674A" stroke-width="2.5"/><rect x="60" y="74" width="120" height="18" rx="9" fill="#FFB199" stroke="#E0674A" stroke-width="2.5"/><circle cx="120" cy="22" r="11" fill="#fff" stroke="#E3DFEA" stroke-width="2.5"/>`},
+  cap:{n:'야구 모자',p:12,draw:()=>`<path d="M66 80 C64 40 94 30 120 30 C148 30 176 40 174 80Z" fill="#5EA8F0" stroke="#3F86CF" stroke-width="2.5"/><path d="M150 74 C176 70 196 74 204 82 C188 86 168 86 150 84Z" fill="#3F86CF"/><circle cx="120" cy="30" r="5" fill="#3F86CF"/><path d="${star5(112,58,8,3.6)}" fill="#fff"/>`},
+  straw:{n:'밀짚모자',p:15,draw:()=>`<ellipse cx="120" cy="70" rx="76" ry="16" fill="#F2D27E" stroke="#D2AE55" stroke-width="2.5"/><path d="M84 68 C84 36 156 36 156 68Z" fill="#F2D27E" stroke="#D2AE55" stroke-width="2.5"/><path d="M85 60 H155" stroke="#FF6B8A" stroke-width="8"/>`},
+  tiara:{n:'티아라',p:25,draw:()=>`<path d="M80 72 L90 52 L104 64 L120 40 L136 64 L150 52 L160 72 Q120 62 80 72Z" fill="#E8EEF8" stroke="#A9B6CC" stroke-width="2.5" stroke-linejoin="round"/><circle cx="120" cy="56" r="5.5" fill="#FF6BB0"/><circle cx="96" cy="64" r="3" fill="#7FC8FF"/><circle cx="144" cy="64" r="3" fill="#7FC8FF"/>`},
+  wizard:{n:'마법사 모자',p:25,draw:()=>`<ellipse cx="120" cy="66" rx="66" ry="13" fill="#7B5CD6" stroke="#5C40B4" stroke-width="2.5"/><path d="M84 64 L126 -6 Q130 -10 132 -4 L158 64Z" fill="#7B5CD6" stroke="#5C40B4" stroke-width="2.5" stroke-linejoin="round"/><path d="${star5(124,36,8,3.5)}" fill="#FFD45E"/><path d="${star5(142,52,5,2.2)}" fill="#FFD45E"/><path d="M90 58 H152" stroke="#FFD45E" stroke-width="5"/>`},
+  crown:{n:'왕관',p:30,draw:()=>`<path d="M82 74 L78 36 L100 54 L120 28 L140 54 L162 36 L158 74Z" fill="#FFD045" stroke="#D9A21E" stroke-width="2.5" stroke-linejoin="round"/><rect x="80" y="66" width="80" height="11" rx="4" fill="#F5B92E" stroke="#D9A21E" stroke-width="2.5"/><circle cx="120" cy="56" r="5" fill="#FF5C7A"/><circle cx="100" cy="64" r="3.5" fill="#5EC8FF"/><circle cx="140" cy="64" r="3.5" fill="#6BD98B"/><circle cx="78" cy="36" r="4" fill="#FFD045"/><circle cx="162" cy="36" r="4" fill="#FFD045"/><circle cx="120" cy="28" r="4" fill="#FFD045"/>`},
+};
+// 얼굴 꾸미기
+const FACEACC={
+  sticker:{n:'별 스티커',p:5,draw:()=>`<path d="${star5(84,122,6,2.6)}" fill="#FFD045"/><path d="${star5(156,122,6,2.6)}" fill="#FFD045"/>`},
+  glasses:{n:'동그란 안경',p:8,draw:()=>`<g fill="none" stroke="#3A3A4A" stroke-width="3"><circle cx="100" cy="104" r="13"/><circle cx="140" cy="104" r="13"/><path d="M113 103 Q120 99 127 103 M87 102 L74 98 M153 102 L166 98"/></g>`},
+  hearts:{n:'하트 안경',p:15,draw:()=>`<path d="${heart(100,104,12)}" fill="#FF6B9A" fill-opacity=".85" stroke="#D9437A" stroke-width="2.5"/><path d="${heart(140,104,12)}" fill="#FF6B9A" fill-opacity=".85" stroke="#D9437A" stroke-width="2.5"/><path d="M112 100 Q120 96 128 100" fill="none" stroke="#D9437A" stroke-width="3"/>`},
+  sun:{n:'선글라스',p:12,draw:()=>`<rect x="84" y="94" width="32" height="20" rx="9" fill="#2E2A3A"/><rect x="124" y="94" width="32" height="20" rx="9" fill="#2E2A3A"/><path d="M116 101 H124 M84 100 L72 96 M156 100 L168 96" stroke="#2E2A3A" stroke-width="3.5" stroke-linecap="round"/><path d="M90 99 l8 0" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/><path d="M130 99 l8 0" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>`},
+};
+// 배경 (동그라미 안쪽)
+const BGS={
+  basic:{n:'기본',p:0,draw:()=>`<rect width="240" height="260" fill="#F1EEFB"/>`},
+  sky:{n:'파란 하늘',p:8,draw:()=>`<rect width="240" height="260" fill="#BFE5FF"/><g fill="#fff"><ellipse cx="54" cy="64" rx="22" ry="11"/><ellipse cx="68" cy="58" rx="14" ry="11"/><ellipse cx="186" cy="88" rx="20" ry="10"/><ellipse cx="198" cy="82" rx="12" ry="9"/></g>`},
+  sunset:{n:'노을',p:10,draw:u=>`<defs><linearGradient id="g${u}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB37A"/><stop offset=".6" stop-color="#FF8FB1"/><stop offset="1" stop-color="#B99CFF"/></linearGradient></defs><rect width="240" height="260" fill="url(#g${u})"/><circle cx="186" cy="76" r="20" fill="#FFE59A" opacity=".9"/>`},
+  night:{n:'별밤',p:15,draw:()=>`<rect width="240" height="260" fill="#2C3570"/><path d="M190 46 a18 18 0 1 0 14 30 a15 15 0 0 1 -14 -30z" fill="#FFE59A"/>${[[40,50],[70,30],[60,90],[168,120],[200,150],[34,140],[120,26],[150,60]].map(([x,y],i)=>`<path d="${star5(x,y,i%2?3.4:5,i%2?1.4:2)}" fill="#fff"/>`).join('')}`},
+  sea:{n:'바다',p:15,draw:()=>`<rect width="240" height="260" fill="#CDEFFF"/><path d="M0 150 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V260 H0Z" fill="#7FCBF2"/><path d="M0 172 q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 V260 H0Z" fill="#52B2E6"/><circle cx="196" cy="56" r="16" fill="#FFE07A"/>`},
+  flowers:{n:'꽃밭',p:15,draw:()=>`<rect width="240" height="260" fill="#E3F6E3"/>${[[34,150,'#FFB3C8'],[200,140,'#FFD45E'],[52,190,'#B9A4FF'],[192,196,'#FF9F8C'],[24,226,'#FFD45E'],[214,240,'#FFB3C8'],[40,90,'#B9A4FF'],[204,84,'#FFB3C8']].map(([x,y,c])=>`<g transform="translate(${x} ${y})">${[0,72,144,216,288].map(a=>`<circle r="6" transform="rotate(${a}) translate(0 -7)" fill="${c}"/>`).join('')}<circle r="4.5" fill="#fff"/></g>`).join('')}`},
+  rainbow:{n:'무지개',p:25,draw:()=>`<rect width="240" height="260" fill="#FFF7EC"/>${['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'].map((c,i)=>`<path d="M${10+i*11} 200 A${110-i*11} ${110-i*11} 0 0 1 ${230-i*11} 200" fill="none" stroke="${c}" stroke-width="11"/>`).join('')}`},
+};
+// 프레임 (동그라미 테두리)
+const ringDots=(n,r,f)=>[...Array(n)].map((_,i)=>{ const a=-Math.PI/2+i*2*Math.PI/n; return f(120+Math.cos(a)*r,125+Math.sin(a)*r,i,a); }).join('');
+const FRAMES={
+  basic:{n:'기본',p:0,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#fff" stroke-width="9"/>`},
+  star:{n:'별 테두리',p:10,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#FFD45E" stroke-width="9"/>${ringDots(10,104,(x,y)=>`<path d="${star5(x,y,11,5)}" fill="#FFC22E" stroke="#fff" stroke-width="2.5" stroke-linejoin="round"/>`)}`},
+  heart:{n:'하트 테두리',p:10,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#FFB3CB" stroke-width="9"/>${ringDots(9,104,(x,y)=>`<path d="${heart(x,y,9)}" fill="#FF6B9A" stroke="#fff" stroke-width="2.5"/>`)}`},
+  flower:{n:'꽃 테두리',p:15,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#8ED07A" stroke-width="8"/>${ringDots(8,104,(x,y,i)=>`<g transform="translate(${x.toFixed(1)} ${y.toFixed(1)})">${[0,72,144,216,288].map(a=>`<circle r="7" transform="rotate(${a}) translate(0 -8)" fill="${['#FFB3C8','#FFD45E','#B9A4FF','#FF9F8C'][i%4]}" stroke="#fff" stroke-width="1.5"/>`).join('')}<circle r="5" fill="#fff"/></g>`)}`},
+  cloud:{n:'구름 테두리',p:15,draw:()=>`<circle cx="120" cy="125" r="104" fill="none" stroke="#BFE5FF" stroke-width="10"/>${ringDots(14,106,(x,y)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="14" fill="#fff" stroke="#D6EEFF" stroke-width="2"/>`)}`},
+  gold:{n:'황금 테두리',p:30,draw:u=>`<defs><linearGradient id="f${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFE68A"/><stop offset=".5" stop-color="#F2B52E"/><stop offset="1" stop-color="#FFE68A"/></linearGradient></defs><circle cx="120" cy="125" r="104" fill="none" stroke="url(#f${u})" stroke-width="14"/><circle cx="120" cy="125" r="97" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1.5"/>${ringDots(4,104,(x,y,i)=>`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="8" fill="${['#FF5C7A','#5EC8FF','#6BD98B','#B98CFF'][i]}" stroke="#fff" stroke-width="2.5"/>`)}`},
+  rainbow:{n:'무지개 테두리',p:40,draw:()=>['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'].map((c,i,a)=>{ const a0=-Math.PI/2+i*2*Math.PI/a.length, a1=a0+2*Math.PI/a.length, r=104; return `<path d="M${(120+Math.cos(a0)*r).toFixed(1)} ${(125+Math.sin(a0)*r).toFixed(1)} A${r} ${r} 0 0 1 ${(120+Math.cos(a1)*r).toFixed(1)} ${(125+Math.sin(a1)*r).toFixed(1)}" fill="none" stroke="${c}" stroke-width="13"/>`; }).join('')+`<circle cx="120" cy="125" r="104" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="3"/>`},
+};
+// 친구 (오른쪽 아래)
+const PETS={
+  chick:{n:'병아리',p:20,draw:()=>`<g transform="translate(196 212)"><ellipse cx="0" cy="6" rx="22" ry="20" fill="#FFD84D" stroke="#E6B42A" stroke-width="2.5"/><path d="M-4 -14 q4 -8 8 0" fill="none" stroke="#E6B42A" stroke-width="2.5"/><circle cx="-7" cy="0" r="2.6" fill="${INK}"/><circle cx="7" cy="0" r="2.6" fill="${INK}"/><path d="M-4 5 L0 10 L4 5Z" fill="#FF9A3D"/><ellipse cx="-13" cy="7" rx="4" ry="2.6" fill="#FF9AA8" opacity=".6"/><ellipse cx="13" cy="7" rx="4" ry="2.6" fill="#FF9AA8" opacity=".6"/></g>`},
+  kitty:{n:'아기 고양이',p:20,draw:()=>`<g transform="translate(196 210)"><path d="M-20 -6 L-18 -26 L-6 -16Z M20 -6 L18 -26 L6 -16Z" fill="#FFB46B" stroke="#E08E3E" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="0" cy="4" rx="23" ry="21" fill="#FFB46B" stroke="#E08E3E" stroke-width="2.5"/><circle cx="-8" cy="1" r="2.6" fill="${INK}"/><circle cx="8" cy="1" r="2.6" fill="${INK}"/><path d="M-4 9 q2 3 4 0 q2 3 4 0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/><path d="M-14 -4 h6 M8 -4 h6" stroke="#E08E3E" stroke-width="2.5" stroke-linecap="round"/></g>`},
+  puppy:{n:'아기 강아지',p:20,draw:()=>`<g transform="translate(196 210)"><ellipse cx="0" cy="4" rx="23" ry="21" fill="#F4E2C8" stroke="#C9A97E" stroke-width="2.5"/><ellipse cx="-21" cy="0" rx="8" ry="15" fill="#A9774E" transform="rotate(16 -21 0)"/><ellipse cx="21" cy="0" rx="8" ry="15" fill="#A9774E" transform="rotate(-16 21 0)"/><circle cx="-8" cy="1" r="2.6" fill="${INK}"/><circle cx="8" cy="1" r="2.6" fill="${INK}"/><ellipse cx="0" cy="8" rx="4" ry="3" fill="${INK}"/><path d="M0 11 v3" stroke="${INK}" stroke-width="2"/></g>`},
+  dino:{n:'아기 공룡',p:30,draw:()=>`<g transform="translate(194 210)"><path d="M-6 -22 l5 -9 5 9 M4 -22 l5 -8 4 9" fill="#F7C64A" stroke="#E0A92E" stroke-width="2" stroke-linejoin="round"/><ellipse cx="0" cy="4" rx="24" ry="22" fill="#7CCB6B" stroke="#5BAA4C" stroke-width="2.5"/><ellipse cx="0" cy="12" rx="13" ry="10" fill="#D9F2B8"/><circle cx="-8" cy="-2" r="2.8" fill="${INK}"/><circle cx="8" cy="-2" r="2.8" fill="${INK}"/><path d="M-5 7 q5 4 10 0" fill="none" stroke="${INK}" stroke-width="2" stroke-linecap="round"/></g>`},
+};
+const SHOP=[['top','옷',TOPS],['head','머리 장식',HEADS],['face','얼굴 꾸미기',FACEACC],['frame','프레임',FRAMES],['bg','배경',BGS],['pet','친구',PETS]];
+const SHOP_BASE={top:'tee',frame:'basic',bg:'basic'};
+let charUid=0;
+function charSvg(look,wear,o={}){
+  const L={...CH_DEFAULT,...(look||{})}, W={top:'tee',frame:'basic',bg:'basic',...(wear||{})}, u='c'+(++charUid);
+  const skin=CH_SKIN[L.skin]||CH_SKIN[1], ss=shade(skin,-.18);
+  const top=TOPS[W.top]||TOPS.tee, tc=top.c, ts=tc==='#FFFFFF'?'#DADDE6':shade(tc,-.22);
+  const bg=(BGS[W.bg]||BGS.basic).draw(u);
+  const body=`<g clip-path="url(#k${u})">${bg}
+      ${hairSvg(L.hair,L.hc,'behind')}
+      <path d="M107 132 h26 v40 h-26z" fill="${skin}" stroke="${ss}" stroke-width="2.5"/>
+      <path d="${TORSO}" fill="${tc}" stroke="${ts}" stroke-width="2.5"/>
+      <g clip-path="url(#t${u})">${top.draw()}</g>
+      <path d="${TORSO}" fill="none" stroke="${ts}" stroke-width="2.5"/>
+      <path d="M84 206 Q88 232 86 260 M156 206 Q152 232 154 260" fill="none" stroke="${ts}" stroke-width="2" opacity=".7"/>
+      ${hairSvg(L.hair,L.hc,'back')}
+      <ellipse cx="120" cy="100" rx="50" ry="47" fill="${skin}" stroke="${ss}" stroke-width="2.5"/>
+      ${cheekSvg(L.cheek)}${eyesSvg(L.eyes)}${mouthSvg(L.mouth)}
+      ${hairSvg(L.hair,L.hc,'front')}
+      ${W.face&&FACEACC[W.face]?FACEACC[W.face].draw():''}
+    </g>
+    ${hairSvg(L.hair,L.hc,'top')}
+    ${W.head&&HEADS[W.head]?HEADS[W.head].draw(L.hc):''}`;
+  const frame=o.plain?'':(FRAMES[W.frame]||FRAMES.basic).draw(u), pet=o.plain||!(W.pet&&PETS[W.pet])?'':PETS[W.pet].draw();
+  const vb=o.crop==='face'?[62,44,116,106]:[-8,-14,256,272];
+  return `<svg class="charsvg" viewBox="${vb.join(' ')}" ${o.size?`width="${o.size}" height="${Math.round(o.size*vb[3]/vb[2])}"`:''} aria-hidden="true">
+    <defs><clipPath id="k${u}"><circle cx="120" cy="125" r="102"/></clipPath><clipPath id="t${u}"><path d="${TORSO}"/></clipPath></defs>
+    ${body}${frame}${pet}</svg>`;
+}
+
+/* --- 캐릭터 저장·별 지갑 (아이들 태블릿) --- */
+const CR={tab:'look',try:null};
+const josaEul=w=>{ const c=String(w).charCodeAt(String(w).length-1)-0xAC00; return c>=0&&c<11172&&c%28?'을':'를'; };
+function charOf(kid){ const c=(S.chars||{})[kid]; return c&&typeof c==='object'?{made:!!c.made,look:{...CH_DEFAULT,...(c.look||{})},wear:{...(c.wear||{})},own:{...(c.own||{})}}:{made:false,look:{...CH_DEFAULT},wear:{},own:{}}; }
+function saveChar(kid,c){ S.chars||(S.chars={}); S.chars[kid]=c; rset('chars/'+kid,c); save(); }
+// 음식 별: 1번 ★1 · 적당히 ★2 · 전부 ★3
+const foodStars=kid=>{ const a=ateOf(kid), it=FD().items; return Object.keys(a).reduce((n,id)=>n+(it[id]&&a[id].lv>0?a[id].lv:0),0); };
+const starsEarned=kid=>(S.bank[kid]||0)+foodStars(kid);
+const starsSpent=kid=>Object.values(charOf(kid).own).reduce((n,v)=>n+(Number(v)||0),0);
+const wallet=kid=>Math.max(0,starsEarned(kid)-starsSpent(kid));
+const shopCat=cat=>SHOP.find(x=>x[0]===cat);
+const itemOf=(cat,id)=>{ const c=shopCat(cat); return c?c[2][id]:null; };
+const owns=(c,cat,id)=>(SHOP_BASE[cat]===id)||(itemOf(cat,id)?.p===0)||(c.own[cat+':'+id]!=null);
+const worn=(c,cat,id)=>(c.wear[cat]||SHOP_BASE[cat]||'')===id;
+function charRow(){
+  if(S.role!=='kids') return '';
+  return `<section class="char-row">${S.kids.map(k=>{ const c=charOf(k.id);
+    return `<button class="char-card kid" style="--k:${k.color}" data-act="char" data-kid="${k.id}" aria-label="${esc(k.name)} 꾸미기">
+      <span class="cc-art">${charSvg(c.look,c.wear,{size:150})}${c.made?'':`<span class="cc-new">나를 만들어요!</span>`}</span>
+      <span class="cc-info"><b>${esc(k.name)}</b><span class="cc-wallet">${star(26)}<em>${wallet(k.id)}</em></span><span class="cc-go">${c.made?'꾸미러 가기':'캐릭터 만들기'} ${ui('next')}</span></span></button>`; }).join('')}</section>`;
+}
+function openChar(kid){ view.ck=kid; const c=charOf(kid); CR.tab=c.made?'top':'look'; CR.try=null; view.screen='char'; show(); }
+function crBurst(){
+  const st=$('.cr-stage'); if(!st) return; const c=document.createElement('div'); c.className='fd-burst'; c.style.left='50%'; c.style.top='45%';
+  const cols=['#FF6B6B','#FFB84D','#FFE45E','#6BD98B','#5EC8FF','#9B7BFF','#FF6BD5'];
+  c.innerHTML=Array.from({length:22},(_,i)=>{ const a=i/22*Math.PI*2, d=90+Math.random()*70; return `<i style="--x:${(Math.cos(a)*d).toFixed(0)}px;--y:${(Math.sin(a)*d).toFixed(0)}px;background:${cols[i%cols.length]}"></i>`; }).join('');
+  st.appendChild(c); setTimeout(()=>c.remove(),900);
+}
+function lookPanel(k,c){
+  const L=c.look, sw=(f,arr)=>`<div class="cr-sw">${arr.map((col,i)=>`<button class="sw-c" style="--c:${col}" data-act="crlook" data-f="${f}" data-v="${i}" aria-pressed="${L[f]===i}" aria-label="${i+1}번"></button>`).join('')}</div>`;
+  const opt=(f,arr,crop)=>`<div class="cr-opts${crop?' face':''}">${arr.map(([v,n])=>`<button class="cr-opt" data-act="crlook" data-f="${f}" data-v="${v}" aria-pressed="${L[f]===v}">${charSvg({...L,[f]:v},{},{plain:true,crop:crop?'face':null,size:crop?74:86})}<span>${n}</span></button>`).join('')}</div>`;
+  return `${c.made?'':`<div class="cr-hello">${ico('star')}<div><b>나랑 닮은 캐릭터를 만들어요!</b><small>피부색, 머리, 눈을 골라요. 처음엔 하얀 옷을 입고 있어요.</small></div></div>`}
+    <h3>피부색</h3>${sw('skin',CH_SKIN)}
+    <h3>머리 모양</h3>${opt('hair',CH_HAIR)}
+    <h3>머리 색</h3>${sw('hc',CH_HAIRC)}
+    <h3>눈</h3>${opt('eyes',CH_EYES,true)}
+    <h3>입</h3>${opt('mouth',CH_MOUTH,true)}
+    <h3>볼</h3>${opt('cheek',CH_CHEEK,true)}
+    ${c.made?'':`<button class="btn pri cr-done" data-act="crdone">${ui('check')}다 만들었어요!</button>`}`;
+}
+function shopPanel(k,c,cat){
+  const [,,items]=shopCat(cat), money=wallet(k.id);
+  const list=Object.entries(items).sort((a,b)=>a[1].p-b[1].p);
+  return `<div class="cr-items">${list.map(([id,it])=>{ const own=owns(c,cat,id), on=worn(c,cat,id), tr=CR.try&&CR.try.cat===cat&&CR.try.id===id;
+    const w={...c.wear,[cat]:id};
+    return `<button class="cr-item${on?' on':''}${tr?' trying':''}${own?' own':''}" data-act="critem" data-cat="${cat}" data-id="${id}">
+      <span class="ci-art">${charSvg(c.look,w,{size:112})}</span><span class="ci-name">${esc(it.n)}</span>
+      <span class="ci-tag">${on?`${ui('check')}입는 중`:own?'가졌어요':`${star(16)}${it.p}`}</span>${!own&&it.p>money?'<span class="ci-lock"></span>':''}</button>`; }).join('')}</div>`;
+}
+function renderChar(){
+  const k=kidById(view.ck)||S.kids[0]; if(!k){ view.screen='family'; return show(); } view.ck=k.id;
+  const c=charOf(k.id), money=wallet(k.id);
+  const wear=CR.try?{...c.wear,[CR.try.cat]:CR.try.id}:c.wear, ti=CR.try?itemOf(CR.try.cat,CR.try.id):null;
+  const tabs=[['look','나 만들기','face'],...SHOP.map(([cat,n])=>[cat,n])];
+  const buy=ti?`<div class="cr-buy">${money>=ti.p?`<span><b>${esc(ti.n)}</b> ${star(20)}${ti.p}개로 살까요?</span><button class="btn pri" data-act="crbuy">${star(22)}사기</button>`:`<span>${esc(ti.n)}${josaEul(ti.n)} 사려면 별이 <b>${ti.p-money}개</b> 더 필요해요</span><button class="btn pri" disabled>${star(22)}${ti.p}</button>`}<button class="btn sec" data-act="crcancel">안 살래요</button></div>`:'';
+  $('#char').innerHTML=`
+  <header class="band scene" data-rid="char"><div class="wrap band-in">
+    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
+    <div class="band-title"><div><h1>${esc(withI(k.name))} 꾸미기 방</h1><p class="band-date">할 일과 새 음식으로 모은 별로 꾸며요</p></div></div>
+    <div class="cr-kids">${S.kids.map(x=>`<button class="cr-k kid" style="--k:${x.color}" data-act="crk" data-kid="${x.id}" aria-pressed="${x.id===k.id}" aria-label="${esc(x.name)}">${avatar(x,46)}</button>`).join('')}</div>
+  </div></header>
+  <div class="wrap cr-wrap">
+    <section class="cr-stage kid" style="--k:${k.color}">
+      <div class="cr-art">${charSvg(c.look,wear,{})}</div>
+      ${buy}
+      <div class="cr-money"><span class="cm-big">${star(34)}<b>${money}</b><small>쓸 수 있는 별</small></span>
+        <span class="cm-how">할 일 ${star(14)}${S.bank[k.id]||0} · 새 음식 ${star(14)}${foodStars(k.id)} · 산 것 ${star(14)}${starsSpent(k.id)}</span></div>
+    </section>
+    <section class="cr-panel">
+      <div class="cr-tabs" role="tablist">${tabs.map(([id,n])=>`<button role="tab" data-act="crtab" data-tab="${id}" aria-selected="${CR.tab===id}"${!c.made&&id!=='look'?' disabled':''}>${n}</button>`).join('')}</div>
+      <div class="cr-body">${CR.tab==='look'?lookPanel(k,c):shopPanel(k,c,CR.tab)}</div>
+    </section>
   </div>`;
 }
 /* ===== 받은 답장 (아이들 쪽) ===== */
@@ -2829,6 +3143,19 @@ document.addEventListener('click',e=>{
     case 'stopat': { const t=stopAtFromInput($('#stopTime')?.value); if(t===null){ toast('시간을 골라 주세요'); break; } if(t<0){ toast('이미 지난 시간이에요. 다시 골라 주세요'); break; } setStopAt(t); break; }
     case 'stopadj': { const st=S.stop; if(!st) break; const t=st.at+Number(d.d)*60000; if(t<=Date.now()+30000){ toast('너무 가까워요. 지금 바로 띄우려면 5분 뒤를 눌러 주세요'); break; } setStopAt(t); break; }
     case 'fstats': view.screen='fstats'; show(); break;
+    case 'char': openChar(d.kid); tone([660,880],.08,'sine'); break;
+    case 'crk': openChar(d.kid); break;
+    case 'crtab': CR.tab=d.tab; CR.try=null; renderChar(); $('.cr-body')?.scrollTo(0,0); break;
+    case 'crlook': { const c=charOf(view.ck); c.look[d.f]=['skin','hc'].includes(d.f)?Number(d.v):d.v; saveChar(view.ck,c); buzz(); tone([784],.06,'sine'); const sc=$('.cr-body')?.scrollTop||0; renderChar(); const b=$('.cr-body'); if(b) b.scrollTop=sc; break; }
+    case 'crdone': { const c=charOf(view.ck); c.made=true; saveChar(view.ck,c); CR.tab='top'; renderChar(); crBurst(); tone([523,659,784,1047],.28,'triangle',.1); const k=kidById(view.ck); sayText(`${withI(k.name)} 캐릭터 완성! 별을 모아서 예쁘게 꾸며요!`); break; }
+    case 'critem': { const c=charOf(view.ck), cat=d.cat, id=d.id; const sc=$('.cr-body')?.scrollTop||0;
+      if(owns(c,cat,id)){ CR.try=null; if(worn(c,cat,id)){ if(SHOP_BASE[cat]) c.wear[cat]=SHOP_BASE[cat]; else delete c.wear[cat]; } else c.wear[cat]=id; saveChar(view.ck,c); tone([660],.07,'sine'); }
+      else { CR.try={cat,id}; tone([880],.07,'sine'); sayText(itemOf(cat,id).n); }
+      renderChar(); const b=$('.cr-body'); if(b) b.scrollTop=sc; break; }
+    case 'crcancel': CR.try=null; renderChar(); break;
+    case 'crbuy': { const t=CR.try; if(!t) break; const it=itemOf(t.cat,t.id), c=charOf(view.ck); if(!it||wallet(view.ck)<it.p) break;
+      c.own[t.cat+':'+t.id]=it.p; c.wear[t.cat]=t.id; CR.try=null; saveChar(view.ck,c); const sc=$('.cr-body')?.scrollTop||0; renderChar(); const b=$('.cr-body'); if(b) b.scrollTop=sc;
+      crBurst(); tone([523,659,784,1047,1319],.3,'triangle',.1); buzz(); const k=kidById(view.ck); sayText(`${it.n} 샀어요! ${withI(k.name)} 멋져요!`); break; }
     case 'fsp': FS.period=d.p; renderStats(); break;
     case 'fswk': FS.wk=Number(d.i); renderStats(); break;
     case 'hclose': H.open=false; renderHosp(); break;
@@ -2921,7 +3248,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); pruneMeds(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } const up={fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } if(view.screen==='char'&&CR.try){ CR.try=null; renderChar(); return true; } const up={char:'family',fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 pruneMeds();
