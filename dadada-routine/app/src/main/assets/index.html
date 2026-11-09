@@ -856,6 +856,25 @@ button.tc:active{transform:scale(.95)}
 .sh-chip .fico{border-radius:50%}
 .sh-chip.lv1{box-shadow:inset 0 0 0 2px #C3C9D3}.sh-chip.lv2{box-shadow:inset 0 0 0 2px #FF8FB8}
 .sh-chip.rb::before{border-width:2px;inset:0}.sh-chip.rb::after{inset:0;filter:blur(4px)}
+.lk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.lk-kid{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:22px;background:color-mix(in oklab,var(--k) 8%,var(--surface-2))}
+.lk-kid header{display:flex;align-items:center;gap:8px}
+.lk-kid header b{font:21px var(--f-d);font-weight:400}
+.lk-kid h3{display:flex;align-items:center;gap:6px;font:16px var(--f-d);font-weight:400;color:#2F7A55;margin-top:4px}
+.lk-kid h3.no{color:#9A6565}
+.lk-kid h3 .ic{width:24px;height:24px;--ic-tint:#FFE7A8;color:#E0731F}
+.lk-kid h3.no .ic{color:#9A6565;--ic-tint:#FBEFEF}
+.lk-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+.lk-list li{position:relative;display:flex;align-items:center;gap:8px;padding:6px 10px 6px 6px;border-radius:16px;background:var(--surface)}
+.lk-list li>span:not(.fico){flex:1;min-width:0;display:flex;flex-direction:column}
+.lk-list b{font:16px var(--f-d);font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lk-list small{font-size:12px;color:var(--ink-2)}
+.lk-list em{font-style:normal;font-size:12px;white-space:nowrap;padding:2px 8px;border-radius:999px;background:#FFF2F7;color:#C2477A}
+.lk-list li.lv2{box-shadow:inset 0 0 0 2px #FF8FB8}
+.lk-list li.rb em{background:#FFF6D9;color:#9A6B00}
+.lk-list li.rb::before{border-width:2px;inset:0}.lk-list li.rb::after{inset:0;filter:blur(5px);opacity:.4}
+.lk-list li.lvno{box-shadow:inset 0 0 0 2px #E2BDBD}
+@media (max-width:760px){.lk-grid{grid-template-columns:1fr}}
 .sc-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:8px}
 .sc-row{display:grid;grid-template-columns:minmax(110px,150px) minmax(0,1fr);align-items:center;gap:12px;padding:6px 8px;border-radius:16px;background:var(--surface-2)}
 .sc-name{display:flex;align-items:center;gap:8px;font:17px var(--f-d)}
@@ -2481,6 +2500,18 @@ function statsHtml(){
       <div class="sh-leg">${parts.map(x=>`<span><i class="${x.lv===3?'rb-fill':''}" style="${x.lv===3?'':`background:${LV_COL[x.lv]}`}"></i>${x.nm} <b>${x.v}</b></span>`).join('')}</div>`:`<p class="fd-note">${P} 기록이 아직 없어요</p>`}
       ${fresh.length?`<div class="sh-fresh"><small>${FS.period==='all'?'최근에 먹어 본 음식':'새로 먹어 본 음식'}</small><div>${fresh.map(r=>`<span class="sh-chip${lvCls(r.lv)}">${fIco(r.f.icon,26)}${esc(r.f.name)}</span>`).join('')}</div></div>`:''}
     </article>`; }).join('');
+  // 아이마다 잘 먹는 음식 / 나왔는데 한 번도 안 먹은 음식 (식판에 나온 날 기준)
+  const servedDays={}; for(const [d,t] of Object.entries(FD().trays)) if(inP(d)) for(const fid of new Set(Object.values(t||{}))) if(FD().items[fid]) (servedDays[fid]||(servedDays[fid]=[])).push(d);
+  const likeCol=k=>{ const rows=Object.entries(servedDays).map(([fid,ds])=>{ const lvs=ds.map(d=>FD().days[d]?.[k.id]?.[fid]||0), ate=lvs.filter(v=>v>0);
+      return {f:FD().items[fid],n:ds.length,ate:ate.length,all:lvs.filter(v=>v===3).length,no:lvs.filter(v=>v<0).length,avg:ate.length?lvs.reduce((a,v)=>a+(v>0?v:0),0)/ds.length:0}; });
+    const good=rows.filter(r=>r.avg>=2).sort((a,b)=>b.avg-a.avg||b.n-a.n).slice(0,6);
+    const never=rows.filter(r=>!r.ate).sort((a,b)=>b.n-a.n||b.no-a.no).slice(0,8);
+    const g=r=>`<li class="${r.avg>=2.5?'lv3 rb':'lv2'}">${fIco(r.f.icon,32)}<span><b>${esc(r.f.name)}</b><small>${r.n}번 나와서 ${r.ate}번 먹음${r.all?` · 전부 ${r.all}번`:''}</small></span><em>${r.avg>=2.5?'아주 잘 먹어요':'잘 먹어요'}</em></li>`;
+    const nv=r=>`<li class="lvno">${fIco(r.f.icon,32)}<span><b>${esc(r.f.name)}</b><small>${r.n}번 나왔어요${r.no?` · 안 먹음 ${r.no}번`:` · 기록 없음`}</small></span></li>`;
+    return `<article class="lk-kid kid" style="--k:${k.color}"><header>${avatar(k,40)}<b>${esc(k.name)}</b></header>
+      <h3>${ico('clean')}잘 먹는 음식</h3>${good.length?`<ul class="lk-list">${good.map(g).join('')}</ul>`:'<p class="fd-note">아직 없어요</p>'}
+      <h3 class="no">${ico('nope')}나왔는데 한 번도 안 먹은 음식</h3>${never.length?`<ul class="lk-list">${never.map(nv).join('')}</ul>`:'<p class="fd-note">없어요! 나온 음식은 다 먹어 봤어요</p>'}</article>`; };
+  const likes=Object.keys(servedDays).length?`<section class="dash-card st-card"><h2>잘 먹는 음식 · 한 번도 안 먹은 음식 <small>${P} 식판에 나온 음식 기준</small></h2><div class="lk-grid">${kids.map(likeCol).join('')}</div></section>`:'';
   // 주별 그래프
   const W=8, w0=weekStart(Date.now()), weeks=[...Array(W)].map((_,i)=>w0-(W-1-i)*7*86400000);
   const wcount=kids.map(k=>{ const a=ateOf(k.id), it=FD().items; return weeks.map(ws=>Object.keys(a).filter(id=>it[id]&&a[id].lv>0&&a[id].t>=ws&&a[id].t<ws+7*86400000).length); });
@@ -2507,6 +2538,7 @@ function statsHtml(){
   const pill=(k,lv)=>`<span class="sf-p kid${lv?lvCls(lv):' none'}" style="--k:${k.color}" title="${esc(k.name)} ${lv?LV_NAME[lv]:'기록 없음'}">${avatar(k,22)}<em>${lv?LV_NAME[lv]:'—'}</em></span>`;
   return `<div class="st-tabs" role="tablist">${[['week','이번 주'],['month','이번 달'],['all','전체']].map(([k,n])=>`<button role="tab" data-act="fsp" data-p="${k}" aria-selected="${FS.period===k}">${n}</button>`).join('')}</div>
     <section class="sh-grid">${hero}</section>
+    ${likes}
     <section class="dash-card st-card"><h2>주마다 새로 먹어 본 음식 <small>최근 8주 · 막대를 누르면 숫자가 보여요</small></h2>
       <div class="st-legend">${kids.map(k=>`<span><i style="background:${kChart(k)}"></i>${esc(k.name)}</span>`).join('')}</div>
       <svg class="st-chart" viewBox="0 0 ${CW} ${CH}" role="img" aria-label="주별로 새로 먹어 본 음식 수">${grid}${bars}</svg>
