@@ -804,6 +804,14 @@ button.tc:active{transform:scale(.95)}
 .cr-hello b{font:20px var(--f-d);font-weight:400;display:block}
 .cr-hello small{font-size:14px;color:var(--ink-2)}
 .cr-done{min-height:64px;font-size:22px;display:flex;align-items:center;justify-content:center;gap:6px;flex:none !important;background:var(--char-ink);margin-top:8px}
+.cr-rule{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:18px;background:#FFF6D9;font:17px var(--f-d);color:#8A5A00}
+.cr-rule .ic{width:30px;height:30px;color:#E0A21E;--ic-tint:#FFE7A0}
+.cr-rule.done{background:#E3F5EC;color:#1E6B47}
+.cr-rule .ui{width:20px;height:20px;stroke-width:3}
+.fp-st{display:flex;align-items:center;gap:1px;font:17px var(--f-d);font-style:normal;color:#9A6B00;background:#FFF1C9;border-radius:999px;padding:2px 10px}
+.fd-gain{position:absolute;left:50%;top:30%;transform:translateX(-50%);display:flex;align-items:center;gap:2px;font:28px var(--f-d);color:#E09A00;text-shadow:0 2px 0 #fff;pointer-events:none;animation:fdGain 1.4s ease-out forwards;z-index:3}
+.fd-gain.minus{color:#9AA3B2}
+@keyframes fdGain{0%{opacity:0;transform:translate(-50%,10px) scale(.6)}20%{opacity:1;transform:translate(-50%,0) scale(1.15)}100%{opacity:0;transform:translate(-50%,-46px) scale(1)}}
 .cr-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:10px}
 .cr-item{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 6px 10px;border-radius:22px;background:var(--surface-2);border:3px solid transparent}
 .cr-item .ci-name{font:15px/1.2 var(--f-d);text-align:center;word-break:keep-all}
@@ -1116,6 +1124,8 @@ const ICONS={
   poop:'<path class="t" d="M9 40.5a4.5 4.5 0 0 1 1.6-8.7 5.4 5.4 0 0 1 4.6-7.6 6.3 6.3 0 0 1 8.3-6.6c.3-3.6 2.6-6 6-6.6-1 3.2.8 4.8 2.8 5.8a5.4 5.4 0 0 1 1.6 8 5.4 5.4 0 0 1 4 7.7 4.5 4.5 0 0 1-.4 8z"/><circle class="s" cx="19.5" cy="31" r="1.7"/><circle class="s" cx="28.5" cy="31" r="1.7"/><path d="M21 35.5q3 2.6 6 0"/>',
   medicine:'<rect class="t" x="10" y="15" width="21" height="27" rx="4"/><rect x="12.5" y="7" width="16" height="8" rx="2"/><path d="M20.5 23v11M15 28.5h11"/><g transform="rotate(-40 38 31)"><rect class="t" x="31.5" y="26.5" width="13" height="8" rx="4"/><path d="M38 26.5v8"/></g>',
   hospital:'<path class="t" d="M7 42V17l17-10 17 10v25z"/><path d="M3 42h42"/><rect x="19" y="32" width="10" height="10" rx="1"/><path d="M24 15v10M19 20h10"/>',
+  towel:'<path d="M7 10h34"/><path class="t" d="M12 10h24v27a4 4 0 0 1-4 4H16a4 4 0 0 1-4-4z"/><path d="M12 31h24M12 35.5h24"/>',
+  hairpin:'<path d="M9 38C9 21 16 12 24 12s15 9 15 26"/><path class="t" d="M31 15l9-6v13zM31 15l-8-6v13z"/><circle class="s" cx="31" cy="15" r="2.6"/><path d="M6 31l12-6"/>',
   hotpack:'<rect class="t" x="9" y="17" width="30" height="25" rx="6"/><path d="M15 29h18M15 35h11"/><path d="M17 12c-2-2.5 2-3.5 0-7M24 12c-2-2.5 2-3.5 0-7M31 12c-2-2.5 2-3.5 0-7"/>',
   sunscreen:'<path class="t" d="M14 11h20l-2.2 28.5a2.6 2.6 0 0 1-2.6 2.5H18.8a2.6 2.6 0 0 1-2.6-2.5z"/><rect x="18" y="4" width="12" height="7" rx="1.8"/><circle cx="24" cy="26" r="4.2"/><path d="M24 17.5v2M24 32.5v2M15.8 26h2M30.2 26h2"/>',
   star:'<path class="t" d="M24 5l5.6 11.6 12.7 1.8-9.2 9 2.2 12.7L24 34l-11.3 6 2.2-12.6-9.2-9 12.7-1.8z"/>'
@@ -1165,7 +1175,7 @@ const RIDS=['morning','evening','out'];
 const KID_COLORS=['#9C7BEA','#4FB3E8','#F7B23B','#F07FA2','#3EC4B4','#6F8BF2','#FF9264','#6CC46B'];
 const CRAYON={'#8B5CF6':'#9C7BEA','#B9A4E8':'#9C7BEA','#2BA8E0':'#4FB3E8','#8EC5E6':'#4FB3E8','#F0A41C':'#F7B23B','#F2C77E':'#F7B23B','#E5487A':'#F07FA2','#EFA8BE':'#F07FA2','#16A39A':'#3EC4B4','#8FD0C4':'#3EC4B4','#4C6FFF':'#6F8BF2','#A3B2EE':'#6F8BF2','#FF7A3D':'#FF9264','#F4B08F':'#FF9264','#3BAA4E':'#6CC46B','#A9D39A':'#6CC46B'};
 const crayon=c=>CRAYON[String(c||'').toUpperCase()]||c;
-const CATALOG=[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['syringe','주사 맞기'],['strip','코르릉 붙이기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['hotpack','핫팩 챙기기'],['notebook','언어전달장'],['toilet','아침 쉬'],['toilet','저녁 쉬'],['water','물 떠오기'],['vitamin','영양제 먹기'],['bed','이불 정리'],['toilet','화장실 가기'],['wash','세수하기'],['brush','양치하기'],['shirt','옷 입기'],['meal','아침 먹기'],['meal','저녁 먹기'],['comb','머리 빗기'],['hair','머리 묶기'],['lotion','로션 바르기'],['vitamin','비타민 먹기'],['water','물 마시기'],['backpack','가방 챙기기'],['backpack','내일 가방 챙기기'],['bottle','물병 챙기기'],['notebook','알림장 보여주기'],['homework','숙제하기'],['book','책 읽기'],['piano','악기 연습'],['toys','장난감 정리'],['plate','그릇 갖다 놓기'],['laundry','빨래통에 옷 넣기'],['handwash','손 씻기'],['bath','목욕하기'],['pajama','잠옷 입기'],['sleep','불 끄고 눕기'],['socks','양말 신기'],['coat','외투 입기'],['shoes','신발 신기'],['hat','모자 쓰기'],['mask','마스크 쓰기'],['umbrella','우산 챙기기'],['plant','화분 물 주기'],['heart','엄마 아빠 안아 주기']];
+const CATALOG=[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['syringe','주사 맞기'],['strip','코르릉 붙이기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['hotpack','핫팩 챙기기'],['towel','수건 챙기기'],['towel','수건 정리하기'],['hairpin','머리띠/머리핀 하기'],['meal','밥 먹기'],['notebook','언어전달장'],['toilet','아침 쉬'],['toilet','저녁 쉬'],['water','물 떠오기'],['vitamin','영양제 먹기'],['bed','이불 정리'],['toilet','화장실 가기'],['wash','세수하기'],['brush','양치하기'],['shirt','옷 입기'],['meal','아침 먹기'],['meal','저녁 먹기'],['comb','머리 빗기'],['hair','머리 묶기'],['lotion','로션 바르기'],['vitamin','비타민 먹기'],['water','물 마시기'],['backpack','가방 챙기기'],['backpack','내일 가방 챙기기'],['bottle','물병 챙기기'],['notebook','알림장 보여주기'],['homework','숙제하기'],['book','책 읽기'],['piano','악기 연습'],['toys','장난감 정리'],['plate','그릇 갖다 놓기'],['laundry','빨래통에 옷 넣기'],['handwash','손 씻기'],['bath','목욕하기'],['pajama','잠옷 입기'],['sleep','불 끄고 눕기'],['socks','양말 신기'],['coat','외투 입기'],['shoes','신발 신기'],['hat','모자 쓰기'],['mask','마스크 쓰기'],['umbrella','우산 챙기기'],['plant','화분 물 주기'],['heart','엄마 아빠 안아 주기']];
 const ICON_PICK=['star','heart',...Object.keys(ICONS).filter(k=>!['sun','moon','door','star','heart'].includes(k))];
 const IS_APP=!!(window.Android&&window.Android.loadData);
 const PARENTS=[
@@ -1224,6 +1234,19 @@ const todayKey=()=>{const d=new Date();return `${d.getFullYear()}-${pad(d.getMon
 const uid=()=>Math.random().toString(36).slice(2,10);
 const T=(icon,label,once)=>({id:uid(),icon,label,...(once?{once}:{})});
 
+// 11월 9일 추가: 다정 아침 '수건 정리하기'·저녁 '수건 챙기기', 다솔·다정 아침 '머리띠/머리핀 하기', 세 아이 아침 '밥 먹기'
+function mig7(R){
+  const has=(list,label)=>list.some(t=>t&&!t.once&&String(t.label).replace(/\s/g,'')===label.replace(/\s/g,''));
+  const put=(list,item,after,before)=>{ if(!Array.isArray(list)||has(list,item.label)) return;
+    let i=-1; if(before) i=list.findIndex(t=>t&&!t.once&&before.some(b=>String(t.label).includes(b)));
+    if(i<0&&after){ const j=list.map(t=>t&&!t.once&&after.some(a=>String(t.label).includes(a))).lastIndexOf(true); if(j>=0) i=j+1; }
+    if(i<0) i=list.length; list.splice(i,0,item); };
+  const mo=R?.morning||{}, ev=R?.evening||{};
+  for(const k of ['k1','k2','k3']) put(mo[k],T('meal','밥 먹기'),null,['양치']);
+  for(const k of ['k2','k3']) put(mo[k],T('hairpin','머리띠/머리핀 하기'),['양말','옷 입기']);
+  put(mo.k3,T('towel','수건 정리하기'),['세수']);
+  put(ev.k3,T('towel','수건 챙기기'));
+}
 function defaults(){
   const L=a=>a.map(([i,l])=>T(i,l));
   const P={
@@ -1236,7 +1259,8 @@ function defaults(){
   };
   const routines={};
   for(const r of RIDS) routines[r]={k1:L(P[r].big),k2:L(P[r].small),k3:L(P[r].small)};
-  return {v:4,mig5:true,mig6:true,msg:{v:1,defv:MSG_DEFV,phrases:defaultPhrases()},
+  mig7(routines);
+  return {v:4,mig5:true,mig6:true,mig7:true,msg:{v:1,defv:MSG_DEFV,phrases:defaultPhrases()},
     kids:[{id:'k1',name:'다연',color:'#9C7BEA',animal:'cat'},{id:'k2',name:'다솔',color:'#4FB3E8',animal:'bear'},{id:'k3',name:'다정',color:'#F7B23B',animal:'chick'}],
     routines,log:{},bank:{k1:0,k2:0,k3:0},sound:true};
 }
@@ -1252,6 +1276,7 @@ function load(){
     const k1=(s.kids||[]).find(k=>k.id==='k1'); if(k1) k1.animal='cat';
     const mo=s.routines?.morning?.k1; if(Array.isArray(mo)&&!mo.some(t=>t&&!t.once&&String(t.label).includes('핫팩'))) mo.push(T('hotpack','핫팩 챙기기'));
     const ev=s.routines?.evening?.k1; if(Array.isArray(ev)&&!ev.some(t=>t&&!t.once&&String(t.label).includes('잠옷 입기'))){ const i=ev.findIndex(t=>t&&String(t.label).includes('양치')); ev.splice(i>=0?i:ev.length,0,T('pajama','잠옷 입기')); } }
+  if(!s.mig7){ s.mig7=true; s.needPush=true; mig7(s.routines); }
   if(s.v<3){ const k1=s.kids.find(k=>k.id==='k1'); if(k1) k1.animal='cat'; const m=s.routines.morning?.k1; if(m&&!m.some(t=>!t.once&&t.label==='핫팩 챙기기')) m.push(T('hotpack','핫팩 챙기기')); s.v=3; }
   normalize(s);
   if(typeof s.sound!=='boolean') s.sound=true;
@@ -1280,9 +1305,14 @@ function normalize(s){
     for(const [id,v] of Object.entries(f.items||{})) if(v&&typeof v==='object'&&v.name) items[id]={...v,id};
     for(const [k,v] of Object.entries(f.ate||{})) if(v&&typeof v==='object'){ ate[k]={}; for(const [id,t] of Object.entries(v)){ if(typeof t==='number'&&t) ate[k][id]={t,lv:1}; else if(t&&typeof t==='object'&&t.lv){ const lv=t.v===2?(t.lv<0?-1:Math.min(3,Math.max(1,t.lv|0))):(t.lv<0?-1:t.lv>=2?3:1); ate[k][id]={t:Number(t.t)||0,lv,v:2}; } } }
     const trays={}; for(const [d,v] of Object.entries(f.trays||{})) if(v&&typeof v==='object'){ const o={}; for(const sl of ['s1','s2','s3','rice','soup']) if(typeof v[sl]==='string'&&v[sl]) o[sl]=v[sl]; trays[d]=o; }
-    s.foods={items,ate,trays}; }
+    const days={}; for(const [d,v] of Object.entries(f.days||{})) if(/^\d{4}-\d{2}-\d{2}$/.test(d)&&v&&typeof v==='object'){ days[d]={}; for(const [k,m] of Object.entries(v)) if(m&&typeof m==='object'){ days[d][k]={}; for(const [fid,lv] of Object.entries(m)){ const n=Number(lv); if(n===-1||n===1||n===2||n===3) days[d][k][fid]=n; } } }
+    let daysv=f.daysv||0;
+    if(daysv<1&&Object.values(ate).some(m=>Object.keys(m).length)){ // 예전 기록(음식마다 하나)을 처음 먹은 날의 기록으로 옮겨요
+      for(const [k,m] of Object.entries(ate)) for(const [fid,v] of Object.entries(m)){ const d=new Date(v.t||Date.now()), dk=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; ((days[dk]||(days[dk]={}))[k]||(days[dk][k]={}))[fid]??=v.lv; }
+      daysv=1; s._foodMig=true; }
+    s.foods={items,ate,trays,days,daysv}; }
   { const c=(s.chars&&typeof s.chars==='object')?s.chars:{}, out={};
-    for(const [k,v] of Object.entries(c)) if(v&&typeof v==='object') out[k]={made:!!v.made,look:(v.look&&typeof v.look==='object')?v.look:{},wear:(v.wear&&typeof v.wear==='object')?v.wear:{},own:(v.own&&typeof v.own==='object')?v.own:{}};
+    for(const [k,v] of Object.entries(c)) if(v&&typeof v==='object') out[k]={made:!!v.made,look:(v.look&&typeof v.look==='object')?v.look:{},wear:(v.wear&&typeof v.wear==='object')?v.wear:{},own:(v.own&&typeof v.own==='object')?v.own:{},...(typeof v.lastBuy==='string'?{lastBuy:v.lastBuy}:{})};
     s.chars=out; }
 }
 let S=load();
@@ -2156,9 +2186,23 @@ const fIco=(icon,s)=>{ const f=FOOD_ICONS[icon]||FOOD_ICONS.dish; return `<span 
 // 식판: 위에 반찬 3칸, 아래에 밥 · 국
 const TRAY=[{k:'s1',n:'반찬'},{k:'s2',n:'반찬'},{k:'s3',n:'반찬'},{k:'rice',n:'밥',def:'rice'},{k:'soup',n:'국',def:'soup'}];
 const TRAY_NAME={s1:'반찬 1',s2:'반찬 2',s3:'반찬 3',rice:'밥',soup:'국'};
-const FD=()=>{ if(!S.foods||typeof S.foods!=='object') S.foods={}; const f=S.foods; f.items||(f.items={}); f.ate||(f.ate={}); f.trays||(f.trays={}); return f; };
-const ateOf=kid=>FD().ate[kid]||{};
-const lvOf=(kid,fid)=>ateOf(kid)[fid]?.lv||0;
+const FD=()=>{ if(!S.foods||typeof S.foods!=='object') S.foods={}; const f=S.foods; f.items||(f.items={}); f.ate||(f.ate={}); f.trays||(f.trays={}); f.days||(f.days={}); return f; };
+// 날마다 기록 (식판 날짜 → 아이 → 음식 → 단계). 별은 날마다 받아요: 1번 ★1 · 적당히 ★2 · 전부 ★3
+const LV_STAR={1:1,2:2,3:3};
+const dayT=d=>{ const [y,m,dd]=String(d).split('-').map(Number); return new Date(y,(m||1)-1,dd||1).getTime(); };
+// 지금까지 먹어 본 기록 = 날마다 기록 중 가장 잘 먹은 단계 (t = 처음 먹어 본 날)
+function ateOf(kid){
+  const out={}, days=FD().days;
+  for(const d of Object.keys(days).sort()){ const m=days[d]?.[kid]; if(!m) continue;
+    for(const [fid,lv] of Object.entries(m)){ const o=out[fid];
+      if(!o) out[fid]={t:dayT(d),lv,last:dayT(d)};
+      else { if(lv>0&&(o.lv<=0)) o.t=dayT(d); if(lv>o.lv||(o.lv<0&&lv>0)) o.lv=lv; o.last=dayT(d); } } }
+  return out;
+}
+const dayLv=(day,kid,fid)=>FD().days[day]?.[kid]?.[fid]||0;
+const trayDay=()=>curTray()?.day||todayKey();
+// 식판에서 보이는 단계 = 그 식판 날의 기록
+const lvOf=(kid,fid)=>dayLv(trayDay(),kid,fid);
 const foodCount=kid=>{ const it=FD().items, a=ateOf(kid); return Object.keys(a).filter(id=>it[id]&&a[id].lv>0).length; };
 const lvCount=(kid,lv)=>{ const it=FD().items, a=ateOf(kid); return Object.keys(a).filter(id=>it[id]&&a[id].lv===lv).length; };
 // 분류: 1번(회색) · 적당히(핑크) · 전부(무지개)
@@ -2170,6 +2214,7 @@ function trayFor(day){ const t=FD().trays[day]; if(!t) return null; const it=FD(
 const curTray=()=>trayFor(todayKey())||trayFor(yesterdayKey());
 const trayFoods=()=>{ const c=curTray(); return c?TRAY.map(sl=>c.slots[sl.k]).filter(Boolean):[]; };
 const pendingFoods=kid=>trayFoods().filter(f=>!lvOf(kid,f.id));
+const bestLv=(kid,fid)=>ateOf(kid)[fid]?.lv||0;
 const eatenFoods=kid=>{ const a=ateOf(kid), it=FD().items; return Object.keys(a).filter(id=>it[id]&&a[id].lv>0).sort((x,y)=>(a[y].t||0)-(a[x].t||0)).map(id=>it[id]); };
 // 안 먹었어 → '다음에 도전!' 칸
 const noFoods=kid=>{ const a=ateOf(kid), it=FD().items; return Object.keys(a).filter(id=>it[id]&&a[id].lv<0).sort((x,y)=>(a[y].t||0)-(a[x].t||0)).map(id=>it[id]); };
@@ -2183,11 +2228,10 @@ function addFood(name,icon){
   const it={id,name,icon:icon||old?.icon||guessFood(name),day:todayKey(),ts:old?.ts||Date.now(),by:S.role};
   fd.items[id]=it; rset('foods/items/'+id,it); return it;
 }
-function setLv(kid,fid,lv){
-  const fd=FD(); fd.ate[kid]||(fd.ate[kid]={});
-  if(lv!==0){ const old=fd.ate[kid][fid], v={t:old&&old.lv>0&&lv>0?old.t:Date.now(),lv,v:2}; fd.ate[kid][fid]=v; rset(`foods/ate/${kid}/${fid}`,v); }
-  else { delete fd.ate[kid][fid]; rset(`foods/ate/${kid}/${fid}`,null); }
-  save();
+function setLv(kid,fid,lv,day){
+  day=day||trayDay(); const fd=FD(); fd.days[day]||(fd.days[day]={}); fd.days[day][kid]||(fd.days[day][kid]={});
+  if(lv) fd.days[day][kid][fid]=lv; else delete fd.days[day][kid][fid];
+  rset(`foods/days/${day}/${kid}/${fid}`,lv||null); save();
 }
 /* --- 아이들 태블릿 --- */
 function trayHtml(k,ct,mode){
@@ -2199,7 +2243,7 @@ function trayHtml(k,ct,mode){
 }
 function foodLane(k){
   const eaten=eatenFoods(k.id), n=eaten.length, ct=curTray(), nos=noFoods(k.id);
-  const chips=eaten.map(f=>{ const lv=lvOf(k.id,f.id); return `<button class="fd-chip${lvCls(lv)}${F.pop&&F.pop.kid===k.id&&F.pop.fid===f.id&&F.pop.first?' pop':''}" data-act="fdsay" data-fid="${f.id}">${fIco(f.icon)}<span>${esc(f.name)}</span></button>`; }).join('');
+  const chips=eaten.map(f=>{ const lv=bestLv(k.id,f.id); return `<button class="fd-chip${lvCls(lv)}${F.pop&&F.pop.kid===k.id&&F.pop.fid===f.id&&F.pop.first?' pop':''}" data-act="fdsay" data-fid="${f.id}">${fIco(f.icon)}<span>${esc(f.name)}</span></button>`; }).join('');
   return `<section class="lane kid fd-lane" data-kid="${k.id}" style="--k:${k.color}" aria-label="${esc(k.name)}">
     <div class="fd-head">${avatar(k,76)}<div class="fd-who"><div class="lane-name">${esc(k.name)}</div><small>먹어 본 음식</small></div><div class="fd-num" aria-label="먹어 본 음식 ${n}가지">${n}<small>가지</small></div></div>
     <div class="fd-cats">${LVS.map(c=>`<span class="fdc ${c.cls}"><small>${c.n}</small><b>${lvCount(k.id,c.lv)}</b></span>`).join('')}</div>
@@ -2234,9 +2278,9 @@ function renderPick(){
     <div class="fp-top">${avatar(k,64)}<div class="fp-food${lvCls(lv)}">${fIco(f.icon,104)}</div><b>${esc(f.name)}</b></div>
     <div class="fp-btns">
       <button class="fp no" data-act="fdlv" data-lv="-1" aria-pressed="${lv===-1}">${ico('nope')}<span>안 먹었어</span></button>
-      <button class="fp once" data-act="fdlv" data-lv="1" aria-pressed="${lv===1}">${ico('bite')}<span>1번 먹었어</span></button>
-      <button class="fp some" data-act="fdlv" data-lv="2" aria-pressed="${lv===2}">${ico('half')}<span>적당히 먹었어</span></button>
-      <button class="fp all rb" data-act="fdlv" data-lv="3" aria-pressed="${lv===3}">${ico('clean')}<span>전부 먹었어</span></button>
+      <button class="fp once" data-act="fdlv" data-lv="1" aria-pressed="${lv===1}">${ico('bite')}<span>1번 먹었어</span><em class="fp-st">${star(18)}1</em></button>
+      <button class="fp some" data-act="fdlv" data-lv="2" aria-pressed="${lv===2}">${ico('half')}<span>적당히 먹었어</span><em class="fp-st">${star(18)}2</em></button>
+      <button class="fp all rb" data-act="fdlv" data-lv="3" aria-pressed="${lv===3}">${ico('clean')}<span>전부 먹었어</span><em class="fp-st">${star(18)}${star(18)}3</em></button>
     </div>
   </div>`;
   sayText(f.name);
@@ -2245,14 +2289,16 @@ function chooseLv(lv){
   const p=F.pick; if(!p) return; const k=kidById(p.kid), f=FD().items[p.fid]; const prev=lvOf(p.kid,p.fid);
   F.pick=null; renderPick(); if(!k||!f||lv===prev) return;
   setLv(p.kid,p.fid,lv);
-  const up=lv>0&&lv>Math.max(prev,0);
-  F.pop=up?{kid:p.kid,fid:p.fid,first:prev<=0}:null; swapFoodLane(p.kid); F.pop=null;
+  const up=lv>0&&lv>Math.max(prev,0), firstEver=up&&eatenFoods(p.kid).filter(x=>x.id===p.fid).length===1&&bestLv(p.kid,p.fid)===lv&&prev<=0;
+  F.pop=up?{kid:p.kid,fid:p.fid,first:firstEver}:null; swapFoodLane(p.kid); F.pop=null;
+  const gain=(LV_STAR[lv]||0)-(LV_STAR[prev]||0);
+  if(gain){ const cellEl=document.querySelector(`.fd-lane[data-kid="${p.kid}"] .tc[data-fid="${p.fid}"]`); if(cellEl){ const g=document.createElement('span'); g.className='fd-gain'+(gain<0?' minus':''); g.innerHTML=`${gain>0?'+':''}${gain}${star(22)}`; cellEl.appendChild(g); setTimeout(()=>g.remove(),1400); } }
   if(lv<0){ tone([440,392],.14,'sine',.07); sayText(`괜찮아요. ${f.name}, 다음에 도전해요!`); }
   if(up){
     const lane=document.querySelector(`.fd-lane[data-kid="${p.kid}"]`), cellEl=lane?.querySelector(`.tc[data-fid="${p.fid}"]`);
     burstAt(lane,cellEl,prev<=0);
     tone(lv>=3?[523,659,784,1047,1319]:lv===2?[523,659,784,1047]:[523,659,784],.28,'triangle',.1); buzz();
-    sayText(lv>=3?`${withI(k.name)} ${f.name} 전부 먹었어요! 최고!`:lv===2?`${withI(k.name)} ${f.name} 적당히 먹었어요! 멋져요!`:`${withI(k.name)} ${f.name} 1번 먹어 봤어요! 잘했어요!`);
+    sayText(lv>=3?`${withI(k.name)} ${f.name} 전부 먹었어요! 별 세 개! 최고!`:lv===2?`${withI(k.name)} ${f.name} 적당히 먹었어요! 별 두 개! 멋져요!`:`${withI(k.name)} ${f.name} 1번 먹어 봤어요! 별 한 개! 잘했어요!`);
   }
 }
 function burstAt(lane,el,bump){
@@ -2577,10 +2623,12 @@ function charSvg(look,wear,o={}){
 /* --- 캐릭터 저장·별 지갑 (아이들 태블릿) --- */
 const CR={tab:'look',try:null};
 const josaEul=w=>{ const c=String(w).charCodeAt(String(w).length-1)-0xAC00; return c>=0&&c<11172&&c%28?'을':'를'; };
-function charOf(kid){ const c=(S.chars||{})[kid]; return c&&typeof c==='object'?{made:!!c.made,look:{...CH_DEFAULT,...(c.look||{})},wear:{...(c.wear||{})},own:{...(c.own||{})}}:{made:false,look:{...CH_DEFAULT},wear:{},own:{}}; }
+function charOf(kid){ const c=(S.chars||{})[kid]; return c&&typeof c==='object'?{made:!!c.made,look:{...CH_DEFAULT,...(c.look||{})},wear:{...(c.wear||{})},own:{...(c.own||{})},...(c.lastBuy?{lastBuy:c.lastBuy}:{})}:{made:false,look:{...CH_DEFAULT},wear:{},own:{}}; }
+// 상점은 하루에 1개만
+const boughtToday=c=>c.lastBuy===todayKey();
 function saveChar(kid,c){ S.chars||(S.chars={}); S.chars[kid]=c; rset('chars/'+kid,c); save(); }
 // 음식 별: 1번 ★1 · 적당히 ★2 · 전부 ★3
-const foodStars=kid=>{ const a=ateOf(kid), it=FD().items; return Object.keys(a).reduce((n,id)=>n+(it[id]&&a[id].lv>0?a[id].lv:0),0); };
+const foodStars=kid=>{ const it=FD().items; let n=0; for(const d of Object.values(FD().days)) for(const [fid,lv] of Object.entries(d?.[kid]||{})) if(it[fid]&&lv>0) n+=LV_STAR[lv]||0; return n; };
 const starsEarned=kid=>(S.bank[kid]||0)+foodStars(kid);
 const starsSpent=kid=>Object.values(charOf(kid).own).reduce((n,v)=>n+(Number(v)||0),0);
 const wallet=kid=>Math.max(0,starsEarned(kid)-starsSpent(kid));
@@ -2617,7 +2665,7 @@ function lookPanel(k,c){
 function shopPanel(k,c,cat){
   const [,,items]=shopCat(cat), money=wallet(k.id);
   const list=Object.entries(items).sort((a,b)=>a[1].p-b[1].p);
-  return `<div class="cr-items">${list.map(([id,it])=>{ const own=owns(c,cat,id), on=worn(c,cat,id), tr=CR.try&&CR.try.cat===cat&&CR.try.id===id;
+  return `<div class="cr-rule${boughtToday(c)?' done':''}">${boughtToday(c)?`${ui('check')}오늘 하나 샀어요. 내일 또 살 수 있어요!`:`${ico('star')}하루에 <b>1개</b>만 살 수 있어요. 잘 골라요!`}</div><div class="cr-items">${list.map(([id,it])=>{ const own=owns(c,cat,id), on=worn(c,cat,id), tr=CR.try&&CR.try.cat===cat&&CR.try.id===id;
     const w={...c.wear,[cat]:id};
     return `<button class="cr-item${on?' on':''}${tr?' trying':''}${own?' own':''}" data-act="critem" data-cat="${cat}" data-id="${id}">
       <span class="ci-art">${['head','face'].includes(cat)?charSvg(c.look,w,{size:112,crop:'head'}):charSvg(c.look,w,{size:104})}</span><span class="ci-name">${esc(it.n)}</span>
@@ -2628,7 +2676,7 @@ function renderChar(){
   const c=charOf(k.id), money=wallet(k.id);
   const wear=CR.try?{...c.wear,[CR.try.cat]:CR.try.id}:c.wear, ti=CR.try?itemOf(CR.try.cat,CR.try.id):null;
   const tabs=[['look','나 만들기','face'],...SHOP.map(([cat,n])=>[cat,n])];
-  const buy=ti?`<div class="cr-buy">${money>=ti.p?`<span><b>${esc(ti.n)}</b> ${star(20)}${ti.p}개로 살까요?</span><button class="btn pri" data-act="crbuy">${star(22)}사기</button>`:`<span>${esc(ti.n)}${josaEul(ti.n)} 사려면 별이 <b>${ti.p-money}개</b> 더 필요해요</span><button class="btn pri" disabled>${star(22)}${ti.p}</button>`}<button class="btn sec" data-act="crcancel">안 살래요</button></div>`:'';
+  const buy=ti?`<div class="cr-buy">${boughtToday(c)?`<span>오늘은 벌써 하나 샀어요! <b>내일</b> 또 살 수 있어요</span><button class="btn pri" disabled>${star(22)}${ti.p}</button>`:money>=ti.p?`<span><b>${esc(ti.n)}</b> ${star(20)}${ti.p}개로 살까요?</span><button class="btn pri" data-act="crbuy">${star(22)}사기</button>`:`<span>${esc(ti.n)}${josaEul(ti.n)} 사려면 별이 <b>${ti.p-money}개</b> 더 필요해요</span><button class="btn pri" disabled>${star(22)}${ti.p}</button>`}<button class="btn sec" data-act="crcancel">안 살래요</button></div>`:'';
   $('#char').innerHTML=`
   <header class="band scene" data-rid="char"><div class="wrap band-in">
     <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
@@ -3176,8 +3224,8 @@ document.addEventListener('click',e=>{
       else { CR.try={cat,id}; tone([880],.07,'sine'); sayText(itemOf(cat,id).n); }
       renderChar(); const b=$('.cr-body'); if(b) b.scrollTop=sc; break; }
     case 'crcancel': CR.try=null; renderChar(); break;
-    case 'crbuy': { const t=CR.try; if(!t) break; const it=itemOf(t.cat,t.id), c=charOf(view.ck); if(!it||wallet(view.ck)<it.p) break;
-      c.own[t.cat+':'+t.id]=it.p; c.wear[t.cat]=t.id; CR.try=null; saveChar(view.ck,c); const sc=$('.cr-body')?.scrollTop||0; renderChar(); const b=$('.cr-body'); if(b) b.scrollTop=sc;
+    case 'crbuy': { const t=CR.try; if(!t) break; const it=itemOf(t.cat,t.id), c=charOf(view.ck); if(!it||wallet(view.ck)<it.p||boughtToday(c)) break;
+      c.own[t.cat+':'+t.id]=it.p; c.wear[t.cat]=t.id; c.lastBuy=todayKey(); CR.try=null; saveChar(view.ck,c); const sc=$('.cr-body')?.scrollTop||0; renderChar(); const b=$('.cr-body'); if(b) b.scrollTop=sc;
       crBurst(); tone([523,659,784,1047,1319],.3,'triangle',.1); buzz(); const k=kidById(view.ck); sayText(`${it.n} 샀어요! ${withI(k.name)} 멋져요!`); break; }
     case 'fsp': FS.period=d.p; renderStats(); break;
     case 'fswk': FS.wk=Number(d.i); renderStats(); break;
@@ -3278,6 +3326,7 @@ pruneMeds();
 if(S.onboard) view.screen='welcome';
 show();
 if(S.needPush){ S.needPush=false; save(); if(S.sync&&S.role==='kids'){ pushConfig(); pushMsg(); } }
+if(S._foodMig){ delete S._foodMig; if(S.sync&&S.role==='kids'){ rset('foods/days',FD().days); rset('foods/daysv',1); } save(); }
 if(S.sync){ flush(); connectStream(); applyRole(); roomPrune(); }
 if(!S.onboard){ syncAlarms(); kidsStop(); }
 try{ const pa=IS_APP&&window.Android.takeAlarm?JSON.parse(window.Android.takeAlarm()||'null'):null; if(pa) setTimeout(()=>window.onAlarm(pa.type,pa.text),700); }catch(e){}
