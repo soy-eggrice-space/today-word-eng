@@ -691,6 +691,7 @@ button.tc:active{transform:scale(.95)}
 .tray.edit .tc.sel{border-color:#F08A2C;box-shadow:inset 0 2px 5px rgba(60,75,100,.12),0 0 0 4px rgba(240,138,44,.18)}
 .tray.edit .tc:not(.filled) .fico{opacity:.35}
 .tc-in{width:100%;min-width:0;border:none;background:transparent;text-align:center;font:18px var(--f-d);color:var(--ink);padding:4px 2px;border-bottom:2px dashed #CBD2DD;border-radius:0}
+.tc-ing{font-size:11px;color:var(--ink-2);min-height:14px;line-height:1.2;word-break:keep-all}
 .tc-in:focus{outline:none;border-bottom-color:#F08A2C}
 .tc-in::placeholder{color:#AEB6C4;font-size:15px}
 .fd-pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
@@ -869,6 +870,8 @@ button.tc:active{transform:scale(.95)}
 .lk-list li>span:not(.fico){flex:1;min-width:0;display:flex;flex-direction:column}
 .lk-list b{font:16px var(--f-d);font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lk-list small{font-size:12px;color:var(--ink-2)}
+.lk-via{color:var(--ink-3,#9AA3B2) !important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lk-mode{margin-bottom:2px}
 .lk-list em{font-style:normal;font-size:12px;white-space:nowrap;padding:2px 8px;border-radius:999px;background:#FFF2F7;color:#C2477A}
 .lk-list li.lv2{box-shadow:inset 0 0 0 2px #FF8FB8}
 .lk-list li.rb em{background:#FFF6D9;color:#9A6B00}
@@ -2432,7 +2435,7 @@ function openTray(){
   F.open=true; F.slot=TRAY.find(sl=>!F.draft[sl.k].name)?.k||'s1'; renderFoodSheet(); setTimeout(()=>$(`.tc-in[data-slot="${F.slot}"]`)?.focus(),120);
 }
 function paintTray(){
-  for(const sl of TRAY){ const d=F.draft[sl.k], c=$(`.tc.ed[data-slot="${sl.k}"]`); if(!c) continue; c.classList.toggle('sel',F.slot===sl.k); c.classList.toggle('filled',!!d.name.trim()); const ic=c.querySelector('.tc-ico'); if(ic) ic.innerHTML=fIco(d.icon,46); }
+  for(const sl of TRAY){ const d=F.draft[sl.k], c=$(`.tc.ed[data-slot="${sl.k}"]`); if(!c) continue; c.classList.toggle('sel',F.slot===sl.k); c.classList.toggle('filled',!!d.name.trim()); const ic=c.querySelector('.tc-ico'); if(ic) ic.innerHTML=fIco(d.icon,46); const ig=c.querySelector('.tc-ing'); if(ig) ig.textContent=d.name.trim()?'재료: '+ingredientsOf(d.name.trim()).join(', '):''; }
   const d=F.draft[F.slot]; document.querySelectorAll('.fdp').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ic===d.icon)));
   const h=$('#palFor'); if(h) h.textContent=TRAY_NAME[F.slot];
 }
@@ -2445,7 +2448,7 @@ function renderFoodSheet(){
   el.innerHTML=`<div class="sheet-in fd-sheet" role="dialog" aria-label="오늘의 식판">
     <div class="sh-head"><span class="sc-ico">${ico('yum')}</span><h2>오늘의 식판</h2><button class="ib" data-act="fdclose" aria-label="닫기">${ui('x')}</button></div>
     <p class="fd-note">칸을 눌러 메뉴를 적어요. 빈칸은 그냥 두면 돼요.</p>
-    <div class="tray edit">${TRAY.map(sl=>{ const d=F.draft[sl.k]; return `<label class="tc ed ${sl.k}${F.slot===sl.k?' sel':''}${d.name.trim()?' filled':''}" data-slot="${sl.k}"><span class="tc-tag">${TRAY_NAME[sl.k]}</span><span class="tc-ico">${fIco(d.icon,46)}</span><input class="tc-in" data-slot="${sl.k}" type="text" maxlength="20" value="${esc(d.name)}" placeholder="${sl.n} 메뉴" enterkeyhint="next" autocomplete="off"></label>`; }).join('')}</div>
+    <div class="tray edit">${TRAY.map(sl=>{ const d=F.draft[sl.k]; return `<label class="tc ed ${sl.k}${F.slot===sl.k?' sel':''}${d.name.trim()?' filled':''}" data-slot="${sl.k}"><span class="tc-tag">${TRAY_NAME[sl.k]}</span><span class="tc-ico">${fIco(d.icon,46)}</span><input class="tc-in" data-slot="${sl.k}" type="text" maxlength="20" value="${esc(d.name)}" placeholder="${sl.n} 메뉴" enterkeyhint="next" autocomplete="off"><small class="tc-ing">${d.name.trim()?'재료: '+esc(ingredientsOf(d.name.trim()).join(', ')):''}</small></label>`; }).join('')}</div>
     <h3>그림 · <span id="palFor">${TRAY_NAME[F.slot]}</span> <small>메뉴를 쓰면 알아서 골라요. 다르면 눌러서 바꿔요</small></h3>
     <div class="fd-pal">${Object.keys(FOOD_ICONS).map(ic=>`<button class="fdp" data-act="fdicon" data-ic="${ic}" aria-pressed="${F.draft[F.slot].icon===ic}">${fIco(ic,40)}<span>${FOOD_ICONS[ic].n}</span></button>`).join('')}</div>
     ${old.length?`<h3>전에 넣은 메뉴 <small>누르면 고른 칸에 들어가요</small></h3><div class="fd-today">${old.map(f=>`<button class="fdt re" data-act="fdold" data-fid="${f.id}">${fIco(f.icon,34)}<span>${esc(f.name)}</span></button>`).join('')}</div>`:''}
@@ -2464,7 +2467,7 @@ function cycLv(kid,fid){ const nx={0:1,1:2,2:3,3:-1,'-1':0}[lvOf(kid,fid)]; setL
 
 
 /* ===== 먹어 본 음식 통계 (엄마·아빠 폰) ===== */
-const FS={period:'all',wk:-1,view:'stats',hn:14};
+const FS={period:'all',wk:-1,view:'stats',hn:14,lk:'ing'};
 // 그래프 색: 아이 색을 바탕으로 밝기를 맞춘 색 (색약·밝기 검사 통과)
 const CHART_K={'#9C7BEA':'#9B5BD8','#4FB3E8':'#1E9CC0','#F7B23B':'#C27E0B'};
 const kChart=k=>CHART_K[String(crayon(k.color)).toUpperCase()]||CHART_K[k.color]||`color-mix(in oklab,${k.color} 75%,#000)`;
@@ -2473,6 +2476,37 @@ function periodStart(p){ const d=new Date(); d.setHours(0,0,0,0); if(p==='week')
 // 기록 t = 처음 먹어 본(또는 안 먹은) 때
 function recsOf(kid,since){ const a=ateOf(kid), it=FD().items; return Object.keys(a).filter(id=>it[id]&&(a[id].t||0)>=since).map(id=>({f:it[id],lv:a[id].lv,t:a[id].t||0})); }
 const LV_NAME={'-1':'안 먹음','1':'1번','2':'적당히','3':'전부'};
+/* --- 메뉴 이름에서 재료 뽑기 (예: 고등어구이 → 고등어, 김치볶음밥 → 김치·밥) --- */
+const ING_MAP={
+  '소고기':['소고기','쇠고기','불고기','떡갈비','소고기장조림','육전','스테이크','한우','차돌'],'돼지고기':['돼지고기','돼지','제육','돈까스','돈가스','수육','보쌈','삼겹','목살','탕수육'],
+  '닭고기':['닭고기','닭가슴살','닭','치킨','너겟','삼계','찜닭'],'오리고기':['오리'],'고기':['미트볼','갈비','고기','함박'],'햄':['햄','스팸'],'소시지':['소시지','소세지','비엔나'],'베이컨':['베이컨'],
+  '계란':['계란','달걀','에그','오믈렛','스크램블'],'메추리알':['메추리알'],'두부':['두부','유부'],'치즈':['치즈'],'우유':['우유'],'요거트':['요거트','요구르트'],'콩':['콩자반','검은콩','완두콩','강낭콩','콩'],
+  '고등어':['고등어'],'갈치':['갈치'],'연어':['연어'],'참치':['참치'],'새우':['새우'],'오징어':['오징어'],'멸치':['멸치'],'꽁치':['꽁치'],'삼치':['삼치'],'명태':['동태','명태','코다리','황태','북어','대구'],
+  '조기':['조기','굴비'],'가자미':['가자미'],'낙지':['낙지'],'문어':['문어'],'어묵':['어묵','오뎅'],'게살':['게살','맛살','크래미'],'홍합':['홍합'],'조개':['조개','바지락'],'전복':['전복'],'굴':['굴무침','굴전','굴국'],
+  '시금치':['시금치'],'브로콜리':['브로콜리'],'당근':['당근'],'감자':['감자'],'고구마':['고구마'],'양파':['양파'],'대파':['대파'],'마늘':['마늘'],'버섯':['버섯','표고','느타리','팽이','새송이','양송이'],
+  '애호박':['애호박','호박'],'오이':['오이'],'가지':['가지'],'콩나물':['콩나물'],'숙주':['숙주'],'배추':['배추','알배기','쌈배추'],'양배추':['양배추','양배추쌈'],'상추':['상추'],'깻잎':['깻잎'],'부추':['부추'],
+  '파프리카':['파프리카','피망'],'토마토':['토마토','케첩'],'옥수수':['옥수수','콘'],'연근':['연근'],'우엉':['우엉'],'도라지':['도라지'],'고사리':['고사리'],'미역':['미역'],'다시마':['다시마'],'김':['김밥','김구이','김자반','김가루'],
+  '김치':['김치','깍두기','석박지','열무'],'무':['깍두기','무생채','무나물','뭇국','무국','무조림','단무지','무말랭이'],'잡채':['잡채','당면'],'떡':['떡볶이','떡국','떡'],'만두':['만두'],'카레':['카레'],'된장':['된장'],'짜장':['짜장'],
+  '밥':['볶음밥','덮밥','주먹밥','비빔밥','김밥','초밥','라이스','현미밥','잡곡밥','흑미밥','쌀밥','밥','죽','리조또'],'면':['국수','라면','우동','스파게티','파스타','짬뽕','냉면','칼국수','소면','쫄면'],'빵':['빵','토스트','샌드위치','베이글','와플','팬케이크'],
+  '사과':['사과'],'딸기':['딸기'],'포도':['포도'],'귤':['귤','감귤','한라봉'],'오렌지':['오렌지'],'바나나':['바나나'],'키위':['키위'],'수박':['수박'],'참외':['참외'],'복숭아':['복숭아'],'블루베리':['블루베리'],
+  '망고':['망고'],'파인애플':['파인애플'],'멜론':['멜론'],'자두':['자두'],'체리':['체리'],'배':['배숙'],'감':['홍시','곶감'],
+};
+// 한 글자 재료는 요리 이름(무침·국 등)을 지운 뒤에 그 글자만 남았을 때만 잡아요
+const ING_ONE={'무':'무','배':'배','감':'감','김':'김','파':'대파','굴':'굴','떡':'떡','밥':'밥','면':'면'};
+const ING_COOK=['무침','볶음','조림','구이','튀김','부침개','부침','찜','찌개','전골','국','탕','스프','수프','샐러드','나물','말이','범벅','전','샌드','강정','장아찌','쌈','죽','롤'];
+const ING_KEYS=(()=>{ const m={}; for(const [c,a] of Object.entries(ING_MAP)) for(const k of a) (m[k]||(m[k]=[])).push(c); return Object.entries(m).sort((a,b)=>b[0].length-a[0].length); })();
+const ING_ICON={'어묵':'fish','게살':'fish','김치':'chili','배추':'veg','양배추':'veg','무':'carrot','콩':'veg','콩나물':'veg','미역':'veg','다시마':'veg','김':'kimbap','밥':'rice','면':'noodle','떡':'dish','만두':'dumpling','계란':'egg','메추리알':'egg','두부':'tofu','치즈':'tofu','된장':'soup','카레':'dish','짜장':'noodle','잡채':'noodle','햄':'meat','소시지':'meat','베이컨':'meat'};
+const ingIcon=k=>ING_ICON[k]||(guessFood(k)==='dish'?'veg':guessFood(k));
+const ingCache={};
+function ingredientsOf(name){
+  const key=String(name||''); if(ingCache[key]) return ingCache[key];
+  let r=key.replace(/\s+/g,''); const out=[];
+  const add=c=>{ if(!out.includes(c)) out.push(c); };
+  for(const [k,cs] of ING_KEYS){ let i; while((i=r.indexOf(k))>=0){ cs.forEach(add); r=r.slice(0,i)+'·'.repeat(k.length)+r.slice(i+k.length); } }
+  for(const w of ING_COOK) r=r.split(w).join('·'.repeat(w.length));
+  for(const ch of r.replace(/·+/g,' ').trim().split(/\s+/)) if(ING_ONE[ch]) add(ING_ONE[ch]);
+  return ingCache[key]=out.length?out:[key];
+}
 function renderStats(){
   const kids=S.kids, P={week:'이번 주',month:'이번 달',all:'전체'}[FS.period];
   const head=`<header class="band scene" data-rid="food"><div class="wrap band-in">
@@ -2502,16 +2536,26 @@ function statsHtml(){
     </article>`; }).join('');
   // 아이마다 잘 먹는 음식 / 나왔는데 한 번도 안 먹은 음식 (식판에 나온 날 기준)
   const servedDays={}; for(const [d,t] of Object.entries(FD().trays)) if(inP(d)) for(const fid of new Set(Object.values(t||{}))) if(FD().items[fid]) (servedDays[fid]||(servedDays[fid]=[])).push(d);
-  const likeCol=k=>{ const rows=Object.entries(servedDays).map(([fid,ds])=>{ const lvs=ds.map(d=>FD().days[d]?.[k.id]?.[fid]||0), ate=lvs.filter(v=>v>0);
-      return {f:FD().items[fid],n:ds.length,ate:ate.length,all:lvs.filter(v=>v===3).length,no:lvs.filter(v=>v<0).length,avg:ate.length?lvs.reduce((a,v)=>a+(v>0?v:0),0)/ds.length:0}; });
+  const ingMode=FS.lk!=='menu';
+  // 재료 모드: 그날 식판의 메뉴마다 재료를 뽑아, 그 메뉴를 먹은 만큼을 재료에 똑같이 줘요
+  const units=()=>{ const u={}; for(const [fid,ds] of Object.entries(servedDays)){ const f=FD().items[fid];
+      const keys=ingMode?ingredientsOf(f.name):[f.name];
+      for(const key of keys){ const o=u[key]||(u[key]={key,icon:ingMode?ingIcon(key):f.icon,menus:new Set(),obs:[]}); o.menus.add(f.name); for(const d of ds) o.obs.push({d,fid}); } }
+    return Object.values(u); };
+  const U=units();
+  const likeCol=k=>{ const rows=U.map(o=>{ const lvs=o.obs.map(x=>FD().days[x.d]?.[k.id]?.[x.fid]||0), ate=lvs.filter(v=>v>0);
+      return {f:{name:o.key,icon:o.icon},menus:[...o.menus],n:lvs.length,ate:ate.length,all:lvs.filter(v=>v===3).length,no:lvs.filter(v=>v<0).length,avg:ate.length?lvs.reduce((a,v)=>a+(v>0?v:0),0)/lvs.length:0}; });
     const good=rows.filter(r=>r.avg>=2).sort((a,b)=>b.avg-a.avg||b.n-a.n).slice(0,6);
     const never=rows.filter(r=>!r.ate).sort((a,b)=>b.n-a.n||b.no-a.no).slice(0,8);
-    const g=r=>`<li class="${r.avg>=2.5?'lv3 rb':'lv2'}">${fIco(r.f.icon,32)}<span><b>${esc(r.f.name)}</b><small>${r.n}번 나와서 ${r.ate}번 먹음${r.all?` · 전부 ${r.all}번`:''}</small></span><em>${r.avg>=2.5?'아주 잘 먹어요':'잘 먹어요'}</em></li>`;
-    const nv=r=>`<li class="lvno">${fIco(r.f.icon,32)}<span><b>${esc(r.f.name)}</b><small>${r.n}번 나왔어요${r.no?` · 안 먹음 ${r.no}번`:` · 기록 없음`}</small></span></li>`;
+    const via=r=>ingMode&&!(r.menus.length===1&&r.menus[0]===r.f.name)?`<small class="lk-via">${r.menus.slice(0,3).map(esc).join(' · ')}${r.menus.length>3?` 외 ${r.menus.length-3}`:''}</small>`:'';
+    const g=r=>`<li class="${r.avg>=2.5?'lv3 rb':'lv2'}">${fIco(r.f.icon,32)}<span><b>${esc(r.f.name)}</b><small>${r.n}번 나와서 ${r.ate}번 먹음${r.all?` · 전부 ${r.all}번`:''}</small>${via(r)}</span><em>${r.avg>=2.5?'아주 잘 먹어요':'잘 먹어요'}</em></li>`;
+    const nv=r=>`<li class="lvno">${fIco(r.f.icon,32)}<span><b>${esc(r.f.name)}</b><small>${r.n}번 나왔어요${r.no?` · 안 먹음 ${r.no}번`:` · 기록 없음`}</small>${via(r)}</span></li>`;
     return `<article class="lk-kid kid" style="--k:${k.color}"><header>${avatar(k,40)}<b>${esc(k.name)}</b></header>
-      <h3>${ico('clean')}잘 먹는 음식</h3>${good.length?`<ul class="lk-list">${good.map(g).join('')}</ul>`:'<p class="fd-note">아직 없어요</p>'}
-      <h3 class="no">${ico('nope')}나왔는데 한 번도 안 먹은 음식</h3>${never.length?`<ul class="lk-list">${never.map(nv).join('')}</ul>`:'<p class="fd-note">없어요! 나온 음식은 다 먹어 봤어요</p>'}</article>`; };
-  const likes=Object.keys(servedDays).length?`<section class="dash-card st-card"><h2>잘 먹는 음식 · 한 번도 안 먹은 음식 <small>${P} 식판에 나온 음식 기준</small></h2><div class="lk-grid">${kids.map(likeCol).join('')}</div></section>`:'';
+      <h3>${ico('clean')}잘 먹는 ${ingMode?'재료':'메뉴'}</h3>${good.length?`<ul class="lk-list">${good.map(g).join('')}</ul>`:'<p class="fd-note">아직 없어요</p>'}
+      <h3 class="no">${ico('nope')}나왔는데 한 번도 안 먹은 ${ingMode?'재료':'메뉴'}</h3>${never.length?`<ul class="lk-list">${never.map(nv).join('')}</ul>`:`<p class="fd-note">없어요! 나온 ${ingMode?'재료':'메뉴'}는 다 먹어 봤어요</p>`}</article>`; };
+  const likes=Object.keys(servedDays).length?`<section class="dash-card st-card"><h2>${ingMode?'잘 먹는 재료 · 한 번도 안 먹은 재료':'잘 먹는 메뉴 · 한 번도 안 먹은 메뉴'} <small>${P} 식판 기준</small></h2>
+    <div class="st-tabs lk-mode" role="tablist"><button role="tab" data-act="fslk" data-v="ing" aria-selected="${ingMode}">재료로 보기</button><button role="tab" data-act="fslk" data-v="menu" aria-selected="${!ingMode}">메뉴로 보기</button></div>
+    ${ingMode?`<p class="fd-note">메뉴 이름에서 재료를 찾아요. 예: 고등어구이 → 고등어, 김치볶음밥 → 김치·밥</p>`:''}<div class="lk-grid">${kids.map(likeCol).join('')}</div></section>`:'';
   // 주별 그래프
   const W=8, w0=weekStart(Date.now()), weeks=[...Array(W)].map((_,i)=>w0-(W-1-i)*7*86400000);
   const wcount=kids.map(k=>{ const a=ateOf(k.id), it=FD().items; return weeks.map(ws=>Object.keys(a).filter(id=>it[id]&&a[id].lv>0&&a[id].t>=ws&&a[id].t<ws+7*86400000).length); });
@@ -3370,6 +3414,7 @@ document.addEventListener('click',e=>{
       crBurst(); tone([523,659,784,1047,1319],.3,'triangle',.1); buzz(); const k=kidById(view.ck); sayText(`${it.n} 샀어요! ${withI(k.name)} 멋져요!`); break; }
     case 'fsp': FS.period=d.p; renderStats(); break;
     case 'fsv': FS.view=d.v; FS.hn=14; renderStats(); window.scrollTo(0,0); break;
+    case 'fslk': FS.lk=d.v; renderStats(); break;
     case 'fsmore': FS.hn=(FS.hn||14)+14; renderStats(); break;
     case 'fhist': FS.view='hist'; FS.hn=14; view.screen='fstats'; show(); break;
     case 'fswk': FS.wk=Number(d.i); renderStats(); break;
