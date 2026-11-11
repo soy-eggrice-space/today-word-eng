@@ -1764,7 +1764,7 @@ function pmSet(D,M,lo){ lo=lo||0; const no=4, A=d=>RI(Math.max(lo,0),M-d), S=d=>
     ()=>{ const d=pick(D), a=A(d); return eq(`${a} + ${d} = ${BL}`,a+d,no); },
     ()=>{ const d=pick(D), a=S(d); return eq(`${a} − ${d} = ${BL}`,a-d,no); },
     ()=>{ const d=pick(D), up=Math.random()<.5, a=up?A(d):S(d), ans=up?a+d:a-d; return nq(`<div class="word big2 num">${a}</div><div class="ptxt">${a}보다 ${d} ${up?'큰':'작은'} 수는?</div>`,`${a}보다 ${d} ${up?'큰':'작은'} 수는 뭘까요?`,ans,numOpts(ans,no,Math.max(0,a-d-2),a+d+2),`${a} ${up?'+':'−'} ${d} = ${ans}`); },
-    ()=>{ const d=pick(D), up=Math.random()<.5, a=up?A(d):S(d); return nq(nlineSVG(a,up?d:-d),'수직선에서 뛰어서 도착한 수는 뭘까요?',up?a+d:a-d,numOpts(up?a+d:a-d,no,Math.max(0,a-d-2),a+d+2),`${a} ${up?'+':'−'} ${d} = ${up?a+d:a-d}`); },
+    ()=>{ const d=pick(D), up=Math.random()<.5, a=up?A(d):S(d); return wordQ(a,d,up,no)||nq(nlineSVG(a,up?d:-d),'수직선에서 뛰어서 도착한 수는 뭘까요?',up?a+d:a-d,numOpts(up?a+d:a-d,no,Math.max(0,a-d-2),a+d+2),`${a} ${up?'+':'−'} ${d} = ${up?a+d:a-d}`); },
     ()=>{ const d=pick(D), up=Math.random()<.5, a=up?A(d):S(d); return wordQ(a,d,up,no); },
     ()=>{ const d=pick(D), a=A(d); return eq(`${a} + ${BL} = ${a+d}`,d,no,0,Math.max(6,d+4),`${a}에 얼마를 더하면 ${a+d}이 될까요?`); },
     ()=>{ const d=pick(D), up=Math.random()<.5; if(up){ const s=RI(lo,Math.max(lo,M-3*d)); return nq(expr(`${s}, ${s+d}, ${s+2*d}, ${BL}`),`${d}씩 커져요. 다음 수는 뭘까요?`,s+3*d,numOpts(s+3*d,no,s,s+4*d+2),`${d}씩 커져요`); }
@@ -1807,7 +1807,7 @@ const CALC={
     ()=>{ const a=RI(1,9), b=pick(['l','r']); return nq(bondSVG(10,a,10-a,b),`10을 가르면 ${b==='l'?10-a:a}와 몇이 될까요?`,b==='l'?a:10-a,numOpts(b==='l'?a:10-a,4,0,10),`${a}와 ${10-a}는 10의 짝꿍`); },
     ()=>{ const a=RI(1,9), w=new Set(); while(w.size<3){ const x=RI(1,9); if(x!==10-a) w.add(x); } return {note:`${a}와 ${10-a}를 더하면 10`,ask:say1(`${a}와 더해서 10이 되는 짝꿍 수는 뭘까요?`),praise:say1(`${cheerK()} ${10-a}!`),prompt:`<div class="word big2 num">${a}</div><div class="ptxt">10의 짝꿍은?</div>${speakBtn}`,opts:shuffle([10-a,...w]).map(n=>({ok:n===10-a,html:`<span class="num">${n}</span>`}))}; },
     ()=>{ const a=RI(1,9); return eq(`10 − ${BL} = ${a}`,10-a,4,0,10,`10에서 얼마를 빼면 ${a}가 될까요?`); },
-    ()=>{ const a=RI(1,9); return nq(nlineSVG(a,10-a),'몇만큼 뛰면 10에 도착할까요? 도착한 수를 골라요.',10,numOpts(10,4,7,13),`${a} + ${10-a} = 10`); },
+    ()=>{ const a=RI(1,9); return eq(`${a} + ${BL} = 10`,10-a,4,0,10,`${a}에 얼마를 더하면 10이 될까요?`)||nq(nlineSVG(a,10-a),'몇만큼 뛰면 10에 도착할까요? 도착한 수를 골라요.',10,numOpts(10,4,7,13),`${a} + ${10-a} = 10`); },
     ()=>{ const a=RI(1,9), e=pick(FRUIT); return nq(`${grp(a,e,'sm')}<span class="op">+</span><span class="blank">?</span><span class="op">=</span><span class="num">10</span>`,`${e} ${a}개에 몇 개를 더하면 10개가 될까요?`,10-a,numOpts(10-a,4,0,10),`${a} + ${10-a} = 10`); },
     ()=>{ const a=RI(2,8), it=pick(ITM.filter(x=>x[2]==='개')); const q=`${jo(it[0],'이','가')} ${a}개 있어요. 10개가 되려면 몇 개가 더 있어야 할까요?`; return {note:`${a} + ${10-a} = 10`,ask:say1(q),praise:say1(`${cheerK()} ${10-a}개!`),prompt:`<div class="pic">${it[1]}</div><div class="ptxt sm">${q}</div>${speakBtn}`,opts:numOpts(10-a,4,0,10)}; },
   ],
@@ -3106,7 +3106,7 @@ function answer(k, el){
     document.body.appendChild(pr); setTimeout(()=>pr.remove(),950);
     const n=document.getElementById('starN'); if(n) n.textContent=wallet(P[who]);
     let moved=false; const go=()=>{ if(moved) return; moved=true; hush(); Q.i++; if(Q.i>=Q.items.length){ finishRound(); view='done'; render(); } else rQuiz(); };
-    hush(); const sayW=(Q.lang==='en'||Q.lang==='ph'||it.kosay)&&it.praise&&it.praise.length&&!MUTE; if(sayW) later(()=>speakSeq(it.praise),250); later(go,sayW?2100:1300);
+    hush(); const sayW=(Q.lang==='en'||Q.lang==='ph'||it.kosay)&&it.praise&&it.praise.length&&!MUTE; if(sayW) later(()=>speakSeq(it.praise),120); later(go,sayW?1250:750);
     const myQ=Q; setTimeout(()=>{ if(!moved && view==='quiz' && Q===myQ) go(); },6500);
   }else{
     it.missed=true; el.classList.add('no'); el.disabled=true; oops();
