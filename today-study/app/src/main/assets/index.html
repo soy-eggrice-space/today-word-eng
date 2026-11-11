@@ -707,6 +707,7 @@ img.emo{width:1em;height:1em;display:inline-block;vertical-align:-.12em;object-f
 .qbox.m .prompt>.speak{position:absolute;top:14px;right:14px;width:72px;height:72px;font-size:34px}
 .qbox.m .ptxt{font-size:38px;line-height:1.35}
 .qbox.m .ptxt.sm{font-size:30px;line-height:1.5;max-width:620px}
+.qbox.m .vrow{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap}
 .nh{font-family:var(--fe);font-weight:700;color:#E2508F;font-size:1.15em;padding:0 .06em}
 /* 개수 그림은 다섯 개씩 줄 맞춰 (한눈에 세기 쉽게) */
 .qbox.m .prompt .grp{display:grid;grid-template-columns:repeat(5,1em);gap:.14em;justify-content:center;max-width:none;font-size:76px}
@@ -3333,6 +3334,11 @@ function fitIn(el,min){ const box=el.parentElement; if(!box) return; let fs=pars
   while(el.scrollWidth>room()&&fs>min&&g++<40){ fs-=3; el.style.fontSize=fs+'px'; } }
 function qPretty(){ try{
   const it=Q&&Q.items&&Q.items[Q.i];
+  /* 수학: 그림 여러 개(2개 + 3개)는 한 줄로 나란히, 개수 그림 칸은 개수에 맞게 */
+  document.querySelectorAll('.qbox.m .prompt').forEach(pr=>{ if(pr.dataset.vr) return; pr.dataset.vr=1;
+    const vis=[...pr.children].filter(c=>!c.matches('.ptxt,.speak,.mtxt,.mutebtn'));
+    if(vis.length>1){ const row=document.createElement('div'); row.className='vrow'; pr.insertBefore(row,vis[0]); vis.forEach(c=>row.appendChild(c)); }
+    pr.querySelectorAll(':scope>.grp,:scope>.vrow>.grp').forEach(g=>{ g.style.gridTemplateColumns=`repeat(${Math.min(5,Math.max(1,g.children.length))},1em)`; }); });
   /* 수학: 글 없이 그림만 있는 문제는 짧은 질문을 아래에 보여 줘요 */
   document.querySelectorAll('.qbox.m .prompt').forEach(pr=>{ if(pr.querySelector('.ptxt,.expr,.sent')||!it) return; const t=askText(it); if(t&&t.length<=24){ const d=document.createElement('div'); d.className='ptxt'; d.textContent=t; pr.appendChild(d); } });
   /* 길면 줄이 넘치지 않게 글자 크기를 줄여요 */
