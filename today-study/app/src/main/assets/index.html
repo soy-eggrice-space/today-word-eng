@@ -662,6 +662,30 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-we
 .mone small{font-size:15px;word-break:keep-all;max-width:120px;line-height:1.2}
 .mone.legr .mon svg{filter:drop-shadow(0 0 10px #FFD36E)}
 @media (max-width:640px){ .vc{font-size:14px;padding:1px 8px}.vc b{font-size:16px} .vcount{gap:4px} .mone small{font-size:12px} }
+
+.scene{isolation:isolate}
+.plots .plot.fr{will-change:transform}
+.plots .plot.fr .mon.walk{animation:roamBob 1.1s ease-in-out infinite}
+@keyframes roamBob{0%,100%{translate:0 0}50%{translate:0 -4px}}
+.homebox .inhome{animation:homeWig 5.5s ease-in-out infinite}
+@keyframes homeWig{0%,100%{translate:0 0}25%{translate:7px 0}50%{translate:0 -3px}75%{translate:-7px 0}}
+
+.stbtn{background:#fff!important}
+.stpage{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+.sttabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.sttab{background:var(--c);border:var(--line);border-radius:999px;padding:6px 18px;font-size:24px;box-shadow:0 4px 0 var(--ink);opacity:.6}
+.sttab.on{opacity:1;transform:translateY(-2px)}.sttab small{font-size:15px}
+.sthead{background:var(--c);border:var(--line);border-radius:26px;padding:12px 18px;font-size:24px;box-shadow:0 5px 0 var(--ink)}
+.sthead small{display:block;font-size:15px;margin-top:4px}
+.stbar{height:14px;border:2.5px solid var(--ink);border-radius:999px;background:#fff;margin-top:8px;overflow:hidden}.stbar i{display:block;height:100%;background:#FF9EC9}
+.stlist{display:flex;flex-direction:column;gap:8px}
+.strow{display:grid;grid-template-columns:86px minmax(0,1fr) auto;gap:10px;align-items:center;background:#fff;border:3px solid var(--ink);border-radius:20px;padding:8px 14px}
+.strow.sdone{background:#F1FBF5}.strow.next{opacity:.55}
+.strow.now{background:#FFF3B8;border-width:4px;box-shadow:0 5px 0 var(--ink);transform:scale(1.02)}
+.stn{font-size:26px;white-space:nowrap}.stn b{font-family:var(--fe);font-size:26px;margin-left:4px}
+.std b{display:block;font-size:21px;font-weight:400;line-height:1.3}.std small{font-size:15px;color:#7d6a92}
+.sts{font-size:18px;white-space:nowrap}
+@media (max-width:600px){.strow{grid-template-columns:64px minmax(0,1fr) auto}.stn,.stn b{font-size:20px}.std b{font-size:16px}.sttab{font-size:18px}.sthead{font-size:18px}}
 </style>
 </head>
 <body>
@@ -1110,6 +1134,7 @@ function render(){
   if(view==='pick') return rPick();
   if(view==='home') return rHome();
   if(view==='kcard') return rKCard();
+  if(view==='stages') return rStages();
   if(view==='quiz') return rQuiz();
   if(view==='done') return rDone();
   if(view==='village') return rVillage();
@@ -1177,7 +1202,7 @@ function rHome(){
       ${t[s.k]?'<span class="donebadge">✅ 오늘 끝!</span>':''}<div class="g ${s.k==='en'?'en':''}">${s.g}</div><div class="ic">${s.ic}</div><div class="l">${s.l}</div><div class="lvstar">${STG[lvOf(p,s.k)][0]} ${lvOf(p,s.k)}단계 <small>${STG[lvOf(p,s.k)][1]}</small></div>${bookOf(s.k,lvOf(p,s.k))?`<div class="lvbook">📘 ${bookOf(s.k,lvOf(p,s.k))}</div>`:''}
       <div class="lvprog" aria-label="다음 단계까지">${lvOf(p,s.k)>=MAXS[s.k]?'👑 최고 단계!':Array.from({length:UPN},(_,j)=>`<i class="${j<lvProg(p,s.k)?'on':''}"></i>`).join('')}</div></button>`).join('')}
     <button class="big press" style="--c:#CFB8FF" data-act="village"><div class="g">마을</div><div class="ic">🏡</div><div class="l">친구 ${p.friends.length}명</div></button>
-  </div><div class="lvbar">${SUBJ.map(s=>`<span class="lvchip" style="--c:${s.c}">${s.l} <b>${lvOf(p,s.k)}</b><small>/${MAXS[s.k]}단계${bookOf(s.k,lvOf(p,s.k))?' · '+bookOf(s.k,lvOf(p,s.k)):''}</small></span>`).join('')}</div>
+  </div><div class="lvbar"><button class="lvchip press stbtn" data-act="stages">📚 단계 보기</button>${SUBJ.map(s=>`<span class="lvchip" style="--c:${s.c}">${s.l} <b>${lvOf(p,s.k)}</b><small>/${MAXS[s.k]}단계${bookOf(s.k,lvOf(p,s.k))?' · '+bookOf(s.k,lvOf(p,s.k)):''}</small></span>`).join('')}</div>
   ${(()=>{ const wr=wrOf(p), n=wr.items.length; if(!n) return ''; const seen=wr.items.every(x=>x.seen);
     return `<button class="wrbtn press ${seen?'seen':''}" data-act="review"><span class="wi">📝</span><span class="wt">오늘의 틀린 문제 <b>${n}</b>개</span><span class="wg">${seen?'✅ 다 봤어요':wr.star?'다시 보기':'보면 ⭐+1'}</span></button>`; })()}
   <div class="hint">${all?`오늘 공부 다 했어! 내일 또 만나요 👋 마을에서 친구들이랑 놀 수 있어요`:`${p.call}, 뭐 할까? 큰 그림을 눌러 봐! 과목마다 하루에 한 번씩 할 수 있어요`}<br><small>단계 아래 동그라미 ${UPN}개를 모두 채우면 다음 단계로 올라가요 · 한 단계 오를 때마다 새로운 문제가 나와요</small></div>`;
@@ -2246,6 +2271,18 @@ function tlParts(t){ /* [글자, 읽는 소리] 세 칸: ㄱ ㄱ 가 (그 그 �
 function tlEq(t){ return t.f?`${mk(t.c,t.v)} + ${JNAME[t.f]} = ${t.s}`:`${t.c} + ${t.v} = ${t.s}`; }
 function tlSay(t){ const pr=tlParts(t), chant=pr.map(x=>x[1]).join(', ')+'.';
   return [[`오늘의 글자는 ${jo(t.s,'이에요','예요')}.`,'ko'],PAUSE,[chant,'ko'],PAUSE,[chant,'ko'],PAUSE].concat(t.words.flatMap(w=>[[w[0],'ko'],['','p',450]])); }
+let STAB='ko';
+/* 단계 보기: 바꿀 수는 없고, 전체 흐름과 지금 단계만 보여 줘요 */
+function rStages(){
+  const p=P[who], k=STAB, cur=lvOf(p,k), mx=MAXS[k], s=SUBJ.find(x=>x.k===k);
+  const rows=Array.from({length:mx},(_,i)=>i+1).map(st=>{ const state=st<cur?'sdone':st===cur?'now':'next';
+    const desc=LVD2[k]?LVD2[k][st]:`${LVDESC[k][2*st-1]} · ${LVDESC[k][2*st]}`, bk=bookOf(k,st);
+    return `<div class="strow ${state}" ${state==='now'?'id="stnow"':''}><span class="stn">${STG[st][0]}<b>${st}</b></span><span class="std"><b>${desc}</b>${bk?`<small>📘 ${bk}</small>`:''}</span><span class="sts">${state==='sdone'?'✅':state==='now'?'📍 지금 여기':''}</span></div>`; }).join('');
+  app.innerHTML=topbar()+`<div class="stpage"><div class="sttabs">${SUBJ.map(x=>`<button class="sttab press ${x.k===k?'on':''}" style="--c:${x.c}" data-act="stages" data-s="${x.k}">${x.l} <small>${lvOf(p,x.k)}/${MAXS[x.k]}</small></button>`).join('')}</div>
+    <div class="sthead" style="--c:${s.c}">${s.l} — 지금 <b>${cur}단계</b> · 모두 ${mx}단계<div class="stbar"><i style="width:${(cur/mx*100).toFixed(0)}%"></i></div><small>단계는 공부를 잘하면 저절로 올라가요 · 여기서는 보기만 해요</small></div>
+    <div class="stlist">${rows}</div><div class="acts"><button class="btn y press" data-act="home">홈으로</button></div></div>`;
+  later(()=>{ const n=document.getElementById('stnow'); if(n) n.scrollIntoView({block:'center'}); },60);
+}
 function rKCard(){
   const p=P[who], t=todayLetter(p); if(!t){ return startQuiz('ko',true); }
   const pr=tlParts(t), line=`<div class="kc-line" data-act="kcsay">${pr.map(x=>`<span class="kc-t"><b>${x[0]}</b><small>${x[1]}</small></span>`).join('')}</div>`;
@@ -2848,7 +2885,7 @@ function rVillage(){
     if(!f.h) return `<div class="plot"><span class="tag lv2">${VIS?'알':'새 알!'}</span>${VIS?`<span class="egg">${egg(SP[f.sp].col)}</span>`:`<button class="egg press" data-act="hatch" data-i="${i}" aria-label="알 깨우기">${egg(SP[f.sp].col)}</button>`}<div class="shadow"></div></div>`;
     if(f.kind==='obj') return `<div class="plot"><span class="tag lv${Math.min(4,objTier(f.obj)+1)}">${objTier(f.obj)>=3?'✨':''}${OBJ[f.obj].ko}</span><div class="mon ${objTier(f.obj)>=3?'objleg':''} ${objTier(f.obj)>=4?'leg':''}" style="--w:${objW(f.obj)}px" data-act="poke" data-i="${i}">${OBJ[f.obj].svg()}</div><div class="shadow"></div></div>`;
     const w=f.lv>=3?170:f.lv===2?128:88;
-    return `<div class="plot"><span class="tag ${f.lv>1?'lv'+f.lv:''} ${f.sh&&f.lv<4?'shiny':''}">${f.lv>=4?'🌈':f.sh?'✨':''}${lvName(f.lv)}${SP[f.sp].ko}</span>
+    return `<div class="plot fr"><span class="tag ${f.lv>1?'lv'+f.lv:''} ${f.sh&&f.lv<4?'shiny':''}">${f.lv>=4?'🌈':f.sh?'✨':''}${lvName(f.lv)}${SP[f.sp].ko}</span>
       <div class="mon ${f.sh?'sh':''} ${f.lv>=4?'leg':''}" style="--w:${w}px" data-act="poke" data-i="${i}">${f.lv>1?`<span class="crown">${f.lv>=4?'🌟':f.lv===3?'👑':'🎀'}</span>`:''}${mon(f.sp)}${itemSpans(f)}</div><div class="shadow"></div></div>`;
   }).join('') : `<div class="vempty">별 ${PER}개를 모으면 알이 생겨요 🥚</div>`;
   app.innerHTML=topbar()+(VIS?visitBar():'')+`<section class="village ${VIS?'visiting':''}">
@@ -2864,6 +2901,34 @@ function rVillage(){
   if(showVisits()) return;
   if((lv1>=3||lv2>=3||lv3>=3) && p.asked!==p.friends.length){ p.asked=p.friends.length; setTimeout(askMerge,700); }
 }
+
+
+/* 마을 친구들이 마을 안을 자유롭게 돌아다녀요 (집 안 친구는 집 안에서만 꼼지락) */
+(function(){
+  if(window.__roam) return; window.__roam=1;
+  let reduce=false; try{ reduce=matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  if(reduce) return;
+  const tick=()=>{
+    const now=Date.now();
+    document.querySelectorAll('.plots .plot.fr').forEach(el=>{
+      if(el._busy && now<el._next) return;
+      const box=el.parentElement; if(!box) return;
+      const W=box.clientWidth, H=box.clientHeight, x0=el.offsetLeft, y0=el.offsetTop, w=el.offsetWidth, h=el.offsetHeight;
+      if(!W||!w) return;
+      const minX=-x0, maxX=W-(x0+w), minY=Math.max(-y0-10,-160), maxY=Math.max(0,H-(y0+h));
+      const cx=el._x||0, cy=el._y||0;
+      let tx=cx+(Math.random()-.5)*Math.min(W,520), ty=cy+(Math.random()-.5)*Math.min(H+40,220);
+      tx=Math.max(minX,Math.min(maxX,tx)); ty=Math.max(minY,Math.min(maxY,ty));
+      const dist=Math.hypot(tx-cx,ty-cy), dur=Math.max(1.6,dist/48);
+      el.style.transition=`transform ${dur.toFixed(2)}s linear`;
+      el.style.transform=`translate(${tx.toFixed(0)}px,${ty.toFixed(0)}px)`;
+      el.style.zIndex=String(Math.round(200+y0+ty));
+      const m=el.querySelector('.mon'); if(m) m.classList.toggle('goleft',tx<cx);
+      el._x=tx; el._y=ty; el._busy=1; el._next=now+dur*1000+1200+Math.random()*3800;
+    });
+  };
+  setInterval(tick,600); setTimeout(tick,400);
+})();
 
 function isNight(){ const h=new Date().getHours(); return h>=19||h<6; }
 function sky(){
@@ -2997,6 +3062,7 @@ app.addEventListener('click',e=>{
   if(a==='who'){ who=b.dataset.k; VISIT=null; view='home'; render(); }
   else if(a==='switch'){ view='pick'; render(); later(()=>say('이번엔 누가 할 차례일까요?'),200); }
   else if(a==='home'){ view='home'; render(); }
+  else if(a==='stages'){ STAB=b.dataset.s||STAB||'ko'; view='stages'; render(); }
   else if(a==='kcsay'){ const t=todayLetter(P[who]); if(t) speakSeq(tlSay(t).slice(0,6)); }
   else if(a==='kcword'){ say(b.dataset.w); }
   else if(a==='kcgo'){ hush(); startQuiz('ko',true); }
