@@ -11,6 +11,20 @@
 @font-face{font-family:'IBM Plex Sans KR';src:url('fonts/IBMPlexSansKR-Medium.ttf') format('truetype');font-weight:500;font-display:swap}
 @font-face{font-family:'IBM Plex Sans KR';src:url('fonts/IBMPlexSansKR-SemiBold.ttf') format('truetype');font-weight:600;font-display:swap}
 @font-face{font-family:'IBM Plex Sans KR';src:url('fonts/IBMPlexSansKR-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+
+.pg-ov{position:fixed;inset:0;background:rgba(20,24,40,.55);display:grid;place-items:center;z-index:9999;padding:16px}
+.pg-box{background:#fff;color:#232A3D;border-radius:28px;padding:22px;width:min(360px,100%);display:flex;flex-direction:column;align-items:center;gap:12px;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+.pg-box.bad{animation:pgShake .35s}
+@keyframes pgShake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.pg-t{display:flex;align-items:center;gap:6px;font-weight:700;font-size:18px}
+.pg-t svg{width:20px;height:20px}
+.pg-q{font-size:40px;font-weight:800;letter-spacing:.02em}
+.pg-in{min-width:150px;min-height:52px;border:2px solid #D7DCE8;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:32px;font-weight:800}
+.pg-in i{font-style:normal;color:#C9CFDD}
+.pg-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;width:100%}
+.pg-k{height:58px;border-radius:16px;border:0;background:#F1F3F9;font-size:26px;font-weight:700;color:#232A3D}
+.pg-k.f{font-size:17px;background:#E4E8F6}.pg-k[data-k="확인"]{background:#5B6AD9;color:#fff}
+.pg-x{border:0;background:none;color:#6B7385;font-size:15px;padding:6px 12px}
 </style>
 <style>
 /* Layout: three lanes, one per child — pictogram tiles; everyone who finishes gets the same stars */
@@ -1759,13 +1773,31 @@ function laneHtml(rid,k){
       <div class="call-bell">${BELL}</div>
       <p class="call-t">엄마 아빠,<br>다 했어요!</p>
       <p class="call-s">엄마나 아빠를 불러 주세요</p>
-      <button class="call-ok" data-hold="ok" data-kid="${k.id}">${ui('check')}꾹 눌러 최종 확인</button>
+      <button class="call-ok" data-hold="ok" data-kid="${k.id}">${ui('check')}${S.role==='kids'?'엄마 아빠 확인':'꾹 눌러 최종 확인'}</button>
       <span class="call-hint">엄마 아빠가 확인하면 별을 받아요</span>
       <button class="call-no" data-act="callno" data-kid="${k.id}">아직 덜 했어요</button>
     </div>`:''}
   </section>`;
 }
-function bindHolds(){document.querySelectorAll('[data-hold]:not([data-bound])').forEach(el=>{el.dataset.bound='1';const kid=el.dataset.kid;holdable(el,1200,()=>confirmKid(kid))})}
+function bindHolds(){document.querySelectorAll('[data-hold]:not([data-bound])').forEach(el=>{el.dataset.bound='1';const kid=el.dataset.kid;
+  if(S.role==='kids') el.addEventListener('click',e=>{ e.preventDefault(); parentGate(()=>confirmKid(kid)); }); else holdable(el,1200,()=>confirmKid(kid)); })}
+/* ---------- 부모 확인: 곱셈 문제(기본) 또는 부모 비밀번호 — 태블릿 '별·기록'에서 바꿔요 ---------- */
+const gateCfg=()=>{ const g=S.gate||{}; return {mode:g.mode==='pin'&&/^\d{4}$/.test(g.pin||'')?'pin':'mul',pin:g.pin||''}; };
+function parentGate(ok){
+  const cfg=gateCfg(); let a=0,b=0,ans='', typed='';
+  const newQ=()=>{ a=3+Math.floor(Math.random()*7); b=12+Math.floor(Math.random()*8); ans=String(a*b); }; /* 구구단을 아는 큰아이도 바로 못 풀게 (예: 7 × 14) */
+  if(cfg.mode==='mul') newQ(); else ans=cfg.pin;
+  const ov=document.createElement('div'); ov.className='pg-ov'; ov.setAttribute('role','dialog'); ov.setAttribute('aria-label','부모 확인');
+  const draw=(bad)=>{ ov.innerHTML=`<div class="pg-box${bad?' bad':''}"><div class="pg-t">${ui('lock')}부모님 확인</div>
+    <div class="pg-q">${cfg.mode==='mul'?`${a} × ${b} = ?`:'비밀번호 4자리'}</div>
+    <div class="pg-in">${cfg.mode==='pin'?'●'.repeat(typed.length)+'<i>○</i>'.repeat(4-typed.length):(typed||'<i>&nbsp;</i>')}</div>
+    <div class="pg-keys">${[1,2,3,4,5,6,7,8,9,'지움',0,'확인'].map(k=>`<button class="pg-k${typeof k==='string'?' f':''}" data-k="${k}">${k}</button>`).join('')}</div>
+    <button class="pg-x" data-k="닫기">닫기</button></div>`; };
+  const check=()=>{ if(typed===ans){ ov.remove(); ok(); return; } typed=''; if(cfg.mode==='mul') newQ(); draw(true); try{ if(window.Android&&Android.vibrate) Android.vibrate(120); }catch(e){} };
+  ov.addEventListener('click',e=>{ const k=e.target.closest('[data-k]'); if(!k){ if(e.target===ov) ov.remove(); return; } const v=k.dataset.k;
+    if(v==='닫기'){ ov.remove(); return; } if(v==='지움'){ typed=typed.slice(0,-1); draw(); return; } if(v==='확인'){ check(); return; }
+    if(typed.length<(cfg.mode==='pin'?4:3)){ typed+=v; draw(); if(cfg.mode==='pin'&&typed.length===4) setTimeout(check,150); } });
+  draw(); document.body.appendChild(ov); }
 function renderRun(){
   const rid=view.rid,R=ROUT[rid];
   $('#run').innerHTML=`
@@ -3269,7 +3301,14 @@ function editKids(){
   <p class="hint" style="padding-bottom:40px">글자를 못 읽어도 자기 색과 동물로 자기 줄을 찾을 수 있어요.</p>`;
 }
 function editStars(){
+  const gc=gateCfg();
   return `<div class="ed-grid">
+    <section class="panel"><h2><span>최종 확인 방법</span></h2>
+      <p class="hint">아이가 다 했을 때 태블릿에서 엄마 아빠가 확인하는 방법이에요. 아이들이 마음대로 누르지 못하게 해요.</p>
+      <div class="btns"><button class="btn ${gc.mode==='mul'?'':'sec'}" data-act="gmode" data-m="mul">곱셈 문제 (예: 7 × 14)</button><button class="btn ${gc.mode==='pin'?'':'sec'}" data-act="gmode" data-m="pin">부모 비밀번호</button></div>
+      <div class="btns" style="align-items:center"><input class="fld" id="gatePin" type="password" inputmode="numeric" maxlength="4" pattern="[0-9]*" placeholder="숫자 4자리" style="max-width:160px" aria-label="부모 비밀번호 4자리"><button class="btn sec" data-act="gpin">비밀번호 저장</button></div>
+      <p class="hint">${gc.mode==='pin'?'지금: 부모 비밀번호로 확인해요.':'지금: 곱셈 문제로 확인해요.'} 비밀번호를 저장하면 비밀번호 방식으로 바뀌어요.</p>
+    </section>
     <section class="panel"><h2><span>모은 별</span></h2>
       ${S.kids.map(k=>`<div class="srow kid" style="--k:${k.color}">${avatar(k,48)}<span class="nm">${esc(k.name)}</span>
         <button class="ib" data-act="adj" data-kid="${k.id}" data-d="-1" aria-label="별 하나 빼기">${ui('down')}</button>
@@ -3468,6 +3507,8 @@ document.addEventListener('click',e=>{
     case 'sound': S.sound=!S.sound; save(); renderHome(); if(S.sound) tone([660,880],.1); toast(S.sound?'소리를 켰어요':'소리를 껐어요'); break;
     case 'fs': { const el=document.documentElement; try{ if(document.fullscreenElement) document.exitFullscreen?.(); else { const p=el.requestFullscreen?.(); p&&p.catch(()=>toast('이 화면에서는 전체 화면을 쓸 수 없어요')); if(!el.requestFullscreen) toast('이 화면에서는 전체 화면을 쓸 수 없어요'); } }catch(err){toast('이 화면에서는 전체 화면을 쓸 수 없어요')} break; }
     case 'etab': ed.tab=d.tab; rerenderEdit(); break;
+    case 'gmode': { const g=S.gate||(S.gate={}); if(d.m==='pin'&&!/^\d{4}$/.test(g.pin||'')){ toast('먼저 비밀번호 4자리를 저장해 주세요'); break; } g.mode=d.m; save(); rerenderEdit(); break; }
+    case 'gpin': { const v=(document.getElementById('gatePin')||{}).value||''; if(!/^\d{4}$/.test(v)){ toast('숫자 4자리를 넣어 주세요'); break; } S.gate={mode:'pin',pin:v}; save(); toast('비밀번호를 저장했어요'); rerenderEdit(); break; }
     case 'erid': ed.rid=d.rid; rerenderEdit(); break;
     case 'ekid': ed.kid=d.kid; ed.all=false; rerenderEdit(); break;
     case 'all': ed.all=!ed.all; rerenderEdit(); break;
