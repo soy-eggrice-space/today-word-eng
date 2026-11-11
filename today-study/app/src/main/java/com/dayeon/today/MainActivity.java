@@ -73,8 +73,13 @@ public class MainActivity extends Activity {
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                // 앱 밖의 페이지로 이동하지 않게 막아요.
-                return !"file".equals(request.getUrl().getScheme());
+                // 앱 안 화면은 그대로, 유튜브 같은 바깥 링크는 유튜브 앱·브라우저로 열어요.
+                String sc = request.getUrl().getScheme();
+                if ("file".equals(sc)) return false;
+                if ("https".equals(sc) || "http".equals(sc)) {
+                    try { startActivity(new Intent(Intent.ACTION_VIEW, request.getUrl())); } catch (Exception e) { }
+                }
+                return true;
             }
         });
 
