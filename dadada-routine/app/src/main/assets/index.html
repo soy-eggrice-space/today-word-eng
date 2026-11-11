@@ -1417,7 +1417,16 @@ function normalize(s){
     s.chars=out; }
 }
 let S=load();
-function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}}
+function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}shareCharsOut();}
+/* 같은 태블릿의 솔정마을·다연마을에 아이들 캐릭터를 보내요 (친구용 앱은 못 받아요) */
+let _famSig='';
+function shareCharsOut(){ try{
+  if(!IS_APP||S.role!=='kids'||!window.Android.shareChars||typeof charOf!=='function') return;
+  const sig=JSON.stringify((S.kids||[]).map(k=>[k.id,k.name,k.color]))+JSON.stringify(S.chars||{});
+  if(sig===_famSig) return;
+  const list=(S.kids||[]).map(k=>{ const c=charOf(k.id); return c.made?{id:k.id,name:k.name,color:k.color,svg:charSvg(c.look,c.wear,{cut:true}).replace(/(id="|url\(#)/g,'$1fam')}:null; }).filter(Boolean);
+  window.Android.shareChars(JSON.stringify(list)); _famSig=sig;
+}catch(e){} }
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
 const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods','chars'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
@@ -2768,6 +2777,7 @@ const PETS={
 const SHOP=[['top','옷',TOPS],['head','머리 장식',HEADS],['face','얼굴 꾸미기',FACEACC],['frame','프레임',FRAMES],['bg','배경',BGS],['pet','친구',PETS]];
 const SHOP_BASE={top:'tee',frame:'basic',bg:'basic'};
 let charUid=0;
+let CUT_VB=[38,-30,198,330];
 function charSvg(look,wear,o={}){
   const L={...CH_DEFAULT,...(look||{})}, W={top:'tee',frame:'basic',bg:'basic',...(wear||{})}, u='c'+(++charUid);
   const skin=CH_SKIN[L.skin]||CH_SKIN[1], ss=shade(skin,-.2);
@@ -2797,6 +2807,9 @@ function charSvg(look,wear,o={}){
       ${W.face&&FACEACC[W.face]?FACEACC[W.face].draw():''}</g>`;
   const headTop=`<g transform="${HEAD_T}">${hairSvg(L.hair,L.hc,'top')}${W.head&&HEADS[W.head]?HEADS[W.head].draw(L.hc):''}</g>`;
   const behind=`<g transform="${HEAD_T}">${hairSvg(L.hair,L.hc,'behind')}</g>`;
+  if(o.cut){ /* 배경·테두리 없이 캐릭터만 (마을 앱에서 돌아다녀요) */
+    const pt=W.pet&&PETS[W.pet]?PETS[W.pet].draw():'';
+    return `<svg class="charsvg" viewBox="${CUT_VB.join(' ')}" aria-hidden="true"><defs><clipPath id="t${u}"><path d="${TORSO}"/></clipPath></defs>${behind}${body}${head}${headTop}${pt}</svg>`; }
   const bg=(BGS[W.bg]||BGS.basic).draw(u);
   const frame=o.plain?'':(FRAMES[W.frame]||FRAMES.basic).draw(u), pet=o.plain||!(W.pet&&PETS[W.pet])?'':PETS[W.pet].draw();
   const vb=o.crop==='face'?[60,30,120,110]:o.crop==='head'?[32,-20,176,172]:[-6,-30,252,348];
@@ -3509,7 +3522,8 @@ let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); pruneMeds(); save(); show(); } },30000);
 
 window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } if(view.screen==='char'&&CR.try){ CR.try=null; renderChar(); return true; } const up={char:'family',fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
-window.appResume=()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
+setTimeout(shareCharsOut,1500);
+window.appResume=()=>{ shareCharsOut(); if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 pruneMeds();
 if(S.onboard) view.screen='welcome';

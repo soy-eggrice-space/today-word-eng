@@ -55,6 +55,12 @@
                 android:value="가족 메시지 알림 받기" />
         </service>
 
+        <!-- 같은 태블릿의 솔정마을·다연마을에 아이들 캐릭터를 빌려줘요 (서명 확인) -->
+        <provider
+            android:name=".CharProvider"
+            android:authorities="com.dadada.routine.chars"
+            android:exported="true" />
+
         <receiver
             android:name=".AlarmReceiver"
             android:exported="false" />

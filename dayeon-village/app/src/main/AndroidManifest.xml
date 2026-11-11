@@ -6,6 +6,8 @@
 
     <!-- Android 11 이상에서 영어 발음(TTS) 엔진을 찾기 위해 필요 -->
     <queries>
+        <!-- 같은 태블릿의 '우리가족' 앱에서 아이들 캐릭터를 가져와요 -->
+        <package android:name="com.dadada.routine" />
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>

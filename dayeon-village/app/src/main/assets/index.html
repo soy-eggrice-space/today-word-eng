@@ -654,6 +654,13 @@ input{font-family:inherit;color:inherit;-webkit-user-select:text;user-select:tex
 @keyframes roamBob{0%,100%{translate:0 0}50%{translate:0 -4px}}
 .homebox .inhome{animation:homeWig 5.5s ease-in-out infinite}
 @keyframes homeWig{0%,100%{translate:0 0}25%{translate:7px 0}50%{translate:0 -3px}75%{translate:-7px 0}}
+
+.plot.famc{min-width:0}
+.famc .famav{width:92px;animation:famBob 1.15s ease-in-out infinite;transform-origin:50% 100%}
+.famc .famav svg{display:block;width:100%;height:auto;overflow:visible}
+.famtag{font-size:15px;line-height:1.2;padding:2px 10px;border-radius:99px;background:#fff;border:2.5px solid var(--fc);color:#4A3B5C;white-space:nowrap;margin-bottom:2px;box-shadow:0 2px 0 var(--fc)}
+@keyframes famBob{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@media (max-width:600px){.famc .famav{width:64px}.famtag{font-size:12px}}
 </style>
 </head>
 <body>
@@ -2179,6 +2186,18 @@ function rubbable(el,fn){
   setInterval(tick,600); setTimeout(tick,400);
 })();
 
+
+/* '우리가족' 앱에서 만든 다다다 캐릭터도 마을에 놀러 와요 (같은 태블릿에서만) */
+let FAMC=null;
+const famEsc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function famChars(){ if(FAMC) return FAMC; FAMC=[];
+  try{ if(window.Android&&window.Android.familyChars){ const a=JSON.parse(window.Android.familyChars()||'[]');
+    if(Array.isArray(a)) FAMC=a.filter(x=>x&&typeof x.svg==='string'&&/^<svg[\s>]/.test(x.svg)).slice(0,6).map(x=>({name:String(x.name||'').slice(0,12),color:/^#[0-9a-f]{3,8}$/i.test(x.color||'')?x.color:'#FF8FB1',
+      svg:x.svg.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/\son[a-z]+\s*=/gi,' data-x=').replace(/javascript:/gi,'')})); } }catch(e){ FAMC=[]; }
+  return FAMC; }
+function famPlots(){ return famChars().map((c,i)=>`<div class="plot fr famc" style="--fc:${c.color}"><span class="famtag">${famEsc(c.name)}</span><div class="famav" style="animation-delay:-${(i*.45).toFixed(2)}s">${c.svg}</div><div class="shadow"></div></div>`).join(''); }
+window.famRefresh=()=>{ const old=JSON.stringify(FAMC||[]); FAMC=null; famChars(); if(JSON.stringify(FAMC)!==old&&document.querySelector('.plots')) render(); };
+
 function isNight(){ const h=new Date().getHours(); return h>=19||h<6; }
 function sky(){
   const m=new Date().getMonth()+1, night=isNight();
@@ -2227,7 +2246,7 @@ function villageHTML(){
       <div class="next">⭐${left}개 더 모으면 새 알이 생겨요<div class="bar pink"><i style="width:${(S.stars%PER_FRIEND)/PER_FRIEND*100}%"></i></div></div>
     </div>
     <div class="scene ${sc.cls}" style="${sc.style}">${sc.deco}
-      <div class="plots" id="plots">${mailbox(S)}${homesOf().map(homePlot).join('')}${plots}${decos}${fr.length?'':`<div class="vempty">별 ${PER_FRIEND}개를 모으면 첫 번째 알이 생겨요 🥚</div>`}</div></div>
+      <div class="plots" id="plots">${mailbox(S)}${homesOf().map(homePlot).join('')}${plots}${famPlots()}${decos}${fr.length?'':`<div class="vempty">별 ${PER_FRIEND}개를 모으면 첫 번째 알이 생겨요 🥚</div>`}</div></div>
     <div class="vnote">🔥 연속 ${streak()}일 공부 중${nb?` · ${nb.need}일이 되면 '${nb.ko}' 배경이 열려요`:' · 모든 배경을 모았어요! 👑'}<br>🛒 상점에서 별로 알·보금자리·꾸미기를 살 수 있어요. 보금자리를 누르면 친구를 데려올 수 있어요. 왕 친구 3명을 합치면 🌈 전설의 친구가 돼요.<br>🔨 집·나무·무지개 같은 물건도 3개를 합치면 새로운 물건이 돼요. 고르는 물건마다 결과가 달라요! 📖 도감을 다 채워 보세요.<br>별 ${PER_FRIEND}개마다 알이 하나 생겨요. 친구를 누르면 다연이가 배운 단어를 말해요. 우체통에는 하루에 한 번 선물이 오고, 친구 3명이 모이면 합쳐서 더 큰 친구나 집·나무·무지개·성으로 만들 수 있어요.</div>
   </section>`;
 }

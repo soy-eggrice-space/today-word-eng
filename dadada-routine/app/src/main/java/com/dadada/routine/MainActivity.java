@@ -354,6 +354,9 @@ public class MainActivity extends Activity {
 
         @JavascriptInterface public void saveData(String json) { if (json != null) prefs.edit().putString(KEY_DATA, json).apply(); }
 
+        // 마을 앱(솔정마을·다연마을)에 보여 줄 아이들 캐릭터 그림
+        @JavascriptInterface public void shareChars(String json) { if (json != null) prefs.edit().putString(CharProvider.KEY, json).apply(); }
+
         // 루틴 화면에서만 화면이 꺼지지 않게
         // 처음 설치할 때 카톡에서 복사한 연결 주소를 붙여 넣어요
         @JavascriptInterface public String clipText() {

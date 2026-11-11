@@ -158,6 +158,12 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (web != null) web.evaluateJavascript("window.famRefresh && window.famRefresh()", null);
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         web.saveState(outState);
@@ -182,6 +188,15 @@ public class MainActivity extends Activity {
             if (tts != null && text != null) {
                 tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, "word");
             }
+        }
+
+        /** '우리가족' 앱에서 만든 아이들 캐릭터 (없으면 "[]") */
+        @JavascriptInterface
+        public String familyChars() {
+            try (android.database.Cursor c = getContentResolver().query(Uri.parse("content://com.dadada.routine.chars/all"), null, null, null, null)) {
+                if (c != null && c.moveToFirst()) { String s = c.getString(0); return s != null ? s : "[]"; }
+            } catch (Exception ignored) { }
+            return "[]";
         }
 
         @JavascriptInterface
