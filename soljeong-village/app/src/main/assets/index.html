@@ -423,6 +423,8 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-we
 .lvprog{display:flex;gap:5px;justify-content:center;font-size:15px;min-height:14px}
 .lvprog i{width:12px;height:12px;border-radius:50%;border:2px solid var(--ink);background:#fff;display:block}
 .lvprog i.on{background:#FF6FA8}
+.lvbook{font-size:17px;background:#fff;border:2px solid var(--ink);border-radius:999px;padding:1px 12px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:600px){.lvbook{font-size:12px;padding:0 8px}}
 .lvbar{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:14px 0 4px}
 .lvchip{background:var(--c,#fff);border:2.5px solid var(--ink);border-radius:999px;padding:4px 14px;font-size:18px;box-shadow:0 3px 0 var(--ink)}
 .lvchip b{font-family:Fredoka,Jua,sans-serif;font-size:22px;margin:0 2px}.lvchip small{font-size:13px}
@@ -1144,10 +1146,10 @@ function rHome(){
   const p=P[who], t=p.today, all=SUBJ.every(s=>t[s.k]);
   app.innerHTML=topbar()+growHTML(p)+`<div class="choose">
     ${SUBJ.map(s=>`<button class="big press ${t[s.k]?'off':''}" style="--c:${s.c}" data-act="go" data-l="${s.k}" ${t[s.k]?'aria-disabled="true"':''}>
-      ${t[s.k]?'<span class="donebadge">✅ 오늘 끝!</span>':''}<div class="g ${s.k==='en'?'en':''}">${s.g}</div><div class="ic">${s.ic}</div><div class="l">${s.l}</div><div class="lvstar">${STG[lvOf(p,s.k)][0]} ${lvOf(p,s.k)}단계 <small>${STG[lvOf(p,s.k)][1]}</small></div>
+      ${t[s.k]?'<span class="donebadge">✅ 오늘 끝!</span>':''}<div class="g ${s.k==='en'?'en':''}">${s.g}</div><div class="ic">${s.ic}</div><div class="l">${s.l}</div><div class="lvstar">${STG[lvOf(p,s.k)][0]} ${lvOf(p,s.k)}단계 <small>${STG[lvOf(p,s.k)][1]}</small></div>${bookOf(s.k,lvOf(p,s.k))?`<div class="lvbook">📘 ${bookOf(s.k,lvOf(p,s.k))}</div>`:''}
       <div class="lvprog" aria-label="다음 단계까지">${lvOf(p,s.k)>=MAXS[s.k]?'👑 최고 단계!':Array.from({length:UPN},(_,j)=>`<i class="${j<lvProg(p,s.k)?'on':''}"></i>`).join('')}</div></button>`).join('')}
     <button class="big press" style="--c:#CFB8FF" data-act="village"><div class="g">마을</div><div class="ic">🏡</div><div class="l">친구 ${p.friends.length}명</div></button>
-  </div><div class="lvbar">${SUBJ.map(s=>`<span class="lvchip" style="--c:${s.c}">${s.l} <b>${lvOf(p,s.k)}</b><small>/${MAXS[s.k]}단계</small></span>`).join('')}</div>
+  </div><div class="lvbar">${SUBJ.map(s=>`<span class="lvchip" style="--c:${s.c}">${s.l} <b>${lvOf(p,s.k)}</b><small>/${MAXS[s.k]}단계${bookOf(s.k,lvOf(p,s.k))?' · '+bookOf(s.k,lvOf(p,s.k)):''}</small></span>`).join('')}</div>
   ${(()=>{ const wr=wrOf(p), n=wr.items.length; if(!n) return ''; const seen=wr.items.every(x=>x.seen);
     return `<button class="wrbtn press ${seen?'seen':''}" data-act="review"><span class="wi">📝</span><span class="wt">오늘의 틀린 문제 <b>${n}</b>개</span><span class="wg">${seen?'✅ 다 봤어요':wr.star?'다시 보기':'보면 ⭐+1'}</span></button>`; })()}
   <div class="hint">${all?`오늘 공부 다 했어! 내일 또 만나요 👋 마을에서 친구들이랑 놀 수 있어요`:`${p.call}, 뭐 할까? 큰 그림을 눌러 봐! 과목마다 하루에 한 번씩 할 수 있어요`}<br><small>단계 아래 동그라미 ${UPN}개를 모두 채우면 다음 단계로 올라가요 · 한 단계 오를 때마다 새로운 문제가 나와요</small></div>`;
@@ -2524,7 +2526,13 @@ function lvOf(p,k){
     p.hist.ko=[]; p.today=p.today||{}; if(p.today.math){ p.today.calc=true; p.today.think=true; } p.v11new=1; }
   return Math.max(1,Math.min(MAXS[k]||10,p.lv[k]||1));
 }
-const stDesc=(x,st)=>LVD2[x]?LVD2[x][st]||'':`${LVDESC[x][2*st-1]} · ${LVDESC[x][2*st]}`;
+const BOOK={
+  ko:['','기탄국어 A-1집','기탄국어 A-2집','기탄국어 A-3집','기탄국어 A-3집','기탄국어 A-4집','기탄국어 A-5집','기탄국어 B-1집','기탄국어 B-2집','기탄국어 B-3집','기탄국어 B-3집','기탄국어 B-4집','기탄국어 B-5집','기탄국어 C-1집','기탄국어 C-2집','기탄국어 C-3집','기탄국어 C-4집','기탄국어 C-5집','초1 국어','초1 국어','초1 국어','초2 국어','초2 국어','초2 국어','초2 국어'],
+  calc:['','소마셈 K1','소마셈 K2','소마셈 K3','소마셈 K4','소마셈 K5','소마셈 K6','소마셈 K7','소마셈 K8','소마셈 P1','소마셈 P2','소마셈 P3','소마셈 P4','소마셈 P5','소마셈 P6','소마셈 P7','소마셈 P8','초1 수학','초1 수학','초2 수학','초2 수학'],
+  think:['','키즈 팩토','키즈 팩토','킨더 팩토 D','킨더 팩토 B','킨더 팩토 A·D','킨더 팩토 D','킨더 팩토 B','킨더 팩토 B·C','킨더 팩토 A','킨더 팩토 D','킨더 팩토 A','킨더 팩토 C','초등 팩토 Lv1','초등 팩토 Lv1','킨더 팩토 복습']};
+const bookOf=(x,st)=>(BOOK[x]||[])[st]||'';
+const stDesc=(x,st)=>(bookOf(x,st)?`📘 ${bookOf(x,st)} · `:'')+(LVD2[x]?LVD2[x][st]||'':`${LVDESC[x][2*st-1]} · ${LVDESC[x][2*st]}`);
+const stDescOld=(x,st)=>LVD2[x]?LVD2[x][st]||'':`${LVDESC[x][2*st-1]} · ${LVDESC[x][2*st]}`;
 /* 단계 조절: 한 번에 80% 넘게 맞힌 날이 4번 이어지면 한 단계 위로, 40% 이하인 날이 2번 이어지면 한 단계 아래로 */
 function finishRound(){
   const p=P[who], k=Q.lang; p.today[k]=true;
