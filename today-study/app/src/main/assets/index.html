@@ -719,7 +719,40 @@ img.emo{width:1em;height:1em;display:inline-block;vertical-align:-.12em;object-f
 @media (max-width:900px){.qbox.m .prompt .grp{font-size:56px}.qbox.m .prompt .grp.sm{font-size:40px}}
 @media (max-width:600px){.qbox.m .prompt>.grp:only-of-type{font-size:44px!important}.qbox.m .prompt{padding:16px 62px 16px 16px;gap:10px}.qbox.m .prompt>.speak{width:48px;height:48px;font-size:22px;top:8px;right:8px}.qbox.m .ptxt{font-size:24px}.qbox.m .ptxt.sm{font-size:19px}.qbox.m .prompt .grp{font-size:34px}.qbox.m .prompt .grp.sm{font-size:26px}}
 .opensrc{font-size:13px;color:#8A7A9C;text-align:center;margin-top:10px}
-.legal{font-size:12px;line-height:1.55;color:#8A7A9C;text-align:center;margin:14px auto 4px;max-width:760px;word-break:keep-all}</style>
+.legal{font-size:12px;line-height:1.55;color:#8A7A9C;text-align:center;margin:14px auto 4px;max-width:760px;word-break:keep-all}
+.cvis{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:100%}
+.cvis .cvf{max-width:100%;height:auto}
+.cvop{font-family:var(--fe);font-weight:700;font-size:44px;line-height:1;color:var(--ink)}
+.cvten svg{height:100px;width:auto}
+.cvis.seq{gap:6px;align-items:flex-end}
+.cvt{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:6px 10px 4px;min-width:62px}
+.cvt b{font-family:var(--fe);font-weight:700;font-size:44px;line-height:1.1}
+.cvt.q{border-style:dashed;border-color:#4FA8E8;background:#F2F8FF}.cvt.q b{color:#4FA8E8}
+.cvtw{display:block;width:30px;height:86px}
+.cva{display:flex;flex-direction:column;align-items:center;font-family:var(--fe);font-weight:700;font-size:20px;color:#E2508F;margin-bottom:22px}.cva i{font-style:normal;font-size:24px;line-height:.8;color:var(--ink)}
+.cvis.cmp{gap:18px;align-items:flex-end}
+.cvc{display:flex;flex-direction:column;align-items:center;gap:6px}.cvc b{font-family:var(--fe);font-weight:700;font-size:40px}
+.cvc.q{font-family:var(--fe);font-weight:700;font-size:56px;color:#4FA8E8;align-self:center}
+.cvg{display:inline-grid;grid-template-columns:repeat(5,22px);gap:4px;padding:8px;border:3px dashed var(--ink);border-radius:16px;background:#fff;align-items:center}
+.cvg.q{border-color:#4FA8E8}
+.cvgd{display:block;width:22px;height:22px;border-radius:50%;background:#FF7BAC;border:2px solid var(--ink)}
+.cvg.it{grid-template-columns:repeat(6,22px)}.cvge{grid-column:1/-1;font-size:40px;line-height:1;text-align:center}
+.cvit{display:inline-grid;grid-template-columns:repeat(10,1em);gap:.12em;font-size:44px;line-height:1;padding:6px;border-radius:14px}
+.cvit>span{display:grid;place-items:center;width:1em;height:1em;position:relative}
+.cvit.new{background:#E3F6EA;outline:3px dashed #5CC98B}
+.cvit.gone{opacity:.5}
+.cvit .gx{opacity:.35}.cvit .gx::after{content:'';position:absolute;inset:8%;background:linear-gradient(45deg,transparent 44%,#E2384D 44%,#E2384D 56%,transparent 56%),linear-gradient(-45deg,transparent 44%,#E2384D 44%,#E2384D 56%,transparent 56%);opacity:1}
+.cvit .slot{border:3px dashed #4FA8E8;border-radius:50%;width:.86em;height:.86em;box-sizing:border-box}.cvit .slot::after{content:'?';font-family:var(--fe);font-weight:700;font-size:.45em;color:#4FA8E8}
+.qbox.m .prompt .op{border:0;background:none;padding:0 4px;display:inline-flex;box-shadow:none}
+.cvrows{display:flex;flex-direction:column;align-items:flex-start;gap:6px}.cvit.row{padding:4px 6px;background:#fff;border:2px solid #EADFF2}
+.cvst{flex-direction:column;gap:6px}
+.cvit.sel{outline:3px solid #FF7BAC;background:#FFF0F6}
+.cvit.big{grid-template-columns:repeat(10,auto)}
+.cvb{display:inline-flex!important;align-items:center;gap:2px;width:auto!important;border:3px solid var(--ink);border-radius:10px;padding:0 6px;background:#FFF7DC;font-size:.8em}
+.cvb b{font-family:var(--fe);font-size:.6em}
+@media (max-width:900px){.cvit{font-size:34px}.cvt b{font-size:34px}.cvop{font-size:34px}}
+@media (max-width:600px){.cvis{gap:6px}.cvis .cvf{width:150px}.cvit{font-size:24px;grid-template-columns:repeat(10,1em)}.cvt{min-width:44px;padding:4px 6px 2px}.cvt b{font-size:24px}.cvtw{height:60px;width:22px}.cvop{font-size:24px}.cvten svg{height:70px}.cvc b{font-size:26px}.cvg{grid-template-columns:repeat(5,14px)}.cvgd{width:14px;height:14px}}
+</style>
 </head>
 <body>
 
@@ -2692,6 +2725,115 @@ function tlQs(t){ const out=[], s=lvOf(P[who],'ko'), no=koNo(s), cs=ko3C(s).conc
     if(q2) out.push(q2); }catch(e){}
   return out.filter(Boolean); }
 
+/* =========================================================
+   연산: 읽어 주는 내용이 모두 그림에 보이게
+   · 식(2 + ? = 3)  → 10칸 판에 동그라미 (더하는 수는 다른 색, 빼는 수는 X, 모르는 수는 점선 ?)
+   · 수 늘어놓기    → 숫자 칸 + 동그라미 탑 + 화살표(+1)
+   · 크기 비교      → 두 수를 동그라미로 나란히
+   · 이야기 문제    → 물건 그림을 개수만큼 (10개는 묶음 상자), 받으면 +, 먹으면 X
+   · 큰 수(30 넘음) → 10묶음 막대 + 낱개
+   ========================================================= */
+const CVCOL=['#FF7BAC','#4FA8E8','#5CC98B'];
+function cvDots(parts){ const cells=[]; parts.forEach(p=>{ for(let i=0;i<p.n;i++) cells.push(p); });
+  const nF=Math.max(1,Math.ceil(cells.length/10)); let out='';
+  for(let f=0;f<nF;f++){ let o=''; for(let i=0;i<10;i++){ const x=4+(i%5)*40, y=4+Math.floor(i/5)*40, c=cells[f*10+i];
+      o+=`<rect x="${x}" y="${y}" width="40" height="40" fill="#fff" ${st} stroke-width="2.5"/>`;
+      if(!c) continue;
+      if(c.k==='d') o+=`<circle cx="${x+20}" cy="${y+20}" r="14" fill="#fff" stroke="${c.c}" stroke-width="3" stroke-dasharray="5 4"/><text x="${x+20}" y="${y+26}" text-anchor="middle" font-size="18" font-weight="700" fill="${c.c}" font-family="Fredoka,sans-serif">?</text>`;
+      else { o+=`<circle cx="${x+20}" cy="${y+20}" r="14" fill="${c.c}" ${st} stroke-width="2"${c.k==='x'?' opacity=".35"':''}/>`;
+        if(c.k==='x') o+=`<path d="M${x+9} ${y+9}L${x+31} ${y+31}M${x+31} ${y+9}L${x+9} ${y+31}" stroke="#E2384D" stroke-width="4.5" stroke-linecap="round"/>`; } }
+    out+=`<svg viewBox="0 0 208 88" width="208" height="88" class="cvf">${o}</svg>`; }
+  return out; }
+const cvOp=o=>`<span class="cvop">${o}</span>`;
+const cvTen=n=>`<span class="cvten">${tensSVG(n)}</span>`;
+function cvTower(n){ let o=''; for(let i=0;i<n;i++){ const x=8+(i%2)*18, y=86-Math.floor(i/2)*18; o+=`<circle cx="${x}" cy="${y}" r="7" fill="${CVCOL[1]}" ${st} stroke-width="1.6"/>`; } return `<svg viewBox="0 0 34 96" width="30" height="86" class="cvtw">${o}</svg>`; }
+function cvGroups(a,b,dashed){ let o=''; for(let g=0;g<b;g++){ let d=''; for(let i=0;i<a;i++) d+=`<i class="cvgd${dashed?' q':''}"></i>`; o+=`<span class="cvg${dashed?' q':''}">${d}</span>`; } return o; }
+/* 식을 그림으로 */
+function cvChain(tk){ const nums=tk.filter(x=>/\d/.test(x)).map(Number);
+  if(tk.includes('*')){ const [a,b]=nums; return cvGroups(a,b); }
+  let run=0, mx=0; tk.forEach((x,i)=>{ if(/\d/.test(x)){ run+=(tk[i-1]==='-'?-1:1)*(+x); mx=Math.max(mx,run); } });
+  const tot=nums[0]+tk.reduce((s,x,i)=>s+(tk[i-1]==='+'?+x:0),0);
+  if(tot>30) return tk.map(x=>/\d/.test(x)?cvTen(+x):cvOp(x==='-'?'−':'+')).join('');
+  const parts=[{n:nums[0],c:CVCOL[0],k:'f'}]; let ci=0;
+  for(let i=1;i<tk.length;i+=2){ const op=tk[i], n=+tk[i+1];
+    if(op==='+'){ ci++; parts.push({n,c:CVCOL[ci%3],k:'f'}); }
+    else { let left=n; for(let j=parts.length-1;j>=0&&left>0;j--){ const p=parts[j]; if(p.k!=='f') continue; const take=Math.min(left,p.n); if(take===p.n) p.k='x'; else { p.n-=take; parts.splice(j+1,0,{n:take,c:p.c,k:'x'}); } left-=take; } } }
+  return cvDots(parts); }
+function cvMissing(tk,c){ const s=tk.join('');
+  let m;
+  if((m=s.match(/^(\d+)\+\?$/))){ const a=+m[1]; return c>30?cvTen(a)+cvOp('+')+cvOp('?')+cvOp('=')+cvTen(c):cvDots([{n:a,c:CVCOL[0],k:'f'},{n:Math.max(0,c-a),c:CVCOL[1],k:'d'}]); }
+  if((m=s.match(/^\?\+(\d+)$/))){ const b=+m[1]; return c>30?cvOp('?')+cvOp('+')+cvTen(b)+cvOp('=')+cvTen(c):cvDots([{n:Math.max(0,c-b),c:CVCOL[0],k:'d'},{n:b,c:CVCOL[1],k:'f'}]); }
+  if((m=s.match(/^(\d+)-\?$/))){ const a=+m[1]; return a>30?cvTen(a)+cvOp('−')+cvOp('?')+cvOp('=')+cvTen(c):cvDots([{n:c,c:CVCOL[0],k:'f'},{n:Math.max(0,a-c),c:CVCOL[0],k:'x'}]); }
+  if((m=s.match(/^\?-(\d+)$/))){ const b=+m[1]; return c+b>30?cvOp('?')+cvOp('−')+cvTen(b)+cvOp('=')+cvTen(c):cvDots([{n:c,c:CVCOL[0],k:'f'},{n:b,c:CVCOL[0],k:'x'}]); }
+  if((m=s.match(/^(\d+)\*\?$/))){ const a=+m[1]; return a&&c%a===0?cvGroups(a,c/a):''; }
+  return ''; }
+function cvSeq(xs){ const nums=xs.map(x=>x==='?'?null:+x); let d=null;
+  for(let i=1;i<nums.length;i++) if(nums[i]!=null&&nums[i-1]!=null){ d=nums[i]-nums[i-1]; break; }
+  const small=nums.every(n=>n==null||(n>=0&&n<=10));
+  const tile=n=>`<span class="cvt${n==null?' q':''}">${small?(n!=null?cvTower(n):'<span class="cvtw"></span>'):''}<b>${n==null?'?':n}</b></span>`;
+  const arrow=d==null?'':`<span class="cva">${d>0?'+':'−'}${Math.abs(d)}<i>→</i></span>`;
+  return nums.map(tile).join(arrow); }
+const cvNum=n=>n<=30?cvDots([{n,c:CVCOL[0],k:'f'}]):cvTen(n);
+function cvCmp(a,b){ return `<span class="cvc"><b>${a}</b>${cvNum(a)}</span><span class="cvc q">?</span><span class="cvc"><b>${b}</b>${cvNum(b)}</span>`; }
+/* 이야기 문제: 물건 그림 그대로 */
+function cvItems(e,n,cls){ const t=Math.floor(n/10), o=n%10; if(n<=20) return `<span class="cvit ${cls||''}">${Array.from({length:n},()=>`<span>${e}</span>`).join('')}</span>`;
+  return `<span class="cvit big ${cls||''}">${Array.from({length:t},()=>`<span class="cvb"><span>${e}</span><b>10</b></span>`).join('')}${Array.from({length:o},()=>`<span>${e}</span>`).join('')}</span>`; }
+function cvStory(e,txt){ let m;
+  if((m=txt.match(/(\d+)\D*?있었는데 (\d+)\D*?(더 받았|더 왔)/))) return cvItems(e,+m[1])+cvOp('+')+cvItems(e,+m[2],'new');
+  if((m=txt.match(/(\d+)\D*?있었는데 (\d+)/))){ const a=+m[1], d=+m[2];
+    if(a<=20) return `<span class="cvit">${Array.from({length:a},(_,i)=>`<span${i>=a-d?' class="gx"':''}>${e}</span>`).join('')}</span>`;
+    return cvItems(e,a)+cvOp('−')+cvItems(e,d,'gone'); }
+  if((m=txt.match(/(\d+)개 있어요\. (\d+)개가 되려면/))){ const a=+m[1], t=+m[2]; return `<span class="cvit">${Array.from({length:t},(_,i)=>i<a?`<span>${e}</span>`:'<span class="slot"></span>').join('')}</span>`; }
+  if((m=txt.match(/한 \S+에 (\d+)개예요\. (\d+)/))){ const k=+m[1], n=+m[2]; return Array.from({length:n},()=>`<span class="cvg it"><span class="cvge">${e}</span>${Array.from({length:k},()=>'<i class="cvgd"></i>').join('')}</span>`).join(''); }
+  return ''; }
+function cvis(q){ try{
+  const ask=(q.ask||[]).map(x=>x[0]).join(' '), sb=speakBtn, P=q.prompt.replace(sb,'');
+  const wrap=(h,cls)=>h?`<div class="cvis${cls?' '+cls:''}">${h}</div>`:'';
+  let m;
+  /* ① 식 · 수 늘어놓기 · 비교 */
+  if((m=P.match(/^<div class="expr">([\s\S]*?)<\/div>/))){
+    const t=m[1].replace(/<span class="blank">[\s\S]*?<\/span>/g,'?').replace(/<[^>]+>/g,'').replace(/\s+/g,'').replace(/−/g,'-').replace(/×/g,'*');
+    if(t.includes(',')){ q.prompt=P.replace(m[0],wrap(cvSeq(t.split(',')),'seq'))+sb; return; }
+    if(!t.includes('=')){ const c=t.match(/^(\d+)\?(\d+)$/); if(c){ q.prompt=P.replace(m[0],m[0]+wrap(cvCmp(+c[1],+c[2]),'cmp'))+sb; } return; }
+    const [L,R]=t.split('='), tk=x=>x.match(/\d+|[+\-*]|\?/g)||[], kn=x=>!x.includes('?');
+    let h='';
+    if(kn(L)&&R==='?') h=cvChain(tk(L)); else if(kn(R)&&L==='?') h=cvChain(tk(R));
+    else if(kn(L)){ const a=tk(L); h=a.length===1?cvMissing(tk(R),+a[0]):cvChain(a); }
+    else if(kn(R)){ const b=tk(R); h=b.length===1?cvMissing(tk(L),+b[0]):cvChain(b); }
+    if(h) q.prompt=P.replace(m[0],m[0]+wrap(h))+sb; return; }
+  /* ② 이야기 문제 */
+  if((m=P.match(/^<div class="pic">([\s\S]*?)<\/div><div class="ptxt sm">([\s\S]*?)<\/div>/))){ const h=cvStory(m[1],m[2]); if(h) q.prompt=P.replace(`<div class="pic">${m[1]}</div>`,wrap(h,'cvst'))+sb; return; }
+  /* ②' 그림 + ? = 10 */
+  if((m=P.match(/^<span class="grp sm">([\s\S]*?)<\/span><span class="op">\+<\/span><span class="blank">\?<\/span><span class="op">=<\/span><span class="num">(\d+)<\/span>/))){
+    const sp=m[1].match(/<span>[\s\S]*?<\/span>/g)||[], a=sp.length, e=(sp[0]||'').replace(/<\/?span>/g,''), t=+m[2];
+    q.prompt=`<div class="expr">${a} + <span class="blank">?</span> = ${t}</div>`+wrap(`<span class="cvit">${Array.from({length:t},(_,i)=>i<a?`<span>${e}</span>`:'<span class="slot"></span>').join('')}</span>`)+sb; return; }
+  /* ②'' 몇 개 더 많아: 두 줄을 왼쪽에 맞춰 하나씩 짝 짓기 */
+  if(P.includes('몇 개 더 많아')){ const gs=P.match(/<span class="grp sm">[\s\S]*?<\/span><\/span>/g)||[];
+    if(gs.length===2){ const row=g=>{ const sp=g.match(/<span>[\s\S]*?<\/span>/g)||[]; return `<span class="cvit row">${sp.join('')}</span>`; };
+      q.prompt=wrap(`<div class="cvrows">${row(gs[0])}${row(gs[1])}</div>`)+'<div class="ptxt">위가 아래보다 몇 개 더 많아?</div>'+sb; } return; }
+  /* ②''' 10의 짝꿍 */
+  if((m=P.match(/<div class="word big2 num">(\d+)<\/div><div class="ptxt">10의 짝꿍은\?<\/div>/))){ const a=+m[1]; q.prompt=P.replace(m[0],`<div class="word big2 num">${a}</div>`+wrap(cvDots([{n:a,c:CVCOL[0],k:'f'},{n:10-a,c:CVCOL[1],k:'d'}]))+'<div class="ptxt">10의 짝꿍은?</div>')+sb; return; }
+  /* ③ a보다 d 큰/작은 수 */
+  if((m=P.match(/(\d+)보다 (\d+) (큰|작은) 수/))){ const a=+m[1], d=+m[2], up=m[3]==='큰';
+    const h=up?(a+d<=30?cvDots([{n:a,c:CVCOL[0],k:'f'},{n:d,c:CVCOL[1],k:'d'}]):cvTen(a)+cvOp('+')+cvOp(d)):(a<=30?cvDots([{n:a-d,c:CVCOL[0],k:'f'},{n:d,c:CVCOL[0],k:'x'}]):cvTen(a)+cvOp('−')+cvOp(d));
+    q.prompt=P.replace(/<div class="word big2 num">\d+<\/div>/,`<div class="word big2 num">${a}</div>`+wrap(h))+sb; return; }
+  /* ④ 모으면 t가 되는 두 수 */
+  if((m=P.match(/모으면 (\d+)가 되는 두 수/))){ q.prompt=P.replace(/(<div class="word big2 num">\d+<\/div>)/,'$1'+wrap(cvDots([{n:+m[1],c:CVCOL[0],k:'f'}])))+sb; return; }
+  /* ⑤ 가르기 · 모으기 (동그라미 그림) */
+  if((m=ask.match(/(\d+)와 (\d+)을 모으면/))){ q.prompt=P+wrap(cvDots([{n:+m[1],c:CVCOL[0],k:'f'},{n:+m[2],c:CVCOL[1],k:'f'}]))+sb; return; }
+  if((m=ask.match(/(\d+)[을를] 가르면 (\d+)와 몇/))){ const t=+m[1], a=+m[2]; q.prompt=P+wrap(cvDots([{n:a,c:CVCOL[0],k:'f'},{n:t-a,c:CVCOL[1],k:'d'}]))+sb; return; }
+  /* ⑥ 먹으면 · 빼면: 없어지는 만큼 X */
+  if((m=P.match(/<div class="ptxt">(\d+)개를 (먹으면|빼면)\?<\/div>/))){ const d=+m[1], ptx=m[0]; let a=null, e=null;
+    const g=P.match(/<span class="grp sm">([\s\S]*?)<\/span><div/);
+    if(g){ const sp=g[1].match(/<span>[\s\S]*?<\/span>/g)||[]; a=sp.length; e=(sp[0]||'').replace(/<\/?span>/g,''); }
+    else { const n=ask.match(/(\d+)개에서/); a=n?+n[1]:null; }
+    if(a){ const h=e&&a<=20?`<span class="cvit">${Array.from({length:a},(_,i)=>`<span${i>=a-d?' class="gx"':''}>${e}</span>`).join('')}</span>`:a<=30?cvDots([{n:a-d,c:CVCOL[1],k:'f'},{n:d,c:CVCOL[1],k:'x'}]):'';
+      if(h) q.prompt=wrap(h)+ptx+sb; } return; }
+  /* ⑦ t개를 a개와 몇 개로 나눌까: 앞의 a개를 묶어서 */
+  if((m=P.match(/(\d+)개를 (\d+)개와 몇 개로 나눌까/))){ const t=+m[1], a=+m[2], e=(P.match(/<span class="grp sm"><span>([\s\S]*?)<\/span>/)||[])[1];
+    if(e){ const ptx=(P.match(/<div class="ptxt">[\s\S]*?<\/div>/)||[''])[0]; q.prompt=wrap(`<span class="cvit sel">${Array.from({length:a},()=>`<span>${e}</span>`).join('')}</span>${cvOp('+')}<span class="cvit">${Array.from({length:t-a},()=>'<span class="slot"></span>').join('')}</span>`)+ptx+sb; } return; }
+}catch(e){} }
+
 const W=(t,cls)=>`<span class="${cls||'word'}">${t}</span>`;
 const picW=(e,w)=>`<span style="display:flex;flex-direction:column;align-items:center;gap:2px"><span class="pic" style="font-size:clamp(46px,12vw,60px)">${e}</span><span class="word" style="font-size:clamp(19px,5vw,30px);white-space:nowrap">${w}</span></span>`;
 const pickOpts=(ok,wrongs,html)=>shuffle([ok,...wrongs]).map(x=>({ok:x===ok,html:html(x)}));
@@ -3045,6 +3187,7 @@ function makeQ(lang,ST,noHear){
   for(const dl of [1,-1,2,-2,3,-3]){ if(!noHear||!q.listen) break; const l=L+dl; if(l<1||l>LMAX) continue; for(let t=0;t<12&&q.listen;t++) q=gen(l); }
   if(noHear && q.listen){ FRESH.last=null;
     q = lang==='en' ? enN(L,true) : lang==='ko' ? kWordQ(freshPick(KW_EASY),'read',3,KW_EASY) : q; q.key=FRESH.last; }
+  if(lang==='calc') cvis(q);
   q.hear=!!q.listen; q.replay=!!q.listen;
   if((lang==='calc'||lang==='think') && !q.voice){ q.voice=q.ask; q.listen=q.listen||false; }
   if(!q.hear){ const v=askVoice(q); q.voice=v.length?v:q.voice; }   /* 보고 푸는 문제도 꼭 읽어 줘요 */
@@ -3337,7 +3480,7 @@ function qPretty(){ try{
   /* 수학: 그림 여러 개(2개 + 3개)는 한 줄로 나란히, 개수 그림 칸은 개수에 맞게 */
   document.querySelectorAll('.qbox.m .prompt').forEach(pr=>{ if(pr.dataset.vr) return; pr.dataset.vr=1;
     const vis=[...pr.children].filter(c=>!c.matches('.ptxt,.speak,.mtxt,.mutebtn'));
-    if(vis.length>1){ const row=document.createElement('div'); row.className='vrow'; pr.insertBefore(row,vis[0]); vis.forEach(c=>row.appendChild(c)); }
+    if(vis.length>1&&!pr.querySelector('.cvis')){ const row=document.createElement('div'); row.className='vrow'; pr.insertBefore(row,vis[0]); vis.forEach(c=>row.appendChild(c)); }
     pr.querySelectorAll(':scope>.grp,:scope>.vrow>.grp').forEach(g=>{ g.style.gridTemplateColumns=`repeat(${Math.min(5,Math.max(1,g.children.length))},1em)`; }); });
   /* 수학: 글 없이 그림만 있는 문제는 짧은 질문을 아래에 보여 줘요 */
   document.querySelectorAll('.qbox.m .prompt').forEach(pr=>{ if(pr.querySelector('.ptxt,.expr,.sent')||!it) return; const t=askText(it); if(t&&t.length<=24){ const d=document.createElement('div'); d.className='ptxt'; d.textContent=t; pr.appendChild(d); } });
@@ -3743,7 +3886,7 @@ window.appBack=function(){
   view='home'; render(); return true;
 };
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && (view==='home'||view==='pick')) render(); else if(document.visibilityState==='hidden') hush(); });
-if(location.hash==='#test') window.__sj={koN3,KO3,todayLetter,tlQs,enN,phQ,phToday,phTodayQs,PH_LV,calcQ,thinkQ,koN,CALC,THINK,KOS,KOS2,MAXS,todayLetter,tlCands,tlQs,todayLetter,tlCands,tlQs,set FRESH(v){FRESH=v;},get Q(){return Q;},hatch,askMerge,mergeAllFriends,objMergeAll,objAllN,countBar,nextMergeLv,freeCnt,mergeAllN,openObjMerge,openVisitPick,visitGift,visitStick,showVisits,get VISIT(){return VISIT;},set VISIT(v){VISIT=v;},otherKids,growHTML,growIdx,studyDays,GROW,askVoice,KW,EW,STG,stIL,finishRound,roundSize,lvProg,XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
+if(location.hash==='#test') window.__sj={cvis,koN3,KO3,todayLetter,tlQs,enN,phQ,phToday,phTodayQs,PH_LV,calcQ,thinkQ,koN,CALC,THINK,KOS,KOS2,MAXS,todayLetter,tlCands,tlQs,todayLetter,tlCands,tlQs,set FRESH(v){FRESH=v;},get Q(){return Q;},hatch,askMerge,mergeAllFriends,objMergeAll,objAllN,countBar,nextMergeLv,freeCnt,mergeAllN,openObjMerge,openVisitPick,visitGift,visitStick,showVisits,get VISIT(){return VISIT;},set VISIT(v){VISIT=v;},otherKids,growHTML,growIdx,studyDays,GROW,askVoice,KW,EW,STG,stIL,finishRound,roundSize,lvProg,XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
 render();
 })();
 </script>
