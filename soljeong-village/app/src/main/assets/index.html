@@ -681,6 +681,7 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-we
 .phb{font-family:var(--fe);font-weight:700;font-size:76px;line-height:1;background:#FFE3F0;border:4px solid var(--ink);border-radius:20px;padding:6px 20px;box-shadow:0 5px 0 var(--ink)}
 .phplus{font-size:48px;font-family:var(--fe)}
 .phl{color:#F06AAE}
+.kc-op{font-family:var(--fe);font-size:40px;font-weight:700;align-self:center}
 .phvids{width:100%;border-top:3px dashed #E5D9F2;padding-top:12px;margin-top:4px}.phv-h{font-size:22px;text-align:center;margin-bottom:8px}.phv-row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
 .phv{display:flex;flex-direction:column;width:220px;background:#fff;border:3px solid var(--ink);border-radius:18px;overflow:hidden;color:var(--ink);text-decoration:none;font-size:16px}.phv img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#eee}.phv span{padding:6px 10px;line-height:1.3}
 .phv.more{justify-content:center;align-items:center;background:#F6F0FF;min-height:150px;text-align:center}.phv .mi{font-size:40px}
@@ -703,7 +704,7 @@ const KO=[['사과','🍎'],['바나나','🍌'],['포도','🍇'],['딸기','�
 const EN=[['apple','🍎'],['cat','🐱'],['dog','🐶'],['sun','☀️'],['ball','⚽'],['car','🚗'],['fish','🐟'],['egg','🥚'],['cake','🍰'],['bear','🐻'],['duck','🦆'],['bus','🚌'],['moon','🌙'],['star','⭐'],['hat','👒'],['cup','🥤'],['milk','🥛'],['tree','🌳'],['bird','🐦'],['banana','🍌'],['frog','🐸'],['pig','🐷'],['cow','🐮'],['book','📕']];
 const PER=5, ROUND=5;
 const SUBJ=[{k:'ko',g:'가나다',ic:'🍎',l:'한글',c:'#FFE074'},{k:'en',g:'ABC',ic:'🐶',l:'영어',c:'#8AE5C6'},{k:'ph',g:'abc',ic:'🔤',l:'파닉스',c:'#D8C4FF'},{k:'calc',g:'1+2',ic:'🍓',l:'연산',c:'#FFC1A0'},{k:'think',g:'?!',ic:'🧩',l:'사고력',c:'#9CD3FF'}];
-const SKEYS=SUBJ.map(x=>x.k), MAXS={ko:24,en:10,ph:20,calc:20,think:15};
+const SKEYS=SUBJ.map(x=>x.k), MAXS={ko:24,en:10,ph:55,calc:20,think:15};
 const objOf=v=>Object.fromEntries(SKEYS.map(k=>[k,typeof v==='function'?v():v]));
 
 /* ---------- 저장 (앱 저장소 + 브라우저 저장소) ---------- */
@@ -2293,8 +2294,9 @@ function tlQs(t){ const out=[];
   return out; }
 
 /* =========================================================
-   파닉스 20단계 — 알파블럭스 Level 1~5 (빨강·주황·노랑·초록·파랑) 순서
-   문제는 모두 그림이 있는 낱말로 내요. 시작할 때 '오늘의 소리' 카드를 먼저 보여 줘요.
+   파닉스 55단계 — 1년 동안 아주 천천히 (알파블럭스 Level 1 → 2 → 3 → 5 순서)
+   1~18 글자 하나씩 · 19~33 세 글자 낱말 가족 · 34~38 나머지 글자와 대문자 · 39~52 두 글자 소리 · 53~55 매직 e
+   시작할 때 '오늘의 글자' 카드를 먼저 보여 줘요. 처음 6단계는 보기 2개만.
    ========================================================= */
 const PS=s=>s.split(' ').map(x=>x.split('|'));
 /* 소리 → [한글로 비슷한 소리, 그 소리로 시작/들어간 낱말들] */
@@ -2303,93 +2305,175 @@ const PSND={s:'스',a:'애',t:'트',p:'프',i:'이',n:'느',m:'므',d:'드',g:'�
 /* 낱말 | 그림 | 강조할 글자(소리) */
 const PW=PS(`sun|☀️|s sock|🧦|s snake|🐍|s seal|🦭|s spoon|🥄|s apple|🍎|a ant|🐜|a axe|🪓|a alligator|🐊|a tiger|🐯|t tomato|🍅|t tent|⛺|t turtle|🐢|t tooth|🦷|t pig|🐷|p pen|🖊️|p pizza|🍕|p panda|🐼|p penguin|🐧|p iguana|🦎|i insect|🐞|i igloo|🛖|i nose|👃|n nest|🪺|n net|🥅|n nut|🥜|n nine|9️⃣|n moon|🌙|m mouse|🐭|m monkey|🐒|m milk|🥛|m map|🗺️|m dog|🐶|d duck|🦆|d doll|🪆|d door|🚪|d drum|🥁|d goat|🐐|g gift|🎁|g grapes|🍇|g guitar|🎸|g gorilla|🦍|g octopus|🐙|o ox|🐂|o olive|🫒|o otter|🦦|o cat|🐱|c car|🚗|c cake|🍰|c cow|🐄|c cup|🥤|c carrot|🥕|c kite|🪁|k key|🔑|k kangaroo|🦘|k king|🤴|k koala|🐨|k duck|🦆|ck sock|🧦|ck rock|🪨|ck lock|🔒|ck egg|🥚|e elephant|🐘|e elf|🧝|e envelope|✉️|e umbrella|☂️|u up|⬆️|u under|⬇️|u rabbit|🐰|r rocket|🚀|r ring|💍|r robot|🤖|r rainbow|🌈|r hat|👒|h horse|🐴|h house|🏠|h hen|🐔|h heart|❤️|h ball|⚽|b bear|🐻|b bus|🚌|b banana|🍌|b bee|🐝|b fish|🐟|f fox|🦊|f frog|🐸|f fork|🍴|f lion|🦁|l leaf|🍃|l lemon|🍋|l log|🪵|l bell|🔔|ll doll|🪆|ll hill|⛰️|ll kiss|💋|ss jellyfish|🪼|j jeans|👖|j juice|🧃|j jet|✈️|j van|🚐|v violin|🎻|v volcano|🌋|v vase|🏺|v web|🕸️|w watch|⌚|w watermelon|🍉|w wolf|🐺|w worm|🪱|w fox|🦊|x box|📦|x six|6️⃣|x yo-yo|🪀|y yak|🐃|y yarn|🧶|y zebra|🦓|z zip|🤐|z zero|0️⃣|z queen|👸|qu question|❓|qu ship|🚢|sh fish|🐟|sh shell|🐚|sh sheep|🐑|sh shirt|👕|sh chip|🍟|ch chick|🐤|ch cheese|🧀|ch chair|🪑|ch cherry|🍒|ch thumb|👍|th bath|🛁|th three|3️⃣|th ring|💍|ng king|🤴|ng swing|🛝|ng rain|🌧️|ai snail|🐌|ai train|🚂|ai mail|📬|ai nail|💅|ai bee|🐝|ee tree|🌳|ee sheep|🐑|ee feet|🦶|ee three|3️⃣|ee queen|👸|ee light|💡|igh night|🌃|igh boat|⛵|oa goat|🐐|oa coat|🧥|oa soap|🧼|oa road|🛣️|oa moon|🌙|oo spoon|🥄|oo zoo|🦓|oo book|📖|oo foot|🦶|oo hook|🪝|oo car|🚗|ar star|⭐|ar jar|🫙|ar shark|🦈|ar arm|💪|ar fork|🍴|or corn|🌽|or horse|🐴|or storm|⛈️|or nurse|🧑‍⚕️|ur purse|👛|ur burger|🍔|ur turtle|🐢|ur cow|🐄|ow owl|🦉|ow crown|👑|ow down|⬇️|ow coin|🪙|oi oil|🛢️|oi ear|👂|ear beard|🧔|ear hair|💇|air chair|🪑|air fair|🎡|air letter|✉️|er hammer|🔨|er ladder|🪜|er tiger|🐯|er butter|🧈|er cake|🍰|a-e snake|🐍|a-e plane|✈️|a-e skate|⛸️|a-e grapes|🍇|a-e gate|🚧|a-e kite|🪁|i-e bike|🚲|i-e five|5️⃣|i-e nine|9️⃣|i-e slide|🛝|i-e dice|🎲|i-e mice|🐭|i-e home|🏠|o-e bone|🦴|o-e rose|🌹|o-e nose|👃|o-e rope|🪢|o-e cone|🍦|o-e cube|🧊|u-e flute|🪈|u-e tube|🧪|u-e mule|🫏|u-e hay|🌾|ay tray|🍽️|ay house|🏠|ou mouse|🐭|ou cloud|☁️|ou mouth|👄|ou pie|🥧|ie tie|👔|ie leaf|🍃|ea sea|🌊|ea tea|🍵|ea peach|🍑|ea bean|🫘|ea boy|👦|oy toy|🧸|oy bird|🐦|ir girl|👧|ir shirt|👕|ir skirt|👗|ir saw|🪚|aw paw|🐾|aw straw|🥤|aw glue|🧴|ue blue|🔵|ue`);
 /* PCVC·묶음 낱말 (그림 있는 것만) */
+const PW2=PS(`giraffe|🦒|ff muffin|🧁|ff dress|👗|ss grass|🌱|ss flight|🛫|igh`); PW.push(...PW2);
 const PCVC=PS(`cat|🐱 hat|👒 bat|🦇 rat|🐀 map|🗺️ cap|🧢 pan|🍳 van|🚐 fan|🪭 can|🥫 tap|🚰 bed|🛏️ hen|🐔 pen|🖊️ net|🥅 web|🕸️ jet|✈️ ten|🔟 leg|🦵 red|🔴 pig|🐷 lip|👄 zip|🤐 six|6️⃣ bin|🗑️ pin|📌 kid|🧒 dog|🐶 log|🪵 fox|🦊 box|📦 pot|🍲 mop|🧹 sun|☀️ bus|🚌 cup|🥤 bug|🐛 mug|☕ nut|🥜 hut|🛖 tub|🛁 duck|🦆 sock|🧦 rock|🪨 lock|🔒 bell|🔔 doll|🪆 hill|⛰️ kiss|💋 jam|🫙 yak|🐃 wig|💇 fig|🫐`);
 const CLU1=PS(`frog|🐸 crab|🦀 drum|🥁 flag|🚩 swan|🦢 spider|🕷️ clap|👏 trumpet|🎺 tree|🌳 grapes|🍇 slide|🛝 star|⭐ snail|🐌 sled|🛷 plum|🫐 glass|🥛 brush|🪥 clock|⏰ snake|🐍 stop|🛑`);
 const CLU2=PS(`hand|✋ lamp|🪔 tent|⛺ milk|🥛 nest|🪺 gift|🎁 belt|🥋 ant|🐜 sink|🚰 desk|🪑 pond|🏞️ jump|🤸 vest|🦺 mask|🎭 wink|😉`);
-const PH_LV=[null,
- {u:['s','a','t','p'],L:1},{u:['i','n','m','d'],L:1},{u:['g','o','c','k'],L:1},{u:['ck','e','u','r'],L:1},{u:['h','b','f','l','ll','ss'],L:1},{u:'cvc',L:1},
- {u:['j','v','w','x'],L:2},{u:['y','z','qu'],L:2},{u:'caps',L:2},
- {u:['sh','ch','th','ng'],L:3},{u:['ai','ee','igh','oa','oo'],L:3},{u:['ar','or','ur','ow','oi'],L:3},{u:['ear','air','er'],L:3},
- {u:'clu1',L:4},{u:'clu2',L:4},
- {u:['a-e'],L:5},{u:['i-e','o-e'],L:5},{u:['u-e'],L:5},{u:['ay','ou','ie','ea','oy','ir','aw','ue'],L:5},{u:'mix',L:5}];
-const PH_ALL=PH_LV.slice(1).flatMap(x=>Array.isArray(x.u)?x.u:[]);
-const phWordsOf=snd=>PW.filter(w=>w[2]===snd);
-/* 낱말에서 소리 글자 위치 (magic e 는 두 글자) */
-function phSpan(w,snd){ if(snd.includes('-')){ const [a,e]=snd.split('-'), i=w.search(new RegExp(a+'[^aeiou]e$')); return i>=0?[i,w.length-1]:null; } const i=w.indexOf(snd); return i>=0?[i,i+snd.length-1]:null; }
+/* 세 글자 낱말 가족 — 1~18단계에서 배운 글자만 써요 */
+const PFAM={at:PS('cat|🐱 hat|👒 bat|🦇 rat|🐀'),an:PS('fan|🪭 pan|🍳 can|🥫 man|👨'),ap:PS('cap|🧢 map|🗺️ tap|🚰 nap|😴'),ig:PS('pig|🐷 dig|⛏️ big|🐘'),in:PS('pin|📌 bin|🗑️ fin|🦈'),ip:PS('lip|👄 sip|🧃 dip|🥣'),
+  og:PS('dog|🐶 log|🪵 fog|🌫️ hog|🐗'),op:PS('mop|🧹 top|🔝 pop|🎈'),ot:PS('pot|🍲 hot|🔥 dot|⚫'),ug:PS('bug|🐛 mug|☕ hug|🤗'),un:PS('sun|☀️ bun|🥯 run|🏃'),ut:PS('nut|🥜 hut|🛖 cut|✂️'),en:PS('hen|🐔 pen|🖊️ ten|🔟'),et:PS('net|🥅 pet|🐕 bed|🛏️ red|🔴')};
+const FAMK=Object.keys(PFAM), FAMALL=FAMK.flatMap(f=>PFAM[f]);
+Object.assign(PSND,{at:'앳',an:'앤',ap:'앱',ig:'이그',in:'인',ip:'입',og:'아그',op:'압',ot:'앗',ug:'어그',un:'언',ut:'엇',en:'엔',et:'엣',ed:'에드'});
+const LET1=['s','a','t','p','i','n','m','d','g','o',['c','k'],'e','u','r','h','b','f','l'];
+const PH_LV=[null].concat(LET1.map(x=>({t:'letter',u:[].concat(x),L:1})),
+  FAMK.map(f=>({t:'fam',f,L:1})),[{t:'mix',L:1}],
+  [['j','v'],['w','x'],['y','z'],['qu']].map(u=>({t:'letter',u,L:2})),[{t:'caps',L:2}],
+  ['sh','ch','th','ng','ck',['ll','ss','ff']].map(u=>({t:'snd',u:[].concat(u),L:3})),
+  ['ee','oo','ai','oa','igh','ar','or','ow'].map(u=>({t:'snd',u:[u],L:3})),
+  ['a-e','i-e','o-e'].map(u=>({t:'snd',u:[u],L:5})));
+const PH_MAX=PH_LV.length-1;
+const PH_ALL=PH_LV.slice(1).flatMap(x=>x.t==='snd'||x.t==='letter'?x.u:[]);
+const phClamp=st=>Math.max(1,Math.min(PH_MAX,st||1));
+const dedupW=a=>{ const s=new Set(); return a.filter(w=>!s.has(w[0])&&s.add(w[0])); };
+const phWordsOf=snd=>dedupW(PW.filter(w=>w[2]===snd).concat(['ck','ll','ss','ff'].includes(snd)?PCVC.filter(w=>w[0].includes(snd)).map(w=>[w[0],w[1],snd]):[]));
+/* 그 글자로 시작하는 낱말 (x 는 끝에 있는 낱말) */
+const phLetWords=c=>c==='x'?PW.filter(w=>w[2]==='x'):PW.filter(w=>w[2]===c&&w[0].startsWith(c));
+function phSpan(w,snd){ if(snd.includes('-')){ const [a]=snd.split('-'), i=w.search(new RegExp(a+'[^aeiou]e$')); return i>=0?[i,w.length-1]:null; } const i=snd.length>1&&PFAM[snd]?w.lastIndexOf(snd):w.indexOf(snd); return i>=0?[i,i+snd.length-1]:null; }
 const phHl=(w,snd)=>{ const sp=phSpan(w,snd); if(!sp) return w; if(snd.includes('-')) return [...w].map((c,i)=>i===sp[0]||i===sp[1]?`<b class="phl">${c}</b>`:c).join(''); return w.slice(0,sp[0])+`<b class="phl">${w.slice(sp[0],sp[1]+1)}</b>`+w.slice(sp[1]+1); };
 const phPic=x=>`<span class="pic">${x[1]}</span>`;
 const phWord=t=>`<span class="word en">${t}</span>`;
 const phAsk=(ko,en)=>en?[[ko,'ko'],[en,'en']]:say1(ko);
-function phPool(st){ const lv=PH_LV[st]; if(Array.isArray(lv.u)) return lv.u.flatMap(phWordsOf).map(w=>[w[0],w[1],w[2]]);
-  if(lv.u==='cvc'||lv.u==='caps') return PCVC.map(w=>[w[0],w[1],null]); if(lv.u==='clu1') return CLU1.map(w=>[w[0],w[1],null]); if(lv.u==='clu2') return CLU2.map(w=>[w[0],w[1],null]);
-  return PW.concat(PCVC).map(w=>[w[0],w[1],w[2]||null]); }
-const phLearned=st=>PH_LV.slice(1,st+1).flatMap(x=>Array.isArray(x.u)?x.u:[]);
-/* ① 그림 + 빈칸: _at, d_g, fi__ */
-function phBlank(w,snd,learned){ const sp=snd?phSpan(w[0],snd):null; let i0,i1,ans;
+const phNo=st=>st<=6?2:st<=33?3:4;
+const phLetters=st=>PH_LV.slice(1,phClamp(st)+1).filter(x=>x.t==='letter').flatMap(x=>x.u);
+const phFamsTo=st=>PH_LV.slice(1,phClamp(st)+1).filter(x=>x.t==='fam').map(x=>x.f);
+const phLearned=st=>PH_LV.slice(1,phClamp(st)+1).flatMap(x=>x.t==='snd'?x.u:[]);
+const LETORD=LET1.flat().concat(['j','v','w','y','z']);
+const SAMES={c:'k',k:'c'};
+/* 보기용 다른 글자: 배운 글자 먼저, 모자라면 다음에 배울 글자 */
+function phOtherLetters(ans,st,n){ const bad=new Set([ans,SAMES[ans]]); const learned=phLetters(st).filter(x=>x.length===1&&!bad.has(x));
+  let out=shuffle(learned).slice(0,n); if(out.length<n) out=out.concat(LETORD.filter(x=>!bad.has(x)&&!out.includes(x)).slice(0,n-out.length)); return out; }
+const startsSame=(w,c)=>w[0].startsWith(c)||(SAMES[c]&&w[0].startsWith(SAMES[c]));
+function phPool(st){ const lv=PH_LV[phClamp(st)];
+  if(lv.t==='letter') return lv.u.flatMap(phLetWords).map(w=>[w[0],w[1],w[2]]);
+  if(lv.t==='fam') return PFAM[lv.f].map(w=>[w[0],w[1],null]);
+  if(lv.t==='mix') return FAMALL.map(w=>[w[0],w[1],null]);
+  if(lv.t==='snd') return lv.u.flatMap(phWordsOf).map(w=>[w[0],w[1],w[2]]);
+  return PCVC.map(w=>[w[0],w[1],null]); }
+const uPic=(arr,w)=>{ const seen=new Set([w[1]]); return arr.filter(x=>x[0]!==w[0]&&!seen.has(x[1])&&seen.add(x[1])); };
+const Q0=(w,note,ask,prompt,opts)=>({learn:w?LW(w[0],w[1],'en'):undefined,note,ask,praise:w?[[cheerK(),'ko'],[w[0],'en']]:say1(cheerK()),prompt:prompt+speakBtn,opts});
+
+/* ---------- 1~18, 34~37: 글자 하나씩 ---------- */
+/* ① 그림 → 첫 글자 (x 는 끝 글자) */
+function lFirst(w,st){ const no=phNo(st), c=w[2];
+  if(c==='x'){ const shown=w[0].replace('x','<span class="blank">_</span>');
+    return Q0(w,`${w[0]} → x`,phAsk('그림을 보고 빈칸에 들어갈 글자를 골라 볼까요?',w[0]),`${phPic(w)}<div class="word en">${shown}</div>`,wordOpts('x',phOtherLetters('x',st,no-1),'word en big2')); }
+  return Q0(w,`${w[0]} → ${c}`,phAsk('그림의 이름은 어떤 글자로 시작할까요?',w[0]),`${phPic(w)}<div class="ptxt">무슨 글자로 시작할까?</div>`,wordOpts(c,phOtherLetters(c,st,no-1),'word en big2')); }
+/* ② 글자 → 그 글자로 시작하는 그림 */
+function lPic(c,st){ const no=phNo(st), ws=phLetWords(c); if(!ws.length) return null; const w=pick(ws);
+  const others=shuffle(phOtherLetters(c,st,6).flatMap(x=>phLetWords(x).filter(o=>!startsSame(o,c)&&!o[0].includes(c)))); const wr=uPic(others,w).slice(0,no-1);
+  if(wr.length<no-1) return null;
+  const txt=c==='x'?`${PSND.x} 소리가 들어 있는 그림을 골라 볼까요?`:`${c} 로 시작하는 그림을 골라 볼까요?`;
+  return Q0(w,`${c} → ${w[0]}`,[[c==='x'?txt:`${PSND[c]||c} 소리로 시작하는 그림을 골라 볼까요?`,'ko']],`<div class="word big2 en">${c}</div><div class="ptxt">${c==='x'?'x 가 들어 있는 그림은?':c+' 로 시작하는 그림은?'}</div>`,pickOpts(w,wr,phPic)); }
+/* ③ 똑같은 글자 찾기 */
+function lSame(c,st){ const no=phNo(st), wr=phOtherLetters(c,st,no-1);
+  return Q0(null,`${c} = ${c}`,say1('위의 글자와 똑같은 글자를 찾아볼까요?'),`<div class="word big2 en">${c}</div><div class="ptxt">똑같은 글자는?</div>`,wordOpts(c,wr,'word en big2')); }
+function letterQ(st){ const lv=PH_LV[st], c=pick(lv.u), ws=phLetWords(c);
+  const T=[()=>lFirst(pick(ws),st),()=>lFirst(pick(ws),st),()=>lPic(c,st),()=>lPic(c,st),()=>lSame(c,st)];
+  if(st<=6) T.push(()=>lSame(c,st));
+  return pick(T)(); }
+
+/* ---------- 19~33: 세 글자 낱말 가족 (c + at = cat) ---------- */
+const famOf=w=>FAMK.find(f=>PFAM[f].some(o=>o[0]===w[0]));
+const rimeOf=w=>w[0].slice(1);
+/* 보기용 그림: 같은 가족 먼저, 모자라면 앞에서 배운 가족 */
+function famWrong(w,st,n){ const f=famOf(w), mine=shuffle(PFAM[f].slice()), prev=shuffle(phFamsTo(st).filter(x=>x!==f).flatMap(x=>PFAM[x]));
+  return uPic(mine.concat(prev),w).slice(0,n); }
+/* ① 그림 + _at → 첫 글자 */
+function fBlank(w,st){ const no=phNo(st), f=famOf(w), ans=w[0][0];
+  let wr=uniqA(PFAM[f].map(o=>o[0][0]).filter(x=>x!==ans)); wr=shuffle(wr).slice(0,no-1); if(wr.length<no-1) wr=wr.concat(phOtherLetters(ans,18,no-1).filter(x=>!wr.includes(x))).slice(0,no-1);
+  return Q0(w,`${w[0]} = ${ans} + ${rimeOf(w)}`,phAsk('그림을 보고 앞에 들어갈 글자를 골라 볼까요?',w[0]),`${phPic(w)}<div class="word en"><span class="blank">_</span>${rimeOf(w)}</div>`,wordOpts(ans,wr,'word en big2')); }
+/* ② c + at → 그림 */
+function fBlend(w,st){ const no=phNo(st), wr=famWrong(w,st,no-1); if(wr.length<no-1) return null;
+  return Q0(w,`${w[0][0]} + ${rimeOf(w)} = ${w[0]}`,say1('글자를 이어서 읽고 맞는 그림을 골라 볼까요?'),`<div class="phblocks"><span class="phb">${w[0][0]}</span><span class="phplus">+</span><span class="phb">${rimeOf(w)}</span></div>`,pickOpts(w,wr,phPic)); }
+/* ③ 그림 → 낱말 */
+function fRead(w,st){ const no=phNo(st), wr=famWrong(w,st,no-1); if(wr.length<no-1) return null;
+  return Q0(w,w[0],say1('그림을 보고 맞는 낱말을 골라 볼까요?'),phPic(w),wordOpts(w[0],wr.map(x=>x[0]),'word en')); }
+/* ④ 낱말 → 그림 */
+function fPick(w,st){ const no=phNo(st), wr=famWrong(w,st,no-1); if(wr.length<no-1) return null;
+  return Q0(w,w[0],say1('낱말을 읽고 맞는 그림을 골라 볼까요?'),phWord(w[0]),pickOpts(w,wr,phPic)); }
+function famQ(st){ const lv=PH_LV[st], pool=lv.t==='mix'?FAMALL:PFAM[lv.f], w=pick(pool);
+  const T=st<=21?[fBlank,fBlank,fBlend,fBlend,fRead,fPick]:[fBlank,fBlend,fRead,fRead,fPick,fPick];
+  return pick(T)(w,st); }
+
+/* ---------- 38: 대문자 짝 ---------- */
+function phCaps(st){ const no=phNo(st), Ls='ABDEFGHLMNQRTY'.split(''), L=pick(Ls), wr=shuffle(Ls.filter(x=>x!==L).map(x=>x.toLowerCase())).slice(0,no-1);
+  return Q0(null,`${L} 의 짝은 ${L.toLowerCase()}`,say1('대문자의 짝꿍 소문자를 찾아볼까요?'),`<div class="word big2 en">${L}</div>`,wordOpts(L.toLowerCase(),wr,'word en big2')); }
+
+/* ---------- 39~55: 두 글자 소리 · 모음 짝 · 매직 e ---------- */
+const sndPoolTo=st=>dedupW(PH_LV.slice(39,phClamp(st)+1).filter(x=>x.t==='snd').flatMap(x=>x.u.flatMap(phWordsOf)).concat(FAMALL.map(w=>[w[0],w[1],null])));
+function phBlank(w,snd,learned,no){ const sp=snd?phSpan(w[0],snd):null; let i0,i1,ans;
   if(sp&&!snd.includes('-')){ [i0,i1]=sp; ans=snd; }
   else { const k=RI(0,w[0].length-1); i0=i1=k; ans=w[0][k]; if(!/[a-z]/.test(ans)) return null; }
-  const pool=uniqA((ans.length>1?PH_ALL.filter(x=>x.length===ans.length&&!x.includes('-')):'abcdefghijklmnoprstuvwz'.split('')).concat(learned.filter(x=>x.length===ans.length&&!x.includes('-'))));
-  const wr=shuffle(pool.filter(x=>x!==ans)).filter(x=>!PW.concat(PCVC).some(o=>o[0]===w[0].slice(0,i0)+x+w[0].slice(i1+1))).slice(0,3);
+  const pool=uniqA((ans.length>1?PH_ALL.filter(x=>x.length===ans.length&&!x.includes('-')):'abcdefghilmnoprstu'.split('')).concat(learned.filter(x=>x.length===ans.length&&!x.includes('-'))));
+  const wr=shuffle(pool.filter(x=>x!==ans)).filter(x=>!PW.concat(PCVC,FAMALL).some(o=>o[0]===w[0].slice(0,i0)+x+w[0].slice(i1+1))).slice(0,no-1);
   if(wr.length<2) return null;
   const shown=w[0].slice(0,i0)+'<span class="blank">'+'_'.repeat(ans.length)+'</span>'+w[0].slice(i1+1);
-  return {learn:LW(w[0],w[1],'en'),note:`${w[0]}: ${ans}`,ask:phAsk('그림을 보고 빈칸에 들어갈 글자를 골라 볼까요?',w[0]),praise:[[cheerK(),'ko'],[w[0],'en']],prompt:`${phPic(w)}<div class="word en">${shown}</div>${speakBtn}`,opts:wordOpts(ans,wr,'word en')}; }
-/* ② 블렌딩: c + a + t → 그림 */
-const uPic=(arr,w)=>{ const seen=new Set([w[1]]); return arr.filter(x=>x[0]!==w[0]&&!seen.has(x[1])&&seen.add(x[1])); };
-function phBlend(w,pool){ const parts=w[0].replace(/-/g,'').split(''); const wr=uPic(shuffle(pool),w).slice(0,3);
-  if(wr.length<2) return null;
-  return {learn:LW(w[0],w[1],'en'),note:`${parts.join(' + ')} = ${w[0]}`,ask:say1('글자를 이어서 읽고 맞는 그림을 골라 볼까요?'),praise:[[cheerK(),'ko'],[w[0],'en']],prompt:`<div class="phblocks">${parts.map(c=>`<span class="phb">${c}</span>`).join('<span class="phplus">+</span>')}</div>${speakBtn}`,opts:pickOpts(w,wr,phPic)}; }
-/* ③ 그림 보고 낱말 고르기 (한 글자만 다른 낱말) */
-function phRead(w,snd){ const set=new Set(); const vow=['a','e','i','o','u'], cons='bcdfghjklmnprstvwz'.split('');
-  for(let g=0;g<40&&set.size<3;g++){ const k=RI(0,w[0].length-1), ch=w[0][k]; if(!/[a-z]/.test(ch)) continue; const rep=pick(vow.includes(ch)?vow:cons); if(rep===ch) continue; const nw=w[0].slice(0,k)+rep+w[0].slice(k+1); if(!PW.concat(PCVC).some(o=>o[0]===nw&&o[1]!==w[1])) set.add(nw); }
+  return Q0(w,`${w[0]}: ${ans}`,phAsk('그림을 보고 빈칸에 들어갈 글자를 골라 볼까요?',w[0]),`${phPic(w)}<div class="word en">${shown}</div>`,wordOpts(ans,wr,'word en')); }
+function phBlend(w,pool,no){ const parts=w[0].replace(/-/g,'').split(''); const wr=uPic(shuffle(pool),w).slice(0,no-1); if(wr.length<2) return null;
+  return Q0(w,`${parts.join(' + ')} = ${w[0]}`,say1('글자를 이어서 읽고 맞는 그림을 골라 볼까요?'),`<div class="phblocks">${parts.map(c=>`<span class="phb">${c}</span>`).join('<span class="phplus">+</span>')}</div>`,pickOpts(w,wr,phPic)); }
+function phRead(w,no){ const set=new Set(); const vow=['a','e','i','o','u'], cons='bcdfghjklmnprstvwz'.split('');
+  for(let g=0;g<60&&set.size<no-1;g++){ const k=RI(0,w[0].length-1), ch=w[0][k]; if(!/[a-z]/.test(ch)) continue; const rep=pick(vow.includes(ch)?vow:cons); if(rep===ch) continue; const nw=w[0].slice(0,k)+rep+w[0].slice(k+1); if(!PW.concat(PCVC,FAMALL).some(o=>o[0]===nw)) set.add(nw); }
   if(set.size<2) return null;
-  return {learn:LW(w[0],w[1],'en'),note:w[0],ask:say1('그림을 보고 맞는 낱말을 골라 볼까요?'),praise:[[cheerK(),'ko'],[w[0],'en']],prompt:`${phPic(w)}${speakBtn}`,opts:wordOpts(w[0],[...set],'word en')}; }
-/* ④ 낱말 읽고 그림 고르기 */
-function phPick(w,pool){ const wr=uPic(shuffle(pool),w).slice(0,3); if(wr.length<2) return null;
-  return {learn:LW(w[0],w[1],'en'),note:w[0],ask:say1('낱말을 읽고 맞는 그림을 골라 볼까요?'),praise:[[cheerK(),'ko'],[w[0],'en']],prompt:`${phWord(w[0])}${speakBtn}`,opts:pickOpts(w,wr,phPic)}; }
-/* ⑤ 그림 보고 첫 소리 글자 고르기 */
-function phFirst(w,learned){ const ans=w[2]&&w[0].startsWith(w[2])?w[2]:w[0][0]; const wr=shuffle(uniqA(learned.concat('bcdfghlmnprstw'.split(''))).filter(x=>x!==ans&&!x.includes('-')&&x.length<=2)).slice(0,3);
-  return {learn:LW(w[0],w[1],'en'),note:`${w[0]} → ${ans}`,ask:phAsk('그림의 이름은 어떤 글자로 시작할까요?',w[0]),praise:[[cheerK(),'ko'],[w[0],'en']],prompt:`${phPic(w)}<div class="ptxt">무슨 글자로 시작할까?</div>${speakBtn}`,opts:wordOpts(ans,wr,'word en')}; }
-/* ⑥ 대문자 짝 */
-function phCaps(){ const L=pick('ABDEFGHLMNQRT'.split('')), wr=shuffle('abdefghlmnqrt'.split('').filter(x=>x!==L.toLowerCase())).slice(0,3);
-  return {note:`${L} 의 짝은 ${L.toLowerCase()}`,ask:say1('대문자의 짝꿍 소문자를 찾아볼까요?'),praise:say1(`${cheerK()}`),prompt:`<div class="word big2 en">${L}</div>${speakBtn}`,opts:wordOpts(L.toLowerCase(),wr,'word en')}; }
-function phQ(st){ const lv=PH_LV[Math.max(1,Math.min(20,st))], pool=phPool(st), learned=phLearned(st);
-  const T=[()=>{ const w=pick(pool); return phBlank(w,w[2],learned); },()=>{ const w=pick(pool); return phBlank(w,w[2],learned); },
-    ()=>phBlend(pick(pool.filter(w=>w[0].length<=6)),pool),()=>phRead(pick(pool),null),()=>phPick(pick(pool),pool)];
-  if(st<=8&&Array.isArray(lv.u)) T.push(()=>phFirst(pick(pool.filter(w=>w[2]&&w[0].startsWith(w[2]))),learned));
-  if(lv.u==='caps') T.push(phCaps,phCaps,phCaps);
-  /* 앞 단계 복습 */
-  if(st>1) T.push(()=>{ const s0=RI(1,st-1), p0=phPool(s0), w=pick(p0); return phBlank(w,w[2],phLearned(s0)); });
-  let q=null,g=0; while(!q&&g++<30){ try{ q=pick(T)(); }catch(e){ q=null; } }
-  return q||phPick(pick(PCVC),PCVC); }
+  return Q0(w,w[0],say1('그림을 보고 맞는 낱말을 골라 볼까요?'),phPic(w),wordOpts(w[0],[...set],'word en')); }
+function phPick(w,pool,no){ const wr=uPic(shuffle(pool),w).slice(0,no-1); if(wr.length<2) return null;
+  return Q0(w,w[0],say1('낱말을 읽고 맞는 그림을 골라 볼까요?'),phWord(w[0]),pickOpts(w,wr,phPic)); }
+function phFirst(w,learned,no){ const ans=w[2]; const wr=shuffle(uniqA(learned.filter(x=>x.length===ans.length&&!x.includes('-')).concat(PH_ALL.filter(x=>x.length===ans.length&&!x.includes('-')))).filter(x=>x!==ans)).slice(0,no-1);
+  return Q0(w,`${w[0]} → ${ans}`,phAsk('그림의 이름은 어떤 소리로 시작할까요?',w[0]),`${phPic(w)}<div class="ptxt">무슨 소리로 시작할까?</div>`,wordOpts(ans,wr,'word en')); }
+function sndQ(st){ const no=phNo(st), pool=phPool(st), learned=phLearned(st), big=sndPoolTo(st);
+  const T=[()=>{ const w=pick(pool); return phBlank(w,w[2],learned,no); },()=>{ const w=pick(pool); return phBlank(w,w[2],learned,no); },
+    ()=>phBlend(pick(pool.filter(w=>w[0].length<=6)),big,no),()=>phRead(pick(pool),no),()=>phPick(pick(pool),big,no)];
+  const st0=pool.filter(w=>w[2]&&!w[2].includes('-')&&w[0].startsWith(w[2])); if(st0.length) T.push(()=>phFirst(pick(st0),learned,no));
+  return pick(T)(); }
 
-/* ---------- 오늘의 소리 카드 ---------- */
-function phToday(p){ const st=lvOf(p,'ph'); const lv=PH_LV[st]; let list=Array.isArray(lv.u)?lv.u:null;
-  if(!list){ if(lv.u==='caps') return null; list=lv.u==='mix'?PH_ALL:lv.u==='cvc'?['a','e','i','o','u']:lv.u==='clu1'?['fr','cr','dr','fl','sw','sp','cl','tr','sl','st','sn','gr']:['nd','mp','nt','lk','st','ft','nk','sk']; }
-  const day=Math.floor((Date.now()+9*36e5)/864e5), snd=list[(day+(who==='jeong'?2:0))%list.length];
-  let words=phWordsOf(snd).map(w=>[w[0],w[1]]);
-  if(!words.length) words=PCVC.concat(CLU1,CLU2).filter(w=>w[0].includes(snd));
+/* 한 단계 문제 + 앞 단계 복습 (30%) */
+function phCore(st){ const lv=PH_LV[st];
+  return lv.t==='letter'?letterQ(st):lv.t==='fam'||lv.t==='mix'?famQ(st):lv.t==='caps'?phCaps(st):sndQ(st); }
+function phQ(st){ st=phClamp(st); let q=null,g=0;
+  while(!q&&g++<30){ try{ let s0=st;
+      if(st>1&&Math.random()<0.3){ s0=RI(Math.max(1,st-8),st-1); }
+      q=phCore(s0); if(q&&s0!==st&&PH_LV[st].t!=='letter'&&PH_LV[s0].t==='letter'){ /* 복습도 지금 단계 보기 개수로 */ } }catch(e){ q=null; } }
+  return q||Object.assign(lSame('s',1),{fb:1}); }
+
+/* ---------- 오늘의 글자 / 낱말 가족 / 소리 카드 ---------- */
+function phToday(p){ const st=phClamp(lvOf(p,'ph')), lv=PH_LV[st];
+  const day=Math.floor((Date.now()+9*36e5)/864e5)+(who==='jeong'?1:0);
+  if(lv.t==='caps') return null;
+  if(lv.t==='fam'||lv.t==='mix'){ const f=lv.t==='fam'?lv.f:FAMK[day%FAMK.length], ws=PFAM[f], w0=ws[day%ws.length], r=rimeOf(w0);
+    const words=[w0].concat(ws.filter(w=>w!==w0&&rimeOf(w)===r)).slice(0,3);
+    return {st,fam:1,snd:r,words,ko:PSND[r]||r}; }
+  const snd=lv.u[day%lv.u.length]; const words=(lv.t==='letter'?phLetWords(snd):phWordsOf(snd)).map(w=>[w[0],w[1]]);
   if(!words.length) return null;
-  return {snd,words:words.slice(0,3),ko:PSND[snd]||snd}; }
-function phSay(t){ return [['오늘의 소리예요.','ko'],PAUSE,[`${t.ko}, ${t.ko},`,'ko'],[t.words[0][0],'en'],PAUSE,[`${t.ko}, ${t.ko},`,'ko'],[t.words[0][0],'en'],PAUSE].concat(t.words.flatMap(w=>[[w[0],'en'],['','p',450]])); }
+  return {st,letter:lv.t==='letter'?1:0,snd,words:words.slice(0,3),ko:PSND[snd]||snd}; }
+function phSay(t){
+  if(t.fam) return [['오늘의 낱말 가족이에요.','ko'],PAUSE,[`${t.ko}, ${t.ko},`,'ko'],PAUSE].concat(t.words.flatMap(w=>[[`${PSND[w[0][0]]}, ${t.ko},`,'ko'],[w[0],'en'],['','p',500]]));
+  return [[t.letter?'오늘의 글자예요.':'오늘의 소리예요.','ko'],PAUSE,[`${t.ko}, ${t.ko},`,'ko'],[t.words[0][0],'en'],PAUSE,[`${t.ko}, ${t.ko},`,'ko'],[t.words[0][0],'en'],PAUSE].concat(t.words.flatMap(w=>[[w[0],'en'],['','p',450]])); }
 function rPhCard(){
   const p=P[who], t=phToday(p); if(!t) return startQuiz('ph',true);
-  const w0=t.words[0], line=`<div class="kc-line" data-act="phsay"><span class="kc-t"><b class="en">${t.snd}</b><small>${t.ko}</small></span><span class="kc-t"><b class="en">${t.snd}</b><small>${t.ko}</small></span><span class="kc-t"><b class="en" style="font-size:44px">${phHl(w0[0],t.snd)}</b><small>${w0[1]}</small></span></div>`;
-  app.innerHTML=topbar()+`<div class="kcard"><div class="kc-h">오늘의 소리</div>
-    <button class="kc-big press en" data-act="phsay">${t.snd}</button><div class="kc-eq">[${t.ko}] 소리</div>
-    <div class="kc-lines">${line}${line}</div>
+  const w0=t.words[0], T=(b,s,big)=>`<span class="kc-t"><b class="en"${big?' style="font-size:44px"':''}>${b}</b><small>${s}</small></span>`;
+  const line=t.fam?`<div class="kc-line" data-act="phsay">${T(w0[0][0],PSND[w0[0][0]])}<span class="kc-op">+</span>${T(t.snd,t.ko)}<span class="kc-op">=</span>${T(phHl(w0[0],t.snd),w0[1],1)}</div>`
+    :`<div class="kc-line" data-act="phsay">${T(t.snd,t.ko)}${T(t.snd,t.ko)}${T(phHl(w0[0],t.snd),w0[1],1)}</div>`;
+  const head=t.fam?'오늘의 낱말 가족':t.letter?'오늘의 글자':'오늘의 소리';
+  app.innerHTML=topbar()+`<div class="kcard"><div class="kc-h">${head}</div>
+    <button class="kc-big press en" data-act="phsay">${t.fam?'-'+t.snd:t.snd}</button><div class="kc-eq">[${t.ko}] 소리${t.fam?' · 앞 글자만 바꿔 읽어요':''}</div>
+    <div class="kc-lines">${line}${t.fam?'':line}</div>
     <div class="kc-words">${t.words.map(w=>`<button class="kc-w press" data-act="phword" data-w="${w[0]}">${picW(w[1],`<span class="en">${phHl(w[0],t.snd)}</span>`)}</button>`).join('')}</div>
-    <button class="btn y press kc-go" data-act="phgo">알았어요! 문제 풀기 ▶</button>${phVideos(lvOf(p,'ph'),t.snd)}</div>`;
+    <button class="btn y press kc-go" data-act="phgo">알았어요! 문제 풀기 ▶</button>${phVideos(t.st,t.snd)}</div>`;
   p.phcardDay=dkey(); save();
   later(()=>speakSeq(phSay(t)),300);
 }
-function phTodayQs(t){ const out=[]; t.words.slice(0,2).forEach((w,k)=>{ const ww=[w[0],w[1],t.snd]; const q=k===0?phBlank(ww,t.snd,PH_ALL):phPick(ww,PW.concat(PCVC).map(x=>[x[0],x[1]])); if(q) out.push(q); }); return out; }
+/* 카드에서 본 글자로 첫 두 문제 */
+function phTodayQs(t){ const out=[], st=t.st, no=phNo(st);
+  if(t.fam){ const ws=t.words.map(w=>FAMALL.find(o=>o[0]===w[0])); [fBlank(ws[0],st),fBlend(ws[1]||ws[0],st)].forEach(q=>q&&out.push(q)); return out; }
+  if(t.letter){ const ws=phLetWords(t.snd); [lFirst(ws.find(w=>w[0]===t.words[0][0])||ws[0],st),lPic(t.snd,st)].forEach(q=>q&&out.push(q)); return out; }
+  t.words.slice(0,2).forEach((w,k)=>{ const ww=[w[0],w[1],t.snd]; const q=k===0?phBlank(ww,t.snd,phLearned(st),no):phPick(ww,sndPoolTo(st),no); if(q) out.push(q); }); return out; }
 
 /* 알파블럭스 영상 (유튜브 앱으로 열려요) */
-const PH_VID={1:[['B8Wf1EadpqE','Alphablocks - Red Level One']],2:[['WMhNV50ekJ8','Alphablocks - Orange Level Two']],3:[['MfqlWu1fR_k','Alphablocks - Yellow Level Three']],4:[],5:[['JPcKbT8DqMI','Alphablocks - Magic Letter E'],['VTNG-HglpU4','Learn to Read OW, OE, OA and O_E']],cvc:[['uQT_wEw46nw','Word Magic 3 Letter Words!']]};
-const PH_LVNAME={1:'빨강 Level 1',2:'주황 Level 2',3:'노랑 Level 3',4:'초록 Level 4',5:'파랑 Level 5'};
-function phVideos(st,snd){ const lv=PH_LV[st], L=lv.L, vids=(lv.u==='cvc'?PH_VID.cvc:[]).concat(PH_VID[L]||[]);
-  const q=encodeURIComponent('alphablocks '+(snd&&!/^(fr|cr|dr|fl|sw|sp|cl|tr|sl|st|sn|gr|nd|mp|nt|lk|ft|nk|sk)$/.test(snd)?snd.replace('-','_'):(L===4?'consonant blends':PH_LVNAME[L].split(' ')[0]+' level')));
-  return `<div class="phvids"><div class="phv-h">📺 알파블럭스 영상 (${PH_LVNAME[L]})</div><div class="phv-row">${vids.map(v=>`<a class="phv press" href="https://www.youtube.com/watch?v=${v[0]}"><img src="https://i.ytimg.com/vi/${v[0]}/hqdefault.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><span>▶ ${v[1]}</span></a>`).join('')}<a class="phv more press" href="https://www.youtube.com/results?search_query=${q}"><span class="mi">🔎</span><span>'${snd||PH_LVNAME[L]}' 영상 더 찾기</span></a></div></div>`; }
+const PH_VID={1:[['B8Wf1EadpqE','Alphablocks - Red Level One']],2:[['WMhNV50ekJ8','Alphablocks - Orange Level Two']],3:[['MfqlWu1fR_k','Alphablocks - Yellow Level Three']],5:[['JPcKbT8DqMI','Alphablocks - Magic Letter E'],['VTNG-HglpU4','Learn to Read OW, OE, OA and O_E']],cvc:[['uQT_wEw46nw','Word Magic 3 Letter Words!']]};
+const PH_LVNAME={1:'빨강 Level 1',2:'주황 Level 2',3:'노랑 Level 3',5:'파랑 Level 5'};
+function phVideos(st,snd){ const lv=PH_LV[phClamp(st)], L=lv.L, fam=lv.t==='fam'||lv.t==='mix', vids=(fam?PH_VID.cvc:[]).concat(PH_VID[L]||[]);
+  const key=fam?'word magic '+snd:lv.t==='caps'?'capital letters':snd?snd.replace('-','_'):PH_LVNAME[L].split(' ')[0]+' level';
+  const q=encodeURIComponent('alphablocks '+key);
+  return `<div class="phvids"><div class="phv-h">📺 알파블럭스 영상 (${PH_LVNAME[L]})</div><div class="phv-row">${vids.map(v=>`<a class="phv press" href="https://www.youtube.com/watch?v=${v[0]}"><img src="https://i.ytimg.com/vi/${v[0]}/hqdefault.jpg" alt="" loading="lazy" onerror="this.style.display='none'"><span>▶ ${v[1]}</span></a>`).join('')}<a class="phv more press" href="https://www.youtube.com/results?search_query=${q}"><span class="mi">🔎</span><span>'${fam?'-'+snd:snd||PH_LVNAME[L]}' 영상 더 찾기</span></a></div></div>`; }
 
 const W=(t,cls)=>`<span class="${cls||'word'}">${t}</span>`;
 const picW=(e,w)=>`<span style="display:flex;flex-direction:column;align-items:center;gap:2px"><span class="pic" style="font-size:clamp(46px,12vw,60px)">${e}</span><span class="word" style="font-size:clamp(19px,5vw,30px);white-space:nowrap">${w}</span></span>`;
@@ -2822,11 +2906,12 @@ function lvOf(p,k){
     SKEYS.forEach(x=>{ p.hist[x]=p.hist[x]||[]; if(p.qx&&p.qx[x]==null) p.qx[x]=0; }); if(p.qx&&p.qx.math){ p.qx.calc=p.qx.math; p.qx.think=p.qx.math; }
     p.hist.ko=[]; p.today=p.today||{}; if(p.today.math){ p.today.calc=true; p.today.think=true; } p.v11new=1; }
   if(!p.v12){ p.v12=1; const o=Math.max(1,Math.min(24,p.lv.ko||1)); p.lv.ko=[0,1,1,1,1,1,1,10,10,17,17,19,20,20,20,20,20,21,21,22,22,23,23,24,24][o]; p.hist.ko=[]; }
+  if(!p.ph2){ p.ph2=1; p.lv.ph=1; p.hist.ph=[]; }
   return Math.max(1,Math.min(MAXS[k]||10,p.lv[k]||1));
 }
 const BOOK={
   ko:['','기적의 한글학습 1권 1단계','기적의 한글학습 1권 2단계','기적의 한글학습 1권 3~4단계','기적의 한글학습 1권 5~6단계','기적의 한글학습 1·2권 7~8단계','기적의 한글학습 2권 9~10단계','기적의 한글학습 2권 11~12단계','기적의 한글학습 2권 13~14단계','기적의 한글학습 1·2권 복습','기적의 한글학습 3권 15단계','기적의 한글학습 3권 16단계','기적의 한글학습 3권 17단계','기적의 한글학습 3권 18단계','기적의 한글학습 3권 19단계','기적의 한글학습 3권 20~21단계','기적의 한글학습 3권 복습','기적의 한글학습 4권 22~23단계','기적의 한글학습 4권 24~28단계','기적의 한글학습 5권 29~33단계','기탄국어 C-4집 (문장)','초1 국어','초1 국어','초2 국어','초2 국어'],
-  ph:['','알파블럭스 Level 1 빨강','알파블럭스 Level 1 빨강','알파블럭스 Level 1 빨강','알파블럭스 Level 1 빨강','알파블럭스 Level 1 빨강','알파블럭스 Level 1 빨강','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 4 초록','알파블럭스 Level 4 초록','알파블럭스 Level 5 파랑','알파블럭스 Level 5 파랑','알파블럭스 Level 5 파랑','알파블럭스 Level 5 파랑','알파블럭스 Level 1~5 복습'],
+  ph:['','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 5 파랑 · 매직 e','알파블럭스 Level 5 파랑 · 매직 e','알파블럭스 Level 5 파랑 · 매직 e'],
   calc:['','소마셈 K1','소마셈 K2','소마셈 K3','소마셈 K4','소마셈 K5','소마셈 K6','소마셈 K7','소마셈 K8','소마셈 P1','소마셈 P2','소마셈 P3','소마셈 P4','소마셈 P5','소마셈 P6','소마셈 P7','소마셈 P8','초1 수학','초1 수학','초2 수학','초2 수학'],
   think:['','키즈 팩토','키즈 팩토','킨더 팩토 D','킨더 팩토 B','킨더 팩토 A·D','킨더 팩토 D','킨더 팩토 B','킨더 팩토 B·C','킨더 팩토 A','킨더 팩토 D','킨더 팩토 A','킨더 팩토 C','초등 팩토 Lv1','초등 팩토 Lv1','킨더 팩토 복습']};
 const bookOf=(x,st)=>(BOOK[x]||[])[st]||'';
@@ -3219,7 +3304,7 @@ let parentTab='report';
 const SUBN={ko:'한글',en:'영어',calc:'연산',think:'사고력',math:'수학'};
 const LVD2={
   ko:['','아 야 어 여 오 요 우 유 으 이 (그림 낱말 · 순서)','ㄱ 줄: 가 갸 거 겨 고 교 구 규 그 기','ㄴ·ㄷ 줄: 나 너 노 · 다 더 도','ㄹ·ㅁ 줄: 라 러 로 · 마 머 모','ㅂ·ㅅ 줄: 바 버 보 · 사 서 소','ㅈ·ㅊ 줄: 자 저 조 · 차 처 초','ㅋ·ㅌ 줄: 카 커 코 · 타 터 토','ㅍ·ㅎ 줄: 파 퍼 포 · 하 허 호','가 나 다 라… 모두 섞어서','받침 ㅇ (강, 공, 콩)','받침 ㅁ (곰, 감, 봄)','받침 ㄹ (달, 물, 불)','받침 ㄴ (눈, 손, 문)','받침 ㄱ (책, 국, 박)','받침 ㅂ·ㅅ (밥, 입 · 옷, 빗)','받침 모두 섞어서','ㅐ·ㅔ (개, 배, 게, 세모)','ㅘ ㅟ ㅢ ㅚ ㅝ ㅖ (사과, 가위, 의자, 시계)','ㄲ ㄸ ㅃ ㅆ ㅉ (꽃, 딸기, 빵)','짧은 문장 읽기 (누가, 무엇을, 어디서)','[초1] 받침 바르게 쓰기 · 겹받침','[초1] 소리 나는 대로 말고 바르게 · 문장 부호','[초2] 높임말 · 이어 주는 말 · 반대말','[초2] 글 읽고 답하기 · 띄어쓰기 · 분류'],
-  ph:['','s a t p (sun, pig, tent)','i n m d (pin, map, dog)','g o c k (cat, dog, kite)','ck e u r (duck, egg, sun)','h b f l ll ss (hat, bus, bell)','CVC 세 글자 낱말 (cat, dog, sun)','j v w x (jet, van, fox)','y z qu (yak, zip, queen)','대문자와 소문자 짝 (A–a)','sh ch th ng (ship, chip, bath, ring)','ai ee igh oa oo (rain, bee, light, boat, moon)','ar or ur ow oi (car, fork, nurse, cow, coin)','ear air er (ear, chair, letter)','앞쪽 자음 묶음 (frog, star, crab)','뒤쪽 자음 묶음 (hand, lamp, tent)','매직 e: a-e (cake, snake)','매직 e: i-e o-e (kite, bone)','매직 e: u-e (cube, flute)','ay ou ie ea oy ir aw ue (hay, house, pie, leaf, toy, bird, saw)','파닉스 모두 섞어서'],
+  ph:['','s (sun, sock)','a (apple, ant)','t (tent, tiger)','p (pig, pen)','i (insect, igloo)','n (net, nose)','m (moon, map)','d (dog, duck)','g (goat, gift)','o (octopus, ox)','c · k (cat, kite)','e (egg, elf)','u (up, umbrella)','r (ring, robot)','h (hat, hen)','b (bus, bee)','f (fish, fox)','l (lion, leaf)','-at (cat, hat, bat)','-an (fan, pan, man)','-ap (cap, map, tap)','-ig (pig, dig, big)','-in (pin, bin, fin)','-ip (lip, sip, dip)','-og (dog, log, fog)','-op (mop, top, pop)','-ot (pot, hot, dot)','-ug (bug, mug, hug)','-un (sun, bun, run)','-ut (nut, hut, cut)','-en (hen, pen, ten)','-et · -ed (net, pet, bed, red)','세 글자 낱말 가족 모두 섞어서','j · v (jet, van)','w · x (web, fox)','y · z (yak, zip)','qu (queen)','대문자와 소문자 짝 (A–a)','sh (ship, fish)','ch (chip, chick)','th (thumb, bath)','ng (ring, king)','ck (duck, sock)','ll · ss · ff (bell, kiss, giraffe)','ee (bee, tree)','oo (moon, zoo)','ai (rain, snail)','oa (boat, goat)','igh (light, night)','ar (car, star)','or (fork, corn)','ow (cow, owl)','매직 e: a-e (cake, snake)','매직 e: i-e (kite, bike)','매직 e: o-e (bone, rose)'],
   calc:['','K1 10까지 +1 −1','K2 20까지 +1 −1','K3 10까지 +2 −2','K4 20까지 +2 −2','K5 10까지 +3 −3','K6 20까지 +3 −3','K7 20까지 +4 −4','K8 7까지 가르기·모으기','P1 30까지 +5 −5','P2 +6 +7 −6 −7','P3 +10 −10 (10묶음)','P4 +9 −9','P5 9까지 가르기·모으기','P6 10 가르기·모으기 (10의 짝)','P7 10을 만들어 더하기','P8 10을 이용한 빼기','[초1] 두 자리 ± 한 자리','[초1] 두 자리 ± 두 자리 · 세 수','[초2] 받아올림 · 받아내림','[초2] 곱셈 2단 · 5단'],
   think:['','수 세기 · 많고 적음 · 모양','크기 · 위아래 · 안팎','반복 규칙 · 분류','몇째 · 짝꿍 · 그림자','시소 · 왼쪽 오른쪽 · 길 찾기','두 가지 규칙 · 수 규칙','조각 나누기 · 겹친 도형','쌓기나무 세기 · 거울','시계 · 요일 · 클립 길이','조건 퍼즐 · 그림그래프','시소 균형 · 숨은 수','숨은 쌓기나무 · 위에서 보기','경우의 수','순서 추리 · 마방진','모두 섞어서']};
 const LVDESC={
@@ -3282,7 +3367,7 @@ function parentTop(){
 function rParent(){
   const row=k=>{ const p=P[k], t=p.today, done=SKEYS.filter(x=>t[x]).map(x=>SUBN[x]);
     return `<div class="prow">${faceOf(k,80)}<div><div class="pt">${p.name}</div><div class="pd">⭐ 모은 별 ${p.stars} · 남은 별 ${wallet(p)} · 친구 ${p.friends.length} · 오늘 끝낸 공부: ${done.length?done.join(', '):'없음'}</div>
-      <div class="pd" style="margin-top:8px">단계 (한글 24 · 영어 10 · 파닉스 20 · 연산 20 · 사고력 15단계)</div>
+      <div class="pd" style="margin-top:8px">단계 (한글 24 · 영어 10 · 파닉스 55 · 연산 20 · 사고력 15단계)</div>
       <div class="pa" style="margin:4px 0 0">${SKEYS.map(x=>`<span class="lvctl"><button class="sbtn" data-p="lvdn" data-k="${k}" data-s="${x}" aria-label="단계 내리기">−</button><b>${SUBN[x]} ${lvOf(p,x)}단계</b><button class="sbtn" data-p="lvup" data-k="${k}" data-s="${x}" aria-label="단계 올리기">＋</button></span>`).join('')}</div>
       <div class="pd" style="margin-top:8px">하루 문제 수</div>
       <div class="pa" style="margin:4px 0 0">${SKEYS.map(x=>`<span class="lvctl"><button class="sbtn" data-p="qdn" data-k="${k}" data-s="${x}" aria-label="문제 줄이기">−</button><b>${SUBN[x]} ${qCount(p,x)}문제</b><button class="sbtn" data-p="qup" data-k="${k}" data-s="${x}" aria-label="문제 늘리기">＋</button></span>`).join('')}</div>
