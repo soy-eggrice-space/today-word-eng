@@ -3093,7 +3093,7 @@ function answer(k, el){
     document.body.appendChild(pr); setTimeout(()=>pr.remove(),950);
     const n=document.getElementById('starN'); if(n) n.textContent=wallet(P[who]);
     let moved=false; const go=()=>{ if(moved) return; moved=true; hush(); Q.i++; if(Q.i>=Q.items.length){ finishRound(); view='done'; render(); } else rQuiz(); };
-    hush(); const sayW=(Q.lang==='en'||Q.lang==='ph'||it.kosay)&&it.praise&&it.praise.length&&!MUTE; if(sayW) later(()=>speakSeq(it.praise),120); later(go,sayW?1250:750);
+    hush(); const sayW=(Q.lang==='en'||Q.lang==='ph'||it.kosay)&&it.praise&&it.praise.length&&!MUTE; if(sayW) later(()=>speakSeq(it.praise),120); { const q0=Q; setTimeout(()=>{ if(!moved&&view==='quiz'&&Q===q0) go(); },sayW?1300:750); }
     const myQ=Q; setTimeout(()=>{ if(!moved && view==='quiz' && Q===myQ) go(); },6500);
   }else{
     it.missed=true; el.classList.add('no'); el.disabled=true; oops();
