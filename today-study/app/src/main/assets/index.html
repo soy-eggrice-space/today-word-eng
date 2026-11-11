@@ -719,7 +719,7 @@ img.emo{width:1em;height:1em;display:inline-block;vertical-align:-.12em;object-f
 @media (max-width:900px){.qbox.m .prompt .grp{font-size:56px}.qbox.m .prompt .grp.sm{font-size:40px}}
 @media (max-width:600px){.qbox.m .prompt>.grp:only-of-type{font-size:44px!important}.qbox.m .prompt{padding:16px 62px 16px 16px;gap:10px}.qbox.m .prompt>.speak{width:48px;height:48px;font-size:22px;top:8px;right:8px}.qbox.m .ptxt{font-size:24px}.qbox.m .ptxt.sm{font-size:19px}.qbox.m .prompt .grp{font-size:34px}.qbox.m .prompt .grp.sm{font-size:26px}}
 .opensrc{font-size:13px;color:#8A7A9C;text-align:center;margin-top:10px}
-</style>
+.legal{font-size:12px;line-height:1.55;color:#8A7A9C;text-align:center;margin:14px auto 4px;max-width:760px;word-break:keep-all}</style>
 </head>
 <body>
 
@@ -2314,7 +2314,7 @@ function rStages(){
     return `<div class="strow ${state}" ${state==='now'?'id="stnow"':''}><span class="stn">${STG[st][0]}<b>${st}</b></span><span class="std"><b>${desc}</b>${bk?`<small>📘 ${bk}</small>`:''}</span><span class="sts">${state==='sdone'?'✅':state==='now'?'📍 지금 여기':''}</span></div>`; }).join('');
   app.innerHTML=topbar()+`<div class="stpage"><div class="sttabs">${SUBJ.map(x=>`<button class="sttab press ${x.k===k?'on':''}" style="--c:${x.c}" data-act="stages" data-s="${x.k}">${x.l} <small>${lvOf(p,x.k)}/${MAXS[x.k]}</small></button>`).join('')}</div>
     <div class="sthead" style="--c:${s.c}">${s.l} — 지금 <b>${cur}단계</b> · 모두 ${mx}단계<div class="stbar"><i style="width:${(cur/mx*100).toFixed(0)}%"></i></div><small>단계는 공부를 잘하면 저절로 올라가요 · 여기서는 보기만 해요</small></div>
-    <div class="stlist">${rows}</div><div class="acts"><button class="btn y press" data-act="home">홈으로</button></div></div>`;
+    <div class="stlist">${rows}</div><div class="acts"><button class="btn y press" data-act="home">홈으로</button></div><div class="legal">비공식 · 개인 제작 앱이에요. 단계 순서와 난이도는 기적의 한글학습·기탄국어(한글), 알파블럭스(파닉스), Cambridge Pre A1 Starters(영어), 소마셈(연산), 팩토(사고력)를 참고만 했고, 문제는 모두 직접 만들었어요. 교재의 문제를 옮겨 쓰지 않았어요. 각 교재·프로그램의 권리는 해당 출판사·제작사에 있으며, 이 앱과는 관계가 없어요. 문제 그림: OpenMoji (CC BY-SA 4.0)</div></div>`;
   later(()=>{ const n=document.getElementById('stnow'); if(n) n.scrollIntoView({block:'center'}); },60);
 }
 function rKCard(){
@@ -3656,7 +3656,7 @@ function parentTop(){
 function rParent(){
   const row=k=>{ const p=P[k], t=p.today, done=SKEYS.filter(x=>t[x]).map(x=>SUBN[x]);
     return `<div class="prow">${faceOf(k,80)}<div><div class="pt">${p.name}</div><div class="pd">⭐ 모은 별 ${p.stars} · 남은 별 ${wallet(p)} · 친구 ${p.friends.length} · 오늘 끝낸 공부: ${done.length?done.join(', '):'없음'}</div>
-      <div class="pd" style="margin-top:8px">단계 (한글 36 · 영어 10 · 파닉스 55 · 연산 20 · 사고력 15단계)</div><div class="opensrc">문제 그림: OpenMoji (openmoji.org, CC BY-SA 4.0)</div>
+      <div class="pd" style="margin-top:8px">단계 (한글 36 · 영어 10 · 파닉스 55 · 연산 20 · 사고력 15단계)</div><div class="legal">비공식 · 개인 제작 앱이에요. 단계 순서와 난이도는 기적의 한글학습·기탄국어(한글), 알파블럭스(파닉스), Cambridge Pre A1 Starters(영어), 소마셈(연산), 팩토(사고력)를 참고만 했고, 문제는 모두 직접 만들었어요. 교재의 문제를 옮겨 쓰지 않았어요. 각 교재·프로그램의 권리는 해당 출판사·제작사에 있으며, 이 앱과는 관계가 없어요. 문제 그림: OpenMoji (CC BY-SA 4.0)</div>
       <div class="pa" style="margin:4px 0 0">${SKEYS.map(x=>`<span class="lvctl"><button class="sbtn" data-p="lvdn" data-k="${k}" data-s="${x}" aria-label="단계 내리기">−</button><b>${SUBN[x]} ${lvOf(p,x)}단계</b><button class="sbtn" data-p="lvup" data-k="${k}" data-s="${x}" aria-label="단계 올리기">＋</button></span>`).join('')}</div>
       <div class="pd" style="margin-top:8px">하루 문제 수</div>
       <div class="pa" style="margin:4px 0 0">${SKEYS.map(x=>`<span class="lvctl"><button class="sbtn" data-p="qdn" data-k="${k}" data-s="${x}" aria-label="문제 줄이기">−</button><b>${SUBN[x]} ${qCount(p,x)}문제</b><button class="sbtn" data-p="qup" data-k="${k}" data-s="${x}" aria-label="문제 늘리기">＋</button></span>`).join('')}</div>

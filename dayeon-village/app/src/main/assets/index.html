@@ -677,7 +677,7 @@ input{font-family:inherit;color:inherit;-webkit-user-select:text;user-select:tex
 
 img.emo{width:1em;height:1em;display:inline-block;vertical-align:-.12em;object-fit:contain;pointer-events:none}
 .opensrc{font-size:13px;color:#8A7A9C;text-align:center;margin:6px 0}
-</style>
+.legal{font-size:12px;line-height:1.55;color:#8A7A9C;text-align:center;margin:14px auto 4px;max-width:760px;word-break:keep-all}</style>
 </head>
 <body>
 <div id="app"></div>
@@ -3748,7 +3748,7 @@ function rGram(){
       <div class="gr-star-rule">⭐ 별 많이 받는 법: 힌트 없이 맞히면 3개 · 힌트 보고 맞히면 2개 · 3연속 정답 +2 · 오늘 영문법 끝 +3 · 다 맞히면 +5 · 틀린 문제 다시 맞히면 +2 · 다음 단계 열리면 +10</div>
       <div class="gr-acts"><button class="btn y" onclick="gStart()">${done?'✏️ 한 번 더 연습하기':'✏️ 오늘의 영문법 시작 (개념 6 + 복습 4)'}</button><button class="btn w" onclick="go('gcard',{st:${g.st}})">📌 개념 카드 보기</button>${done?'<span class="muted">오늘 영문법 끝! 연습은 별 없이 할 수 있어요</span>':''}</div>
     </div>
-    <div class="panel gr-list"><div class="h2" style="font-size:24px;margin-bottom:6px">전체 단계</div>${list}</div>
+    <div class="panel gr-list"><div class="h2" style="font-size:24px;margin-bottom:6px">전체 단계</div>${list}<div class="legal">비공식 · 개인 제작 앱이에요. 영문법 단계 순서는 「기적의 초등 영문법」을 참고만 했고, 문제는 모두 직접 만들었어요. 교재의 문제를 옮겨 쓰지 않았어요. 교재의 권리는 해당 출판사에 있으며, 이 앱과는 관계가 없어요. 문제 그림: OpenMoji (CC BY-SA 4.0)</div></div>
   </div>`;
 }
 function gHintHTML(q){
@@ -4425,7 +4425,7 @@ function rParent(){
       <div class="pa"><button class="btn w sm" onclick="gSet(-1)">단계 −</button><button class="btn w sm" onclick="gSet(1)">단계 ＋</button><button class="btn w sm" onclick="gr().hint[gr().st]=true;save();render()">힌트 켜기</button><button class="btn w sm" onclick="gr().day='';save();toast('오늘 영문법을 다시 열었어요');render()">오늘 한 번 더</button></div></div>
     <div class="prow"><div><div class="pt">별 조정</div><div class="pd">지금까지 모은 별 ⭐${S.stars}개 · 상점에서 쓴 별 ${S.spent||0}개 · 남은 별 ${wallet()}개<br>잘못 쌓였을 때 고쳐 주세요 (선물 목표는 모은 별 기준)</div></div>
       <div class="pa"><button class="btn w sm" onclick="adjStars(-10)">−10</button><button class="btn w sm" onclick="adjStars(10)">＋10</button></div></div>
-    <div class="opensrc">문제 그림: OpenMoji (openmoji.org, CC BY-SA 4.0)</div><div class="prow"><div><div class="pt">백업</div><div class="pd">기록·사진·별·마을을 파일로 저장하거나 다시 불러와요 (태블릿을 바꿀 때)</div></div>
+    <div class="legal">비공식 · 개인 제작 앱이에요. 영문법 단계 순서는 「기적의 초등 영문법」을 참고만 했고, 문제는 모두 직접 만들었어요. 교재의 문제를 옮겨 쓰지 않았어요. 교재의 권리는 해당 출판사에 있으며, 이 앱과는 관계가 없어요. 문제 그림: OpenMoji (CC BY-SA 4.0)</div><div class="prow"><div><div class="pt">백업</div><div class="pd">기록·사진·별·마을을 파일로 저장하거나 다시 불러와요 (태블릿을 바꿀 때)</div></div>
       <div class="pa"><button class="btn s sm" onclick="exportBackup()">💾 백업 저장</button><button class="btn w sm" onclick="$('#backupInput').value='';$('#backupInput').click()">📂 불러오기</button></div></div>
     <div class="prow"><div><div class="pt">비밀번호 바꾸기</div><div class="pd">새 4자리 숫자로 바꿔요</div></div>
       <div class="pa"><button class="btn w sm" onclick="S.pin=null;save();askPin(()=>go('parent'))">바꾸기</button></div></div>
