@@ -2393,7 +2393,7 @@ function fBlank(w,st){ const no=phNo(st), f=famOf(w), ans=w[0][0];
   return Q0(w,`${w[0]} = ${ans} + ${rimeOf(w)}`,`${phPic(w)}<div class="word en">${blankFirst(w[0])}</div>`,wordOpts(ans,wr,'word en big2'),w[0]); }
 /* ② c + at 블록 읽고 그림 고르기 (소리 없이) */
 function fBlend(w,st){ const no=phNo(st), wr=famWrong(w,st,no-1); if(wr.length<no-1) return null;
-  return Q0(w,`${w[0][0]} + ${rimeOf(w)} = ${w[0]}`,`<div class="phblocks"><span class="phb">${w[0][0]}</span><span class="phplus">+</span><span class="phb">${rimeOf(w)}</span></div>`,pickOpts(w,wr,phPic),null); }
+  return Q0(w,`${[...w[0]].join(' + ')} = ${w[0]}`,`<div class="phblocks">${[...w[0]].map(c=>`<span class="phb">${c}</span>`).join('<span class="phplus">+</span>')}</div>`,pickOpts(w,wr,phPic),null); }
 /* ③ 그림 보고 낱말 듣고 → 맞는 낱말 고르기 (cat / hat / bat) */
 function fRead(w,st){ const no=phNo(st), wr=famWrong(w,st,no-1); if(wr.length<no-1) return null;
   return Q0(w,w[0],phPic(w),wordOpts(w[0],wr.map(x=>x[0]),'word en'),w[0]); }
@@ -2455,16 +2455,16 @@ function phToday(p){ const st=phClamp(lvOf(p,'ph')), lv=PH_LV[st];
   if(!words.length) return null;
   return {st,letter:lv.t==='letter'?1:0,snd,words:words.slice(0,3),ko:PSND[snd]||snd}; }
 function phSay(t){
-  if(t.fam) return [['오늘의 낱말 가족이에요.','ko'],PAUSE,[`${t.ko}, ${t.ko},`,'ko'],PAUSE].concat(t.words.flatMap(w=>[[`${PSND[w[0][0]]}, ${t.ko},`,'ko'],[w[0],'en'],['','p',500]]));
+  if(t.fam) return [['오늘의 낱말 가족이에요.','ko'],PAUSE].concat(t.words.flatMap(w=>[[[...w[0]].map(c=>PSND[c]).join(', ')+',','ko'],[w[0],'en'],['','p',500]]));
   return [[t.letter?'오늘의 글자예요.':'오늘의 소리예요.','ko'],PAUSE,[`${t.ko}, ${t.ko},`,'ko'],[t.words[0][0],'en'],PAUSE,[`${t.ko}, ${t.ko},`,'ko'],[t.words[0][0],'en'],PAUSE].concat(t.words.flatMap(w=>[[w[0],'en'],['','p',450]])); }
 function rPhCard(){
   const p=P[who], t=phToday(p); if(!t) return startQuiz('ph',true);
   const w0=t.words[0], T=(b,s,big)=>`<span class="kc-t"><b class="en"${big?' style="font-size:44px"':''}>${b}</b><small>${s}</small></span>`;
-  const line=t.fam?`<div class="kc-line" data-act="phsay">${T(w0[0][0],PSND[w0[0][0]])}<span class="kc-op">+</span>${T(t.snd,t.ko)}<span class="kc-op">=</span>${T(phHl(w0[0],t.snd),w0[1],1)}</div>`
+  const line=t.fam?`<div class="kc-line" data-act="phsay">${[...w0[0]].map(c=>T(c,PSND[c])).join('<span class="kc-op">+</span>')}<span class="kc-op">=</span>${T(phHl(w0[0],t.snd),w0[1],1)}</div>`
     :`<div class="kc-line" data-act="phsay">${T(t.snd,t.ko)}${T(t.snd,t.ko)}${T(phHl(w0[0],t.snd),w0[1],1)}</div>`;
   const head=t.fam?'오늘의 낱말 가족':t.letter?'오늘의 글자':'오늘의 소리';
   app.innerHTML=topbar()+`<div class="kcard"><div class="kc-h">${head}</div>
-    <button class="kc-big press en" data-act="phsay">${t.fam?'-'+t.snd:t.snd}</button><div class="kc-eq">[${t.ko}] 소리${t.fam?' · 앞 글자만 바꿔 읽어요':''}</div>
+    <button class="kc-big press en" data-act="phsay">${t.fam?'-'+t.snd:t.snd}</button><div class="kc-eq">${t.fam?'한 소리씩 이어서 읽어요':`[${t.ko}] 소리`}</div>
     <div class="kc-lines">${line}${t.fam?'':line}</div>
     <div class="kc-words">${t.words.map(w=>`<button class="kc-w press" data-act="phword" data-w="${w[0]}">${picW(w[1],`<span class="en">${phHl(w[0],t.snd)}</span>`)}</button>`).join('')}</div>
     <button class="btn y press kc-go" data-act="phgo">알았어요! 문제 풀기 ▶</button>${phVideos(t.st,t.snd)}</div>`;
