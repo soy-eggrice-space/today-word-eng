@@ -604,6 +604,7 @@ input{font-family:inherit;color:inherit;-webkit-user-select:text;user-select:tex
 .gr-prog{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px;font-size:18px}
 .gr-prog i{width:24px;height:24px;border-radius:50%;border:2.5px solid var(--ink);background:var(--card);display:inline-block}
 .gr-prog i.on{background:var(--lemon)}
+.gr-star-rule{margin-top:14px;font-size:17px;background:#FFF8D9;border:2px solid var(--hair);border-radius:16px;padding:8px 14px;line-height:1.5}
 .gr-acts{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px}
 .gr-list{max-height:72vh;overflow:auto}
 .gr-book{font-size:21px;margin:12px 0 2px}
@@ -642,7 +643,7 @@ input{font-family:inherit;color:inherit;-webkit-user-select:text;user-select:tex
 .gr-scene{position:relative;width:240px;height:160px;max-width:100%;background:var(--soft);border-radius:20px;font-size:58px;line-height:1;margin-top:20px}
 .gr-scene span{position:absolute}
 .gr-done{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
-.gr-stars{font-size:34px}.gr-msg{font-size:21px}
+.gr-stars{font-size:34px;word-break:break-all;max-width:640px}.gr-gain{display:inline-block;font-size:22px;background:var(--lemon);border:2px solid var(--ink);border-radius:999px;padding:0 12px;margin-left:6px}.gr-msg{font-size:21px}
 @media (max-width:640px){ .gr-sent{font-size:24px} .gr-opt{font-size:20px;min-width:80px;min-height:54px}.gr-opt.en{font-size:22px} .gr-tk{font-size:22px} .gr-chip{font-size:20px} .gr-concept ul,.gr-hint ul{font-size:16px} .gr-st{font-size:16px} .gr-x{font-size:17px} }
 </style>
 </head>
@@ -3587,7 +3588,7 @@ function gMake(st,n){
 }
 function gStart(st,practice){
   const g=gr(); st=st||g.st;
-  GQ={st,practice:!!practice||st!==g.st,items:gMake(st,g.n),i:0,score:0,earned:0,hint:gHintOn(st),first:g.day!==dkey()};
+  GQ={st,practice:!!practice||st!==g.st,items:gMake(st,g.n),i:0,score:0,earned:0,combo:0,hint:gHintOn(st),first:g.day!==dkey()};
   go('gquiz');
 }
 const gMark=s=>esc(s).replace(/⟦(.+?)⟧/g,'<u class="gr-u">$1</u>');
@@ -3614,6 +3615,7 @@ function rGram(){
       <div class="h2">${esc(cur.t)}</div>
       <div class="gr-concept"><div class="gr-ct">📖 오늘 배울 규칙</div><ul>${cur.c.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
       <div class="gr-prog"><span>다음 단계까지</span>${Array.from({length:G_UP},(_,k)=>`<i class="${k<good?'on':''}"></i>`).join('')}<span class="muted">${gHintOn(g.st)?`💡 힌트 켜짐 · 잘 맞힌 날 ${Math.max(0,G_HIDE-good)}번 더 → 힌트 없이 도전`:'💪 힌트 없이 도전 중 (필요하면 힌트 버튼)'}</span></div>
+      <div class="gr-star-rule">⭐ 별 많이 받는 법: 힌트 없이 맞히면 3개 · 힌트 보고 맞히면 2개 · 3연속 정답 +2 · 오늘 영문법 끝 +3 · 다 맞히면 +5 · 틀린 문제 다시 맞히면 +2 · 다음 단계 열리면 +10</div>
       <div class="gr-acts"><button class="btn y" onclick="gStart()">${done?'✏️ 한 번 더 연습하기':`✏️ 오늘의 영문법 시작 (${g.n}문제)`}</button>${done?'<span class="muted">오늘 영문법 끝! 연습은 별 없이 할 수 있어요</span>':''}</div>
     </div>
     <div class="panel gr-list"><div class="h2" style="font-size:24px;margin-bottom:6px">전체 단계</div>${list}</div>
@@ -3644,7 +3646,7 @@ function rGquiz(){
       <div class="gr-opts en">${q.words.map((w,j)=>`<button class="gr-chip ${q.picked.includes(j)?'used':''}" ${ans?'disabled':''} onclick="gPick(${j})">${esc(w)}</button>`).join('')}</div>`;
   }
   const hint=!ans?(GQ.hint||q.showHint?gHintHTML(q):`<button class="btn w sm gr-hb" onclick="GQ.items[GQ.i].showHint=1;rGquiz()">💡 힌트 보기</button>`):'';
-  const fb=ans?`<div class="gr-fb ${q.ok?'ok':'no'}"><div class="gr-fbt">${q.ok?pick(['딩동댕! 🎉','정답! 👏','최고야, 다연아! ✨']):'괜찮아, 이렇게 기억하자 🤗'}</div>
+  const fb=ans?`<div class="gr-fb ${q.ok?'ok':'no'}"><div class="gr-fbt">${q.ok?pick(['딩동댕! 🎉','정답! 👏','최고야, 다연아! ✨']):'괜찮아, 이렇게 기억하자 🤗'}${q.gain?` <span class="gr-gain">⭐ +${q.gain}</span>`:''}${q.combo?` <span class="gr-gain">🔥 ${q.combo}연속!</span>`:''}</div>
       ${q.t==='f'?`<div class="en gr-fx">${esc(q.w)} → ${esc(q.fx)}</div>`:q.t==='o'&&!q.ok?`<div class="en gr-fx">${esc(q.a)}</div>`:(!q.ok&&q.t!=='o')?`<div class="gr-fx">정답: <b class="${/[가-힣]/.test(q.a)?'':'en'}">${esc(q.a)}</b></div>`:''}
       <div class="gr-x">${esc(q.x)}</div>${q.k&&q.t==='p'?`<div class="sentk">${esc(q.k)}</div>`:''}
       <button class="btn ${q.ok?'m':''}" onclick="gNext()">${GQ.i<GQ.items.length-1?'다음 ▶':'결과 보기 ▶'}</button></div>`:'';
@@ -3652,8 +3654,12 @@ function rGquiz(){
 }
 function gResult(ok){
   const q=GQ.items[GQ.i]; q.done=true; q.ok=ok;
-  if(ok){ GQ.score++; if(!GQ.practice&&GQ.first){ addStars(1); GQ.earned++; } sfx.ok(); buzz(30); }
-  else { sfx.no(); buzz(120); }
+  if(ok){ GQ.score++; GQ.combo++;
+    if(GQ.retry){ q.gain=2; }
+    else if(!GQ.practice&&GQ.first){ q.gain=(GQ.hint||q.showHint)?2:3; if(GQ.combo%3===0){ q.gain+=2; q.combo=GQ.combo; } }
+    if(q.gain){ addStars(q.gain); GQ.earned+=q.gain; }
+    sfx.ok(); buzz(30); }
+  else { GQ.combo=0; sfx.no(); buzz(120); }
   save(); rGquiz();
   const say=q.t==='c'?q.q.replace('___',q.a):q.t==='o'?q.a:q.t==='f'?q.q.replace(new RegExp('(^|\\s)'+q.w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?=[\\s.?!,]|$)'),'$1'+q.fx):'';
   if(say && !/[가-힣()]/.test(say)) timers.push(setTimeout(()=>speak(say),300));
@@ -3665,13 +3671,17 @@ function gPick(j){ const q=GQ.items[GQ.i]; if(q.done||q.picked.includes(j)) retu
 function gUnpick(n){ const q=GQ.items[GQ.i]; if(q.done) return; q.picked.splice(n,1); rGquiz(); }
 function gNext(){ clearTimers(); GQ.i++; if(GQ.i>=GQ.items.length) return gFinish(); rGquiz(); window.scrollTo(0,0); }
 function gQuit(){ go('gram'); }
+function gRetry(){ const miss=GQ.items.filter(q=>!q.ok).map(q=>{ const c=Object.assign({},q); delete c.done; delete c.ok; delete c.pick; delete c.gain; delete c.combo; c.picked=[]; c.showHint=1; return c; });
+  GQ=Object.assign({},GQ,{items:miss,i:0,score:0,earned:0,combo:0,retry:true,retried:true}); go('gquiz'); }
 function gFinish(){
   const g=gr(), n=GQ.items.length, pct=GQ.score/n; let msg=[];
-  if(!GQ.practice && GQ.first){
+  if(GQ.retry){ msg.push(GQ.score?`틀렸던 문제 ${GQ.score}개를 다시 맞혔어요! ⭐ +${GQ.earned}`:'다음에 다시 도전해 보자!'); GQ.missN=0; }
+  else if(!GQ.practice && GQ.first){
     g.day=dkey(); const st=GQ.st;
-    if(GQ.score===n){ addStars(2); GQ.earned+=2; msg.push('💯 다 맞혀서 보너스 ⭐2'); }
+    addStars(3); GQ.earned+=3; msg.push('✏️ 오늘의 영문법 완료 보너스 ⭐3');
+    if(GQ.score===n){ addStars(5); GQ.earned+=5; msg.push('💯 다 맞혀서 보너스 ⭐5'); }
     if(pct>=.8){ g.good[st]=(g.good[st]||0)+1;
-      if(g.good[st]>=G_UP && st<GN){ g.st=st+1; g.max=Math.max(g.max,g.st); g.good[g.st]=0; msg.push(`🎉 ${st+1}단계 「${gStage(st+1).t}」가 열렸어요!`); GQ.up=1; }
+      if(g.good[st]>=G_UP && st<GN){ g.st=st+1; g.max=Math.max(g.max,g.st); g.good[g.st]=0; addStars(10); GQ.earned+=10; msg.push(`🎉 ${st+1}단계 「${gStage(st+1).t}」가 열렸어요! 단계 올라가기 ⭐10`); GQ.up=1; }
       else if(g.good[st]>=G_HIDE && gHintOn(st)){ g.hint[st]=false; msg.push('💪 이제 힌트 없이 풀어 봐요! (필요하면 힌트 버튼)'); }
       else if(g.good[st]<G_UP) msg.push(`잘했어요! 다음 단계까지 ${G_UP-g.good[st]}번 남았어요`); }
     else if(pct<.5){ g.good[st]=Math.max(0,(g.good[st]||0)-1); if(!gHintOn(st)){ g.hint[st]=true; msg.push('💡 힌트를 다시 켜 줄게요. 천천히 해 봐요'); } else msg.push('어려웠지? 내일 다시 해 보자!'); }
@@ -3679,11 +3689,14 @@ function gFinish(){
     g.log.unshift({d:Date.now(),st,score:GQ.score,n}); g.log=g.log.slice(0,200);
   } else msg.push('연습 끝! 오늘 공부는 이미 했어요');
   save();
+  const missN=GQ.retry?0:GQ.items.filter(q=>!q.ok).length, canRetry=missN&&!GQ.retried&&!GQ.practice;
   app.innerHTML=topbar()+`<div class="qwrap"><div class="panel gr-done">${sticker(120)}
     <div class="h2">영문법 ${GQ.score} / ${n} 맞혔어요!</div><div class="gr-stars">${'⭐'.repeat(GQ.earned)||'🌱'}</div>
     ${msg.map(m=>`<div class="gr-msg">${esc(m)}</div>`).join('')}
-    <div class="gr-acts"><button class="btn y" onclick="go('gram')">영문법 화면으로</button><button class="btn w" onclick="go('village')">🏡 마을 가기</button></div></div></div>`;
+    ${canRetry?`<div class="gr-msg">틀린 문제 ${missN}개를 다시 풀면 하나에 ⭐2씩 더 받아요!</div>`:''}
+    <div class="gr-acts">${canRetry?`<button class="btn" onclick="gRetry()">🔁 틀린 문제 다시 풀기</button>`:''}<button class="btn y" onclick="go('gram')">영문법 화면으로</button><button class="btn w" onclick="go('village')">🏡 마을 가기</button></div></div></div>`;
   if(GQ.up) burst(60); else if(GQ.score===n) burst(30);
+  const pill=$('#starPill b'); if(pill) pill.textContent=S.stars;
 }
 
 function clearTimers(){ timers.forEach(clearTimeout); timers=[]; }
