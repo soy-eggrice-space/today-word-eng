@@ -696,6 +696,25 @@ button{font:inherit;color:inherit;border:none;background:none;cursor:pointer;-we
 
 .elisten .speak{width:150px;height:150px;font-size:74px}
 @media (max-width:600px){.elisten .speak{width:112px;height:112px;font-size:54px}}
+
+img.emo{width:1em;height:1em;display:inline-block;vertical-align:-.12em;object-fit:contain;pointer-events:none}
+.pic img.emo,.grp img.emo,.duo img.emo{vertical-align:middle}
+/* 수학·사고력: 그림 위, 질문 아래 크게, 소리 단추는 구석에 */
+.qbox.m .prompt{flex-direction:column;gap:16px;padding:24px 100px}
+.qbox.m .prompt>.speak{position:absolute;top:14px;right:14px;width:72px;height:72px;font-size:34px}
+.qbox.m .ptxt{font-size:38px;line-height:1.35}
+.qbox.m .ptxt.sm{font-size:30px;line-height:1.5;max-width:620px}
+.nh{font-family:var(--fe);font-weight:700;color:#E2508F;font-size:1.15em;padding:0 .06em}
+/* 개수 그림은 다섯 개씩 줄 맞춰 (한눈에 세기 쉽게) */
+.qbox.m .prompt .grp{display:grid;grid-template-columns:repeat(5,1em);gap:.14em;justify-content:center;max-width:none;font-size:76px}
+.qbox.m .prompt .grp.sm{font-size:58px}
+.qbox.m .prompt>.grp:only-of-type{font-size:84px!important}
+.qbox.m .prompt svg[width="40"]{width:64px;height:64px}
+.qbox.m .prompt .grp>span{display:grid;place-items:center;width:1em;height:1em}
+.card .grp{display:grid;grid-template-columns:repeat(5,1em);gap:.1em;justify-content:center}
+@media (max-width:900px){.qbox.m .prompt .grp{font-size:56px}.qbox.m .prompt .grp.sm{font-size:40px}}
+@media (max-width:600px){.qbox.m .prompt>.grp:only-of-type{font-size:44px!important}.qbox.m .prompt{padding:16px 62px 16px 16px;gap:10px}.qbox.m .prompt>.speak{width:48px;height:48px;font-size:22px;top:8px;right:8px}.qbox.m .ptxt{font-size:24px}.qbox.m .ptxt.sm{font-size:19px}.qbox.m .prompt .grp{font-size:34px}.qbox.m .prompt .grp.sm{font-size:26px}}
+.opensrc{font-size:13px;color:#8A7A9C;text-align:center;margin-top:10px}
 </style>
 </head>
 <body>
@@ -714,7 +733,7 @@ const KO=[['사과','🍎'],['바나나','🍌'],['포도','🍇'],['딸기','�
 const EN=[['apple','🍎'],['cat','🐱'],['dog','🐶'],['sun','☀️'],['ball','⚽'],['car','🚗'],['fish','🐟'],['egg','🥚'],['cake','🍰'],['bear','🐻'],['duck','🦆'],['bus','🚌'],['moon','🌙'],['star','⭐'],['hat','👒'],['cup','🥤'],['milk','🥛'],['tree','🌳'],['bird','🐦'],['banana','🍌'],['frog','🐸'],['pig','🐷'],['cow','🐮'],['book','📕']];
 const PER=5, ROUND=5;
 const SUBJ=[{k:'ko',g:'가나다',ic:'🍎',l:'한글',c:'#FFE074'},{k:'en',g:'ABC',ic:'🐶',l:'영어',c:'#8AE5C6'},{k:'ph',g:'abc',ic:'🔤',l:'파닉스',c:'#D8C4FF'},{k:'calc',g:'1+2',ic:'🍓',l:'연산',c:'#FFC1A0'},{k:'think',g:'?!',ic:'🧩',l:'사고력',c:'#9CD3FF'}];
-const SKEYS=SUBJ.map(x=>x.k), MAXS={ko:24,en:10,ph:55,calc:20,think:15};
+const SKEYS=SUBJ.map(x=>x.k), MAXS={ko:36,en:10,ph:55,calc:20,think:15};
 const objOf=v=>Object.fromEntries(SKEYS.map(k=>[k,typeof v==='function'?v():v]));
 
 /* ---------- 저장 (앱 저장소 + 브라우저 저장소) ---------- */
@@ -2256,13 +2275,13 @@ const CSND={ㄱ:'그',ㄴ:'느',ㄷ:'드',ㄹ:'르',ㅁ:'므',ㅂ:'브',ㅅ:'스
 const FSND={21:'응',16:'음',8:'을',4:'은',1:'윽',17:'읍',19:'읏'};
 const JNAME={21:'ㅇ',16:'ㅁ',8:'ㄹ',4:'ㄴ',1:'ㄱ',17:'ㅂ',19:'ㅅ'};
 const ALLW=()=>{ const m=new Map(); WK.concat(KWP,AE,CPX,TENSE).forEach(x=>{ if(!m.has(x[0])) m.set(x[0],x); }); return [...m.values()]; };
-function tlCands(s){ const W=ALLW(), out=[]; const add=(syl,info,pool)=>{ const ws=(pool||W).filter(w=>w[0].includes(syl)); if(ws.length) out.push(Object.assign({s:syl,words:ws.slice(0,3)},info)); };
+function tlCands0(s){ const W=ALLW(), out=[]; const add=(syl,info,pool)=>{ const ws=(pool||W).filter(w=>w[0].includes(syl)); if(ws.length) out.push(Object.assign({s:syl,words:ws.slice(0,3)},info)); };
   if(s<=9){ const T=KO_ROW[s]; ['ㅏ','ㅗ','ㅜ','ㅣ','ㅓ','ㅑ','ㅕ','ㅛ','ㅠ','ㅡ'].forEach(v=>T.forEach(c=>add(mk(c,v),{c,v},WB))); }
   else if(s<=16){ KO_FIN[s].forEach(f=>{ const j=FIN[f]; const seen=new Set(); W.forEach(w=>[...w[0]].forEach(ch=>{ if(jongOf(ch)===j&&!seen.has(ch)){ const d=dec(ch); if(d&&B10.includes(d[1])&&CON14.includes(d[0])){ seen.add(ch); add(ch,{c:d[0],v:d[1],f:j}); } } })); }); }
   else if(s===17||s===18){ const vs=s===17?['ㅐ','ㅔ']:['ㅘ','ㅙ','ㅚ','ㅝ','ㅞ','ㅟ','ㅢ','ㅖ','ㅒ'], seen=new Set(); (s===17?AE:CPX).forEach(w=>[...w[0]].forEach(ch=>{ const d=dec(ch); if(d&&vs.includes(d[1])&&d[2]===0&&d[0]!=='ㅇ'&&!seen.has(ch)){ seen.add(ch); add(ch,{c:d[0],v:d[1]}); } })); }
   else if(s===19){ const seen=new Set(); TENSE.forEach(w=>[...w[0]].forEach(ch=>{ const d=dec(ch); if(d&&CSND[d[0]]&&TSIM[d[0]]&&d[2]===0&&!seen.has(ch)){ seen.add(ch); add(ch,{c:d[0],v:d[1]}); } })); }
   return out; }
-function todayLetter(p){ const s=lvOf(p,'ko'); if(s>19) return null; const cs=tlCands(s); if(!cs.length) return null; const day=Math.floor((Date.now()+9*36e5)/864e5); return cs[(day+(who==='jeong'?3:0))%cs.length]; }
+function todayLetter0(p){ const s=lvOf(p,'ko'); if(s>19) return null; const cs=tlCands(s); if(!cs.length) return null; const day=Math.floor((Date.now()+9*36e5)/864e5); return cs[(day+(who==='jeong'?3:0))%cs.length]; }
 function tlParts(t){ /* [글자, 읽는 소리] 세 칸: ㄱ ㄱ 가 (그 그 가) */
   if(t.f){ const base=mk(t.c,t.v); return [[base,base],[JNAME[t.f],FSND[t.f]],[t.s,t.s]]; }
   const vs=mk('ㅇ',t.v);
@@ -2295,7 +2314,7 @@ function rKCard(){
   p.kcardDay=dkey(); save();
   later(()=>speakSeq(tlSay(t)),300);
 }
-function tlQs(t){ const out=[];
+function tlQs0(t){ const out=[];
   try{ if(t.f){ const base=mk(t.c,t.v), wr=shuffle(['ㅇ','ㅁ','ㄹ','ㄴ','ㄱ','ㅂ'].filter(x=>FIN[x]!==t.f)).slice(0,2).map(x=>mk(t.c,t.v,FIN[x])).concat([base]);
       out.push({note:tlEq(t),ask:say1('글자 아래에 받침을 붙이면 무슨 글자가 될까요?'),praise:say1(`${cheerK()} ${t.s}!`),prompt:`${kplus(base,JNAME[t.f])}${speakBtn}`,opts:wordOpts(t.s,wr)}); }
     else if(CSND[t.c]||t.c==='ㅇ'){ const q=kCombine([t.c],[t.v],CON14); if(q) out.push(q); }
@@ -2553,6 +2572,112 @@ function enN(st,noHear){ st=Math.max(1,Math.min(EN_MAX,st||1)); const no=enNo(st
   let s0=st; if(st>1&&Math.random()<.3) s0=RI(1,st-1);
   return EN_T[EN_LV[s0].k](no,!!noHear); }
 
+/* =========================================================
+   한글 36단계 — 천천히, 문제는 짧게
+   · 문제 소리는 '낱말'만 (가방!). "빈칸에 들어갈 글자는 뭘까요?" 같은 설명은 읽지 않아요
+   · 글자를 읽어야 푸는 문제(ㄱ + ㅏ = ?)는 소리 없이, 맞히면 그 글자를 읽어 줘요
+   · 받침은 '가 + ㅁ = 감' (몸통 + 받침) — 한국 아이들은 이 경계를 가장 잘 느껴요
+   · "ㄱ으로 시작하는 그림" · 자음 이름 · 순서 문제는 내지 않아요
+   · 보기: 1~3단계 2개 → 4~25단계 3개 → 그 뒤 4개
+   ========================================================= */
+const V4=['ㅏ','ㅣ','ㅗ','ㅜ'], V6=['ㅏ','ㅓ','ㅗ','ㅜ','ㅡ','ㅣ'];
+const KO3=[null,
+  {t:'row',c:['ㅇ'],v:['ㅏ','ㅣ','ㅗ','ㅜ'],d:'아 이 오 우'},
+  {t:'row',c:['ㅇ'],v:['ㅓ','ㅡ'],d:'어 으'},
+  {t:'row',c:['ㅇ'],v:['ㅑ','ㅕ','ㅛ','ㅠ'],d:'야 여 요 유'},
+  ...['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'].map(c=>({t:'row',c:[c],v:B10,d:B10.map(v=>mk(c,v)).slice(0,6).join(' ')})),
+  {t:'row',c:CON14,v:B10,d:'받침 없는 낱말 모두'},
+  ...['ㅇ','ㅁ','ㄹ','ㄴ','ㄱ','ㅂ','ㅅ'].map(f=>({t:'fin',f:[f]})),{t:'fin',f:FIN_ORDER,d:'받침 모두'},
+  {t:'vow',v:['ㅐ','ㅔ'],pool:'AE'},{t:'vow',v:['ㅘ','ㅝ'],pool:'CPX'},{t:'vow',v:['ㅚ','ㅟ','ㅢ'],pool:'CPX'},{t:'vow',v:['ㅒ','ㅖ','ㅙ','ㅞ'],pool:'CPX'},
+  {t:'tense',c:['ㄲ','ㄸ']},{t:'tense',c:['ㅃ','ㅆ','ㅉ']},
+  {t:'old',o:20},{t:'old',o:21},{t:'old',o:22},{t:'old',o:23},{t:'old',o:24}];
+const KO3_MAX=KO3.length-1;
+const koNo=s=>s<=3?2:s<=25?3:4;
+/* 지금까지 배운 자음·모음 */
+const ko3C=s=>uniqA(KO3.slice(1,Math.min(s,17)+1).flatMap(x=>x.c||[]));
+const ko3V=s=>s>=4?B10:uniqA(KO3.slice(1,Math.min(s,3)+1).flatMap(x=>x.v||[]));
+const sylOK=(ch,cs,vs)=>{ const d=dec(ch); return d&&d[2]===0&&cs.includes(d[0])&&vs.includes(d[1]); };
+const W3=()=>{ const m=new Map(); WK.concat(KWP).forEach(x=>{ if(x[1]&&!m.has(x[0])) m.set(x[0],x); }); return [...m.values()]; };
+const kq=(learn,note,prompt,opts,say,praise)=>({learn,note,ask:say?[[say,'ko']]:[],voice:say?[[say,'ko']]:null,praise:praise?[[praise,'ko']]:null,prompt:prompt+(say?speakBtn:''),opts,kosay:1});
+const kPic=w=>`<div class="pic">${w[1]}</div>`;
+/* 보기 글자: 같은 모음·다른 자음, 같은 자음·다른 모음 (배운 것 안에서) */
+function sylWrong(ch,cs,vs,n){ const d=dec(ch); const a=shuffle(cs.filter(c=>c!==d[0])).map(c=>mk(c,d[1],d[2])), b=shuffle(vs.filter(v=>v!==d[1])).map(v=>mk(d[0],v,d[2]));
+  const out=[]; for(let i=0;out.length<n&&i<8;i++){ if(b[i]&&out.length<n) out.push(b[i]); if(a[i]&&out.length<n) out.push(a[i]); } return uniqA(out).slice(0,n); }
+/* ① 그림 + ( )방 — 낱말만 읽어 줘요 */
+function k3Blank(w,isT,wrongOf,no){ const ch=[...w[0]], idx=ch.map((c,i)=>i).filter(i=>isT(ch[i])); if(!idx.length) return null;
+  const i=pick(idx), ans=ch[i], wr=wrongOf(ans).filter(x=>x!==ans).slice(0,no-1); if(wr.length<no-1) return null;
+  const shown=ch.map((c,k)=>k===i?'<span class="blank">?</span>':c).join('');
+  return kq(LW(w[0],w[1],'ko',{hl:[i]}),`${w[0]}`,`${kPic(w)}<div class="word">${shown}</div>`,wordOpts(ans,wr),w[0],w[0]); }
+/* ② ㄱ + ㅏ = ? (소리 없이) */
+function k3Comb(c,v,wrongs){ const s=mk(c,v); return kq(null,`${c} + ${v} = ${s}`,kplus(c,v),wordOpts(s,wrongs),null,s); }
+/* ②' 가 + ㅁ = ? (몸통 + 받침, 소리 없이) */
+function k3Fin(base,f,wrongs){ const s=withFin(base,FIN[f]); return kq(null,`${base} + ${f} = ${s}`,kplus(base,f),wordOpts(s,wrongs),null,s); }
+/* ③ 그림 보고 낱말 듣고 → 바르게 쓴 낱말 고르기 */
+function k3Read(w,alt,no){ const ch=[...w[0]], wr=new Set(); shuffle(ch.map((c,i)=>i)).forEach(i=>{ alt(ch[i]).forEach(x=>{ if(wr.size<no-1&&x!==ch[i]){ const t=ch.slice(); t[i]=x; const nw=t.join(''); if(nw!==w[0]&&!W3().some(o=>o[0]===nw)) wr.add(nw); } }); });
+  if(wr.size<no-1) return null;
+  return kq(LW(w[0],w[1],'ko'),w[0],kPic(w),wordOpts(w[0],[...wr]),w[0],w[0]); }
+/* ④ 낱말 읽고 그림 고르기 (소리 없이) */
+function k3Pick(w,pool,no){ const seen=new Set([w[1]]), wr=shuffle(pool).filter(x=>x[0]!==w[0]&&!seen.has(x[1])&&seen.add(x[1])).slice(0,no-1); if(wr.length<no-1) return null;
+  return kq(LW(w[0],w[1],'ko'),w[0],`<div class="word">${w[0]}</div>`,pickOpts(w,wr,x=>`<span class="pic">${x[1]}</span>`),null,w[0]); }
+
+function rowQ(s){ const L=KO3[s], no=koNo(s), cs=ko3C(s), vs=ko3V(s), isT=ch=>sylOK(ch,L.c,L.v);
+  const all=W3().filter(w=>[...w[0]].some(isT)), basic=all.filter(w=>isBasic(w[0])), pool=basic.length>=3?basic:all, readable=W3().filter(w=>!['우리','라','뭐','이'].includes(w[0])&&[...w[0]].every(ch=>sylOK(ch,cs,vs)));
+  const T=[
+    ()=>{ if(!pool.length) return null; return k3Blank(pick(pool),isT,ch=>sylWrong(ch,cs,vs,no-1),no); },
+    ()=>{ if(!pool.length) return null; return k3Blank(pick(pool),isT,ch=>sylWrong(ch,cs,vs,no-1),no); },
+    ()=>{ const c=pick(L.c), v=pick(s>=4?V6:L.v); return k3Comb(c,v,sylWrong(mk(c,v),cs,s>=4?V6:vs,no-1)); },
+    ()=>{ const c=pick(L.c), v=pick(s>=4?V6:L.v); return k3Comb(c,v,sylWrong(mk(c,v),cs,s>=4?V6:vs,no-1)); }];
+  if(s>=4) T.push(()=>pool.length?k3Read(pick(pool),ch=>isT(ch)?sylWrong(ch,cs,vs,4):[],no):null);
+  if(s>=6&&readable.length>=no) T.push(()=>k3Pick(pick(readable),readable,no));
+  return pick(T)(); }
+function finQ(s){ const L=KO3[s], no=koNo(s), fs=L.f, learned=FIN_ORDER.slice(0,FIN_ORDER.indexOf(fs[fs.length-1])+1);
+  const has=ch=>fs.some(f=>jongOf(ch)===FIN[f]), pool=finWords(fs);
+  const finAlt=ch=>{ const d=dec(ch); return shuffle(uniqA(learned.concat(['ㅇ','ㅁ','ㄴ']))).filter(f=>FIN[f]!==d[2]).map(f=>mk(d[0],d[1],FIN[f])).concat([mk(d[0],d[1])]); };
+  const T=[
+    ()=>{ const c=pick(CON14), v=pick(['ㅏ','ㅓ','ㅗ','ㅜ','ㅣ']), f=pick(fs), base=mk(c,v); return k3Fin(base,f,finAlt(withFin(base,FIN[f])).slice(0,no-1)); },
+    ()=>{ const c=pick(CON14), v=pick(['ㅏ','ㅓ','ㅗ','ㅜ','ㅣ']), f=pick(fs), base=mk(c,v); return k3Fin(base,f,finAlt(withFin(base,FIN[f])).slice(0,no-1)); },
+    ()=>pool.length?k3Blank(pick(pool),has,ch=>finAlt(ch),no):null,
+    ()=>pool.length?k3Blank(pick(pool),has,ch=>finAlt(ch),no):null,
+    ()=>pool.length?k3Read(pick(pool),ch=>has(ch)?finAlt(ch):[],no):null];
+  return pick(T)(); }
+function vowQ(s){ const L=KO3[s], no=koNo(s), pool=(L.pool==='AE'?AE:CPX).filter(w=>[...w[0]].some(ch=>{ const d=dec(ch); return d&&L.v.includes(d[1]); }));
+  const isT=ch=>{ const d=dec(ch); return d&&L.v.includes(d[1]); }, sim=L.pool==='AE'?SIM_AE:VSIM;
+  const alt=ch=>{ const d=dec(ch); return uniqA((sim[d[1]]||['ㅏ','ㅓ','ㅗ']).concat(L.v.filter(v=>v!==d[1]),['ㅏ','ㅗ','ㅜ'])).filter(v=>v!==d[1]).map(v=>mk(d[0],v,d[2])); };
+  const T=[
+    ()=>{ const syl=uniqA(pool.flatMap(w=>[...w[0]].filter(ch=>{ const d=dec(ch); return d&&L.v.includes(d[1])&&d[2]===0&&d[0]!=='ㅇ'; }))); if(!syl.length) return null; const d=dec(pick(syl)); return k3Comb(d[0],d[1],alt(mk(d[0],d[1])).slice(0,no-1)); },
+    ()=>pool.length?k3Blank(pick(pool),isT,alt,no):null,()=>pool.length?k3Blank(pick(pool),isT,alt,no):null,
+    ()=>pool.length?k3Read(pick(pool),ch=>isT(ch)?alt(ch):[],no):null];
+  return pick(T)(); }
+function tenseQ(s){ const L=KO3[s], no=koNo(s), isT=ch=>{ const d=dec(ch); return d&&L.c.includes(d[0]); }, pool=TENSE.filter(w=>[...w[0]].some(isT));
+  const alt=ch=>{ const d=dec(ch); return TSIM[d[0]].map(c=>mk(c,d[1],d[2])).concat([mk(d[0],pick(['ㅏ','ㅓ','ㅗ','ㅜ'].filter(v=>v!==d[1])),d[2])]); };
+  const T=[
+    ()=>{ const c=pick(L.c), v=pick(['ㅏ','ㅓ','ㅗ','ㅜ','ㅣ']); return k3Comb(c,v,alt(mk(c,v)).slice(0,no-1)); },
+    ()=>pool.length?k3Blank(pick(pool),isT,alt,no):null,()=>pool.length?k3Blank(pick(pool),isT,alt,no):null,
+    ()=>pool.length?k3Read(pick(pool),ch=>isT(ch)?alt(ch):[],no):null];
+  return pick(T)(); }
+function ko3Core(s){ const L=KO3[s]; if(L.t==='row') return rowQ(s); if(L.t==='fin') return finQ(s); if(L.t==='vow') return vowQ(s); if(L.t==='tense') return tenseQ(s); return pick(KOS2[L.o])(); }
+/* 한 단계 문제 + 앞 단계 복습 (30%) */
+function koN3(s){ s=Math.max(1,Math.min(KO3_MAX,s||1)); let q=null,g=0;
+  while(!q&&g++<30){ try{ let s0=s; if(s>1&&s<=31&&Math.random()<.3) s0=RI(Math.max(1,s-6),s-1); q=ko3Core(s0); if(q&&s0!==s&&q.opts.length>koNo(s)) q=null; }catch(e){ q=null; } }
+  return q||Object.assign(k3Comb('ㅇ','ㅏ',['이']),{fb:1}); }
+
+/* ---------- 오늘의 글자 카드 (1~31단계) ---------- */
+function tlCands(s){ const L=KO3[s], W=ALLW(), out=[]; if(!L) return out;
+  const add=(syl,info,pool)=>{ const ws=(pool||W).filter(w=>w[0].includes(syl)); if(ws.length) out.push(Object.assign({s:syl,words:ws.slice(0,3)},info)); };
+  if(L.t==='row'){ const cs=L.c.length>1?CON14:L.c; L.v.forEach(v=>cs.forEach(c=>add(mk(c,v),{c,v},W3()))); }
+  else if(L.t==='fin'){ L.f.forEach(f=>{ const j=FIN[f], seen=new Set(); W.forEach(w=>[...w[0]].forEach(ch=>{ if(jongOf(ch)===j&&!seen.has(ch)){ const d=dec(ch); if(d&&B10.includes(d[1])&&CON14.includes(d[0])){ seen.add(ch); add(ch,{c:d[0],v:d[1],f:j}); } } })); }); }
+  else if(L.t==='vow'){ const seen=new Set(); (L.pool==='AE'?AE:CPX).forEach(w=>[...w[0]].forEach(ch=>{ const d=dec(ch); if(d&&L.v.includes(d[1])&&d[2]===0&&d[0]!=='ㅇ'&&!seen.has(ch)){ seen.add(ch); add(ch,{c:d[0],v:d[1]}); } })); }
+  else if(L.t==='tense'){ const seen=new Set(); TENSE.forEach(w=>[...w[0]].forEach(ch=>{ const d=dec(ch); if(d&&L.c.includes(d[0])&&d[2]===0&&!seen.has(ch)){ seen.add(ch); add(ch,{c:d[0],v:d[1]}); } })); }
+  return out; }
+function todayLetter(p){ const s=lvOf(p,'ko'); if(s>31) return null; const cs=tlCands(s); if(!cs.length) return null; const day=Math.floor((Date.now()+9*36e5)/864e5); return cs[(day+(who==='jeong'?3:0))%cs.length]; }
+/* 카드에서 본 글자로 첫 두 문제 */
+function tlQs(t){ const out=[], s=lvOf(P[who],'ko'), no=koNo(s), cs=ko3C(s).concat(t.c&&!ko3C(s).includes(t.c)?[t.c]:[]), vs=uniqA(ko3V(s).concat([t.v]));
+  try{ if(t.f){ const base=mk(t.c,t.v), f=JNAME[t.f]; out.push(k3Fin(base,f,shuffle(['ㅇ','ㅁ','ㄹ','ㄴ','ㄱ','ㅂ'].filter(x=>FIN[x]!==t.f)).slice(0,no-2).map(x=>mk(t.c,t.v,FIN[x])).concat([base]))); }
+    else out.push(k3Comb(t.c,t.v,sylWrong(t.s,cs.length>1?cs:CON14.slice(0,4).concat(cs),vs,no-1)));
+    const w=pick(t.words), q2=k3Blank(w,ch=>ch===t.s,ch=>t.f?['ㅇ','ㅁ','ㄹ','ㄴ'].filter(x=>FIN[x]!==t.f).map(x=>mk(t.c,t.v,FIN[x])).concat([mk(t.c,t.v)]):sylWrong(ch,cs.length>1?cs:CON14,vs,no-1),no);
+    if(q2) out.push(q2); }catch(e){}
+  return out.filter(Boolean); }
+
 const W=(t,cls)=>`<span class="${cls||'word'}">${t}</span>`;
 const picW=(e,w)=>`<span style="display:flex;flex-direction:column;align-items:center;gap:2px"><span class="pic" style="font-size:clamp(46px,12vw,60px)">${e}</span><span class="word" style="font-size:clamp(19px,5vw,30px);white-space:nowrap">${w}</span></span>`;
 const pickOpts=(ok,wrongs,html)=>shuffle([ok,...wrongs]).map(x=>({ok:x===ok,html:html(x)}));
@@ -2712,7 +2837,7 @@ function xPick(lang,L){
   FRESH.xused=FRESH.xused||new Set(); let fresh=pool.filter(t=>!FRESH.xused.has(t)); if(!fresh.length){ FRESH.xused.clear(); fresh=pool; }
   const t=pick(fresh); FRESH.xused.add(t); return t;
 }
-const xRate=(L,lang)=>lang==='calc'?.18:lang==='think'?.35:lang==='ko'?(L<=9?0:.2):0;
+const xRate=(L,lang)=>lang==='calc'?.18:lang==='think'?.35:lang==='ko'?(L<=31?0:.2):0;
 
 /* =========================================================
    단어 고르기 — 최근에 본 낱말은 잠시 쉬고, 틀린 낱말은 며칠 뒤 다시 나와요
@@ -2887,7 +3012,7 @@ function startQuiz(lang,skip){
     items.push(q);
   }
   if(lang==='ph'){ const t=phToday(pp); if(t){ const ex=phTodayQs(t); ex.forEach(q=>{ q.key=null; q.hear=false; q.replay=false; if(!q.voice) q.voice=q.ask; }); items.splice(0,ex.length,...ex); } }
-  if(lang==='ko'&&L<=19){ const t=todayLetter(pp); if(t){ const ex=tlQs(t); ex.forEach(q=>{ q.key=null; q.hear=false; q.replay=false; if(!q.voice) q.voice=q.ask; }); items.splice(0,ex.length,...ex); } }
+  if(lang==='ko'&&L<=31){ const t=todayLetter(pp); if(t){ const ex=tlQs(t); ex.forEach(q=>{ q.key=null; q.hear=false; q.replay=false; if(!q.voice) q.voice=q.ask; }); items.splice(0,ex.length,...ex); } }
   pp.recent[lang]=[...new Set(items.map(x=>x.key).filter(Boolean).concat(pp.recent[lang]||[]))].slice(0,160); save();
   Q={lang,items,i:0,earned:0,first:0};
   view='quiz'; render();
@@ -2897,7 +3022,7 @@ function makeQ(lang,ST,noHear){
   const L=ST, LMAX=MAXS[lang]||10;
   const gen=(l)=>{ FRESH.last=null; let q=null;
     if(Math.random()<xRate(l,lang)){ const t=xPick(lang,l); if(t){ try{ q=t.f(l,l<=2?3:4); }catch(e){ q=null; } } }
-    if(!q){ try{ q=lang==='calc'?calcQ(l):lang==='think'?thinkQ(l):lang==='ko'?koN(l):lang==='ph'?phQ(l):enN(l,noHear); }catch(e){ console.error(e); q=null; } }
+    if(!q){ try{ q=lang==='calc'?calcQ(l):lang==='think'?thinkQ(l):lang==='ko'?koN3(l):lang==='ph'?phQ(l):enN(l,noHear); }catch(e){ console.error(e); q=null; } }
     if(!q) q=lang==='en'?enN(l,noHear):Object.assign(eq(`1 + 1 = ${BL}`,2,3),{fb:1});
     q.key=FRESH.last; return q; };
   let q=gen(L), g=0;
@@ -2929,8 +3054,9 @@ function rQuiz(){
   const cards=it.opts.map((o,k)=>`<button class="card press" data-act="ans" data-k="${k}">${o.html}</button>`).join('');
   const muted=MUTE&&!/class="ptxt/.test(it.prompt)&&askText(it)?`<div class="ptxt sm mtxt">${askText(it)}</div>`:'';
   const mb=`<button class="mutebtn press" data-act="mute">${MUTE?'🔊 소리 다시 켜기':'🔇 소리 못 들어요'}</button>`;
-  app.innerHTML=topbar().replace('<div class="sp"></div>',`<div class="sp"></div>${dots}<div class="sp"></div>`)+`<div class="qbox"><div class="prompt">${MUTE?it.prompt.replace(speakBtn,''):it.prompt}${muted}</div>${mb}<div class="cards ${it.opts.some(o=>o.html.includes('class="sent'))?'wide':it.opts.length===2?'two':it.opts.length===4?'four':''}">${cards}</div></div>`;
+  app.innerHTML=topbar().replace('<div class="sp"></div>',`<div class="sp"></div>${dots}<div class="sp"></div>`)+`<div class="qbox q-${Q.lang}${Q.lang==='calc'||Q.lang==='think'?' m':''}"><div class="prompt">${MUTE?it.prompt.replace(speakBtn,''):it.prompt}${muted}</div>${mb}<div class="cards ${it.opts.some(o=>o.html.includes('class="sent'))?'wide':it.opts.length===2?'two':it.opts.length===4?'four':''}">${cards}</div></div>`;
   if(!it.voice||MUTE){ const sp=document.getElementById('spk'); if(sp) sp.remove(); }
+  qPretty();
   later(()=>speakQ(true),380);
 }
 /* 문제를 소리로 읽어 줘요. 정답을 말해 버리는 부분은 빼요 */
@@ -2966,7 +3092,7 @@ function answer(k, el){
     document.body.appendChild(pr); setTimeout(()=>pr.remove(),950);
     const n=document.getElementById('starN'); if(n) n.textContent=wallet(P[who]);
     let moved=false; const go=()=>{ if(moved) return; moved=true; hush(); Q.i++; if(Q.i>=Q.items.length){ finishRound(); view='done'; render(); } else rQuiz(); };
-    hush(); const sayW=(Q.lang==='en'||Q.lang==='ph')&&it.praise&&it.praise.length&&!MUTE; if(sayW) later(()=>speakSeq(it.praise),250); later(go,sayW?2100:1300);
+    hush(); const sayW=(Q.lang==='en'||Q.lang==='ph'||it.kosay)&&it.praise&&it.praise.length&&!MUTE; if(sayW) later(()=>speakSeq(it.praise),250); later(go,sayW?2100:1300);
     const myQ=Q; setTimeout(()=>{ if(!moved && view==='quiz' && Q===myQ) go(); },6500);
   }else{
     it.missed=true; el.classList.add('no'); el.disabled=true; oops();
@@ -2985,12 +3111,13 @@ function lvOf(p,k){
     p.hist.ko=[]; p.today=p.today||{}; if(p.today.math){ p.today.calc=true; p.today.think=true; } p.v11new=1; }
   if(!p.v12){ p.v12=1; const o=Math.max(1,Math.min(24,p.lv.ko||1)); p.lv.ko=[0,1,1,1,1,1,1,10,10,17,17,19,20,20,20,20,20,21,21,22,22,23,23,24,24][o]; p.hist.ko=[]; }
   if(!p.ph2){ p.ph2=1; p.lv.ph=1; p.hist.ph=[]; }
+  if(!p.ko3){ p.ko3=1; const o=Math.max(1,Math.min(24,p.lv.ko||1)); p.lv.ko=[0,1,4,5,7,9,11,13,15,17,18,19,20,21,22,23,25,26,27,30,32,33,34,35,36][o]; p.hist.ko=[]; }
   if(!p.en2){ p.en2=1; p.lv.en=Math.max(1,Math.min(10,(p.lv.en||1)-1)); p.hist.en=[]; }
   return Math.max(1,Math.min(MAXS[k]||10,p.lv[k]||1));
 }
 const BOOK={
   en:['','Cambridge Pre A1 Starters · Animals','Starters · Food','Starters · Colours','Starters · Numbers 1–10','Starters · The body','Starters · Toys · Clothes','Starters · 두 낱말 듣기','Starters · Actions','Starters · 짧은 문장 듣기','Starters · in · on · under'],
-  ko:['','기적의 한글학습 1권 1단계','기적의 한글학습 1권 2단계','기적의 한글학습 1권 3~4단계','기적의 한글학습 1권 5~6단계','기적의 한글학습 1·2권 7~8단계','기적의 한글학습 2권 9~10단계','기적의 한글학습 2권 11~12단계','기적의 한글학습 2권 13~14단계','기적의 한글학습 1·2권 복습','기적의 한글학습 3권 15단계','기적의 한글학습 3권 16단계','기적의 한글학습 3권 17단계','기적의 한글학습 3권 18단계','기적의 한글학습 3권 19단계','기적의 한글학습 3권 20~21단계','기적의 한글학습 3권 복습','기적의 한글학습 4권 22~23단계','기적의 한글학습 4권 24~28단계','기적의 한글학습 5권 29~33단계','기탄국어 C-4집 (문장)','초1 국어','초1 국어','초2 국어','초2 국어'],
+  ko:['','기적의 한글학습 1권 1단계','기적의 한글학습 1권 1단계','기적의 한글학습 1권 1단계','기적의 한글학습 1권 2단계','기적의 한글학습 1권 3~4단계','기적의 한글학습 1권 3~4단계','기적의 한글학습 1권 5~6단계','기적의 한글학습 1권 5~6단계','기적의 한글학습 1·2권 7~8단계','기적의 한글학습 1·2권 7~8단계','기적의 한글학습 2권 9~10단계','기적의 한글학습 2권 9~10단계','기적의 한글학습 2권 11~12단계','기적의 한글학습 2권 11~12단계','기적의 한글학습 2권 13~14단계','기적의 한글학습 2권 13~14단계','기적의 한글학습 1·2권 복습','기적의 한글학습 3권 15단계','기적의 한글학습 3권 16단계','기적의 한글학습 3권 17단계','기적의 한글학습 3권 18단계','기적의 한글학습 3권 19단계','기적의 한글학습 3권 20~21단계','기적의 한글학습 3권 20~21단계','기적의 한글학습 3권 복습','기적의 한글학습 4권 22~23단계','기적의 한글학습 4권 24~28단계','기적의 한글학습 4권 24~28단계','기적의 한글학습 4권 24~28단계','기적의 한글학습 5권 29~33단계','기적의 한글학습 5권 29~33단계','기탄국어 C-4집 (문장)','초1 국어','초1 국어','초2 국어','초2 국어'],
   ph:['','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 글자 하나씩','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 1 빨강 · 세 글자 낱말','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 2 주황','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 3 노랑','알파블럭스 Level 5 파랑 · 매직 e','알파블럭스 Level 5 파랑 · 매직 e','알파블럭스 Level 5 파랑 · 매직 e'],
   calc:['','소마셈 K1','소마셈 K2','소마셈 K3','소마셈 K4','소마셈 K5','소마셈 K6','소마셈 K7','소마셈 K8','소마셈 P1','소마셈 P2','소마셈 P3','소마셈 P4','소마셈 P5','소마셈 P6','소마셈 P7','소마셈 P8','초1 수학','초1 수학','초2 수학','초2 수학'],
   think:['','키즈 팩토','키즈 팩토','킨더 팩토 D','킨더 팩토 B','킨더 팩토 A·D','킨더 팩토 D','킨더 팩토 B','킨더 팩토 B·C','킨더 팩토 A','킨더 팩토 D','킨더 팩토 A','킨더 팩토 C','초등 팩토 Lv1','초등 팩토 Lv1','킨더 팩토 복습']};
@@ -3199,6 +3326,36 @@ function famChars(){ if(FAMC) return FAMC; FAMC=[];
 function famPlots(){ return famChars().map((c,i)=>`<div class="plot fr famc" style="--fc:${c.color}"><span class="famtag">${famEsc(c.name)}</span><div class="famav" style="animation-delay:-${(i*.45).toFixed(2)}s">${c.svg}</div><div class="shadow"></div></div>`).join(''); }
 window.famRefresh=()=>{ const old=JSON.stringify(FAMC||[]); FAMC=null; famChars(); if(JSON.stringify(FAMC)!==old&&document.querySelector('.plots')) render(); };
 
+
+/* ---------- 문제를 한눈에: 수학 문장의 숫자 강조 · 줄 나눔 ---------- */
+function fitIn(el,min){ const box=el.parentElement; if(!box) return; let fs=parseFloat(getComputedStyle(el).fontSize), g=0; const room=()=>box.clientWidth-parseFloat(getComputedStyle(box).paddingLeft)-parseFloat(getComputedStyle(box).paddingRight)-4;
+  while(el.scrollWidth>room()&&fs>min&&g++<40){ fs-=3; el.style.fontSize=fs+'px'; } }
+function qPretty(){ try{
+  const it=Q&&Q.items&&Q.items[Q.i];
+  /* 수학: 글 없이 그림만 있는 문제는 짧은 질문을 아래에 보여 줘요 */
+  document.querySelectorAll('.qbox.m .prompt').forEach(pr=>{ if(pr.querySelector('.ptxt,.expr,.sent')||!it) return; const t=askText(it); if(t&&t.length<=24){ const d=document.createElement('div'); d.className='ptxt'; d.textContent=t; pr.appendChild(d); } });
+  /* 길면 줄이 넘치지 않게 글자 크기를 줄여요 */
+  document.querySelectorAll('.qbox .expr').forEach(el=>{ el.style.whiteSpace='nowrap'; fitIn(el,26); });
+  document.querySelectorAll('.qbox .card .word,.qbox .card .num').forEach(el=>{ el.style.whiteSpace='nowrap'; fitIn(el,20); });
+  document.querySelectorAll('.qbox.m .ptxt').forEach(el=>{ if(el.dataset.pp) return; el.dataset.pp=1;
+    el.innerHTML=('>'+el.innerHTML+'<').replace(/>([^<]+)</g,(m,t)=>'>'+t.replace(/(\d+)/g,'<b class="nh">$1</b>').replace(/([.?!])\s+(?=\S)/g,'$1<br>')+'<').slice(1,-1); });
+}catch(e){} }
+/* ---------- 문제 그림은 이모티콘 대신 그림(픽토그램)으로 — OpenMoji (CC BY-SA 4.0) ---------- */
+const EMO_SET=new Set('2728 1F34E 1F34C 1F347 1F353 1F95B 1F333 1F338 1F436 1F431 1F430 1F43B 1F986 1F682 1F68C 26F5 2600 1F319 2B50 2602 1F9E2 26BD 1F3E0 1F41F 1F349 1F697 26C4 1F45F 23F0 1F577 1F952 1F95A 1F370 1F452 1F964 1F426 1F438 1F437 1F42E 1F4D5 1F524 1F9E9 1F507 1F31F 1F496 1F389 1F36D 1F955 1F36A 1F9C3 1F369 1F36B 1F359 1F37F 1F9C1 1F366 1F36E 1F361 1F355 1F354 1F95E 1F380 1F340 1F98B 1F576 1F3A7 1F9E3 1F3A9 1F393 1F451 1F337 1F344 1F339 1F33B 1F335 1F334 1FA81 1F3EE 1F9F8 1F38F 1F6F9 1F6B2 1F383 26FA 26F2 1F6F6 1F9A9 1F3A0 1F384 1F3AA 1F308 1F680 1F5FC 1F3EF 1F33C 1F490 1F33A 1F332 1F33E 1F41E 1F41D 1F40C 1F43F 1F994 1F407 1F424 1F422 1F99A 1F99C 1F420 1F388 1F6F4 1FA80 1F3C0 1F3B3 1F3A8 1F390 1F3D5 26E9 1F9FA 1FA91 1F6CB 1F4A1 1F52D 1F381 1F56F 1F3A1 1F3A2 1F423 1F331 26F1 1F41A 1F3D6 1F341 1F342 1F330 2744 1F9E4 2603 1F984 1F32C 1F3F0 1F6D2 1F3D8 1F3E1 1F3D9 1F3DE 1F30C 1F36C 1F3DF 1F30B 1F309 1F6F8 1F981 1F320 1F528 2753 26A1 1F195 1F4D6 1F33F 1F4CA 2699 1F525 1F4C5 2705 1F4D8 1F4DA 1F4DD 1F44B 1F4AA 1F42C 1FA90 1F409 1F48E 1F3C6 1F30F 1F352 1F34B 1F33D 1F427 1F98A 1F43C 1F433 1F992 1F3B5 1F681 1F5FB 1F425 1F50A 1F99B 1F30A 1F9FC 1F457 1F443 1F442 1F456 1F346 2702 1F9C8 1F6DD 1F3B8 1F9C0 1F45E 1F96C 1F336 1F476 1F5FA 1F374 1F3BF 1F95D 1F41C 1F99F 1F990 1F99E 1F30D 1F9B7 1F9B5 1F967 1F4CF 1F980 1F42D 1F32E 1F418 1F42F 1F412 1F360 2708 1F991 1F3B9 1F4F7 1F4FB 1F345 1F99D 1F637 1F3CD 1F35D 1F951 1F35A 1F35E 270B 1F9B6 1F6AA 1F36F 1F414 1F9E6 270F 1F419 1F988 1F392 1F944 1F34A 1F6CF 1F48D 1F453 260E 2709 1F511 1F995 1F42B 1F98C 1F985 1F989 1F428 1F998 1F954 1F9C5 1F9C4 1F351 1F34D 1F348 1F95C 1F35C 1F95F 1F69A 1F695 1F691 1F692 1F693 26BE 1F941 1F3BA 1F3BB 1F3A4 2601 1F3DD 1F444 1F434 1F411 1F40D 1F43A 1F987 1F410 1F9A2 1F98D 1F9D1-200D-1F3EB 1FA7A 1F46E 1F9D1-200D-1F692 1F9D1-200D-1F373 1F9D1-200D-1F33E 1F399 1F9D1-200D-1F3A8 1F9D1-200D-1F91D-200D-1F9D1 1F468 1F475 1F474 1F3EB 1F3E5 1F3EA 1F3E6 26EA 1F3E2 1F689 1F6EB 1F373 1F6BD 1F6C0 1F9FD 1F4D2 1F4C4 1F58D 1F9F2 1F50D 1F321 1F310 1F4F0 1F50B 1F4BB 1F4F1 1F4FA 1F9F9 1F634 1F6CC 1F512 1F45B 1F97E 1F9F6 1F9F1 1F916 1F4B0 1F6A9 26F8 1F3CA 1F3C3 1F938 1F3F8 1F3D3 1F94B 1F3C5 1F382 1F386 26F0 1F315 1F329 1F32B 1F487 261D 1F445 1F622 1F604 1F971 1F358 1F372 1F957 1F96A 1F357 1F969 1F32D 1F35F 1F9C2 1F966 1F96D 1F965 1F40A 1F98E 1F997 1F982 1F406 1F993 1F98F 1F439 1F415 1F413 1F54A 1F41B 2614 1F699 1F646 1F642 23F3 1F4E6 1F3EC 1F4C6 1F307 1F305 1F306 1F304 1F9F3 1F9FB 1FAA8 1F6CD 1F6FA 1FA9C 1F3AD 1F3B2 1F0CF 1F6F7 1F4A4 1F4A8 1F62D 1F483 1F58A 1F45C 1F690 1F400 1F945 1F578 1F375 1F441 1F4CC 1F454 1F6C1 2615 1F466 1F402 1F9CA 1F6A2 1F514 1F350 1F9E5 1F343 1F934 1F467 231A 1F455 1F478 1F6E3 1F3DC 1F327 26C8 1F58C 1F3BE 1F6E9 1F953 1F696 1F3D4 1F69C 1F947 1F3C4 26F3 1F3AF 1F68B 1F4EF 1F9AA 1F602 1F60B 1F534 1F535 1F7E1 1F7E2 1F600 26AB 1F4A6 1F4E5 2B55 1F469 1F620 1F924 1F631 1F629 1F632 1F6B4 1F64B 1F52E 1F9D2 1F590 1FA77 1F7E3 1F408 2693 1F40E 1F44F 1F53A 1F7E6 1F448 1F449 2196 2197 2199 2198 1F504 1F45A 1F97C 1FA73 1F9D1 1F368 1F469-200D-1F9B0 1F64F 1F469-200D-1F3EB 1F48A 1F4EE 1F31E 1F47B 1F6C2 1FAAE 1F6DE 1FAB4 1F32A 1F975 1F9B4 1F5D1 1F4AD 1FAD9 1F46F 1F362 1F426-200D-2B1B 1F376 1F440 1F4AC 1FAAD 1F9D1-200D-1F527 1F324 1F37C 1F7EB 0038-20E3 1F463 1F937 1F645 1F37D 1F963 1F356 1F52A 1F999 1F60A 1F462 1F404 1F6DF 1FAB0 1F9CD 2764 1F9A4 1FA9F 1FABF 1FAB2 1F38B 1F927 1F9D1-200D-2695 1F935 1F4CD 1F9AD 1FA93 1F6D6 1FABA 0039-20E3 1FA86 1FAD2 1F9A6 1F9DD 1FAB5 1F48B 1FABC 1F3FA 1FAB1 0036-20E3 1F403 1F910 0030-20E3 1F44D 0033-20E3 1F4EC 1F485 1F303 1FA9D 1FA99 1F6E2 1F9D4 1F6A7 0035-20E3 1FAA2 1FA88 1F9EA 1FACF 1FAD8 1FA9A 1F43E 1F9F4 1F96B 1F6B0 1F51F 1FAD0 1FAA5 1F6D1 1FA94 1F9BA 1F609 26CF 1F417 1F51D 1F917 1F96F 1F50E 1F962 1F435 1F950 274C 1F47D 2604 1F4AF 1F6B6 1F48C 1F91A 1F495 1F497 1F606 1F510 1F501 1F513 1F4BE 1F4C2'.split(' '));
+const EMO_RE=/(?:\p{Extended_Pictographic}|\p{Regional_Indicator})(?:️|⃣|[\u{1F3FB}-\u{1F3FF}]|‍(?:\p{Extended_Pictographic}|\p{Regional_Indicator})️?)*|[0-9#*]️⃣/gu;
+const emoKey=e=>[...e].filter(c=>c!=='️').map(c=>c.codePointAt(0).toString(16).toUpperCase().padStart(4,'0')).join('-');
+function emoize(root){ if(!root) return; const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode&&n.parentNode.closest&&n.parentNode.closest('svg')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}), nodes=[];
+  while(tw.nextNode()){ const n=tw.currentNode; EMO_RE.lastIndex=0; if(EMO_RE.test(n.nodeValue)) nodes.push(n); }
+  nodes.forEach(n=>{ const t=n.nodeValue, frag=document.createDocumentFragment(); let last=0, any=false; EMO_RE.lastIndex=0; let m;
+    while((m=EMO_RE.exec(t))){ const k=emoKey(m[0]); if(!EMO_SET.has(k)) continue; any=true;
+      if(m.index>last) frag.appendChild(document.createTextNode(t.slice(last,m.index)));
+      const im=document.createElement('img'); im.className='emo'; im.alt=m[0]; im.draggable=false; im.src='emo/'+k+'.svg'; im.onerror=function(){ this.replaceWith(document.createTextNode(this.alt)); }; frag.appendChild(im); last=m.index+m[0].length; }
+    if(!any) return; if(last<t.length) frag.appendChild(document.createTextNode(t.slice(last))); n.parentNode.replaceChild(frag,n); }); }
+(function(){ let busy=false; const run=()=>{ busy=false; document.querySelectorAll('.qbox,.kcard,.lcard,.lmean,.lnote').forEach(emoize); };
+  const mo=new MutationObserver(()=>{ if(!busy){ busy=true; queueMicrotask(run); } });
+  const go=()=>{ mo.observe(document.body,{childList:true,subtree:true}); run(); };
+  if(document.body) go(); else document.addEventListener('DOMContentLoaded',go); })();
+
 function isNight(){ const h=new Date().getHours(); return h>=19||h<6; }
 function sky(){
   const m=new Date().getMonth()+1, night=isNight();
@@ -3396,7 +3553,7 @@ let parentTab='report';
 const SUBN={ko:'한글',en:'영어',calc:'연산',think:'사고력',math:'수학'};
 const LVD2={
   en:['','동물 (cat, dog, fish)','음식 (apple, milk, cake)','색깔 (red, blue, yellow)','숫자 one ~ ten','몸 (eye, nose, hand)','물건·장난감 (ball, hat, kite)','두 낱말 (two cats, a big dog)','움직임 (run, jump, swim)','기분·날씨 (I\'m happy. It\'s sunny.)','어디 있어요? (in, on, under) · I can swim.'],
-  ko:['','아 야 어 여 오 요 우 유 으 이 (그림 낱말 · 순서)','ㄱ 줄: 가 갸 거 겨 고 교 구 규 그 기','ㄴ·ㄷ 줄: 나 너 노 · 다 더 도','ㄹ·ㅁ 줄: 라 러 로 · 마 머 모','ㅂ·ㅅ 줄: 바 버 보 · 사 서 소','ㅈ·ㅊ 줄: 자 저 조 · 차 처 초','ㅋ·ㅌ 줄: 카 커 코 · 타 터 토','ㅍ·ㅎ 줄: 파 퍼 포 · 하 허 호','가 나 다 라… 모두 섞어서','받침 ㅇ (강, 공, 콩)','받침 ㅁ (곰, 감, 봄)','받침 ㄹ (달, 물, 불)','받침 ㄴ (눈, 손, 문)','받침 ㄱ (책, 국, 박)','받침 ㅂ·ㅅ (밥, 입 · 옷, 빗)','받침 모두 섞어서','ㅐ·ㅔ (개, 배, 게, 세모)','ㅘ ㅟ ㅢ ㅚ ㅝ ㅖ (사과, 가위, 의자, 시계)','ㄲ ㄸ ㅃ ㅆ ㅉ (꽃, 딸기, 빵)','짧은 문장 읽기 (누가, 무엇을, 어디서)','[초1] 받침 바르게 쓰기 · 겹받침','[초1] 소리 나는 대로 말고 바르게 · 문장 부호','[초2] 높임말 · 이어 주는 말 · 반대말','[초2] 글 읽고 답하기 · 띄어쓰기 · 분류'],
+  ko:['','아 이 오 우 (오이, 아이)','어 으','야 여 요 유 (여우, 우유)','ㄱ: 가 거 고 구 그 기','ㄴ: 나 너 노 누 느 니','ㄷ: 다 더 도 두 드 디','ㄹ: 라 러 로 루 르 리','ㅁ: 마 머 모 무 므 미','ㅂ: 바 버 보 부 브 비','ㅅ: 사 서 소 수 스 시','ㅈ: 자 저 조 주 즈 지','ㅊ: 차 처 초 추 츠 치','ㅋ: 카 커 코 쿠 크 키','ㅌ: 타 터 토 투 트 티','ㅍ: 파 퍼 포 푸 프 피','ㅎ: 하 허 호 후 흐 히','받침 없는 낱말 모두 (나비, 모자, 바나나)','받침 ㅇ (가 + ㅇ = 강 · 공, 콩)','받침 ㅁ (곰, 감, 봄)','받침 ㄹ (달, 물, 별)','받침 ㄴ (눈, 손, 문)','받침 ㄱ (책, 국, 박)','받침 ㅂ (밥, 입, 컵)','받침 ㅅ (옷, 빗, 붓)','받침 모두 섞어서','ㅐ · ㅔ (개, 게, 세모)','ㅘ · ㅝ (사과, 병원)','ㅚ · ㅟ · ㅢ (귀, 의자)','ㅒ · ㅖ · ㅙ · ㅞ (시계, 돼지)','ㄲ · ㄸ (꽃, 딸기)','ㅃ · ㅆ · ㅉ (빵, 쌀)','짧은 문장 읽기 (누가, 무엇을, 어디서)','[초1] 받침 바르게 쓰기 · 겹받침','[초1] 소리 나는 대로 말고 바르게 · 문장 부호','[초2] 높임말 · 이어 주는 말 · 반대말','[초2] 글 읽고 답하기 · 띄어쓰기 · 분류'],
   ph:['','s (sun, sock)','a (apple, ant)','t (tent, tiger)','p (pig, pen)','i (insect, igloo)','n (net, nose)','m (moon, map)','d (dog, duck)','g (goat, gift)','o (octopus, ox)','c · k (cat, kite)','e (egg, elf)','u (up, umbrella)','r (ring, robot)','h (hat, hen)','b (bus, bee)','f (fish, fox)','l (lion, leaf)','-at (cat, hat, bat)','-an (fan, pan, man)','-ap (cap, map, tap)','-ig (pig, dig, big)','-in (pin, bin, fin)','-ip (lip, sip, dip)','-og (dog, log, fog)','-op (mop, top, pop)','-ot (pot, hot, dot)','-ug (bug, mug, hug)','-un (sun, bun, run)','-ut (nut, hut, cut)','-en (hen, pen, ten)','-et · -ed (net, pet, bed, red)','세 글자 낱말 가족 모두 섞어서','j · v (jet, van)','w · x (web, fox)','y · z (yak, zip)','qu (queen)','대문자와 소문자 짝 (A–a)','sh (ship, fish)','ch (chip, chick)','th (thumb, bath)','ng (ring, king)','ck (duck, sock)','ll · ss · ff (bell, kiss, giraffe)','ee (bee, tree)','oo (moon, zoo)','ai (rain, snail)','oa (boat, goat)','igh (light, night)','ar (car, star)','or (fork, corn)','ow (cow, owl)','매직 e: a-e (cake, snake)','매직 e: i-e (kite, bike)','매직 e: o-e (bone, rose)'],
   calc:['','K1 10까지 +1 −1','K2 20까지 +1 −1','K3 10까지 +2 −2','K4 20까지 +2 −2','K5 10까지 +3 −3','K6 20까지 +3 −3','K7 20까지 +4 −4','K8 7까지 가르기·모으기','P1 30까지 +5 −5','P2 +6 +7 −6 −7','P3 +10 −10 (10묶음)','P4 +9 −9','P5 9까지 가르기·모으기','P6 10 가르기·모으기 (10의 짝)','P7 10을 만들어 더하기','P8 10을 이용한 빼기','[초1] 두 자리 ± 한 자리','[초1] 두 자리 ± 두 자리 · 세 수','[초2] 받아올림 · 받아내림','[초2] 곱셈 2단 · 5단'],
   think:['','수 세기 · 많고 적음 · 모양','크기 · 위아래 · 안팎','반복 규칙 · 분류','몇째 · 짝꿍 · 그림자','시소 · 왼쪽 오른쪽 · 길 찾기','두 가지 규칙 · 수 규칙','조각 나누기 · 겹친 도형','쌓기나무 세기 · 거울','시계 · 요일 · 클립 길이','조건 퍼즐 · 그림그래프','시소 균형 · 숨은 수','숨은 쌓기나무 · 위에서 보기','경우의 수','순서 추리 · 마방진','모두 섞어서']};
@@ -3460,7 +3617,7 @@ function parentTop(){
 function rParent(){
   const row=k=>{ const p=P[k], t=p.today, done=SKEYS.filter(x=>t[x]).map(x=>SUBN[x]);
     return `<div class="prow">${faceOf(k,80)}<div><div class="pt">${p.name}</div><div class="pd">⭐ 모은 별 ${p.stars} · 남은 별 ${wallet(p)} · 친구 ${p.friends.length} · 오늘 끝낸 공부: ${done.length?done.join(', '):'없음'}</div>
-      <div class="pd" style="margin-top:8px">단계 (한글 24 · 영어 10 · 파닉스 55 · 연산 20 · 사고력 15단계)</div>
+      <div class="pd" style="margin-top:8px">단계 (한글 36 · 영어 10 · 파닉스 55 · 연산 20 · 사고력 15단계)</div><div class="opensrc">문제 그림: OpenMoji (openmoji.org, CC BY-SA 4.0)</div>
       <div class="pa" style="margin:4px 0 0">${SKEYS.map(x=>`<span class="lvctl"><button class="sbtn" data-p="lvdn" data-k="${k}" data-s="${x}" aria-label="단계 내리기">−</button><b>${SUBN[x]} ${lvOf(p,x)}단계</b><button class="sbtn" data-p="lvup" data-k="${k}" data-s="${x}" aria-label="단계 올리기">＋</button></span>`).join('')}</div>
       <div class="pd" style="margin-top:8px">하루 문제 수</div>
       <div class="pa" style="margin:4px 0 0">${SKEYS.map(x=>`<span class="lvctl"><button class="sbtn" data-p="qdn" data-k="${k}" data-s="${x}" aria-label="문제 줄이기">−</button><b>${SUBN[x]} ${qCount(p,x)}문제</b><button class="sbtn" data-p="qup" data-k="${k}" data-s="${x}" aria-label="문제 늘리기">＋</button></span>`).join('')}</div>
@@ -3530,7 +3687,7 @@ window.appBack=function(){
   view='home'; render(); return true;
 };
 document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==='visible' && (view==='home'||view==='pick')) render(); else if(document.visibilityState==='hidden') hush(); });
-if(location.hash==='#test') window.__sj={enN,phQ,phToday,phTodayQs,PH_LV,calcQ,thinkQ,koN,CALC,THINK,KOS,KOS2,MAXS,todayLetter,tlCands,tlQs,todayLetter,tlCands,tlQs,set FRESH(v){FRESH=v;},get Q(){return Q;},hatch,askMerge,mergeAllFriends,objMergeAll,objAllN,countBar,nextMergeLv,freeCnt,mergeAllN,openObjMerge,openVisitPick,visitGift,visitStick,showVisits,get VISIT(){return VISIT;},set VISIT(v){VISIT=v;},otherKids,growHTML,growIdx,studyDays,GROW,askVoice,KW,EW,STG,stIL,finishRound,roundSize,lvProg,XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
+if(location.hash==='#test') window.__sj={koN3,KO3,todayLetter,tlQs,enN,phQ,phToday,phTodayQs,PH_LV,calcQ,thinkQ,koN,CALC,THINK,KOS,KOS2,MAXS,todayLetter,tlCands,tlQs,todayLetter,tlCands,tlQs,set FRESH(v){FRESH=v;},get Q(){return Q;},hatch,askMerge,mergeAllFriends,objMergeAll,objAllN,countBar,nextMergeLv,freeCnt,mergeAllN,openObjMerge,openVisitPick,visitGift,visitStick,showVisits,get VISIT(){return VISIT;},set VISIT(v){VISIT=v;},otherKids,growHTML,growIdx,studyDays,GROW,askVoice,KW,EW,STG,stIL,finishRound,roundSize,lvProg,XQ,makeQ,startQuiz,toggleMute,get MUTE(){return MUTE;},set MUTE(v){MUTE=v;},lvOf,answer,koQ,enQ,mathQ,SP,mon,BGS,get P(){return P;},get who(){return who;},set who(v){who=v;},render,setView:v=>{view=v;},checkBgs,pStreak,genLearn,learnHTML,openReview,get RV(){return RV;},KW,EW,KSIM,KE,plural,eko,freshPick,get FRESH(){return FRESH;}};
 render();
 })();
 </script>
