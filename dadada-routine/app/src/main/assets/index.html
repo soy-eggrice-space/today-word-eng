@@ -25,6 +25,36 @@
 .pg-k{height:58px;border-radius:16px;border:0;background:#F1F3F9;font-size:26px;font-weight:700;color:#232A3D}
 .pg-k.f{font-size:17px;background:#E4E8F6}.pg-k[data-k="확인"]{background:#5B6AD9;color:#fff}
 .pg-x{border:0;background:none;color:#6B7385;font-size:15px;padding:6px 12px}
+
+/* 식판 종류 */
+.tray.t4 .tc.rice{grid-column:span 6;min-height:104px}
+.tray.t3{grid-template-columns:minmax(0,5fr) minmax(0,3fr) minmax(0,5fr);align-items:center}
+.tray.t3 .tc{grid-column:auto;min-height:150px}
+.tray.t3 .tc.mid{min-height:96px}
+.tray.t2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tray.t2 .tc{grid-column:auto;min-height:160px}
+.tray.t1{display:flex;justify-content:center;background:radial-gradient(circle at 50% 45%,#F4F7FB,#DCE3EC);padding:16px}
+.tray.t1 .tc{width:min(250px,78%);aspect-ratio:1;min-height:0;border-radius:50%;box-shadow:inset 0 4px 10px rgba(60,75,100,.2),0 0 0 9px #fff,0 0 0 12px #CBD4E0}
+.tray.t1 .tc .fico{--fz:66px}
+.tray.t1 .tc-tag{left:50%;transform:translateX(-50%);top:14%}
+.th-tray.t4 .th-c.rice{grid-column:span 6}
+.th-tray.t3{grid-template-columns:minmax(0,5fr) minmax(0,3fr) minmax(0,5fr);align-items:center}
+.th-tray.t3 .th-c,.th-tray.t2 .th-c{grid-column:auto}
+.th-tray.t2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.th-tray.t1{display:flex;justify-content:center}
+.th-tray.t1 .th-c{border-radius:50%;width:150px;aspect-ratio:1;justify-content:center}
+.tt-pick{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:6px}
+.tt-b{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:16px;border:2px solid var(--line,#E3E7EF);background:var(--surface,#fff);color:var(--ink);font:inherit;cursor:pointer;text-align:center}
+.tt-b b{font-size:15px}.tt-b small{font-size:11px;color:var(--ink-2,#6B7385);line-height:1.25;word-break:keep-all}
+.tt-b.on{border-color:#F08A2C;background:#FFF4E8;box-shadow:0 0 0 3px rgba(240,138,44,.18)}
+.tt-mini{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;width:56px;height:38px;padding:3px;border-radius:8px;background:#DCE3EC}
+.tt-mini i{grid-column:span 2;background:#fff;border-radius:3px}
+.tt-mini.t5 i.rice,.tt-mini.t5 i.soup{grid-column:span 3}
+.tt-mini.t4 i.rice{grid-column:span 6}
+.tt-mini.t3{grid-template-columns:5fr 3fr 5fr;align-items:center}.tt-mini.t3 i{grid-column:auto;height:100%}.tt-mini.t3 i.mid{height:60%}
+.tt-mini.t2{grid-template-columns:1fr 1fr}.tt-mini.t2 i{grid-column:auto}
+.tt-mini.t1{display:flex;align-items:center;justify-content:center;border-radius:50%;width:38px}.tt-mini.t1 i{width:26px;height:26px;border-radius:50%}
+@media (max-width:560px){.tt-pick{grid-template-columns:repeat(3,minmax(0,1fr))}.tt-b small{display:none}.tray.t3 .tc{min-height:118px}.tray.t3 .tc.mid{min-height:80px}}
 </style>
 <style>
 /* Layout: three lanes, one per child — pictogram tiles; everyone who finishes gets the same stars */
@@ -1419,7 +1449,7 @@ function normalize(s){
   { const f=(s.foods&&typeof s.foods==='object')?s.foods:{}; const items={}, ate={};
     for(const [id,v] of Object.entries(f.items||{})) if(v&&typeof v==='object'&&v.name) items[id]={...v,id};
     for(const [k,v] of Object.entries(f.ate||{})) if(v&&typeof v==='object'){ ate[k]={}; for(const [id,t] of Object.entries(v)){ if(typeof t==='number'&&t) ate[k][id]={t,lv:1}; else if(t&&typeof t==='object'&&t.lv){ const lv=t.v===2?(t.lv<0?-1:Math.min(3,Math.max(1,t.lv|0))):(t.lv<0?-1:t.lv>=2?3:1); ate[k][id]={t:Number(t.t)||0,lv,v:2}; } } }
-    const trays={}; for(const [d,v] of Object.entries(f.trays||{})) if(v&&typeof v==='object'){ const o={}; for(const sl of ['s1','s2','s3','rice','soup']) if(typeof v[sl]==='string'&&v[sl]) o[sl]=v[sl]; trays[d]=o; }
+    const trays={}; for(const [d,v] of Object.entries(f.trays||{})) if(v&&typeof v==='object'){ const o={}; for(const sl of ['s1','s2','s3','rice','soup','one','l','mid','r']) if(typeof v[sl]==='string'&&v[sl]) o[sl]=v[sl]; if(typeof v.type==='string'&&/^t[1-5]$/.test(v.type)) o.type=v.type; trays[d]=o; }
     const days={}; for(const [d,v] of Object.entries(f.days||{})) if(/^\d{4}-\d{2}-\d{2}$/.test(d)&&v&&typeof v==='object'){ days[d]={}; for(const [k,m] of Object.entries(v)) if(m&&typeof m==='object'){ days[d][k]={}; for(const [fid,lv] of Object.entries(m)){ const n=Number(lv); if(n===-1||n===1||n===2||n===3) days[d][k][fid]=n; } } }
     let daysv=f.daysv||0;
     if(daysv<1&&Object.values(ate).some(m=>Object.keys(m).length)){ // 예전 기록(음식마다 하나)을 처음 먹은 날의 기록으로 옮겨요
@@ -2327,7 +2357,19 @@ const foodKey=name=>{ const n=String(name).normalize('NFC').replace(/\s+/g,'').t
 const fIco=(icon,s)=>{ const f=FOOD_ICONS[icon]||FOOD_ICONS.dish; return `<span class="fico" style="--fc:${f.c};--ft:${f.t}${s?`;--fz:${s}px`:''}">${ico('fd_'+(FOOD_ICONS[icon]?icon:'dish'))}</span>`; };
 // 식판: 위에 반찬 3칸, 아래에 밥 · 국
 const TRAY=[{k:'s1',n:'반찬'},{k:'s2',n:'반찬'},{k:'s3',n:'반찬'},{k:'rice',n:'밥',def:'rice'},{k:'soup',n:'국',def:'soup'}];
-const TRAY_NAME={s1:'반찬 1',s2:'반찬 2',s3:'반찬 3',rice:'밥',soup:'국'};
+const TRAY_NAME={s1:'반찬 1',s2:'반찬 2',s3:'반찬 3',rice:'밥',soup:'국',one:'한그릇',l:'왼쪽',mid:'가운데',r:'오른쪽'};
+/* 식판 종류: 5구(기본) · 4구(국 없이 반찬 3 + 밥) · 3구(양옆 + 가운데 작은 반찬) · 2구(양옆) · 한그릇(둥근 그릇) */
+const TRAY_TYPES={
+  t5:{n:'5구',d:'반찬 3 · 밥 · 국',cells:TRAY},
+  t4:{n:'4구',d:'반찬 3 · 밥',cells:[{k:'s1',n:'반찬'},{k:'s2',n:'반찬'},{k:'s3',n:'반찬'},{k:'rice',n:'밥',def:'rice'}]},
+  t3:{n:'3구',d:'양옆 · 가운데 작은 반찬',cells:[{k:'l',n:'왼쪽'},{k:'mid',n:'가운데'},{k:'r',n:'오른쪽'}]},
+  t2:{n:'2구',d:'양옆으로 두 칸',cells:[{k:'l',n:'왼쪽'},{k:'r',n:'오른쪽'}]},
+  t1:{n:'한그릇',d:'둥근 그릇 하나',cells:[{k:'one',n:'한그릇'}]}};
+const TT_ORDER=['t5','t4','t3','t2','t1'];
+const ALL_SLOTS=['s1','s2','s3','rice','soup','one','l','mid','r'];
+const ttOf=t=>TRAY_TYPES[t]?t:'t5';
+const trayCells=t=>TRAY_TYPES[ttOf(t)].cells;
+const lastTT=()=>ttOf(S.trayType);
 const FD=()=>{ if(!S.foods||typeof S.foods!=='object') S.foods={}; const f=S.foods; f.items||(f.items={}); f.ate||(f.ate={}); f.trays||(f.trays={}); f.days||(f.days={}); return f; };
 // 날마다 기록 (식판 날짜 → 아이 → 음식 → 단계). 별은 날마다 받아요: 1번 ★1 · 적당히 ★2 · 전부 ★3
 const LV_STAR={1:1,2:2,3:3};
@@ -2351,10 +2393,10 @@ const lvCount=(kid,lv)=>{ const it=FD().items, a=ateOf(kid); return Object.keys(
 const LVS=[{lv:1,n:'1번',cls:'lv1'},{lv:2,n:'적당히',cls:'lv2'},{lv:3,n:'전부',cls:'lv3 rb'}];
 const dayKeyOf=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
 const yesterdayKey=()=>{ const d=new Date(); d.setDate(d.getDate()-1); return dayKeyOf(d); };
-function trayFor(day){ const t=FD().trays[day]; if(!t) return null; const it=FD().items, slots={}; let n=0; for(const sl of TRAY){ const f=t[sl.k]&&it[t[sl.k]]; if(f){ slots[sl.k]=f; n++; } } return n?{day,slots}:null; }
+function trayFor(day){ const t=FD().trays[day]; if(!t) return null; const type=ttOf(t.type), it=FD().items, slots={}; let n=0; for(const sl of trayCells(type)){ const f=t[sl.k]&&it[t[sl.k]]; if(f){ slots[sl.k]=f; n++; } } return n?{day,slots,type}:null; }
 // 오늘 식판이 없으면 어제 식판을 보여 줘요 (밤에 적고 다음 날 아침에 먹어도 되게)
 const curTray=()=>trayFor(todayKey())||trayFor(yesterdayKey());
-const trayFoods=()=>{ const c=curTray(); return c?TRAY.map(sl=>c.slots[sl.k]).filter(Boolean):[]; };
+const trayFoods=()=>{ const c=curTray(); return c?trayCells(c.type).map(sl=>c.slots[sl.k]).filter(Boolean):[]; };
 const pendingFoods=kid=>trayFoods().filter(f=>!lvOf(kid,f.id));
 const bestLv=(kid,fid)=>ateOf(kid)[fid]?.lv||0;
 const eatenFoods=kid=>{ const a=ateOf(kid), it=FD().items; return Object.keys(a).filter(id=>it[id]&&a[id].lv>0).sort((x,y)=>(a[y].t||0)-(a[x].t||0)).map(id=>it[id]); };
@@ -2381,7 +2423,7 @@ function trayHtml(k,ct,mode){
     const lv=lvOf(k.id,f.id);
     return `<button class="tc ${sl.k}${lvCls(lv)}${F.pop&&F.pop.kid===k.id&&F.pop.fid===f.id?' pop':''}" data-act="fdpick" data-kid="${k.id}" data-fid="${f.id}" aria-label="${esc(f.name)} ${lv?LV_SAY[lv]:''}">
       ${fIco(f.icon)}<span class="tc-name">${esc(f.name)}</span>${lv?`<span class="tc-badge">${LV_BADGE[lv]}</span>`:''}</button>`; };
-  return `<div class="tray">${TRAY.map(cell).join('')}</div>`;
+  return `<div class="tray ${ttOf(ct&&ct.type)}">${trayCells(ct&&ct.type).map(cell).join('')}</div>`;
 }
 function foodLane(k){
   const eaten=eatenFoods(k.id), n=eaten.length, ct=curTray(), nos=noFoods(k.id);
@@ -2394,7 +2436,7 @@ function foodLane(k){
     <div class="fd-no${nos.length?'':' none'}"><h3>${ico('nope')}다음에 도전! <small>${nos.length?'안 먹었어요':'안 먹은 음식이 없어요'}</small></h3>
       ${nos.length?`<div class="fd-chips no">${nos.map(f=>`<button class="fd-chip lvno" data-act="fdsay" data-fid="${f.id}">${fIco(f.icon)}<span>${esc(f.name)}</span></button>`).join('')}</div>`:''}</div>
     <div class="fd-try"><h3>${ct&&ct.day!==todayKey()?'어제 식판':'오늘의 식판'} <small>${ct?'먹어 본 음식을 눌러요':''}</small></h3>
-      ${ct?trayHtml(k,ct):`<div class="tray dim">${TRAY.map(sl=>`<div class="tc ${sl.k} empty"><span class="tc-tag">${sl.n}</span></div>`).join('')}</div><p class="fd-empty">엄마·아빠가 식판을 채우면 여기 나와요</p>`}</div>
+      ${ct?trayHtml(k,ct):`<div class="tray dim ${lastTT()}">${trayCells(lastTT()).map(sl=>`<div class="tc ${sl.k} empty"><span class="tc-tag">${sl.n}</span></div>`).join('')}</div><p class="fd-empty">엄마·아빠가 식판을 채우면 여기 나와요</p>`}</div>
   </section>`;
 }
 function swapFoodLane(kid){ const el=document.querySelector(`.fd-lane[data-kid="${kid}"]`), k=kidById(kid); if(!el||!k) return; const sc=el.querySelector('.fd-chips')?.scrollTop||0; el.outerHTML=foodLane(k); const n=document.querySelector(`.fd-lane[data-kid="${kid}"] .fd-chips`); if(n) n.scrollTop=sc; }
@@ -2404,7 +2446,7 @@ function renderFood(keep){
   $('#food').innerHTML=`
   <header class="band scene" data-rid="food"><div class="wrap band-in">
     <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
-    <div class="band-title"><span class="sc-ico">${ico('yum')}</span><div><h1>새 음식 도전</h1><p class="band-date">${ct?`${ct.day===todayKey()?'오늘':'어제'}의 식판 · ${TRAY.map(sl=>ct.slots[sl.k]).filter(Boolean).map(f=>esc(f.name)).join(' · ')}`:dateLabel()}</p></div></div>
+    <div class="band-title"><span class="sc-ico">${ico('yum')}</span><div><h1>새 음식 도전</h1><p class="band-date">${ct?`${ct.day===todayKey()?'오늘':'어제'}의 식판 · ${trayCells(ct.type).map(sl=>ct.slots[sl.k]).filter(Boolean).map(f=>esc(f.name)).join(' · ')}`:dateLabel()}</p></div></div>
     <div class="fd-legend"><span class="lg lvno">안 먹음</span><span class="lg lv1">1번</span><span class="lg lv2">적당히</span><span class="lg lv3 rb">전부</span></div>
   </div></header>
   <div class="wrap"><div class="lanes fd-lanes">${S.kids.map(foodLane).join('')}</div></div>`;
@@ -2465,18 +2507,18 @@ function foodParentCard(){
     <div class="fd-tally">${S.kids.map(k=>`<span class="ftl kid" style="--k:${k.color}">${avatar(k,44)}<span><small>${esc(k.name)}</small><b>${foodCount(k.id)}</b></span><span class="ftl-cats">${LVS.map(c=>`<i class="${c.cls}" title="${c.n}">${lvCount(k.id,c.lv)}</i>`).join('')}</span></span>`).join('')}</div>
     <div class="fd-statrow"><button class="btn sec fd-statbtn" data-act="fstats">${ico('chart')}통계</button><button class="btn sec fd-statbtn" data-act="fhist">${ico('yum')}식판 이력</button></div>
     <button class="btn pri fd-addbtn" data-act="fdopen">${ui('plus')}${trayFor(t)?'오늘의 식판 고치기':'오늘의 음식 추가'}</button>
-    ${ct?`<div class="fd-ptitle">${ct.day===t?'오늘의 식판':'어제 식판'}</div><ul class="fd-list">${TRAY.filter(sl=>ct.slots[sl.k]).map(sl=>{ const f=ct.slots[sl.k]; return `<li><span class="fl-slot">${TRAY_NAME[sl.k]}</span>${fIco(f.icon,40)}<span class="fl-name">${esc(f.name)}</span><span class="fl-kids">${S.kids.map(k=>face(k,f)).join('')}</span></li>`; }).join('')}</ul>
+    ${ct?`<div class="fd-ptitle">${ct.day===t?'오늘의 식판':'어제 식판'}</div><ul class="fd-list">${trayCells(ct.type).filter(sl=>ct.slots[sl.k]).map(sl=>{ const f=ct.slots[sl.k]; return `<li><span class="fl-slot">${TRAY_NAME[sl.k]}</span>${fIco(f.icon,40)}<span class="fl-name">${esc(f.name)}</span><span class="fl-kids">${S.kids.map(k=>face(k,f)).join('')}</span></li>`; }).join('')}</ul>
       <small class="fd-note">얼굴을 누르면 1번 → 적당히 → 전부 → 안 먹음 → 지우기 순서로 바뀌어요
       <span class="fd-key"><i class="lv1"></i>1번 <i class="lv2"></i>적당히 <i class="lv3 rb"></i>전부</span></small>`:`<p class="fd-note">식판 칸마다 메뉴를 적으면 아이들 태블릿에 같은 식판이 떠요</p>`}
   </section>`;
 }
 function openTray(){
-  const cur=FD().trays[todayKey()]||{}, it=FD().items; F.draft={};
-  for(const sl of TRAY){ const f=cur[sl.k]&&it[cur[sl.k]]; F.draft[sl.k]=f?{name:f.name,icon:f.icon,manual:true}:{name:'',icon:sl.def||'dish',manual:false}; }
-  F.open=true; F.slot=TRAY.find(sl=>!F.draft[sl.k].name)?.k||'s1'; renderFoodSheet(); setTimeout(()=>$(`.tc-in[data-slot="${F.slot}"]`)?.focus(),120);
+  const cur=FD().trays[todayKey()]||{}, it=FD().items; F.draft={}; F.type=cur.type?ttOf(cur.type):lastTT();
+  for(const sl of ALL_SLOTS.map(k=>({k,def:k==='rice'?'rice':k==='soup'?'soup':null}))){ const f=cur[sl.k]&&it[cur[sl.k]]; F.draft[sl.k]=f?{name:f.name,icon:f.icon,manual:true}:{name:'',icon:sl.def||'dish',manual:false}; }
+  F.open=true; F.slot=trayCells(F.type).find(sl=>!F.draft[sl.k].name)?.k||trayCells(F.type)[0].k; renderFoodSheet(); setTimeout(()=>$(`.tc-in[data-slot="${F.slot}"]`)?.focus(),120);
 }
 function paintTray(){
-  for(const sl of TRAY){ const d=F.draft[sl.k], c=$(`.tc.ed[data-slot="${sl.k}"]`); if(!c) continue; c.classList.toggle('sel',F.slot===sl.k); c.classList.toggle('filled',!!d.name.trim()); const ic=c.querySelector('.tc-ico'); if(ic) ic.innerHTML=fIco(d.icon,46); const ig=c.querySelector('.tc-ing'); if(ig) ig.textContent=d.name.trim()?'재료: '+ingredientsOf(d.name.trim()).join(', '):''; }
+  for(const sl of trayCells(F.type)){ const d=F.draft[sl.k], c=$(`.tc.ed[data-slot="${sl.k}"]`); if(!c) continue; c.classList.toggle('sel',F.slot===sl.k); c.classList.toggle('filled',!!d.name.trim()); const ic=c.querySelector('.tc-ico'); if(ic) ic.innerHTML=fIco(d.icon,46); const ig=c.querySelector('.tc-ing'); if(ig) ig.textContent=d.name.trim()?'재료: '+ingredientsOf(d.name.trim()).join(', '):''; }
   const d=F.draft[F.slot]; document.querySelectorAll('.fdp').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ic===d.icon)));
   const h=$('#palFor'); if(h) h.textContent=TRAY_NAME[F.slot];
 }
@@ -2488,8 +2530,9 @@ function renderFoodSheet(){
   const old=Object.values(FD().items).filter(f=>!used.has(f.name)).sort((a,b)=>(b.ts||0)-(a.ts||0)).slice(0,24);
   el.innerHTML=`<div class="sheet-in fd-sheet" role="dialog" aria-label="오늘의 식판">
     <div class="sh-head"><span class="sc-ico">${ico('yum')}</span><h2>오늘의 식판</h2><button class="ib" data-act="fdclose" aria-label="닫기">${ui('x')}</button></div>
+    <div class="tt-pick" role="radiogroup" aria-label="식판 종류">${TT_ORDER.map(t=>`<button class="tt-b${F.type===t?' on':''}" role="radio" aria-checked="${F.type===t}" data-act="ftype" data-t="${t}"><span class="tt-mini ${t}">${trayCells(t).map(c=>`<i class="${c.k}"></i>`).join('')}</span><b>${TRAY_TYPES[t].n}</b><small>${TRAY_TYPES[t].d}</small></button>`).join('')}</div>
     <p class="fd-note">칸을 눌러 메뉴를 적어요. 빈칸은 그냥 두면 돼요.</p>
-    <div class="tray edit">${TRAY.map(sl=>{ const d=F.draft[sl.k]; return `<label class="tc ed ${sl.k}${F.slot===sl.k?' sel':''}${d.name.trim()?' filled':''}" data-slot="${sl.k}"><span class="tc-tag">${TRAY_NAME[sl.k]}</span><span class="tc-ico">${fIco(d.icon,46)}</span><input class="tc-in" data-slot="${sl.k}" type="text" maxlength="20" value="${esc(d.name)}" placeholder="${sl.n} 메뉴" enterkeyhint="next" autocomplete="off"><small class="tc-ing">${d.name.trim()?'재료: '+esc(ingredientsOf(d.name.trim()).join(', ')):''}</small></label>`; }).join('')}</div>
+    <div class="tray edit ${F.type}">${trayCells(F.type).map(sl=>{ const d=F.draft[sl.k]; return `<label class="tc ed ${sl.k}${F.slot===sl.k?' sel':''}${d.name.trim()?' filled':''}" data-slot="${sl.k}"><span class="tc-tag">${TRAY_NAME[sl.k]}</span><span class="tc-ico">${fIco(d.icon,46)}</span><input class="tc-in" data-slot="${sl.k}" type="text" maxlength="20" value="${esc(d.name)}" placeholder="${sl.n} 메뉴" enterkeyhint="next" autocomplete="off"><small class="tc-ing">${d.name.trim()?'재료: '+esc(ingredientsOf(d.name.trim()).join(', ')):''}</small></label>`; }).join('')}</div>
     <h3>그림 · <span id="palFor">${TRAY_NAME[F.slot]}</span> <small>메뉴를 쓰면 알아서 골라요. 다르면 눌러서 바꿔요</small></h3>
     <div class="fd-pal">${Object.keys(FOOD_ICONS).map(ic=>`<button class="fdp" data-act="fdicon" data-ic="${ic}" aria-pressed="${F.draft[F.slot].icon===ic}">${fIco(ic,40)}<span>${FOOD_ICONS[ic].n}</span></button>`).join('')}</div>
     ${old.length?`<h3>전에 넣은 메뉴 <small>누르면 고른 칸에 들어가요</small></h3><div class="fd-today">${old.map(f=>`<button class="fdt re" data-act="fdold" data-fid="${f.id}">${fIco(f.icon,34)}<span>${esc(f.name)}</span></button>`).join('')}</div>`:''}
@@ -2498,7 +2541,8 @@ function renderFoodSheet(){
 }
 function saveTray(){
   const day=todayKey(), tray={}; let n=0;
-  for(const sl of TRAY){ const d=F.draft[sl.k]; if(d.name.trim()){ const it=addFood(d.name,d.icon); if(it){ tray[sl.k]=it.id; n++; } } }
+  for(const sl of trayCells(F.type)){ const d=F.draft[sl.k]; if(d.name.trim()){ const it=addFood(d.name,d.icon); if(it){ tray[sl.k]=it.id; n++; } } }
+  if(n&&F.type!=='t5') tray.type=F.type; S.trayType=F.type;
   const fd=FD(); if(n){ fd.trays[day]=tray; rset('foods/trays/'+day,tray); } else { delete fd.trays[day]; rset('foods/trays/'+day,null); }
   // 식판은 지우지 않고 이력으로 남겨요
   save(); F.open=false; renderFoodSheet(); tone([660,880],.1,'triangle',.08);
@@ -2648,7 +2692,7 @@ function histHtml(){
       return `<div class="th-c ${sl.k}">${fIco(f.icon,34)}<b>${esc(f.name)}</b><span class="th-who">${kids.map(k=>{ const lv=rec[k.id]?.[f.id]||0; return `<span class="th-k kid${lv?lvCls(lv):' none'}" style="--k:${k.color}" title="${esc(k.name)} ${lv?LV_NAME[lv]:'기록 없음'}">${avatar(k,20)}</span>`; }).join('')}</span></div>`; };
     out+=`<article class="th-day${d===todayKey()?' today':''}"><header><b>${dt.getMonth()+1}월 ${dt.getDate()}일</b><small>${'일월화수목금토'[dt.getDay()]}요일${d===todayKey()?' · 오늘':''}</small>
         <span class="th-st">${st.map(x=>`<span class="kid" style="--k:${x.k.color}">${avatar(x.k,22)}${star(14)}<b>${x.n}</b></span>`).join('')}</span></header>
-      <div class="th-tray">${TRAY.map(cell).join('')}</div></article>`;
+      <div class="th-tray ${t.type}">${trayCells(t.type).map(cell).join('')}</div></article>`;
   }
   out+='</div>';
   return legend+out+(days.length>shown.length?`<button class="btn sec th-more" data-act="fsmore">지난 식판 더 보기 (${days.length-shown.length}일)</button>`:'');
@@ -3444,7 +3488,8 @@ document.addEventListener('click',e=>{
     case 'fdopen': openTray(); break;
     case 'fdclose': F.open=false; renderFoodSheet(); requestRender(); break;
     case 'fdicon': { const dd=F.draft[F.slot]; if(dd){ dd.icon=d.ic; dd.manual=true; paintTray(); } break; }
-    case 'fdold': { const f=FD().items[d.fid], dd=F.draft[F.slot]; if(f&&dd){ dd.name=f.name; dd.icon=f.icon; dd.manual=true; const i2=TRAY.findIndex(x=>x.k===F.slot), nx=TRAY.slice(i2+1).find(x=>!F.draft[x.k].name.trim()); if(nx) F.slot=nx.k; renderFoodSheet(); } break; }
+    case 'ftype': { F.type=ttOf(d.t); if(!trayCells(F.type).some(c=>c.k===F.slot)) F.slot=trayCells(F.type)[0].k; S.trayType=F.type; save(); renderFoodSheet(); break; }
+    case 'fdold': { const f=FD().items[d.fid], dd=F.draft[F.slot]; if(f&&dd){ dd.name=f.name; dd.icon=f.icon; dd.manual=true; const TC=trayCells(F.type), i2=TC.findIndex(x=>x.k===F.slot), nx=TC.slice(i2+1).find(x=>!F.draft[x.k].name.trim()); if(nx) F.slot=nx.k; renderFoodSheet(); } break; }
     case 'fdsave': saveTray(); break;
     case 'fdcyc': cycLv(d.kid,d.fid); requestRender(); break;
     case 'stopx': cancelStop(); break;
@@ -3542,9 +3587,9 @@ document.addEventListener('click',e=>{
     case 'rreset': if(!confirmTap(b)) break; { const day=S.log[todayKey()]; if(day&&day[d.rid]){ day._x=day._x||{}; for(const [k,e] of Object.entries(day[d.rid])) if(e.stars){ day._x[k]=(day._x[k]||0)+e.stars; rinc(`log/${todayKey()}/_x/${k}`,e.stars); } delete day[d.rid]; rset(`log/${todayKey()}/${d.rid}`,null); } save(); rerenderEdit(); toast(`${ROUT[d.rid].name}을 처음부터 다시 시작해요`); } break;
   }
 });
-document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('tc-in')&&!e.isComposing){ e.preventDefault(); const i=TRAY.findIndex(x=>x.k===e.target.dataset.slot); const nx=TRAY[i+1]; if(nx) $(`.tc-in[data-slot="${nx.k}"]`)?.focus(); else e.target.blur(); return; } if(e.key==='Enter'&&e.target.id==='chatIn'&&!e.isComposing){ e.preventDefault(); $('[data-act="isend"]')?.click(); return; } if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
+document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('tc-in')&&!e.isComposing){ e.preventDefault(); const TC=trayCells(F.type), i=TC.findIndex(x=>x.k===e.target.dataset.slot); const nx=TC[i+1]; if(nx) $(`.tc-in[data-slot="${nx.k}"]`)?.focus(); else e.target.blur(); return; } if(e.key==='Enter'&&e.target.id==='chatIn'&&!e.isComposing){ e.preventDefault(); $('[data-act="isend"]')?.click(); return; } if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
 document.addEventListener('focusin',e=>{ if(e.target.classList&&e.target.classList.contains('tc-in')&&F.open){ F.slot=e.target.dataset.slot; paintTray(); } });
-document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(e.target.classList&&e.target.classList.contains('tc-in')){ const sl=e.target.dataset.slot, dd=F.draft[sl]; if(dd){ dd.name=e.target.value; F.slot=sl; if(!dd.manual) dd.icon=e.target.value.trim()?(guessFood(e.target.value)!=='dish'?guessFood(e.target.value):(TRAY.find(x=>x.k===sl).def||'dish')):(TRAY.find(x=>x.k===sl).def||'dish'); paintTray(); } } if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
+document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(e.target.classList&&e.target.classList.contains('tc-in')){ const sl=e.target.dataset.slot, dd=F.draft[sl]; if(dd){ dd.name=e.target.value; F.slot=sl; if(!dd.manual) dd.icon=e.target.value.trim()?(guessFood(e.target.value)!=='dish'?guessFood(e.target.value):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish')):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish'); paintTray(); } } if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.classList.contains('al-time')||t.classList.contains('al-text')){
