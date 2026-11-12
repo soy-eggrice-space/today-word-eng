@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#FFF3F8">
-<title>모여봐요 단어마을</title>
+<title>오늘단어</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Jua&display=swap">
 <style>
 @font-face{font-family:'JuaLocal';src:url('fonts/Jua-Regular.ttf') format('truetype');font-display:swap}
@@ -565,7 +565,6 @@ input{font-family:inherit;color:inherit;-webkit-user-select:text;user-select:tex
 .dchip.ok{background:var(--okbg)}.dchip.no{background:var(--nobg)}.dchip.dim{opacity:.4}
 .dchip.ghost{position:fixed;z-index:100;pointer-events:none;opacity:.95;transform:rotate(-4deg) scale(1.08);box-shadow:0 10px 20px rgba(90,62,114,.35)}
 @media (max-width:640px){ .ssent{font-size:26px} .sentk{font-size:16px} .dchip{min-width:90px;min-height:56px;font-size:24px;padding:4px 14px} .dchips{gap:10px} }
-.nmin{width:min(360px,86vw);height:64px;font-size:26px;text-align:center;margin-top:6px}
 .hbub{position:absolute;top:-18%;right:-14%;font-size:calc(var(--w,84px)*.3);background:#fff;border:2px solid var(--ink);border-radius:50%;width:1.6em;height:1.6em;display:grid;place-items:center;z-index:4;animation:hb 1.4s ease-in-out infinite;pointer-events:none}
 .petbox .hbub{font-size:30px;top:0;right:22%}
 @keyframes hb{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-6px) rotate(6deg)}}
@@ -595,13 +594,90 @@ input{font-family:inherit;color:inherit;-webkit-user-select:text;user-select:tex
 .mone.legr .mon svg{filter:drop-shadow(0 0 10px #FFD36E)}
 @media (max-width:640px){ .vc{font-size:14px;padding:1px 8px}.vc b{font-size:16px} .vcount{gap:4px} .mone small{font-size:12px} }
 
+/* ---------- 영문법 ---------- */
+.gr-wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:900px){.gr-wrap{grid-template-columns:minmax(0,1fr)}}
+.gr-eye{font-size:18px;color:var(--ink2);margin-bottom:6px}
+.gr-concept{margin-top:16px;background:var(--soft);border:2px dashed var(--hair);border-radius:20px;padding:14px 18px;text-align:left}
+.gr-ct{font-size:20px;margin-bottom:6px}
+.gr-concept ul,.gr-hint ul{margin:0;padding-left:22px;font-size:19px;line-height:1.55}
+.gr-prog{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:16px;font-size:18px}
+.gr-prog i{width:24px;height:24px;border-radius:50%;border:2.5px solid var(--ink);background:var(--card);display:inline-block}
+.gr-prog i.on{background:var(--lemon)}
+.gr-star-rule{margin-top:14px;font-size:17px;background:#FFF8D9;border:2px solid var(--hair);border-radius:16px;padding:8px 14px;line-height:1.5}
+.gr-acts{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px}
+.gr-list{max-height:72vh;overflow:auto}
+.gr-book{font-size:21px;margin:12px 0 2px}
+.gr-bk{display:inline-block;font-size:17px;background:#E6F1FF;border:2px solid var(--ink);border-radius:999px;padding:2px 14px;margin:2px 0 8px}
+.gr-bks{display:block;font-size:14px;color:var(--ink2)}
+.gr-chap{font-size:15px;color:var(--ink2);margin:8px 0 2px}
+.gr-st{display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:8px;align-items:center;width:100%;text-align:left;background:none;border:0;border-radius:14px;padding:7px 8px;font:inherit;font-size:18px;color:var(--ink)}
+.gr-st.now{background:var(--lemon);border:2px solid var(--ink)}
+.gr-st.lock{opacity:.45}
+.gr-st .n{color:var(--ink2)}.gr-st .m{font-size:15px;color:var(--ink2);white-space:nowrap}
+.gr-card{gap:6px}
+.gr-kind{position:absolute;top:14px;left:18px;font-size:15px;background:var(--soft);border:2px solid var(--hair);border-radius:999px;padding:2px 12px;color:var(--ink2)}
+.gr-sent{font-size:36px;line-height:1.55;margin-top:10px;word-break:keep-all}
+.gr-u{text-decoration:none;border-bottom:4px solid var(--strawD);padding-bottom:2px}
+.gr-blank{display:inline-block;min-width:3em;border-bottom:4px dashed var(--strawD);margin:0 6px;padding:0 8px;border-radius:10px}
+.gr-blank.ok{background:#DFF7EC}.gr-blank.fix{background:#FFF1C9}
+.gr-opts{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:18px}
+.gr-opt{min-height:66px;min-width:120px;border-radius:22px;background:var(--card);border:var(--line);box-shadow:var(--pop);font-size:26px;padding:6px 22px;color:var(--ink);font-family:inherit}
+.gr-opt.en{font-family:var(--fe);font-weight:600;font-size:30px}
+.gr-opt.ok,.gr-tk.ok,.gr-chip.ok{background:#BFF0D8}
+.gr-opt.no,.gr-tk.no,.gr-chip.bad{background:#FFD0D6;text-decoration:line-through}
+.gr-chip.bad{text-decoration:none}
+.gr-opt.dim{opacity:.45}
+.gr-toks{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.gr-tk{font-size:32px;border:2.5px dashed var(--hair);border-radius:16px;background:var(--card);padding:4px 14px;color:var(--ink);font-family:var(--fe);font-weight:600}
+.gr-line{min-height:70px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;border-bottom:3px solid var(--hair);padding:8px 0;margin-top:14px;width:100%;font-size:32px}
+.gr-chip{font-size:28px;border:var(--line);box-shadow:var(--popS);border-radius:18px;background:var(--soft);padding:4px 16px;color:var(--ink);font-family:var(--fe);font-weight:600}
+.gr-chip.used{visibility:hidden}
+.gr-hint{margin:16px auto 0;max-width:900px;background:#FFF8D9;border:2.5px solid var(--ink);border-radius:22px;padding:12px 18px;text-align:left}
+.gr-hint b{font-size:20px}
+.gr-hb{margin:16px auto 0;display:flex}
+.gr-fb{margin:16px auto 0;max-width:900px;border:var(--line);box-shadow:var(--pop);border-radius:26px;padding:16px 20px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.gr-fb.ok{background:#DFF7EC}.gr-fb.no{background:#FFF1C9}
+.gr-fbt{font-size:26px}.gr-fx{font-size:26px}.gr-x{font-size:20px;line-height:1.5}
+.gr-fb .btn{align-self:flex-end}
+.gr-dots{display:flex;gap:8px}.gr-dots i{width:20px;height:20px;border-radius:50%;border:2.5px solid var(--ink);background:var(--card)}
+.gr-dots i.ok{background:var(--mint)}.gr-dots i.no{background:#FFB3BE}.gr-dots i.now{background:var(--lemon)}
+.gr-scene{position:relative;width:240px;height:160px;max-width:100%;background:var(--soft);border-radius:20px;font-size:58px;line-height:1;margin-top:20px}
+.gr-scene span{position:absolute}
+.gr-done{text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px}
+.gr-stars{font-size:34px;word-break:break-all;max-width:640px}.gr-gain{display:inline-block;font-size:22px;background:var(--lemon);border:2px solid var(--ink);border-radius:999px;padding:0 12px;margin-left:6px}.gr-msg{font-size:21px}
+@media (max-width:640px){ .gr-sent{font-size:24px} .gr-opt{font-size:20px;min-width:80px;min-height:54px}.gr-opt.en{font-size:22px} .gr-tk{font-size:22px} .gr-chip{font-size:20px} .gr-concept ul,.gr-hint ul{font-size:16px} .gr-st{font-size:16px} .gr-x{font-size:17px} }
+
 .scene{isolation:isolate}
 .plots .plot.fr{will-change:transform}
 .plots .plot.fr .mon.walk{animation:roamBob 1.1s ease-in-out infinite}
 @keyframes roamBob{0%,100%{translate:0 0}50%{translate:0 -4px}}
 .homebox .inhome{animation:homeWig 5.5s ease-in-out infinite}
 @keyframes homeWig{0%,100%{translate:0 0}25%{translate:7px 0}50%{translate:0 -3px}75%{translate:-7px 0}}
-</style>
+
+.plot.famc{min-width:0}
+.famc .famav{width:92px;animation:famBob 1.15s ease-in-out infinite;transform-origin:50% 100%}
+.famc .famav svg{display:block;width:100%;height:auto;overflow:visible}
+.famtag{font-size:15px;line-height:1.2;padding:2px 10px;border-radius:99px;background:#fff;border:2.5px solid var(--fc);color:#4A3B5C;white-space:nowrap;margin-bottom:2px;box-shadow:0 2px 0 var(--fc)}
+@keyframes famBob{0%,100%{translate:0 0}50%{translate:0 -5px}}
+@media (max-width:600px){.famc .famav{width:64px}.famtag{font-size:12px}}
+
+.gc-card{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.gc-h{font-size:22px}.gc-t{font-size:34px}
+.gc-rule{margin:0;padding:14px 18px 14px 38px;background:#FFF7DC;border:3px solid var(--ink);border-radius:20px;font-size:22px;line-height:1.6}
+.gc-exh{font-size:19px;color:var(--ink2,#6b5a7e)}
+.gc-ex{display:flex;flex-direction:column;gap:10px}
+.gc-s{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px 56px 12px 16px;position:relative;font-size:28px;cursor:pointer}
+.gc-s small{font-size:17px;color:var(--ink2,#6b5a7e)}.gc-s i{position:absolute;right:14px;top:50%;transform:translateY(-50%);font-style:normal;font-size:26px}
+.gc-plan{font-size:20px;text-align:center}
+.gr-dots i.rv{border-style:dashed}.gr-sep{display:inline-block;width:10px}
+.gr-kind.rv{background:#E6F4FF}
+.gr-card .gr-kind{position:static;align-self:flex-start;margin-bottom:4px}
+@media (max-width:600px){.gc-t{font-size:26px}.gc-rule{font-size:17px}.gc-s{font-size:20px}}
+
+img.emo{width:1em;height:1em;display:inline-block;vertical-align:-.12em;object-fit:contain;pointer-events:none}
+.opensrc{font-size:13px;color:#8A7A9C;text-align:center;margin:6px 0}
+.legal{font-size:12px;line-height:1.55;color:#8A7A9C;text-align:center;margin:14px auto 4px;max-width:760px;word-break:keep-all}</style>
 </head>
 <body>
 <div id="app"></div>
@@ -1456,7 +1532,7 @@ const THEMES = [
   ["marry","결혼하다","💒","My aunt will marry next month.","이모가 다음 달에 결혼해."],
   ["create","창조하다, 만들어 내다","✨","Let’s create a new game.","새 게임을 만들어 보자."]]},
  {id:"pron", name:"나·너·우리", en:"People Words", emoji:"🙋", c:"#E3F1FF", lv:2, words:[
-  ["I","나","🙋","I am happy.","나는 행복해."],
+  ["I","나","🙋","I am a student.","나는 학생이야."],
   ["you","너, 너희","👉","You are my friend.","너는 내 친구야."],
   ["he","그(남자)","👦","He is my brother.","그는 우리 오빠야."],
   ["she","그녀","👧","She is my sister.","그녀는 우리 언니야."],
@@ -1639,11 +1715,10 @@ const MODES = {
   listen: {t:'듣고 고르기', d:'소리만 듣고 단어 맞히기',          i:'🎧', mc:'#E2D3FF', r:'문제당 ⭐1'},
   spell:  {t:'철자 퍼즐',   d:'글자 조각을 눌러 단어 완성하기',    i:'🧩', mc:'#FFC4DE', r:'문제당 ⭐2'}
 };
-/* 이름 부르기: 민준 → 민준이 · 민준아 / 지아 → 지아 · 지아야 */
 const NM=()=>String(S.name||'친구').trim()||'친구';
-const NI=()=>{ const n=NM(); return batchimEnd(n)?n+'이':n; };
-const NA=()=>{ const n=NM(); return n+(batchimEnd(n)?'아':'야'); };
-const PRAISE_F=()=>['역시 '+NI()+'!',NI()+' 천재!','완벽해, '+NA()+'!',NI()+' 최고야!','와, '+NI()+' 대단해!','정답! '+NI()+' 짱!','척척박사 '+NI()+'!'];
+const jong=t=>{ const c=t.charCodeAt(t.length-1)-0xAC00; return c>=0&&c<11172&&c%28!==0; };
+const JA=()=>NM()+(jong(NM())?'아':'야'), NI=()=>NM()+(jong(NM())?'이':'');
+const PRAISE=()=>['역시 {i}!','{i} 천재!','완벽해, {a}!','{i} 최고야!','와, {i} 대단해!','정답! {i} 짱!','척척박사 {i}!'].map(x=>x.replace(/\{i\}/g,NI()).replace(/\{a\}/g,JA()));
 const ACC = ['👑','🎀','⭐','🌈','🎉','✨'];
 const DAILY_N = 20, DAILY_NEW = 12, DAILY_BONUS = 5;
 const PER_FRIEND = 5;
@@ -1658,7 +1733,7 @@ const NAMES=['몽글이','콩이','보리','솜사탕','젤리','단비','호두
 const KEY = 'wordVillage.v1';
 const HAS_ANDROID = typeof window.Android !== 'undefined';
 function blank(){
-  return {v:3, name:'', photo:null, stars:0,
+  return {v:3, photo:null, stars:0,
     rewards:[{at:100,wish:'',got:false,seen:false},{at:200,wish:'',got:false,seen:false},{at:300,wish:'',got:false,seen:false}],
     words:{}, wrong:{}, days:{}, log:[], pin:null, daily:null, friends:[], mail:'', decos:[], spent:0, homes:[], best:0, bgs:['basic'], bg:'basic'};
 }
@@ -1711,8 +1786,8 @@ const LOGO_SVG = `<svg viewBox="0 0 60 60" aria-hidden="true">
   <path d="M30 4 l2.4 4.9 5.4 .8 -3.9 3.8 .9 5.4 -4.8 -2.5 -4.8 2.5 .9 -5.4 -3.9 -3.8 5.4 -.8 Z" fill="#FFE074" stroke="#5A3E72" stroke-width="2" stroke-linejoin="round" transform="translate(16 -1) scale(.6)"/>
 </svg>`;
 function logo(){
-  return `<div class="logo" aria-label="모여봐요 단어마을"><div class="badge">${LOGO_SVG}</div>
-    <div class="words"><span class="l1">모여봐요</span><span class="l2"><span>단</span><span>어</span><span>마</span><span>을</span></span></div></div>`;
+  return `<div class="logo" aria-label="오늘단어"><div class="badge">${LOGO_SVG}</div>
+    <div class="words"><span class="l1">오늘도 쑥쑥</span><span class="l2"><span>오</span><span>늘</span><span>단</span><span>어</span></span></div></div>`;
 }
 
 /* 소리 */
@@ -2130,6 +2205,34 @@ function rubbable(el,fn){
   setInterval(tick,600); setTimeout(tick,400);
 })();
 
+
+/* '우리가족' 앱에서 만든 다다다 캐릭터도 마을에 놀러 와요 (같은 태블릿에서만) */
+let FAMC=null;
+const famEsc=t=>String(t==null?'':t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function famChars(){ if(FAMC) return FAMC; FAMC=[];
+  try{ if(window.Android&&window.Android.familyChars){ const a=JSON.parse(window.Android.familyChars()||'[]');
+    if(Array.isArray(a)) FAMC=a.filter(x=>x&&typeof x.svg==='string'&&/^<svg[\s>]/.test(x.svg)).slice(0,6).map(x=>({name:String(x.name||'').slice(0,12),color:/^#[0-9a-f]{3,8}$/i.test(x.color||'')?x.color:'#FF8FB1',
+      svg:x.svg.replace(/<script[\s\S]*?<\/script>/gi,'').replace(/\son[a-z]+\s*=/gi,' data-x=').replace(/javascript:/gi,'')})); } }catch(e){ FAMC=[]; }
+  return FAMC; }
+function famPlots(){ return famChars().map((c,i)=>`<div class="plot fr famc" style="--fc:${c.color}"><span class="famtag">${famEsc(c.name)}</span><div class="famav" style="animation-delay:-${(i*.45).toFixed(2)}s">${c.svg}</div><div class="shadow"></div></div>`).join(''); }
+window.famRefresh=()=>{ const old=JSON.stringify(FAMC||[]); FAMC=null; famChars(); if(JSON.stringify(FAMC)!==old&&document.querySelector('.plots')) render(); };
+
+/* ---------- 문제 그림은 이모티콘 대신 그림(픽토그램)으로 — OpenMoji (CC BY-SA 4.0) ---------- */
+const EMO_SET=new Set('2728 1F436 1F43E 1F431 1F415 1F426 1F41F 1F430 1F43B 1F981 1F42F 1F412 1F418 1F992 1F993 1F434 1F42E 1F437 1F411 1F414 1F986 1F42D 1F98A 1F438 1F40D 1F42C 1F41C 1F41D 1F41B 1F995 1F54A 1F439 1F34E 1F37D 1F34C 1F34A 1F347 1F353 1F34B 1F350 1F345 1F352 1F35E 1F35A 1F95A 1F95B 1F4A7 1F9C3 1F375 2615 1F356 1F969 1F372 1F370 1F36C 1F36B 1F36A 1F9C0 1F9C8 1F36F 1F33D 1F95C 1F355 1F354 1F967 1F368 1F6E2 1F336 1F958 1F35B 1F37F 1F3A8 1F534 1F535 1F7E1 1F7E2 26AB 26AA 1F7E4 1F338 1F7E3 1F32B 1F947 2B55 1F53A 1F7E5 2764 2B50 1F537 1F522 0030-20E3 0031-20E3 0032-20E3 0033-20E3 0034-20E3 0035-20E3 0036-20E3 0037-20E3 0038-20E3 0039-20E3 1F51F 1F55B 23F1 1F4AF 1F948 1F949 1F9EE 1F4C5 1F319 1F525 1F333 1F4B0 1F30F 2600 26C4 1F49D 1F331 1F337 2614 1F3D6 1F349 1F342 1F383 1F341 1F384 1F31E 1F5D3 1F4C6 1F386 23F0 1F550 1F570 231A 1F4CD 1F303 1F382 1F38F 1F449 23F3 1F52E 1F4DC 1F468-200D-1F469-200D-1F467 1F468 1F469 1F46A 1F466 1F467 1F474 1F475 1F9D4 1F469-200D-1F9B0 1F9D2 1F935 1F470 1F476 1F452 1F3A9 1F9D1 1F9D1-200D-1F3A4 1F465 1F9CD 1F9D1-200D-1F91D-200D-1F9D1 1F491 1F64B-200D-2642 1F934 1F478 1F9B8 1F5FF 1F4DB 1F646 1F600 1F487 1F441 1F442 1F443 1F444 1F48B 1F9B7 270B 1F4AA 1F9B5 1F9B6 1F590 1F9B4 1FA78 1F9E0 1F519 1F5E3 1F3E0 1F3E1 1F6AA 1F6CF 1F6C1 1F5BC 1F9F1 1F7EB 1F3DA 1FA91 1F4DD 1F6CB 1F6C0 1F933 1F4A1 1F511 1F4E6 1F37C 1F963 1F964 1F944 1F374 1F52A 1F9FA 260E 1F4F1 1F4BB 1F4FA 1F4FB 1F4F7 1F50B 1F9F8 1F38E 26BD 1F388 1F381 2602 1F4B2 1F4B3 1F9E9 1F455 1F45A 1F456 1F457 1F9E5 1F9E2 1F45F 1F462 1F9E6 1F9E4 1F518 1F45D 1F48D 1F451 1F392 1F9F6 1F4CF 1F483 1F3EB 1F9D1-200D-1F3EB 1F4D6 1F9D1-200D-1F393 1F4D3 270F 1F58A 1F4C4 2702 1F9F4 1F4FC 1F4CB 1F4C3 1F524 1F1F0 1F1F7 2753 1F4AC 2757 2709 1F4D7 1F5D2 1F3AD 1F46B 1F393 1F605 26A0 1F3D9 1F3D8 1F5FA 1F6E3 1F6E4 1F3DE 1F69C 1F3ED 1F3E2 1F3EA 1F6CD 26EA 1F6BB 1F3AC 26F0 1F33E 1F5FC 1F3F0 1F5FE 26E9 1F46E 1F3F7 1F308 1F30C 2601 1F327 2744 1F32C 1F343 1F33F 1F94C 1F30A 1F4A8 1F9CA 1F332 1F3DD 1F680 1F324 1F60E 1F4A6 1F3DC 1F697 1F68C 1F695 1F686 2708 26F5 1F6B2 1F69A 1F699 1F3A0 1F6D1 1F9ED 2699 1F6A6 1F3C5 26BE 1F3C0 1F3BE 1F3F8 1F3CA 26F7 26F8 1F3AE 1F3C1 1F945 1F3AF 1F3B5 1F3B9 1F3B8 1F3BB 1F941 1F39E 26FA 1F602 1F64C 1F973 1F4F8 1F60A 1F622 1F628 1F64F 1F629 1F634 1F924 1F92A 1F44D 1F624 1F606 1F62D 1F633 1F60C 1F621 1F9D0 1F340 1F91E 262E 1F31F 1F4AD 1F320 1F631 1F642 1F921 1F3C3 1F6B6 1F44B 1F932 1F9FC 1F373 1F9C1 1F998 1F3C6 1F51A 1F4BC 1F938 1F4DA 270D 1F58D 1F3A4 1F6D2 1F6E0 1F604 1F3C3-200D-2640 1F497 1F929 1F62C 1F61F 1F632 1F971 1F97A 1F623 1F620 1F9D1-200D-1F680 1F9D1-200D-1F52C 1F9D1-200D-2708 1F9D1-200D-1F692 1F9D1-200D-2695 1F9D1-200D-1F33E 1F9D1-200D-1F527 1F9D1-200D-1F3A8 1F3DB 1F3E5 1F950 1F689 1F6EB 1F3E6 1F3EF 26C5 1F328 1F371 1F305 1F552 1F306 1F3A1 1F501 1F3B2 1F413 1F422 1F52C 1F389 1F4D5 1F9FD 1FA7A 1F915 1F922 1F321 1F927 1F48A 261D 1F966 1F912 1F9D7 1F48C 1F9F3 1F3CB 1F48E 1F60B 1F500 1F92B 1F496 1FA90 1F30B 267B 1F96C 1F955 1F9C5 1F954 1F96A 1F35C 1F9C2 1F687 1F3AB 1F6C2 1F6A2 1F681 1F309 1F6B8 1F423 1F3DF 1F406 26A1 1F44E 1F44F 1F613 1F479 1F46F 2705 274C 1F311 1F506 1F573 1F52D 1F9A5 1F9BA 1F7E0 1F396 1F4E2 1F5E8 1F64B 1F4DE 1F440 1F50D 1F3A7 1F914 2754 1F198 1F970 1F445 1F446 1F91D 1F64B-200D-2640 1F4E3 1F521 2611 1F647 1F917 1F44C 1F3D7 1F494 1F527 1F45C 1F4E5 1F450 1F9F2 1F93E 1F3CF 1F504 1F50E 1F5DD 1F4E8 1F94A 1F3AA 1F940 1F5A8 1F3F9 1F492 1F447 1F464 1F233 1F90F 270C 1F575 1F448 1F6AB 1F937 2733 1F502 1F645 23ED 1F51D 1F4E9 1F4E4 1F648 1F51C 1F517 1F19A 1F53B 1F9D1-200D-1F4BC 1F696 1F9FE 1F468-200D-2708 1F9CD-200D-2640 1F4C8 1F4F0 1F4EC 2694 1F916 1F6A9 2696 1F691 1F47C 1F47B 1F47E 1F6E1 1F33A 26D3 1F4CC 1F50A 1F62B 1F5C2 1F5D1 1F9FB 1F380 1F4AB 1F984 1F36D 1F3D5 1F98B 1F3A2 1F6F8 1F528 1F195 1F369 1F359 1F366 1F36E 1F361 1F95E 1F576 1F9E3 1F344 1F339 1F33B 1F335 1F334 1FA81 1F3EE 1F6F9 26F2 1F6F6 1F9A9 1F33C 1F490 1F41E 1F40C 1F43F 1F994 1F407 1F424 1F99A 1F99C 1F420 1F6F4 1FA80 1F3B3 1F390 1F682 1F56F 26F1 1F41A 1F330 2603 1F91A 1F495 1F62A 1F4EE 1F4A4 1F980 1F47D 2604 1F512 1F4D8 1F4D2 1F4CA 1F507 1F510 1F4BE 1F4C2'.split(' '));
+const EMO_RE=/(?:\p{Extended_Pictographic}|\p{Regional_Indicator})(?:️|⃣|[\u{1F3FB}-\u{1F3FF}]|‍(?:\p{Extended_Pictographic}|\p{Regional_Indicator})️?)*|[0-9#*]️⃣/gu;
+const emoKey=e=>[...e].filter(c=>c!=='️').map(c=>c.codePointAt(0).toString(16).toUpperCase().padStart(4,'0')).join('-');
+function emoize(root){ if(!root) return; const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentNode&&n.parentNode.closest&&n.parentNode.closest('svg')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT}), nodes=[];
+  while(tw.nextNode()){ const n=tw.currentNode; EMO_RE.lastIndex=0; if(EMO_RE.test(n.nodeValue)) nodes.push(n); }
+  nodes.forEach(n=>{ const t=n.nodeValue, frag=document.createDocumentFragment(); let last=0, any=false; EMO_RE.lastIndex=0; let m;
+    while((m=EMO_RE.exec(t))){ const k=emoKey(m[0]); if(!EMO_SET.has(k)) continue; any=true;
+      if(m.index>last) frag.appendChild(document.createTextNode(t.slice(last,m.index)));
+      const im=document.createElement('img'); im.className='emo'; im.alt=m[0]; im.draggable=false; im.src='emo/'+k+'.svg'; im.onerror=function(){ this.replaceWith(document.createTextNode(this.alt)); }; frag.appendChild(im); last=m.index+m[0].length; }
+    if(!any) return; if(last<t.length) frag.appendChild(document.createTextNode(t.slice(last))); n.parentNode.replaceChild(frag,n); }); }
+(function(){ let busy=false; const run=()=>{ busy=false; document.querySelectorAll('.qwrap').forEach(emoize); };
+  const mo=new MutationObserver(()=>{ if(!busy){ busy=true; queueMicrotask(run); } });
+  const go=()=>{ mo.observe(document.body,{childList:true,subtree:true}); run(); };
+  if(document.body) go(); else document.addEventListener('DOMContentLoaded',go); })();
+
 function isNight(){ const h=new Date().getHours(); return h>=19||h<6; }
 function sky(){
   const m=new Date().getMonth()+1, night=isNight();
@@ -2173,13 +2276,13 @@ function villageHTML(){
   const decos=(S.decos||[]).map((d,j)=>`<div class="plot deco"><span class="decoi" style="animation-delay:-${(j*.7)%3}s">${d}</span><div class="shadow"></div></div>`).join('');
   return `<section class="panel village" id="village">
     <div class="vhead">
-      <div><div class="h2">🏡 ${NI()}네 마을</div>${countBar()}</div>
+      <div><div class="h2">🏡 ${esc(NI())}네 마을</div>${countBar()}</div>
       ${(lv1>=3||lv2>=3||lv3>=3)?`<button class="mergebtn" data-merge="1">✨ 친구 합치기</button>`:''}${canObjMerge()?`<button class="mergebtn" data-objm="1" style="background:#FFD3B5">🔨 물건 합치기</button>`:''}<button class="mergebtn" data-bag="1" style="background:#FFF1B8">🎒 가방 <b>${invCount()}</b>${hungryN()?` · 🍽️${hungryN()}`:''}</button><button class="mergebtn" data-dex="1" style="background:#E4F3EA">📖 도감 <b>${OBJ_ORDER.filter(id=>dexOf()[id]).length}/${OBJ_ORDER.length}</b></button><button class="mergebtn" data-shop="1" style="background:#FFE680">🛒 상점 <b>⭐${wallet()}</b></button><button class="mergebtn" data-bgpick="1" style="background:#CFE8FF">🎨 배경</button>
       <div class="next">⭐${left}개 더 모으면 새 알이 생겨요<div class="bar pink"><i style="width:${(S.stars%PER_FRIEND)/PER_FRIEND*100}%"></i></div></div>
     </div>
     <div class="scene ${sc.cls}" style="${sc.style}">${sc.deco}
-      <div class="plots" id="plots">${mailbox(S)}${homesOf().map(homePlot).join('')}${plots}${decos}${fr.length?'':`<div class="vempty">별 ${PER_FRIEND}개를 모으면 첫 번째 알이 생겨요 🥚</div>`}</div></div>
-    <div class="vnote">🔥 연속 ${streak()}일 공부 중${nb?` · ${nb.need}일이 되면 '${nb.ko}' 배경이 열려요`:' · 모든 배경을 모았어요! 👑'}<br>🛒 상점에서 별로 알·보금자리·꾸미기를 살 수 있어요. 보금자리를 누르면 친구를 데려올 수 있어요. 왕 친구 3명을 합치면 🌈 전설의 친구가 돼요.<br>🔨 집·나무·무지개 같은 물건도 3개를 합치면 새로운 물건이 돼요. 고르는 물건마다 결과가 달라요! 📖 도감을 다 채워 보세요.<br>별 ${PER_FRIEND}개마다 알이 하나 생겨요. 친구를 누르면 ${NI()}가 배운 단어를 말해요. 우체통에는 하루에 한 번 선물이 오고, 친구 3명이 모이면 합쳐서 더 큰 친구나 집·나무·무지개·성으로 만들 수 있어요.</div>
+      <div class="plots" id="plots">${mailbox(S)}${homesOf().map(homePlot).join('')}${plots}${famPlots()}${decos}${fr.length?'':`<div class="vempty">별 ${PER_FRIEND}개를 모으면 첫 번째 알이 생겨요 🥚</div>`}</div></div>
+    <div class="vnote">🔥 연속 ${streak()}일 공부 중${nb?` · ${nb.need}일이 되면 '${nb.ko}' 배경이 열려요`:' · 모든 배경을 모았어요! 👑'}<br>🛒 상점에서 별로 알·보금자리·꾸미기를 살 수 있어요. 보금자리를 누르면 친구를 데려올 수 있어요. 왕 친구 3명을 합치면 🌈 전설의 친구가 돼요.<br>🔨 집·나무·무지개 같은 물건도 3개를 합치면 새로운 물건이 돼요. 고르는 물건마다 결과가 달라요! 📖 도감을 다 채워 보세요.<br>별 ${PER_FRIEND}개마다 알이 하나 생겨요. 친구를 누르면 ${esc(NI())}가 배운 단어를 말해요. 우체통에는 하루에 한 번 선물이 오고, 친구 3명이 모이면 합쳐서 더 큰 친구나 집·나무·무지개·성으로 만들 수 있어요.</div>
   </section>`;
 }
 function wireVillage(autoAsk){
@@ -2506,6 +2609,1231 @@ function bgUnlockModal(fresh){
    화면 이동
    ========================================================= */
 let view='home', ctx={}, timers=[];
+/* ===== 다연공부 영문법 : 기적의 초등 영문법 1~3권 단원을 따라 만든 문제 생성기 =====
+   문제 모양
+   {t:'c', q:'She ___ happy.', o:[...], a:'is'}            빈칸 고르기
+   {t:'p', ins:'질문', q:'(보기 문장)', o:[...], a:'...'}   알맞은 것 고르기
+   {t:'f', q:'He play soccer.', w:'play', fx:'plays'}      틀린 단어 찾기 (누르면 고친 말이 나와요)
+   {t:'o', k:'우리말', a:'She is happy.', words:[...]}     단어 배열 영작
+   공통: x 해설, k 우리말 뜻 */
+const GR=(()=>{
+const R=a=>a[Math.floor(Math.random()*a.length)];
+const SH=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const RN=(a,n)=>SH(a).slice(0,n);
+const RI=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const hasJ=w=>{const c=w.charCodeAt(w.length-1)-0xAC00;return c>=0&&c<11172&&c%28!==0;};
+const jo=(w,a,b)=>w+(hasJ(w)?a:b);
+const uniq=a=>[...new Set(a)];
+const opts=(a,wr,n)=>SH([a,...uniq(wr.filter(x=>x&&x!==a)).slice(0,(n||4)-1)]);
+const C=(q,a,wr,x,k,ins)=>({t:'c',ins:ins||'빈칸에 알맞은 말을 고르세요.',q,a,o:opts(a,wr),x,k});
+const P=(ins,a,wr,x,q,k)=>({t:'p',ins,q:q||'',a,o:opts(a,wr),x,k});
+const F=(q,w,fx,x,k)=>({t:'f',ins:'틀린 곳을 찾아 눌러 보세요.',q,w,fx,x,k});
+const O=(k,a,x)=>{const end=(a.match(/[.?!]$/)||[''])[0], body=a.replace(/[.?!]$/,'');
+  const w=body.split(' '); let s=SH(w), g=0; while(w.length>2&&s.join(' ')===w.join(' ')&&g++<9) s=SH(w);
+  return {t:'o',ins:'우리말에 맞게 단어를 차례대로 누르세요.',k,a,words:s,end,x};};
+
+/* ---------- 주어 ---------- */
+const SB=[
+ {e:'I',k:'나',be:'am',was:'was',s3:0,pl:0,o:'me',m:'my',mine:'mine',pr:'I'},
+ {e:'You',k:'너',be:'are',was:'were',s3:0,pl:0,o:'you',m:'your',mine:'yours',pr:'you'},
+ {e:'He',k:'그',be:'is',was:'was',s3:1,pl:0,o:'him',m:'his',mine:'his',pr:'he'},
+ {e:'She',k:'그녀',be:'is',was:'was',s3:1,pl:0,o:'her',m:'her',mine:'hers',pr:'she'},
+ {e:'We',k:'우리',be:'are',was:'were',s3:0,pl:1,o:'us',m:'our',mine:'ours',pr:'we'},
+ {e:'They',k:'그들',be:'are',was:'were',s3:0,pl:1,o:'them',m:'their',mine:'theirs',pr:'they'},
+ {e:'Tom',k:'톰',be:'is',was:'was',s3:1,pl:0,pr:'he',n:1},
+ {e:'Amy',k:'에이미',be:'is',was:'was',s3:1,pl:0,pr:'she',n:1},
+ {e:'Minsu',k:'민수',be:'is',was:'was',s3:1,pl:0,pr:'he',n:1},
+ {e:'Jisu',k:'지수',be:'is',was:'was',s3:1,pl:0,pr:'she',n:1},
+ {e:'My mom',k:'우리 엄마',be:'is',was:'was',s3:1,pl:0,pr:'she',n:1},
+ {e:'My dad',k:'우리 아빠',be:'is',was:'was',s3:1,pl:0,pr:'he',n:1},
+ {e:'Tom and Amy',k:'톰과 에이미',be:'are',was:'were',s3:0,pl:1,pr:'they',n:1},
+ {e:'My friends',k:'내 친구들',be:'are',was:'were',s3:0,pl:1,pr:'they',n:1},
+];
+const PRON=SB.slice(0,6);
+const sTop=s=>jo(s.k,'은','는');
+const sFor=s=>s.e; /* 문장 첫머리 */
+const sMid=s=>s.e==='I'?'I':s.n?s.e.replace(/^My /,'my '):s.e.toLowerCase();
+const ansP=s=>s.e==='I'?'you':s.e==='You'?'I':s.e==='We'?'we':s.pr; /* 묻는 말의 주어 → 대답의 주어 */
+const ansPfromQ=s=>s.e==='You'?'I':s.e==='We'?'we':s.pr;
+const beOf=p=>({I:'am',you:'are',he:'is',she:'is',it:'is',we:'are',they:'are'})[p];
+const wasOf=p=>({I:'was',you:'were',he:'was',she:'was',it:'was',we:'were',they:'were'})[p];
+const notOf=b=>({am:'am not',is:"isn't",are:"aren't",was:"wasn't",were:"weren't"})[b];
+
+/* ---------- 형용사 (be동사 뒤) : 영어 | 줄기 | 과거 ---------- */
+const AJ=['happy|행복하|행복했','hungry|배고프|배고팠','tired|피곤하|피곤했','busy|바쁘|바빴','sleepy|졸리|졸렸','sick|아프|아팠','sad|슬프|슬펐','kind|친절하|친절했','tall|키가 크|키가 컸','thirsty|목마르|목말랐','cold|춥|추웠'].map(x=>{const[e,s,p]=x.split('|');return{e,s,p};});
+const kAdj=(a,f)=>({pr:a.s+'다',ng:a.s+'지 않다',q:a.s+'니?',pa:a.p+'다',pn:a.s+'지 않았다',pq:a.p+'니?'})[f];
+/* 장소 (be동사 뒤) */
+const PLC=[['at home','집에'],['at school','학교에'],['in the park','공원에'],['in the kitchen','부엌에'],['in the library','도서관에'],['at the zoo','동물원에']];
+const kPlc=(p,f)=>({pr:p[1]+' 있다',ng:p[1]+' 없다',q:p[1]+' 있니?',pa:p[1]+' 있었다',pn:p[1]+' 없었다',pq:p[1]+' 있었니?'})[f];
+
+/* ---------- 동사 : 원형|목적어|3인칭|ing|과거|우리말 줄기|현재|과거|미래(관형) ---------- */
+const VB=`play|soccer|plays|playing|played|축구를 하|축구를 한다|축구를 했다|축구를 할
+play|the piano|plays|playing|played|피아노를 치|피아노를 친다|피아노를 쳤다|피아노를 칠
+eat|breakfast|eats|eating|ate|아침을 먹|아침을 먹는다|아침을 먹었다|아침을 먹을
+read|books|reads|reading|read|책을 읽|책을 읽는다|책을 읽었다|책을 읽을
+go|to school|goes|going|went|학교에 가|학교에 간다|학교에 갔다|학교에 갈
+do|homework|does|doing|did|숙제를 하|숙제를 한다|숙제를 했다|숙제를 할
+watch|TV|watches|watching|watched|TV를 보|TV를 본다|TV를 봤다|TV를 볼
+wash|the dishes|washes|washing|washed|설거지를 하|설거지를 한다|설거지를 했다|설거지를 할
+study|English|studies|studying|studied|영어를 공부하|영어를 공부한다|영어를 공부했다|영어를 공부할
+have|a dog|has||had|개를 키우|개를 키운다|개를 키웠다|개를 키울
+like|apples|likes||liked|사과를 좋아하|사과를 좋아한다|사과를 좋아했다|사과를 좋아할
+drink|milk|drinks|drinking|drank|우유를 마시|우유를 마신다|우유를 마셨다|우유를 마실
+ride|a bike|rides|riding|rode|자전거를 타|자전거를 탄다|자전거를 탔다|자전거를 탈
+walk|to school|walks|walking|walked|학교에 걸어가|학교에 걸어간다|학교에 걸어갔다|학교에 걸어갈
+sing|songs|sings|singing|sang|노래를 부르|노래를 부른다|노래를 불렀다|노래를 부를
+swim|in the pool|swims|swimming|swam|수영장에서 수영하|수영장에서 수영한다|수영장에서 수영했다|수영장에서 수영할
+draw|pictures|draws|drawing|drew|그림을 그리|그림을 그린다|그림을 그렸다|그림을 그릴
+clean|the room|cleans|cleaning|cleaned|방을 청소하|방을 청소한다|방을 청소했다|방을 청소할
+cook|dinner|cooks|cooking|cooked|저녁 요리를 하|저녁 요리를 한다|저녁 요리를 했다|저녁 요리를 할
+fly|a kite|flies|flying|flew|연을 날리|연을 날린다|연을 날렸다|연을 날릴
+catch|the ball|catches|catching|caught|공을 잡|공을 잡는다|공을 잡았다|공을 잡을
+teach|math|teaches|teaching|taught|수학을 가르치|수학을 가르친다|수학을 가르쳤다|수학을 가르칠
+fix|the bike|fixes|fixing|fixed|자전거를 고치|자전거를 고친다|자전거를 고쳤다|자전거를 고칠
+write|a letter|writes|writing|wrote|편지를 쓰|편지를 쓴다|편지를 썼다|편지를 쓸
+make|cookies|makes|making|made|쿠키를 만들|쿠키를 만든다|쿠키를 만들었다|쿠키를 만들
+buy|bread|buys|buying|bought|빵을 사|빵을 산다|빵을 샀다|빵을 살
+take|pictures|takes|taking|took|사진을 찍|사진을 찍는다|사진을 찍었다|사진을 찍을
+run|in the park|runs|running|ran|공원에서 달리|공원에서 달린다|공원에서 달렸다|공원에서 달릴
+miss|the bus|misses|missing|missed|버스를 놓치|버스를 놓친다|버스를 놓쳤다|버스를 놓칠
+carry|the box|carries|carrying|carried|상자를 나르|상자를 나른다|상자를 날랐다|상자를 나를
+dance||dances|dancing|danced|춤을 추|춤을 춘다|춤을 췄다|춤을 출
+meet|friends|meets|meeting|met|친구들을 만나|친구들을 만난다|친구들을 만났다|친구들을 만날
+sit|on the bench|sits|sitting|sat|벤치에 앉|벤치에 앉는다|벤치에 앉았다|벤치에 앉을
+come|home|comes|coming|came|집에 오|집에 온다|집에 왔다|집에 올
+brush|my teeth|brushes|brushing|brushed|이를 닦|이를 닦는다|이를 닦았다|이를 닦을`.split('\n').map(l=>{const[b,o,s,g,p,ks,kp,kd,kf]=l.split('|');return{b,o,s,g,p,ks,kp,kd,kf,st:!g,kq:b==='make'?'쿠키를 만드니?':null};});
+/* brush my teeth 는 주어에 따라 my → his/her... 로 바꿔요 */
+const objFor=(v,s)=>v.b==='brush'?((s.m||(s.pr==='he'?'his':s.pr==='she'?'her':'their'))+' teeth'):v.o;
+const tail=(v,s)=>{const o=objFor(v,s);return o?' '+o:'';};
+const kV=(v,f)=>({pr:v.kp,ng:v.ks+'지 않는다',q:v.kq||v.ks+'니?',ing:v.ks+'고 있다',ingn:v.ks+'고 있지 않다',ingq:v.ks+'고 있니?',
+  pa:v.kd,pn:v.ks+'지 않았다',pq:v.kd.slice(0,-1)+'니?',fu:v.kf+' 것이다',fn:v.ks+'지 않을 것이다',fq:v.kf+' 거니?',
+  can:v.kf+' 수 있다',cant:v.kf+' 수 없다',canq:v.kf+' 수 있니?'})[f];
+const VA=VB.filter(v=>!v.st);           /* 진행형으로 쓸 수 있는 동사 */
+const KS=(s,t,vk)=>sTop(s)+' '+(t?t+' ':'')+vk+(vk.endsWith('?')?'':'.');
+/* 3인칭 단수 -s 가 붙는 규칙 설명 */
+const sRule=v=>v.b==='have'?'have는 3인칭 단수 주어와 쓰면 has가 돼요.'
+ :/[^aeiou]y$/.test(v.b)?`자음+y로 끝나는 동사는 y를 i로 바꾸고 -es: ${v.b} → ${v.s}`
+ :/(s|x|sh|ch|o)$/.test(v.b)?`-s, -x, -sh, -ch, -o로 끝나는 동사는 -es: ${v.b} → ${v.s}`
+ :`대부분의 동사는 -s: ${v.b} → ${v.s}`;
+const sWrong=v=>uniq([v.b,v.b+'s',v.b+'es',v.b.replace(/y$/,'ies'),v.b.replace(/y$/,'ys'),v.b==='have'?'haves':null].filter(x=>x&&x!==v.s));
+const ingWrong=v=>{const b=v.b;return uniq([b+'ing',b.replace(/e$/,'')+'ing',b+b.slice(-1)+'ing',b.replace(/ie$/,'y')+'ing',b+'eing'].filter(x=>x!==v.g));};
+const pastWrong=v=>{const b=v.b;return uniq([b+'ed',b+'d',b.replace(/y$/,'ied'),b+b.slice(-1)+'ed',v.s+'ed',b==='read'?'readed':null].filter(x=>x&&x!==v.p));};
+const tPres=[['every day','매일'],['on Sundays','일요일마다'],['after school','방과 후에']];
+const tPast=[['yesterday','어제'],['last night','어젯밤에'],['last Sunday','지난 일요일에'],['two days ago','이틀 전에']];
+const tFut=[['tomorrow','내일'],['next week','다음 주에'],['this weekend','이번 주말에']];
+const tm=(v,list)=>v.st||Math.random()<.35?['','']:R(list);
+const sent=(...p)=>p.filter(Boolean).join(' ').replace(/\s+/g,' ').trim();
+/* 단어 하나만 틀리게 바꿔요 (그 단어가 문장에 한 번만 있어야 해요) */
+const tok=s=>s.replace(/[.?!,]/g,'').split(' ');
+const once=(s,w)=>tok(s).filter(x=>x===w).length===1;
+
+/* ---------- 명사 ---------- */
+const CN=['apple','book','cat','dog','pencil','egg','chair','bag','cup','ball','tree','car','flower','banana','desk','bird','doll','robot','hat','box'];
+const UN=['water','milk','juice','bread','rice','money','sugar','salt','cheese','paper','air','snow','butter','soup','tea','music','homework','love'];
+const UNS={water:['I drink ___ every day.','나는 매일 물을 마신다.'],milk:['I drink ___ every morning.','나는 매일 아침 우유를 마신다.'],juice:['She likes ___.','그녀는 주스를 좋아한다.'],bread:['We eat ___ for breakfast.','우리는 아침으로 빵을 먹는다.'],rice:['Koreans eat ___.','한국 사람들은 밥을 먹는다.'],money:['I need ___.','나는 돈이 필요하다.'],sugar:['Put ___ in the tea.','차에 설탕을 넣어라.'],cheese:['The mouse likes ___.','그 쥐는 치즈를 좋아한다.'],paper:['I need ___ to draw.','나는 그림 그릴 종이가 필요하다.'],snow:['I like ___.','나는 눈을 좋아한다.'],music:['We listen to ___.','우리는 음악을 듣는다.'],soup:['Mom makes ___.','엄마가 수프를 만든다.'],tea:['Grandma drinks ___.','할머니는 차를 드신다.'],butter:['Put ___ on the bread.','빵에 버터를 발라라.']};
+const PROPER=[['Korea','korea','p'],['Seoul','seoul','p'],['London','london','p'],['Jeju','jeju','p'],['Busan','busan','p'],['Canada','canada','p'],['Tom','tom','n'],['Amy','amy','n'],['Minsu','minsu','n'],['Monday','monday','d'],['Friday','friday','d'],['Sunday','sunday','d']];
+/* 복수형: 단수|복수|규칙 */
+const PL=`book|books|s
+cat|cats|s
+dog|dogs|s
+apple|apples|s
+pencil|pencils|s
+cup|cups|s
+girl|girls|s
+egg|eggs|s
+car|cars|s
+tree|trees|s
+desk|desks|s
+bag|bags|s
+box|boxes|es
+bus|buses|es
+dish|dishes|es
+watch|watches|es
+fox|foxes|es
+glass|glasses|es
+brush|brushes|es
+bench|benches|es
+peach|peaches|es
+class|classes|es
+tomato|tomatoes|es
+potato|potatoes|es
+hero|heroes|es
+piano|pianos|os
+photo|photos|os
+zoo|zoos|os
+baby|babies|ies
+city|cities|ies
+lady|ladies|ies
+story|stories|ies
+cherry|cherries|ies
+family|families|ies
+puppy|puppies|ies
+butterfly|butterflies|ies
+boy|boys|ys
+toy|toys|ys
+day|days|ys
+key|keys|ys
+monkey|monkeys|ys
+leaf|leaves|ves
+knife|knives|ves
+wolf|wolves|ves
+wife|wives|ves
+half|halves|ves
+roof|roofs|fs
+man|men|irr
+woman|women|irr
+child|children|irr
+foot|feet|irr
+tooth|teeth|irr
+mouse|mice|irr
+goose|geese|irr
+person|people|irr
+sheep|sheep|same
+fish|fish|same
+deer|deer|same`.split('\n').map(l=>{const[s,p,r]=l.split('|');return{s,p,r};});
+const PLX={s:'대부분의 명사는 끝에 -s를 붙여요.',es:'-s, -x, -sh, -ch, -o로 끝나는 명사는 -es를 붙여요.',os:'-o로 끝나지만 -s만 붙이는 예외 단어예요 (piano, photo, zoo).',ies:'자음 + y로 끝나면 y를 i로 바꾸고 -es를 붙여요.',ys:'모음(a, e, i, o, u) + y로 끝나면 그냥 -s만 붙여요.',ves:'-f, -fe로 끝나면 f(fe)를 v로 바꾸고 -es를 붙여요.',fs:'roof는 -f로 끝나지만 그냥 -s를 붙이는 예외예요.',irr:'모양이 불규칙하게 바뀌는 명사예요. 통째로 외워요.',same:'단수와 복수의 모양이 똑같은 명사예요.'};
+const plWrong=n=>uniq([n.s+'s',n.s+'es',n.s.replace(/y$/,'ies'),n.s.replace(/fe?$/,'ves'),n.s.replace(/y$/,'ys'),n.r==='irr'?n.s+'s':null,n.r==='irr'?n.p+'s':null,n.r==='same'?n.s+'s':null,n.r==='same'?n.s+'es':null].filter(x=>x&&x!==n.p&&x!==n.s+'ves'));
+const NUMW=['','one','two','three','four','five','six','seven','eight','nine','ten'];
+const NUMK=['','한','두','세','네','다섯','여섯','일곱','여덟','아홉','열'];
+
+/* ---------- 관사 ---------- */
+const ANW=[['ice cream','아이스크림'],['alligator','악어'],['iguana','이구아나'],['orange bag','주황색 가방'],['empty box','빈 상자'],['interesting book','재미있는 책'],['eagle','독수리'],['oven','오븐'],['aunt','이모'],['island','섬'],['angry cat','화난 고양이'],['old man','할아버지'],['apple','사과'],['egg','달걀'],['orange','오렌지'],['onion','양파'],['elephant','코끼리'],['ant','개미'],['owl','부엉이'],['umbrella','우산'],['octopus','문어'],['eraser','지우개'],['igloo','이글루'],['uncle','삼촌'],['idea','생각'],['hour','한 시간'],['honest boy','정직한 소년'],['old car','오래된 차'],['easy test','쉬운 시험'],['ugly duck','못생긴 오리']];
+const AW=[['bike','자전거'],['window','창문'],['robot','로봇'],['lemon','레몬'],['tiger','호랑이'],['useful tool','쓸모 있는 도구'],['hat','모자'],['zebra','얼룩말'],['monkey','원숭이'],['happy dog','행복한 개'],['tall tree','키 큰 나무'],['red apple','빨간 사과'],['small egg','작은 달걀'],['cute owl','귀여운 부엉이'],['book','책'],['banana','바나나'],['cat','고양이'],['dog','개'],['pencil','연필'],['house','집'],['horse','말'],['uniform','교복'],['unicorn','유니콘'],['university','대학교'],['big apple','큰 사과'],['new eraser','새 지우개'],['yellow umbrella','노란 우산'],['ruler','자']];
+const artX=w=>w==='hour'?'hour는 h 소리가 나지 않고 [아워]처럼 모음 소리로 시작해서 an을 써요.'
+ :w==='honest boy'?'honest는 h 소리가 나지 않고 [아니스트]처럼 모음 소리로 시작해서 an을 써요.'
+ :/^(uniform|unicorn|university|useful)/.test(w)?`${w.split(' ')[0]}는 u로 시작하지만 [유]처럼 자음 소리로 시작해서 a를 써요.`
+ :w.includes(' ')?`관사는 바로 뒤에 오는 단어(${w.split(' ')[0]})의 첫소리를 봐요.`
+ :/^[aeiou]/.test(w)?`${w}는 모음 소리(a, e, i, o, u)로 시작해서 an을 써요.`:`${w}는 자음 소리로 시작해서 a를 써요.`;
+const art=w=>/^(hour|honest)/.test(w)?'an':/^(uni|use)/.test(w)?'a':/^[aeiou]/.test(w)?'an':'a';
+/* ================= 1권 ================= */
+const ST=[];
+const add=(b,ch,t,c,g)=>ST.push({b,ch,t,c,g});
+
+/* 1. 셀 수 있는 명사 / 셀 수 없는 명사 */
+const CN2=CN.concat(['orange','pen','toy','house','window','shoe','spoon','plate','bike','bus','rabbit','lion','duck','computer','umbrella']);
+const UN2=UN.concat(['ice','sand','honey','jam','meat','news','advice','peace','happiness','coffee','cereal','gold','oil','flour']);
+add(1,'명사와 관사','셀 수 있는 명사, 셀 수 없는 명사',
+ ['하나, 둘 셀 수 있는 명사 → a(an)를 붙이거나 복수형으로 써요: a book, two books','셀 수 없는 명사(물질·추상·고유명사) → a(an)도, -s도 붙이지 않아요: water, love, Korea','고유명사(사람·나라·도시 이름)는 항상 대문자로 시작해요'],[
+ ()=>P('셀 수 없는 명사를 고르세요.',R(UN2),RN(CN2,3),'water, milk, money처럼 모양이 일정하지 않거나 눈에 보이지 않는 것은 셀 수 없어요.'),
+ ()=>P('셀 수 있는 명사를 고르세요.',R(CN2),RN(UN2,3),'하나, 둘 셀 수 있는 물건이에요. a(an)를 붙이거나 복수형으로 쓸 수 있어요.'),
+ ()=>{const n=R(Object.keys(UNS)),[q,k]=UNS[n];return C(q,n,['a '+n,n+'s','an '+n],`${n}는 셀 수 없는 명사라서 a(an)나 -s를 붙이지 않아요.`,k);},
+ ()=>{const n=R(CN2.filter(x=>!/^[aeiou]/.test(x))),t=R(['I have ___.','I want ___.','Look at ___.','There is ___ on the desk.','I need ___.']);return C(t,'a '+n,[n,'a '+n+'s',n+' a'],`셀 수 있는 명사가 하나일 때는 앞에 a를 붙여요.`);},
+ ()=>{const [p,w,k]=R(PROPER);const t=[R({p:['I live in ___.','We visited ___.'],n:['___ is my friend.','I like ___.'],d:['Today is ___.','See you on ___.']}[k])];return P('바르게 쓴 문장을 고르세요.',t[0].replace('___',p),[t[0].replace('___',w),t[0].replace('___','a '+p),t[0].replace('___',p+'s')],'사람·나라·도시·요일 이름은 고유명사예요. 대문자로 쓰고 a나 -s를 붙이지 않아요.');},
+ ()=>{const n=R(UN2),c=R(CN2),pick=yn();return P(`다음 중 ${pick?'a(an)를 붙일 수 있는':'a(an)를 붙일 수 없는'} 것은?`,pick?c:n,pick?RN(UN2.filter(x=>x!==n),3):RN(CN2,3),'셀 수 있는 명사 하나에만 a(an)를 붙여요. 셀 수 없는 명사에는 붙이지 않아요.');},
+ ()=>{const n=R(Object.keys(UNS)),[q]=UNS[n],s=q.replace('___','a '+n);return F(s,'a','(빼요)',`${n}는 셀 수 없는 명사라서 a를 붙이지 않아요 → ${q.replace('___',n)}`);},
+ ()=>{const n=R(Object.keys(UNS)),[q]=UNS[n],s=q.replace('___',n+'s');return F(s,n+'s',n,`${n}는 셀 수 없는 명사라서 -s를 붙이지 않아요.`);},
+]);
+
+/* 2. 셀 수 있는 명사의 복수형 */
+add(1,'명사와 관사','셀 수 있는 명사의 복수형',
+ ['대부분 -s: book → books','-s, -x, -sh, -ch, -o → -es: box → boxes, tomato → tomatoes (예외 piano → pianos)','자음+y → y를 i로 바꾸고 -es: baby → babies / 모음+y → -s: boy → boys','-f, -fe → v로 바꾸고 -es: leaf → leaves, knife → knives','불규칙: man → men, child → children, foot → feet, mouse → mice / 같은 모양: sheep, fish, deer'],[
+ ()=>{const n=R(PL);return P(`${n.s}의 복수형을 고르세요.`,n.p,plWrong(n),PLX[n.r]);},
+ ()=>{const n=R(PL),k=RI(2,9);return C(`I have ${NUMW[k]} ___.`,n.p,plWrong(n).concat([n.s]),`둘 이상이면 복수형을 써요. ${PLX[n.r]}`,null,`빈칸에 알맞은 말을 고르세요. (${n.s})`);},
+ ()=>{const n=R(PL.filter(x=>x.r!=='same')),k=RI(2,9),w=R(plWrong(n).concat([n.s]));return F(`There are ${NUMW[k]} ${w} in the picture.`,w,n.p,`${n.s}의 복수형은 ${n.p}예요. ${PLX[n.r]}`);},
+ ()=>{const r=R(['es','ies','ves','irr']),ok=R(PL.filter(x=>x.r===r)),wr=RN(PL.filter(x=>x.r==='s'||x.r==='ys'),3);
+   const lab={es:'-es를 붙여 복수형을 만드는',ies:'y를 i로 바꾸고 -es를 붙이는',ves:'f(fe)를 v로 바꾸고 -es를 붙이는',irr:'복수형이 불규칙하게 바뀌는'}[r];
+   return P(`${lab} 단어를 고르세요.`,ok.s,wr.map(x=>x.s),`${ok.s} → ${ok.p}. ${PLX[r]}`);},
+ ()=>{const bad=R(PL.filter(x=>x.r!=='s')),w=R(plWrong(bad)),good=RN(PL.filter(x=>x!==bad),3);return P('복수형이 틀린 것을 고르세요.',`${bad.s} – ${w}`,good.map(x=>`${x.s} – ${x.p}`),`${bad.s}의 복수형은 ${bad.p}예요. ${PLX[bad.r]}`);},
+ ()=>{const n=R(PL.filter(x=>x.r==='same'||x.r==='irr'));return C(`Look at those ___! (${n.s} 여러 마리/개)`,n.p,plWrong(n),PLX[n.r]);},
+]);
+
+/* 3. 관사 a, an, the */
+const THE=[['Look at ___ moon.','the','달처럼 세상에 하나뿐인 것 앞에는 the를 써요.','저 달을 봐.'],['___ sun is hot.','The','해처럼 하나뿐인 것 앞에는 the를 써요.','해는 뜨겁다.'],['Tom plays ___ piano.','the','악기 이름 앞에는 the를 써요.','톰은 피아노를 친다.'],['Amy plays ___ violin.','the','악기 이름 앞에는 the를 써요.','에이미는 바이올린을 켠다.'],['I play ___ soccer.','×','운동 경기 이름 앞에는 관사를 쓰지 않아요.','나는 축구를 한다.'],['They play ___ baseball.','×','운동 경기 이름 앞에는 관사를 쓰지 않아요.','그들은 야구를 한다.'],['Let\'s have ___ lunch.','×','식사 이름(breakfast, lunch, dinner) 앞에는 관사를 쓰지 않아요.','점심 먹자.'],['I go to school by ___ bus.','×','by + 교통수단에는 관사를 쓰지 않아요.','나는 버스를 타고 학교에 간다.'],['I have a dog. ___ dog is cute.','The','앞에서 말한 것을 다시 말할 때는 the를 써요.','나는 개가 있다. 그 개는 귀엽다.'],['Please open ___ door.','the','서로 알고 있는 그것을 말할 때 the를 써요.','문 좀 열어 줘.'],['Look at ___ sky.','the','하늘처럼 하나뿐인 것 앞에는 the를 써요.','하늘을 봐.'],['I saw a cat. ___ cat was white.','The','앞에서 말한 것을 다시 말할 때는 the를 써요.','나는 고양이를 봤다. 그 고양이는 하얬다.'],['She has ___ breakfast at 7.','×','식사 이름 앞에는 관사를 쓰지 않아요.','그녀는 7시에 아침을 먹는다.'],['There is ___ egg in the basket.','an','셀 수 있는 것 하나, 처음 말할 때 a/an. egg는 모음 소리라 an.','바구니에 달걀이 하나 있다.']];
+add(1,'명사와 관사','관사 a, an, the',
+ ['a / an: 셀 수 있는 명사 하나 앞. 뒤 단어의 첫소리가 모음 소리면 an: an apple, an hour','u로 시작해도 [유] 소리면 a: a uniform / h가 소리 안 나면 an: an hour','the: 앞에서 말한 것, 서로 아는 것, 하나뿐인 것(the sun), 악기(the piano)','관사를 안 쓰는 것: 운동 경기(soccer), 식사(lunch), by + 교통수단(by bus)'],[
+ ()=>{const [w,k]=R(ANW);return C(`___ ${w}`,'an',['a','the ×'].slice(0,1),artX(w),k);},
+ ()=>{const [w,k]=R(AW);return C(`___ ${w}`,'a',['an'],artX(w),k);},
+ ()=>{const [w,k]=R(Math.random()<.5?ANW:AW),a=art(w);return C(`I want ___ ${w}.`,a,[a==='a'?'an':'a'],artX(w),`나는 ${jo(k,'을','를')} 원한다.`);},
+ ()=>{const [q,a,x,k]=R(THE);return C(q,a,['a','an','the','×'].filter(y=>y.toLowerCase()!==a.toLowerCase()).map(y=>/^___/.test(q)&&y!=='×'?cap(y):y),x+' (×는 아무것도 쓰지 않는다는 뜻)',k);},
+ ()=>{const [w]=R(ANW.filter(x=>!x[0].includes(' ')));return F(`I have a ${w}.`,'a','an',artX(w));},
+ ()=>{const [w]=R(AW.filter(x=>/^(uni|house|horse|big|yellow)/.test(x[0])));return F(`It is an ${w}.`,'an','a',artX(w));},
+ ()=>{const t=R(THE.filter(x=>x[1]==='×'));const s=t[0].replace('___ ','the ');return F(cap(s),'the','(빼요)',t[2]);},
+]);
+
+/* 4. 인칭대명사 주격·목적격 */
+const PNOUN=[['Tom','He','him','is','tall'],['Minsu','He','him','is','funny'],['My dad','He','him','is','busy'],['Amy','She','her','is','kind'],['Jisu','She','her','is','smart'],['My mom','She','her','is','tired'],['The cat','It','it','is','cute'],['The book','It','it','is','fun'],['Tom and Amy','They','them','are','happy'],['The kids','They','them','are','hungry'],['My sister and I','We','us','are','busy'],['Jisu and I','We','us','are','ten years old']];
+add(1,'대명사','인칭대명사의 주격과 목적격',
+ ['주격(~은/는, 문장의 주인공): I, you, he, she, it, we, they','목적격(~을/를, 동사·전치사 뒤): me, you, him, her, it, us, them','Tom → he/him, Amy → she/her, Tom and Amy → they/them, Amy and I → we/us'],[
+ ()=>{const [n,s,o,b,j]=R(PNOUN);return C(`${n} ${b} here. ___ ${b} ${j}.`,s,['He','She','It','They','We'].filter(x=>x!==s),`${n}를 대신하는 주격 대명사는 ${s}예요.`);},
+ ()=>{const [n,s,o]=R(PNOUN.filter(x=>!/I$/.test(x[0])));return C(`I like ${n.replace(/^My/,'my').replace(/^The/,'the')}. I like ___ very much.`,o,['he','she','they','his','her','them','him','it'].filter(x=>x!==o&&x!==s.toLowerCase()).slice(0,2).concat([s.toLowerCase()]),`동사 like 뒤에는 목적격을 써요. ${n} → ${o}`);},
+ ()=>{const p=R(PRON.filter(x=>x.e!=='You'));return C(`Can you help ___? (${({I:'나를',He:'그를',She:'그녀를',We:'우리를',They:'그들을'})[p.e]})`,p.o,[p.e==='I'?'I':p.e.toLowerCase(),p.m,p.mine].filter(x=>x!==p.o),'동사 help 뒤에는 목적격을 써요.');},
+ ()=>{const p=R(PRON.filter(x=>x.e!=='You'&&x.e!=='I'));return C(`This gift is for ___. (${({He:'그',She:'그녀',We:'우리',They:'그들'})[p.e]})`,p.o,[p.e.toLowerCase(),p.m,p.mine].filter(x=>x!==p.o),'전치사(for, with, to) 뒤에도 목적격을 써요.');},
+ ()=>{const p=R(PRON),t=R(['Look at ___.','Please call ___.','I love ___.','They know ___.','Come with ___.','Can you see ___?','Tell ___ the story.','Mom is waiting for ___.']),ko={I:'나를',You:'너를',He:'그를',She:'그녀를',We:'우리를',They:'그들을'}[p.e];return C(`${t} (${ko})`,p.o,[p.e==='I'?'I':p.e.toLowerCase(),p.m,p.mine].filter(x=>x!==p.o),'동사나 전치사 뒤 ‘~을/를’ 자리에는 목적격을 써요.');},
+ ()=>{const p=R(PRON),a=R(AJ),ko={I:'나는',You:'너는',He:'그는',She:'그녀는',We:'우리는',They:'그들은'}[p.e];return C(`___ ${p.be} ${a.e}. (${ko})`,p.e,[p.o==='you'?'Your':cap(p.o),cap(p.m),cap(p.mine)].filter(x=>x!==p.e),'문장의 주어 ‘~은/는’ 자리에는 주격을 써요.',`${ko} ${kAdj(a,'pr')}.`);},
+ ()=>{const wr=R([['we','our'],['they','their'],['he','his'],['I','my'],['she','hers']]),good=RN([['I','me'],['he','him'],['she','her'],['we','us'],['they','them'],['you','you']].filter(x=>x[0]!==wr[0]),3);return P('주격과 목적격의 짝이 틀린 것을 고르세요.',wr.join(' – '),good.map(x=>x.join(' – ')),`${wr[0]}의 목적격은 ${({we:'us',they:'them',he:'him',I:'me',she:'her'})[wr[0]]}예요.`);},
+ ()=>{const p=R([['Him','He','is my brother.'],['Her','She','is my sister.'],['Them','They','are my friends.'],['Us','We','are classmates.'],['Me','I','am ten years old.']]);return F(`${p[0]} ${p[2]}`,p[0],p[1],'문장의 주어(~은/는) 자리에는 주격을 써요.');},
+ ()=>{const p=R([['he','him'],['she','her'],['they','them'],['we','us'],['I','me']]);const v=R(['know','love','see','call']);return F(`Mom ${v}s ${p[0]}.`,p[0],p[1],`동사 ${v} 뒤 목적어 자리에는 목적격 ${p[1]}을 써요.`);},
+]);
+
+/* 5. 소유격과 소유대명사 */
+const OWN=[['I','my','mine','나의','나의 것'],['you','your','yours','너의','너의 것'],['he','his','his','그의','그의 것'],['she','her','hers','그녀의','그녀의 것'],['we','our','ours','우리의','우리의 것'],['they','their','theirs','그들의','그들의 것']];
+const THING=[['bag','가방'],['pen','펜'],['cap','모자'],['book','책'],['ball','공'],['bike','자전거'],['cup','컵'],['umbrella','우산']];
+add(1,'대명사','소유격 인칭대명사와 소유대명사',
+ ['소유격(~의) + 명사: my, your, his, her, its, our, their → my bag','소유대명사(~의 것) = 소유격 + 명사: mine, yours, his, hers, ours, theirs','이름의 소유격: Tom\'s bag, 소유대명사: It\'s Tom\'s.','Whose bag is this? — It\'s mine.'],[
+ ()=>{const p=R(OWN),[t,tk]=R(THING);return C(`This is ___ ${t}. (${p[3]})`,p[1],[p[0],p[2],p[0]==='I'?'me':p[0]==='he'?'him':p[0]==='they'?'them':p[0]==='we'?'us':p[0]+'s'].filter(x=>x!==p[1]),'명사 앞에서 ‘~의’는 소유격을 써요.',`이것은 ${p[3]} ${tk}이다.`);},
+ ()=>{const p=R(OWN.filter(x=>x[0]!=='he')),[t,tk]=R(THING);return C(`This ${t} is ___. (${p[4]})`,p[2],[p[1],p[0]==='I'?'me':p[0]+"'s",p[1]+'s'].filter(x=>x!==p[2]),'‘~의 것’은 소유대명사를 써요. 소유대명사 뒤에는 명사가 오지 않아요.',`이 ${jo(tk,'은','는')} ${p[4]}이다.`);},
+ ()=>{const n=R(['Tom','Amy','Minsu','Jisu']),[t,tk]=R(THING);return C(`Whose ${t} is this? — It's ___. (${n}의 것)`,n+"'s",[n,n+'s',"'s "+n],'사람 이름 뒤에 \'s를 붙이면 ‘~의, ~의 것’이 돼요.');},
+ ()=>{const p=R(OWN.filter(x=>x[0]!=='he')),[t]=R(THING);return F(`This is ${p[2]} ${t}.`,p[2],p[1],'명사 앞에는 소유격을 써요. 소유대명사(mine, yours…)는 혼자 쓰여요.');},
+ ()=>{const p=R(OWN.filter(x=>x[0]!=='he')),[t]=R(THING);return F(`The ${t} is ${p[1]}.`,p[1],p[2],'뒤에 명사가 없으면 소유대명사(~의 것)를 써요.');},
+ ()=>{const p=R(OWN);return P(`${p[0]}의 소유격과 소유대명사가 바르게 짝지어진 것은?`,`${p[1]} – ${p[2]}`,[`${p[2]} – ${p[1]}`,`${p[1]} – ${p[1]}s`,`${p[0]==='I'?'me':p[0]} – ${p[2]}`].filter(x=>x!==`${p[1]} – ${p[2]}`),`${p[0]} → 소유격 ${p[1]}, 소유대명사 ${p[2]}`);},
+]);
+
+/* 6. 비인칭 주어 it */
+const TIMES=['one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve'];
+const WEA=[['sunny','맑다'],['cloudy','흐리다'],['rainy','비가 온다'],['windy','바람이 분다'],['snowy','눈이 온다'],['hot','덥다'],['cold','춥다'],['warm','따뜻하다']];
+const DAYS=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const DAYK=['월요일','화요일','수요일','목요일','금요일','토요일','일요일'];
+const IT_Q=()=>R([
+ ()=>{const h=R(TIMES);return ['What time is it?',`It's ${h} o'clock.`,'시간'];},
+ ()=>{const w=R(WEA);return ["How's the weather today?",`It's ${w[0]}.`,'날씨'];},
+ ()=>{const d=R(DAYS);return ['What day is it today?',`It's ${d}.`,'요일'];},
+ ()=>{const m=R(['May 5th','June 1st','March 3rd','October 9th']);return ["What's the date today?",`It's ${m}.`,'날짜'];},
+])();
+const nw0=n=>['zero','one','two','three','four','five','six','seven','eight','nine','ten'][n];
+add(1,'대명사','비인칭 주어 it',
+ ['시간, 날씨, 요일, 날짜, 거리, 명암을 말할 때 주어로 it을 써요','이때 it은 ‘그것’이라고 해석하지 않아요: It is sunny. (날씨가 맑다)','It\'s 3 o\'clock. / It\'s Monday. / It\'s dark outside.'],[
+ ()=>{const [q,a,c]=IT_Q();const all={시간:`It's ${R(TIMES)} o'clock.`,날씨:`It's ${R(WEA)[0]}.`,요일:`It's ${R(DAYS)}.`,날짜:`It's ${R(['May 5th','June 1st','March 3rd'])}.`};delete all[c];return P(`“${q}” 에 알맞은 대답을 고르세요.`,a,Object.values(all),`${jo(c,'을','를')} 물으면 비인칭 주어 it으로 대답해요: ${a}`);},
+ ()=>{const w=R(WEA);return C(`___ is ${w[0]} today.`,'It',['This','That','They'],'날씨를 말할 때는 비인칭 주어 It을 써요.',`오늘은 ${w[1]}.`);},
+ ()=>{const h=R(TIMES);return C(`What time is it? — ___ ${h} o'clock.`,"It's",["This is","That's","They're"],'시간을 말할 때는 It\'s ~ 를 써요.');},
+ ()=>{const ok=R([`It is ${R(WEA)[0]} today.`,`It is ${R(TIMES)} o'clock.`,`It is ${R(DAYS)} today.`,'It is dark outside.','It is 2 kilometers from here.']);const wr=RN(['It is my cat.','It is a pencil.','It is on the desk.','It is very cute.','It is my bag.','It is a red apple.'],3);return P('밑줄 친 It이 ‘비인칭 주어’(그것이라고 해석하지 않는 it)인 문장은?',ok,wr,'시간·날씨·요일·날짜·거리·명암을 나타내는 it은 비인칭 주어예요. 나머지는 ‘그것’이라는 뜻의 대명사예요.');},
+ ()=>{const wr=R(['It is my cat.','It is a pencil.','It is on the desk.','It is my bag.']);const ok=RN([`It is ${R(WEA)[0]} today.`,`It is ${R(TIMES)} o'clock.`,`It is ${R(DAYS)}.`,'It is dark outside.'],3);return P('it이 ‘그것’이라는 뜻으로 쓰인 문장은?',wr,ok,'물건이나 동물을 가리키는 it은 ‘그것’이라는 뜻의 대명사예요.');},
+ ()=>{const h=RI(1,12),half=yn(),e=half?`${TIMES[h-1]} thirty`:`${TIMES[h-1]} o'clock`;return P(`‘지금은 ${h}시${half?' 30분':''}이다.’ 를 영어로 바르게 쓴 것은?`,`It is ${e}.`,[`This is ${e}.`,`That is ${e}.`,`It has ${e}.`],'시간을 말할 때는 비인칭 주어 It을 써요.');},
+ ()=>{const w=R(WEA);return C(`It is ___ today. (${w[1]})`,w[0],RN(WEA.filter(x=>x!==w&&!(x[0]==='hot'&&w[0]==='warm')&&!(x[0]==='warm'&&w[0]==='hot')),3).map(x=>x[0]),'날씨는 It is + 날씨 형용사.',`오늘은 ${w[1]}.`);},
+ ()=>{const k=RI(1,9),u=R([['kilometers','킬로미터'],['meters','미터']]);return C(`How far is it to the ${R(['park','school','station','library'])}? — ___ ${nw0(k===1?2:k)} ${u[0]}.`,"It's",["This is","They're","That's"],'거리를 말할 때도 비인칭 주어 it을 써요.');},
+ ()=>{const i=RI(0,6);return O(`오늘은 ${DAYK[i]}이다.`,`It is ${DAYS[i]} today.`,'요일을 말할 때 비인칭 주어 it을 써요.');},
+ ()=>{const w=R(WEA);return O(`오늘은 ${w[1]}.`,`It is ${w[0]} today.`,'날씨를 말할 때 비인칭 주어 it을 써요.');},
+]);
+
+/* 7. 지시대명사 this, that, these, those */
+const NEAR=[['가까이 있는 것 하나','This','is'],['멀리 있는 것 하나','That','is'],['가까이 있는 것 여러 개','These','are'],['멀리 있는 것 여러 개','Those','are']];
+const DEMN=[['my pencil','my pencils','내 연필'],['my bag','my bags','내 가방'],['a bird','birds','새'],['my toy','my toys','내 장난감'],['a dog','dogs','개'],['your book','your books','네 책'],['a star','stars','별'],['an egg','eggs','달걀'],['my sock','my socks','내 양말'],['a cat','cats','고양이'],['my shoe','my shoes','내 신발'],['an apple','apples','사과'],['my friend','my friends','내 친구'],['a flower','flowers','꽃'],['a box','boxes','상자']];
+add(1,'대명사','지시대명사 this, that',
+ ['this(이것) – 가까이 있는 하나 / these(이것들) – 가까이 있는 여럿','that(저것) – 멀리 있는 하나 / those(저것들) – 멀리 있는 여럿','This is ~ / These are ~ : 단수는 is, 복수는 are','Is this ~? — Yes, it is. / Are these ~? — Yes, they are.'],[
+ ()=>{const c=R(NEAR),n=R(DEMN),pl=c[2]==='are';return C(`___ ${c[2]} ${pl?n[1]:n[0]}. (${c[0]})`,c[0]&&c[1],NEAR.map(x=>x[1]).filter(x=>x!==c[1]),`${c[0]} → ${c[1]}`);},
+ ()=>{const c=R(NEAR),n=R(DEMN),pl=c[2]==='are';return C(`${c[1]} ___ ${pl?n[1]:n[0]}.`,c[2],[c[2]==='is'?'are':'is','am'],`${c[1]}${pl?'는 여럿이라 are':'는 하나라 is'}를 써요.`);},
+ ()=>{const pl=Math.random()<.5,n=R(DEMN),d=pl?R(['these','those']):R(['this','that']);return C(`Is ${d} ${pl?n[1]:n[0]}? — Yes, ___ ${pl?'are':'is'}.`.replace(/^Is (these|those)/,'Are $1'),pl?'they':'it',pl?['it','these','those']:['this','that','they'],`this/that으로 물으면 it으로, these/those로 물으면 they로 대답해요.`);},
+ ()=>{const d=R(['These','Those']),n=R(DEMN);return F(`${d} is ${n[1]}.`,'is','are',`${d}는 여럿을 가리켜서 are를 써요.`);},
+ ()=>{const d=R(['This','That']),n=R(DEMN);return F(`${d} are ${n[0]}.`,'are','is',`${d}는 하나를 가리켜서 is를 써요.`);},
+ ()=>{const c=R(NEAR),n=R(DEMN),pl=c[2]==='are';const ko={This:'이것은',That:'저것은',These:'이것들은',Those:'저것들은'}[c[1]];return O(`${ko} ${n[2]}${pl?'들':''}이다.`.replace('친구들이다','친구들이다'),`${c[1]} ${c[2]} ${pl?n[1]:n[0]}.`,`${c[0]} → ${c[1]} ${c[2]}`);},
+]);
+
+/* 8. be동사 긍정·부정 */
+const beQ=(f)=>{const s=R(SB),useA=Math.random()<.65,a=R(AJ),p=R(PLC);const comp=useA?a.e:p[0];const k=sTop(s)+' '+(useA?kAdj(a,f):kPlc(p,f))+(f.endsWith('q')||f==='q'?'':'.');return{s,comp,k};};
+add(1,'be동사의 현재형','be동사의 긍정문과 부정문',
+ ['I → am / He, She, It, 한 사람·한 개 → is / You, We, They, 여럿 → are','be동사 뜻: ~이다, ~(하)다, ~에 있다','부정문: be동사 뒤에 not → am not, is not(isn\'t), are not(aren\'t)','줄임말: I\'m, You\'re, He\'s, She\'s, We\'re, They\'re (am not은 줄여 쓰지 않아요)'],[
+ ()=>{const {s,comp,k}=beQ('pr');return C(`${sFor(s)} ___ ${comp}.`,s.be,['am','is','are'].filter(x=>x!==s.be),`주어가 ${s.e}이면 be동사는 ${s.be}를 써요.`,k);},
+ ()=>{const {s,comp,k}=beQ('ng');const n=s.be==='am'?'am not':notOf(s.be);return C(`${sFor(s)} ___ ${comp}.`,n,["am not","isn't","aren't","don't","doesn't"].filter(x=>x!==n),`be동사의 부정은 be동사 뒤에 not을 붙여요: ${s.be} not${s.be==='am'?'':' → '+n}`,k);},
+ ()=>{const s=R(PRON);const full={I:'I am',You:'You are',He:'He is',She:'She is',We:'We are',They:'They are'}[s.e],sh={I:"I'm",You:"You're",He:"He's",She:"She's",We:"We're",They:"They're"}[s.e];return P(`“${full}”의 줄임말은?`,sh,[s.e+"'re",s.e+"'s",s.e+"'m",s.e+"is"].filter(x=>x!==sh),`주어와 be동사는 줄여 쓸 수 있어요: ${full} → ${sh}`);},
+ ()=>P('줄임말이 틀린 것을 고르세요.',"I amn't",RN(["is not → isn't","are not → aren't","I am → I'm","She is → She's","They are → They're"],3),'am not은 줄여 쓰지 않아요. I\'m not 으로 써요.'),
+ ()=>{const {s,comp}=beQ('pr');const w=R(['am','is','are'].filter(x=>x!==s.be));return F(`${sFor(s)} ${w} ${comp}.`,w,s.be,`주어가 ${s.e}이면 be동사는 ${s.be}예요.`);},
+ ()=>{const {s,comp}=beQ('ng');const w=s.be==='am'?'not':null;if(w) return F(`I amn't ${comp}.`,"amn't",'am not','am not은 줄여 쓰지 않아요 → I\'m not ~ 또는 I am not ~');return F(`${sFor(s)} ${s.be==='is'?"don't":"doesn't"} ${comp}.`,s.be==='is'?"don't":"doesn't",notOf(s.be),'be동사 문장의 부정은 don\'t/doesn\'t가 아니라 be동사 + not이에요.');},
+ ()=>{const f=R(['pr','ng']),{s,comp,k}=beQ(f);return O(k,`${sFor(s)} ${s.be}${f==='ng'?' not':''} ${comp}.`,`주어 ${s.e} → ${s.be}${f==='ng'?', 부정은 be동사 뒤에 not':''}`);},
+]);
+
+/* 9. be동사 의문문 */
+const yn=()=>Math.random()<.5;
+add(1,'be동사의 현재형','be동사의 의문문',
+ ['의문문: be동사를 주어 앞으로 → Is she happy?','대답: Yes, 주어 + be동사. / No, 주어 + be동사 + not.','묻는 주어가 you면 I로, Tom이면 he로 대답해요','긍정 대답은 줄여 쓰지 않아요: Yes, he is. (Yes, he\'s. ×)'],[
+ ()=>{const {s,comp,k}=beQ('q');return C(`___ ${sMid(s)} ${comp}?`,cap(s.be),['Am','Is','Are','Do','Does'].filter(x=>x!==cap(s.be)),`주어가 ${s.e}이면 ${cap(s.be)}로 물어요.`,k);},
+ ()=>{const s=R(SB.filter(x=>x.e!=='I'&&x.e!=='We')),a=R(AJ),y=yn(),ap=ansPfromQ(s),b=beOf(ap);const ok=y?`Yes, ${ap} ${b}.`:`No, ${ap} ${b==='am'?'am not':notOf(b)}.`;
+   const wr=y?[`Yes, ${ap} ${b==='am'?"'m":b==='is'?"'s":"'re"}.`.replace(' \'',"'"),`Yes, ${ap} ${ap==='I'?'do':ap==='he'||ap==='she'?'does':'do'}.`,`No, ${ap} ${b==='am'?'am not':notOf(b)}.`]:[`No, ${ap} ${ap==='he'||ap==='she'?"doesn't":"don't"}.`,`Yes, ${ap} ${b}.`,`No, ${ap} not.`];
+   return P(`${cap(s.be)} ${sMid(s)} ${a.e}? — (${y?'응':'아니'}) 알맞은 대답은?`,ok,wr,`${s.e}로 물으면 ${ap}로 대답해요. ${y?'긍정 대답은 줄여 쓰지 않아요.':'부정은 be동사 + not.'}`);},
+ ()=>{const {s,comp}=beQ('pr');const ok=`${cap(s.be)} ${sMid(s)} ${comp}?`;return P(`“${sFor(s)} ${s.be} ${comp}.” 를 의문문으로 바르게 바꾼 것은?`,ok,[`${sFor(s)} ${s.be} ${comp}?`,`${s.s3?'Does':'Do'} ${sMid(s)} ${comp}?`,`${cap(s.be)} ${comp} ${sMid(s)}?`],'be동사를 주어 앞으로 보내고 물음표를 붙여요.');},
+ ()=>{const {s,comp}=beQ('q');const w=R(['Am','Is','Are'].filter(x=>x!==cap(s.be)));return F(`${w} ${sMid(s)} ${comp}?`,w,cap(s.be),`주어가 ${s.e}이면 ${cap(s.be)}로 물어요.`);},
+ ()=>{const {s,comp,k}=beQ('q');return O(k,`${cap(s.be)} ${sMid(s)} ${comp}?`,'be동사 + 주어 ~?');},
+]);
+
+/* 10. There is, There are */
+const TH=[['a cat','cats','고양이','마리','🐱'],['a book','books','책','권','📕'],['an apple','apples','사과','개','🍎'],['a ball','balls','공','개','⚽'],['a pencil','pencils','연필','자루','✏️'],['a cookie','cookies','쿠키','개','🍪'],['a bird','birds','새','마리','🐦'],['an egg','eggs','달걀','개','🥚']];
+const THU=[['some milk','우유'],['some water','물'],['some juice','주스'],['some bread','빵']];
+const THP=[['on the table','탁자 위에'],['in the box','상자 안에'],['under the bed','침대 밑에'],['in the room','방 안에'],['in the basket','바구니 안에']];
+add(1,'be동사의 현재형','There is, There are',
+ ['There is + 단수 명사 / 셀 수 없는 명사: There is a cat. There is some milk.','There are + 복수 명사: There are three cats.','부정: There isn\'t / There aren\'t + any ~','의문: Is there ~? / Are there ~? — Yes, there is(are). / No, there isn\'t(aren\'t).'],[
+ ()=>{const n=R(TH),p=R(THP),pl=Math.random()<.5,k=RI(2,6);return C(`There ___ ${pl?NUMW[k]+' '+n[1]:n[0]} ${p[0]}.`,pl?'are':'is',[pl?'is':'are','am','be'],pl?'뒤에 복수 명사가 오면 There are.':'뒤에 단수 명사가 오면 There is.',`${p[1]} ${jo(n[2],'이','가')} ${pl?NUMK[k]+' '+n[3]:'하나'} 있다.`);},
+ ()=>{const u=R(THU),p=R(THP);return C(`There ___ ${u[0]} ${p[0]}.`,'is',['are','am'],'셀 수 없는 명사(milk, water…)는 단수 취급해서 There is.');},
+ ()=>{const n=R(TH),p=R(THP),k=RI(2,9),e=n[4];return P(`그림을 보고 알맞은 문장을 고르세요. ${e.repeat(k)}`,`There are ${NUMW[k]} ${n[1]}.`,[`There is ${NUMW[k]} ${n[1]}.`,`There are ${NUMW[k]} ${n[0].replace(/^an? /,'')}.`,`There is ${n[0]}.`],'여러 개는 There are + 복수 명사.');},
+ ()=>{const n=R(TH),p=R(THP),pl=Math.random()<.5;return C(`___ there ${pl?'any '+n[1]:n[0]} ${p[0]}?`,pl?'Are':'Is',[pl?'Is':'Are','Do','Does'],'There 문장의 의문문은 be동사를 there 앞으로: Is there ~? / Are there ~?');},
+ ()=>{const n=R(TH),pl=Math.random()<.5,y=yn();return P(`${pl?'Are':'Is'} there ${pl?'any '+n[1]:n[0]} in the bag? — (${y?'응':'아니'})`,y?`Yes, there ${pl?'are':'is'}.`:`No, there ${pl?"aren't":"isn't"}.`,y?[`Yes, there ${pl?'is':'are'}.`,`Yes, it is.`,`Yes, they do.`]:[`No, there ${pl?"isn't":"aren't"}.`,`No, it isn't.`,`No, they don't.`],'Is there ~?에는 there is(isn\'t), Are there ~?에는 there are(aren\'t)로 대답해요.');},
+ ()=>{const n=R(TH),p=R(THP),k=RI(2,6);return F(`There is ${NUMW[k]} ${n[1]} ${p[0]}.`,'is','are','복수 명사 앞에는 There are를 써요.');},
+ ()=>{const n=R(TH),p=R(THP),k=RI(2,6);return O(`${p[1]} ${jo(n[2],'이','가')} ${NUMK[k]} ${n[3]} 있다.`,`There are ${NUMW[k]} ${n[1]} ${p[0]}.`,'There are + 복수 명사 + 장소');},
+]);
+/* 11. 일반동사의 긍정문 (현재) */
+const HS=SB.filter(x=>x.e!=='You'||1);
+const vForm=(v,s)=>s.s3?v.s:v.b;
+add(1,'일반동사의 현재형','일반동사의 긍정문',
+ ['주어가 3인칭 단수(he, she, it, Tom, my mom…)면 동사에 -s/-es','대부분 -s: play → plays / -s, -x, -sh, -ch, -o → -es: watch → watches, go → goes','자음+y → -ies: study → studies (모음+y는 -s: buy → buys) / have → has','I, you, we, they, 여럿이면 동사원형: I play, They play'],[
+ ()=>{const s=R(SB),v=R(VB),[t,tk]=tm(v,tPres),a=vForm(v,s);return C(sent(sFor(s),'___'+tail(v,s),t)+'.',a,s.s3?sWrong(v).concat([v.b]):[v.s,...sWrong(v).filter(x=>x!==v.b)],s.s3?`주어 ${s.e}는 3인칭 단수예요. ${sRule(v)}`:`주어가 ${s.e}이면 동사원형 ${v.b}를 써요.`,KS(s,tk,kV(v,'pr')));},
+ ()=>{const v=R(VB);return P(`${v.b}의 3인칭 단수 현재형은?`,v.s,sWrong(v),sRule(v));},
+ ()=>{const es=R(VB.filter(v=>/(es)$/.test(v.s)&&v.b!=='have'&&!/ies$/.test(v.s))),wr=RN(VB.filter(v=>!/es$/.test(v.s)&&v.b!=='have'),3);return P('3인칭 단수형을 만들 때 -es를 붙이는 동사는?',es.b,wr.map(v=>v.b),sRule(es));},
+ ()=>{const v=R(VB.filter(v=>/[^aeiou]y$/.test(v.b))),wr=RN(VB.filter(v=>!/y$/.test(v.b)),2).map(x=>`${x.b} → ${x.b}es`);return P('3인칭 단수형이 바르게 바뀐 것은?',`${v.b} → ${v.s}`,[`${v.b} → ${v.b}s`,...wr],sRule(v));},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VB.filter(v=>once(sent(sFor(s),v.b+tail(v,s)),v.b))),[t]=tm(v,tPres);return F(sent(sFor(s),v.b+tail(v,s),t)+'.',v.b,v.s,`주어 ${s.e}는 3인칭 단수라서 ${v.s}. ${sRule(v)}`);},
+ ()=>{const s=R(SB.filter(x=>!x.s3)),v=R(VB.filter(v=>once(sent(sFor(s),v.s+tail(v,s)),v.s))),[t]=tm(v,tPres);return F(sent(sFor(s),v.s+tail(v,s),t)+'.',v.s,v.b,`주어가 ${s.e}이면 -s를 붙이지 않고 동사원형을 써요.`);},
+ ()=>{const s=R(SB),v=R(VB),[t,tk]=tm(v,tPres);return O(KS(s,tk,kV(v,'pr')),sent(sFor(s),vForm(v,s)+tail(v,s),t)+'.',s.s3?sRule(v):'주어 + 동사원형 + ~');},
+]);
+
+/* 12. 일반동사의 부정문 */
+const dnt=s=>s.s3?"doesn't":"don't";
+add(1,'일반동사의 현재형','일반동사의 부정문',
+ ['I, you, we, they, 여럿 + don\'t(do not) + 동사원형','3인칭 단수 + doesn\'t(does not) + 동사원형: She doesn\'t like carrots.','doesn\'t 뒤에는 -s를 붙이지 않아요 (doesn\'t likes ×)','be동사 문장(isn\'t)과 헷갈리지 않기: She isn\'t happy. / She doesn\'t play.'],[
+ ()=>{const s=R(SB),v=R(VB),[t,tk]=tm(v,tPres);return C(sent(sFor(s),'___',v.b+tail(v,s),t)+'.',dnt(s),["don't","doesn't","isn't","aren't","not"].filter(x=>x!==dnt(s)),`주어가 ${s.e}이면 ${dnt(s)} + 동사원형.`,KS(s,tk,kV(v,'ng')));},
+ ()=>{const s=R(SB),v=R(VB),[t,tk]=tm(v,tPres);return C(sent(sFor(s),dnt(s),'___'+tail(v,s),t)+'.',v.b,[v.s,v.g||v.b+'ing',v.p].filter(x=>x!==v.b),'don\'t, doesn\'t 뒤에는 항상 동사원형을 써요.',KS(s,tk,kV(v,'ng')));},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VB),T=tail(v,s);return P(`“${sFor(s)} ${v.s}${T}.” 를 부정문으로 바르게 바꾼 것은?`,`${sFor(s)} doesn't ${v.b}${T}.`,[`${sFor(s)} doesn't ${v.s}${T}.`,`${sFor(s)} don't ${v.b}${T}.`,`${sFor(s)} isn't ${v.b}${T}.`],'3인칭 단수 주어 → doesn\'t + 동사원형.');},
+ ()=>{const s=R(SB.filter(x=>!x.s3)),v=R(VB),T=tail(v,s);return P(`“${sFor(s)} ${v.b}${T}.” 를 부정문으로 바르게 바꾼 것은?`,`${sFor(s)} don't ${v.b}${T}.`,[`${sFor(s)} doesn't ${v.b}${T}.`,`${sFor(s)} not ${v.b}${T}.`,`${sFor(s)} ${s.be==='am'?"am not":notOf(s.be)} ${v.b}${T}.`],'주어가 I, you, we, they, 여럿이면 don\'t + 동사원형.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VB.filter(v=>once(sent('x doesn\'t',v.s,objFor(v,{pr:'he'})),v.s)));return F(sent(sFor(s),"doesn't",v.s+tail(v,s))+'.',v.s,v.b,'doesn\'t 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VB);return F(sent(sFor(s),"don't",v.b+tail(v,s))+'.',"don't","doesn't",`주어 ${s.e}는 3인칭 단수라서 doesn't를 써요.`);},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VB);return F(sent(sFor(s),"isn't",v.b+tail(v,s))+'.',"isn't","doesn't",'일반동사 문장의 부정은 isn\'t가 아니라 doesn\'t(don\'t) + 동사원형이에요.');},
+ ()=>{const s=R(SB),v=R(VB),[t,tk]=tm(v,tPres);return O(KS(s,tk,kV(v,'ng')),sent(sFor(s),dnt(s),v.b+tail(v,s),t)+'.',`${dnt(s)} + 동사원형`);},
+]);
+
+/* 13. 일반동사의 의문문 */
+const QS=SB.filter(x=>x.e!=='I'&&x.e!=='We');
+const DoS=s=>s.s3?'Does':'Do';
+add(1,'일반동사의 현재형','일반동사의 의문문',
+ ['Do + I, you, we, they, 여럿 + 동사원형 ~?','Does + 3인칭 단수 + 동사원형 ~?: Does she like apples?','대답: Yes, 주어 + do/does. / No, 주어 + don\'t/doesn\'t.','Does 뒤에는 동사원형 (Does she likes ×)'],[
+ ()=>{const s=R(QS),v=R(VB),[t,tk]=tm(v,tPres);return C(sent('___',sMid(s),v.b+tail(v,s),t)+'?',DoS(s),['Do','Does','Is','Are'].filter(x=>x!==DoS(s)),`주어가 ${s.e}이면 ${DoS(s)}로 물어요.`,KS(s,tk,kV(v,'q')));},
+ ()=>{const s=R(QS),v=R(VB),[t,tk]=tm(v,tPres);return C(sent(DoS(s),sMid(s),'___'+tail(v,s),t)+'?',v.b,[v.s,v.g||v.b+'ing',v.p].filter(x=>x!==v.b),'Do, Does 뒤에는 동사원형을 써요.',KS(s,tk,kV(v,'q')));},
+ ()=>{const s=R(QS),v=R(VB),y=yn(),ap=ansPfromQ(s),d=['he','she','it'].includes(ap)?'does':'do';const ok=y?`Yes, ${ap} ${d}.`:`No, ${ap} ${d}n't.`;
+   return P(`${sent(DoS(s),sMid(s),v.b+tail(v,s))}? — (${y?'응':'아니'}) 알맞은 대답은?`,ok,y?[`Yes, ${ap} ${beOf(ap)}.`,`Yes, ${ap} ${d==='do'?'does':'do'}.`,`No, ${ap} ${d}n't.`]:[`No, ${ap} ${notOf(beOf(ap))||'am not'}.`,`No, ${ap} ${d==='do'?'does':'do'}n't.`,`Yes, ${ap} ${d}.`],`Do/Does로 물으면 do/does로 대답해요. ${s.e} → ${ap}`);},
+ ()=>{const s=R(QS),v=R(VB),T=tail(v,s);return P(`“${sFor(s)} ${vForm(v,s)}${T}.” 를 의문문으로 바르게 바꾼 것은?`,`${DoS(s)} ${sMid(s)} ${v.b}${T}?`,[`${DoS(s)} ${sMid(s)} ${s.s3?v.s:v.b+'s'}${T}?`,`${DoS(s)==='Do'?'Does':'Do'} ${sMid(s)} ${v.b}${T}?`,`${cap(s.be)} ${sMid(s)} ${v.b}${T}?`],`${DoS(s)} + 주어 + 동사원형 ~?`);},
+ ()=>{const s=R(QS.filter(x=>x.s3)),v=R(VB.filter(v=>once('Does x '+v.s+' '+v.o,v.s)));return F(sent('Does',sMid(s),v.s+tail(v,s))+'?',v.s,v.b,'Does 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(QS.filter(x=>x.s3)),v=R(VB);return F(sent('Do',sMid(s),v.b+tail(v,s))+'?','Do','Does',`주어 ${s.e}는 3인칭 단수라서 Does로 물어요.`);},
+ ()=>{const s=R(QS),v=R(VB),[t,tk]=tm(v,tPres);return O(KS(s,tk,kV(v,'q')),sent(DoS(s),sMid(s),v.b+tail(v,s),t)+'?',`${DoS(s)} + 주어 + 동사원형 ~?`);},
+]);
+
+/* 14. 형용사의 쓰임과 종류 */
+const ADJ2=[['big','큰','small','*'],['small','작은','big','*'],['tall','키가 큰','short','tree|boy|giraffe'],['long','긴','short','pencil|umbrella|train|ruler'],['hot','뜨거운','cold','soup|tea|cup'],['cold','차가운','hot','soup|tea|cup|apple'],['fast','빠른','slow','car|train|dog|horse'],['slow','느린','fast','car|train|dog|horse'],['new','새','old','car|bag|house|pencil|umbrella|ruler'],['old','오래된','new','car|bag|house|tree|umbrella'],['heavy','무거운','light','box|bag|car'],['clean','깨끗한','dirty','house|bag|cup|car'],['happy','행복한','sad','boy|dog|cat'],['cute','귀여운','','dog|cat|boy|bag|horse'],['pretty','예쁜','','bag|house|cup|umbrella|cat'],['red','빨간','','*'],['yellow','노란','','*'],['white','하얀','','*'],['orange','주황색','','bag|car|cup|umbrella|ball']];
+const NOUN2=[['dog','개'],['cat','고양이'],['bag','가방'],['apple','사과'],['car','차'],['box','상자'],['house','집'],['ball','공'],['umbrella','우산'],['tree','나무'],['boy','소년'],['pencil','연필'],['cup','컵'],['train','기차'],['horse','말'],['soup','수프'],['ruler','자']];
+const okAN=(a,n)=>a[3]==='*'?!['soup','boy'].includes(n[0]):new RegExp('^('+a[3]+')$').test(n[0]);
+const AN=()=>{let a,n,g=0;do{a=R(ADJ2);n=R(NOUN2);}while(!okAN(a,n)&&g++<80);return[a,n];};
+add(1,'형용사와 수 세기','형용사의 쓰임과 종류',
+ ['형용사: 사람·사물의 모양, 색, 크기, 상태, 기분을 나타내는 말 (big, red, happy)','① 명사 앞에서 꾸며요: a big dog (관사 + 형용사 + 명사)','② be동사 뒤에서 주어를 설명해요: The dog is big.','a/an은 바로 뒤 형용사의 첫소리를 봐요: an old car, a big apple'],[
+ ()=>{const [a,n]=AN();const s=`It is ${art(a[0])} ${a[0]} ${n[0]}.`;return P(`“${s}” 에서 형용사를 고르세요.`,a[0],[n[0],'is','It'],`${a[0]}(${a[1]})는 명사 ${n[0]}의 모양·상태를 꾸며 주는 형용사예요.`);},
+ ()=>{const [a,n]=AN(),ar=art(a[0]);return P('바른 문장을 고르세요.',`It is ${ar} ${a[0]} ${n[0]}.`,[`It is ${art(n[0])} ${n[0]} ${a[0]}.`,`It is ${a[0]} ${ar} ${n[0]}.`,`It is ${ar==='a'?'an':'a'} ${a[0]} ${n[0]}.`],'관사 + 형용사 + 명사 순서예요. a/an은 형용사의 첫소리를 봐요.',`그것은 ${a[1]} ${n[1]}이다.`);},
+ ()=>{const [a,n]=AN();return C(`The ${n[0]} is ___.`,a[0],[art(a[0])+' '+a[0],a[0]+'s',a[0]+'ly'],'be동사 뒤에서 형용사는 혼자 써요 (a/an을 붙이지 않아요).');},
+ ()=>{const a=R(ADJ2.filter(x=>x[2])),wr=RN(ADJ2.filter(x=>x[0]!==a[2]&&x[0]!==a[0]),3).map(x=>x[0]);return P(`${a[0]}의 반대말은?`,a[2],wr,`${a[0]}(${a[1]}) ↔ ${a[2]}`);},
+ ()=>{const [a,n]=AN(),ar=art(a[0]);return C(`It is ___ ${a[0]} ${n[0]}.`,ar,[ar==='a'?'an':'a'],artX(a[0]+' '+n[0]),`그것은 ${a[1]} ${n[1]}이다.`);},
+ ()=>{const [a,n]=AN();return P('형용사가 be동사 뒤에서 주어를 설명하는 문장은?',`The ${n[0]} is ${a[0]}.`,[`It is ${art(a[0])} ${a[0]} ${n[0]}.`,`I have ${art(a[0])} ${a[0]} ${n[0]}.`,`Look at the ${a[0]} ${n[0]}.`],'형용사는 명사 앞에서 꾸미기도 하고, be동사 뒤에서 주어를 설명하기도 해요.');},
+ ()=>{const [a,n]=AN();return O(`그것은 ${a[1]} ${n[1]}이다.`,`It is ${art(a[0])} ${a[0]} ${n[0]}.`,'관사 + 형용사 + 명사');},
+ ()=>{const [a,n]=AN();return F(`It is ${art(n[0])} ${n[0]} ${a[0]}.`,a[0],`(${n[0]} 앞으로)`,`형용사는 명사 앞에 와요 → It is ${art(a[0])} ${a[0]} ${n[0]}.`);},
+]);
+
+/* 15. many, much, a lot of, some, any, a few, a little */
+const CPL=[['books','책'],['friends','친구'],['apples','사과'],['cookies','쿠키'],['pencils','연필'],['toys','장난감'],['eggs','달걀'],['flowers','꽃'],['stickers','스티커'],['crayons','크레파스'],['balloons','풍선'],['students','학생'],['cars','자동차'],['candies','사탕'],['birds','새']];
+const UNC=[['water','물'],['milk','우유'],['money','돈'],['sugar','설탕'],['juice','주스'],['bread','빵'],['time','시간'],['homework','숙제'],['salt','소금'],['snow','눈'],['cheese','치즈'],['rice','쌀'],['paper','종이'],['soup','수프']];
+add(1,'형용사와 수 세기','many, much, a lot of, some, any, a few, a little',
+ ['많은: many + 셀 수 있는 복수 / much + 셀 수 없는 명사 (주로 부정문·의문문) / a lot of는 둘 다','조금 있는: a few + 셀 수 있는 복수 / a little + 셀 수 없는 명사','약간의: some은 긍정문, any는 부정문·의문문 (권유할 때는 의문문이라도 some)'],[
+ ()=>{const c=R(CPL);return C(R([`There are ___ ${c[0]} on the desk.`,`I have ___ ${c[0]}.`,`Do you have ___ ${c[0]}?`,`There aren't ___ ${c[0]} here.`]),'many',['much','a little'],`${c[0]}는 셀 수 있는 복수 명사라서 many.`);},
+ ()=>{const u=R(UNC),t=R([`I don't have ___ ${u[0]}.`,`There isn't ___ ${u[0]}.`,`Do you have ___ ${u[0]}?`]);return C(t,'much',['many','a few'],`${u[0]}는 셀 수 없는 명사라서 much.`);},
+ ()=>{const c=R(CPL),t=R([[`I have ___ ${c[0]}.`,`나는 ${jo(c[1],'이','가')} 조금 있다.`],[`There are ___ ${c[0]} in the box.`,`상자 안에 ${jo(c[1],'이','가')} 조금 있다.`],[`She bought ___ ${c[0]}.`,`그녀는 ${jo(c[1],'을','를')} 조금 샀다.`]]);return C(t[0],'a few',['a little','a lot'],`셀 수 있는 복수 명사 ${c[0]} → a few (몇 개의, 조금 있는)`,t[1]);},
+ ()=>{const u=R(UNC.filter(x=>x[0]!=='homework'));const t=R([[`I need ___ ${u[0]}.`,`나는 ${jo(u[1],'이','가')} 조금 필요하다.`],[`There is ___ ${u[0]} left.`,`${jo(u[1],'이','가')} 조금 남아 있다.`],[`I have ___ ${u[0]}.`,`나는 ${jo(u[1],'이','가')} 조금 있다.`]]);return C(t[0],'a little',['a few','a lot'],`셀 수 없는 명사 ${u[0]} → a little (약간의)`,t[1]);},
+ ()=>{const x=R(Math.random()<.5?CPL:UNC);return C(R([`I have ___ ${x[0]}.`,`There is ___ ${x[0]} on the table.`,`I want ___ ${x[0]}.`]).replace('There is ___ '+x[0],CPL.includes(x)?'There are ___ '+x[0]:'There is ___ '+x[0]),'some',['any'],'긍정문에서는 some을 써요.');},
+ ()=>{const x=R(Math.random()<.5?CPL:UNC);return C(R([`I don't have ___ ${x[0]}.`,`Do you have ___ ${x[0]}?`,`Is there ___ ${x[0]}?`,`We don't need ___ ${x[0]}.`]).replace('Is there ___ '+x[0],CPL.includes(x)?'Are there ___ '+x[0]:'Is there ___ '+x[0]),'any',['some'],'부정문과 의문문에서는 any를 써요.');},
+ ()=>{const d=R(['juice','milk','water','cookies']);return C(`Would you like ___ ${d}?`,'some',['any'],'상대에게 권할 때는 의문문이라도 some을 써요.');},
+ ()=>{const pl=Math.random()<.5,x=R(pl?CPL:UNC);return P(`“${pl?'There are':"I don't have"} a lot of ${x[0]}.” 에서 a lot of 대신 쓸 수 있는 말은?`,pl?'many':'much',[pl?'much':'many','a few','a little'].filter(z=>z!==(pl?'many':'much')),`${x[0]}는 ${pl?'셀 수 있는 복수 명사 → many':'셀 수 없는 명사 → much'}. a lot of는 둘 다 쓸 수 있어요.`);},
+ ()=>{const u=R(UNC);return F(`There isn't many ${u[0]}.`,'many','much',`${u[0]}는 셀 수 없는 명사라서 much를 써요.`);},
+ ()=>{const c=R(CPL);return F(`I have a little ${c[0]}.`,'little','few',`${c[0]}는 셀 수 있는 복수 명사라서 a few를 써요.`);},
+ ()=>{const u=R(UNC.filter(x=>x[0]!=='homework'));return F(`I need a few ${u[0]}.`,'few','little',`${u[0]}는 셀 수 없는 명사라서 a little을 써요.`);},
+]);
+
+/* 16. 셀 수 없는 명사의 수 세기 */
+const CT={glass:['glasses','잔'],cup:['cups','잔'],bottle:['bottles','병'],bowl:['bowls','그릇'],piece:['pieces','조각'],slice:['slices','조각'],loaf:['loaves','덩어리'],bar:['bars','개'],sheet:['sheets','장']};
+const UCN=[['water',['glass','bottle','cup'],'물',''],['milk',['glass','bottle','cup'],'우유','🥛'],['juice',['glass','bottle','cup'],'주스',''],['tea',['cup'],'차','☕'],['rice',['bowl'],'밥','🍚'],['soup',['bowl'],'수프','🍲'],['cake',['piece','slice'],'케이크','🍰'],['pizza',['piece','slice'],'피자','🍕'],['bread',['slice','loaf','piece'],'빵','🍞'],['cheese',['slice','piece'],'치즈','🧀'],['paper',['piece','sheet'],'종이',''],['soap',['bar'],'비누','🧼'],['chocolate',['bar','piece'],'초콜릿','🍫']];
+const pic1={milk:'glass',tea:'cup',rice:'bowl',soup:'bowl',cake:'piece',pizza:'slice',bread:'loaf',cheese:'piece',soap:'bar',chocolate:'bar'};
+add(1,'형용사와 수 세기','셀 수 없는 명사의 수 세기',
+ ['셀 수 없는 명사는 담는 그릇이나 모양 단위로 세요','a glass of milk(우유 한 잔), a cup of tea, a bowl of rice, a piece of cake, a slice of bread, a loaf of bread, a bar of soap, a sheet of paper','여러 개일 때는 단위만 복수형: two glasses of milk (milks ×), three pieces of cake'],[
+ ()=>{const u=R(UCN),c=R(u[1]);return C(`a ___ of ${u[0]}`,c,Object.keys(CT).filter(x=>!u[1].includes(x)).sort(()=>Math.random()-.5),`${u[0]}는 ${u[1].map(x=>'a '+x+' of').join(', ')}로 세요.`,`${u[2]} 한 ${CT[c][1]}`);},
+ ()=>{const u=R(UCN),c=R(u[1]),k=RI(2,5);return C(`${NUMW[k]} ___ of ${u[0]}`,CT[c][0],uniq([c,c+'s',c+'es',c.replace(/f$/,'fs')]).filter(x=>x!==CT[c][0]),`여러 개일 때는 단위를 복수형으로: ${c} → ${CT[c][0]}`,`${u[2]} ${NUMK[k]} ${CT[c][1]}`);},
+ ()=>{const u=R(UCN),c=R(u[1]),k=RI(2,5),pc=CT[c][0];return P(`“${u[2]} ${NUMK[k]} ${CT[c][1]}” 을 바르게 쓴 것은?`,`${NUMW[k]} ${pc} of ${u[0]}`,[`${NUMW[k]} ${c} of ${u[0]}s`,`${NUMW[k]} ${pc} of ${u[0]}s`,`${NUMW[k]} ${c} of ${u[0]}`],'단위만 복수형으로 바꾸고, 셀 수 없는 명사에는 -s를 붙이지 않아요.');},
+ ()=>{const n=R(Object.keys(pic1)),u=UCN.find(x=>x[0]===n),c=pic1[n],k=RI(1,5);const ok=k===1?`a ${c} of ${n}`:`${NUMW[k]} ${CT[c][0]} of ${n}`;return P(`그림을 보고 알맞은 말을 고르세요. ${u[3].repeat(k)}`,ok,[k===1?`two ${CT[c][0]} of ${n}`:`${NUMW[k]} ${c} of ${n}`,`${NUMW[k===1?2:k]} ${CT[c][0]} of ${n}s`,`${k===1?'a':NUMW[k]} ${R(Object.keys(CT).filter(x=>!u[1].includes(x)))}${k===1?'':'s'} of ${n}`],`${n}는 ${c}로 세요.`);},
+ ()=>{const u=R(UCN),c=R(u[1]),k=RI(2,5);return F(`I want ${NUMW[k]} ${c} of ${u[0]}.`,c,CT[c][0],`둘 이상이면 단위를 복수형으로: ${CT[c][0]}`);},
+ ()=>{const u=R(UCN),c=R(u[1]),k=RI(2,5);return F(`I want ${NUMW[k]} ${CT[c][0]} of ${u[0]}s.`,u[0]+'s',u[0],`${u[0]}는 셀 수 없는 명사라서 -s를 붙이지 않아요.`);},
+ ()=>{const u=R(UCN.filter(x=>['water','milk','juice','tea'].includes(x[0]))),c=u[1][0],k=RI(2,4);return O(`나는 ${u[2]} ${NUMK[k]} ${CT[c][1]}을 마신다.`,`I drink ${NUMW[k]} ${CT[c][0]} of ${u[0]}.`,'수 + 단위(복수) + of + 셀 수 없는 명사');},
+]);
+
+/* 17. 기수와 서수 */
+const ONES=['zero','one','two','three','four','five','six','seven','eight','nine','ten','eleven','twelve','thirteen','fourteen','fifteen','sixteen','seventeen','eighteen','nineteen'];
+const TENS=['','','twenty','thirty','forty','fifty','sixty','seventy','eighty','ninety'];
+const nw=n=>n===100?'one hundred':n<20?ONES[n]:TENS[Math.floor(n/10)]+(n%10?'-'+ONES[n%10]:'');
+const ORDS={one:'first',two:'second',three:'third',five:'fifth',eight:'eighth',nine:'ninth',twelve:'twelfth'};
+const ow=n=>{const w=nw(n),p=w.split('-'),l=p.pop();const o=ORDS[l]||(l.endsWith('y')?l.slice(0,-1)+'ieth':l+'th');return p.concat([o]).join('-');};
+const nwWrong=n=>{const w=nw(n);return uniq([w.replace('forty','fourty'),w.replace('fifteen','fiveteen').replace('fifty','fivety'),w.replace('eighteen','eightteen'),w.replace('ninety','ninty'),w.replace('twelve','twelv'),w.replace(/teen$/,'ty'),w.replace(/ty$/,'teen'),w.replace('thirteen','threeteen'),w.replace('twenty','twoty'),n<20&&n>12?TENS[n-10]||null:null].filter(x=>x&&x!==w));};
+const owWrong=n=>{const w=nw(n),o=ow(n),p=w.split('-'),l=p.pop(),pre=p.length?p[0]+'-':'';return uniq([pre+l+'th',pre+l+'st',pre+l.replace(/e$/,'')+'th',pre+(l.endsWith('y')?l+'th':l+'s'),w].filter(x=>x!==o));};
+const MON=['January','February','March','April','May','June','July','August','September','October','November','December'];
+add(1,'형용사와 수 세기','기수와 서수',
+ ['기수: 개수를 셀 때 – one, two, three … twelve, thirteen … twenty, twenty-one … forty(fourty ×)','서수: 순서를 말할 때 – first, second, third, fourth, fifth(fiveth ×), eighth, ninth(nineth ×), twelfth, twentieth, twenty-first','날짜, 학년, 층, ~번째 생일은 서수: May 5th(fifth), the third grade'],[
+ ()=>{const n=R([...Array(88)].map((_,i)=>i+11).filter(x=>nwWrong(x).length>=2));return P(`숫자 ${n}을(를) 영어로 바르게 쓴 것은?`,nw(n),nwWrong(n),`${n} = ${nw(n)}${n%10&&n>20?' (십의 자리와 일의 자리 사이에 하이픈 -)':''}`);},
+ ()=>{const n=R([1,2,3,4,5,6,7,8,9,10,11,12,13,15,19,20,21,22,23,30,31]);return P(`${n}번째를 영어로 바르게 쓴 것은?`,ow(n),owWrong(n),`${n}번째 = ${ow(n)}${['first','second','third','fifth','eighth','ninth','twelfth'].some(x=>ow(n).endsWith(x))?' (불규칙하게 바뀌는 서수예요)':n%10===0&&n>10?' (-ty → -tieth)':''}`);},
+ ()=>{const m=RI(0,11),d=RI(1,28);return C(`My birthday is ${MON[m]} ___. (${d}일)`,ow(d),[nw(d),...owWrong(d)].filter(x=>x!==ow(d)),'날짜는 서수로 말해요.');},
+ ()=>{const m=RI(0,11);return C(`${MON[m]} is the ___ month of the year.`,ow(m+1),[nw(m+1),...owWrong(m+1)],`${MON[m]}은 ${m+1}번째 달 → the ${ow(m+1)} month`);},
+ ()=>{const k=RI(2,9),c=R(CPL);return C(`I have ___ ${c[0]}. (${k}개)`,NUMW[k],[ow(k)],'개수를 셀 때는 기수를 써요.');},
+ ()=>{const g=RI(1,6);return C(`I am in the ___ grade. (${g}학년)`,ow(g),[nw(g),...owWrong(g)],'학년은 서수로 말해요: the third grade');},
+ ()=>{const n=R([5,8,9,12,20]);const bad={5:'fiveth',8:'eightth',9:'nineth',12:'twelveth',20:'twentyth'}[n];return F(`Today is my ${bad} birthday.`,bad,ow(n),`${n}번째 = ${ow(n)}`);},
+ ()=>{const n=R([14,15,18,40,50,80,90]);const bad=R(nwWrong(n));return F(`I have ${bad} stickers.`,bad,nw(n),`${n} = ${nw(n)}`);},
+]);
+/* ================= 2권 ================= */
+/* 18. 현재진행형 */
+const ING_X=[['lie','lying'],['tie','tying'],['cut','cutting'],['put','putting'],['get','getting'],['stop','stopping'],['shop','shopping'],['begin','beginning'],['see','seeing'],['jog','jogging'],['smile','smiling'],['give','giving'],['hit','hitting'],['bake','baking'],['jump','jumping'],['cry','crying'],['open','opening'],['listen','listening']];
+const ingRule=(b,g)=>/ie$/.test(b)?`-ie로 끝나면 ie를 y로 바꾸고 -ing: ${b} → ${g}`:g===b+b.slice(-1)+'ing'?`단모음 + 단자음으로 끝나면 자음을 한 번 더 쓰고 -ing: ${b} → ${g}`:(/e$/.test(b)&&!/ee$/.test(b))?`-e로 끝나면 e를 빼고 -ing: ${b} → ${g}`:`대부분 -ing만 붙여요: ${b} → ${g}`;
+const ingW=(b,g)=>uniq([b+'ing',b.replace(/e$/,'')+'ing',b+b.slice(-1)+'ing',b.replace(/ie$/,'y')+'ing']).filter(x=>x!==g&&x!==b);
+const ALLING=()=>Math.random()<.5?(v=>[v.b,v.g])(R(VA)):R(ING_X);
+const amOf=s=>s.be;
+add(2,'현재진행형','현재진행형',
+ ['지금 하고 있는 일: be동사(am, is, are) + 동사-ing → She is reading a book now.','-ing 만들기: 대부분 +ing / -e로 끝나면 e 빼고 +ing (make → making)','단모음+단자음이면 자음 한 번 더 (run → running, swim → swimming) / -ie → -ying (lie → lying)','like, have(가지다), know, want처럼 상태를 나타내는 동사는 진행형으로 쓰지 않아요'],[
+ ()=>{const [b,g]=ALLING();return P(`${b}의 -ing형은?`,g,ingW(b,g),ingRule(b,g));},
+ ()=>{const s=R(SB),v=R(VA),a=`${s.be} ${v.g}`;return C(sent(sFor(s),'___'+tail(v,s),'now')+'.',a,[vForm(v,s),`${s.be} ${v.b}`,`${s.be==='is'?'are':'is'} ${v.g}`,v.g],`지금 하고 있는 일은 be동사 + -ing. 주어 ${s.e} → ${s.be}`,KS(s,'지금',kV(v,'ing')));},
+ ()=>{const s=R(SB),v=R(VA);return C(sent(sFor(s),'___',v.g+tail(v,s),'now')+'.',s.be,['am','is','are'].filter(x=>x!==s.be),`주어가 ${s.e}이면 ${s.be} + -ing.`,KS(s,'지금',kV(v,'ing')));},
+ ()=>{const s=R(SB),v=R(VA.filter(v=>ingW(v.b,v.g).length)),w=ingW(v.b,v.g)[0];return F(sent(sFor(s),s.be,w+tail(v,s),'now')+'.',w,v.g,ingRule(v.b,v.g));},
+ ()=>{const s=R(SB),v=R(VA.filter(x=>once(sent('x',s.be,x.b,objFor(x,s)),x.b)));return F(sent(sFor(s),s.be,v.b+tail(v,s),'now')+'.',v.b,v.g,'진행형은 be동사 + 동사-ing 예요.');},
+ ()=>{const bad=R(['I am liking apples.','She is having a dog.','He is knowing the answer.','They are wanting a new toy.']);const ok=RN([0,1,2,3,4,5].map(()=>{const s=R(SB),v=R(VA);return sent(sFor(s),s.be,v.g+tail(v,s),'now')+'.';}),3);return P('어색한 문장을 고르세요.',bad,ok,'like, have(가지다), know, want는 상태를 나타내는 동사라서 진행형으로 쓰지 않아요.');},
+ ()=>{const s=R(SB),v=R(VA);return O(KS(s,'지금',kV(v,'ing')),sent(sFor(s),s.be,v.g+tail(v,s),'now')+'.','be동사 + 동사-ing');},
+]);
+
+/* 19. 현재진행형의 부정문과 의문문 */
+const ngBe=s=>s.be==='am'?'am not':notOf(s.be);
+add(2,'현재진행형','현재진행형의 부정문과 의문문',
+ ['부정문: be동사 + not + -ing → He isn\'t sleeping.','의문문: be동사 + 주어 + -ing ~? → Are you reading?','대답: Yes, 주어 + be동사. / No, 주어 + be동사 + not.','진행형은 do/does를 쓰지 않아요 (Does she reading? ×)'],[
+ ()=>{const s=R(SB),v=R(VA),a=ngBe(s);return C(sent(sFor(s),'___',v.g+tail(v,s),'now')+'.',a,["don't","doesn't","isn't","aren't","am not"].filter(x=>x!==a),`진행형의 부정은 be동사 + not. 주어 ${s.e} → ${a}`,KS(s,'지금',kV(v,'ingn')));},
+ ()=>{const s=R(QS),v=R(VA);return C(sent('___',sMid(s),v.g+tail(v,s),'now')+'?',cap(s.be),['Is','Are','Do','Does'].filter(x=>x!==cap(s.be)),`진행형 의문문은 be동사로 시작해요. 주어 ${s.e} → ${cap(s.be)}`,KS(s,'지금',kV(v,'ingq')));},
+ ()=>{const s=R(QS),v=R(VA),y=yn(),ap=ansPfromQ(s),b=beOf(ap);return P(`${cap(s.be)} ${sMid(s)} ${v.g}${tail(v,s)}? — (${y?'응':'아니'})`,y?`Yes, ${ap} ${b}.`:`No, ${ap} ${b==='am'?"'m not":notOf(b)}.`.replace(" 'm","'m"),y?[`Yes, ${ap} ${['he','she'].includes(ap)?'does':'do'}.`,`Yes, ${ap} ${b==='is'?'are':'is'}.`,`No, ${ap} ${b==='am'?'am not':notOf(b)}.`]:[`No, ${ap} ${['he','she'].includes(ap)?"doesn't":"don't"}.`,`Yes, ${ap} ${b}.`,`No, ${ap} not.`],'be동사로 물으면 be동사로 대답해요.');},
+ ()=>{const s=R(QS),v=R(VA),T=tail(v,s);return P(`“${sFor(s)} ${s.be} ${v.g}${T}.” 를 의문문으로 바르게 바꾼 것은?`,`${cap(s.be)} ${sMid(s)} ${v.g}${T}?`,[`${DoS(s)} ${sMid(s)} ${v.g}${T}?`,`${cap(s.be)} ${sMid(s)} ${v.b}${T}?`,`${sFor(s)} ${s.be} ${v.g}${T}?`],'be동사를 주어 앞으로 보내요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VA);return F(sent('Does',sMid(s),v.g+tail(v,s),'now')+'?','Does','Is','진행형 의문문은 Does가 아니라 be동사로 시작해요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VA);return F(sent(sFor(s),"doesn't",v.g+tail(v,s),'now')+'.',"doesn't","isn't",'진행형의 부정은 be동사 + not이에요.');},
+ ()=>{const s=R(QS),v=R(VA),q=yn();return O(KS(s,'지금',kV(v,q?'ingq':'ingn')),q?sent(cap(s.be),sMid(s),v.g+tail(v,s),'now')+'?':sent(sFor(s),s.be,'not',v.g+tail(v,s),'now')+'.',q?'be동사 + 주어 + -ing ~?':'be동사 + not + -ing');},
+]);
+
+/* 20. can */
+const PERM=['Can I use your pen?','Can I go to the bathroom?','You can go home now.','Can I sit here?','You can play outside after lunch.','Can I have some water?'];
+const ABIL=['I can swim.','She can play the piano.','Can you ride a bike?','Birds can fly.','He can speak English.','My dog can catch a ball.'];
+add(2,'조동사','can',
+ ['can + 동사원형: ~할 수 있다(능력), ~해도 된다(허락)','주어가 3인칭 단수여도 can은 그대로, 뒤 동사도 원형 (He cans ×, can swims ×)','부정: can\'t(cannot) + 동사원형 / 의문: Can + 주어 + 동사원형 ~?','대답: Yes, 주어 + can. / No, 주어 + can\'t.'],[
+ ()=>{const s=R(SB),v=R(VB.filter(v=>!v.st));return C(sent(sFor(s),'can','___'+tail(v,s))+'.',v.b,[v.s,v.g,'to '+v.b].filter(x=>x!==v.b),'can 뒤에는 항상 동사원형을 써요.',KS(s,'',kV(v,'can')));},
+ ()=>{const s=R(SB),v=R(VA);return C(sent(sFor(s),'___',v.b+tail(v,s))+'.',"can't",["don't can","not can",s.s3?"doesn't":"isn't"],'‘~할 수 없다’는 can\'t(cannot) + 동사원형.',KS(s,'',kV(v,'cant')));},
+ ()=>{const s=R(QS),v=R(VA);return C(sent('___',sMid(s),v.b+tail(v,s))+'?','Can',[DoS(s),cap(s.be),'Cans'],'‘~할 수 있니?’는 Can + 주어 + 동사원형 ~?',KS(s,'',kV(v,'canq')));},
+ ()=>{const s=R(QS),v=R(VA),y=yn(),ap=ansPfromQ(s);return P(`Can ${sMid(s)} ${v.b}${tail(v,s)}? — (${y?'응':'아니'})`,y?`Yes, ${ap} can.`:`No, ${ap} can't.`,y?[`Yes, ${ap} ${['he','she'].includes(ap)?'does':'do'}.`,`Yes, ${ap} ${beOf(ap)}.`,`No, ${ap} can't.`]:[`No, ${ap} ${['he','she'].includes(ap)?"doesn't":"don't"}.`,`No, ${ap} cannot can.`,`Yes, ${ap} can.`],'Can으로 물으면 can / can\'t로 대답해요.');},
+ ()=>{const p=Math.random()<.5;return P(p?'can이 ‘~해도 된다(허락)’의 뜻으로 쓰인 문장은?':'can이 ‘~할 수 있다(능력)’의 뜻으로 쓰인 문장은?',R(p?PERM:ABIL),RN(p?ABIL:PERM,3),p?'Can I ~?, You can ~ 은 허락(~해도 된다)의 뜻이에요.':'능력(~할 수 있다)을 나타내는 can이에요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VA.filter(x=>once('can '+x.s+' '+x.o,x.s)));return F(sent(sFor(s),'can',v.s+tail(v,s))+'.',v.s,v.b,'can 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VA);return F(sent(sFor(s),'cans',v.b+tail(v,s))+'.','cans','can','조동사 can은 주어가 3인칭 단수여도 모양이 바뀌지 않아요.');},
+ ()=>{const s=R(SB),v=R(VA),f=R(['can','cant','canq']);return O(KS(s,'',kV(v,f)),f==='canq'?sent('Can',sMid(s),v.b+tail(v,s))+'?':sent(sFor(s),f==='can'?'can':"can't",v.b+tail(v,s))+'.','can + 동사원형');},
+]);
+
+/* 21. must와 have to */
+const NEED=[['hurry','서두르지 않아도 된다','서둘러야 한다','서두르면 안 된다'],['wear a uniform','교복을 입지 않아도 된다','교복을 입어야 한다','교복을 입으면 안 된다'],['take the bus','버스를 타지 않아도 된다','버스를 타야 한다','버스를 타면 안 된다'],['bring lunch','점심을 싸 오지 않아도 된다','점심을 싸 와야 한다','점심을 싸 오면 안 된다'],['go to school today','오늘 학교에 가지 않아도 된다','오늘 학교에 가야 한다','오늘 학교에 가면 안 된다'],['clean the room now','지금 방을 청소하지 않아도 된다','지금 방을 청소해야 한다','지금 방을 청소하면 안 된다']];
+const MNOT=[['run in the hall','복도에서 뛰면 안 된다','복도에서 뛰지 않아도 된다','복도에서 뛰어야 한다'],['shout in the library','도서관에서 소리치면 안 된다','도서관에서 소리치지 않아도 된다','도서관에서 소리쳐야 한다'],['eat in class','수업 중에 먹으면 안 된다','수업 중에 먹지 않아도 된다','수업 중에 먹어야 한다'],['touch the paintings','그림을 만지면 안 된다','그림을 만지지 않아도 된다','그림을 만져야 한다'],['swim here','여기서 수영하면 안 된다','여기서 수영하지 않아도 된다','여기서 수영해야 한다'],['cross at a red light','빨간불에 건너면 안 된다','빨간불에 건너지 않아도 된다','빨간불에 건너야 한다']];
+const RULE=[['wear a seatbelt','안전벨트를 매'],['be quiet in the library','도서관에서 조용히 해'],['wash the dishes','설거지를 해'],['go to school','학교에 가'],['study for the test','시험 공부를 해'],['feed the dog','개에게 먹이를 줘'],['take the bus','버스를 타'],['wear a uniform','교복을 입어'],['stop at a red light','빨간불에 멈춰'],['finish the homework','숙제를 끝내']];
+add(2,'조동사','must와 have to',
+ ['must + 동사원형 = have to + 동사원형: ~해야 한다','주어가 3인칭 단수면 has to: She has to go.','must not(mustn\'t): ~하면 안 된다 (금지)','don\'t(doesn\'t) have to: ~할 필요가 없다 → 뜻이 달라요!'],[
+ ()=>{const r=R(RULE);return C(`You must ___ ${r[0].split(' ').slice(1).join(' ')}.`,r[0].split(' ')[0],[r[0].split(' ')[0]==='be'?'are':r[0].split(' ')[0]+'s','to '+r[0].split(' ')[0],r[0].split(' ')[0]==='be'?'is':r[0].split(' ')[0]+'ing'],'must 뒤에는 동사원형을 써요.',`너는 ${r[1]}야 한다.`);},
+ ()=>{const s=R(SB),r=R(RULE),a=s.s3?'has':'have';return C(`${sFor(s)} ___ to ${r[0]}.`,a,[s.s3?'have':'has','must','is'],`주어가 ${s.e}이면 ${a} to + 동사원형.`,`${sTop(s)} ${r[1]}야 한다.`);},
+ ()=>{const m=yn(),r=R(m?MNOT:NEED);return C(`You ___ ${r[0]}. (${m?'하면 안 된다':'할 필요가 없다'})`,m?'must not':"don't have to",m?["don't have to",'must','have to']:['must not','must','have to'],m?'must not: ~하면 안 된다 (금지)':'don\'t have to: ~할 필요가 없다');},
+ ()=>{const m=yn(),r=R(m?MNOT:NEED);return P(`“You ${m?'must not':"don't have to"} ${r[0]}.” 의 뜻은?`,'너는 '+r[1]+'.',['너는 '+r[2]+'.','너는 '+r[3]+'.'],m?'must not은 ‘~하면 안 된다(금지)’예요.':'don\'t have to는 ‘~할 필요가 없다’예요. ‘~하면 안 된다’는 must not.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),r=R(RULE);return F(`${sFor(s)} have to ${r[0]}.`,'have','has',`주어 ${s.e}는 3인칭 단수라서 has to.`);},
+ ()=>{const r=R(RULE.filter(x=>!/ to /.test(' '+x[0]+' ')));return F(`You must to ${r[0]}.`,'to','(빼요)','must 뒤에는 to 없이 동사원형을 써요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),r=R(RULE);return F(`${sFor(s)} musts ${r[0]}.`,'musts','must','조동사 must는 모양이 바뀌지 않아요.');},
+ ()=>{const r=R(RULE);return O(`너는 ${r[1]}야 한다.`,`You must ${r[0]}.`,'must + 동사원형');},
+]);
+
+/* 22. may와 should */
+const MAYP=['You may go home now.','May I come in?','You may use my eraser.','May I sit here?','You may watch TV after dinner.'];
+const MAYG=['It may rain tomorrow.','He may be at home.','She may be sick.','The story may be true.','They may be late.'];
+const SHD=[['You look tired.','go to bed early','should'],['You have a cold.','eat ice cream','shouldn\'t'],['It\'s raining.','take an umbrella','should'],['The baby is sleeping.','make noise','shouldn\'t'],['You have a test tomorrow.','study hard','should'],['It\'s very late.','watch TV now','shouldn\'t'],['Your teeth hurt.','eat too much candy','shouldn\'t'],['It\'s cold outside.','wear a coat','should'],['We are in the library.','talk loudly','shouldn\'t'],['Your room is messy.','clean it','should'],['The light is red.','cross the street','shouldn\'t'],['You are hungry.','eat something','should']];
+add(2,'조동사','may와 should',
+ ['may + 동사원형: ① ~해도 된다(허락) May I ~? ② ~일지도 모른다(추측) It may rain.','should + 동사원형: ~해야 한다, ~하는 게 좋겠다 (충고)','should not(shouldn\'t): ~하지 않는 게 좋겠다','조동사 뒤는 늘 동사원형, 조동사 모양은 안 바뀌어요 (shoulds ×, should to ×)'],[
+ ()=>C('May I come in? — Yes, you ___.','may',['should','must','do'],'May I ~?(~해도 될까요?)에는 Yes, you may. / No, you may not.으로 대답해요.'),
+ ()=>{const g=yn();return P(g?'may가 ‘~일지도 모른다(추측)’의 뜻으로 쓰인 문장은?':'may가 ‘~해도 된다(허락)’의 뜻으로 쓰인 문장은?',R(g?MAYG:MAYP),RN(g?MAYP:MAYG,3),g?'날씨, 상태처럼 확실하지 않은 일을 짐작할 때 may는 추측이에요.':'May I ~? / You may ~ 는 허락이에요.');},
+ ()=>{const t=R(SHD);return C(`${t[0]} You ___ ${t[1]}.`,t[2],[t[2]==='should'?"shouldn't":'should','shoulds'],`상황을 보고 충고해요: ${t[2]==='should'?'should(~하는 게 좋겠다)':"shouldn't(~하지 않는 게 좋겠다)"}`);},
+ ()=>{const t=R(SHD.filter(x=>x[2]==='should'));return C(`${t[0]} You should ___ ${t[1].split(' ').slice(1).join(' ')}.`,t[1].split(' ')[0],[t[1].split(' ')[0]+'s','to '+t[1].split(' ')[0],t[1].split(' ')[0]+'ing'],'should 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VA);return F(sent(sFor(s),'shoulds',v.b+tail(v,s))+'.','shoulds','should','조동사 should는 모양이 바뀌지 않아요.');},
+ ()=>{const t=R(SHD.filter(x=>x[2]==='should'&&!/ to /.test(' '+x[1]+' ')));return F(`You should to ${t[1]}.`,'to','(빼요)','should 뒤에는 to 없이 동사원형을 써요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VA.filter(x=>once('may '+x.s+' '+x.o,x.s)));return F(sent(sFor(s),'may',v.s+tail(v,s),'tomorrow')+'.',v.s,v.b,'may 뒤에는 동사원형을 써요.');},
+ ()=>{const t=R([['go to bed early','일찍 자야'],['take an umbrella','우산을 가져가야'],['wear a coat','코트를 입어야'],['study hard','열심히 공부해야']]);return O(`너는 ${t[1]} 한다.`,`You should ${t[0]}.`,'should + 동사원형');},
+]);
+
+/* 23. be동사의 과거형 */
+const beQp=(f)=>{const s=R(SB),useA=Math.random()<.6,a=R(AJ.filter(x=>x.e!=='tall')),p=R(PLC),t=R(tPast);const comp=useA?a.e:p[0];const k=sTop(s)+' '+t[1]+' '+(useA?kAdj(a,f):kPlc(p,f))+(f==='pq'?'':'.');return{s,comp,k,t};};
+add(2,'be동사의 과거형','be동사의 과거형',
+ ['am, is의 과거 → was / are의 과거 → were','I, he, she, it, 한 사람 → was / you, we, they, 여럿 → were','yesterday, last ~, ~ ago 같은 과거를 나타내는 말과 함께 써요'],[
+ ()=>{const {s,comp,k,t}=beQp('pa');return C(`${sFor(s)} ___ ${comp} ${t[0]}.`,s.was,['was','were','is','are'].filter(x=>x!==s.was),`과거(${t[0]})이고 주어가 ${s.e}이므로 ${s.was}.`,k);},
+ ()=>{const s=R(SB),a=R(AJ),past=yn(),t=past?R(tPast):['now','지금'];const ans=past?s.was:s.be;return C(`${sFor(s)} ___ ${a.e} ${t[0]}.`,ans,uniq([s.be,s.was,s.be==='is'?'are':'is',s.was==='was'?'were':'was']),`${t[0]}는 ${past?'과거':'현재'}를 나타내요 → ${ans}`);},
+ ()=>{const p=R(['You','We','They']),wr=RN(['I','He','She','Tom','My mom'],3);return P('be동사의 과거형으로 was를 쓰지 않는 주어는?',p,wr,'you, we, they, 여럿은 were를 써요.');},
+ ()=>{const {s,comp,t}=beQp('pa');const w=s.was==='was'?'were':'was';return F(`${sFor(s)} ${w} ${comp} ${t[0]}.`,w,s.was,`주어 ${s.e}의 be동사 과거형은 ${s.was}.`);},
+ ()=>{const {s,comp,t}=beQp('pa');return F(`${sFor(s)} ${s.be} ${comp} ${t[0]}.`,s.be,s.was,`${t[0]}는 과거를 나타내므로 과거형 ${s.was}를 써요.`);},
+ ()=>{const {s,comp,k,t}=beQp('pa');return O(k,`${sFor(s)} ${s.was} ${comp} ${t[0]}.`,'주어 + was/were ~');},
+]);
+
+/* 24. be동사 과거형의 부정문과 의문문 */
+add(2,'be동사의 과거형','be동사 과거형의 부정문과 의문문',
+ ['부정문: was not(wasn\'t), were not(weren\'t)','의문문: Was/Were + 주어 ~?','대답: Yes, 주어 + was/were. / No, 주어 + wasn\'t/weren\'t.'],[
+ ()=>{const {s,comp,k,t}=beQp('pn');const a=notOf(s.was);return C(`${sFor(s)} ___ ${comp} ${t[0]}.`,a,["wasn't","weren't","didn't","isn't"].filter(x=>x!==a),`과거의 부정: ${s.was} + not → ${a}`,k);},
+ ()=>{const s=R(QS),a=R(AJ),t=R(tPast);return C(`___ ${sMid(s)} ${a.e} ${t[0]}?`,cap(s.was),['Was','Were','Did','Is'].filter(x=>x!==cap(s.was)),`과거의 의문문: ${cap(s.was)} + 주어 ~?`,`${sTop(s)} ${t[1]} ${kAdj(a,'pq')}`);},
+ ()=>{const s=R(QS),p=R(PLC),t=R(tPast),y=yn(),ap=ansPfromQ(s),w=wasOf(ap);return P(`${cap(s.was)} ${sMid(s)} ${p[0]} ${t[0]}? — (${y?'응':'아니'})`,y?`Yes, ${ap} ${w}.`:`No, ${ap} ${notOf(w)}.`,y?[`Yes, ${ap} did.`,`Yes, ${ap} ${w==='was'?'were':'was'}.`,`No, ${ap} ${notOf(w)}.`]:[`No, ${ap} didn't.`,`No, ${ap} ${notOf(w==='was'?'were':'was')}.`,`Yes, ${ap} ${w}.`],`${cap(s.was)}로 물으면 was/were로 대답해요. ${s.e} → ${ap}`);},
+ ()=>{const {s,comp,t}=beQp('pa');return P(`“${sFor(s)} ${s.was} ${comp} ${t[0]}.” 를 의문문으로 바르게 바꾼 것은?`,`${cap(s.was)} ${sMid(s)} ${comp} ${t[0]}?`,[`Did ${sMid(s)} ${comp} ${t[0]}?`,`${sFor(s)} ${s.was} ${comp} ${t[0]}?`,`${cap(s.was==='was'?'were':'was')} ${sMid(s)} ${comp} ${t[0]}?`],'was/were를 주어 앞으로 보내요.');},
+ ()=>{const {s,comp,t}=beQp('pn');return F(`${sFor(s)} didn't ${comp} ${t[0]}.`,"didn't",notOf(s.was),'be동사 문장의 과거 부정은 didn\'t가 아니라 wasn\'t/weren\'t예요.');},
+ ()=>{const s=R(QS),a=R(AJ),t=R(tPast),w=s.was==='was'?'Were':'Was';return F(`${w} ${sMid(s)} ${a.e} ${t[0]}?`,w,cap(s.was),`주어가 ${s.e}이면 ${cap(s.was)}.`);},
+ ()=>{const q=yn();let r,g=0;do{r=beQp(q?'pq':'pn');}while(q&&!QS.includes(r.s)&&g++<40);const {s,comp,k,t}=r;return O(k,q?`${cap(s.was)} ${sMid(s)} ${comp} ${t[0]}?`:`${sFor(s)} ${s.was} not ${comp} ${t[0]}.`,q?'Was/Were + 주어 ~?':'was/were + not');},
+]);
+
+/* 25. 일반동사의 과거형 (규칙 변화) */
+const REG=`play|played|y
+walk|walked|ed
+watch|watched|ed
+clean|cleaned|ed
+cook|cooked|ed
+help|helped|ed
+wash|washed|ed
+jump|jumped|ed
+open|opened|ed
+visit|visited|ed
+like|liked|d
+dance|danced|d
+live|lived|d
+move|moved|d
+bake|baked|d
+smile|smiled|d
+close|closed|d
+study|studied|ied
+cry|cried|ied
+try|tried|ied
+carry|carried|ied
+worry|worried|ied
+stay|stayed|y
+enjoy|enjoyed|y
+stop|stopped|dbl
+plan|planned|dbl
+drop|dropped|dbl
+shop|shopped|dbl
+jog|jogged|dbl
+hug|hugged|dbl
+clap|clapped|dbl`.split('\n').map(l=>{const[b,p,r]=l.split('|');return{b,p,r};});
+const REGX={ed:'대부분 -ed를 붙여요.',d:'-e로 끝나면 -d만 붙여요.',ied:'자음 + y로 끝나면 y를 i로 바꾸고 -ed.',y:'모음 + y로 끝나면 그냥 -ed.',dbl:'단모음 + 단자음으로 끝나면 자음을 한 번 더 쓰고 -ed.'};
+const regW=r=>uniq([r.b+'ed',r.b+'d',r.b.replace(/y$/,'ied'),r.b+r.b.slice(-1)+'ed',r.b.replace(/e$/,'')+'ed',r.b+'s']).filter(x=>x!==r.p&&x!==r.b&&!/eeed$/.test(x));
+const VREG=VB.filter(v=>REG.some(r=>r.b===v.b)||['fix','miss','brush','cook'].includes(v.b));
+add(2,'일반동사의 과거형','일반동사의 과거형 (규칙 변화)',
+ ['과거형은 주어와 상관없이 모양이 같아요: I played / She played','대부분 +ed (play → played) / -e로 끝나면 +d (like → liked)','자음+y → y를 i로 바꾸고 +ed (study → studied) / 모음+y → +ed (stay → stayed)','단모음+단자음 → 자음 한 번 더 +ed (stop → stopped, plan → planned)'],[
+ ()=>{const r=R(REG);return P(`${r.b}의 과거형은?`,r.p,regW(r),`${r.b} → ${r.p}. ${REGX[r.r]}`);},
+ ()=>{const s=R(SB),v=R(VREG),[t,tk]=R(tPast);return C(sent(sFor(s),'___'+tail(v,s),t)+'.',v.p,[v.b,v.s,v.g||v.b+'ing'].filter(x=>x!==v.p),`${t}는 과거를 나타내요 → 과거형 ${v.p}`,KS(s,tk,kV(v,'pa')));},
+ ()=>{const r=R(['dbl','ied','d']),ok=R(REG.filter(x=>x.r===r)),wr=RN(REG.filter(x=>x.r==='ed'||x.r==='y'),3);return P({dbl:'마지막 자음을 한 번 더 쓰고 -ed를 붙이는 동사는?',ied:'y를 i로 바꾸고 -ed를 붙이는 동사는?',d:'-d만 붙여서 과거형을 만드는 동사는?'}[r],ok.b,wr.map(x=>x.b),`${ok.b} → ${ok.p}. ${REGX[r]}`);},
+ ()=>{const s=R(SB),v=R(VREG.filter(v=>regW(REG.find(r=>r.b===v.b)||{b:v.b,p:v.p}).length)),r=REG.find(x=>x.b===v.b)||{b:v.b,p:v.p,r:'ed'},w=regW(r)[0],[t]=R(tPast);return F(sent(sFor(s),w+tail(v,s),t)+'.',w,v.p,`${v.b}의 과거형은 ${v.p}. ${REGX[r.r]||''}`);},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VREG),[t]=R(tPast);return F(sent(sFor(s),v.s+tail(v,s),t)+'.',v.s,v.p,`${t}는 과거니까 과거형 ${v.p}를 써요.`);},
+ ()=>{const s=R(SB),v=R(VREG),[t,tk]=R(tPast);return O(KS(s,tk,kV(v,'pa')),sent(sFor(s),v.p+tail(v,s),t)+'.','주어 + 과거형 동사 ~ + 과거를 나타내는 말');},
+]);
+
+/* 26. 일반동사의 과거형 (불규칙 변화) */
+const IRR=`go|went
+eat|ate
+have|had
+see|saw
+come|came
+run|ran
+swim|swam
+sing|sang
+drink|drank
+make|made
+write|wrote
+read|read
+buy|bought
+take|took
+get|got
+sit|sat
+sleep|slept
+do|did
+give|gave
+ride|rode
+fly|flew
+draw|drew
+meet|met
+find|found
+lose|lost
+tell|told
+teach|taught
+think|thought
+put|put
+cut|cut
+hit|hit
+know|knew
+catch|caught
+bring|brought
+feel|felt
+leave|left
+begin|began
+wear|wore
+break|broke
+speak|spoke
+win|won
+say|said
+send|sent
+stand|stood`.split('\n').map(l=>{const[b,p]=l.split('|');return{b,p};});
+const irW=r=>uniq([r.b+'ed',r.b.replace(/e$/,'')+'ed',r.p+'ed',r.b===r.p?r.b+'s':r.b].filter(x=>x!==r.p));
+const VIRR=VB.filter(v=>IRR.some(r=>r.b===v.b));
+add(2,'일반동사의 과거형','일반동사의 과거형 (불규칙 변화)',
+ ['-ed를 붙이지 않고 모양이 바뀌는 동사는 통째로 외워요','go → went, eat → ate, have → had, see → saw, come → came, make → made, buy → bought…','현재형과 과거형이 같은 동사: put, cut, hit, read([리드] → [레드])'],[
+ ()=>{const r=R(IRR);return P(`${r.b}의 과거형은?`,r.p,irW(r),`${r.b} → ${r.p} (불규칙 변화)`);},
+ ()=>{const r=R(IRR);return P(`과거형 ${r.p}의 동사원형은?`,r.b,RN(IRR.filter(x=>x.b!==r.b&&x.p!==r.p),3).map(x=>x.b),`${r.b} → ${r.p}`);},
+ ()=>{const ok=R(['put','cut','hit','read']),wr=RN(IRR.filter(x=>x.b!==x.p),3).map(x=>x.b);return P('현재형과 과거형의 모양이 같은 동사는?',ok,wr,`${ok} – ${ok}. 현재형과 과거형이 같아요${ok==='read'?' (발음만 [레드]로 바뀌어요)':''}.`);},
+ ()=>{const s=R(SB),v=R(VIRR),[t,tk]=R(tPast),r=IRR.find(x=>x.b===v.b);return C(sent(sFor(s),'___'+tail(v,s),t)+'.',v.p,uniq([v.b,v.s,...irW(r)]).filter(x=>x!==v.p),`${t}는 과거 → ${v.b}의 과거형 ${v.p}`,KS(s,tk,kV(v,'pa')));},
+ ()=>{const s=R(SB),v=R(VIRR.filter(v=>v.b!==v.p)),r=IRR.find(x=>x.b===v.b),w=irW(r)[0],[t]=R(tPast);return F(sent(sFor(s),w+tail(v,s),t)+'.',w,v.p,`${v.b}의 과거형은 ${v.p} (불규칙 변화).`);},
+ ()=>{const s=R(SB),v=R(VIRR),[t,tk]=R(tPast);return O(KS(s,tk,kV(v,'pa')),sent(sFor(s),v.p+tail(v,s),t)+'.',`${v.b}의 과거형 ${v.p}`);},
+]);
+
+/* 27. 일반동사 과거형의 부정문, 의문문 */
+add(2,'일반동사의 과거형','일반동사 과거형의 부정문, 의문문',
+ ['부정문: didn\'t(did not) + 동사원형 → She didn\'t go. (didn\'t went ×)','의문문: Did + 주어 + 동사원형 ~? → Did you eat lunch?','대답: Yes, 주어 + did. / No, 주어 + didn\'t.','주어가 누구든 did / didn\'t 하나만 써요'],[
+ ()=>{const s=R(SB),v=R(VB),[t,tk]=R(tPast);return C(sent(sFor(s),'___',v.b+tail(v,s),t)+'.',"didn't",[dnt(s),s.was==='was'?"wasn't":"weren't",'not'],`과거(${t})의 부정은 주어와 상관없이 didn't + 동사원형.`,KS(s,tk,kV(v,'pn')));},
+ ()=>{const s=R(SB),v=R(VB.filter(v=>v.b!==v.p)),[t,tk]=R(tPast);return C(sent(sFor(s),"didn't",'___'+tail(v,s),t)+'.',v.b,[v.p,v.s,v.g||v.b+'ing'].filter(x=>x!==v.b),'didn\'t 뒤에는 동사원형을 써요.',KS(s,tk,kV(v,'pn')));},
+ ()=>{const s=R(QS),v=R(VB),[t,tk]=R(tPast);return C(sent('___',sMid(s),v.b+tail(v,s),t)+'?','Did',[DoS(s),cap(s.was),cap(s.be)],`과거(${t})를 물을 때는 Did + 주어 + 동사원형 ~?`,KS(s,tk,kV(v,'pq')));},
+ ()=>{const s=R(QS),v=R(VB),[t]=R(tPast),y=yn(),ap=ansPfromQ(s);return P(`Did ${sMid(s)} ${v.b}${tail(v,s)} ${t}? — (${y?'응':'아니'})`,y?`Yes, ${ap} did.`:`No, ${ap} didn't.`,y?[`Yes, ${ap} ${['he','she'].includes(ap)?'does':'do'}.`,`Yes, ${ap} ${wasOf(ap)}.`,`No, ${ap} didn't.`]:[`No, ${ap} ${notOf(wasOf(ap))}.`,`No, ${ap} ${['he','she'].includes(ap)?"doesn't":"don't"}.`,`Yes, ${ap} did.`],'Did로 물으면 did / didn\'t로 대답해요.');},
+ ()=>{const s=R(SB),v=R(VB.filter(v=>v.b!==v.p)),T=tail(v,s),[t]=R(tPast);return P(`“${sFor(s)} ${v.p}${T} ${t}.” 를 부정문으로 바르게 바꾼 것은?`,`${sFor(s)} didn't ${v.b}${T} ${t}.`,[`${sFor(s)} didn't ${v.p}${T} ${t}.`,`${sFor(s)} ${dnt(s)} ${v.b}${T} ${t}.`,`${sFor(s)} ${notOf(s.was)} ${v.b}${T} ${t}.`],'didn\'t + 동사원형.');},
+ ()=>{const s=R(QS),v=R(VB.filter(v=>v.b!==v.p&&once('Did x '+v.p+' '+v.o,v.p))),[t]=R(tPast);return F(sent('Did',sMid(s),v.p+tail(v,s),t)+'?',v.p,v.b,'Did 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(SB),v=R(VB.filter(v=>v.b!==v.p&&once("x didn't "+v.p+' '+v.o,v.p))),[t]=R(tPast);return F(sent(sFor(s),"didn't",v.p+tail(v,s),t)+'.',v.p,v.b,'didn\'t 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VB),[t]=R(tPast);return F(sent(sFor(s),"doesn't",v.b+tail(v,s),t)+'.',"doesn't","didn't",`${t}는 과거니까 didn't를 써요.`);},
+ ()=>{const s=R(QS),v=R(VB),[t,tk]=R(tPast),q=yn();return O(KS(s,tk,kV(v,q?'pq':'pn')),q?sent('Did',sMid(s),v.b+tail(v,s),t)+'?':sent(sFor(s),"didn't",v.b+tail(v,s),t)+'.',q?'Did + 주어 + 동사원형 ~?':'didn\'t + 동사원형');},
+]);
+
+/* 28. 부사의 형태와 쓰임 */
+const ADV=[['quick','quickly','빨리'],['slow','slowly','천천히'],['careful','carefully','조심스럽게'],['quiet','quietly','조용히'],['loud','loudly','크게'],['kind','kindly','친절하게'],['happy','happily','행복하게'],['easy','easily','쉽게'],['beautiful','beautifully','아름답게'],['sad','sadly','슬프게'],['good','well','잘'],['fast','fast','빨리'],['hard','hard','열심히'],['early','early','일찍'],['late','late','늦게'],['high','high','높이']];
+const ADVS=[['He runs ___.','fast','그는 빨리 달린다.'],['She sings ___.','beautifully','그녀는 아름답게 노래한다.'],['Please speak ___.','quietly','조용히 말해 주세요.'],['The turtle walks ___.','slowly','거북이는 천천히 걷는다.'],['Tom studies ___.','hard','톰은 열심히 공부한다.'],['I get up ___.','early','나는 일찍 일어난다.'],['She plays the piano ___.','well','그녀는 피아노를 잘 친다.'],['Birds fly ___.','high','새들은 높이 난다.'],['Carry the box ___.','carefully','상자를 조심스럽게 날라라.'],['He answered the question ___.','easily','그는 그 질문에 쉽게 답했다.'],['The children played ___.','happily','아이들은 행복하게 놀았다.'],['He talks ___.','loudly','그는 크게 말한다.'],['She smiled ___.','kindly','그녀는 친절하게 웃었다.'],['He came home ___.','late','그는 늦게 집에 왔다.']];
+const advW=a=>uniq([a[0],a[0]+'ly',a[0].replace(/y$/,'ily'),a[0]+'ely',a[0].replace(/y$/,'yly')].filter(x=>x!==a[1]));
+add(2,'부사','부사의 형태와 쓰임',
+ ['부사: 동사, 형용사, 다른 부사를 꾸며 ‘어떻게, 얼마나’를 알려 줘요 (run fast, very big)','만들기: 형용사 + ly (slow → slowly) / 자음+y → ily (happy → happily, easy → easily)','모양이 같은 것: fast, hard, early, late, high / 불규칙: good → well','hardly는 ‘거의 ~않다’로 뜻이 달라요'],[
+ ()=>{const a=R(ADV);return P(`형용사 ${a[0]}의 부사형은?`,a[1],advW(a),a[0]===a[1]?`${a[0]}는 형용사와 부사의 모양이 같아요.`:a[0]==='good'?'good의 부사는 well이에요.':/y$/.test(a[0])?`자음+y → ily: ${a[0]} → ${a[1]}`:`형용사 + ly: ${a[0]} → ${a[1]}`);},
+ ()=>{const [q,a,k]=R(ADVS),d=ADV.find(x=>x[1]===a);return C(q,a,advW(d),`동사를 꾸미는 말은 부사: ${d[0]} → ${a}`,k);},
+ ()=>{const t=R([['He is a ___ boy.','quiet','quietly'],['She is a ___ girl.','kind','kindly'],['It is an ___ test.','easy','easily'],['The turtle is ___.','slow','slowly'],['Be ___!','careful','carefully'],['The music is too ___.','loud','loudly'],['They look ___.','happy','happily'],['The song is ___.','beautiful','beautifully'],['He is a ___ runner.','quick','quickly'],['The story is ___.','sad','sadly']]);return C(t[0],t[1],[t[2]],'명사를 꾸미거나 be동사(look) 뒤에서 주어를 설명하는 말은 형용사예요.');},
+ ()=>{const s=R(SB),p=R([['walk','walks','slowly'],['walk','walks','quickly'],['walk','walks','carefully'],['talk','talks','loudly'],['talk','talks','quietly'],['talk','talks','kindly'],['sing','sings','beautifully'],['sing','sings','loudly'],['sing','sings','well'],['run','runs','fast'],['run','runs','slowly'],['smile','smiles','happily'],['smile','smiles','kindly'],['study','studies','hard'],['work','works','hard'],['swim','swims','well'],['dance','dances','beautifully'],['eat','eats','slowly'],['eat','eats','quickly'],['come','comes','early'],['come','comes','late']]),d=ADV.find(x=>x[1]===p[2]);return C(`${sFor(s)} ${s.s3?p[1]:p[0]} ___.`,p[2],advW(d),`동사(${p[0]})를 꾸미는 말은 부사: ${d[0]} → ${d[1]}`,`${sTop(s)} ${d[2]} ${({walk:'걷는다',talk:'말한다',sing:'노래한다',run:'달린다',smile:'웃는다',study:'공부한다',work:'일한다',swim:'수영한다',dance:'춤춘다',eat:'먹는다',come:'온다'})[p[0]]}.`.replace('잘 수영한다','수영을 잘한다').replace('잘 노래한다','노래를 잘한다'));},
+ ()=>{const g=yn();return g?C('She is a ___ singer.','good',['well'],'명사(singer)를 꾸미는 건 형용사 good.'):C('She sings very ___.','well',['good'],'동사(sings)를 꾸미는 건 부사 well.');},
+ ()=>{const [q,a]=R(ADVS.filter(x=>x[1]!==ADV.find(d=>d[1]===x[1])[0])),d=ADV.find(x=>x[1]===a);return F(q.replace('___',d[0]),d[0],a,`동사를 꾸미는 말은 부사 ${a}를 써요.`);},
+ ()=>{const w=R([['He runs fastly.','fastly','fast','fast는 형용사와 부사의 모양이 같아요. fastly라는 말은 없어요.'],['She works hardly.','hardly','hard','hard(열심히)는 모양 그대로 부사예요. hardly는 ‘거의 ~않다’라는 다른 뜻.'],['He sings goodly.','goodly','well','good의 부사는 well이에요.'],['She speaks quiet.','quiet','quietly','동사를 꾸미는 말은 부사 quietly.'],['He sings good.','good','well','동사를 꾸미는 말은 부사 well.'],['The turtle walks slow.','slow','slowly','동사를 꾸미는 말은 부사 slowly.']]);return F(w[0],w[1],w[2],w[3]);},
+ ()=>{const [q,a,k]=R(ADVS);return O(k,q.replace('___',a),'동사 뒤에서 부사가 꾸며요.');},
+]);
+
+/* 29. 빈도부사 */
+const FQ=[['always','100%','항상'],['usually','80%','보통'],['often','60%','자주'],['sometimes','40%','가끔'],['never','0%','결코 ~ 않는다']];
+add(2,'부사','빈도부사',
+ ['얼마나 자주 하는지: always(100%) > usually > often > sometimes > never(0%)','위치: 일반동사 앞, be동사·조동사 뒤 → She always eats breakfast. / He is always happy.','never는 ‘절대 ~하지 않는다’라서 not과 함께 쓰지 않아요'],[
+ ()=>{const f=R(FQ),s=R(SB),v=R(VB.filter(v=>!v.st));return C(sent(sFor(s),'___',vForm(v,s)+tail(v,s))+'. ('+f[1]+')',f[0],FQ.map(x=>x[0]).filter(x=>x!==f[0]),`${f[1]} → ${f[0]} (${f[2]})`);},
+ ()=>{const f=R(FQ),s=R(SB),v=R(VB.filter(v=>!v.st&&v.o)),T=tail(v,s),V=vForm(v,s);return P('빈도부사의 위치가 바른 문장은?',`${sFor(s)} ${f[0]} ${V}${T}.`,[`${sFor(s)} ${V} ${f[0]}${T}.`,`${sFor(s)} ${f[0]} ${s.be} ${V}${T}.`],'빈도부사는 일반동사 앞에 와요.');},
+ ()=>{const f=R(FQ.filter(x=>x[0]==='always'||x[0]==='never'||x[0]==='usually')),s=R(SB),a=R(AJ);return P('빈도부사의 위치가 바른 문장은?',`${sFor(s)} ${s.be} ${f[0]} ${a.e}.`,[`${sFor(s)} ${f[0]} ${s.be} ${a.e}.`,`${sFor(s)} ${f[0]} ${a.e} ${s.be}.`],'be동사 뒤에 빈도부사가 와요.');},
+ ()=>{const f=R(FQ.filter(x=>x[0]==='always'||x[0]==='never')),s=R(SB),v=R(VB.filter(v=>!v.st&&v.o));return F(sent(sFor(s),vForm(v,s),f[0],objFor(v,s))+'.',f[0],`(${vForm(v,s)} 앞으로)`,`빈도부사는 일반동사 앞에 와요 → ${sent(sFor(s),f[0],vForm(v,s)+tail(v,s))}.`);},
+ ()=>{const s=R(SB),v=R(VB.filter(v=>!v.st));return F(sent(sFor(s),dnt(s),'never',v.b+tail(v,s))+'.',dnt(s),'(빼요)',`never에 이미 ‘않는다’는 뜻이 있어서 ${dnt(s)}를 같이 쓰지 않아요 → ${sent(sFor(s),'never',vForm(v,s)+tail(v,s))}.`);},
+ ()=>{const f=R(FQ.filter(x=>x[0]!=='never')),s=R(SB),v=R(VB.filter(v=>!v.st));return O(`${sTop(s)} ${f[2]} ${kV(v,'pr')}.`,sent(sFor(s),f[0],vForm(v,s)+tail(v,s))+'.','주어 + 빈도부사 + 일반동사');},
+ ()=>{const f=R(FQ.filter(x=>x[0]!=='never')),s=R(SB),a=R(AJ);return O(`${sTop(s)} ${f[2]} ${kAdj(a,'pr')}.`,`${sFor(s)} ${s.be} ${f[0]} ${a.e}.`,'주어 + be동사 + 빈도부사');},
+]);
+
+/* 30. 시간의 전치사 */
+const TAT=[['7 o\'clock','7시에'],['noon','정오에'],['night','밤에'],['9:30','9시 30분에'],['midnight','자정에'],['6 o\'clock','6시에']];
+const TON=[['Monday','월요일에'],['Sunday','일요일에'],['May 5th','5월 5일에'],['my birthday','내 생일에'],['Christmas Day','크리스마스 날에'],['Saturday morning','토요일 아침에']];
+const TIN=[['May','5월에'],['2025','2025년에'],['summer','여름에'],['winter','겨울에'],['the morning','아침에'],['the evening','저녁에'],['March','3월에']];
+const TS={at:[['I get up ___ 7 o\'clock.','나는 7시에 일어난다.'],['We have lunch ___ noon.','우리는 정오에 점심을 먹는다.'],['Owls hunt ___ night.','부엉이는 밤에 사냥한다.'],['The movie starts ___ 9:30.','영화는 9시 30분에 시작한다.'],['I go to bed ___ 9 o\'clock.','나는 9시에 잠자리에 든다.'],['The party ends ___ midnight.','파티는 자정에 끝난다.'],['School starts ___ 8:30.','학교는 8시 30분에 시작한다.']],
+ on:[['I go swimming ___ Sundays.','나는 일요일마다 수영하러 간다.'],['We don\'t go to school ___ Saturday.','우리는 토요일에 학교에 가지 않는다.'],['Children\'s Day is ___ May 5th.','어린이날은 5월 5일이다.'],['I get presents ___ my birthday.','나는 내 생일에 선물을 받는다.'],['We sing songs ___ Christmas Day.','우리는 크리스마스 날에 노래를 부른다.'],['Let\'s meet ___ Monday.','월요일에 만나자.'],['I have piano lessons ___ Wednesday.','나는 수요일에 피아노 수업이 있다.']],
+ in:[['School starts ___ March.','학교는 3월에 시작한다.'],['It snows ___ winter.','겨울에는 눈이 온다.'],['I was born ___ 2017.','나는 2017년에 태어났다.'],['We go to the beach ___ summer.','우리는 여름에 바닷가에 간다.'],['I read books ___ the morning.','나는 아침에 책을 읽는다.'],['We take a walk ___ the evening.','우리는 저녁에 산책한다.'],['My birthday is ___ May.','내 생일은 5월에 있다.'],['Leaves fall ___ autumn.','가을에는 나뭇잎이 떨어진다.']]};
+const TPX={at:'at + 시각, noon, night',on:'on + 요일, 날짜, 특별한 날',in:'in + 월, 연도, 계절, 아침·오후·저녁'};
+add(2,'전치사','시간의 전치사',
+ ['at + 시각·때: at 7 o\'clock, at noon, at night','on + 요일·날짜·특별한 날: on Monday, on May 5th, on my birthday','in + 월·연도·계절·하루의 때: in May, in 2025, in summer, in the morning','before(~전에) / after(~후에): before dinner, after school'],[
+ ()=>{const c=R(['at','on','in']),x=R(TS[c]);return C(x[0],c,['at','on','in','to'].filter(y=>y!==c),TPX[c],x[1]);},
+ ()=>{const c=R(['at','on','in']);let q,k;const h=RI(1,12),d=RI(0,6),m=RI(0,11),dd=RI(1,28);
+   if(c==='at'){[q,k]=R([[`I get up ___ ${h} o'clock.`,`나는 ${h}시에 일어난다.`],[`Let's meet ___ ${h}:30.`,`${h}시 30분에 만나자.`],[`The class starts ___ ${h} o'clock.`,`수업은 ${h}시에 시작한다.`]]);}
+   else if(c==='on'){[q,k]=R([[`I have a piano lesson ___ ${DAYS[d]}.`,`나는 ${DAYK[d]}에 피아노 수업이 있다.`],[`Let's play soccer ___ ${DAYS[d]}.`,`${DAYK[d]}에 축구하자.`],[`My birthday is ___ ${MON[m]} ${ow(dd)}.`,`내 생일은 ${m+1}월 ${dd}일이다.`]]);}
+   else {[q,k]=R([[`School starts ___ ${MON[m]}.`,`학교는 ${m+1}월에 시작한다.`],[`My birthday is ___ ${MON[m]}.`,`내 생일은 ${m+1}월에 있다.`],[`I was born ___ ${RI(2010,2020)}.`,`나는 그 해에 태어났다.`]]);}
+   return C(q,c,['at','on','in','to'].filter(y=>y!==c),TPX[c],/그 해/.test(k)?null:k);},
+ ()=>{const c=R(['at','on','in']),ok=R({at:TAT,on:TON,in:TIN}[c])[0],wr=[];['at','on','in'].filter(y=>y!==c).forEach(y=>wr.push(...RN({at:TAT,on:TON,in:TIN}[y],2).map(z=>z[0])));return P(`${c}과(와) 함께 쓰는 말은?`,ok,RN(wr,3),TPX[c]);},
+ ()=>{const c=R(['at','on','in']),bad=R({at:TAT,on:TON,in:TIN}[c])[0],wr=RN({at:TAT,on:TON,in:TIN}[R(['at','on','in'].filter(y=>y!==c))],3).map(z=>z[0]);const other=['at','on','in'].find(y=>y!==c&&wr.every(w=>({at:TAT,on:TON,in:TIN}[y]).some(z=>z[0]===w)));return P(`${other}과(와) 함께 쓸 수 없는 말은?`,bad,wr,`${bad}에는 ${c}를 써요. ${TPX[c]}`);},
+ ()=>{const ba=yn(),m=R([['wash your hands','meals','식사 전에','식사 후에'],['brush your teeth','bed','자기 전에','자고 나서'],['do your homework','dinner','저녁 먹기 전에','저녁 먹은 후에'],['play outside','school','학교 가기 전에','방과 후에']]);return C(`Please ${m[0]} ___ ${m[1]}. (${ba?m[2]:m[3]})`,ba?'before':'after',[ba?'after':'before','at','on'],'before: ~전에 / after: ~후에');},
+ ()=>{const c=R(['at','on','in']),x=R(TS[c]),w=R(['at','on','in'].filter(y=>y!==c));return F(x[0].replace('___',w),w,c,TPX[c]);},
+ ()=>{const c=R(['at','on','in']),x=R(TS[c]);return O(x[1],x[0].replace('___',c),TPX[c]);},
+]);
+
+/* 31. 위치, 장소의 전치사 */
+const POS=[['in','안에'],['on','위에'],['under','아래에'],['next to','옆에'],['behind','뒤에'],['in front of','앞에']];
+const PA=[['cat','고양이','🐱'],['dog','개','🐶'],['ball','공','⚽'],['mouse','쥐','🐭'],['rabbit','토끼','🐰']];
+const PB=[['box','상자','📦'],['basket','바구니','🧺'],['chair','의자','🪑'],['bed','침대','🛏️']];
+const okPos=(p,b)=>p!=='in'||/box|basket/.test(b[0]);
+const PLC2=[['I live ___ Seoul.','in','도시, 나라처럼 넓은 곳은 in.'],['I live ___ Korea.','in','나라처럼 넓은 곳은 in.'],['He is waiting ___ the bus stop.','at','버스 정류장처럼 한 지점은 at.'],['She is ___ home.','at','at home: 집에'],['We are ___ school.','at','at school: 학교에'],['The fish are ___ the water.','in','물 속처럼 공간의 안은 in.'],['There is a clock ___ the wall.','on','벽에 붙어 있는 것은 on.'],['The pictures are ___ the wall.','on','벽에 붙어 있는 것은 on.'],['My keys are ___ my bag.','in','가방 안은 in.'],['Let\'s meet ___ the park gate.','at','한 지점은 at.']];
+add(2,'전치사','위치, 장소의 전치사',
+ ['in(~안에), on(~위에, 붙어서), under(~아래에)','next to(~옆에), behind(~뒤에), in front of(~앞에), between A and B(A와 B 사이에)','at + 좁은 지점(at the bus stop, at home) / in + 넓은 곳·공간 안(in Seoul, in the room)'],[
+ ()=>{let p,b,g=0;const a=R(PA);do{p=R(POS);b=R(PB);}while(!okPos(p[0],b)&&g++<20);return {...P('그림을 보고 알맞은 말을 고르세요.',p[0],POS.map(x=>x[0]).filter(x=>x!==p[0]&&okPos(x,b)),`${b[1]} ${p[1]} → ${p[0]} the ${b[0]}`,`The ${a[0]} is ___ the ${b[0]}.`),pic:{a:a[2],b:b[2],p:p[0]}};},
+ ()=>{let p,b,g=0;const a=R(PA);do{p=R(POS);b=R(PB);}while(!okPos(p[0],b)&&g++<20);return C(`The ${a[0]} is ___ the ${b[0]}. (${b[1]} ${p[1]})`,p[0],POS.map(x=>x[0]).filter(x=>x!==p[0]),`~${p[1]} → ${p[0]}`);},
+ ()=>{const a=R(PA),b=R(PB.filter(x=>x[0]!=='bed'));return {...P('그림을 보고 알맞은 문장을 고르세요.',`The ${a[0]} is between the ${b[0]}s.`,[`The ${a[0]} is next to the ${b[0]}s.`,`The ${a[0]} is on the ${b[0]}s.`,`The ${a[0]} is behind the ${b[0]}s.`],'between: 둘 사이에'),pic:{a:a[2],b:b[2],p:'between'}};},
+ ()=>{const [q,a,x]=R(PLC2);return C(q,a,['at','in','on'].filter(y=>y!==a),x);},
+ ()=>{const one=['in','on','under','behind'];let p,b,g=0;const a=R(PA);do{p=R(POS.filter(x=>one.includes(x[0])));b=R(PB);}while(!okPos(p[0],b)&&g++<20);const w=R(one.filter(x=>x!==p[0]));return F(`The ${a[0]} is ${w} the ${b[0]}. (${b[1]} ${p[1]})`,w,p[0],`~${p[1]} → ${p[0]}`);},
+ ()=>{let p,b,g=0;const a=R(PA);do{p=R(POS);b=R(PB);}while(!okPos(p[0],b)&&g++<20);return O(`${jo(a[1],'이','가')} ${b[1]} ${p[1]} 있다.`,`The ${a[0]} is ${p[0]} the ${b[0]}.`,`~${p[1]} → ${p[0]}`);},
+]);
+/* ================= 3권 ================= */
+/* 32. 미래형 긍정문 */
+const VF=VB.filter(v=>!v.st);
+add(3,'미래형','미래형 긍정문',
+ ['will + 동사원형: ~할 것이다 (주어와 상관없이 will)','be going to + 동사원형: ~할 예정이다 (be동사는 주어에 맞게 am/is/are)','tomorrow, next week, this weekend 같은 미래를 나타내는 말과 함께 써요','줄임말: I will → I\'ll, She will → She\'ll'],[
+ ()=>{const s=R(SB),v=R(VF),[t,tk]=R(tFut);return C(sent(sFor(s),'___',v.b+tail(v,s),t)+'.','will',['did',s.be,s.was],`${t}는 미래 → will + 동사원형`,KS(s,tk,kV(v,'fu')));},
+ ()=>{const s=R(SB),v=R(VF),[t,tk]=R(tFut);return C(sent(sFor(s),'will','___'+tail(v,s),t)+'.',v.b,[v.s,v.p,v.g].filter(x=>x!==v.b),'will 뒤에는 동사원형을 써요.',KS(s,tk,kV(v,'fu')));},
+ ()=>{const s=R(SB),v=R(VF),[t,tk]=R(tFut);return C(sent(sFor(s),'___ going to',v.b+tail(v,s),t)+'.',s.be,['am','is','are'].filter(x=>x!==s.be),`be going to의 be동사는 주어에 맞춰요: ${s.e} → ${s.be}`,KS(s,tk,kV(v,'fu')));},
+ ()=>{const s=R(SB),v=R(VF),[t]=R(tFut);return C(sent(sFor(s),s.be,'going to','___'+tail(v,s),t)+'.',v.b,[v.s,v.g,v.p].filter(x=>x!==v.b),'be going to 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(SB),v=R(VF),w=R([0,1,2]),T=[R(tPast),R(tPres),R(tFut)][w],ans=[v.p,vForm(v,s),'will '+v.b][w];return C(sent(sFor(s),'___'+tail(v,s),T[0])+'.',ans,uniq([v.p,vForm(v,s),'will '+v.b,s.s3?v.b:v.s]).filter(x=>x!==ans),`${T[0]} → ${['과거','현재(늘 하는 일)','미래'][w]} → ${ans}`,KS(s,T[1],kV(v,['pa','pr','fu'][w])));},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VF.filter(x=>once('will '+x.s+' '+x.o,x.s))),[t]=R(tFut);return F(sent(sFor(s),'will',v.s+tail(v,s),t)+'.',v.s,v.b,'will 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(SB),v=R(VF),w=R(['am','is','are'].filter(x=>x!==s.be)),[t]=R(tFut);return F(sent(sFor(s),w,'going to',v.b+tail(v,s),t)+'.',w,s.be,`주어 ${s.e}에 맞는 be동사는 ${s.be}.`);},
+ ()=>{const s=R(SB),v=R(VF),[t,tk]=R(tFut),g=yn();return O(KS(s,tk,kV(v,'fu')),g?sent(sFor(s),s.be,'going to',v.b+tail(v,s),t)+'.':sent(sFor(s),'will',v.b+tail(v,s),t)+'.',g?'be going to + 동사원형':'will + 동사원형');},
+]);
+
+/* 33. 미래형 부정문 */
+add(3,'미래형','미래형 부정문',
+ ['will not(won\'t) + 동사원형: ~하지 않을 것이다','be동사 + not + going to + 동사원형: ~하지 않을 예정이다','won\'t 뒤, going to 뒤에는 동사원형'],[
+ ()=>{const s=R(SB),v=R(VF),[t,tk]=R(tFut);return C(sent(sFor(s),'___',v.b+tail(v,s),t)+'.',"won't",["don't","didn't","willn't",s.s3?"doesn't":"isn't"],'will not의 줄임말은 won\'t예요 (willn\'t ×).',KS(s,tk,kV(v,'fn')));},
+ ()=>{const s=R(SB),v=R(VF),[t,tk]=R(tFut);return C(sent(sFor(s),ngBe(s),'going ___',v.b+tail(v,s),t)+'.','to',['for','at','×'],'be going to + 동사원형. 부정은 be동사 뒤에 not.',KS(s,tk,kV(v,'fn')));},
+ ()=>{const s=R(SB),v=R(VF),T=tail(v,s),[t]=R(tFut);return P(`“${sFor(s)} will ${v.b}${T} ${t}.” 를 부정문으로 바르게 바꾼 것은?`,`${sFor(s)} won't ${v.b}${T} ${t}.`,[`${sFor(s)} won't ${vForm(v,s)==='have'?'has':v.s}${T} ${t}.`,`${sFor(s)} ${dnt(s)} will ${v.b}${T} ${t}.`,`${sFor(s)} will ${v.b} not${T} ${t}.`],'will 뒤에 not → will not(won\'t) + 동사원형.');},
+ ()=>{const s=R(SB),v=R(VF),T=tail(v,s),[t]=R(tFut);return P(`“${sFor(s)} ${s.be} going to ${v.b}${T} ${t}.” 를 부정문으로 바르게 바꾼 것은?`,`${sFor(s)} ${s.be} not going to ${v.b}${T} ${t}.`,[`${sFor(s)} ${dnt(s)} going to ${v.b}${T} ${t}.`,`${sFor(s)} ${s.be} going not to ${v.b}${T} ${t}.`,`${sFor(s)} ${s.be} going to not ${v.s}${T} ${t}.`],'be동사 뒤에 not을 넣어요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VF.filter(x=>once("won't "+x.s+' '+x.o,x.s))),[t]=R(tFut);return F(sent(sFor(s),"won't",v.s+tail(v,s),t)+'.',v.s,v.b,'won\'t 뒤에는 동사원형을 써요.');},
+ ()=>{const s=R(SB.filter(x=>x.s3)),v=R(VF),[t]=R(tFut);return F(sent(sFor(s),"doesn't going to",v.b+tail(v,s),t)+'.',"doesn't","isn't",'be going to의 부정은 be동사 + not이에요.');},
+ ()=>{const s=R(SB),v=R(VF),[t,tk]=R(tFut);return O(KS(s,tk,kV(v,'fn')),sent(sFor(s),"won't",v.b+tail(v,s),t)+'.','won\'t + 동사원형');},
+]);
+
+/* 34. 미래형 의문문 */
+add(3,'미래형','미래형 의문문',
+ ['Will + 주어 + 동사원형 ~? → Yes, 주어 + will. / No, 주어 + won\'t.','be동사 + 주어 + going to + 동사원형 ~? → Yes, 주어 + be동사. / No, ~ not.'],[
+ ()=>{const s=R(QS),v=R(VF),[t,tk]=R(tFut);return C(sent('___',sMid(s),v.b+tail(v,s),t)+'?','Will',['Did',DoS(s),cap(s.be)],`미래를 물을 때 Will + 주어 + 동사원형 ~?`,KS(s,tk,kV(v,'fq')));},
+ ()=>{const s=R(QS),v=R(VF),[t,tk]=R(tFut);return C(sent('___',sMid(s),'going to',v.b+tail(v,s),t)+'?',cap(s.be),['Is','Are','Do','Does','Will'].filter(x=>x!==cap(s.be)),`be going to 의문문은 be동사로 시작해요: ${s.e} → ${cap(s.be)}`,KS(s,tk,kV(v,'fq')));},
+ ()=>{const s=R(QS),v=R(VF),[t]=R(tFut),y=yn(),ap=ansPfromQ(s);return P(`Will ${sMid(s)} ${v.b}${tail(v,s)} ${t}? — (${y?'응':'아니'})`,y?`Yes, ${ap} will.`:`No, ${ap} won't.`,y?[`Yes, ${ap} ${beOf(ap)}.`,`Yes, ${ap} ${['he','she'].includes(ap)?'does':'do'}.`,`No, ${ap} won't.`]:[`No, ${ap} ${notOf(beOf(ap))||'am not'}.`,`No, ${ap} willn't.`,`Yes, ${ap} will.`],'Will로 물으면 will / won\'t로 대답해요.');},
+ ()=>{const s=R(QS),v=R(VF),[t]=R(tFut),y=yn(),ap=ansPfromQ(s),b=beOf(ap);return P(`${cap(s.be)} ${sMid(s)} going to ${v.b}${tail(v,s)} ${t}? — (${y?'응':'아니'})`,y?`Yes, ${ap} ${b}.`:`No, ${ap} ${b==='am'?"'m not":notOf(b)}.`.replace(" '","'"),y?[`Yes, ${ap} will.`,`Yes, ${ap} ${['he','she'].includes(ap)?'does':'do'}.`,`Yes, ${ap} going.`]:[`No, ${ap} won't go.`,`No, ${ap} ${['he','she'].includes(ap)?"doesn't":"don't"}.`,`Yes, ${ap} ${b}.`],'be동사로 물으면 be동사로 대답해요.');},
+ ()=>{const s=R(QS.filter(x=>x.s3)),v=R(VF.filter(x=>once('Will x '+x.s+' '+x.o,x.s))),[t]=R(tFut);return F(sent('Will',sMid(s),v.s+tail(v,s),t)+'?',v.s,v.b,'Will 뒤 주어 다음에는 동사원형을 써요.');},
+ ()=>{const s=R(QS.filter(x=>x.s3)),v=R(VF),[t]=R(tFut);return F(sent('Does',sMid(s),'going to',v.b+tail(v,s),t)+'?','Does','Is','be going to의 의문문은 be동사로 시작해요.');},
+ ()=>{const s=R(QS),v=R(VF),[t,tk]=R(tFut),g=yn();return O(KS(s,tk,kV(v,'fq')),g?sent(cap(s.be),sMid(s),'going to',v.b+tail(v,s),t)+'?':sent('Will',sMid(s),v.b+tail(v,s),t)+'?',g?'be동사 + 주어 + going to + 동사원형 ~?':'Will + 주어 + 동사원형 ~?');},
+]);
+
+/* 35. 의문사 who, what */
+const REL=[['sister','She'],['brother','He'],['teacher','She'],['cousin','He'],['uncle','He'],['aunt','She'],['friend','He'],['grandma','She']];
+const OBJV=VB.filter(v=>v.o&&!/^(to |in |on |home)/.test(v.o)&&v.b!=='brush');
+const THINGS=[['a pencil','연필'],['an eraser','지우개'],['a ruler','자'],['a cup','컵'],['an apple','사과'],['a ball','공'],['a robot','로봇']];
+const WQ=(wh,q,a,k)=>({wh,q,a,k});
+const WHO=()=>R([
+ ()=>{const r=R(REL),who=R(['that girl','that boy','that man','that woman','he','she']);const pr=/girl|woman|she/.test(who)?'She':'He';const rr=R(REL.filter(x=>x[1]===pr));return WQ('Who',`___ is ${who}?`,`${pr} is my ${rr[0]}.`);},
+ ()=>{const v=R(VB),n=R(['Tom','Amy','Minsu','Jisu','My mom']);return WQ('Who',`___ ${v.s}${tail(v,{pr:'he'})}?`.replace('my teeth','his teeth'),`${n} does.`);},
+ ()=>{const n=R(['Ms. Kim','Mr. Lee','Amy','my dad']);return WQ('Who',`___ is your ${R(['teacher','best friend','favorite singer'])}?`,`It's ${n}.`);},
+ ()=>WQ('Who',`___ made this cake?`,`My ${R(['mom','dad','sister','grandma'])} did.`),
+])();
+const WHAT=()=>R([
+ ()=>{const t=R(THINGS);return WQ('What','___ is this?',`It's ${t[0]}.`);},
+ ()=>{const v=R(OBJV),s=R(QS),ap=ansPfromQ(s),apS=['he','she','it'].includes(ap);return WQ('What',`___ ${s.s3?'does':'do'} ${sMid(s)} ${v.b}?`,`${cap(ap)} ${apS?v.s:v.b} ${objFor(v,{pr:ap,m:{I:'my',we:'our',they:'their',you:'your'}[ap]})}.`);},
+ ()=>{const c=R(['red','blue','yellow','green','pink']);return WQ('What','___ color is your bag?',`It's ${c}.`);},
+ ()=>WQ('What','___ time is it?',`It's ${R(TIMES)} o'clock.`),
+ ()=>WQ('What','___ day is it today?',`It's ${R(DAYS)}.`),
+ ()=>WQ('What',`___ do you want for ${R(['lunch','dinner','your birthday'])}?`,`I want ${R(['pizza','a bike','chicken','a new doll'])}.`),
+])();
+const WHEN=()=>R([
+ ()=>{const m=R(MON),d=RI(1,28);return WQ('When','___ is your birthday?',`It's on ${m} ${ow(d)}.`);},
+ ()=>{const v=R(VF),t=R(['after school','on Sundays','at seven','in the morning','after dinner']),s=R(QS),ap=ansPfromQ(s);return WQ('When',`___ ${s.s3?'does':'do'} ${sMid(s)} ${v.b}${tail(v,s)}?`,`${cap(ap)} ${['he','she'].includes(ap)?v.s:v.b}${tail(v,{pr:ap,m:{I:'my',we:'our',they:'their',you:'your'}[ap]})} ${t}.`);},
+ ()=>WQ('When',`___ does the ${R(['movie','class','party'])} start?`,`It starts at ${R(TIMES)}.`),
+])();
+const WHERE=()=>R([
+ ()=>{const t=R(['bag','cap','ball','book']),p=R(['under the desk','on the bed','in the box','next to the door']);return WQ('Where',`___ is my ${t}?`,`It's ${p}.`);},
+ ()=>WQ('Where','___ do you live?',`I live in ${R(['Seoul','Busan','Asan','Korea'])}.`),
+ ()=>{const p=R([['play soccer','at the park'],['read books','in the library'],['swim','in the pool'],['buy bread','at the bakery']]),n=R(['Tom','Amy','your sister']);return WQ('Where',`___ does ${n} ${p[0]}?`,`${n==='Amy'||n==='your sister'?'She':'He'} ${p[0].split(' ')[0]+(p[0].split(' ')[0]==='buy'?'s':'s')}${p[0].split(' ').slice(1).map(x=>' '+x).join('')} ${p[1]}.`);},
+ ()=>WQ('Where','___ are you going?',`I'm going to ${R(['the park','school','the library','the zoo'])}.`),
+])();
+const WHY=()=>R([['happy','Because it\'s my birthday.'],['sad','Because I lost my dog.'],['tired','Because I ran a lot.'],['hungry','Because I didn\'t eat lunch.'],['late','Because I missed the bus.'],['excited','Because we are going to the zoo.']].map(x=>()=>WQ('Why',`___ are you ${x[0]}?`,x[1])).concat([()=>WQ('Why','___ do you like summer?','Because I can swim.'),()=>WQ('Why','___ did you go to bed early?','Because I was sick.')]))();
+const HOW=()=>R([
+ ()=>WQ('How','___ are you?',`I'm ${R(['fine','great','good'])}, thank you.`),
+ ()=>WQ('How','___ do you go to school?',R(['By bus.','On foot.','By car.','I walk.'])),
+ ()=>WQ('How',"___'s the weather?",`It's ${R(WEA)[0]}.`),
+])();
+const whOpts=wh=>['Who','What','When','Where','Why','How'].filter(x=>x!==wh);
+const whQ=(gen,x)=>()=>{const w=gen();return C(`${w.q} — ${w.a}`,w.wh,RN(whOpts(w.wh),3),x[w.wh]);};
+const whA=(gen,others)=>()=>{const w=gen();const wr=[];others.forEach(g=>{for(let i=0;i<3;i++){const o=g();if(o.wh!==w.wh) wr.push(o.a);}});return P(`“${w.q.replace('___',w.wh)}” 에 알맞은 대답은?`,w.a,RN(uniq(wr),3),`${w.wh}로 물으면 ${({Who:'사람',What:'무엇(사물·행동)',When:'때',Where:'장소',Why:'이유(Because ~)',How:'방법·상태'})[w.wh]}으로 대답해요.`);};
+const WX={Who:'who: 누구 (사람을 물어요)',What:'what: 무엇 (사물·행동을 물어요). what + 명사: what color, what time, what day',When:'when: 언제 (때를 물어요)',Where:'where: 어디 (장소를 물어요)',Why:'why: 왜 (이유를 물어요) → Because ~ 로 대답',How:'how: 어떻게 (방법·상태를 물어요)'};
+const whO=gen=>()=>{const w=gen();return O(`(${w.a}) 에 알맞은 질문을 만들어요.`,w.q.replace('___',w.wh),WX[w.wh]);};
+add(3,'의문사','who, what',
+ ['who: 누구 → Who is that girl? — She is my sister.','who가 주어일 때: Who plays the piano? — Amy does. (who는 3인칭 단수 취급)','what: 무엇 → What is this? — It\'s a pencil. / What do you like? — I like apples.','what + 명사: What color ~? / What time ~? / What day ~?'],[
+ whQ(()=>yn()?WHO():WHAT(),WX),whQ(()=>yn()?WHO():WHAT(),WX),
+ ()=>{const w=WHAT();return C(`${w.q} — ${w.a}`,'What',['Who','How','Where'],WX.What);},
+ whA(()=>yn()?WHO():WHAT(),[WHO,WHAT,WHERE,WHEN]),
+ ()=>{const v=R(VB.filter(x=>x.b!=='brush'));return C(`Who ___${tail(v,{pr:'he'})}? — Amy does.`,v.s,[v.b,v.g||v.b+'ing'].filter(x=>x!==v.s),'who가 주어이면 3인칭 단수로 취급해서 동사에 -s를 붙여요.');},
+ whO(()=>yn()?WHO():WHAT()),
+]);
+/* 36. when, where, why */
+add(3,'의문사','when, where, why',
+ ['when: 언제 → When is your birthday? — It\'s on May 5th.','where: 어디 → Where is my bag? — It\'s under the desk.','why: 왜 → Why are you sad? — Because I lost my dog.','의문사 + be동사 + 주어? / 의문사 + do(does) + 주어 + 동사원형?'],[
+ whQ(()=>R([WHEN,WHERE,WHY])(),WX),whQ(()=>R([WHEN,WHERE,WHY])(),WX),
+ whA(()=>R([WHEN,WHERE,WHY])(),[WHEN,WHERE,WHY,WHO]),
+ ()=>{const v=R(VF),s=R(QS.filter(x=>x.s3));return C(`Where ___ ${sMid(s)} ${v.b}${tail(v,s)}?`,'does',['do','is','are'],`의문사 + does + 3인칭 단수 주어 + 동사원형 ~?`);},
+ ()=>{const v=R(VF.filter(x=>x.b!=='do')),s=R(QS.filter(x=>x.s3));return F(`When does ${sMid(s)} ${v.s}${tail(v,s)}?`,v.s,v.b,'does 뒤에는 동사원형을 써요.');},
+ whO(()=>R([WHEN,WHERE,WHY])()),
+]);
+/* 37. how */
+const HOWX=[['How ___ apples do you have? — I have five apples.','many','셀 수 있는 것의 개수는 How many + 복수 명사.'],['How ___ milk do you need? — I need two glasses.','much','셀 수 없는 것의 양은 How much.'],['How ___ is this bag? — It\'s ten dollars.','much','가격은 How much.'],['How ___ are you? — I\'m nine years old.','old','나이는 How old.'],['How ___ is your dad? — He is 180 cm tall.','tall','키는 How tall.'],['How ___ do you swim? — Twice a week.','often','얼마나 자주는 How often.'],['How ___ pencils are there? — There are three.','many','개수는 How many.'],['How ___ is the bridge? — It\'s 500 meters long.','long','길이는 How long.'],['How ___ money do you have? — I have 3,000 won.','much','돈(셀 수 없음)은 How much.'],['How ___ is your sister? — She is six.','old','나이는 How old.']];
+const HOWG=()=>R([
+ ()=>{const c=R(CPL),k=RI(2,12);return [`How ___ ${c[0]} do you have? — I have ${nw(k)}.`,'many',`${c[0]}는 셀 수 있으니 How many.`];},
+ ()=>{const n=R(['Tom','Amy','your brother','your sister','your cat']),k=RI(2,12);return [`How ___ is ${n}? — ${/Amy|sister/.test(n)?'She':/cat/.test(n)?'It':'He'} is ${nw(k)} years old.`,'old','나이는 How old.'];},
+ ()=>{const n=R(['your dad','your mom','Tom','the tree']),k=/dad|mom/.test(n)?RI(155,185):/tree/.test(n)?RI(200,900):RI(120,150);return [`How ___ is ${n}? — ${/mom/.test(n)?'She':/tree/.test(n)?'It':'He'} is ${k} cm tall.`,'tall','키·높이는 How tall.'];},
+ ()=>{const t=R(['bag','pen','book','cake','doll']),k=RI(2,20);return [`How ___ is this ${t}? — It's ${nw(k)} dollars.`,'much','가격은 How much.'];},
+ ()=>{const f=R(['once a week','twice a week','every day','three times a week']),a=R(['play soccer','swim','read books','go to the library']);return [`How ___ do you ${a}? — ${cap(f)}.`,'often','얼마나 자주는 How often.'];},
+])();
+add(3,'의문사','how',
+ ['how: 어떻게 (방법, 상태) → How do you go to school? — By bus. / How are you? — I\'m fine.','how + 형용사/부사: how old(나이), how tall(키), how long(길이), how often(빈도)','how many + 셀 수 있는 복수 명사(개수) / how much + 셀 수 없는 명사(양), 가격'],[
+ ()=>{const [q,a,x]=yn()?R(HOWX):HOWG();return C(q,a,['many','much','old','tall','often','long'].filter(y=>y!==a).sort(()=>Math.random()-.5),x);},
+ ()=>{const c=R(CPL),k=RI(2,9);return C(`How ___ ${c[0]} do you have? — I have ${NUMW[k]} ${c[0]}.`,'many',['much','old'],`${c[0]}는 셀 수 있으니 How many.`);},
+ ()=>{const u=R(UNC.filter(x=>!['time','homework'].includes(x[0])));return C(`How ___ ${u[0]} do you want? — Just a little.`,'much',['many','old'],`${u[0]}는 셀 수 없으니 How much.`);},
+ whQ(()=>R([HOW,WHAT,WHERE,WHEN])(),WX),
+ ()=>{const w=R([['How old are you?','I\'m ten years old.'],['How tall are you?','I\'m 140 cm tall.'],['How many brothers do you have?','I have two brothers.'],['How much is this pen?','It\'s two dollars.'],['How do you go to school?','By bus.'],['How often do you play soccer?','Three times a week.'],['How are you?','I\'m fine, thanks.'],['How is the weather?','It\'s rainy.']]);const others=[['How old are you?','I\'m ten years old.'],['How tall are you?','I\'m 140 cm tall.'],['How many brothers do you have?','I have two brothers.'],['How much is this pen?','It\'s two dollars.'],['How do you go to school?','By bus.'],['How often do you play soccer?','Three times a week.']].filter(x=>x[0]!==w[0]).map(x=>x[1]);return P(`“${w[0]}” 에 알맞은 대답은?`,w[1],RN(others,3),'how + 형용사/부사로 묻는 것이 무엇인지 살펴봐요.');},
+ ()=>{const w=R([['너는 몇 살이니?','How old are you?'],['너는 키가 얼마나 크니?','How tall are you?'],['너는 학교에 어떻게 가니?','How do you go to school?'],['이 가방은 얼마니?','How much is this bag?'],['너는 연필이 몇 자루 있니?','How many pencils do you have?']]);return O(w[0],w[1],'How + 형용사/부사 + 동사 + 주어 ~?');},
+]);
+
+/* 38. 비교급 */
+const CMP=`tall|taller|tallest|er
+short|shorter|shortest|er
+old|older|oldest|er
+young|younger|youngest|er
+small|smaller|smallest|er
+long|longer|longest|er
+fast|faster|fastest|er
+strong|stronger|strongest|er
+cold|colder|coldest|er
+high|higher|highest|er
+nice|nicer|nicest|r
+large|larger|largest|r
+cute|cuter|cutest|r
+big|bigger|biggest|dbl
+hot|hotter|hottest|dbl
+thin|thinner|thinnest|dbl
+sad|sadder|saddest|dbl
+happy|happier|happiest|y
+easy|easier|easiest|y
+heavy|heavier|heaviest|y
+pretty|prettier|prettiest|y
+busy|busier|busiest|y
+funny|funnier|funniest|y
+beautiful|more beautiful|most beautiful|more
+interesting|more interesting|most interesting|more
+difficult|more difficult|most difficult|more
+famous|more famous|most famous|more
+expensive|more expensive|most expensive|more
+popular|more popular|most popular|more
+good|better|best|irr
+bad|worse|worst|irr
+many|more|most|irr
+little|less|least|irr`.split('\n').map(l=>{const[a,c,s,r]=l.split('|');return{a,c,s,r};});
+const CMX={er:'대부분 -er / -est',r:'-e로 끝나면 -r / -st',dbl:'단모음 + 단자음이면 자음을 한 번 더 쓰고 -er / -est',y:'자음 + y → y를 i로 바꾸고 -er / -est',more:'3음절 이상의 긴 단어(beautiful 등)는 more / most를 앞에 써요',irr:'불규칙하게 바뀌어요 (good – better – best)'};
+const cW=c=>uniq([c.a+'er','more '+c.a,c.a+c.a.slice(-1)+'er',c.a.replace(/y$/,'ier'),c.a+'r',c.r==='irr'?({good:'gooder',bad:'badder',many:'manier',little:'littler'})[c.a]:null,c.r==='more'?c.a+'er':null].filter(x=>x&&x!==c.c));
+const sW=c=>uniq([c.a+'est','most '+c.a,c.a+c.a.slice(-1)+'est',c.a.replace(/y$/,'iest'),c.a+'st',c.r==='irr'?({good:'goodest',bad:'baddest',many:'maniest',little:'littlest'})[c.a]:null,c.r==='more'?c.a+'est':null,'most '+c.c].filter(x=>x&&x!==c.s));
+const FACT=[['An elephant','a mouse','big','코끼리는 쥐보다 더 크다.'],['A giraffe','a dog','tall','기린은 개보다 키가 더 크다.'],['A cheetah','a turtle','fast','치타는 거북이보다 더 빠르다.'],['A rock','a feather','heavy','돌은 깃털보다 더 무겁다.'],['Summer','winter','hot','여름은 겨울보다 더 덥다.'],['Winter','summer','cold','겨울은 여름보다 더 춥다.'],['The sun','the moon','big','해는 달보다 더 크다.'],['A lion','a cat','strong','사자는 고양이보다 힘이 더 세다.'],['A mountain','a hill','high','산은 언덕보다 더 높다.'],['A train','a car','long','기차는 자동차보다 더 길다.'],['A mouse','an elephant','small','쥐는 코끼리보다 더 작다.'],['My grandpa','my dad','old','우리 할아버지는 우리 아빠보다 나이가 더 많다.'],['A diamond','a pencil','expensive','다이아몬드는 연필보다 더 비싸다.'],['This puzzle','that puzzle','difficult','이 퍼즐은 저 퍼즐보다 더 어렵다.']];
+const CF=a=>CMP.find(x=>x.a===a);
+add(3,'비교급, 최상급','형용사와 부사의 비교급',
+ ['비교급 + than: ~보다 더 …한 → Tom is taller than Amy.','-er: tall → taller / -e로 끝나면 -r: nice → nicer / 단모음+단자음: big → bigger / 자음+y: happy → happier','긴 단어는 more: more beautiful, more interesting','불규칙: good/well → better, bad → worse, many/much → more, little → less (more bigger ×)'],[
+ ()=>{const c=R(CMP);return P(`${c.a}의 비교급은?`,c.c,cW(c),`${c.a} → ${c.c}. ${CMX[c.r]}`);},
+ ()=>{const f=R(FACT),c=CF(f[2]);return C(`${f[0]} is ___ than ${f[1]}.`,c.c,[c.a,c.s,...cW(c)].slice(0,4),`than(~보다) 앞에는 비교급: ${c.a} → ${c.c}`,f[3]);},
+ ()=>{const p=RN(['Tom','Amy','Ben','Jisu'],2),h=[RI(125,150),0];h[1]=h[0]-RI(3,12);const tall=yn();return C(`${p[0]} is ${h[0]} cm. ${p[1]} is ${h[1]} cm. ${tall?p[0]:p[1]} is ___ than ${tall?p[1]:p[0]}.`,tall?'taller':'shorter',[tall?'shorter':'taller',tall?'tall':'short',tall?'tallest':'shortest'],`키가 큰 쪽은 taller, 작은 쪽은 shorter.`);},
+ ()=>{const p=RN(['Tom','Amy','Ben','Jisu'],2),a=[RI(8,12),0];a[1]=a[0]-RI(1,3);const old=yn();return C(`${p[0]} is ${a[0]} years old. ${p[1]} is ${a[1]}. ${old?p[0]:p[1]} is ___ than ${old?p[1]:p[0]}.`,old?'older':'younger',[old?'younger':'older',old?'old':'young',old?'oldest':'youngest'],'나이가 많은 쪽은 older, 적은 쪽은 younger.');},
+ ()=>C(`${R(['He','Tom','My brother'])} is taller ___ ${R(['me','Amy','his friend'])}.`,'than',['that','then','to'],'‘~보다’는 than.'),
+ ()=>{const c=R(CMP.filter(x=>x.r!=='more'&&x.r!=='irr'&&!['many','little'].includes(x.a))),f=FACT.find(x=>x[2]===c.a)||[`Tom`,`Amy`,c.a];return F(`${f[0]} is more ${c.c} than ${f[1]}.`,'more','(빼요)',`${c.c}에 이미 ‘더’라는 뜻이 있어서 more를 함께 쓰지 않아요.`);},
+ ()=>{const c=R(CMP.filter(x=>cW(x).length)),w=R(cW(c));if(w.includes(' ')) return P(`${c.a}의 비교급으로 바른 것은?`,c.c,cW(c),CMX[c.r]);const PA2=['tall','short','old','young','strong','fast','nice','cute','big','thin','happy','busy','funny','pretty','heavy'];if(!FACT.find(x=>x[2]===c.a)&&!PA2.includes(c.a)) return P(`${c.a}의 비교급으로 바른 것은?`,c.c,cW(c),CMX[c.r]);const f=FACT.find(x=>x[2]===c.a)||[R(['Tom','My sister','Ben']),R(['Amy','my brother','his friend']),c.a];return F(`${f[0]} is ${w} than ${f[1]}.`,w,c.c,`${c.a} → ${c.c}. ${CMX[c.r]}`);},
+ ()=>{const f=R(FACT),c=CF(f[2]);return O(f[3],`${f[0]} is ${c.c} than ${f[1]}.`,'A + be동사 + 비교급 + than + B');},
+]);
+
+/* 39. 최상급 */
+const SUPF=[['The cheetah is the ___ land animal.','fast','치타는 가장 빠른 육지 동물이다.'],['The blue whale is the ___ animal in the world.','big','흰긴수염고래는 세상에서 가장 큰 동물이다.'],['Mt. Everest is the ___ mountain in the world.','high','에베레스트산은 세상에서 가장 높은 산이다.'],['The giraffe is the ___ animal in the world.','tall','기린은 세상에서 가장 키가 큰 동물이다.'],['Jupiter is the ___ planet in the solar system.','big','목성은 태양계에서 가장 큰 행성이다.'],['Russia is the ___ country in the world.','large','러시아는 세상에서 가장 큰 나라이다.']];
+add(3,'비교급, 최상급','형용사와 부사의 최상급',
+ ['the + 최상급: 가장 …한 → Tom is the tallest boy in my class.','-est: tall → tallest / nice → nicest / big → biggest / happy → happiest / 긴 단어는 most: the most beautiful','in + 장소·집단(in my class) / of + 숫자·복수(of the three)','불규칙: good → best, bad → worst, many → most (the most tallest ×)'],[
+ ()=>{const c=R(CMP);return P(`${c.a}의 최상급은?`,c.s,sW(c),`${c.a} → ${c.s}. ${CMX[c.r]}`);},
+ ()=>{const [q,a,k]=R(SUPF),c=CF(a);return C(q,c.s,[c.c,c.a,...sW(c)].slice(0,4),`the + 최상급: ${a} → ${c.s}`,k);},
+ ()=>{const ns=RN(['Tom','Amy','Ben','Jisu','Minsu'],3),hs=RN([128,131,135,139,142,146],3);const tall=yn(),i=hs.indexOf(tall?Math.max(...hs):Math.min(...hs));return P(`${ns.map((n,j)=>`${n} ${hs[j]}cm`).join(' · ')} — 빈칸에 알맞은 이름은? ___ is the ${tall?'tallest':'shortest'} of the three.`,ns[i],ns.filter((_,j)=>j!==i),`셋 중 ${tall?'가장 큰':'가장 작은'} 사람이 the ${tall?'tallest':'shortest'}.`);},
+ ()=>{const ns=RN(['Tom','Amy','Ben','Jisu','Minsu'],3),as=RN([7,8,9,10,11,12],3);const old=yn(),i=as.indexOf(old?Math.max(...as):Math.min(...as));return C(`${ns.map((n,j)=>`${n}: ${as[j]}살`).join(', ')} → ${ns[i]} is the ___ of the three.`,old?'oldest':'youngest',[old?'youngest':'oldest',old?'older':'younger',old?'old':'young'],`셋 중 ${old?'나이가 가장 많은':'가장 어린'} 사람 → the ${old?'oldest':'youngest'}.`);},
+ ()=>{const i=yn();return C(i?`He is the tallest boy ___ my class.`:`She is the fastest ___ the three girls.`,i?'in':'of',[i?'of':'in','than','to'],'in + 장소·집단 / of + 숫자·복수 명사');},
+ ()=>{const c=R(CMP.filter(x=>['tall','short','old','young','strong','fast','nice','cute','big','funny','happy','busy','thin'].includes(x.a))),n=R(['boy','student']);return F(`It is the most ${c.s} ${n} in my class.`.replace('It is','He is'),'most','(빼요)',`${c.s}에 이미 ‘가장’이라는 뜻이 있어서 most를 함께 쓰지 않아요.`);},
+ ()=>{const c=R(CMP.filter(x=>x.r!=='irr'&&x.r!=='more'&&['tall','fast','strong','big','funny','happy','smart','cute','nice'].includes(x.a)));const w=yn()?c.c:R(sW(c).filter(x=>!x.includes(' ')));return F(`Tom is the ${w} boy in my class.`,w,c.s,`‘가장 ~한’은 the + 최상급: ${c.s}`);},
+ ()=>{const [q,a,k]=R(SUPF),c=CF(a);return O(k,q.replace('___',c.s),'the + 최상급 + 명사 + in ~');},
+]);
+
+/* 40. 명령문과 제안문 */
+const CMD=[['open the door','문을 열어라'],['close the window','창문을 닫아라'],['sit down','앉아라'],['stand up','일어서라'],['wash your hands','손을 씻어라'],['look at the board','칠판을 봐라'],['clean your room','방을 청소해라'],['come here','이리 와라'],['turn off the light','불을 꺼라'],['open your book','책을 펴라'],['listen to me','내 말을 들어라'],['brush your teeth','이를 닦아라'],['put on your coat','코트를 입어라'],['take a seat','자리에 앉아라'],['help your sister','여동생을 도와줘라'],['drink some water','물을 좀 마셔라']];
+const DONT=[['run in the hall','복도에서 뛰지 마라'],['touch it','그것을 만지지 마라'],['be late','늦지 마라'],['be noisy','시끄럽게 하지 마라'],['eat too fast','너무 빨리 먹지 마라'],['cross the street here','여기서 길을 건너지 마라'],['be afraid','두려워하지 마라'],['open the window','창문을 열지 마라'],['watch TV too much','TV를 너무 많이 보지 마라'],['shout in the library','도서관에서 소리치지 마라'],['forget your homework','숙제를 잊지 마라'],['play with fire','불장난하지 마라'],['feed the animals','동물에게 먹이를 주지 마라'],['be sad','슬퍼하지 마라']];
+const LETS=[['play soccer','축구하자'],['go swimming','수영하러 가자'],['eat lunch','점심 먹자'],['take a walk','산책하자'],['watch a movie','영화 보자'],['sing a song','노래 부르자'],['go to the park','공원에 가자'],['ride bikes','자전거 타자'],['make a snowman','눈사람을 만들자'],['clean the room','방을 청소하자'],['draw pictures','그림을 그리자'],['play hide-and-seek','숨바꼭질하자'],['read a book together','같이 책을 읽자'],['bake cookies','쿠키를 굽자'],['fly a kite','연을 날리자']];
+add(3,'다양한 문장','명령문과 제안문',
+ ['명령문: 주어 없이 동사원형으로 시작 → Open the door. / Be quiet. (형용사 앞에는 Be)','부정 명령문: Don\'t + 동사원형 → Don\'t run. / Don\'t be late.','제안문: Let\'s + 동사원형(~하자) / Let\'s not + 동사원형(~하지 말자)','대답: Sounds good. / OK. / Sorry, I can\'t.'],[
+ ()=>{const a=R([['quiet','조용히 해'],['careful','조심해'],['kind to your friends','친구들에게 친절하게 대해'],['nice to your sister','여동생에게 잘해 줘']]);return C(`___ ${a[0]}.`,'Be',['Are','Is','Do'],'형용사 앞의 명령문은 Be로 시작해요.',a[1]+'.');},
+ ()=>{const c=R(CMD);const w=c[0].split(' ');return C(`___ ${w.slice(1).join(' ')}.`.replace(/^___ \.$/,'___.').replace('___  ','___ '),cap(w[0]),[cap(w[0])+'s','To '+w[0],cap(w[0])+'ing'],'명령문은 동사원형으로 시작해요.',c[1]+'.');},
+ ()=>{const d=R(DONT);return C(`___ ${d[0]}.`,"Don't",['Not',"Doesn't",'No'],'‘~하지 마라’는 Don\'t + 동사원형.',d[1]+'.');},
+ ()=>{const l=R(LETS);const w=l[0].split(' ');return C(`Let's ___ ${w.slice(1).join(' ')}.`,w[0],[w[0]+'s','to '+w[0],w[0]+'ing'].map(x=>x.replace('gos','goes').replace('swimming','swim')).filter(x=>x!==w[0]),'Let\'s 뒤에는 동사원형을 써요.',l[1]+'.');},
+ ()=>{const l=R(LETS);return C(`It's raining. Let's ___ ${l[0]}.`.replace('Let\'s ___ go swimming','Let\'s ___ go to the park'),'not',["don't",'no',"aren't"],'‘~하지 말자’는 Let\'s not + 동사원형.');},
+ ()=>{const l=R(LETS);return P(`“Let's ${l[0]}.” 에 알맞은 대답은?`,R(['Sounds good.','OK. Let\'s go.','That\'s a good idea.']),['Yes, I do.','No, I\'m not.','Yes, it is.'],'제안에는 Sounds good. / OK. / Sorry, I can\'t. 처럼 대답해요.');},
+ ()=>{const c=R(CMD);return P(`‘${c[1]}.’ 를 영어 명령문으로 바르게 쓴 것은?`,cap(c[0])+'.',[`You ${c[0]}?`,`To ${c[0]}.`,cap(c[0].split(' ')[0]==='do'?'does':c[0].split(' ')[0]+'s')+' '+c[0].split(' ').slice(1).join(' ')+'.'],'명령문은 주어 없이 동사원형으로 시작해요.');},
+ ()=>{const d=R(DONT);return F(`Doesn't ${d[0]}.`,"Doesn't","Don't",'부정 명령문은 주어와 상관없이 Don\'t.');},
+ ()=>{const l=R(LETS),w=l[0].split(' ');const bad=w[0]==='go'?'goes':w[0]+'s';return F(`Let's ${bad} ${w.slice(1).join(' ')}.`,bad,w[0],'Let\'s 뒤에는 동사원형.');},
+ ()=>{const l=R(LETS);return F(`Let's don't ${l[0]}.`,"don't",'not','‘~하지 말자’는 Let\'s not + 동사원형.');},
+ ()=>{const t=R([CMD,DONT,LETS]),x=R(t);return O(x[1]+'.',t===DONT?`Don't ${x[0]}.`:t===LETS?`Let's ${x[0]}.`:cap(x[0])+'.',t===DONT?'Don\'t + 동사원형':t===LETS?'Let\'s + 동사원형':'동사원형으로 시작');},
+]);
+
+/* 41. 접속사로 연결되는 문장 */
+const CJ={and:[['I have a pen ___ a ruler.','나는 펜과 자를 가지고 있다.'],['Tom ___ Amy are friends.','톰과 에이미는 친구이다.'],['She sings ___ dances.','그녀는 노래하고 춤춘다.'],['I like apples ___ bananas.','나는 사과와 바나나를 좋아한다.'],['We ate pizza ___ drank juice.','우리는 피자를 먹고 주스를 마셨다.']],
+ but:[['I like cats, ___ I don\'t like dogs.','나는 고양이는 좋아하지만 개는 좋아하지 않는다.'],['He is small, ___ he is strong.','그는 작지만 힘이 세다.'],['It was sunny, ___ it was cold.','날씨가 맑았지만 추웠다.'],['The bag is old, ___ I like it.','그 가방은 낡았지만 나는 그것이 좋다.'],['I studied hard, ___ the test was difficult.','나는 열심히 공부했지만 시험은 어려웠다.']],
+ or:[['Do you want milk ___ juice?','우유를 원하니, 아니면 주스를 원하니?'],['Is it a cat ___ a dog?','그것은 고양이니, 아니면 개니?'],['We can walk ___ take a bus.','우리는 걸어가거나 버스를 탈 수 있다.'],['Is your bag red ___ blue?','네 가방은 빨간색이니, 아니면 파란색이니?']]};
+const CE=[['the movie was funny','we laughed a lot','영화가 재미있어서 우리는 많이 웃었다.'],['I lost my key','I couldn\'t open the door','열쇠를 잃어버려서 나는 문을 열 수 없었다.'],['it was dark','I turned on the light','어두워서 나는 불을 켰다.'],['the soup was hot','I ate it slowly','수프가 뜨거워서 나는 천천히 먹었다.'],['my dog was hungry','I fed him','우리 개가 배고파서 나는 먹이를 줬다.'],['it snowed a lot','we made a snowman','눈이 많이 와서 우리는 눈사람을 만들었다.'],['the bag was heavy','my dad carried it','가방이 무거워서 아빠가 그것을 들어 주셨다.'],['I was thirsty','I drank some water','목이 말라서 나는 물을 마셨다.'],['it was cold','I wore a coat','추워서 나는 코트를 입었다.'],['I was hungry','I ate a sandwich','배가 고파서 나는 샌드위치를 먹었다.'],['it rained','we stayed home','비가 와서 우리는 집에 있었다.'],['I was sick','I went to bed early','아파서 나는 일찍 잤다.'],['he missed the bus','he was late','버스를 놓쳐서 그는 늦었다.'],['she studied hard','she passed the test','열심히 공부해서 그녀는 시험에 붙었다.'],['it was hot','we went swimming','더워서 우리는 수영하러 갔다.'],['I was tired','I took a nap','피곤해서 나는 낮잠을 잤다.']];
+const CJX={and:'and: 그리고, ~와 (비슷한 것을 이어요)',but:'but: 그러나, 하지만 (반대되는 내용을 이어요)',or:'or: 또는, 아니면 (둘 중 하나를 고를 때)',so:'so: 그래서 (앞이 원인, 뒤가 결과)',because:'because: 왜냐하면, ~ 때문에 (뒤에 이유가 와요)'};
+const FOODS2=['apples','bananas','milk','juice','pizza','cookies','bread','grapes','carrots','rice','fish','chicken','ice cream','cake'];
+const PETS2=['a cat','a dog','a rabbit','a hamster','a bird','a fish','a turtle'];
+const BUT2=[['small','strong','작지만 힘이 세다'],['old','fast','나이가 많지만 빠르다'],['young','smart','어리지만 똑똑하다'],['tired','happy','피곤하지만 행복하다'],['busy','kind','바쁘지만 친절하다'],['short','fast','키가 작지만 빠르다'],['shy','funny','수줍음이 많지만 재미있다']];
+const CJG=()=>R([
+ ()=>{const [a,b]=RN(FOODS2,2);return [`I like ${a} ___ ${b}.`,'and',['but','so','because']];},
+ ()=>{const [a,b]=RN(FOODS2,2);return [`Do you want ${a} ___ ${b}?`,'or',['but','so','because']];},
+ ()=>{const [a,b]=RN(PETS2,2);return [`Do you have ${a} ___ ${b}?`,'or',['but','so','because']];},
+ ()=>{const s=R(SB.filter(x=>x.s3||x.pl)),b=R(BUT2);const pr={he:'he',she:'she',they:'they'}[s.pr]||s.pr;return [`${sFor(s)} ${s.be} ${b[0]}, ___ ${pr} ${beOf(pr)} ${b[1]}.`,'but',['or','so','because']];},
+ ()=>{const [a,b]=RN(FOODS2,2);return [`I like ${a}, ___ I don't like ${b}.`,'but',['or','so','because']];},
+])();
+add(3,'다양한 문장','접속사로 연결되는 문장',
+ ['and(그리고) – 비슷한 것 / but(그러나) – 반대되는 것 / or(또는) – 둘 중 하나','so(그래서) + 결과 → It was cold, so I wore a coat.','because(~ 때문에) + 이유 → I wore a coat because it was cold.'],[
+ ()=>{const c=R(['and','but','or']),x=R(CJ[c]);const ex={and:['but','so','because'],but:['or','so','because'],or:['but','so','because']}[c];return C(x[0],c,ex,CJX[c],x[1]);},
+ ()=>{const [q,a,ex]=CJG();return C(q,a,ex,CJX[a]);},
+ ()=>{const e=R(CE);return C(`${cap(e[0])}, ___ ${e[1]}.`,'so',['because','or','but'],CJX.so,e[2]);},
+ ()=>{const e=R(CE);return C(`${cap(e[1])} ___ ${e[0]}.`,'because',['so','or','but'],CJX.because,e[2]);},
+ ()=>{const e=R(CE);return P(`“${cap(e[0])}, so ${e[1]}.” 와 뜻이 같은 문장은?`,`${cap(e[1])} because ${e[0]}.`,[`${cap(e[0])} because ${e[1]}.`,`${cap(e[1])}, so ${e[0]}.`,`${cap(e[0])} or ${e[1]}.`],'so 앞은 이유, because 뒤는 이유예요.');},
+ ()=>{const e=R(CE);return F(`${cap(e[1])} so ${e[0]}.`,'so','because',`‘${e[0]}’는 이유니까 because를 써요.`);},
+ ()=>{const e=R(CE),s=yn();return O(e[2],s?`${cap(e[0])}, so ${e[1]}.`:`${cap(e[1])} because ${e[0]}.`,s?CJX.so:CJX.because);},
+]);
+
+/* 42. 동명사 */
+const ACT=[['swim','swimming','수영하기'],['read books','reading books','책 읽기'],['draw pictures','drawing pictures','그림 그리기'],['play soccer','playing soccer','축구하기'],['sing songs','singing songs','노래 부르기'],['dance','dancing','춤추기'],['cook','cooking','요리하기'],['ride a bike','riding a bike','자전거 타기'],['bake cookies','baking cookies','쿠키 굽기'],['take pictures','taking pictures','사진 찍기']];
+const GV=[['enjoy','enjoys','즐긴다'],['finish','finishes','끝낸다'],['practice','practices','연습한다'],['love','loves','아주 좋아한다'],['like','likes','좋아한다']];
+const actW=a=>{const w=a[0].split(' '),r=w.slice(1).join(' ');return uniq([a[0],'to '+a[0],w[0]+'s'+(r?' '+r:''),w[0]+'ed'+(r?' '+r:'')]).filter(x=>x!==a[1]);};
+add(3,'동명사, to부정사','동명사',
+ ['동명사: 동사원형 + -ing → ‘~하기, ~하는 것’ (명사처럼 써요)','주어: Swimming is fun. / 목적어: I enjoy reading books.','enjoy, finish, practice, stop, keep 뒤에는 동명사만 (enjoy to read ×)','전치사 뒤에도 동명사: I\'m good at drawing. / Thank you for helping me.'],[
+ ()=>{const g=R(GV.filter(x=>['enjoy','finish','practice'].includes(x[0]))),a=R(ACT),s=R(SB);return C(`${sFor(s)} ${s.s3?g[1]:g[0]} ___.`,a[1],actW(a),`${g[0]} 뒤에는 동명사(-ing)를 써요.`,`${sTop(s)} ${jo(a[2],'을','를')} ${g[2]}.`);},
+ ()=>{const a=R(ACT);return C(`___ is fun.`.replace('___',a[1].includes(' ')?'___ '+a[1].split(' ').slice(1).join(' '):'___'),cap(a[1].split(' ')[0]),[cap(a[0].split(' ')[0]),cap(a[0].split(' ')[0])+'s',cap(a[0].split(' ')[0])+'ed'],'주어 자리에서 ‘~하기’는 동명사.',`${jo(a[2],'은','는')} 재미있다.`);},
+ ()=>{const a=R(ACT);return C(`I'm good at ___.`,a[1],actW(a),'전치사(at) 뒤에는 동명사를 써요.',`나는 ${a[2].replace(/기$/,'기를')} 잘한다.`.replace('기를 잘한다','기를 잘한다'));},
+ ()=>{const a=R(ACT),ok=R(['enjoy','finished','like','practice']);return P(`“I ___ ${a[1]}.” 빈칸에 들어갈 수 없는 것은?`,R(['want','hope','decided','plan']),['enjoy','finished','like','practice'].filter(x=>x!==ok).concat([ok]).slice(0,3),'want, hope, decide, plan 뒤에는 to부정사가 와요. 동명사는 올 수 없어요.');},
+ ()=>{const [b,g]=R(ING_X.concat(VA.map(v=>[v.b,v.g])));return P(`동명사로 바르게 바꾼 것은? ${b} → ?`,g,ingW(b,g),ingRule(b,g));},
+ ()=>{const a=R(ACT.filter(x=>x[0]!=='dance')),s=R(SB),w=a[0].split(' ')[0];return F(`${sFor(s)} ${s.s3?'enjoys':'enjoy'} ${a[0]}.`,w,a[1].split(' ')[0],'enjoy 뒤에는 동명사(-ing)를 써요.');},
+ ()=>{const a=R(ACT.filter(x=>x[0]!=='dance')),w=a[0].split(' ');return F(`${cap(w[0])}${w.length>1?' '+w.slice(1).join(' '):''} is fun.`,cap(w[0]),cap(a[1].split(' ')[0]),'주어 자리의 ‘~하기’는 동명사(-ing).');},
+ ()=>{const a=R(ACT),s=R(SB),g=R(GV);return O(`${sTop(s)} ${jo(a[2],'을','를')} ${g[2]}.`,`${sFor(s)} ${s.s3?g[1]:g[0]} ${a[1]}.`,`${g[0]} + 동명사`);},
+]);
+
+/* 43. to부정사 */
+const TV=[['want','wants','고 싶다','고 싶어 한다'],['hope','hopes','기를 바란다','기를 바란다'],['plan','plans','기로 계획한다','기로 계획한다'],['need','needs','야 한다','야 한다']];
+const TACT=[['be a doctor','의사가 되','의사가 되어'],['visit Grandma','할머니 댁에 가','할머니 댁에 가'],['buy a new bike','새 자전거를 사','새 자전거를 사'],['learn Chinese','중국어를 배우','중국어를 배워'],['go to the zoo','동물원에 가','동물원에 가'],['eat pizza','피자를 먹','피자를 먹어'],['read this book','이 책을 읽','이 책을 읽어']];
+const kTo=(a,t,s)=>t[0]==='need'?a[2]+'야 한다':t[0]==='want'?a[1]+(s.e==='I'?'고 싶다':'고 싶어 한다'):a[1]+t[2];
+add(3,'동명사, to부정사','to부정사',
+ ['to부정사: to + 동사원형 (to swim, to be)','want, hope, plan, decide, need 뒤에는 to부정사 → I want to be a doctor.','like, love, start, begin 뒤에는 to부정사와 동명사 둘 다 가능','~하기 위해(목적): I went to the store to buy milk.'],[
+ ()=>{const t=R(TV.filter(x=>x[0]!=='need')),a=R(TACT),s=R(SB),w=a[0].split(' ');return C(`${sFor(s)} ${s.s3?t[1]:t[0]} ___ ${w.slice(1).join(' ')}.`,'to '+w[0],[w[0],w[0]==='be'?'being':w[0]+'ing',w[0]==='be'?'is':w[0]+'s'].map(x=>x.replace('visiting','visiting')),`${t[0]} 뒤에는 to + 동사원형.`);},
+ ()=>{const a=R(TACT),s=R(SB.filter(x=>x.s3)),w=a[0].split(' ');return C(`${sFor(s)} wants to ___ ${w.slice(1).join(' ')}.`,w[0],[w[0]==='be'?'is':w[0]+'s',w[0]==='be'?'being':w[0]+'ing'],'to 뒤에는 항상 동사원형을 써요.');},
+ ()=>{const p=R([['I went to the store','buy milk','나는 우유를 사러 가게에 갔다.'],['She went to the library','read books','그녀는 책을 읽으러 도서관에 갔다.'],['We went to the park','play soccer','우리는 축구를 하러 공원에 갔다.'],['He got up early','catch the bus','그는 버스를 타려고 일찍 일어났다.'],['I study hard','pass the test','나는 시험에 붙으려고 열심히 공부한다.']]);return C(`${p[0]} ___ ${p[1]}.`,'to',['for','at','and'],'‘~하기 위해(목적)’는 to + 동사원형.',p[2]);},
+ ()=>{const a=R(TACT);return P(`“I ___ to ${a[0]}.” 빈칸에 들어갈 수 없는 것은?`,R(['enjoy','finish','practice']),RN(['want','hope','plan','need','like'],3),'enjoy, finish, practice 뒤에는 동명사만 와요. to부정사는 올 수 없어요.');},
+ ()=>{const a=R(ACT.filter(x=>x[0]!=='dance'));return P(`“I like ___.” 빈칸에 들어갈 수 있는 것은?`,R(['to '+a[0],a[1]]),[a[0],a[0].split(' ')[0]+'s'+a[0].split(' ').slice(1).map(x=>' '+x).join(''),a[0].split(' ')[0]+'ed'+a[0].split(' ').slice(1).map(x=>' '+x).join('')],'like, love, start, begin 뒤에는 to부정사와 동명사 둘 다 올 수 있어요.');},
+ ()=>{const a=R(TACT),w=a[0].split(' '),s=R(SB);const g=w[0]==='be'?'being':w[0]+'ing';return F(`${sFor(s)} ${s.s3?'wants':'want'} ${g} ${w.slice(1).join(' ')}.`,g,'to '+w[0],'want 뒤에는 to부정사(to + 동사원형)를 써요.');},
+ ()=>{const a=R(TACT.filter(x=>x[0].split(' ')[0]!=='be')),w=a[0].split(' '),s=R(SB.filter(x=>x.s3));return F(`${sFor(s)} hopes to ${w[0]}s ${w.slice(1).join(' ')}.`,w[0]+'s',w[0],'to 뒤에는 동사원형을 써요.');},
+ ()=>{const t=R(TV),a=R(TACT),s=R(SB);return O(`${sTop(s)} ${kTo(a,t,s)}.`,`${sFor(s)} ${s.s3?t[1]:t[0]} to ${a[0]}.`,`${t[0]} + to + 동사원형`);},
+]);
+
+/* 44. 문장 성분 */
+const ROLE=['주어','동사','목적어','보어','수식어'];
+const ROLEX={주어:'주어: 문장의 주인공 (~은/는, ~이/가)',동사:'동사: 주어의 동작이나 상태 (~하다, ~이다)',목적어:'목적어: 동작의 대상 (~을/를)',보어:'보어: be동사 뒤에서 주어를 설명해 주는 말',수식어:'수식어: 없어도 문장이 되는 꾸며 주는 말 (언제, 어디서, 어떻게)'};
+const SENT=()=>{const s=R(SB),k=R(['svo','svc','svm','svom']);
+ if(k==='svc'){const a=R(AJ),m=yn()?R([['today'],['now']]):null;return [[sFor(s),'주어'],[s.be,'동사'],[a.e,'보어']].concat(m?[[m[0],'수식어']]:[]);}
+ if(k==='svm'){const v=R(VB.filter(x=>/^(to |in |on |home)/.test(x.o)||!x.o));return [[sFor(s),'주어'],[vForm(v,s),'동사']].concat(v.o?[[v.o,'수식어']]:[[R(['well','every day','after school']),'수식어']]);}
+ const v=R(OBJV),base=[[sFor(s),'주어'],[vForm(v,s),'동사'],[objFor(v,s),'목적어']];
+ return k==='svom'?base.concat([[R(['every day','after school','on Sundays']),'수식어']]):base;};
+add(3,'문장의 구성 요소','문장 성분',
+ ['주어(~은/는) + 동사(~하다/이다)는 모든 문장에 꼭 있어요','목적어: 동사의 대상 ‘~을/를’ → I like [apples].','보어: be동사 뒤에서 주어를 설명 → She is [happy].','수식어: 시간·장소·방법을 꾸며 주는 말, 빼도 문장이 돼요 → He runs [in the park].'],[
+ ()=>{const p=SENT(),i=RI(0,p.length-1);const q=p.map((x,j)=>j===i?`⟦${x[0]}⟧`:x[0]).join(' ')+'.';return P('밑줄 친 부분은 문장에서 어떤 역할을 할까요?',p[i][1],ROLE.filter(r=>r!==p[i][1]),ROLEX[p[i][1]],q);},
+ ()=>{const p=SENT(),i=RI(0,p.length-1);const q=p.map((x,j)=>j===i?`⟦${x[0]}⟧`:x[0]).join(' ')+'.';return P('밑줄 친 부분은 문장에서 어떤 역할을 할까요?',p[i][1],ROLE.filter(r=>r!==p[i][1]),ROLEX[p[i][1]],q);},
+ ()=>{let ok,g=0;do{ok=SENT();}while(!ok.some(x=>x[1]==='목적어')&&g++<30);const wr=[];while(wr.length<3){const x=SENT();if(!x.some(y=>y[1]==='목적어')) wr.push(x.map(y=>y[0]).join(' ')+'.');}return P('목적어(~을/를)가 있는 문장은?',ok.map(y=>y[0]).join(' ')+'.',wr,'목적어는 동사의 대상(~을/를)이에요.');},
+ ()=>{let ok,g=0;do{ok=SENT();}while(!ok.some(x=>x[1]==='보어')&&g++<30);const wr=[];while(wr.length<3){const x=SENT();if(!x.some(y=>y[1]==='보어')) wr.push(x.map(y=>y[0]).join(' ')+'.');}return P('보어가 있는 문장은?',ok.map(y=>y[0]).join(' ')+'.',wr,'보어는 be동사 뒤에서 주어를 설명해요.');},
+ ()=>{const p=SENT(),r=R(uniq(p.map(x=>x[1])));const ok=p.find(x=>x[1]===r)[0];return P(`“${p.map(x=>x[0]).join(' ')}.” 에서 ${r}는?`.replace('목적어는','목적어는').replace(/(주어|동사|보어|수식어)는/,m=>m.replace('는',/[어사]$/.test(m[m.length-2])?'는':'는')),ok,p.filter(x=>x[1]!==r).map(x=>x[0]),ROLEX[r]);},
+]);
+
+/* 45. 품사, 구와 절 */
+const POSN={n:'명사',pr:'대명사',v:'동사',a:'형용사',ad:'부사',p:'전치사',c:'접속사',i:'감탄사'};
+const POSX={명사:'명사: 사람, 사물, 장소의 이름',대명사:'대명사: 명사를 대신하는 말 (I, you, he, it, they…)',동사:'동사: 동작이나 상태 (run, eat, is…)',형용사:'형용사: 명사의 모양·상태를 꾸미거나 설명 (big, happy…)',부사:'부사: 동사·형용사·다른 부사를 꾸밈 (fast, very, slowly…)',전치사:'전치사: 명사 앞에서 위치·시간을 나타냄 (in, on, under…)',접속사:'접속사: 말과 말을 이어 줌 (and, but, or, so, because)',감탄사:'감탄사: 놀람·기쁨 등을 나타냄 (Wow, Oh, Oops)'};
+const TAGS=()=>{const t=RI(1,5);
+ if(t===1){const s=yn()?[R(['Tom','Amy','Minsu']),'n']:[R(['She','He','They','I']),'pr'];const [a,n]=AN();const vb=R(['have','like','want','see']);const v=s[0]==='She'||s[0]==='He'||s[1]==='n'?vb==='have'?'has':vb+'s':vb;return [[s[0],s[1]],[v,'v'],[art(a[0]),null],[a[0],'a'],[n[0],'n']];}
+ if(t===2){const s=yn()?[R(['Tom','Amy','My dog']),'n']:[R(['She','He']),'pr'];const v=R([['runs','fast'],['sings','well'],['walks','slowly'],['speaks','quietly'],['swims','fast']]);const very=yn();return [[s[0],s[1]],[v[0],'v']].concat(very?[['very','ad']]:[]).concat([[v[1],'ad']]);}
+ if(t===3){const a=R(PA),b=R(PB),p=R(['on','under','in','behind']);return [['The',null],[a[0],'n'],['is','v'],[p,'p'],['the',null],[b[0],'n']];}
+ if(t===4){const c=R([[['I','pr'],['like','v'],['apples','n'],['and','c'],['bananas','n']],[['I','pr'],['am','v'],['tired','a'],['but','c'],['happy','a']],[['Is','v'],['it','pr'],['red','a'],['or','c'],['blue','a']],[['He','pr'],['was','v'],['sick','a'],['so','c'],['he','pr'],['stayed','v'],['home','ad']]]);return c;}
+ const [a,n]=AN();return [[R(['Wow','Oh']),'i'],['the',null],[n[0],'n'],['is','v'],['very','ad'],[a[0],'a']];};
+const PHR=[['I go to school ⟦in the morning⟧.','구'],['The cat is ⟦on the table⟧.','구'],['I want ⟦to play soccer⟧.','구'],['⟦My little brother⟧ is five.','구'],['He runs ⟦very fast⟧.','구'],['We play ⟦after school⟧.','구'],['She has ⟦a big red apple⟧.','구'],['They are ⟦at the park⟧.','구'],['I stayed home ⟦because I was sick⟧.','절'],['⟦When I was young⟧, I lived in Seoul.','절'],['I know ⟦that she is kind⟧.','절'],['⟦If it rains tomorrow⟧, we will stay home.','절'],['I was happy ⟦when I saw my dog⟧.','절'],['⟦After I ate lunch⟧, I played outside.','절'],['I think ⟦he is right⟧.','절'],['Wash your hands ⟦before you eat⟧.','절']];
+add(3,'문장의 구성 요소','품사, 구와 절',
+ ['품사 8가지: 명사, 대명사, 동사, 형용사, 부사, 전치사, 접속사, 감탄사','구: 두 단어 이상이 모여 한 덩어리로 쓰이지만 〈주어 + 동사〉가 없어요 → in the morning, to play soccer','절: 〈주어 + 동사〉가 들어 있는 덩어리 → because I was sick, when I was young'],[
+ ()=>{const t=TAGS(),c=t.filter(x=>x[1]),w=R(c),ans=POSN[w[1]];const q=t.map(x=>x===w?`⟦${x[0]}⟧`:x[0]).join(' ').replace(/^(\S+) /,(m,a)=>/^(Wow|Oh)$/.test(a)?a+', ':m)+(t[0][0]==='Is'?'?':'.');const wr=RN(Object.values(POSN).filter(x=>x!==ans),3);return P('밑줄 친 단어의 품사는?',ans,wr,POSX[ans],q);},
+ ()=>{const t=TAGS(),c=t.filter(x=>x[1]),w=R(c),ans=POSN[w[1]];const q=t.map(x=>x===w?`⟦${x[0]}⟧`:x[0]).join(' ').replace(/^(\S+) /,(m,a)=>/^(Wow|Oh)$/.test(a)?a+', ':m)+(t[0][0]==='Is'?'?':'.');const wr=RN(Object.values(POSN).filter(x=>x!==ans),3);return P('밑줄 친 단어의 품사는?',ans,wr,POSX[ans],q);},
+ ()=>{const p=R(PHR);return {...P('밑줄 친 부분은 구일까요, 절일까요?',p[1],[p[1]==='구'?'절':'구'],p[1]==='절'?'〈주어 + 동사〉가 들어 있으니 절이에요.':'〈주어 + 동사〉가 없으니 구예요.',p[0])};},
+ ()=>{const ok=R(PHR.filter(x=>x[1]==='절')),wr=RN(PHR.filter(x=>x[1]==='구'),3);const ch=x=>x[0].match(/⟦(.+)⟧/)[1];return P('〈주어 + 동사〉가 들어 있는 ‘절’은?',ch(ok),wr.map(ch),'절은 주어와 동사를 갖춘 덩어리예요.');},
+ ()=>{const k=R(Object.keys(POSX));const ex={명사:['cat','Seoul','water'],대명사:['she','they','it'],동사:['run','eat','is'],형용사:['big','happy','red'],부사:['fast','very','slowly'],전치사:['on','under','in'],접속사:['and','but','because'],감탄사:['Wow','Oh','Oops']};const ok=R(ex[k]),wr=RN(Object.keys(ex).filter(x=>x!==k).map(x=>R(ex[x])),3);return P(`${k}를 고르세요.`.replace('명사를','명사를'),ok,wr,POSX[k]);},
+]);
+
+return {ST,R,SH};
+})();
+
+
+/* =========================================================
+   영문법 — 기적의 초등 영문법 1~3권 45단계
+   · 하루 6문제 (부모 메뉴에서 바꿀 수 있어요)
+   · 단계를 처음 시작하면 문제 아래 💡 힌트가 보여요
+   · 80% 넘게 맞힌 날이 2번 → 힌트 숨김(버튼으로 열 수 있어요), 3번 → 다음 단계
+   · 절반도 못 맞힌 날 → 힌트가 다시 켜져요
+   ========================================================= */
+const GN=GR.ST.length, G_HIDE=2, G_UP=3;
+function gr(){ const g=S.gr||(S.gr={st:1,max:1,n:10,good:{},hint:{},day:'',log:[],miss:[],v2:1}); g.good=g.good||{}; g.hint=g.hint||{}; g.log=g.log||[]; g.miss=g.miss||[]; if(!g.v2){ g.v2=1; g.n=10; } g.n=10; return g; }
+const gHintOn=st=>gr().hint[st]!==false;
+const gStage=i=>GR.ST[i-1];
+/* 책 위치: 기적의 초등 영문법 N권 Chapter c Unit u */
+const GBOOK=(()=>{ const out=[null]; let b=0,ch='',c=0,u=0; GR.ST.forEach(s=>{ if(s.b!==b){ b=s.b; c=0; ch=''; } if(s.ch!==ch){ ch=s.ch; c++; u=0; } u++; out.push({b,c,u}); }); return out; })();
+const gBook=i=>{ const x=GBOOK[i]; return `기적의 초등 영문법 ${x.b}권 · Chapter ${x.c} · Unit ${x.u}`; };
+const gBookS=i=>{ const x=GBOOK[i]; return `${x.b}권 Ch.${x.c} Unit ${x.u}`; };
+let GQ=null;
+/* =========================================================
+   하루 10문제 = 오늘의 개념 6 + 복습 4
+   · 하루에 개념 하나만: 규칙 카드(설명 + 예문) → 고르기(알아보기) → 빈칸(떠올리기) → 틀린 곳 → 문장 만들기 순서
+   · 복습 4: 어제 개념 1 · 며칠 전 개념 1 · 오래전 개념 1 · 틀렸던 개념 1 (간격을 두고 다시 꺼내 보기)
+   · 같은 개념을 잘 맞힌 날(6문제 중 5개 이상)이 3번 쌓이면 다음 개념으로 — 천천히, 확실하게
+   ========================================================= */
+const G_CN=6, G_RN=4, gRI=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function gPool(s,n){ const out=[], seen=new Set(); let g=0;
+  while(out.length<n && g++<n*8){ let q; try{ q=GR.R(gStage(s).g)(); }catch(e){ continue; }
+    const key=q.t+q.q+q.a+(q.k||''); if(seen.has(key)) continue; seen.add(key); q.st=s; out.push(q); }
+  return out; }
+function gConcept(st,n){ const pool=GR.SH(gPool(st,50)), order=['p','p','c','c','f','o','c','p','c','f'].slice(0,n), out=[];
+  order.forEach(t=>{ let i=pool.findIndex(q=>q.t===t); if(i<0) i=pool.findIndex(q=>q.t==='c'||q.t==='p'); if(i<0) i=0; if(pool[i]) out.push(pool.splice(i,1)[0]); });
+  return out; }
+function gReviewStages(st){ const g=gr(); if(st<=1) return [];
+  const miss=(g.miss||[]).filter(x=>x<st), out=[st-1];
+  out.push(st>2?gRI(Math.max(1,st-4),st-2):st-1);
+  out.push(st>5?gRI(1,st-5):gRI(1,st-1));
+  out.push(miss.length?miss[0]:gRI(1,st-1));
+  return out; }
+function gMake(st){
+  const rs=gReviewStages(st), con=gConcept(st,rs.length?G_CN:G_CN+G_RN), seen=new Set(con.map(q=>q.t+q.q+q.a)), rev=[];
+  rs.forEach(s=>{ const c=GR.SH(gPool(s,12)).filter(q=>!seen.has(q.t+q.q+q.a)); const q=c.find(q=>q.t!=='o')||c[0]; if(q){ q.rv=1; seen.add(q.t+q.q+q.a); rev.push(q); } });
+  return con.concat(GR.SH(rev));
+}
+/* 오늘의 개념 카드 예문 (빈칸 자리를 채워서 밑줄로 보여 줘요) */
+function gExamples(st){ const ex=[], seen=new Set();
+  for(let i=0;i<80&&ex.length<3;i++){ let q; try{ q=GR.R(gStage(st).g)(); }catch(e){ continue; } let en=null;
+    if(q.t==='c'&&q.q&&q.q.includes('___')&&!/[가-힣]/.test(q.a)) en=q.q.replace('___','⟦'+q.a+'⟧');
+    else if(q.t==='f'&&q.w&&q.fx) en=q.q.replace(new RegExp('(^|\\s)'+q.w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?=[\\s.?!,]|$)'),'$1⟦'+q.fx+'⟧');
+    else if(q.t==='o') en=q.a;
+    if(en&&!/[가-힣]/.test(en)&&!seen.has(en)){ seen.add(en); ex.push({en,k:q.k||''}); } }
+  return ex; }
+function rGcard(){
+  const g=gr(), st=(ctx&&ctx.st)||g.st, cur=gStage(st), ex=gExamples(st); GX=ex;
+  app.innerHTML=topbar()+`<div class="qwrap"><div class="panel gc-card">
+    <div class="gc-h">📌 오늘의 개념 <span class="muted">· ${st}단계 · 📘 ${esc(gBookS(st))}</span></div>
+    <div class="h2 gc-t">${esc(cur.t)}</div>
+    <ul class="gc-rule">${cur.c.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+    <div class="gc-exh">👀 예문을 듣고 밑줄 친 곳을 잘 봐요</div>
+    <div class="gc-ex">${ex.map((e,j)=>`<button class="gc-s" onclick="speak(GX[${j}].en.replace(/[⟦⟧]/g,''))"><span class="en">${gMark(e.en)}</span>${e.k?`<small>${esc(e.k)}</small>`:''}<i>🔊</i></button>`).join('')}</div>
+    <div class="gc-plan">오늘은 <b>이 개념 6문제</b> + <b>지난 개념 복습 4문제</b>예요</div>
+    <div class="gr-acts"><button class="btn y" onclick="gStart(${st},false,true)">알았어요! 문제 풀기 ▶</button></div></div></div>`;
+  if(ex[0]) timers.push(setTimeout(()=>speak(ex[0].en.replace(/[⟦⟧]/g,'')),500));
+}
+let GX=[];
+function gStart(st,practice,fromCard){
+  const g=gr(); st=st||g.st; const pr=!!practice||st!==g.st, first=g.day!==dkey();
+  if(!pr&&first&&!fromCard){ go('gcard',{st}); return; }
+  const items=gMake(st);
+  GQ={st,practice:pr,items,cN:items.filter(q=>!q.rv).length,i:0,score:0,earned:0,combo:0,hint:gHintOn(st),first};
+  go('gquiz');
+}
+const gMark=s=>esc(s).replace(/⟦(.+?)⟧/g,'<u class="gr-u">$1</u>');
+const gBlank=(s,fill,cls)=>gMark(s).replace('___',`<span class="gr-blank ${cls||''}">${fill?esc(fill):'&nbsp;'}</span>`);
+function gScene(p){
+  const pos={in:[['50%','62%',.55,2],['50%','62%',1,1]],on:[['50%','10%',.8,2],['50%','62%',1,1]],under:[['50%','80%',.7,2],['50%','30%',1,1]],
+    'next to':[['74%','56%',.8,2],['30%','56%',1,1]],behind:[['66%','40%',.72,0],['44%','62%',1,1]],'in front of':[['50%','72%',.9,2],['50%','40%',.9,1]]}[p.p];
+  if(p.p==='between') return `<div class="gr-scene"><span style="left:4%;top:30%">${p.b}</span><span style="left:40%;top:36%;font-size:44px">${p.a}</span><span style="left:66%;top:30%">${p.b}</span></div>`;
+  const s=(e,[x,y,sc,z])=>`<span style="left:${x};top:${y};transform:translate(-50%,-50%) scale(${sc});z-index:${z}">${e}</span>`;
+  return `<div class="gr-scene">${s(p.a,pos[0])}${s(p.b,pos[1])}</div>`;
+}
+const GKIND={c:'빈칸 채우기',p:'알맞은 것 고르기',f:'틀린 곳 찾기',o:'문장 만들기'};
+function rGram(){
+  const g=gr(), cur=gStage(g.st), done=g.day===dkey(), good=g.good[g.st]||0;
+  let lb=0, lc='', list='';
+  GR.ST.forEach((s,i)=>{ const n=i+1;
+    if(s.b!==lb){ lb=s.b; lc=''; list+=`<div class="gr-book">📘 ${s.b}권</div>`; }
+    if(s.ch!==lc){ lc=s.ch; list+=`<div class="gr-chap">${esc(s.ch)}</div>`; }
+    const st=n<g.st||n<=g.max&&n!==g.st?'done':n===g.st?'now':'lock';
+    list+=`<button class="gr-st ${st}" ${st==='lock'?'disabled':''} onclick="gStart(${n},true)"><span class="n en">${n}</span><span class="t">${esc(s.t)}<small class="gr-bks">📘 ${gBookS(n)}</small></span><span class="m">${st==='done'?'✅ 다시 풀기':st==='now'?'📍 지금':'🔒'}</span></button>`; });
+  app.innerHTML=topbar()+`<div class="gr-wrap">
+    <div class="panel gr-now">
+      <div class="gr-eye"><b class="en">${g.st}</b> / ${GN}단계 · ${esc(cur.ch)}</div><div class="gr-bk">📘 ${gBook(g.st)}</div>
+      <div class="h2">${esc(cur.t)}</div>
+      <div class="gr-concept"><div class="gr-ct">📖 오늘 배울 규칙</div><ul>${cur.c.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+      <div class="gr-prog"><span>잘 맞힌 날(6문제 중 5개 이상)</span>${Array.from({length:G_UP},(_,k)=>`<i class="${k<good?'on':''}"></i>`).join('')}<span class="muted">${gHintOn(g.st)?`💡 힌트 켜짐 · 잘 맞힌 날 ${Math.max(0,G_HIDE-good)}번 더 → 힌트 없이 도전`:'💪 힌트 없이 도전 중 (필요하면 힌트 버튼)'}</span></div>
+      <div class="gr-star-rule">⭐ 별 많이 받는 법: 힌트 없이 맞히면 3개 · 힌트 보고 맞히면 2개 · 3연속 정답 +2 · 오늘 영문법 끝 +3 · 다 맞히면 +5 · 틀린 문제 다시 맞히면 +2 · 다음 단계 열리면 +10</div>
+      <div class="gr-acts"><button class="btn y" onclick="gStart()">${done?'✏️ 한 번 더 연습하기':'✏️ 오늘의 영문법 시작 (개념 6 + 복습 4)'}</button><button class="btn w" onclick="go('gcard',{st:${g.st}})">📌 개념 카드 보기</button>${done?'<span class="muted">오늘 영문법 끝! 연습은 별 없이 할 수 있어요</span>':''}</div>
+    </div>
+    <div class="panel gr-list"><div class="h2" style="font-size:24px;margin-bottom:6px">전체 단계</div>${list}<div class="legal">비공식 · 개인 제작 앱이에요. 영문법 단계 순서는 「기적의 초등 영문법」을 참고만 했고, 문제는 모두 직접 만들었어요. 교재의 문제를 옮겨 쓰지 않았어요. 교재의 권리는 해당 출판사에 있으며, 이 앱과는 관계가 없어요. 문제 그림: OpenMoji (CC BY-SA 4.0)</div></div>
+  </div>`;
+}
+function gHintHTML(q){
+  const s=gStage(q.st);
+  return `<div class="gr-hint"><b>💡 힌트</b><ul>${s.c.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`;
+}
+function rGquiz(){
+  const it=GQ.items[GQ.i], q=it;
+  const head=`<div class="topbar"><button class="back" onclick="gQuit()">← 그만하기</button><div class="spacer"></div>
+    <div class="gr-dots">${GQ.items.map((x,k)=>`${k===GQ.cN&&x.rv?'<b class="gr-sep"></b>':''}<i class="${x.rv?'rv ':''}${k<GQ.i?(GQ.items[k].ok?'ok':'no'):k===GQ.i?'now':''}"></i>`).join('')}</div><div class="spacer"></div>
+    <div class="pill" id="starPill"><span>⭐</span><b>${S.stars}</b></div></div>`;
+  let body='';
+  const ans=q.done;
+  if(q.t==='c'||q.t==='p'){
+    const kr=q.o.some(o=>/[가-힣]/.test(o));
+    body=`${q.pic?gScene(q.pic):''}${q.q?`<div class="gr-sent ${q.t==='c'?'en':''}">${q.t==='c'?gBlank(q.q,ans?q.a:'',ans?(q.ok?'ok':'fix'):''):gMark(q.q)}</div>`:''}${q.k&&q.t==='c'?`<div class="sentk">${esc(q.k)}</div>`:''}
+      <div class="gr-opts">${q.o.map((o,j)=>`<button class="gr-opt ${kr?'':'en'} ${ans?(o===q.a?'ok':j===q.pick?'no':'dim'):''}" ${ans?'disabled':''} onclick="gAns(${j})">${esc(o)}</button>`).join('')}</div>`;
+  }else if(q.t==='f'){
+    const toks=q.q.split(' ');
+    body=`<div class="gr-toks en">${toks.map((w,j)=>{ const cl=w.replace(/[.?!,]/g,''); return `<button class="gr-tk ${ans?(cl===q.w?'ok':j===q.pick?'no':''):''}" ${ans?'disabled':''} onclick="gTok(${j})">${esc(w)}</button>`; }).join('')}</div>`;
+  }else{
+    q.picked=q.picked||[];
+    body=`<div class="sentk" style="font-size:24px;color:var(--ink)">${esc(q.k)}</div>
+      <div class="gr-line en">${q.picked.length?q.picked.map((j,n)=>`<button class="gr-chip ${ans?(q.ok?'ok':'bad'):''}" ${ans?'disabled':''} onclick="gUnpick(${n})">${esc(q.words[j])}</button>`).join('')+(q.picked.length===q.words.length?`<span>${esc(q.end)}</span>`:''):'<span class="muted" style="font-size:18px">아래 단어를 순서대로 눌러요</span>'}</div>
+      <div class="gr-opts en">${q.words.map((w,j)=>`<button class="gr-chip ${q.picked.includes(j)?'used':''}" ${ans?'disabled':''} onclick="gPick(${j})">${esc(w)}</button>`).join('')}</div>`;
+  }
+  const hint=!ans?((GQ.hint&&!q.rv)||q.showHint?gHintHTML(q):`<button class="btn w sm gr-hb" onclick="GQ.items[GQ.i].showHint=1;rGquiz()">💡 힌트 보기</button>`):'';
+  const fb=ans?`<div class="gr-fb ${q.ok?'ok':'no'}"><div class="gr-fbt">${q.ok?pick(['딩동댕! 🎉','정답! 👏',`최고야, ${JA()}! ✨`]):'괜찮아, 이렇게 기억하자 🤗'}${q.gain?` <span class="gr-gain">⭐ +${q.gain}</span>`:''}${q.combo?` <span class="gr-gain">🔥 ${q.combo}연속!</span>`:''}</div>
+      ${q.t==='f'?`<div class="en gr-fx">${esc(q.w)} → ${esc(q.fx)}</div>`:q.t==='o'&&!q.ok?`<div class="en gr-fx">${esc(q.a)}</div>`:(!q.ok&&q.t!=='o')?`<div class="gr-fx">정답: <b class="${/[가-힣]/.test(q.a)?'':'en'}">${esc(q.a)}</b></div>`:''}
+      <div class="gr-x">${esc(q.x)}</div>${q.k&&q.t==='p'?`<div class="sentk">${esc(q.k)}</div>`:''}
+      <button class="btn ${q.ok?'m':''}" onclick="gNext()">${GQ.i<GQ.items.length-1?'다음 ▶':'결과 보기 ▶'}</button></div>`:'';
+  app.innerHTML=head+`<div class="qwrap"><div class="qcard gr-card"><span class="gr-kind ${q.rv?'rv':''}">${q.rv?`🔁 복습 · ${esc(gStage(q.st).t)}`:`📌 오늘의 개념 · ${GKIND[q.t]}`}</span><div class="ask">${esc(q.ins)}</div>${body}</div>${hint}${fb}</div>`;
+}
+function gResult(ok){
+  const q=GQ.items[GQ.i]; q.done=true; q.ok=ok;
+  if(ok){ GQ.score++; GQ.combo++;
+    if(GQ.retry){ q.gain=2; }
+    else if(!GQ.practice&&GQ.first){ q.gain=(GQ.hint||q.showHint)?2:3; if(GQ.combo%3===0){ q.gain+=2; q.combo=GQ.combo; } }
+    if(q.gain){ addStars(q.gain); GQ.earned+=q.gain; }
+    sfx.ok(); buzz(30); }
+  else { GQ.combo=0; sfx.no(); buzz(120); }
+  if(!GQ.practice&&!GQ.retry){ const g=gr(); if(!ok){ g.miss=[q.st].concat(g.miss.filter(x=>x!==q.st)).slice(0,8); } else if(q.rv){ g.miss=g.miss.filter(x=>x!==q.st); } }
+  save(); rGquiz();
+  const say=q.t==='c'?q.q.replace('___',q.a):q.t==='o'?q.a:q.t==='f'?q.q.replace(new RegExp('(^|\\s)'+q.w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?=[\\s.?!,]|$)'),'$1'+q.fx):'';
+  if(say && !/[가-힣()]/.test(say)) timers.push(setTimeout(()=>speak(say),300));
+}
+function gAns(j){ const q=GQ.items[GQ.i]; if(q.done) return; q.pick=j; gResult(q.o[j]===q.a); }
+function gTok(j){ const q=GQ.items[GQ.i]; if(q.done) return; q.pick=j; gResult(q.q.split(' ')[j].replace(/[.?!,]/g,'')===q.w); }
+function gPick(j){ const q=GQ.items[GQ.i]; if(q.done||q.picked.includes(j)) return; q.picked.push(j); sfx.tap&&sfx.tap();
+  if(q.picked.length===q.words.length){ const made=q.picked.map(k=>q.words[k]).join(' ')+q.end; gResult(made===q.a); } else rGquiz(); }
+function gUnpick(n){ const q=GQ.items[GQ.i]; if(q.done) return; q.picked.splice(n,1); rGquiz(); }
+function gNext(){ clearTimers(); GQ.i++; if(GQ.i>=GQ.items.length) return gFinish(); rGquiz(); window.scrollTo(0,0); }
+function gQuit(){ go('gram'); }
+function gRetry(){ const miss=GQ.items.filter(q=>!q.ok).map(q=>{ const c=Object.assign({},q); delete c.done; delete c.ok; delete c.pick; delete c.gain; delete c.combo; c.picked=[]; c.showHint=1; return c; });
+  GQ=Object.assign({},GQ,{items:miss,i:0,score:0,earned:0,combo:0,retry:true,retried:true}); go('gquiz'); }
+function gFinish(){
+  const g=gr(), n=GQ.items.length, cItems=GQ.items.filter(q=>!q.rv), rItems=GQ.items.filter(q=>q.rv), cOk=cItems.filter(q=>q.ok).length, rOk=rItems.filter(q=>q.ok).length, pct=cItems.length?cOk/cItems.length:GQ.score/n; let msg=[];
+  if(!GQ.retry&&rItems.length) msg.push(`📌 오늘의 개념 ${cOk}/${cItems.length} · 🔁 복습 ${rOk}/${rItems.length}`);
+  if(GQ.retry){ msg.push(GQ.score?`틀렸던 문제 ${GQ.score}개를 다시 맞혔어요! ⭐ +${GQ.earned}`:'다음에 다시 도전해 보자!'); GQ.missN=0; }
+  else if(!GQ.practice && GQ.first){
+    g.day=dkey(); const st=GQ.st;
+    addStars(3); GQ.earned+=3; msg.push('✏️ 오늘의 영문법 완료 보너스 ⭐3');
+    if(GQ.score===n){ addStars(5); GQ.earned+=5; msg.push('💯 다 맞혀서 보너스 ⭐5'); }
+    if(pct>=.8){ g.good[st]=(g.good[st]||0)+1;  /* 6문제 중 5개 이상 */
+      if(g.good[st]>=G_UP && st<GN){ g.st=st+1; g.max=Math.max(g.max,g.st); g.good[g.st]=0; addStars(10); GQ.earned+=10; msg.push(`🎉 ${st+1}단계 「${gStage(st+1).t}」가 열렸어요! (${gBookS(st+1)}) 단계 올라가기 ⭐10`); GQ.up=1; }
+      else if(g.good[st]>=G_HIDE && gHintOn(st)){ g.hint[st]=false; msg.push('💪 이제 힌트 없이 풀어 봐요! (필요하면 힌트 버튼)'); }
+      else if(g.good[st]<G_UP) msg.push(`잘했어요! 다음 단계까지 ${G_UP-g.good[st]}번 남았어요`); }
+    else if(pct<.5){ g.good[st]=Math.max(0,(g.good[st]||0)-1); if(!gHintOn(st)){ g.hint[st]=true; msg.push('💡 힌트를 다시 켜 줄게요. 천천히 해 봐요'); } else msg.push('어려웠지? 내일 다시 해 보자!'); }
+    else msg.push('좋아요! 조금만 더 맞히면 별 동그라미가 채워져요');
+    g.log.unshift({d:Date.now(),st,score:GQ.score,n}); g.log=g.log.slice(0,200);
+  } else msg.push('연습 끝! 오늘 공부는 이미 했어요');
+  save();
+  const missN=GQ.retry?0:GQ.items.filter(q=>!q.ok).length, canRetry=missN&&!GQ.retried&&!GQ.practice;
+  app.innerHTML=topbar()+`<div class="qwrap"><div class="panel gr-done">${sticker(120)}
+    <div class="h2">영문법 ${GQ.score} / ${n} 맞혔어요!</div><div class="gr-stars">${'⭐'.repeat(GQ.earned)||'🌱'}</div>
+    ${msg.map(m=>`<div class="gr-msg">${esc(m)}</div>`).join('')}
+    ${canRetry?`<div class="gr-msg">틀린 문제 ${missN}개를 다시 풀면 하나에 ⭐2씩 더 받아요!</div>`:''}
+    <div class="gr-acts">${canRetry?`<button class="btn" onclick="gRetry()">🔁 틀린 문제 다시 풀기</button>`:''}<button class="btn y" onclick="go('gram')">영문법 화면으로</button><button class="btn w" onclick="go('village')">🏡 마을 가기</button></div></div></div>`;
+  if(GQ.up) burst(60); else if(GQ.score===n) burst(30);
+  const pill=$('#starPill b'); if(pill) pill.textContent=S.stars;
+}
+
 function clearTimers(){ timers.forEach(clearTimeout); timers=[]; }
 function go(v, c){
   clearTimers(); hideSheet(); closeModal(); closeNameBox();
@@ -2517,18 +3845,19 @@ function go(v, c){
 }
 function render(){
   ({setup:rSetup, home:rHome, village:rVillage, theme:rTheme, card:rCard, quiz:rQuiz, result:rResult,
-    rewards:rRewards, wrong:rWrong, records:rRecords, parent:rParent})[view]();
+    rewards:rRewards, wrong:rWrong, records:rRecords, parent:rParent, gram:rGram, gquiz:rGquiz, gcard:rGcard})[view]();
 }
 window.appBack=function(){
   if($('.modal')){ closeModal(); return true; }
   if($('.namebox')){ closeNameBox(); return true; }
   if(view==='home'||view==='setup') return false;
+  if(view==='gquiz'||view==='gcard'){ go('gram'); return true; }
   if(view==='card'||view==='quiz'||view==='result'){ ctx.theme ? go('theme',{id:ctx.theme}) : go(ctx.from||'home'); return true; }
   go('home'); return true;
 };
 function topbar(){
   const w=wrongList().length;
-  const tabs=[['home','🧭','탐험'],['village','🏡','마을'],['wrong','📒','오답노트'],['rewards','🎁','선물'],['records','📊','기록']];
+  const tabs=[['home','🧭','탐험'],['gram','✏️','영문법'],['village','🏡','마을'],['wrong','📒','오답노트'],['rewards','🎁','선물'],['records','📊','기록']];
   return `<div class="topbar">${logo()}
     <nav class="tabs">${tabs.map(([v,i,t])=>`<button class="${view===v?'on':''}" onclick="go('${v}')"><span class="ic">${i}</span><span class="tx">${t}</span>${v==='wrong'&&w?`<span class="badge">${w}</span>`:''}</button>`).join('')}</nav>
     <div class="spacer"></div>
@@ -2542,7 +3871,7 @@ function smallbar(backHTML){ return `<div class="topbar">${backHTML}<div class="
 function rSetup(){
   app.innerHTML=`<div class="setup">${logo()}
     <div class="title">안녕! 반가워 👋</div>
-    <div class="sub">단어 마을 친구의 이름을 알려 주세요.</div>
+    <div class="sub">오늘단어를 함께할 친구의 이름을 알려 주세요.</div>
     <input class="wish nmin" id="nmIn" maxlength="10" placeholder="이름 (예: 지아)" value="${esc(S.name||'')}" oninput="S.name=this.value.trim();save()" onkeydown="if(event.key==='Enter')this.blur()">
     <div class="sub" style="margin-top:6px">얼굴 사진도 고르면 퀴즈와 칭찬 화면에 나와요 (안 골라도 돼요)</div>
     <button class="pickface" onclick="pickPhoto()">${S.photo?`<img src="${S.photo}" alt="">`:`<div><div class="cam">📷</div>사진 고르기</div>`}</button>
@@ -2565,7 +3894,7 @@ $('#photoInput').addEventListener('change',e=>{
       const cv=document.createElement('canvas'); cv.width=cv.height=420;
       cv.getContext('2d').drawImage(img,sx,Math.max(0,sy),side,side,0,0,420,420);
       const first=!S.photo; S.photo=cv.toDataURL('image/jpeg',.86); save();
-      if(view==='setup'){ render(); } else { toast('사진을 바꿨어요'); render(); }
+      if(first&&S.name&&view!=='setup'){ burst(50); sfx.win(); go('home'); } else { toast('사진을 바꿨어요'); render(); }
     };
     img.src=r.result;
   };
@@ -2577,7 +3906,7 @@ function greeting(){
   const D=daily(), h=new Date().getHours(), n=D.done.length;
   if(n>=D.words.length) return `오늘 단어 20개 끝! ${NI()} 정말 멋져 🌟`;
   if(n>0) return `오늘 단어 ${n}개 잡았어! ${D.words.length-n}개만 더 가 보자`;
-  if(h<12) return `좋은 아침, ${NA()}! 오늘 단어 20개 같이 잡아 보자!`;
+  if(h<12) return `좋은 아침, ${JA()}! 오늘 단어 20개 같이 잡아 보자!`;
   if(h<18) return '학교 다녀왔어? 오늘 단어 20개 시작해 볼까?';
   return '자기 전에 오늘 단어 20개 어때?';
 }
@@ -2586,7 +3915,7 @@ function wordProgress(){
   const pct=Math.floor(studied/tot*100), left=tot-studied, days=Math.ceil(left/DAILY_NEW);
   const cheer = studied===0 ? '첫 단어부터 시작해 볼까? 오늘의 단어 20개면 금방이야! 💪'
     : pct<10 ? `시작이 반이야! 벌써 ${studied}개나 만났어 🌱`
-    : pct<25 ? `좋아, ${NA()}! 이 속도면 약 ${days}일 뒤에 모든 단어를 만나! 🚀`
+    : pct<25 ? `좋아, ${JA()}! 이 속도면 약 ${days}일 뒤에 모든 단어를 만나! 🚀`
     : pct<50 ? `우와, 벌써 ${pct}%! 절반까지 ${Math.ceil(tot/2)-studied}개 남았어 ✨`
     : pct<75 ? `절반 넘었어! ${NI()} 영어 실력이 쑥쑥 크고 있어 🌟`
     : left>0 ? `거의 다 왔어! ${left}개만 더 하면 모든 단어를 다 만나! 👑`
@@ -2855,7 +4184,7 @@ function popFace(){
 function showSheet(ok,x){
   $('#sheet').className='sheet '+(ok?'ok':'no');
   $('#sheetIn').innerHTML=`<div style="font-size:62px">${ok?'🎉':'🤗'}</div>
-    <div style="min-width:0"><div class="msg">${ok?pick(PRAISE_F()):`괜찮아, ${NA()}! 이렇게 기억하자`}</div>
+    <div style="min-width:0"><div class="msg">${ok?pick(PRAISE()):`괜찮아, ${JA()}! 이렇게 기억하자`}</div>
       <div class="ans"><span class="en">${x.w}</span> = ${x.k} ${x.e}</div>
       <div class="ex"><span class="en">${esc(x.ex)}</span><br>${x.exk}</div></div>
     <button class="btn ${ok?'m':''} go" onclick="nextQ()">${Q.i<Q.items.length-1?'다음 ▶':'결과 보기 ▶'}</button>`;
@@ -2960,7 +4289,7 @@ function checkSpell(){
 function rResult(){
   const n=Q.items.length, s=Q.score, r=s/n;
   const medal=r===1?'👑':r>=.8?'🥇':r>=.6?'🥈':'🌱';
-  const title=r===1?`만점이야, ${NA()}!`:r>=.8?'정말 잘했어!':r>=.6?'좋아, 조금만 더!':'괜찮아, 다시 해 보자!';
+  const title=r===1?`만점이야, ${JA()}!`:r>=.8?'정말 잘했어!':r>=.6?'좋아, 조금만 더!':'괜찮아, 다시 해 보자!';
   const missed=[...new Set(Q.missed)];
   const D=daily(), dailyLine = Q.mode==='daily' ? `<div class="bonus">오늘의 단어 ${D.done.length} / ${D.words.length} 완료</div>` : '';
   app.innerHTML = smallbar('') + `<div class="result">
@@ -3016,7 +4345,7 @@ function checkRewards(){
   const r=S.rewards.slice().sort((a,b)=>a.at-b.at).find(r=>S.stars>=r.at&&!r.seen);
   if(!r) return false;
   r.seen=true; save(); sfx.win(); burst(80);
-  modal(`${sticker(160,'🎁')}<div class="mt">⭐${r.at}개 달성!<br>${r.wish?`${NI()}의 선물: ${esc(r.wish)}`:'선물 받을 자격이 생겼어요!'}</div>
+  modal(`${sticker(160,'🎁')}<div class="mt">⭐${r.at}개 달성!<br>${r.wish?`${esc(NI())}의 선물: ${esc(r.wish)}`:'선물 받을 자격이 생겼어요!'}</div>
     <div class="md">엄마 아빠에게 보여 드리자 💌</div>
     <div class="acts"><button class="btn" onclick="closeModal();go('rewards')">선물 보러 가기</button><button class="btn w" onclick="closeModal();afterLand()">닫기</button></div>`);
   return true;
@@ -3105,9 +4434,11 @@ function rParent(){
       <div class="en" style="font-size:23px;width:90px">⭐${r.at}</div>
       <input class="wish" id="pw${i}" style="flex:1;height:50px;font-size:20px" maxlength="40" placeholder="선물 이름" value="${esc(r.wish)}" onchange="S.rewards[${i}].wish=this.value.trim();save()">
       <div class="pa">${r.got?`<button class="btn w sm" onclick="S.rewards[${i}].got=false;save();render()">받음 취소</button>`:''}<button class="btn w sm" onclick="delGoal(${i})">삭제</button></div></div>`}).join('')}
+    <div class="prow"><div><div class="pt">영문법</div><div class="pd">지금 ${gr().st}단계 「${esc(gStage(gr().st).t)}」 (📘 ${gBook(gr().st)}) · 하루 10문제 (오늘의 개념 6 + 복습 4) · 힌트 ${gHintOn(gr().st)?'켜짐':'꺼짐'}</div></div>
+      <div class="pa"><button class="btn w sm" onclick="gSet(-1)">단계 −</button><button class="btn w sm" onclick="gSet(1)">단계 ＋</button><button class="btn w sm" onclick="gr().hint[gr().st]=true;save();render()">힌트 켜기</button><button class="btn w sm" onclick="gr().day='';save();toast('오늘 영문법을 다시 열었어요');render()">오늘 한 번 더</button></div></div>
     <div class="prow"><div><div class="pt">별 조정</div><div class="pd">지금까지 모은 별 ⭐${S.stars}개 · 상점에서 쓴 별 ${S.spent||0}개 · 남은 별 ${wallet()}개<br>잘못 쌓였을 때 고쳐 주세요 (선물 목표는 모은 별 기준)</div></div>
       <div class="pa"><button class="btn w sm" onclick="adjStars(-10)">−10</button><button class="btn w sm" onclick="adjStars(10)">＋10</button></div></div>
-    <div class="prow"><div><div class="pt">백업</div><div class="pd">기록·사진·별·마을을 파일로 저장하거나 다시 불러와요 (태블릿을 바꿀 때)</div></div>
+    <div class="legal">비공식 · 개인 제작 앱이에요. 영문법 단계 순서는 「기적의 초등 영문법」을 참고만 했고, 문제는 모두 직접 만들었어요. 교재의 문제를 옮겨 쓰지 않았어요. 교재의 권리는 해당 출판사에 있으며, 이 앱과는 관계가 없어요. 문제 그림: OpenMoji (CC BY-SA 4.0)</div><div class="prow"><div><div class="pt">백업</div><div class="pd">기록·사진·별·마을을 파일로 저장하거나 다시 불러와요 (태블릿을 바꿀 때)</div></div>
       <div class="pa"><button class="btn s sm" onclick="exportBackup()">💾 백업 저장</button><button class="btn w sm" onclick="$('#backupInput').value='';$('#backupInput').click()">📂 불러오기</button></div></div>
     <div class="prow"><div><div class="pt">비밀번호 바꾸기</div><div class="pd">새 4자리 숫자로 바꿔요</div></div>
       <div class="pa"><button class="btn w sm" onclick="S.pin=null;save();askPin(()=>go('parent'))">바꾸기</button></div></div>
@@ -3115,6 +4446,8 @@ function rParent(){
       <div class="pa"><button class="btn sm" onclick="resetAll()">기록 지우기</button></div></div>
   </div>`;
 }
+function gSet(d){ const g=gr(); g.st=Math.max(1,Math.min(GN,g.st+d)); g.max=Math.max(g.max,g.st); save(); render(); }
+function gN(d){ const g=gr(); g.n=Math.max(3,Math.min(12,g.n+d)); save(); render(); }
 function addGoal(){
   const max=Math.max(0,...S.rewards.map(r=>r.at));
   modal(`<div class="mt" style="font-size:28px">새 선물 목표</div><div class="md">별을 몇 개 모으면 받을 선물인가요?</div>
@@ -3141,7 +4474,7 @@ function doReset(){
   S=Object.assign(blank(),keep); save(); closeModal(); toast('기록을 지웠어요'); render();
 }
 function exportBackup(){
-  const j=JSON.stringify(S), name='word-village-backup-'+dkey()+'.json';
+  const j=JSON.stringify(S), name='dayeon-village-backup-'+dkey()+'.json';
   try{ if(HAS_ANDROID && Android.exportBackup){ toast(Android.exportBackup(name,j)||'저장했어요'); return; } }catch(e){}
   const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([j],{type:'application/json'})); a.download=name; a.click();
   toast('백업 파일을 저장했어요');

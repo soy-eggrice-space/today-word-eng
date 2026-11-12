@@ -15,7 +15,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
-        android:label="단어마을"
+        android:label="오늘단어"
         android:hardwareAccelerated="true"
         android:theme="@android:style/Theme.Material.Light.NoActionBar">
 

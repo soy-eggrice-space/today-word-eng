@@ -1,4 +1,4 @@
-name: 모여봐요 단어마을 APK 만들기
+name: 오늘단어 APK 만들기 (친구용 다연공부)
 
 on:
   push:
@@ -60,5 +60,5 @@ jobs:
             --repo "${{ github.repository }}" \
             --target "${{ github.sha }}" \
             --latest=false \
-            --title "모여봐요 단어마을 v1.0.${{ github.run_number }}" \
+            --title "오늘단어 v1.0.${{ github.run_number }}" \
             --notes "태블릿: word-village.apk · 휴대폰: word-village_for_mobile_ver1.0.apk 를 눌러 내려받아 설치하세요. 처음 켜면 이름과 사진을 정해요. 이전 버전 위에 그대로 설치하면 기록이 유지돼요."
