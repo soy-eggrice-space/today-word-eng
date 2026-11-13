@@ -1809,6 +1809,25 @@ html:has(#family:not([hidden]) .kfit) body{margin:0}
 .kfit.port .kf-dash>.fcard:not(.grow-card){gap:4px;padding-top:12px!important;padding-bottom:12px!important}
 .kfit.port .kf-dash>.fcard .fc-title{font-size:30px}
 .kfit.port .kf-dash>.fcard .sc-ico{width:48px;height:48px}
+
+/* 공부 앱 버튼: 뒷배경 없이 '약 먹고 있는 사람'과 같은 카드 */
+.kfit .kf-side .study-card{background:none!important;box-shadow:none!important;outline:none!important;padding:0!important;border-radius:0!important;gap:10px!important;overflow:visible}
+.kfit .kf-side .st-app{flex:1 1 0;min-width:0;align-self:stretch;background:var(--surface)!important;border:0!important;border-radius:36px!important;box-shadow:0 6px 0 rgba(120,90,10,.06)!important;outline:2px dashed var(--line);outline-offset:-9px;padding:10px 12px!important}
+.kfit .kf-side .st-app:active{transform:translateY(2px);box-shadow:0 3px 0 rgba(120,90,10,.06)!important}
+.kfit .kf-side .st-app .st-t b{color:var(--ink)}
+
+/* 친구가 놀러 왔어요 */
+.lanes.n4{grid-template-columns:repeat(4,minmax(0,1fr));--ico:50px;--fs:21px;--chk:34px;--th:74px;--gap:8px;gap:12px}
+@media (max-width:759px){ .lanes.n4{grid-template-columns:1fr} }
+.lane.guest .lane-head{min-height:64px}
+.gst-add{display:flex;gap:8px;align-items:center}
+.gst-add .fld{flex:1;min-width:0}
+.gst-add .btn{flex:none;white-space:nowrap}
+.gst .sc-ico{background:#E6F7EF;color:#2F9C6B}
+.gst-on{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:18px;background:#E6F7EF}
+.gst-t{flex:1;min-width:0;display:flex;flex-direction:column}
+.gst-t b{font:20px var(--f-d);font-weight:400}
+.gst-t small{color:var(--ink-2)}
 </style>
 
 </head>
@@ -1963,7 +1982,8 @@ const ico=(id)=>`<svg class="ic" viewBox="0 0 48 48" aria-hidden="true">${ICONS[
 const ui=(id)=>`<svg class="ui" viewBox="0 0 24 24" aria-hidden="true">${UI[id]}</svg>`;
 const star=(s=18,off=false)=>`<svg class="st${off?' off':''}" viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true"><path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5L12 17.4l-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z"/></svg>`;
 const starRow=(n,s=18,of=0)=>`<span class="stars">${Array.from({length:n},()=>star(s)).join('')}${Array.from({length:of},()=>star(s,true)).join('')}</span>`;
-const avatar=(k,s=56)=>`<span class="ava kid" style="--k:${crayon(k.color)};--s:${s}px"><svg viewBox="0 0 48 48" aria-hidden="true">${ANIMALS[k.animal]||ANIMALS.rabbit}</svg></span>`;
+const GUEST_FACE='<circle class="s" cx="17.5" cy="21" r="2.7"/><circle class="s" cx="30.5" cy="21" r="2.7"/><path d="M16.5 29q7.5 6.5 15 0"/>';
+const avatar=(k,s=56)=>`<span class="ava kid" style="--k:${crayon(k.color)};--s:${s}px"><svg viewBox="0 0 48 48" aria-hidden="true">${k.guest?GUEST_FACE:(ANIMALS[k.animal]||ANIMALS.rabbit)}</svg></span>`;
 const MEDAL={1:'var(--gold)',2:'var(--silver)',3:'var(--bronze)'};
 function medal(r,s=48){return `<svg viewBox="0 0 48 48" width="${s}" height="${s}" aria-hidden="true" style="flex:none"><path d="M14 2h8.5l4.5 16h-8.5z" fill="var(--rib-a)"/><path d="M34 2h-8.5L21 18h8.5z" fill="var(--rib-b)"/><circle cx="24" cy="30.5" r="15" fill="${MEDAL[r]||MEDAL[3]}"/><circle cx="24" cy="30.5" r="11" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="2"/><text x="24" y="37" text-anchor="middle" font-family="Jua, sans-serif" font-size="18" fill="rgba(55,38,0,.78)">${r}</text></svg>`}
 const esc=(s)=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -2099,6 +2119,7 @@ function normalize(s){
   s.log=(s.log&&typeof s.log==='object')?s.log:{};
   for(const d in s.log){ const day=s.log[d]; if(!day||typeof day!=='object'){delete s.log[d];continue}
     for(const r of RIDS){ if(!day[r]) continue; for(const k in day[r]){ const e=day[r][k]; if(!e||typeof e!=='object'){delete day[r][k];continue} e.done=toArr(e.done); } } }
+  { const g=s.guest; s.guest=(g&&typeof g==='object'&&/^\d{4}-\d{2}-\d{2}$/.test(g.d))?{d:g.d,name:(typeof g.name==='string'&&g.name.trim())?g.name.trim().slice(0,8):'친구',like:typeof g.like==='string'?g.like:'',at:Number(g.at)||0}:null; }
   s.bank=(s.bank&&typeof s.bank==='object')?s.bank:{}; for(const k of s.kids) s.bank[k.id]=Math.max(0,Number(s.bank[k.id])||0);
   if(!s.msg||typeof s.msg!=='object') s.msg={v:1,phrases:defaultPhrases()};
   s.msg.v=1; s.msg.defv=Number(s.msg.defv)||1; s.msg.phrases=toArr(s.msg.phrases).filter(p=>p&&typeof p.label==='string');
@@ -2135,7 +2156,7 @@ function normalize(s){
       out[id]={d:v.d,t:v.t.slice(0,20),ic:typeof v.ic==='string'?v.ic:'star',by:String(v.by||''),at:Number(v.at)||0,...(end?{e:end}:{}),...(Array.isArray(v.kids)&&v.kids.length?{kids:v.kids.map(String)}:{})}; }
     s.events=out; }
   { const h=(s.home&&typeof s.home==='object')?s.home:{}, items={}, log={}, dk=/^\d{4}-\d{2}-\d{2}$/, od=new Date(Date.now()-120*864e5), old=`${od.getFullYear()}-${pad(od.getMonth()+1)}-${pad(od.getDate())}`;
-    for(const [id,v] of Object.entries(h.items||{})) if(v&&typeof v.t==='string'&&v.t){ const days=(Array.isArray(v.days)?v.days:Object.values(v.days||{})).map(Number).filter(x=>x>=0&&x<7); if(days.length) items[id]={t:v.t.slice(0,16),n:Math.max(1,Math.min(99,Number(v.n)||1)),u:v.u==='개'?'개':'장',days:[...new Set(days)].sort(),ic:typeof v.ic==='string'?v.ic:'notebook',at:Number(v.at)||0}; }
+    for(const [id,v] of Object.entries(h.items||{})) if(v&&typeof v.t==='string'&&v.t){ const days=(Array.isArray(v.days)?v.days:Object.values(v.days||{})).map(Number).filter(x=>x>=0&&x<7); if(days.length) items[id]={t:v.t.slice(0,16),n:Math.max(1,Math.min(99,Number(v.n)||1)),u:['장','개','페이지','회'].includes(v.u)?v.u:'장',days:[...new Set(days)].sort(),ic:typeof v.ic==='string'?v.ic:'notebook',at:Number(v.at)||0}; }
     for(const [d,L] of Object.entries(h.log||{})) if(dk.test(d)&&d>=old&&L&&typeof L==='object') log[d]={done:(L.done&&typeof L.done==='object')?L.done:{},...(L.ok?{ok:Number(L.ok)||1,stars:Number(L.stars)||0}:{})};
     s.home={...(typeof h.kid==='string'?{kid:h.kid}:{}),items,log}; }
 }
@@ -2151,7 +2172,7 @@ function shareCharsOut(){ try{
   window.Android.shareChars(JSON.stringify(list)); _famSig=sig;
 }catch(e){} }
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
-const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods','chars','piggy','praise','grow','events','home'];
+const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods','chars','piggy','praise','grow','events','home','guest'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
 // 데이터베이스 주소는 앱에 넣고, 가족 공간 코드는 우리집 암호로만 만들어요 (암호는 어디에도 저장하지 않아요)
 const FAMILY_DB=window.__FAMILY_DB||'https://dadada-family-default-rtdb.asia-southeast1.firebasedatabase.app/dadada/';
@@ -2243,7 +2264,7 @@ function applyRemote(path,data,isPatch){
     if(!parts.length){
       if(data==null) return;
       if(isPatch){ for(const k in data){ const pp=k.split('/').filter(Boolean); if(SYNC_KEYS.includes(pp[0])) setIn(S,pp,data[k]); } }
-      else { for(const k of SYNC_KEYS) if(k in data) S[k]=data[k]; if(!('stop' in data)) S.stop=null; }
+      else { for(const k of SYNC_KEYS) if(k in data) S[k]=data[k]; if(!('stop' in data)) S.stop=null; if(!('guest' in data)) S.guest=null; }
       return;
     }
     if(!SYNC_KEYS.includes(parts[0])) return;
@@ -2275,10 +2296,10 @@ async function pollOnce(){
   if(!S.sync) return;
   try{
     const t=todayKey();
-    const [kids,routines,bank,day,msg,piggy,praise,grow,events,home]=await Promise.all(['kids','routines','bank','log/'+t,'msg','piggy','praise','grow','events','home'].map(p=>fetch(ref(p)).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })));
+    const [kids,routines,bank,day,msg,piggy,praise,grow,events,home,guest]=await Promise.all(['kids','routines','bank','log/'+t,'msg','piggy','praise','grow','events','home','guest'].map(p=>fetch(ref(p)).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })));
     setSt('on'); SYNC.last=Date.now();
     if(hasPending()) return;
-    adopt(()=>{ if(kids) S.kids=kids; if(msg) S.msg=msg; if(routines) S.routines=routines; if(bank) S.bank=bank; if(day) S.log[t]=day; else delete S.log[t]; if(piggy) S.piggy=piggy; if(praise) S.praise=praise; if(grow) S.grow=grow; if(events) S.events=events; if(home) S.home=home; });
+    adopt(()=>{ if(kids) S.kids=kids; if(msg) S.msg=msg; if(routines) S.routines=routines; if(bank) S.bank=bank; if(day) S.log[t]=day; else delete S.log[t]; if(piggy) S.piggy=piggy; if(praise) S.praise=praise; if(grow) S.grow=grow; if(events) S.events=events; if(home) S.home=home; S.guest=guest||null; });
   }catch(e){ setSt('err'); }
 }
 async function syncConnect(raw,role=S.role){
@@ -2361,7 +2382,7 @@ prune(); save();
 const kidById=id=>S.kids.find(k=>k.id===id);
 const peek=(rid,kid)=>S.log[todayKey()]?.[rid]?.[kid]||{done:[],rank:null,stars:0};
 function entry(rid,kid){const d=S.log[todayKey()]||(S.log[todayKey()]={});const r=d[rid]||(d[rid]={});return r[kid]||(r[kid]={done:[],rank:null,stars:0});}
-const tasksOf=(rid,kid)=>{const t=todayKey();return (S.routines[rid][kid]||[]).filter(x=>!x.once||x.once===t)};
+const tasksOf=(rid,kid)=>{const t=todayKey();if(kid==='guest') kid=guestLike();return (S.routines[rid]?.[kid]||[]).filter(x=>!x.once||x.once===t)};
 /* 병원 약: 하루 세 번(아침·점심·저녁) 기준으로 며칠치를 세고, 아침·저녁 할 일에 '약 먹기'를 넣어요 */
 const SLOTS=['m','l','e'], SLOT_NAME={m:'아침',l:'점심',e:'저녁'};
 const dayNum=dk=>{const [y,m,d]=dk.split('-').map(Number);return Math.round(Date.UTC(y,m-1,d)/864e5)};
@@ -2427,7 +2448,7 @@ function renderHome(){
   const now=(h>=5&&h<11)?'morning':(h>=17||h<2)?'evening':null;
   const cards=RIDS.map(rid=>{
     const R=ROUT[rid];
-    const kids=S.kids.map(k=>{const st=status(rid,k.id);
+    const kids=runKids().map(k=>{const st=status(rid,k.id);
       return `<span class="rk">${ring(k,st)}<span>${esc(k.name)}</span><small>${st.total?(st.finished?'끝!':st.e.wait?'확인 대기':`${st.done}/${st.total}`):'쉬어요'}</small></span>`}).join('');
     return `<button class="rcard scene" data-act="run" data-rid="${rid}" aria-label="${R.name} 시작">
       ${now===rid?'<span class="now">지금 할 시간</span>':''}
@@ -2480,9 +2501,9 @@ function laneHtml(rid,k){
   const items=st.ts.map(t=>{const d=st.e.done.includes(t.id);
     return `<li><button class="task${t.id===nextId?' next':''}" data-act="tap" data-kid="${k.id}" data-tid="${t.id}" aria-pressed="${d}">
       <span class="t-ico">${ico(t.icon)}</span><span class="t-label">${esc(t.label)}${t.once?'<span class="once">오늘만</span>':''}${t.med?'<span class="once med">병원 약</span>':''}</span><span class="t-check">${ui('check')}</span></button></li>`}).join('');
-  return `<section class="lane kid" data-kid="${k.id}" style="--k:${k.color}" aria-label="${esc(k.name)}">
-    <div class="lane-head">${avatar(k,64)}<div style="min-width:0"><div class="lane-name">${esc(k.name)}</div>${st.total?`<div class="prog" aria-label="${st.total}개 중 ${st.done}개 완료">${prog}</div>`:''}</div><span class="bank" aria-label="모은 별">${star(18)}${S.bank[k.id]||0}</span></div>
-    <div class="rw">${rewardHtml(rid,st)}</div>
+  return `<section class="lane kid${k.guest?' guest':''}" data-kid="${k.id}" style="--k:${k.color}" aria-label="${esc(k.name)}">
+    <div class="lane-head">${avatar(k,64)}<div style="min-width:0"><div class="lane-name">${esc(k.name)}</div>${st.total?`<div class="prog" aria-label="${st.total}개 중 ${st.done}개 완료">${prog}</div>`:''}</div>${k.guest?'':`<span class="bank" aria-label="모은 별">${star(18)}${S.bank[k.id]||0}</span>`}</div>
+    <div class="rw">${k.guest?guestReward(st):rewardHtml(rid,st)}</div>
     ${st.total?`<ul class="tasks">${items}</ul>`:`<p class="lane-empty">오늘은 쉬어요</p>`}
     ${st.e.wait&&!st.finished?`<div class="call" role="dialog" aria-label="${esc(k.name)} 확인 요청">
       <div class="call-bell">${BELL}</div>
@@ -2520,15 +2541,15 @@ function renderRun(){
     <button class="back bubble" data-act="home" aria-label="처음 화면으로">${ui('back')}</button>
     <div class="band-title"><span class="sc-ico">${ico(R.icon)}</span><div><h1>${R.name}</h1><p class="band-date">${dateLabel()}</p></div></div>
   </div></header>
-  <div class="wrap"><div class="lanes">${S.kids.map(k=>{ const h=laneHtml(rid,k); laneCache.set(k.id,h); return h; }).join('')}</div></div>`;
+  <div class="wrap"><div class="lanes${runKids().length>3?' n4':''}">${runKids().map(k=>{ const h=laneHtml(rid,k); laneCache.set(k.id,h); return h; }).join('')}</div></div>`;
   bindHolds();
 }
 const laneCache=new Map();
 function swapLane(el,kid,html){ const cele=el.querySelector('.cele'); el.outerHTML=html; laneCache.set(kid,html); if(cele){ const n=$(`.lane[data-kid="${kid}"]`); if(n) n.appendChild(cele); } }
 function refreshLanes(){
   const rid=view.rid, lanes=document.querySelectorAll('.lane');
-  if(lanes.length!==S.kids.length){ renderRun(); return; }
-  for(const k of S.kids){ const el=$(`.lane[data-kid="${k.id}"]`), html=laneHtml(rid,k);
+  if(lanes.length!==runKids().length){ renderRun(); return; }
+  for(const k of runKids()){ const el=$(`.lane[data-kid="${k.id}"]`), html=laneHtml(rid,k);
     if(!el){ renderRun(); return; }
     if(laneCache.get(k.id)!==html) swapLane(el,k.id,html); }
   bindHolds();
@@ -2536,21 +2557,21 @@ function refreshLanes(){
 function refreshRun(kid){
   const rid=view.rid;
   const old=$(`.lane[data-kid="${kid}"]`);
-  if(old) swapLane(old,kid,laneHtml(rid,kidById(kid)));
-  for(const k of S.kids) if(k.id!==kid){const rw=$(`.lane[data-kid="${k.id}"] .rw`); if(rw) rw.innerHTML=rewardHtml(rid,status(rid,k.id)); laneCache.set(k.id,laneHtml(rid,k));}
+  if(old) swapLane(old,kid,laneHtml(rid,anyKid(kid)));
+  for(const k of runKids()) if(k.id!==kid){const rw=$(`.lane[data-kid="${k.id}"] .rw`); if(rw) rw.innerHTML=k.guest?guestReward(status(rid,k.id)):rewardHtml(rid,status(rid,k.id)); laneCache.set(k.id,laneHtml(rid,k));}
   bindHolds();
 }
 
 const dingdong=()=>tone([784,622],.55,'sine',.38);
 function tapTask(kid,tid){
   const rid=view.rid,e=entry(rid,kid);
-  if(e.rank){toast('엄마 아빠가 확인했어요. 벌써 끝!');return}
+  if(e.rank){toast(kid==='guest'?'벌써 다 했어요!':'엄마 아빠가 확인했어요. 벌써 끝!');return}
   if(e.wait) return;
   const i=e.done.indexOf(tid);
   if(i>=0){ e.done.splice(i,1); tone([392],.1,'sine'); }
   else{
     e.done.push(tid); e.last=tid; buzz();
-    if(dayTasks(rid,kid).every(t=>e.done.includes(t.id))){ e.wait=true; e.at=Date.now(); dingdong(); }
+    if(dayTasks(rid,kid).every(t=>e.done.includes(t.id))){ if(kid==='guest'){ e.rank=1; e.stars=0; e.ok=Date.now(); setTimeout(()=>{ tone([523,659,784,1047],.32,'triangle',.11); celebrate(kid,1,0); },60); } else { e.wait=true; e.at=Date.now(); dingdong(); } }
     else tone([784,1046],.12,'triangle',.06);
   }
   save(); pushEntry(rid,kid); refreshRun(kid);
@@ -2565,16 +2586,16 @@ function confirmKid(kid){
 function callNo(kid){
   const e=entry(view.rid,kid); e.wait=false;
   const j=e.done.lastIndexOf(e.last||e.done[e.done.length-1]); if(j>=0) e.done.splice(j,1);
-  save(); pushEntry(view.rid,kid); refreshRun(kid); toast(`${kidById(kid).name}, 마저 해 볼까?`);
+  save(); pushEntry(view.rid,kid); refreshRun(kid); toast(`${anyKid(kid).name}, 마저 해 볼까?`);
 }
 setInterval(()=>{ if(view.screen==='run'&&S.kids.some(k=>peek(view.rid,k.id).wait)) dingdong(); },15000);
 function celebrate(kid,rank,stars){
   const ln=$(`.lane[data-kid="${kid}"]`); if(!ln) return;
   const c=document.createElement('div'); c.className='cele';
-  const cols=[crayon(kidById(kid).color),'#FFFFFF','#FFD45E','#FF9FB8','#8FD3FF','#9BE3A6'];
+  const cols=[crayon(anyKid(kid).color),'#FFFFFF','#FFD45E','#FF9FB8','#8FD3FF','#9BE3A6'];
   let conf=''; const H=ln.offsetHeight+40;
   for(let n=0;n<28;n++){conf+=`<span class="cf" style="left:${Math.random()*100}%;background:${cols[n%cols.length]};--dx:${(Math.random()*80-40).toFixed(0)}px;--dy:${H}px;--rot:${(Math.random()*720-360).toFixed(0)}deg;animation-delay:${(Math.random()*.5).toFixed(2)}s;width:${6+Math.random()*7|0}px"></span>`}
-  c.innerHTML=`${conf}<div class="cele-in"><div class="cele-medal">${doneBadge(136)}</div><div class="cele-t">다 했어요!</div>${starRow(stars,34)}<div class="cele-sub">별 ${stars}개를 받았어요</div></div>`;
+  c.innerHTML=`${conf}<div class="cele-in"><div class="cele-medal">${doneBadge(136)}</div><div class="cele-t">다 했어요!</div>${stars?`${starRow(stars,34)}<div class="cele-sub">별 ${stars}개를 받았어요</div>`:'<div class="cele-sub">정말 잘했어요!</div>'}</div>`;
   ln.appendChild(c); setTimeout(()=>c.remove(),3100);
 }
 
@@ -2806,6 +2827,7 @@ function renderInbox(){
       ${pickerCard()}
       ${growParentCard()}
       ${hsParentCard()}
+      ${guestParentCard()}
       </div><div class="pcol">
       ${praiseCard()}
       ${evParentCard()}
@@ -4225,13 +4247,14 @@ function meadow(mini){
 
 /* ===== 다연 홈스쿨 — 요일별 할 공부 (엄마·아빠 폰에서 넣고, 아이는 체크, 다 하면 엄마·아빠 확인 후 별) ===== */
 const HS_WD=['일','월','화','수','목','금','토'], HS_ORDER=[1,2,3,4,5,6,0];
+const HS_UNITS=['장','개','페이지','회'];
 const HS_ICONS=[['notebook','문제집'],['book','책'],['pen','쓰기'],['homework','숙제'],['piano','악기'],['star','기타']];
 const HS={wd:new Date().getDay(),open:false,id:'',t:'',n:1,u:'장',days:new Set(),ic:'notebook'};
 const hsKid=()=>kidById(S.home?.kid)||S.kids.find(k=>k.name==='다연')||S.kids[0];
 const hsItems=()=>Object.entries(S.home?.items||{}).map(([id,v])=>({id,...v})).filter(x=>x.t).sort((a,b)=>(a.o||a.at||0)-(b.o||b.at||0));
 const hsOn=wd=>hsItems().filter(x=>(x.days||[]).includes(wd));
 const hsDay=dk=>(S.home?.log||{})[dk]||{};
-const hsAmt=x=>`${x.n||1}${x.u==='개'?'개':'장'}`;
+const hsAmt=x=>`${x.n||1}${HS_UNITS.includes(x.u)?x.u:'장'}`;
 function hsToday(){ const t=todayKey(), its=hsOn(new Date().getDay()), d=hsDay(t), done=its.filter(x=>(d.done||{})[x.id]); return {t,its,d,done,all:its.length&&done.length===its.length}; }
 function homeDashCard(){
   const k=hsKid(); if(!k) return '';
@@ -4301,7 +4324,7 @@ function renderHsSheet(){
     <input class="fld" id="hsT" maxlength="16" placeholder="예: 연산 문제집" value="${esc(HS.t)}" aria-label="항목 이름">
     <h3>얼마나?</h3>
     <div class="hs-amt"><button class="hs-step" data-act="hsn" data-v="-1" aria-label="하나 빼기">−</button><b>${HS.n}</b><button class="hs-step" data-act="hsn" data-v="1" aria-label="하나 더하기">+</button>
-      <div class="hs-unit" role="group" aria-label="단위"><button data-act="hsu" data-v="장" aria-pressed="${HS.u==='장'}">장</button><button data-act="hsu" data-v="개" aria-pressed="${HS.u==='개'}">개</button></div></div>
+      <div class="hs-unit" role="group" aria-label="단위">${HS_UNITS.map(u=>`<button data-act="hsu" data-v="${u}" aria-pressed="${HS.u===u}">${u}</button>`).join('')}</div></div>
     <h3>무슨 요일에? <small>여러 요일을 같이 골라도 돼요</small></h3>
     <div class="hs-days">${HS_ORDER.map(wd=>`<button class="hs-day${wd===0?' sun':wd===6?' sat':''}" data-act="hsday" data-wd="${wd}" aria-pressed="${HS.days.has(wd)}">${HS_WD[wd]}</button>`).join('')}</div>
     <div class="hs-pres">${preset('평일',[1,2,3,4,5])}${preset('주말',[0,6])}${preset('매일',[0,1,2,3,4,5,6])}${preset('월·수·금',[1,3,5])}${preset('화·목',[2,4])}</div>
@@ -4312,7 +4335,7 @@ function renderHsSheet(){
 }
 function hsSave(){
   const t=HS.t.trim(); if(!t||!HS.days.size) return;
-  const id=HS.id||'h'+Date.now().toString(36), old=S.home.items[id], v={t:t.slice(0,16),n:Math.max(1,Math.min(99,HS.n)),u:HS.u==='개'?'개':'장',days:[...HS.days].sort(),ic:HS.ic,at:old?.at||Date.now()};
+  const id=HS.id||'h'+Date.now().toString(36), old=S.home.items[id], v={t:t.slice(0,16),n:Math.max(1,Math.min(99,HS.n)),u:HS_UNITS.includes(HS.u)?HS.u:'장',days:[...HS.days].sort(),ic:HS.ic,at:old?.at||Date.now()};
   S.home.items[id]=v; rset(`home/items/${id}`,v); save(); HS.open=false; renderHsSheet(); renderHs(); toast(HS.id?'항목을 고쳤어요':`${[...HS.days].length}개 요일에 넣었어요`);
 }
 
@@ -4386,11 +4409,38 @@ function renderReplies(){
   </div></div>`;
 }
 
+/* ===== 친구가 놀러 왔어요: 그날만 할 일에 한 명 더 (다솔이와 같은 할 일, 캐릭터·별 없음) ===== */
+function guestOn(){ return !!(S.guest&&S.guest.d===todayKey()); }
+function guestLikeKid(){ return S.kids.find(k=>k.name==='다솔')||S.kids[S.kids.length-1]; }
+function guestLike(){ const g=S.guest; if(g&&kidById(g.like)) return g.like; return (guestLikeKid()||{}).id||''; }
+function guestKid(){ return {id:'guest',name:(S.guest&&S.guest.name)||'친구',color:'#8FD9B6',guest:true}; }
+function runKids(){ return guestOn()?[...S.kids,guestKid()]:S.kids; }
+function anyKid(id){ return id==='guest'?guestKid():kidById(id); }
+function guestReward(st){
+  if(!st.total) return '';
+  if(st.finished) return `<div class="finish" style="--m:var(--gold)">${doneBadge(52)}<div><b>다 했어요!</b></div></div>`;
+  return `<div class="reward">같이 해 봐요!</div>`;
+}
+function guestParentCard(){
+  if(!isParent()) return '';
+  const on=guestOn(), lk=kidById(guestLike());
+  return `<section class="dash-card gst"><div class="dc-head"><span class="sc-ico">${ico('friends')}</span><div><b>친구가 놀러 왔어요</b><small>오늘 하루만 할 일에 친구 한 명이 생겨요${lk?` · ${esc(withI(lk.name))}랑 같은 할 일`:''}</small></div></div>
+    ${on?`<div class="gst-on">${avatar(guestKid(),40)}<span class="gst-t"><b>${esc(S.guest.name)}</b><small>오늘 할 일에 같이 있어요</small></span><button class="btn sec mini" data-act="gstoff" data-confirm="gstoff">빼기</button></div>`
+      :`<div class="gst-add"><input class="fld" id="gstName" maxlength="8" placeholder="이름 (안 써도 돼요)" aria-label="친구 이름"><button class="btn pri" data-act="gston">${ico('friends')}친구 왔어</button></div>`}
+  </section>`;
+}
+function guestAdd(){
+  const nm=(($('#gstName')||{}).value||'').trim().slice(0,8)||'친구', lk=guestLikeKid();
+  const v={d:todayKey(),name:nm,like:lk?lk.id:'',at:Date.now()};
+  S.guest=v; rset('guest',v); save(); rerenderKeep(); tone([660,880],.08,'sine');
+  toast(`오늘 할 일에 ${withI(nm)}를 넣었어요`);
+}
+function guestOff(){ S.guest=null; rset('guest',null); save(); rerenderKeep(); toast('할 일에서 친구를 뺐어요'); }
 /* ===== 마음 전하기 ===== */
 const M={page:1,to:new Set(),from:new Set(),pick:[],rec:'idle',voice:null,t0:0,sending:false,req:'',need:false};
 // 할머니·할아버지(둔포 가족·멍멍 가족)에게 보낼 때는 말을 2개까지만 골라요
 const PH_MAX_GP=2;
-const phMax=()=>[...M.to].some(g=>g!=='r1')?PH_MAX_GP:Infinity;
+const phMax=()=>PH_MAX_GP;
 const TG={token:'',busy:false,chats:null,err:''};
 const hasBatchim=n=>{const c=n.charCodeAt(n.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28>0};
 const withI=n=>hasBatchim(n)?n+'이':n;
@@ -4457,7 +4507,7 @@ function renderMsg(){
     <div class="msg-col">${step(1,'누구에게?',to.length>0,parents)}</div>
     <div class="msg-col">${step(2,'누가 보내요?',from.length>0,kids)}</div>
   </div>`:`<div class="wrap msg-grid p2">
-    <div class="msg-col">${summary}${step(3,'무슨 말?',ph.length>0||!!M.voice,rec+(phMax()<Infinity?`<p class="ph-limit">${[...Array(phMax())].map((_,n)=>`<i class="${n<M.pick.length?'on':''}"></i>`).join('')}<span>할머니·할아버지께는 <b>${phMax()}개</b>까지 골라요</span></p>`:'')+phr.replace('<div class="phr">',`<div class="phr${M.pick.length>=phMax()?' full':''}">`))}</div>
+    <div class="msg-col">${summary}${step(3,'무슨 말?',ph.length>0||!!M.voice,rec+(phMax()<Infinity?`<p class="ph-limit">${[...Array(phMax())].map((_,n)=>`<i class="${n<M.pick.length?'on':''}"></i>`).join('')}<span>말은 <b>${phMax()}개</b>까지 골라요</span></p>`:'')+phr.replace('<div class="phr">',`<div class="phr${M.pick.length>=phMax()?' full':''}">`))}</div>
   </div>`}
   <div class="sendbar"><div class="wrap sendbar-in">
     <div class="preview">
@@ -4813,7 +4863,7 @@ document.addEventListener('click',e=>{
     case 'mfrom': { if(!sendsLeft(d.kid)){ const k=kidById(d.kid); tone([330,262],.14,'sine',.12); toast(`${withI(k.name)}는 1시간에 ${SEND_MAX}번까지 보낼 수 있어요. ${hm(sendAgainAt(d.kid))}부터 다시 보낼 수 있어요`); break; }
       const had=M.from.has(d.kid); M.from.clear(); if(!had) M.from.add(d.kid); buzz(); tone([had?523:784],.08,'sine'); renderMsg(); break; }
     case 'mph': { const i=M.pick.indexOf(d.pid);
-      if(i<0&&M.pick.length>=phMax()){ tone([330,262],.12,'sine',.07); buzz(); toast(`할머니·할아버지께는 ${phMax()}개까지 고를 수 있어요`); const el=e.target.closest('.ph'); el?.classList.remove('nope'); void el?.offsetWidth; el?.classList.add('nope'); const lm=$('.ph-limit'); lm?.classList.remove('nope'); void lm?.offsetWidth; lm?.classList.add('nope'); break; }
+      if(i<0&&M.pick.length>=phMax()){ tone([330,262],.12,'sine',.07); buzz(); toast(`말은 ${phMax()}개까지 고를 수 있어요`); const el=e.target.closest('.ph'); el?.classList.remove('nope'); void el?.offsetWidth; el?.classList.add('nope'); const lm=$('.ph-limit'); lm?.classList.remove('nope'); void lm?.offsetWidth; lm?.classList.add('nope'); break; }
       if(i>=0) M.pick.splice(i,1); else M.pick.push(d.pid); buzz(); tone([i<0?880:523],.08,'sine'); renderMsg(); break; }
     case 'mrec': if(M.rec==='rec') recStop(); else recStart(); break;
     case 'mplay': try{ window.Android.recPlay(); }catch(e){} break;
@@ -4898,6 +4948,8 @@ document.addEventListener('click',e=>{
     case 'hspre': HS.days=new Set(d.v.split(',').map(Number)); renderHsSheet(); break;
     case 'hsic': HS.ic=d.v; renderHsSheet(); break;
     case 'hssave': hsSave(); break;
+    case 'gston': guestAdd(); break;
+    case 'gstoff': if(!confirmTap(b)) break; guestOff(); break;
     case 'hsdel': if(!confirmTap(b)) break; delete S.home.items[HS.id]; rset(`home/items/${HS.id}`,null); save(); HS.open=false; renderHsSheet(); renderHs(); toast('항목을 지웠어요'); break;
     case 'evnew': evOpen(''); break;
     case 'evedit': evOpen(d.id); break;
