@@ -1607,7 +1607,7 @@ html:has(#family:not([hidden]) .kfit) body{margin:0}
   --sc-t-a:#DCE5FF;--sc-t-b:#EDDDFF;--sc-g-a:#FFDCE6;--sc-g-b:#FFEAC8;--sc-f-a:#FFE2A0;--sc-f-b:#FFF3BE;--st-a:#D8EFFF;--st-b:#E7DEFF;--gr-a:#FFEFA0;--gr-b:#D6F2BC;--cal-a:#DDF1FF;--pz-bg:#FFEDC2;--pig-bg:#FFE6EF;--hs-a:#E6F6DC;--hs-b:#FFF3C4;--hs-ink:#3E8F3A;--hs-tint:#BFE6A8}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hs-a:#1E3320;--hs-b:#3A3214;--hs-ink:#8EDB8A;--hs-tint:#2F5A2C}}
 :root[data-theme="dark"]{--hs-a:#1E3320;--hs-b:#3A3214;--hs-ink:#8EDB8A;--hs-tint:#2F5A2C}
-.scene[data-rid="home"]{--a:var(--hs-a);--b:var(--hs-b);--sink:var(--ink);--sc-ic:var(--hs-ink);--sc-tint:var(--hs-tint)}
+.scene[data-rid="hschool"]{--a:var(--hs-a);--b:var(--hs-b);--sink:var(--ink);--sc-ic:var(--hs-ink);--sc-tint:var(--hs-tint)}
 /* 풀밭·무지개 배경 */
 .meadow{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;z-index:0;background:linear-gradient(180deg,#DDF2FF 0%,#FFF7DC 70%)}
 .mw-sky{position:absolute;inset:0;width:100%;height:100%}
@@ -1828,7 +1828,7 @@ html:has(#family:not([hidden]) .kfit) body{margin:0}
 <main id="praise" class="screen" hidden></main>
 <main id="praises" class="screen" hidden></main>
 <main id="grow" class="screen" hidden></main>
-<main id="home" class="screen" hidden></main>
+<main id="hschool" class="screen" hidden></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -2338,7 +2338,7 @@ function requestRender(){
   else if(view.screen==='replies') renderReplies();
   else if(view.screen==='praise'){ const y=window.scrollY; renderPraise(); window.scrollTo(0,y); }
   else if(view.screen==='praises'){ const y=window.scrollY; renderPraises(); window.scrollTo(0,y); }
-  else if(view.screen==='home'&&!HS.open){ const y=window.scrollY; renderHome(); window.scrollTo(0,y); }
+  else if(view.screen==='hschool'&&!HS.open){ const y=window.scrollY; renderHs(); window.scrollTo(0,y); }
   else if(view.screen==='grow'&&!GR.open){ const y=window.scrollY; renderGrow(); window.scrollTo(0,y); }
   else if(view.screen==='room') renderRoom();
   else if(view.screen==='welcome') return;
@@ -2407,11 +2407,11 @@ const dateLabel=()=>{const d=new Date();return `${d.getMonth()+1}월 ${d.getDate
 
 function show(){
   if(view.screen!=='msg'&&typeof M!=='undefined'&&M.rec==='rec') recStop();
-  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','char','edit','cal','praise','praises','grow','home']) document.getElementById(s).hidden=view.screen!==s;
+  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','char','edit','cal','praise','praises','grow','hschool']) document.getElementById(s).hidden=view.screen!==s;
   if(view.screen==='family'&&isAdult()){ INB.prevSeen=S.inboxSeen||0; S.inboxSeen=Date.now(); save(); }
   if(view.screen==='replies'){ RP.prevSeen=S.repliesSeen||0; S.repliesSeen=Date.now(); save(); }
   if(view.screen==='room'||(view.screen==='family'&&isElder())) CH.stick=true;
-  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='char') renderChar(); else if(view.screen==='cal') renderCal(); else if(view.screen==='praise') renderPraise(); else if(view.screen==='praises') renderPraises(); else if(view.screen==='grow') renderGrow(); else if(view.screen==='home') renderHome(); else renderEdit();
+  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='char') renderChar(); else if(view.screen==='cal') renderCal(); else if(view.screen==='praise') renderPraise(); else if(view.screen==='praises') renderPraises(); else if(view.screen==='grow') renderGrow(); else if(view.screen==='hschool') renderHs(); else renderEdit();
   keepAwake(view.screen==='run');
   window.scrollTo(0,0);
 }
@@ -4236,7 +4236,7 @@ function hsToday(){ const t=todayKey(), its=hsOn(new Date().getDay()), d=hsDay(t
 function homeDashCard(){
   const k=hsKid(); if(!k) return '';
   const {its,d,done}=hsToday();
-  return `<button class="dash-card homec kid" style="--k:${k.color}" data-act="home" aria-label="${esc(k.name)} 홈스쿨">
+  return `<button class="dash-card homec kid" style="--k:${k.color}" data-act="hshome" aria-label="${esc(k.name)} 홈스쿨">
     <span class="dc-head">${avatar(k,46)}<span class="hs-ht"><b>${esc(k.name)} 홈스쿨</b><small>${its.length?(d.ok?`오늘 끝! ${star(14)}${d.stars||its.length}`:`오늘 ${done.length}/${its.length}`):'오늘은 쉬는 날'}</small></span>${ui('next')}</span>
     ${its.length?`<span class="hs-mini">${its.slice(0,4).map(x=>{ const on=!!(d.done||{})[x.id]; return `<span class="hs-mi${on?' on':''}"><span class="hs-ck">${on?ui('check'):''}</span><span class="hs-mt">${esc(x.t)}</span><em>${hsAmt(x)}</em></span>`; }).join('')}${its.length>4?`<small class="hs-more">+${its.length-4}개 더</small>`:''}</span>`:`<span class="hs-rest">${ico('sleep')}<small>내일 또 해요</small></span>`}
   </button>`;
@@ -4246,10 +4246,10 @@ function hsParentCard(){
   const {its,d,done}=hsToday();
   return `<section class="dash-card hsc kid" style="--k:${k.color}"><div class="dc-head">${avatar(k,44)}<div><b>${esc(k.name)} 홈스쿨</b><small>${its.length?(d.ok?'오늘 끝! 확인했어요':`오늘 ${done.length}/${its.length} 했어요`):'오늘은 할 게 없어요'}</small></div></div>
     ${its.length?`<ul class="hs-plist">${its.map(x=>`<li class="${(d.done||{})[x.id]?'on':''}"><span class="hs-ck">${(d.done||{})[x.id]?ui('check'):''}</span>${esc(x.t)} <em>${hsAmt(x)}</em></li>`).join('')}</ul>`:''}
-    <button class="btn sec" data-act="home">${ico('notebook')}요일별 항목 관리</button></section>`;
+    <button class="btn sec" data-act="hshome">${ico('notebook')}요일별 항목 관리</button></section>`;
 }
-function openHome(){ view.screen='home'; HS.wd=new Date().getDay(); show(); }
-function renderHome(){
+function openHome(){ view.screen='hschool'; HS.wd=new Date().getDay(); show(); }
+function renderHs(){
   const k=hsKid(); if(!k){ view.screen='family'; return show(); }
   const P=isParent(), {t,its,d,done,all}=hsToday();
   const mon=new Date(); mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
@@ -4269,8 +4269,8 @@ function renderHome(){
       ${items.length?`<ul class="hs-mlist">${items.map(x=>`<li><button class="hs-mrow" data-act="hsedit" data-id="${x.id}"><span class="hs-ic">${ico(x.ic||'notebook')}</span><span class="hs-t"><b>${esc(x.t)}</b><small>${hsAmt(x)} · ${HS_ORDER.filter(w=>(x.days||[]).includes(w)).map(w=>HS_WD[w]).join('·')}</small></span>${ui('next')}</button></li>`).join('')}</ul>`:`<p class="hint">${HS_WD[HS.wd]}요일에는 아직 항목이 없어요.</p>`}
       <button class="btn pri" data-act="hsnew">${ui('plus')}항목 넣기</button>
     </section>`:'';
-  $('#home').innerHTML=`
-  <header class="band scene" data-rid="home"><div class="wrap band-in">
+  $('#hschool').innerHTML=`
+  <header class="band scene" data-rid="hschool"><div class="wrap band-in">
     <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
     <div class="band-title">${avatar(k,56)}<div><h1>${esc(k.name)} 홈스쿨</h1><p class="band-date">${dateLabel()} · ${its.length?`오늘 ${its.length}가지`:'오늘은 쉬는 날'}</p></div></div>
   </div></header>
@@ -4281,12 +4281,12 @@ function hsToggle(id){
   const t=todayKey(); S.home.log[t]=S.home.log[t]||{}; const L=S.home.log[t]; if(L.ok) return; L.done=L.done||{};
   if(L.done[id]){ delete L.done[id]; rset(`home/log/${t}/done/${id}`,null); tone([523],.08,'sine'); }
   else { L.done[id]=Date.now(); rset(`home/log/${t}/done/${id}`,L.done[id]); buzz(); const {all}=hsToday(); if(all){ dingdong(); } else tone([784,1046],.12,'triangle',.06); }
-  save(); const y=window.scrollY; renderHome(); window.scrollTo(0,y);
+  save(); const y=window.scrollY; renderHs(); window.scrollTo(0,y);
 }
 function hsConfirm(){
   const k=hsKid(), {t,its,d,all}=hsToday(); if(!all||d.ok) return;
   parentGate(()=>{ const L=S.home.log[t]; const n=its.length; L.ok=Date.now(); L.stars=n; rset(`home/log/${t}/ok`,L.ok); rset(`home/log/${t}/stars`,n);
-    S.bank[k.id]=(S.bank[k.id]||0)+n; rinc(`bank/${k.id}`,n); save(); renderHome(); tone([523,659,784,1047],.32,'triangle',.11); hsCele(k.id,n); });
+    S.bank[k.id]=(S.bank[k.id]||0)+n; rinc(`bank/${k.id}`,n); save(); renderHs(); tone([523,659,784,1047],.32,'triangle',.11); hsCele(k.id,n); });
 }
 function hsOpen(id){ const x=id&&S.home.items[id]; HS.id=x?id:''; HS.t=x?x.t:''; HS.n=x?x.n||1:1; HS.u=x?x.u||'장':'장'; HS.days=new Set(x?x.days||[]:[HS.wd]); HS.ic=x?x.ic||'notebook':'notebook'; HS.open=true; renderHsSheet(); }
 function renderHsSheet(){
@@ -4313,7 +4313,7 @@ function renderHsSheet(){
 function hsSave(){
   const t=HS.t.trim(); if(!t||!HS.days.size) return;
   const id=HS.id||'h'+Date.now().toString(36), old=S.home.items[id], v={t:t.slice(0,16),n:Math.max(1,Math.min(99,HS.n)),u:HS.u==='개'?'개':'장',days:[...HS.days].sort(),ic:HS.ic,at:old?.at||Date.now()};
-  S.home.items[id]=v; rset(`home/items/${id}`,v); save(); HS.open=false; renderHsSheet(); renderHome(); toast(HS.id?'항목을 고쳤어요':`${[...HS.days].length}개 요일에 넣었어요`);
+  S.home.items[id]=v; rset(`home/items/${id}`,v); save(); HS.open=false; renderHsSheet(); renderHs(); toast(HS.id?'항목을 고쳤어요':`${[...HS.days].length}개 요일에 넣었어요`);
 }
 
 function hsCele(kid,stars){
@@ -4885,10 +4885,10 @@ document.addEventListener('click',e=>{
     case 'grsex': { S.grow.info[GR.kid]={...grInfo(GR.kid),sex:d.v}; rset(`grow/info/${GR.kid}`,S.grow.info[GR.kid]); save(); const y=window.scrollY; renderGrow(); window.scrollTo(0,y); } break;
     case 'grdel': if(!confirmTap(b)) break; delete (S.grow.rec[GR.kid]||{})[d.id]; rset(`grow/rec/${GR.kid}/${d.id}`,null); save(); { const y=window.scrollY; renderGrow(); window.scrollTo(0,y); } break;
     case 'evsay': evSay(d.id); break;
-    case 'home': openHome(); tone([660,880],.08,'sine'); break;
+    case 'hshome': openHome(); tone([660,880],.08,'sine'); break;
     case 'hstog': hsToggle(d.id); break;
     case 'hsok': hsConfirm(); break;
-    case 'hswd': HS.wd=Number(d.wd); { const y=window.scrollY; renderHome(); window.scrollTo(0,y); } break;
+    case 'hswd': HS.wd=Number(d.wd); { const y=window.scrollY; renderHs(); window.scrollTo(0,y); } break;
     case 'hsnew': hsOpen(''); break;
     case 'hsedit': hsOpen(d.id); break;
     case 'hsclose': HS.open=false; renderHsSheet(); break;
@@ -4898,7 +4898,7 @@ document.addEventListener('click',e=>{
     case 'hspre': HS.days=new Set(d.v.split(',').map(Number)); renderHsSheet(); break;
     case 'hsic': HS.ic=d.v; renderHsSheet(); break;
     case 'hssave': hsSave(); break;
-    case 'hsdel': if(!confirmTap(b)) break; delete S.home.items[HS.id]; rset(`home/items/${HS.id}`,null); save(); HS.open=false; renderHsSheet(); renderHome(); toast('항목을 지웠어요'); break;
+    case 'hsdel': if(!confirmTap(b)) break; delete S.home.items[HS.id]; rset(`home/items/${HS.id}`,null); save(); HS.open=false; renderHsSheet(); renderHs(); toast('항목을 지웠어요'); break;
     case 'evnew': evOpen(''); break;
     case 'evedit': evOpen(d.id); break;
     case 'evclose': EV.open=false; renderEvSheet(); break;
@@ -5031,7 +5031,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); pruneMeds(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(GR.open){ GR.open=false; renderGrowSheet(); return true; } if(HS.open){ HS.open=false; renderHsSheet(); return true; } if(EV.open){ EV.open=false; renderEvSheet(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } if(view.screen==='char'&&CR.try){ CR.try=null; renderChar(); return true; } const up={home:'family',grow:'family',praise:'family',praises:'family',char:'family',fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(GR.open){ GR.open=false; renderGrowSheet(); return true; } if(HS.open){ HS.open=false; renderHsSheet(); return true; } if(EV.open){ EV.open=false; renderEvSheet(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } if(view.screen==='char'&&CR.try){ CR.try=null; renderChar(); return true; } const up={hschool:'family',grow:'family',praise:'family',praises:'family',char:'family',fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 setTimeout(shareCharsOut,1500);
 window.appResume=()=>{ appFg=true; shareCharsOut(); if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); pzResume(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
