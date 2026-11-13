@@ -1305,6 +1305,9 @@ button.tc:active{transform:scale(.95)}
 .pz-pop-t .pz-ic{width:60px;height:60px;background:var(--surface)}
 .pz-pop-t .pz-ic .ic{width:44px;height:44px}
 .pz-pop-t b{font:32px/1.2 var(--f-d);font-weight:400;color:var(--ink)}
+.pz-pop-t{border:0;cursor:pointer;text-align:left}
+.pz-pop-say{width:40px;height:40px;border-radius:50%;background:var(--surface);display:grid;place-items:center;color:var(--ink-2);flex:none}
+.pz-pop-say .ui{width:22px;height:22px}
 .pz-pop-pig{margin:0;display:flex;align-items:flex-end;gap:8px;font:19px var(--f-d);color:var(--pig-ink)}
 .pz-pop-box .btn{flex:none;min-width:200px;font:22px var(--f-d);min-height:58px}
 @keyframes pzfade{from{opacity:0}}
@@ -1712,6 +1715,7 @@ function adopt(fn){
   const after=todayRanks(), fresh=Object.keys(after).filter(k=>!before[k]);
   for(const key of replyKeys()) if(!rb.has(key)){ const [m,r]=key.split('|'), rp=S.replies[m]?.[r]; if(rp&&rp.at>Date.now()-120000) onNewReply(m,r,rp); }
   if(S.role==='kids') for(const id of Object.keys(S.praise||{})) if(!pb.has(id)){ const v=S.praise[id]; if(v&&v.at>Date.now()-120000) onNewPraise(id,v); }
+  if(S.role==='kids') pzResume();
   requestRender();
   for(const key of fresh){ const [r,k]=key.split('|'); if(view.screen==='run'&&view.rid===r){ const e=peek(r,k); tone([523,659,784,1047],.32,'triangle',.11); celebrate(k,e.rank,e.stars); } }
 }
@@ -2107,7 +2111,7 @@ let alarmRepeat=null;
 // 아이들 태블릿: '다른 앱 위에 표시'가 꺼져 있으면 알림이 앱 화면이 아니라 알림으로만 와요 → 대시보드에서 바로 켤 수 있게
 function overlayCard(){
   if(!IS_APP||S.role!=='kids'||!window.Android.alarmState||alarmState().overlay!==false) return '';
-  return `<section class="ov-need"><span class="sc-ico">${ico('tv')}</span><div><b>시간 알림·그만! 알림이 앱 화면으로 뜨게 해 주세요</b>
+  return `<section class="ov-need"><span class="sc-ico">${ico('tv')}</span><div><b>시간 알림·그만! 알림·칭찬이 앱 화면으로 뜨게 해 주세요</b>
     <small>지금은 알림 소리만 와요. '다른 앱 위에 표시'를 허용하면 영상을 보고 있어도 우리가족 앱이 전체 화면으로 떠요. 나오는 화면에서 '우리가족'을 켜 주세요.</small></div>
     <button class="btn pri" data-act="askoverlay">허용하기</button></section>`;
 }
@@ -2123,6 +2127,7 @@ function alarmPop(text,kind,go){
 }
 window.onAlarm=(type,text)=>{
   if(S.role!=='kids') return;
+  if(type==='praise'){ appFg=true; for(const id of String(text||'').split(',')) if(id) PZ.wait.add(id); pzResume(); if(!PZ.wait.size&&!pzQ.length) pzDone(); return; }
   if(H.open){ H.open=false; renderHosp(); }
   if(view.screen!=='family'&&view.screen!=='run'){ view.screen='family'; show(); }
   if(type==='say') alarmPop(text||'','say',true);
@@ -3219,7 +3224,7 @@ function piggyCard(){
 
 /* ===== 칭찬합시다: 엄마·아빠 폰에서 보내고, 아이들 태블릿 '받은 칭찬'에 쌓여요 ===== */
 const PRAISE_DEF=[['meal','밥을 잘 먹었어요'],['helpfam','가족을 도왔어요'],['share','양보했어요'],['toys','정리를 잘했어요'],['friends','사이좋게 놀았어요'],['star','스스로 했어요'],['goodmorning','인사를 잘했어요']];
-const PZ={kids:new Set(),pick:'',text:'',pig:false,kid:'',prev:0};
+const PZ={kids:new Set(),pick:'',text:'',pig:false,kid:'',prev:0,shown:new Set(),wait:new Set()};
 const praiseAll=()=>Object.entries(S.praise||{}).map(([id,v])=>({id,...v})).filter(x=>x&&x.at&&x.t&&kidById(x.k)).sort((a,b)=>b.at-a.at);
 const praisesOf=kid=>praiseAll().filter(x=>x.k===kid);
 const praiseIco=x=>ICONS[x.ic]?x.ic:'medal';
@@ -3297,23 +3302,46 @@ function renderPraises(){
 }
 function sayPraise(id){ const x=(S.praise||{})[id]; if(!x) return; const p=personById(x.by), n=p?p.name:'엄마'; sayText(`${n}${josaGa(n)} 칭찬했어요. ${x.t}`); }
 // 태블릿을 보고 있을 때 새 칭찬이 오면 크게 보여 주고 읽어 줘요
-let pzQ=[], pzT=null;
-function onNewPraise(id,v){ if(S.role!=='kids') return; pzQ.push({id,...v}); clearTimeout(pzT); pzT=setTimeout(pzPop,500); }
+let pzQ=[], pzT=null, pzGroups=[], pzAuto=null, appFg=true;
+// 앱이 뒤에 있을 때 온 칭찬은 모아 두었다가, 태블릿이 앱을 앞으로 띄우면 그때 보여 주고 읽어 줘요
+window.appPause=()=>{ appFg=false; };
+function onNewPraise(id,v){
+  if(S.role!=='kids'||PZ.shown.has(id)) return;
+  if(IS_APP&&!appFg){ PZ.wait.add(id); return; }
+  pzQ.push({id,...v}); clearTimeout(pzT); pzT=setTimeout(pzPop,500);
+}
+function pzResume(){
+  if(S.role!=='kids'||!PZ.wait.size||(IS_APP&&!appFg)) return;
+  const old=Date.now()-6*3600e3;
+  for(const id of [...PZ.wait]){ const v=(S.praise||{})[id]; if(!v) continue; PZ.wait.delete(id); if(!PZ.shown.has(id)&&v.at>old) pzQ.push({id,...v}); }
+  if(pzQ.length){ clearTimeout(pzT); pzT=setTimeout(pzPop,600); }
+}
+function pzDone(){ if(!document.querySelector('.pz-pop')&&!document.querySelector('.alarm-pop')){ try{ window.Android.alarmDone&&window.Android.alarmDone(); }catch(e){} } }
 function pzPop(){
-  const q=pzQ; pzQ=[]; if(!q.length) return;
-  const x=q[q.length-1], same=q.filter(y=>y.t===x.t&&y.by===x.by), kids=[...new Set(same.map(y=>y.k))].map(kidById).filter(Boolean), p=personById(x.by), pn=p?p.name:'엄마';
-  if(!kids.length) return;
-  const who=dot(kids.map(k=>withI(k.name)));
+  const q=pzQ.filter(y=>!PZ.shown.has(y.id)); pzQ=[];
+  for(const y of q){ PZ.shown.add(y.id); const g=pzGroups.find(g=>g.t===y.t&&g.by===y.by);
+    if(g){ if(!g.ks.includes(y.k)) g.ks.push(y.k); g.pig=g.pig||y.pig; } else pzGroups.push({t:y.t,by:y.by,ic:y.ic,pig:y.pig,ks:[y.k]}); }
+  const open=document.querySelector('.pz-pop');
+  if(!open) pzNext(); else if(pzGroups.length){ const btn=open.querySelector('[data-k]'); if(btn) btn.textContent='다음 칭찬 보기'; }
+}
+function pzNext(){
+  clearTimeout(pzAuto);
+  const g=pzGroups.shift(); if(!g){ pzDone(); return; }
+  const kids=g.ks.map(kidById).filter(Boolean), p=personById(g.by), pn=p?p.name:'엄마';
+  if(!kids.length) return pzNext();
+  const who=dot(kids.map(k=>withI(k.name))), line=`${pn}${josaGa(pn)} ${who}${josaEul(who)} 칭찬했어요. ${g.t}`;
   document.querySelector('.pz-pop')?.remove();
   const ov=document.createElement('div'); ov.className='pz-pop'; ov.setAttribute('role','dialog'); ov.setAttribute('aria-label','새 칭찬');
   ov.innerHTML=`<div class="pz-pop-box"><div class="pz-pop-faces">${p?parentAva(p,76):''}<span class="pz-pop-heart">${ico('heart')}</span>${kids.map(k=>avatar(k,76)).join('')}</div>
     <p class="pz-pop-h">${esc(pn)}${josaGa(pn)} ${esc(who)}${josaEul(who)} 칭찬했어요!</p>
-    <div class="pz-pop-t"><span class="pz-ic">${ico(praiseIco(x))}</span><b>${esc(x.t)}</b></div>
-    ${x.pig?`<p class="pz-pop-pig">${pigSvg(1500,48)}돼지저금통에 100원이 들어갔어요</p>`:''}
-    <button class="btn pri" data-k="ok">좋아요!</button></div>`;
-  ov.addEventListener('click',e=>{ if(e.target===ov||e.target.closest('[data-k]')) ov.remove(); });
+    <button class="pz-pop-t" aria-label="다시 읽어 주기"><span class="pz-ic">${ico(praiseIco(g))}</span><b>${esc(g.t)}</b><span class="pz-pop-say">${ui('sound')}</span></button>
+    ${g.pig?`<p class="pz-pop-pig">${pigSvg(1500,48)}돼지저금통에 100원이 들어갔어요</p>`:''}
+    <button class="btn pri" data-k="ok">${pzGroups.length?'다음 칭찬 보기':'좋아요!'}</button></div>`;
+  const close=()=>{ clearTimeout(pzAuto); ov.remove(); pzNext(); };
+  ov.addEventListener('click',e=>{ if(e.target.closest('.pz-pop-t')){ sayText(line); return; } if(e.target===ov||e.target.closest('[data-k]')) close(); });
   document.body.appendChild(ov); tone([784,988,1319,1568],.16,'triangle',.1);
-  setTimeout(()=>sayText(`${pn}${josaGa(pn)} ${who}${josaEul(who)} 칭찬했어요. ${x.t}`),500);
+  setTimeout(()=>{ if(ov.isConnected) sayText(line); },700);
+  pzAuto=setTimeout(close,90000);
 }
 
 /* ===== 받은 답장 (아이들 쪽) ===== */
@@ -3970,7 +3998,7 @@ setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); pruneMe
 
 window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } if(view.screen==='char'&&CR.try){ CR.try=null; renderChar(); return true; } const up={char:'family',fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 setTimeout(shareCharsOut,1500);
-window.appResume=()=>{ shareCharsOut(); if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); };
+window.appResume=()=>{ appFg=true; shareCharsOut(); if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); pzResume(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
 pruneMeds();
 if(S.onboard) view.screen='welcome';

@@ -10,7 +10,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ServiceInfo;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -67,7 +69,7 @@ public class InboxService extends Service {
         Notification n = new Notification.Builder(this, CH_RUN)
                 .setSmallIcon(R.drawable.ic_stat)
                 .setContentTitle("우리가족")
-                .setContentText(kids ? "엄마·아빠의 그만! 알림을 기다리고 있어요" : "아이들이 보내는 마음을 기다리고 있어요")
+                .setContentText(kids ? "엄마·아빠의 그만! 알림과 칭찬을 기다리고 있어요" : "아이들이 보내는 마음을 기다리고 있어요")
                 .setContentIntent(openApp())
                 .setOngoing(true)
                 .build();
@@ -81,7 +83,9 @@ public class InboxService extends Service {
         return START_STICKY;
     }
 
-    private static final String STOP = "__stop";
+    private static final String STOP = "__stop", PRAISE = "__praise";
+    private final Handler main = new Handler(Looper.getMainLooper());
+    private final StringBuilder pzNew = new StringBuilder();
 
     private synchronized void restart(String base, String[] rooms) {
         stopAll();
@@ -92,6 +96,11 @@ public class InboxService extends Service {
             Thread t = new Thread(() -> loop(url, STOP), "stop");
             threads.add(t);
             t.start();
+            // 엄마·아빠가 보낸 칭찬: 앱이 뒤에 있어도 앞으로 띄워서 읽어 줘요
+            final String pu = base + "/app/praise.json";
+            Thread t2 = new Thread(() -> loop(pu, PRAISE), "praise");
+            threads.add(t2);
+            t2.start();
             return;
         }
         for (String r : rooms) {
@@ -144,7 +153,9 @@ public class InboxService extends Service {
                 if (line.startsWith("event:")) event = line.substring(6).trim();
                 else if (line.startsWith("data:")) {
                     if ("put".equals(event) || "patch".equals(event)) {
-                        if (STOP.equals(room)) checkStop(); else handle(line.substring(5).trim(), room);
+                        if (STOP.equals(room)) checkStop();
+                        else if (PRAISE.equals(room)) praise(line.substring(5).trim());
+                        else handle(line.substring(5).trim(), room);
                     }
                     else if ("cancel".equals(event) || "auth_revoked".equals(event)) throw new Exception(event);
                 }
@@ -165,6 +176,48 @@ public class InboxService extends Service {
             if (got != null) Net.http("PATCH", base + "/app/stop.json", new JSONObject().put("got", got).toString());
         } catch (Exception ignored) { }
     }
+
+    private void praise(String data) {
+        try {
+            JSONObject m = new JSONObject(data);
+            String path = m.optString("path", "/");
+            Object d = m.opt("data");
+            if (!(d instanceof JSONObject)) return;
+            JSONObject o = (JSONObject) d;
+            if ("/".equals(path)) {
+                for (Iterator<String> it = o.keys(); it.hasNext(); ) {
+                    String k = it.next();
+                    JSONObject item = o.optJSONObject(k);
+                    if (item != null) pzConsider(k, item);
+                }
+            } else {
+                String k = path.replaceAll("^/+", "");
+                if (!k.contains("/")) pzConsider(k, o);
+            }
+        } catch (Exception ignored) { }
+    }
+
+    /** 방금(3분 안) 온 처음 보는 칭찬만 모아서, 1초쯤 뒤에 한 번에 앱을 띄워요 (아이 여럿에게 같이 보낸 칭찬). */
+    private synchronized void pzConsider(String id, JSONObject item) {
+        long at = item.optLong("at", 0);
+        if (at < System.currentTimeMillis() - 180000 || item.optString("t", "").isEmpty()) return;
+        String seen = prefs.getString("pz_seen", "");
+        if (("," + seen + ",").contains("," + id + ",")) return;
+        String s2 = seen.isEmpty() ? id : id + "," + seen;
+        int cut = s2.length() > 1500 ? s2.lastIndexOf(',', 1500) : -1;
+        if (cut > 0) s2 = s2.substring(0, cut);
+        prefs.edit().putString("pz_seen", s2).apply();
+        if (pzNew.length() > 0) pzNew.append(',');
+        pzNew.append(id);
+        main.removeCallbacks(pzWake);
+        main.postDelayed(pzWake, 1200);
+    }
+
+    private final Runnable pzWake = () -> {
+        String ids;
+        synchronized (InboxService.this) { ids = pzNew.toString(); pzNew.setLength(0); }
+        if (!ids.isEmpty()) AlarmReceiver.bringUp(InboxService.this, "praise", ids);
+    };
 
     private void handle(String data, String room) {
         try {

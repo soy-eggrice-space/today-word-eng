@@ -181,6 +181,12 @@ public class MainActivity extends Activity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        if (web != null) web.evaluateJavascript("window.appPause && window.appPause()", null);
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (web != null) web.evaluateJavascript("window.appResume && window.appResume()", null);
