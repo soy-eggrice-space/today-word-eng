@@ -1168,6 +1168,149 @@ button.tc:active{transform:scale(.95)}
 @media (max-width:560px){ .board-row{grid-template-columns:1fr} .rcard{padding:20px;border-radius:28px} .rcard .sc-ico{width:68px;height:68px;border-radius:22px} .rcard .sc-ico .ic{width:48px;height:48px}
   .srow{grid-template-columns:auto minmax(0,1fr) auto auto auto;gap:8px} .now{top:14px;right:14px} }
 @media (prefers-reduced-motion: reduce){ *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important} .task.next{animation:none} }
+/* ===== 돼지저금통 · 칭찬합시다 ===== */
+:root{--pig-ink:#C2457A;--pig-bg:#FFE9F1;--pig-tint:#FFC2D4;--pz-ink:#B86E00;--pz-bg:#FFF2D2;--pz-tint:#FFD98A;--sc-p-a:#FFF1D0;--sc-p-b:#FFE3EC}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--pig-ink:#FF9CC0;--pig-bg:#3C2431;--pig-tint:#7A3D58;--pz-ink:#FFC95C;--pz-bg:#3A3018;--pz-tint:#6B5520;--sc-p-a:#2E2716;--sc-p-b:#2E1F27}}
+:root[data-theme="dark"]{--pig-ink:#FF9CC0;--pig-bg:#3C2431;--pig-tint:#7A3D58;--pz-ink:#FFC95C;--pz-bg:#3A3018;--pz-tint:#6B5520;--sc-p-a:#2E2716;--sc-p-b:#2E1F27}
+.scene[data-rid="praise"]{--a:var(--sc-p-a);--b:var(--sc-p-b);--sink:var(--ink);--sc-ic:var(--pz-ink);--sc-tint:var(--pz-tint)}
+.scene[data-rid="praise"]::before{background:radial-gradient(280px 280px at 96% -6%,rgba(255,205,90,.45),transparent 70%)}
+/* 태블릿 캐릭터 카드: 캐릭터 | 이름·별 | 돼지 / 받은 칭찬 */
+.char-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"art info pig" "art pz pz";align-items:end;column-gap:10px;row-gap:10px}
+.cc-artb{grid-area:art;align-self:center;display:block}
+.char-card>.cc-info{grid-area:info;align-self:end;text-align:left;align-items:flex-start;padding-bottom:4px}
+.cc-pig{grid-area:pig;align-self:end;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:6px;width:108px}
+.pig-amt{font:20px/1 var(--f-d);color:var(--pig-ink);background:var(--pig-bg);padding:6px 10px;border-radius:999px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pig-box{position:relative;width:104px;display:flex;align-items:flex-end;justify-content:center}
+.pig{overflow:visible;display:block;flex:none}
+.pig-coin{opacity:0}
+.drop .pig-coin{animation:pigcoin .75s cubic-bezier(.5,0,.9,.6) calc(.3s + var(--pt,0s)) 1 both}
+@keyframes pigcoin{0%{opacity:0;transform:translateY(-30px)}15%{opacity:1}75%{opacity:1;transform:translateY(22px)}100%{opacity:0;transform:translateY(26px)}}
+.pig-body{transform-box:view-box;transform-origin:60px 100px}
+.drop .pig-body{animation:pigjig .5s calc(1s + var(--pt,0s)) 1}
+.wig .pig-body{animation:pigjig .5s 0s 1}
+@keyframes pigjig{0%,100%{transform:scale(1)}30%{transform:scale(1.08,.92)}60%{transform:scale(.96,1.05)}}
+.pig-plus{position:absolute;left:50%;top:22%;font:21px var(--f-d);color:#B8326A;text-shadow:0 0 3px #FFFFFF,0 0 3px #FFFFFF,0 0 6px #FFFFFF;animation:pigplus 2.6s ease-out calc(.9s + var(--pt,0s)) both;pointer-events:none;white-space:nowrap}
+@keyframes pigplus{0%{opacity:0;transform:translate(-50%,10px)}15%{opacity:1;transform:translate(-50%,0)}80%{opacity:1;transform:translate(-50%,-6px)}100%{opacity:0;transform:translate(-50%,-16px)}}
+.cc-praise{grid-area:pz;display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:18px;background:var(--pz-bg);color:var(--pz-ink);font:18px var(--f-d);position:relative;min-width:0}
+.cc-praise .ic{width:30px;height:30px;--ic-tint:var(--pz-tint);flex:none}
+.cc-praise b{font:24px/1 var(--f-d);font-weight:400;margin-left:auto;color:var(--ink);font-variant-numeric:tabular-nums}
+.cc-praise .ui{width:18px;height:18px;flex:none}
+.cc-praise em{position:absolute;top:-12px;left:46px;font:13px var(--f-d);font-style:normal;background:#FF5C84;color:#FFFFFF;padding:3px 9px;border-radius:999px;box-shadow:0 3px 8px rgba(255,92,132,.4);animation:pznew 1.4s ease-in-out infinite}
+.cc-praise.fresh{box-shadow:0 0 0 3px #FF9CB4}
+@keyframes pznew{50%{transform:translateY(-3px)}}
+/* 엄마·아빠 폰: 돼지저금통 카드 */
+.dash-card.pigc .dc-head .sc-ico{background:var(--pig-bg);color:var(--pig-ink);--ic-tint:var(--pig-tint)}
+.pg-list{display:flex;flex-direction:column;gap:10px}
+.pg-row{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"who now" "btns btns";gap:10px 12px;padding:12px 14px;border-radius:22px;background:var(--surface-2);align-items:center}
+.pg-who{grid-area:who;display:flex;align-items:center;gap:10px;min-width:0}
+.pg-who>b{font:23px var(--f-d);font-weight:400}
+.pg-now{grid-area:now;display:flex;align-items:flex-end;gap:8px;min-height:50px}
+.pg-amt{font:28px/1 var(--f-d);color:var(--pig-ink);font-variant-numeric:tabular-nums;padding-bottom:4px}
+.pg-btns{grid-area:btns;display:flex;gap:8px}
+.pg-plus{flex:1;min-height:54px;border-radius:16px;background:color-mix(in oklab,var(--k) 24%,var(--surface));border:2.5px solid var(--k);color:var(--ink);font:23px var(--f-d)}
+.pg-plus:active{transform:scale(.97);background:color-mix(in oklab,var(--k) 40%,var(--surface))}
+.pg-minus,.pg-empty{min-height:54px;padding:0 14px;border-radius:16px;background:var(--surface);color:var(--ink-2);font:16px var(--f-d);border:1.5px solid var(--line);white-space:nowrap}
+.pg-minus:disabled,.pg-empty:disabled{opacity:.4;cursor:default}
+.pg-row.ask{grid-template-columns:minmax(0,1fr);grid-template-areas:"who" "btns";background:var(--pig-bg)}
+.pg-row.ask p{margin:0;display:flex;flex-direction:column;gap:3px;min-width:0}
+.pg-row.ask p b{font:19px/1.35 var(--f-d);font-weight:400}
+.pg-row.ask p small{font-size:13px;color:var(--ink-2)}
+.pg-yes{flex:1;min-height:52px;border-radius:16px;background:var(--pig-ink);color:#FFFFFF;font:19px var(--f-d);display:flex;align-items:center;justify-content:center;gap:6px}
+.pg-yes .ui{width:20px;height:20px}
+.pg-no{min-height:52px;padding:0 20px;border-radius:16px;background:var(--surface);color:var(--ink);font:19px var(--f-d)}
+.pg-log summary{cursor:pointer;font:16px var(--f-d);color:var(--ink-2);padding:2px}
+.pg-log ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.pg-log li{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink)}
+.pg-log .pl-t{flex:1;min-width:0}
+.pg-log li small{color:var(--ink-3);white-space:nowrap;font-size:12px}
+/* 엄마·아빠 폰: 칭찬합시다 카드 */
+.dash-card.praisec{padding:0}
+.pzc-open{display:flex;flex-direction:column;gap:12px;padding:20px;text-align:left;width:100%;border-radius:32px}
+.pzc-open:active{transform:scale(.99)}
+.dash-card.praisec .dc-head .sc-ico{background:var(--pz-bg);color:var(--pz-ink);--ic-tint:var(--pz-tint)}
+.pzc-h{flex:1;min-width:0}
+.pzc-go{color:var(--ink-3)}
+.pzc-go .ui{width:24px;height:24px}
+.pzc-kids{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pzc-k{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:18px;background:var(--surface-2);min-width:0}
+.pzc-k>span{display:flex;flex-direction:column;line-height:1.1}
+.pzc-k b{font:24px var(--f-d);font-weight:400;color:var(--pz-ink)}
+.pzc-k small{font-size:11px;color:var(--ink-3);white-space:nowrap}
+.pzc-last{display:flex;align-items:center;gap:8px;font-size:14px;padding:8px 12px;border-radius:16px;background:var(--pz-bg)}
+.pzc-last .pl-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pzc-last small{color:var(--ink-2);white-space:nowrap;font-size:12px}
+/* 칭찬합시다 화면 (부모) */
+.pz-wrap{display:flex;flex-direction:column;gap:16px;padding-block:18px 48px;max-width:760px}
+.pz-step,.pz-sent{background:var(--surface);border-radius:28px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;min-width:0}
+.pz-step h2,.pz-sent h2{margin:0;font:23px var(--f-d);font-weight:400;display:flex;align-items:center;gap:10px}
+.pz-step .hint{margin:-4px 0 0}
+.pz-n{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--pz-bg);color:var(--pz-ink);font:19px var(--f-d);flex:none}
+.pz-kids{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.pz-kid{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:14px 6px 12px;border-radius:22px;background:var(--surface-2);border:3px solid transparent}
+.pz-kid b{font:21px var(--f-d);font-weight:400}
+.pz-kid[aria-pressed="true"]{border-color:var(--k);background:color-mix(in oklab,var(--k) 18%,var(--surface))}
+.pz-tick{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:var(--k);color:#FFFFFF;display:grid;place-items:center;opacity:0;transform:scale(.6);transition:opacity .15s,transform .15s}
+.pz-kid[aria-pressed="true"] .pz-tick{opacity:1;transform:none}
+.pz-tick .ui{width:18px;height:18px}
+.pz-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (min-width:700px){.pz-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.pz-b{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:18px;background:var(--surface-2);border:2.5px solid transparent;text-align:left;font:17px/1.25 var(--f-d);min-height:66px;min-width:0}
+.pz-ic{width:46px;height:46px;border-radius:15px;background:var(--pz-bg);color:var(--pz-ink);--ic-tint:var(--pz-tint);display:grid;place-items:center;flex:none}
+.pz-ic .ic{width:34px;height:34px}
+.pz-b[aria-pressed="true"]{border-color:var(--pz-ink);background:color-mix(in oklab,var(--pz-tint) 38%,var(--surface))}
+.pz-in{font-size:19px}
+.pz-send{display:flex;flex-direction:column;gap:12px}
+.pz-pig{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:22px;background:var(--surface);box-shadow:var(--shadow);text-align:left;width:100%}
+.pz-pig-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font:18px var(--f-d)}
+.pz-pig-t small{font:13px var(--f-b);color:var(--ink-2)}
+.pz-pig .switch[aria-checked="true"] .sw{background:var(--pig-ink)}
+.pz-go{min-height:64px;font-size:21px;width:100%;flex:none;font-family:var(--f-d);font-weight:400}
+.pz-go:disabled{opacity:.45}
+.pz-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.pz-item{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:18px;background:var(--surface-2)}
+.pz-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.pz-item b{font:19px var(--f-d);font-weight:400}
+.pz-item small{color:var(--ink-2);font-size:13px}
+.pz-item .ib.del{width:40px;height:40px;color:var(--ink-3);background:transparent}
+.pz-item .ib.del.armed{width:auto;padding:0 10px;font-size:12px;color:#FFFFFF;background:var(--danger)}
+/* 받은 칭찬 화면 (태블릿) */
+.pzh-wrap{display:flex;flex-direction:column;gap:12px;padding-block:18px 56px;max-width:900px}
+.pzh-sum{display:flex;align-items:center;gap:16px;padding:16px 20px;border-radius:30px;background:linear-gradient(120deg,color-mix(in oklab,var(--k) 16%,var(--surface)),var(--pz-bg));box-shadow:var(--shadow);flex-wrap:wrap}
+.pzh-sum>div:first-of-type{display:flex;align-items:baseline;gap:6px;font:22px var(--f-d)}
+.pzh-sum>div:first-of-type b{font:54px/1 var(--f-d);font-weight:400;color:var(--pz-ink)}
+.pzh-medals{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto;max-width:100%}
+.pzh-m{width:40px;height:40px;border-radius:50%;background:var(--surface);color:var(--pz-ink);--ic-tint:var(--pz-tint);display:grid;place-items:center;box-shadow:0 2px 0 var(--pz-tint)}
+.pzh-m .ic{width:28px;height:28px}
+.pzh-day{margin:10px 4px 0;font:18px var(--f-d);font-weight:400;color:var(--ink-2)}
+.pzh-list{display:flex;flex-direction:column;gap:10px}
+.pzh-card{position:relative;display:flex;align-items:center;gap:16px;padding:14px 18px;border-radius:26px;background:var(--surface);box-shadow:var(--shadow);text-align:left;border:3px solid transparent;width:100%}
+.pzh-card:active{transform:scale(.99)}
+.pzh-card.new{border-color:#FF9CB4;background:color-mix(in oklab,#FFD6E2 30%,var(--surface))}
+.pzh-card .pz-ic{width:64px;height:64px;border-radius:20px;background:color-mix(in oklab,var(--k) 22%,var(--surface));color:color-mix(in oklab,var(--k) 75%,var(--ink));--ic-tint:color-mix(in oklab,var(--k) 40%,var(--surface))}
+.pzh-card .pz-ic .ic{width:46px;height:46px}
+.pzh-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:6px}
+.pzh-t b{font:28px/1.2 var(--f-d);font-weight:400}
+.pzh-t small{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--ink-2)}
+.pzh-coin{display:flex;align-items:flex-end;gap:4px;font:17px var(--f-d);color:var(--pig-ink);background:var(--pig-bg);padding:4px 10px 4px 6px;border-radius:999px;white-space:nowrap}
+.pzh-new{position:absolute;top:-10px;left:22px;font:13px var(--f-d);background:#FF5C84;color:#FFFFFF;padding:3px 10px;border-radius:999px}
+.pzh-say{width:46px;height:46px;border-radius:50%;background:var(--surface-2);display:grid;place-items:center;color:var(--ink-2);flex:none}
+.pzh-say .ui{width:24px;height:24px}
+/* 새 칭찬 팝업 (태블릿) */
+.pz-pop{position:fixed;inset:0;z-index:80;background:rgba(20,24,40,.45);display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));animation:pzfade .2s both}
+.pz-pop-box{width:min(560px,100%);background:var(--surface);border-radius:36px;padding:28px 24px 22px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:pzup .45s cubic-bezier(.3,1.4,.5,1) both}
+.pz-pop-faces{display:flex;align-items:center;gap:10px}
+.pz-pop-heart .ic{width:40px;height:40px;color:#FF5C84;--ic-tint:#FFC2D2;animation:pznew 1s ease-in-out infinite}
+.pz-pop-h{margin:0;font:26px/1.3 var(--f-d)}
+.pz-pop-t{display:flex;align-items:center;gap:14px;padding:14px 22px;border-radius:24px;background:var(--pz-bg)}
+.pz-pop-t .pz-ic{width:60px;height:60px;background:var(--surface)}
+.pz-pop-t .pz-ic .ic{width:44px;height:44px}
+.pz-pop-t b{font:32px/1.2 var(--f-d);font-weight:400;color:var(--ink)}
+.pz-pop-pig{margin:0;display:flex;align-items:flex-end;gap:8px;font:19px var(--f-d);color:var(--pig-ink)}
+.pz-pop-box .btn{flex:none;min-width:200px;font:22px var(--f-d);min-height:58px}
+@keyframes pzfade{from{opacity:0}}
+@keyframes pzup{from{opacity:0;transform:translateY(30px) scale(.9)}}
+@media (prefers-reduced-motion:reduce){.drop .pig-coin,.drop .pig-body,.wig .pig-body,.pig-plus,.cc-praise em,.pz-pop-box,.pz-pop-heart .ic{animation:none}.drop .pig-coin{opacity:0}}
+@media (max-width:760px){.pdash .pigc,.pdash .praisec{order:0}}
 </style>
 
 </head>
@@ -1184,12 +1327,20 @@ button.tc:active{transform:scale(.95)}
 <main id="char" class="screen" hidden></main>
 <main id="edit" class="screen" hidden></main>
 <main id="cal" class="screen" hidden></main>
+<main id="praise" class="screen" hidden></main>
+<main id="praises" class="screen" hidden></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* ===== pictograms (48 grid, two-tone line) ===== */
 const SHIRT='M17 7l-10 6 4 8 5-2.5V41h16V18.5l5 2.5 4-8-10-6c-1 3.5-3.6 5.5-7 5.5S18 10.5 17 7z';
 const ICONS={
+  pig:'<path class="t" d="M9 26c0-8.3 7.6-14 17-14 6.5 0 11.6 2.6 14.4 6.6H43a2 2 0 0 1 2 2V29a2 2 0 0 1-2 2h-2.3c-1.3 2.8-3.4 5-6 6.4V41h-5.5v-2.4a22 22 0 0 1-6.4 0V41h-5.5v-3.9C11.6 34.8 9 30.7 9 26z"/><path d="M17 13.5l-1.5-5.5 6.5 4M21 17.5h8M9 25c-3 .3-4.6-2.5-2.6-4"/><circle class="s" cx="35" cy="23" r="1.8"/>',
+  medal:'<path d="M17 4l5 13M31 4l-5 13"/><circle class="t" cx="24" cy="29" r="13"/><path class="s" d="M24 21.5l2.3 4.7 5.2.7-3.8 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1-3.8-3.6 5.2-.7z"/>',
+  helpfam:'<path class="t" d="M24 22s-8.5-5-8.5-10.5a4.2 4.2 0 0 1 8.5-1.4 4.2 4.2 0 0 1 8.5 1.4C32.5 17 24 22 24 22z"/><path class="t" d="M5 33l6.5-3.6a8 8 0 0 1 6.2-.6L26 31.5h5.5a3 3 0 0 1 0 6H21"/><path d="M5 43l7.5-3.8h13l14-8a3 3 0 0 0-3.2-5L31 29"/>',
+  share:'<circle class="t" cx="11" cy="22" r="5.5"/><path class="t" d="M3 42v-5a8 8 0 0 1 16 0v5z"/><circle class="t" cx="37" cy="22" r="5.5"/><path class="t" d="M29 42v-5a8 8 0 0 1 16 0v5z"/><path d="M13 11.5q11-8.5 22 0M30.5 7.5l4.5 4-5.8 1.2"/>',
+  friends:'<circle class="t" cx="15" cy="28" r="10"/><circle class="t" cx="33" cy="28" r="10"/><circle class="s" cx="12" cy="26.5" r="1.5"/><circle class="s" cx="18" cy="26.5" r="1.5"/><circle class="s" cx="30" cy="26.5" r="1.5"/><circle class="s" cx="36" cy="26.5" r="1.5"/><path d="M11.5 31.5q3.5 3 7 0M29.5 31.5q3.5 3 7 0"/><path class="t" d="M24 15s-4.5-2.7-4.5-5.6a2.3 2.3 0 0 1 4.5-.7 2.3 2.3 0 0 1 4.5.7C28.5 12.3 24 15 24 15z"/>',
+  pen:'<path class="t" d="M31 7l10 10-21 21-12.5 2.5L10 28z"/><path d="M27 11l10 10M10 28l10 10"/>',
   sun:'<circle class="t" cx="24" cy="24" r="9"/><path d="M24 5v5M24 38v5M5 24h5M38 24h5M10.6 10.6l3.5 3.5M33.9 33.9l3.5 3.5M37.4 10.6l-3.5 3.5M14.1 33.9l-3.5 3.5"/>',
   moon:'<path class="t" d="M27 6a18 18 0 1 0 15 26A15 15 0 0 1 27 6z"/><path d="M40 5v6M37 8h6"/>',
   door:'<path d="M8 42h28M13 42V8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v34"/><path class="t" d="M13 7l12 4v30l-12 1z"/><circle class="s" cx="21.5" cy="26" r="1.8"/><path d="M37 24h7M41 21l3 3-3 3"/>',
@@ -1459,6 +1610,13 @@ function normalize(s){
   { const c=(s.chars&&typeof s.chars==='object')?s.chars:{}, out={};
     for(const [k,v] of Object.entries(c)) if(v&&typeof v==='object') out[k]={made:!!v.made,look:(v.look&&typeof v.look==='object')?v.look:{},wear:(v.wear&&typeof v.wear==='object')?v.wear:{},own:(v.own&&typeof v.own==='object')?v.own:{},...(typeof v.lastBuy==='string'?{lastBuy:v.lastBuy}:{})};
     s.chars=out; }
+  { const p=(s.piggy&&typeof s.piggy==='object')?s.piggy:{}, amt={}, log={}, old=Date.now()-120*864e5;
+    for(const [k,v] of Object.entries(p.amt||{})) amt[k]=Math.max(0,Math.round(Number(v)||0));
+    for(const [id,v] of Object.entries(p.log||{})) if(v&&typeof v==='object'&&v.k&&Number(v.at)>old) log[id]={k:String(v.k),by:String(v.by||''),at:Number(v.at),...(v.reset?{reset:Number(v.reset)||0}:{d:Number(v.d)||0}),...(v.pz?{pz:1}:{})};
+    s.piggy={amt,log}; }
+  { const p=(s.praise&&typeof s.praise==='object')?s.praise:{}, out={};
+    for(const [id,v] of Object.entries(p)) if(v&&typeof v==='object'&&v.k&&typeof v.t==='string'&&v.t&&Number(v.at)) out[id]={k:String(v.k),t:v.t.slice(0,80),ic:typeof v.ic==='string'?v.ic:'medal',by:String(v.by||''),at:Number(v.at),...(v.pig?{pig:Number(v.pig)||0}:{})};
+    s.praise=out; }
 }
 let S=load();
 function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}shareCharsOut();}
@@ -1472,7 +1630,7 @@ function shareCharsOut(){ try{
   window.Android.shareChars(JSON.stringify(list)); _famSig=sig;
 }catch(e){} }
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
-const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods','chars'];
+const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods','chars','piggy','praise'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
 // 데이터베이스 주소는 앱에 넣고, 가족 공간 코드는 우리집 암호로만 만들어요 (암호는 어디에도 저장하지 않아요)
 const FAMILY_DB=window.__FAMILY_DB||'https://dadada-family-default-rtdb.asia-southeast1.firebasedatabase.app/dadada/';
@@ -1541,7 +1699,7 @@ function todayRanks(){ const o={},d=S.log[todayKey()]||{}; for(const r of RIDS) 
 const pk=k=>String(k).split('~')[0];
 const replyKeys=()=>{ const o=new Set(); for(const m in S.replies||{}) for(const r in (S.replies[m]||{})) o.add(m+'|'+r); return o; };
 function adopt(fn){
-  const before=todayRanks(), rb=replyKeys();
+  const before=todayRanks(), rb=replyKeys(), pb=new Set(Object.keys(S.praise||{}));
   fn();
   if(S.role==='kids'&&S.msg&&upgradeMsg(S.msg)) pushMsg();
   // local changes not yet confirmed by the server always win over older remote copies
@@ -1553,6 +1711,7 @@ function adopt(fn){
   normalize(S); save(); kidsStop();
   const after=todayRanks(), fresh=Object.keys(after).filter(k=>!before[k]);
   for(const key of replyKeys()) if(!rb.has(key)){ const [m,r]=key.split('|'), rp=S.replies[m]?.[r]; if(rp&&rp.at>Date.now()-120000) onNewReply(m,r,rp); }
+  if(S.role==='kids') for(const id of Object.keys(S.praise||{})) if(!pb.has(id)){ const v=S.praise[id]; if(v&&v.at>Date.now()-120000) onNewPraise(id,v); }
   requestRender();
   for(const key of fresh){ const [r,k]=key.split('|'); if(view.screen==='run'&&view.rid===r){ const e=peek(r,k); tone([523,659,784,1047],.32,'triangle',.11); celebrate(k,e.rank,e.stars); } }
 }
@@ -1594,10 +1753,10 @@ async function pollOnce(){
   if(!S.sync) return;
   try{
     const t=todayKey();
-    const [kids,routines,bank,day,msg]=await Promise.all(['kids','routines','bank','log/'+t,'msg'].map(p=>fetch(ref(p)).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })));
+    const [kids,routines,bank,day,msg,piggy,praise]=await Promise.all(['kids','routines','bank','log/'+t,'msg','piggy','praise'].map(p=>fetch(ref(p)).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })));
     setSt('on'); SYNC.last=Date.now();
     if(hasPending()) return;
-    adopt(()=>{ if(kids) S.kids=kids; if(msg) S.msg=msg; if(routines) S.routines=routines; if(bank) S.bank=bank; if(day) S.log[t]=day; else delete S.log[t]; });
+    adopt(()=>{ if(kids) S.kids=kids; if(msg) S.msg=msg; if(routines) S.routines=routines; if(bank) S.bank=bank; if(day) S.log[t]=day; else delete S.log[t]; if(piggy) S.piggy=piggy; if(praise) S.praise=praise; });
   }catch(e){ setSt('err'); }
 }
 async function syncConnect(raw,role=S.role){
@@ -1655,6 +1814,8 @@ function requestRender(){
   else if(view.screen==='room'){ const nearEnd=window.innerHeight+window.scrollY>document.documentElement.scrollHeight-160; if(nearEnd) CH.stick=true; const y=window.scrollY; renderRoom(); if(!CH.stick) window.scrollTo(0,y); }
   else if(view.screen==='msg') renderMsg();
   else if(view.screen==='replies') renderReplies();
+  else if(view.screen==='praise'){ const y=window.scrollY; renderPraise(); window.scrollTo(0,y); }
+  else if(view.screen==='praises'){ const y=window.scrollY; renderPraises(); window.scrollTo(0,y); }
   else if(view.screen==='room') renderRoom();
   else if(view.screen==='welcome') return;
   else if(view.screen==='cal'){ const y=window.scrollY; renderCal(); window.scrollTo(0,y); }
@@ -1722,11 +1883,11 @@ const dateLabel=()=>{const d=new Date();return `${d.getMonth()+1}월 ${d.getDate
 
 function show(){
   if(view.screen!=='msg'&&typeof M!=='undefined'&&M.rec==='rec') recStop();
-  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','char','edit','cal']) document.getElementById(s).hidden=view.screen!==s;
+  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','char','edit','cal','praise','praises']) document.getElementById(s).hidden=view.screen!==s;
   if(view.screen==='family'&&isAdult()){ INB.prevSeen=S.inboxSeen||0; S.inboxSeen=Date.now(); save(); }
   if(view.screen==='replies'){ RP.prevSeen=S.repliesSeen||0; S.repliesSeen=Date.now(); save(); }
   if(view.screen==='room'||(view.screen==='family'&&isElder())) CH.stick=true;
-  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='char') renderChar(); else if(view.screen==='cal') renderCal(); else renderEdit();
+  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='char') renderChar(); else if(view.screen==='cal') renderCal(); else if(view.screen==='praise') renderPraise(); else if(view.screen==='praises') renderPraises(); else renderEdit();
   keepAwake(view.screen==='run');
   window.scrollTo(0,0);
 }
@@ -2113,11 +2274,13 @@ function renderInbox(){
     ${setupCard()}
     ${!S.sync?`<div class="ib-empty">${ico('bubble')}<b>아직 연결이 안 됐어요</b><p>꾹 눌러 편집 → 폰 연결에서 우리집 암호로 연결해 주세요.</p></div>`:''}
     <section class="pdash"><div class="pcol">
+      ${piggyCard()}
       ${stopCard()}
       ${foodParentCard()}
       ${todayCard().replace('</div></div>',`</div><button class="tbtn mini-link" data-act="todo">별·기록 ${ui('next')}</button></div>`)}
       ${pickerCard()}
       </div><div class="pcol">
+      ${praiseCard()}
       <section class="dash-card rooms"><div class="dc-head"><span class="sc-ico">${ico('bubble')}</span><div><b>가족 채팅방</b><small>${unread?`안 읽은 마음 ${unread}개`:'아이들이 보낸 마음'}</small></div></div>
         <div class="room-list">${rows}</div></section>
       ${medCard()}
@@ -2912,10 +3075,14 @@ const owns=(c,cat,id)=>(SHOP_BASE[cat]===id)||(itemOf(cat,id)?.p===0)||(c.own[ca
 const worn=(c,cat,id)=>(c.wear[cat]||SHOP_BASE[cat]||'')===id;
 function charRow(){
   if(S.role!=='kids') return '';
-  return `<section class="char-row">${S.kids.map(k=>{ const c=charOf(k.id);
-    return `<button class="char-card kid" style="--k:${k.color}" data-act="char" data-kid="${k.id}" aria-label="${esc(k.name)} 꾸미기">
-      <span class="cc-art">${charSvg(c.look,c.wear,{size:150})}${c.made?'':`<span class="cc-new">나를 만들어요!</span>`}</span>
-      <span class="cc-info"><b>${esc(k.name)}</b><span class="cc-wallet">${star(26)}<em>${wallet(k.id)}</em></span><span class="cc-go">${c.made?'꾸미러 가기':'캐릭터 만들기'} ${ui('next')}</span></span></button>`; }).join('')}</section>`;
+  pigMarkSeen();
+  return `<section class="char-row">${S.kids.map(k=>{ const c=charOf(k.id), pz=praisesOf(k.id), fresh=pz.filter(x=>x.at>((S.praiseSeen||{})[k.id]||0)).length;
+    return `<div class="char-card kid" style="--k:${k.color}">
+      <button class="cc-artb" data-act="char" data-kid="${k.id}" aria-label="${esc(k.name)} 꾸미기"><span class="cc-art">${charSvg(c.look,c.wear,{size:150})}${c.made?'':`<span class="cc-new">나를 만들어요!</span>`}</span></button>
+      <button class="cc-info" data-act="char" data-kid="${k.id}" tabindex="-1"><b>${esc(k.name)}</b><span class="cc-wallet">${star(26)}<em>${wallet(k.id)}</em></span><span class="cc-go">${c.made?'꾸미러 가기':'캐릭터 만들기'} ${ui('next')}</span></button>
+      <button class="cc-pig" data-act="pigsay" data-kid="${k.id}" aria-label="${esc(k.name)} 돼지저금통 ${won(pigAmt(k.id))}">${pigView(k.id)}</button>
+      <button class="cc-praise${fresh?' fresh':''}" data-act="praises" data-kid="${k.id}">${ico('medal')}<span>받은 칭찬</span><b>${pz.length}</b>${ui('next')}${fresh?`<em>새 칭찬 ${fresh}</em>`:''}</button>
+    </div>`; }).join('')}</section>`;
 }
 function openChar(kid){ view.ck=kid; const c=charOf(kid); CR.tab=c.made?'top':'look'; CR.try=null; view.screen='char'; show(); }
 function crBurst(){
@@ -2970,6 +3137,185 @@ function renderChar(){
     </section>
   </div>`;
 }
+/* ===== 돼지저금통: 엄마·아빠 폰에서 100원씩 넣고, 현금으로 주면 비워요 (아이들 태블릿은 보기만) ===== */
+const PIG_UNIT=100, PIG_FULL=10000;
+const won=n=>String(Math.max(0,Math.round(Number(n)||0))).replace(/\B(?=(\d{3})+(?!\d))/g,',')+'원';
+const josaGa=n=>hasBatchim(n)?'이':'가';
+const pigAmt=kid=>Math.max(0,Number(S.piggy?.amt?.[kid])||0);
+// 0원은 작은 돼지, 100원마다 눈에 띄게 크다가 1만 원쯤에서 가장 커요
+const pigScale=a=>Math.min(1,.42+.58*Math.log10(1+a/PIG_UNIT)/Math.log10(1+PIG_FULL/PIG_UNIT));
+const PIG={ask:'',last:{},anim:{}};
+function pigSvg(a,w=104){
+  const s=pigScale(a), W=w*s, full=a>=PIG_FULL;
+  return `<svg class="pig" viewBox="0 0 120 104" width="${W.toFixed(1)}" height="${(W*104/120).toFixed(1)}" aria-hidden="true">
+    ${full?`<g fill="#FFC93C"><path d="M9 16l2.2 5.3 5.3 2.2-5.3 2.2L9 31l-2.2-5.3L1.5 23.5l5.3-2.2z"/><path d="M112 4l1.7 4 4 1.7-4 1.7-1.7 4-1.7-4-4-1.7 4-1.7z"/></g>`:''}
+    <g class="pig-coin"><circle cx="53" cy="6" r="8.5" fill="#FFD54A" stroke="#D9A21B" stroke-width="2.5"/><path d="M50 6h6" stroke="#D9A21B" stroke-width="2.2" stroke-linecap="round"/></g>
+    <g class="pig-body">
+      <path d="M17 57c-9 1-12-7-6-10 4.5-2 7 3.5 2.5 5.5" fill="none" stroke="#E27A9B" stroke-width="3.5" stroke-linecap="round"/>
+      <rect x="30" y="78" width="13" height="20" rx="5.5" fill="#F29AB6"/><rect x="72" y="78" width="13" height="20" rx="5.5" fill="#F29AB6"/>
+      <path d="M74 35l4-19 12 17z" fill="#F29AB6"/>
+      <ellipse cx="60" cy="58" rx="45" ry="34" fill="#FFB8CC" stroke="#E27A9B" stroke-width="2.5"/>
+      <rect x="40" y="81" width="13" height="20" rx="5.5" fill="#FFB8CC" stroke="#E27A9B" stroke-width="2.5"/><rect x="82" y="81" width="13" height="20" rx="5.5" fill="#FFB8CC" stroke="#E27A9B" stroke-width="2.5"/>
+      <path d="M86 37l3-21 13 19z" fill="#FFB8CC" stroke="#E27A9B" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M27 45c4-8 11-13 21-14.5" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" opacity=".65"/>
+      <rect x="42" y="26.5" width="22" height="6" rx="3" fill="#B94A72"/>
+      <ellipse cx="104" cy="61" rx="11" ry="13" fill="#FF9EBB" stroke="#E27A9B" stroke-width="2.5"/>
+      <ellipse cx="101" cy="61" rx="1.9" ry="3.3" fill="#B94A72"/><ellipse cx="107" cy="61" rx="1.9" ry="3.3" fill="#B94A72"/>
+      <circle cx="87" cy="48" r="4.3" fill="#3A2A33"/><circle cx="88.5" cy="46.5" r="1.5" fill="#FFFFFF"/>
+      <ellipse cx="83" cy="67" rx="6.5" ry="4" fill="#FF7FA6" opacity=".45"/>
+    </g></svg>`;
+}
+// 아이들 태블릿: 캐릭터 옆 돼지 (새로 들어온 돈이 있으면 동전이 쏙 들어가요)
+function pigView(kid){
+  const a=pigAmt(kid), an=PIG.anim[kid], el=an?Date.now()-an.t0:9e9, live=el<3600;
+  return `<span class="pig-amt">${won(a)}</span><span class="pig-box${live?' drop':''}"${live?` style="--pt:${-el}ms"`:''}>${pigSvg(a,104)}${live?`<span class="pig-plus">+${won(an.up)}</span>`:''}</span>`;
+}
+function pigMarkSeen(){
+  if(S.role!=='kids') return;
+  S.pigSeen=S.pigSeen||{}; const now=Date.now(); let ch=false, up=false;
+  for(const k of S.kids){ const a=pigAmt(k.id), s=S.pigSeen[k.id];
+    if(s==null){ S.pigSeen[k.id]=a; ch=true; continue; }
+    if(a>s){ const an=PIG.anim[k.id], live=an&&now-an.t0<3600; PIG.anim[k.id]={up:(live?an.up:0)+(a-s),t0:now}; up=true; }
+    if(a!==s){ S.pigSeen[k.id]=a; ch=true; } }
+  if(ch) save(); if(up) setTimeout(()=>tone([1568,2093],.1,'triangle',.07),400);
+}
+const pigLog=()=>Object.entries(S.piggy?.log||{}).map(([id,v])=>({id,...v})).filter(x=>x&&x.at&&kidById(x.k)).sort((a,b)=>b.at-a.at);
+function pigGive(kid,d,viaPraise=false){
+  const before=pigAmt(kid), after=Math.max(0,before+d), delta=after-before; if(!delta) return 0;
+  S.piggy.amt[kid]=after; rinc(`piggy/amt/${kid}`,delta);
+  const now=Date.now(), L=S.piggy.log, lid=PIG.last[kid], prev=lid&&L[lid];
+  // 같은 사람이 1분 30초 안에 여러 번 누르면 기록은 한 줄로 합쳐요 (+300원)
+  if(!viaPraise&&prev&&!prev.reset&&!prev.pz&&prev.by===S.role&&now-prev.at<90000){
+    prev.d+=delta; prev.at=now;
+    if(prev.d){ rset(`piggy/log/${lid}`,prev); } else { delete L[lid]; rset(`piggy/log/${lid}`,null); PIG.last[kid]=''; }
+  } else {
+    const id='g'+now.toString(36)+S.role+kid; L[id]={k:kid,d:delta,by:S.role,at:now,...(viaPraise?{pz:1}:{})}; rset(`piggy/log/${id}`,L[id]); PIG.last[kid]=viaPraise?'':id;
+  }
+  save(); return delta;
+}
+function pigReset(kid){
+  const a=pigAmt(kid); if(!a) return 0;
+  S.piggy.amt[kid]=0; rset(`piggy/amt/${kid}`,0);
+  const now=Date.now(), id='r'+now.toString(36)+S.role+kid; S.piggy.log[id]={k:kid,reset:a,by:S.role,at:now}; rset(`piggy/log/${id}`,S.piggy.log[id]);
+  PIG.last[kid]=''; PIG.ask=''; save(); return a;
+}
+function piggyCard(){
+  if(!isParent()) return '';
+  const rows=S.kids.map(k=>{ const a=pigAmt(k.id);
+    if(PIG.ask===k.id) return `<div class="pg-row ask kid" style="--k:${k.color}">
+      <div class="pg-who">${avatar(k,44)}<p><b>${esc(withI(k.name))}에게 ${won(a)}을 현금으로 줬나요?</b><small>돼지저금통을 0원으로 비워요. 태블릿 돼지도 작아져요.</small></p></div>
+      <div class="pg-btns"><button class="pg-yes" data-act="pigreset" data-kid="${k.id}">${ui('check')}네, 비울게요</button><button class="pg-no" data-act="pigno">아니요</button></div></div>`;
+    return `<div class="pg-row kid" style="--k:${k.color}">
+      <div class="pg-who">${avatar(k,44)}<b>${esc(k.name)}</b></div>
+      <div class="pg-now">${pigSvg(a,58)}<span class="pg-amt">${won(a)}</span></div>
+      <div class="pg-btns"><button class="pg-plus" data-act="pigadd" data-kid="${k.id}">+100원</button><button class="pg-minus" data-act="pigsub" data-kid="${k.id}"${a?'':' disabled'} aria-label="100원 빼기">−100</button><button class="pg-empty" data-act="pigask" data-kid="${k.id}"${a?'':' disabled'}>현금 줬어요</button></div></div>`; }).join('');
+  const log=pigLog().slice(0,8);
+  return `<section class="dash-card pigc"><div class="dc-head"><span class="sc-ico">${ico('pig')}</span><div><b>돼지저금통</b><small>누를 때마다 100원씩 들어가요</small></div></div>
+    <div class="pg-list">${rows}</div>
+    ${log.length?`<details class="pg-log"><summary>최근 기록</summary><ul>${log.map(x=>{ const p=personById(x.by), k=kidById(x.k);
+      return `<li>${p?parentAva(p,28):''}<span class="pl-t">${esc(p?p.name:'')} → ${esc(k.name)} <b>${x.reset?`${won(x.reset)} 현금으로 줌`:(x.d>0?'+':'−')+won(Math.abs(x.d))}</b>${x.pz?' · 칭찬':''}</span><small>${whenText(x.at)}</small></li>`; }).join('')}</ul></details>`:''}
+  </section>`;
+}
+
+/* ===== 칭찬합시다: 엄마·아빠 폰에서 보내고, 아이들 태블릿 '받은 칭찬'에 쌓여요 ===== */
+const PRAISE_DEF=[['meal','밥을 잘 먹었어요'],['helpfam','가족을 도왔어요'],['share','양보했어요'],['toys','정리를 잘했어요'],['friends','사이좋게 놀았어요'],['star','스스로 했어요'],['goodmorning','인사를 잘했어요']];
+const PZ={kids:new Set(),pick:'',text:'',pig:false,kid:'',prev:0};
+const praiseAll=()=>Object.entries(S.praise||{}).map(([id,v])=>({id,...v})).filter(x=>x&&x.at&&x.t&&kidById(x.k)).sort((a,b)=>b.at-a.at);
+const praisesOf=kid=>praiseAll().filter(x=>x.k===kid);
+const praiseIco=x=>ICONS[x.ic]?x.ic:'medal';
+const pzText=()=>(PZ.pick==='custom'?PZ.text:(PRAISE_DEF.find(p=>p[0]===PZ.pick)||[])[1]||'').trim();
+function praiseCard(){
+  if(!isParent()) return '';
+  const all=praiseAll(), wk=Date.now()-7*864e5, last=all[0], lp=last&&personById(last.by);
+  return `<section class="dash-card praisec"><button class="pzc-open" data-act="praise" aria-label="칭찬합시다 열기">
+    <span class="dc-head"><span class="sc-ico">${ico('medal')}</span><span class="pzc-h"><b>칭찬합시다</b><small>아이를 누르고 칭찬을 골라 보내요</small></span><span class="pzc-go">${ui('next')}</span></span>
+    <span class="pzc-kids">${S.kids.map(k=>`<span class="pzc-k">${avatar(k,40)}<span><b>${all.filter(x=>x.k===k.id&&x.at>wk).length}</b><small>최근 7일</small></span></span>`).join('')}</span>
+    ${last?`<span class="pzc-last">${lp?parentAva(lp,28):''}<span class="pl-t">${esc(kidById(last.k).name)} · ${esc(last.t)}</span><small>${whenText(last.at)}</small></span>`:''}
+  </button></section>`;
+}
+function renderPraise(){
+  if(!isParent()){ view.screen='family'; return show(); }
+  const sel=PZ.kids, text=pzText(), names=S.kids.filter(k=>sel.has(k.id)).map(k=>withI(k.name)), ready=sel.size&&text;
+  const sent=praiseAll().slice(0,30);
+  $('#praise').innerHTML=`
+  <header class="band scene" data-rid="praise"><div class="wrap band-in">
+    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
+    <div class="band-title"><span class="sc-ico">${ico('medal')}</span><div><h1>칭찬합시다</h1><p class="band-date">보낸 칭찬은 아이들 태블릿 '받은 칭찬'에 쌓여요</p></div></div>
+  </div></header>
+  <div class="wrap pz-wrap">
+    <section class="pz-step"><h2><span class="pz-n">1</span>누구를 칭찬할까요?</h2>
+      <div class="pz-kids">${S.kids.map(k=>`<button class="pz-kid kid" style="--k:${k.color}" data-act="pzkid" data-kid="${k.id}" aria-pressed="${sel.has(k.id)}">${avatar(k,60)}<b>${esc(k.name)}</b><span class="pz-tick">${ui('check')}</span></button>`).join('')}</div>
+      <p class="hint">여러 명을 같이 골라도 돼요.</p></section>
+    <section class="pz-step"><h2><span class="pz-n">2</span>무엇을 칭찬할까요?</h2>
+      <div class="pz-grid">${PRAISE_DEF.map(([ic,t])=>`<button class="pz-b" data-act="pzpick" data-p="${ic}" aria-pressed="${PZ.pick===ic}"><span class="pz-ic">${ico(ic)}</span><span>${t}</span></button>`).join('')}
+        <button class="pz-b custom" data-act="pzcustom" aria-pressed="${PZ.pick==='custom'}"><span class="pz-ic">${ico('pen')}</span><span>직접 쓰기</span></button></div>
+      ${PZ.pick==='custom'?`<input class="fld pz-in" id="pzText" maxlength="40" placeholder="예: 동생에게 책을 읽어 줬어요" value="${esc(PZ.text)}" aria-label="칭찬 직접 쓰기">`:''}
+    </section>
+    <section class="pz-send">
+      <button class="pz-pig" data-act="pzpig" role="switch" aria-checked="${PZ.pig}">${pigSvg(1500,46)}<span class="pz-pig-t">돼지저금통에 100원도 넣기<small>칭찬받은 아이마다 100원씩 들어가요</small></span><span class="switch" aria-checked="${PZ.pig}"><span class="sw"></span></span></button>
+      <button class="btn pri pz-go" id="pzGo" data-act="pzsend"${ready?'':' disabled'}>${ready?`${esc(dot(names))}에게 칭찬 보내기`:'아이와 칭찬을 골라 주세요'}</button>
+    </section>
+    <section class="pz-sent"><h2>보낸 칭찬</h2>
+      ${sent.length?`<ul class="pz-list">${sent.map(x=>{ const k=kidById(x.k), p=personById(x.by);
+        return `<li class="pz-item">${avatar(k,42)}<span class="pz-t"><b>${esc(x.t)}</b><small>${esc(p?p.name:'')} → ${esc(k.name)} · ${whenText(x.at)}${x.pig?' · +100원':''}</small></span>${x.by===S.role?`<button class="ib del" data-act="pzdel" data-id="${x.id}" data-confirm="pz-${x.id}" aria-label="이 칭찬 지우기">${ui('x')}</button>`:''}</li>`; }).join('')}</ul>`:'<p class="hint">아직 보낸 칭찬이 없어요.</p>'}
+    </section>
+  </div>`;
+}
+function pzSync(){ const go=$('#pzGo'); if(!go) return; const names=S.kids.filter(k=>PZ.kids.has(k.id)).map(k=>withI(k.name)), ready=PZ.kids.size&&pzText(); go.disabled=!ready; go.textContent=ready?`${dot(names)}에게 칭찬 보내기`:'아이와 칭찬을 골라 주세요'; }
+function sendPraise(){
+  const text=pzText().slice(0,60), ic=PZ.pick==='custom'?'medal':PZ.pick, kids=S.kids.filter(k=>PZ.kids.has(k.id));
+  if(!text||!kids.length) return;
+  const now=Date.now();
+  for(const k of kids){
+    const id='p'+now.toString(36)+S.role+k.id, v={k:k.id,t:text,ic,by:S.role,at:now,...(PZ.pig?{pig:PIG_UNIT}:{})};
+    S.praise[id]=v; rset(`praise/${id}`,v); if(PZ.pig) pigGive(k.id,PIG_UNIT,true);
+  }
+  save(); tone([784,988,1319],.12,'triangle',.08);
+  toast(`${dot(kids.map(k=>withI(k.name)))}에게 칭찬을 보냈어요${PZ.pig?' · +100원':''}`);
+  PZ.kids=new Set(); PZ.pick=''; PZ.text=''; renderPraise(); window.scrollTo(0,0);
+}
+// 아이들 태블릿: 받은 칭찬 모아 보기
+function openPraises(kid){ PZ.kid=kid; S.praiseSeen=S.praiseSeen||{}; PZ.prev=S.praiseSeen[kid]||0; S.praiseSeen[kid]=Date.now(); save(); view.screen='praises'; show(); }
+function renderPraises(){
+  const k=kidById(PZ.kid)||S.kids[0]; if(!k){ view.screen='family'; return show(); } PZ.kid=k.id;
+  const list=praisesOf(k.id), days=[];
+  for(const x of list){ const d=dayLabel(x.at); if(!days.length||days[days.length-1].d!==d) days.push({d,xs:[]}); days[days.length-1].xs.push(x); }
+  $('#praises').innerHTML=`
+  <header class="band scene" data-rid="praise"><div class="wrap band-in">
+    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
+    <div class="band-title"><span class="sc-ico">${ico('medal')}</span><div><h1>${esc(withI(k.name))}${josaGa(withI(k.name))} 받은 칭찬</h1><p class="band-date">칭찬을 누르면 소리로 읽어 줘요</p></div></div>
+    <div class="cr-kids">${S.kids.map(x=>`<button class="cr-k kid" style="--k:${x.color}" data-act="pzk" data-kid="${x.id}" aria-pressed="${x.id===k.id}" aria-label="${esc(x.name)}">${avatar(x,46)}</button>`).join('')}</div>
+  </div></header>
+  <div class="wrap pzh-wrap">
+    <section class="pzh-sum kid" style="--k:${k.color}">${avatar(k,72)}<div><b>${list.length}</b><span>개의 칭찬을 받았어요</span></div><div class="pzh-medals">${list.slice(0,12).map(x=>`<span class="pzh-m">${ico(praiseIco(x))}</span>`).join('')}</div></section>
+    ${days.length?days.map(g=>`<h2 class="pzh-day">${g.d}</h2><div class="pzh-list">${g.xs.map(x=>{ const p=personById(x.by), fresh=x.at>PZ.prev;
+      return `<button class="pzh-card${fresh?' new':''}" data-act="pzsay" data-id="${x.id}"><span class="pz-ic kid" style="--k:${k.color}">${ico(praiseIco(x))}</span>
+        <span class="pzh-t"><b>${esc(x.t)}</b><small>${p?parentAva(p,30):''}${esc(p?p.name:'')}${p?josaGa(p.name):''} 칭찬했어요 · ${hm(x.at)}</small></span>
+        ${x.pig?`<span class="pzh-coin">${pigSvg(1500,34)}+100원</span>`:''}${fresh?'<span class="pzh-new">새 칭찬</span>':''}<span class="pzh-say">${ui('sound')}</span></button>`; }).join('')}</div>`).join('')
+      :`<div class="ib-empty">${ico('medal')}<b>아직 받은 칭찬이 없어요</b><p>엄마 아빠가 칭찬을 보내면 여기에 모여요.</p></div>`}
+  </div>`;
+}
+function sayPraise(id){ const x=(S.praise||{})[id]; if(!x) return; const p=personById(x.by), n=p?p.name:'엄마'; sayText(`${n}${josaGa(n)} 칭찬했어요. ${x.t}`); }
+// 태블릿을 보고 있을 때 새 칭찬이 오면 크게 보여 주고 읽어 줘요
+let pzQ=[], pzT=null;
+function onNewPraise(id,v){ if(S.role!=='kids') return; pzQ.push({id,...v}); clearTimeout(pzT); pzT=setTimeout(pzPop,500); }
+function pzPop(){
+  const q=pzQ; pzQ=[]; if(!q.length) return;
+  const x=q[q.length-1], same=q.filter(y=>y.t===x.t&&y.by===x.by), kids=[...new Set(same.map(y=>y.k))].map(kidById).filter(Boolean), p=personById(x.by), pn=p?p.name:'엄마';
+  if(!kids.length) return;
+  const who=dot(kids.map(k=>withI(k.name)));
+  document.querySelector('.pz-pop')?.remove();
+  const ov=document.createElement('div'); ov.className='pz-pop'; ov.setAttribute('role','dialog'); ov.setAttribute('aria-label','새 칭찬');
+  ov.innerHTML=`<div class="pz-pop-box"><div class="pz-pop-faces">${p?parentAva(p,76):''}<span class="pz-pop-heart">${ico('heart')}</span>${kids.map(k=>avatar(k,76)).join('')}</div>
+    <p class="pz-pop-h">${esc(pn)}${josaGa(pn)} ${esc(who)}${josaEul(who)} 칭찬했어요!</p>
+    <div class="pz-pop-t"><span class="pz-ic">${ico(praiseIco(x))}</span><b>${esc(x.t)}</b></div>
+    ${x.pig?`<p class="pz-pop-pig">${pigSvg(1500,48)}돼지저금통에 100원이 들어갔어요</p>`:''}
+    <button class="btn pri" data-k="ok">좋아요!</button></div>`;
+  ov.addEventListener('click',e=>{ if(e.target===ov||e.target.closest('[data-k]')) ov.remove(); });
+  document.body.appendChild(ov); tone([784,988,1319,1568],.16,'triangle',.1);
+  setTimeout(()=>sayText(`${pn}${josaGa(pn)} ${who}${josaEul(who)} 칭찬했어요. ${x.t}`),500);
+}
+
 /* ===== 받은 답장 (아이들 쪽) ===== */
 const RP={prevSeen:0};
 function allReplies(){
@@ -3498,6 +3844,21 @@ document.addEventListener('click',e=>{
     case 'fstats': FS.view='stats'; view.screen='fstats'; show(); break;
     case 'char': openChar(d.kid); tone([660,880],.08,'sine'); break;
     case 'crk': openChar(d.kid); break;
+    case 'pigadd': pigGive(d.kid,PIG_UNIT); tone([1319,1760],.08,'triangle',.06); buzz(); rerenderKeep(); { const r=document.querySelector(`.pg-plus[data-kid="${d.kid}"]`)?.closest('.pg-row'); const p=r&&r.querySelector('.pg-now'); if(p){ p.classList.remove('wig'); void p.offsetWidth; p.classList.add('wig'); } } break;
+    case 'pigsub': if(pigGive(d.kid,-PIG_UNIT)){ tone([523],.08,'sine'); rerenderKeep(); } break;
+    case 'pigask': PIG.ask=d.kid; rerenderKeep(); break;
+    case 'pigno': PIG.ask=''; rerenderKeep(); break;
+    case 'pigreset': { const k=kidById(d.kid), a=pigReset(d.kid); rerenderKeep(); if(a) toast(`${withI(k.name)} 돼지저금통을 비웠어요 (${won(a)})`); } break;
+    case 'pigsay': { const k=kidById(d.kid), a=pigAmt(d.kid), n=withI(k.name); sayText(a?`${n} 돼지저금통에 ${a}원 있어요`:`${n} 돼지저금통은 아직 비어 있어요`); const bx=b.querySelector('.pig-box'); if(bx){ bx.classList.remove('wig','drop'); void bx.offsetWidth; bx.classList.add('wig'); } } break;
+    case 'praise': PZ.kids=new Set(); PZ.pick=''; PZ.text=''; view.screen='praise'; show(); tone([660],.08,'sine'); break;
+    case 'pzkid': PZ.kids.has(d.kid)?PZ.kids.delete(d.kid):PZ.kids.add(d.kid); { const y=window.scrollY; renderPraise(); window.scrollTo(0,y); } break;
+    case 'pzpick': PZ.pick=d.p; PZ.text=''; { const y=window.scrollY; renderPraise(); window.scrollTo(0,y); } break;
+    case 'pzcustom': PZ.pick='custom'; { const y=window.scrollY; renderPraise(); window.scrollTo(0,y); } setTimeout(()=>$('#pzText')?.focus(),30); break;
+    case 'pzpig': PZ.pig=!PZ.pig; { const y=window.scrollY; renderPraise(); window.scrollTo(0,y); } break;
+    case 'pzsend': sendPraise(); break;
+    case 'pzdel': if(!confirmTap(b)) break; delete S.praise[d.id]; rset(`praise/${d.id}`,null); save(); { const y=window.scrollY; renderPraise(); window.scrollTo(0,y); } toast('칭찬을 지웠어요'); break;
+    case 'praises': case 'pzk': openPraises(d.kid); tone([660,880],.08,'sine'); break;
+    case 'pzsay': sayPraise(d.id); break;
     case 'crtab': CR.tab=d.tab; CR.try=null; renderChar(); $('.cr-body')?.scrollTo(0,0); break;
     case 'crlook': { const c=charOf(view.ck); c.look[d.f]=['skin','hc'].includes(d.f)?Number(d.v):d.v; saveChar(view.ck,c); buzz(); tone([784],.06,'sine'); const sc=$('.cr-body')?.scrollTop||0; renderChar(); const b=$('.cr-body'); if(b) b.scrollTop=sc; break; }
     case 'crdone': { const c=charOf(view.ck); c.made=true; saveChar(view.ck,c); CR.tab='top'; renderChar(); crBurst(); tone([523,659,784,1047],.28,'triangle',.1); const k=kidById(view.ck); sayText(`${withI(k.name)} 캐릭터 완성! 별을 모아서 예쁘게 꾸며요!`); break; }
@@ -3589,7 +3950,7 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('tc-in')&&!e.isComposing){ e.preventDefault(); const TC=trayCells(F.type), i=TC.findIndex(x=>x.k===e.target.dataset.slot); const nx=TC[i+1]; if(nx) $(`.tc-in[data-slot="${nx.k}"]`)?.focus(); else e.target.blur(); return; } if(e.key==='Enter'&&e.target.id==='chatIn'&&!e.isComposing){ e.preventDefault(); $('[data-act="isend"]')?.click(); return; } if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
 document.addEventListener('focusin',e=>{ if(e.target.classList&&e.target.classList.contains('tc-in')&&F.open){ F.slot=e.target.dataset.slot; paintTray(); } });
-document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(e.target.classList&&e.target.classList.contains('tc-in')){ const sl=e.target.dataset.slot, dd=F.draft[sl]; if(dd){ dd.name=e.target.value; F.slot=sl; if(!dd.manual) dd.icon=e.target.value.trim()?(guessFood(e.target.value)!=='dish'?guessFood(e.target.value):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish')):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish'); paintTray(); } } if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
+document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(id==='pzText'){ PZ.text=e.target.value; pzSync(); } if(e.target.classList&&e.target.classList.contains('tc-in')){ const sl=e.target.dataset.slot, dd=F.draft[sl]; if(dd){ dd.name=e.target.value; F.slot=sl; if(!dd.manual) dd.icon=e.target.value.trim()?(guessFood(e.target.value)!=='dish'?guessFood(e.target.value):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish')):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish'); paintTray(); } } if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.classList.contains('al-time')||t.classList.contains('al-text')){
