@@ -1762,6 +1762,53 @@ html:has(#family:not([hidden]) .kfit) body{margin:0}
 .gr-gir{margin-right:-10px}
 .gr-ch{display:block;width:120px;margin-bottom:-6px}
 .gr-ch svg{display:block;width:100%;height:auto}
+
+/* ===== 우체통 · 약 먹고 있는 사람 · 지금 몇 시 ===== */
+.kf-dash>.fcard .fc-sub.fd-sub{display:block!important;font:17px var(--f-d);opacity:.75;margin-top:-6px}
+.gr-pctline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 14px;border-radius:18px;background:var(--gr-a)}
+.gr-pctline b{font:24px var(--f-d);font-weight:400;color:var(--gr-ink)}
+.gr-pctline span{font:17px var(--f-d)}
+.mb-new{display:inline-flex;align-items:center;padding:6px 14px;border-radius:999px;background:var(--bub-ink);color:var(--on-bub);font:17px var(--f-d);animation:need .6s ease 3}
+.mb-tabs{margin-left:auto;display:flex;gap:6px;background:rgba(255,255,255,.65);padding:5px;border-radius:20px}
+.mb-tabs button{min-height:54px;padding:0 22px;border-radius:15px;font:21px var(--f-d);display:flex;align-items:center;gap:6px;color:var(--ink)}
+.mb-tabs button[aria-selected="true"]{background:var(--surface);box-shadow:var(--shadow)}
+.mb-tabs b{font:15px var(--f-d);font-weight:400;background:var(--bub-ink);color:var(--on-bub);border-radius:999px;padding:1px 9px}
+.med-who{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.med-who small{font-size:13px;color:var(--ink-2)}
+.mw{display:inline-flex;align-items:center;gap:5px;padding:2px 12px 2px 2px;border-radius:999px;background:color-mix(in oklab,var(--k) 22%,var(--surface));font:17px var(--f-d)}
+.kf-side>.med{grid-template-areas:"h b" "w w"!important;align-content:center!important;row-gap:8px!important}
+.kf-side>.med .dc-head{grid-area:h}
+.kf-side>.med .hosp-btn{grid-area:b}
+.kf-side>.med .med-who{grid-area:w}
+.kf-side>.med .dc-head small{display:none!important}
+.kf-side>.med .dc-head b{font-size:20px!important}
+.kf-side .st-app{flex-direction:column!important;justify-content:center!important;align-items:center!important;gap:4px!important;text-align:center}
+.kf-side .st-app .st-t{flex:none;align-items:center}
+.kf-side .st-app .st-t b{font-size:22px!important}
+.kf-side .st-app .duo .ava{width:40px!important;height:40px!important;--s:40px!important}
+.kf-pk-t small{white-space:nowrap}
+.kfit .kf-pk-next{display:none}
+/* 가운데 시계 */
+.kfit .kf-top{display:grid!important;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:16px}
+.kf-right{display:flex;align-items:center;justify-content:flex-end;gap:12px;min-width:0}
+.kf-right .kf-pick{margin-left:0}
+.kf-clock{display:flex;align-items:center;gap:10px;padding:6px 20px 6px 8px;border-radius:999px;background:var(--surface);box-shadow:var(--shadow);color:var(--ink);text-align:left}
+.kf-clock:active{transform:scale(.97)}
+.kf-clock svg{width:58px;height:58px;flex:none}
+.ck-f{fill:#FFFFFF;stroke:#F2B544;stroke-width:4}
+.ck-d{fill:#C9A24A}
+.ck-h{stroke:#E2607F;stroke-width:5;stroke-linecap:round}
+.ck-m{stroke:#3A7BD5;stroke-width:3.2;stroke-linecap:round}
+.ck-c{fill:#2A2418}
+.ck-txt{display:flex;flex-direction:column;line-height:1.05}
+.ck-txt small{font:14px var(--f-d);color:var(--ink-2)}
+.ck-txt b{font:32px var(--f-d);font-weight:400;white-space:nowrap;font-variant-numeric:tabular-nums}
+.kfit.port .kf-top{grid-template-columns:auto auto minmax(0,1fr);gap:10px}
+.kfit.port .kf-clock{padding:4px 12px 4px 4px}.kfit.port .kf-clock svg{width:44px;height:44px}.kfit.port .ck-txt small{display:none}.kfit.port .ck-txt b{font-size:22px}
+.kfit.port .kf-pick{display:none}
+.kfit.port .kf-dash>.fcard:not(.grow-card){gap:4px;padding-top:12px!important;padding-bottom:12px!important}
+.kfit.port .kf-dash>.fcard .fc-title{font-size:30px}
+.kfit.port .kf-dash>.fcard .sc-ico{width:48px;height:48px}
 </style>
 
 </head>
@@ -1788,6 +1835,7 @@ html:has(#family:not([hidden]) .kfit) body{margin:0}
 /* ===== pictograms (48 grid, two-tone line) ===== */
 const SHIRT='M17 7l-10 6 4 8 5-2.5V41h16V18.5l5 2.5 4-8-10-6c-1 3.5-3.6 5.5-7 5.5S18 10.5 17 7z';
 const ICONS={
+  mailbox:'<path class="t" d="M9 21a9 9 0 0 1 18 0v12H9z"/><path class="t" d="M18 12h14a9 9 0 0 1 9 9v12H27"/><path d="M8 33h34M25 33v11M19 44h12"/><path d="M33 20V9h7v5h-7"/><path class="s" d="M12.5 22h11v3.2h-11z"/>',
   calendar:'<rect class="t" x="6" y="10" width="36" height="32" rx="6"/><path d="M6 19h36M16 5v9M32 5v9"/><circle class="s" cx="17" cy="28" r="2.4"/><circle class="s" cx="24" cy="28" r="2.4"/><circle class="s" cx="31" cy="28" r="2.4"/><circle class="s" cx="17" cy="35" r="2.4"/>',
   ruler:'<rect class="t" x="5" y="16" width="38" height="16" rx="3"/><path d="M11 16v7M17 16v5M23 16v7M29 16v5M35 16v7"/>',
   scale:'<rect class="t" x="7" y="9" width="34" height="32" rx="8"/><path d="M15 21a9 9 0 0 1 18 0z"/><path d="M24 21l3-5"/>',
@@ -1927,7 +1975,7 @@ const ROUT={
   out:{name:'외출 루틴',short:'외출',icon:'door',hint:'현관문을 나서기 전에'}
 };
 const RIDS=['morning','evening','out'];
-const KID_COLORS=['#9C7BEA','#4FB3E8','#F7B23B','#F07FA2','#3EC4B4','#6F8BF2','#FF9264','#6CC46B'];
+const KID_COLORS=['#FFC93C','#FF6B4A','#FFB3C7','#9C7BEA','#4FB3E8','#F7B23B','#F07FA2','#3EC4B4','#6F8BF2','#FF9264','#6CC46B'];
 const CRAYON={'#8B5CF6':'#9C7BEA','#B9A4E8':'#9C7BEA','#2BA8E0':'#4FB3E8','#8EC5E6':'#4FB3E8','#F0A41C':'#F7B23B','#F2C77E':'#F7B23B','#E5487A':'#F07FA2','#EFA8BE':'#F07FA2','#16A39A':'#3EC4B4','#8FD0C4':'#3EC4B4','#4C6FFF':'#6F8BF2','#A3B2EE':'#6F8BF2','#FF7A3D':'#FF9264','#F4B08F':'#FF9264','#3BAA4E':'#6CC46B','#A9D39A':'#6CC46B'};
 const crayon=c=>CRAYON[String(c||'').toUpperCase()]||c;
 const CATALOG=[['sofa','거실 정리'],['hwcheck','숙제 다 했는지 확인'],['hanger','내일 입을 옷 꺼내두기'],['syringe','주사 맞기'],['strip','코르릉 붙이기'],['fold','벗어둔 잠옷 정리'],['sunscreen','로션/선크림 바르기'],['hotpack','핫팩 챙기기'],['towel','수건 챙기기'],['towel','수건 정리하기'],['hairpin','머리띠/머리핀 하기'],['meal','밥 먹기'],['notebook','언어전달장'],['toilet','아침 쉬'],['toilet','저녁 쉬'],['water','물 떠오기'],['vitamin','영양제 먹기'],['bed','이불 정리'],['toilet','화장실 가기'],['wash','세수하기'],['brush','양치하기'],['shirt','옷 입기'],['meal','아침 먹기'],['meal','저녁 먹기'],['comb','머리 빗기'],['hair','머리 묶기'],['lotion','로션 바르기'],['vitamin','비타민 먹기'],['water','물 마시기'],['backpack','가방 챙기기'],['backpack','내일 가방 챙기기'],['bottle','물병 챙기기'],['notebook','알림장 보여주기'],['homework','숙제하기'],['book','책 읽기'],['piano','악기 연습'],['toys','장난감 정리'],['plate','그릇 갖다 놓기'],['laundry','빨래통에 옷 넣기'],['handwash','손 씻기'],['bath','목욕하기'],['pajama','잠옷 입기'],['sleep','불 끄고 눕기'],['socks','양말 신기'],['coat','외투 입기'],['shoes','신발 신기'],['hat','모자 쓰기'],['mask','마스크 쓰기'],['umbrella','우산 챙기기'],['plant','화분 물 주기'],['heart','엄마 아빠 안아 주기']];
@@ -2015,8 +2063,8 @@ function defaults(){
   const routines={};
   for(const r of RIDS) routines[r]={k1:L(P[r].big),k2:L(P[r].small),k3:L(P[r].small)};
   mig7(routines);
-  return {v:4,mig5:true,mig6:true,mig7:true,msg:{v:1,defv:MSG_DEFV,phrases:defaultPhrases()},
-    kids:[{id:'k1',name:'다연',color:'#9C7BEA',animal:'cat'},{id:'k2',name:'다솔',color:'#4FB3E8',animal:'bear'},{id:'k3',name:'다정',color:'#F7B23B',animal:'chick'}],
+  return {v:4,mig5:true,mig6:true,mig7:true,mig8:true,msg:{v:1,defv:MSG_DEFV,phrases:defaultPhrases()},
+    kids:[{id:'k1',name:'다연',color:'#FFC93C',animal:'cat'},{id:'k2',name:'다솔',color:'#FF6B4A',animal:'bear'},{id:'k3',name:'다정',color:'#FFB3C7',animal:'chick'}],
     routines,log:{},bank:{k1:0,k2:0,k3:0},sound:true};
 }
 function load(){
@@ -2032,6 +2080,7 @@ function load(){
     const mo=s.routines?.morning?.k1; if(Array.isArray(mo)&&!mo.some(t=>t&&!t.once&&String(t.label).includes('핫팩'))) mo.push(T('hotpack','핫팩 챙기기'));
     const ev=s.routines?.evening?.k1; if(Array.isArray(ev)&&!ev.some(t=>t&&!t.once&&String(t.label).includes('잠옷 입기'))){ const i=ev.findIndex(t=>t&&String(t.label).includes('양치')); ev.splice(i>=0?i:ev.length,0,T('pajama','잠옷 입기')); } }
   if(!s.mig7){ s.mig7=true; s.needPush=true; mig7(s.routines); }
+  if(!s.mig8){ s.mig8=true; s.needPush=true; const C={'다연':'#FFC93C','다솔':'#FF6B4A','다정':'#FFB3C7'}; for(const k of (s.kids||[])) if(k&&C[k.name]) k.color=C[k.name]; }
   if(s.v<3){ const k1=s.kids.find(k=>k.id==='k1'); if(k1) k1.animal='cat'; const m=s.routines.morning?.k1; if(m&&!m.some(t=>!t.once&&t.label==='핫팩 챙기기')) m.push(T('hotpack','핫팩 챙기기')); s.v=3; }
   normalize(s);
   if(typeof s.sound!=='boolean') s.sound=true;
@@ -2846,23 +2895,22 @@ function renderFamily(){
   const todoCard=`<button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
         <span class="sc-ico">${ico('checklist')}</span><span class="fc-title">할 일</span><span class="fc-sub">아침 · 저녁 · 외출 루틴</span>
         <span class="fc-foot"><span class="fc-kids">${kids}</span></span></button>`;
-  const msgCard=`<button class="fcard scene" data-rid="msg" data-act="msg" aria-label="편지 보내기">
-        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">편지 보내기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
-        <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${note}</span></button>`;
+  const msgCard=`<button class="fcard scene" data-rid="msg" data-act="mailbox" aria-label="우체통">
+        <span class="sc-ico">${ico('mailbox')}</span><span class="fc-title">우체통</span><span class="fc-sub">편지 보내고 답장 받기</span>
+        <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${mbNew()||note}</span></button>`;
   kfitWas=kidsFit();
   if(kfitWas){
     $('#family').innerHTML=`<div class="wrap kfit">
       <header class="kf-top">
         <div class="kf-title"><h1 class="fam-name dada" aria-label="다다다">${dadaTitle()}</h1><div class="kf-date"><div class="eyebrow">${dateLabel()}</div><p class="greet">${greet}</p></div></div>
-        ${pickerChip()}
-        ${kfOvChip()}
-        ${tools}
+        ${clockHtml()}
+        <div class="kf-right">${pickerChip()}${kfOvChip()}${tools}</div>
       </header>
       ${charRow()}
       <section class="kf-dash">
         ${todoCard}${msgCard}${foodDashCard()}${growDashCard()}
         ${calDashCard()}${homeDashCard()}
-        <div class="kf-side">${studyCard()}${medCard()}<div class="kf-reply">${replyStrip()}</div></div>
+        <div class="kf-side">${studyCard()}${medCard()}</div>
       </section>
     </div>`;
     kidsFitApply();
@@ -2886,16 +2934,15 @@ function renderFamily(){
       <button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
         <span class="sc-ico">${ico('checklist')}</span><span class="fc-title">할 일</span><span class="fc-sub">아침 · 저녁 · 외출 루틴</span>
         <span class="fc-foot"><span class="fc-kids">${kids}</span></span></button>
-      <button class="fcard scene" data-rid="msg" data-act="msg" aria-label="편지 보내기">
-        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">편지 보내기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
-        <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${note}</span></button>
+      <button class="fcard scene" data-rid="msg" data-act="mailbox" aria-label="우체통">
+        <span class="sc-ico">${ico('mailbox')}</span><span class="fc-title">우체통</span><span class="fc-sub">편지 보내고 답장 받기</span>
+        <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${mbNew()||note}</span></button>
       ${foodDashCard()}
       ${growDashCard()}
       ${studyCard()}
       ${homeDashCard()}
       ${calDashCard()}
       ${medCard()}
-      <div class="dash-replies">${replyStrip()}</div>
     </section>
     <p class="foot">편집 버튼은 아이들이 실수로 열지 않도록 1초쯤 꾹 눌러야 열려요.</p>
   </div>`;
@@ -2983,8 +3030,9 @@ function todayCard(){
   </section>`;
 }
 function medCard(){
-  const act=S.meds.filter(medActive);
-  return `<section class="dash-card med"><div class="dc-head"><span class="sc-ico">${ico('medicine')}</span><div><b>약 먹기</b><small>${act.length?`먹는 약 ${act.length}가지`:'지금 먹는 약이 없어요'}</small></div></div>
+  const act=S.meds.filter(medActive), mk=[...new Set(act.flatMap(m=>toArr(m.kids)))].map(kidById).filter(Boolean);
+  return `<section class="dash-card med"><div class="dc-head"><span class="sc-ico">${ico('medicine')}</span><div><b>약 먹고 있는 사람</b><small>${act.length?`먹는 약 ${act.length}가지`:'지금 먹는 약이 없어요'}</small></div></div>
+    <div class="med-who">${mk.length?mk.map(k=>`<span class="mw kid" style="--k:${k.color}">${avatar(k,30)}${esc(k.name)}</span>`).join(''):'<small>지금은 없어요</small>'}</div>
     ${act.map(m=>{ const [a,b]=medRange(m), ks=m.kids.map(kidById).filter(Boolean);
       return `<div class="med-row"><span class="pv-faces">${ks.map(k=>avatar(k,40)).join('')}</span><div class="med-txt"><b>${esc(dot(ks.map(k=>k.name)))} · ${m.days}일치</b><small>${slotLabel(a)}부터 ${slotLabel(b)}까지</small></div>
         <button class="btn sec mini" data-act="hdel" data-id="${m.id}" data-confirm="hd-${m.id}">그만</button></div>`; }).join('')}
@@ -3173,7 +3221,7 @@ function burstAt(lane,el,bump){
 function foodDashCard(){
   const pend=S.kids.reduce((n,k)=>n+pendingFoods(k.id).length,0);
   return `<button class="fcard scene" data-rid="food" data-act="food" aria-label="골고루 먹자">
-    <span class="sc-ico">${ico('yum')}</span><span class="fc-title">골고루 먹자</span><span class="fc-sub">${pend?`오늘의 식판이 기다려요`:'먹어 본 음식을 모아요'}</span>
+    <span class="sc-ico">${ico('yum')}</span><span class="fc-title">골고루 먹자</span><span class="fc-sub fd-sub">오늘의 식판${pend?' 기다려요':''}</span>
     <span class="fc-foot"><span class="fd-mini">${S.kids.map(k=>`<span class="fdm kid" style="--k:${k.color}">${avatar(k,46)}<b>${foodCount(k.id)}</b></span>`).join('')}</span></span></button>`;
 }
 /* --- 엄마·아빠 폰 --- */
@@ -3976,7 +4024,7 @@ function renderGrow(){
   const info=grInfo(k.id), recs=grRecs(k.id), lh=grLast(k.id,'h'), lw=grLast(k.id,'w');
   const ph=recs.filter(r=>r.h), pw=recs.filter(r=>r.w), dh=ph.length>1?ph[ph.length-1].h-ph[ph.length-2].h:null;
   const neck=lh?Math.min(1.6,Math.max(.6,lh.h/110)):1;
-  const pctTxt=(kind,r)=>{ if(!isParent()||!r||!info.birth||!info.sex) return ''; const a=ageAt(info.birth,r.d); if(a<0||a>18.9) return ''; return `<small class="gr-pct">또래 ${zPct(gZ(info.sex,kind,a,r[kind]))}백분위</small>`; };
+  const pctTxt=(kind,r)=>{ if(!r||!info.birth||!info.sex) return ''; const a=ageAt(info.birth,r.d); if(a<0||a>18.9) return ''; return `<small class="gr-pct">또래 ${zPct(gZ(info.sex,kind,a,r[kind]))}백분위</small>`; };
   $('#grow').innerHTML=`
   <header class="band scene" data-rid="grow"><div class="wrap band-in">
     <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
@@ -3997,7 +4045,7 @@ function renderGrow(){
       <button class="btn pri gr-add" data-act="gradd">${ico('ruler')}오늘 키·몸무게 재기</button>
     </section>
     <section class="gr-chart">
-      <div class="gr-tabs" role="tablist"><button role="tab" data-act="grtab" data-k="h" aria-selected="${GR.tab==='h'}">키</button><button role="tab" data-act="grtab" data-k="w" aria-selected="${GR.tab==='w'}">몸무게</button></div>
+      ${(()=>{ const r=grLast(k.id,GR.tab); if(!r||!info.birth||!info.sex) return ''; const a=ageAt(info.birth,r.d); if(a<0||a>18.9) return ''; const p=Math.min(99,Math.max(1,zPct(gZ(info.sex,GR.tab,a,r[GR.tab])))); return `<div class="gr-pctline">${GR.tab==='h'?'키':'몸무게'} <b>백분위 ${p}%</b><span>또래 100명 중 ${p}명보다 ${GR.tab==='h'?'커요':'무거워요'}</span></div>`; })()}<div class="gr-tabs" role="tablist"><button role="tab" data-act="grtab" data-k="h" aria-selected="${GR.tab==='h'}">키</button><button role="tab" data-act="grtab" data-k="w" aria-selected="${GR.tab==='w'}">몸무게</button></div>
       ${growChart(k.id,GR.tab)}
       <p class="gr-src">회색 선은 또래 아이들 100명을 줄 세웠을 때 3·10·25·50·75·90·97번째예요. 기준: 질병관리청 2017 소아청소년 성장도표 (3세 미만은 WHO 성장기준) · 그림: Twemoji (CC BY 4.0)</p>
       ${recs.length?`<ul class="gr-list">${recs.slice().reverse().slice(0,8).map(r=>`<li><span>${mdText(r.d)}</span><b>${r.h?fmt1(r.h)+'cm':'—'}</b><b>${r.w?fmt1(r.w)+'kg':'—'}</b>${isParent()?`<button class="ib del" data-act="grdel" data-id="${r.id}" data-confirm="gd-${r.id}" aria-label="이 기록 지우기">${ui('x')}</button>`:''}</li>`).join('')}</ul>`:''}
@@ -4279,6 +4327,20 @@ function hsCele(kid,stars){
   setTimeout(()=>sayText(`${withI(kidById(kid).name)} 홈스쿨 끝! 별 ${stars}개를 받았어요`),400);
 }
 
+
+/* ===== 우체통 탭 · 지금 몇 시 ===== */
+const mbFresh=()=>allReplies().filter(x=>x.at>(S.repliesSeen||0)).length;
+const mbNew=()=>{ const n=mbFresh(); return n?`<span class="mb-new">새 답장 ${n}</span>`:''; };
+function mbTabs(cur){ const n=cur==='replies'?0:mbFresh();
+  return `<nav class="mb-tabs" role="tablist" aria-label="우체통"><button role="tab" data-act="msg" aria-selected="${cur==='msg'}">편지 보내기</button><button role="tab" data-act="replies" aria-selected="${cur==='replies'}">받은 답장${n?`<b>${n}</b>`:''}</button></nav>`; }
+function clockParts(){ const d=new Date(), h=d.getHours(), m=d.getMinutes(); return {h,m,part:h<5?'새벽':h<12?'아침':h<18?'낮':h<21?'저녁':'밤',hh:h%12||12}; }
+function clockHtml(){
+  const {h,m,part,hh}=clockParts(), ha=((h%12)+m/60)*Math.PI/6, ma=m*Math.PI/30, P=(r,a)=>`${(30+r*Math.sin(a)).toFixed(1)}" y2="${(30-r*Math.cos(a)).toFixed(1)}`;
+  const dots=[...Array(12)].map((_,i)=>`<circle cx="${(30+21*Math.sin(i*Math.PI/6)).toFixed(1)}" cy="${(30-21*Math.cos(i*Math.PI/6)).toFixed(1)}" r="${i%3?1.4:2.6}" class="ck-d"/>`).join('');
+  return `<button class="kf-clock" data-act="clocksay" aria-label="지금 ${part} ${hh}시 ${m}분"><svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="30" cy="30" r="26.5" class="ck-f"/>${dots}<line x1="30" y1="30" x2="${P(12.5,ha)}" class="ck-h"/><line x1="30" y1="30" x2="${P(19,ma)}" class="ck-m"/><circle cx="30" cy="30" r="3" class="ck-c"/></svg><span class="ck-txt"><small>지금은</small><b>${part} ${hh}시${m?` ${m}분`:''}</b></span></button>`;
+}
+setInterval(()=>{ const c=document.querySelector('#family .kf-clock'); if(c&&!document.hidden) c.outerHTML=clockHtml(); },15000);
+
 /* ===== 받은 답장 (아이들 쪽) ===== */
 const RP={prevSeen:0};
 function allReplies(){
@@ -4317,7 +4379,7 @@ function renderReplies(){
   $('#replies').innerHTML=`
   <header class="band scene" data-rid="msg"><div class="wrap band-in">
     <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
-    <div class="band-title"><span class="sc-ico">${ico('heartface')}</span><div><h1>받은 답장</h1><p class="band-date">스피커 버튼을 누르면 소리로 읽어 줘요</p></div></div>
+    <div class="band-title"><span class="sc-ico">${ico('mailbox')}</span><div><h1>우체통</h1><p class="band-date">받은 답장 · 스피커 버튼을 누르면 소리로 읽어 줘요</p></div></div>${S.role==='kids'?mbTabs('replies'):''}
   </div></header>
   <div class="wrap"><div class="ib-wrap" style="margin-inline:auto;padding-top:20px">
     ${list.length?list.map(card).join(''):`<div class="ib-empty">${ico('heartface')}<b>아직 받은 답장이 없어요</b><p>마음을 보내면 답장이 여기에 모여요.</p></div>`}
@@ -4388,7 +4450,7 @@ function renderMsg(){
   $('#msg').innerHTML=`
   <header class="band scene" data-rid="msg"><div class="wrap band-in">
     <button class="back bubble" data-act="${p1?'family':'mpage1'}" aria-label="${p1?'처음 화면으로':'앞 페이지로'}">${ui('back')}</button>
-    <div class="band-title"><span class="sc-ico">${ico('bubble')}</span><div><h1>편지 보내기</h1><p class="band-date">${p1?'누구에게, 누가 보내는지 골라요':'하고 싶은 말을 골라요'}</p></div></div>
+    <div class="band-title"><span class="sc-ico">${ico('mailbox')}</span><div><h1>우체통</h1><p class="band-date">${p1?'누구에게, 누가 보내는지 골라요':'하고 싶은 말을 골라요'}</p></div></div>${S.role==='kids'?mbTabs('msg'):''}
     <span class="pager" aria-label="${M.page}/2 페이지"><i class="${p1?'on':''}"></i><i class="${p1?'':'on'}"></i></span>${chip}
   </div></header>
   ${p1?`<div class="wrap msg-grid p1">
@@ -4808,6 +4870,8 @@ document.addEventListener('click',e=>{
     case 'char': openChar(d.kid); tone([660,880],.08,'sine'); break;
     case 'crk': openChar(d.kid); break;
     case 'study': openStudy(d.s); break;
+    case 'mailbox': view.screen=mbFresh()?'replies':'msg'; show(); tone([660],.08,'sine'); break;
+    case 'clocksay': { const {m,part,hh}=clockParts(); sayText(`지금은 ${part} ${hh}시${m?` ${m}분`:''}이에요`); } break;
     case 'grow': openGrow(d.kid); tone([660,880],.08,'sine'); break;
     case 'grk': GR.kid=d.kid; GR.open=false; renderGrow(); break;
     case 'grtab': GR.tab=d.k; { const y=window.scrollY; renderGrow(); window.scrollTo(0,y); } break;
