@@ -631,6 +631,32 @@ public class MainActivity extends Activity {
             return o.toString();
         }
 
+        // ----- 같은 태블릿의 공부 앱(솔정마을·다연마을) 열기 -----
+        @JavascriptInterface public boolean launchApp(String pkgs) {
+            if (pkgs == null) return false;
+            for (String p : pkgs.split(",")) {
+                try {
+                    Intent i = getPackageManager().getLaunchIntentForPackage(p.trim());
+                    if (i == null) continue;
+                    i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    final Intent go = i;
+                    main.post(() -> { try { startActivity(go); } catch (Exception ignored) { } });
+                    return true;
+                } catch (Exception ignored) { }
+            }
+            return false;
+        }
+
+        @JavascriptInterface public String hasApps(String pkgs) {
+            StringBuilder sb = new StringBuilder();
+            if (pkgs != null) for (String p : pkgs.split(",")) {
+                try {
+                    if (getPackageManager().getLaunchIntentForPackage(p.trim()) != null) { if (sb.length() > 0) sb.append(','); sb.append(p.trim()); }
+                } catch (Exception ignored) { }
+            }
+            return sb.toString();
+        }
+
         @JavascriptInterface public void askOverlay() {
             main.post(() -> {
                 try { startActivity(new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()))); }

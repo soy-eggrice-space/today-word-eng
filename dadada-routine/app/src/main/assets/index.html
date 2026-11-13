@@ -1314,6 +1314,125 @@ button.tc:active{transform:scale(.95)}
 @keyframes pzup{from{opacity:0;transform:translateY(30px) scale(.9)}}
 @media (prefers-reduced-motion:reduce){.drop .pig-coin,.drop .pig-body,.wig .pig-body,.pig-plus,.cc-praise em,.pz-pop-box,.pz-pop-heart .ic{animation:none}.drop .pig-coin{opacity:0}}
 @media (max-width:760px){.pdash .pigc,.pdash .praisec{order:0}}
+
+/* ===== 아이들 태블릿 첫 화면: 한 화면에 꽉 차게 (1280×800 기준으로 맞춰 확대·축소) ===== */
+:root{--st-a:#E4F2FF;--st-b:#F0E8FF;--st-ink:#3A6FD0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--st-a:#1B2A3C;--st-b:#2A2342;--st-ink:#8DB4FF}}
+:root[data-theme="dark"]{--st-a:#1B2A3C;--st-b:#2A2342;--st-ink:#8DB4FF}
+.study-card{border-radius:32px;padding:18px;display:flex;flex-direction:column;gap:12px;background:linear-gradient(150deg,var(--st-a),var(--st-b));box-shadow:var(--shadow);min-width:0;min-height:0}
+.st-h{display:flex;align-items:center;gap:10px}
+.st-h .sc-ico{width:48px;height:48px;border-radius:15px;background:var(--surface);color:var(--st-ink);--ic-tint:var(--st-a);display:grid;place-items:center;flex:none}
+.st-h .sc-ico .ic{width:34px;height:34px}
+.st-h b{font:26px/1.1 var(--f-d);font-weight:400}
+.st-app{flex:1;display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:22px;background:var(--surface);border:2.5px solid color-mix(in oklab,var(--k) 55%,transparent);box-shadow:0 4px 0 color-mix(in oklab,var(--k) 35%,transparent);text-align:left;min-height:64px;min-width:0}
+.st-app:active{transform:translateY(2px);box-shadow:0 2px 0 color-mix(in oklab,var(--k) 35%,transparent)}
+.st-app .duo .ava+.ava{margin-left:-16px}
+.st-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.st-t b{font:27px/1.1 var(--f-d);font-weight:400}
+.st-t small{font-size:13px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st-app>.ui{width:24px;height:24px;color:var(--ink-3);flex:none}
+.st-app.off{opacity:.55}
+.kfit{max-width:none;display:flex;flex-direction:column;gap:12px;padding-block:14px;box-sizing:border-box;overflow:hidden}
+.kf-top{display:flex;align-items:center;gap:16px;min-height:0}
+.kf-title{display:flex;align-items:center;gap:18px;min-width:0}
+.kfit .fam-name{font-size:48px;line-height:1;margin:0}
+.kf-date .greet{margin-top:2px;font-size:15px}
+.kf-pick{margin-left:auto;display:flex;align-items:center;gap:12px;padding:5px 16px 5px 5px;border-radius:999px;background:linear-gradient(120deg,var(--k-tint),var(--k-soft));border:2.5px solid var(--k-line);min-width:0}
+.kf-pk-ava{position:relative;display:block}
+.kf-pk-ava .st{position:absolute;left:-4px;top:-8px;filter:drop-shadow(0 1px 2px rgba(0,0,0,.2))}
+.kf-pk-t{display:flex;flex-direction:column;line-height:1.05}
+.kf-pk-t small{font:13px var(--f-d);color:var(--ink-2)}
+.kf-pk-t b{font:28px var(--f-d);font-weight:400}
+.kf-pk-next{display:flex;align-items:center;gap:6px;font-size:12px;line-height:1.2;color:var(--ink-2);padding-left:12px;margin-left:2px;border-left:1.5px solid var(--k-line)}
+.kfit .tools{flex-wrap:nowrap;flex:none}
+.kf-ov{display:flex;align-items:center;gap:8px;padding:6px 14px 6px 8px;border-radius:999px;background:#FFF4E0;border:2px solid #F7C77A;font:15px var(--f-d);color:#8A5200;flex:none;animation:need .6s ease 3}
+.kf-ov .ic{width:30px;height:30px;color:#B86A00;--ic-tint:#FFE3B0}
+.kf-ov b{font-weight:400;color:#C25E00}
+.kf-ov .s{display:none}
+.kf-pick+.kf-ov{margin-left:0}
+.kf-top>.kf-ov:nth-child(2){margin-left:auto}
+.kfit .ov-need{margin:0;padding:8px 12px;border-radius:20px;gap:12px}
+.kfit .ov-need .sc-ico{width:40px;height:40px;border-radius:13px}
+.kfit .ov-need .sc-ico .ic{width:28px;height:28px}
+.kfit .ov-need b{font-size:18px}
+.kfit .ov-need small{display:none}
+.kfit .char-row{margin:0;gap:12px;flex:none;grid-template-columns:repeat(3,minmax(0,1fr))}
+html:has(#family:not([hidden]) .kfit) body{margin:0}
+.kfit .char-card{padding:8px 14px 8px 8px;border-radius:28px;row-gap:8px}
+.kfit .cc-art{zoom:.8}
+.kfit .cc-pig{zoom:.9}
+.kfit .cc-praise{padding:6px 12px}
+.kf-dash{flex:1;min-height:0;display:grid;gap:12px;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:minmax(0,1.12fr) minmax(0,1fr);grid-template-areas:"todo msg food study" "today today med reply"}
+.kf-dash>*{min-height:0;min-width:0}
+.kf-dash>[data-act="todo"]{grid-area:todo}
+.kf-dash>[data-act="msg"]{grid-area:msg}
+.kf-dash>[data-act="food"]{grid-area:food}
+.kf-dash>.study-card{grid-area:study}
+.kf-dash>.kf-today{grid-area:today}
+.kf-dash>.med{grid-area:med}
+.kf-dash>.kf-reply{grid-area:reply}
+.kf-dash .fcard{min-height:0;padding:18px 20px;border-radius:32px;gap:6px}
+.kf-dash .fcard .sc-ico{width:60px;height:60px;border-radius:19px}
+.kf-dash .fcard .sc-ico .ic{width:42px;height:42px}
+.kf-dash .fc-title{font-size:32px;margin-top:4px}
+.kf-dash .fc-sub{font-size:14px;margin-top:-2px}
+.kf-dash .fc-foot{gap:8px 12px}
+.kf-dash .fc-kids{gap:10px}
+.kf-dash .fk{font-size:14px}
+.kf-dash .fk .ava{width:46px!important;height:46px!important;--s:46px!important}
+.kf-dash .fdm b{font-size:34px}
+.kf-dash .fd-mini{gap:10px}
+.kf-dash .dash-card{padding:16px;border-radius:30px;gap:10px;overflow:hidden}
+.kf-dash .dc-head .sc-ico{width:46px;height:46px;border-radius:15px}
+.kf-dash .dc-head .sc-ico .ic{width:32px;height:32px}
+.kf-dash .dc-head b{font-size:23px}
+.kf-dash .dc-head small{font-size:13px}
+.kf-dash .med{overflow:auto}
+.kf-dash .med .hosp-btn{margin-top:auto;min-height:54px;flex:none}
+.kf-dash .med-row{padding:6px 8px}
+.kf-dash .med:has(.med-row){display:grid;grid-template-columns:minmax(0,1fr) auto;align-content:start;align-items:center}
+.kf-dash .med:has(.med-row) .dc-head{grid-column:1;grid-row:1;min-width:0}
+.kf-dash .med:has(.med-row) .hosp-btn{grid-column:2;grid-row:1;margin:0;min-height:48px;padding:0 12px}
+.kf-dash .med:has(.med-row) .hosp-btn span{display:none}
+.kf-dash .med-row{grid-column:1 / -1}
+.kf-dash .med-txt small{display:none}
+.kf-dash .med-txt b{font-size:17px}
+.kf-dash .med-row .ava{width:34px!important;height:34px!important;--s:34px!important}
+.kf-today .tr-cols{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tr-col{display:flex;flex-direction:column;justify-content:space-between;gap:8px;padding:10px 12px;border-radius:20px;background:var(--surface-2);text-align:left;min-width:0;min-height:0}
+.tr-col:active{transform:scale(.98)}
+.tr-top{display:flex;align-items:center;gap:8px;min-width:0}
+.tr-top .tr-ico .sc-ico{width:42px;height:42px;border-radius:14px}
+.tr-top .tr-ico .sc-ico .ic{width:30px;height:30px}
+.tr-top .tr-name{font-size:21px}
+.tr-top small{margin-left:auto;font-size:12px;color:var(--ink-2);white-space:nowrap}
+.tr-col .tr-kids{gap:4px;justify-content:space-around}
+.tr-col .tr-kids .ring{width:48px;height:48px}
+.kf-reply{display:flex}
+.kf-reply .reply-strip{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:8px;margin:0;height:100%;padding:16px 18px;border-radius:30px;flex-wrap:nowrap;overflow:hidden}
+.kf-reply .reply-strip .sc-ico{width:52px;height:52px;border-radius:17px}
+.kf-reply .reply-strip .sc-ico .ic{width:36px;height:36px}
+.kf-reply .rs-main{flex:none;min-width:0;width:100%}
+.kf-reply .rs-title{font-size:26px}
+.kf-reply .rs-sub{font-size:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.kf-reply .rs-new{font-size:17px;padding:5px 12px}
+.kf-reply .duo .ava{width:38px!important;height:38px!important;--s:38px!important}
+/* 세로로 든 태블릿 (800×1280 기준) */
+.kfit.port .fam-name{font-size:40px}
+.kfit.port .kf-title{gap:12px}
+.kfit.port .kf-date{display:none}
+.kfit.port .kf-ov .l{display:none}
+.kfit.port .kf-ov .s{display:inline}
+.kfit.port .kf-pk-next{display:none}
+.kfit.port .kf-pick{padding-right:14px}
+.kfit.port .char-card{grid-template-columns:auto minmax(0,1fr);grid-template-areas:"art pig" "info info" "pz pz";align-items:center}
+.kfit.port .cc-art{zoom:.72}
+.kfit.port .cc-pig{justify-self:center}
+.kfit.port .char-card>.cc-info{flex-direction:row;align-items:center;flex-wrap:wrap;gap:4px 10px;padding:0}
+.kfit.port .kf-dash{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(0,1fr) minmax(0,1fr) auto auto;grid-template-areas:"todo msg" "food study" "today today" "med reply"}
+.kfit.port .kf-dash .med .hosp-btn{margin-top:4px}
+.kfit.port .kf-reply .reply-strip{flex-direction:row;align-items:center;flex-wrap:wrap}
+.kfit.port .kf-reply .rs-main{flex:1;width:auto}
 </style>
 
 </head>
@@ -2363,6 +2482,38 @@ function renderFamily(){
   const info=tgInfo();
   const ls=S.lastSent&&S.lastSent.at&&new Date(S.lastSent.at).toDateString()===new Date().toDateString()?`오늘 ${hhmm(S.lastSent.at)}에 보냈어요`:'';
   const note=!IS_APP?'<span class="fc-note">메시지는 앱에서 보낼 수 있어요</span>':info.chat?`<span class="fc-note" data-st="on"><span class="sync-dot"></span>${ls||'텔레그램 연결됨'}</span>`:'<span class="fc-note"><span class="sync-dot"></span>텔레그램 연결이 필요해요</span>';
+  const tools=`<div class="tools">
+        <button class="tbtn icon-only" data-act="sound" aria-label="${S.sound?'소리 끄기':'소리 켜기'}">${ui(S.sound?'sound':'mute')}</button>
+        ${IS_APP?'':`<button class="tbtn icon-only" data-act="fs" aria-label="전체 화면">${ui('expand')}</button>`}
+        ${S.sync?`<span class="sync-chip" data-sync data-st="${SYNC.st}"><span class="sync-dot"></span><span class="sync-txt">${syncText()}</span></span>`:''}
+        <button class="tbtn" id="famEditBtn" aria-label="꾹 눌러서 편집 열기">${ui('lock')}꾹 눌러 편집</button>
+      </div>`;
+  const todoCard=`<button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
+        <span class="sc-ico">${ico('checklist')}</span><span class="fc-title">할 일</span><span class="fc-sub">아침 · 저녁 · 외출 루틴</span>
+        <span class="fc-foot"><span class="fc-kids">${kids}</span></span></button>`;
+  const msgCard=`<button class="fcard scene" data-rid="msg" data-act="msg" aria-label="마음 전하기">
+        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">마음 전하기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
+        <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${note}</span></button>`;
+  kfitWas=kidsFit();
+  if(kfitWas){
+    $('#family').innerHTML=`<div class="wrap kfit">
+      <header class="kf-top">
+        <div class="kf-title"><h1 class="fam-name">우리가족</h1><div class="kf-date"><div class="eyebrow">${dateLabel()}</div><p class="greet">${greet}</p></div></div>
+        ${pickerChip()}
+        ${kfOvChip()}
+        ${tools}
+      </header>
+      ${charRow()}
+      <section class="kf-dash">
+        ${todoCard}${msgCard}${foodDashCard()}${studyCard()}
+        ${todayCols()}${medCard()}
+        <div class="kf-reply">${replyStrip()}</div>
+      </section>
+    </div>`;
+    kidsFitApply();
+    holdable($('#famEditBtn'),900,()=>{view.from='family';view.screen='edit';show()});
+    return;
+  }
   $('#family').innerHTML=`<div class="wrap">
     <header class="fam-top">
       <div><div class="eyebrow">${dateLabel()}</div><h1 class="fam-name">우리가족</h1><p class="greet">${greet}</p></div>
@@ -2384,6 +2535,7 @@ function renderFamily(){
         <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">마음 전하기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
         <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${note}</span></button>
       ${foodDashCard()}
+      ${studyCard()}
       ${todayCard()}
       ${medCard()}
       <div class="dash-replies">${replyStrip()}</div>
@@ -2479,7 +2631,7 @@ function medCard(){
     ${act.map(m=>{ const [a,b]=medRange(m), ks=m.kids.map(kidById).filter(Boolean);
       return `<div class="med-row"><span class="pv-faces">${ks.map(k=>avatar(k,40)).join('')}</span><div class="med-txt"><b>${esc(dot(ks.map(k=>k.name)))} · ${m.days}일치</b><small>${slotLabel(a)}부터 ${slotLabel(b)}까지</small></div>
         <button class="btn sec mini" data-act="hdel" data-id="${m.id}" data-confirm="hd-${m.id}">그만</button></div>`; }).join('')}
-    <button class="btn pri hosp-btn" data-act="hosp">${ico('hospital')}병원 다녀왔어</button>
+    <button class="btn pri hosp-btn" data-act="hosp" aria-label="병원 다녀왔어">${ico('hospital')}<span>병원 다녀왔어</span></button>
   </section>`;
 }
 const H={open:false,kids:new Set(),days:3,slot:'e'};
@@ -3344,6 +3496,51 @@ function pzNext(){
   pzAuto=setTimeout(close,90000);
 }
 
+
+/* ===== 아이들 태블릿 첫 화면: 한 화면 맞춤 + 공부 앱 바로가기 ===== */
+const STUDY=[
+  {id:'sol',name:'솔정공부',sub:'한글 · 영어 · 수학',pk:'com.dayeon.soljeong,com.dayeon.soljeong.mobile',kids:['다솔','다정']},
+  {id:'dy',name:'다연공부',sub:'영단어 · 영문법',pk:'com.dayeon.words,com.dayeon.words.mobile',kids:['다연']}];
+function studyCard(){
+  let has=null; try{ if(IS_APP&&window.Android.hasApps) has=String(window.Android.hasApps(STUDY.map(s=>s.pk).join(','))||'').split(','); }catch(e){}
+  return `<section class="study-card" aria-label="공부하러 가요"><div class="st-h"><span class="sc-ico">${ico('book')}</span><b>공부하러 가요</b></div>
+    ${STUDY.map(s=>{ const ks=s.kids.map(n=>S.kids.find(k=>k.name===n)).filter(Boolean), ok=!has||s.pk.split(',').some(p=>has.includes(p));
+      return `<button class="st-app${ok?'':' off'}" data-act="study" data-s="${s.id}" style="--k:${(ks[0]||{}).color||'#8C7BEA'}"><span class="duo">${ks.map(k=>avatar(k,46)).join('')}</span><span class="st-t"><b>${s.name}</b><small>${ok?s.sub:'이 태블릿에 아직 없어요'}</small></span>${ui('next')}</button>`; }).join('')}
+  </section>`;
+}
+function openStudy(id){
+  const s=STUDY.find(x=>x.id===id); if(!s) return;
+  let ok=false; try{ ok=!!(IS_APP&&window.Android.launchApp&&window.Android.launchApp(s.pk)); }catch(e){}
+  if(ok) tone([660,880],.08,'sine'); else toast(IS_APP?`${s.name} 앱이 이 태블릿에 없어요`:'공부 앱은 태블릿 앱에서 열려요');
+}
+const kidsFit=()=>S.role==='kids'&&Math.min(innerWidth,innerHeight)>=560;
+function pickerChip(){
+  const t=todayKey(), k=pickerOf(t), nx=pickerOf(keyOfDay(dayNum(t)+1));
+  if(!k) return '';
+  return `<section class="kf-pick kid" style="--k:${k.color}" aria-label="오늘 고르는 사람 ${esc(k.name)}"><span class="kf-pk-ava">${avatar(k,52)}${star(22)}</span>
+    <span class="kf-pk-t"><small>오늘 고르는 사람!</small><b>${esc(k.name)}</b></span>${nx?`<span class="kf-pk-next">${avatar(nx,30)}<span>내일은<br>${esc(withI(nx.name))}</span></span>`:''}</section>`;
+}
+function kfOvChip(){
+  if(!IS_APP||S.role!=='kids'||!window.Android.alarmState||alarmState().overlay!==false) return '';
+  return `<button class="kf-ov" data-act="askoverlay" aria-label="알림이 앱 화면으로 뜨게 허용하기">${ico('tv')}<span class="l">알림이 앱으로 뜨게 <b>허용하기</b></span><span class="s"><b>알림 허용</b></span></button>`;
+}
+function todayCols(){
+  return `<section class="dash-card today kf-today"><div class="dc-head"><span class="sc-ico">${ico('checklist')}</span><div><b>오늘 할 일</b><small>${dateLabel()}</small></div></div>
+    <div class="tr-cols">${RIDS.map(rid=>{ const R=ROUT[rid], sts=S.kids.map(k=>status(rid,k.id)), act=sts.filter(x=>x.total).length, fin=sts.filter(x=>x.finished).length;
+      return `<button class="tr-col" data-act="run" data-rid="${rid}"><span class="tr-top"><span class="tr-ico scene" data-rid="${rid}"><span class="sc-ico">${ico(R.icon)}</span></span><span class="tr-name">${R.short}</span><small>${act?`${fin}/${act} 끝`:'쉬어요'}</small></span>
+        <span class="tr-kids">${S.kids.map((k,i)=>ring(k,sts[i])).join('')}</span></button>`; }).join('')}</div>
+  </section>`;
+}
+// 1280×800(세로면 800×1280) 화면에 맞춰 짠 첫 화면을 지금 태블릿 크기에 맞게 확대·축소해요
+function kidsFitApply(){
+  const el=document.querySelector('#family .kfit'); if(!el) return;
+  const cs=getComputedStyle(document.body), W=innerWidth-(parseFloat(cs.marginLeft)||0)-(parseFloat(cs.marginRight)||0), Hh=innerHeight-(parseFloat(cs.marginTop)||0)-(parseFloat(cs.marginBottom)||0);
+  const land=W>=Hh, z=Math.min(W/(land?1280:800),Hh/(land?800:1280));
+  el.classList.toggle('port',!land); el.style.zoom=z; el.style.height=(Hh/z)+'px';
+}
+let kfitT=null, kfitWas=null;
+addEventListener('resize',()=>{ clearTimeout(kfitT); kfitT=setTimeout(()=>{ if(view.screen!=='family'||S.role!=='kids') return; const f=kidsFit(); if(f!==kfitWas) renderFamily(); else kidsFitApply(); },120); });
+
 /* ===== 받은 답장 (아이들 쪽) ===== */
 const RP={prevSeen:0};
 function allReplies(){
@@ -3872,6 +4069,7 @@ document.addEventListener('click',e=>{
     case 'fstats': FS.view='stats'; view.screen='fstats'; show(); break;
     case 'char': openChar(d.kid); tone([660,880],.08,'sine'); break;
     case 'crk': openChar(d.kid); break;
+    case 'study': openStudy(d.s); break;
     case 'pigadd': pigGive(d.kid,PIG_UNIT); tone([1319,1760],.08,'triangle',.06); buzz(); rerenderKeep(); { const r=document.querySelector(`.pg-plus[data-kid="${d.kid}"]`)?.closest('.pg-row'); const p=r&&r.querySelector('.pg-now'); if(p){ p.classList.remove('wig'); void p.offsetWidth; p.classList.add('wig'); } } break;
     case 'pigsub': if(pigGive(d.kid,-PIG_UNIT)){ tone([523],.08,'sine'); rerenderKeep(); } break;
     case 'pigask': PIG.ask=d.kid; rerenderKeep(); break;

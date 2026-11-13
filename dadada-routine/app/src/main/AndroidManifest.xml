@@ -23,6 +23,11 @@
         <intent>
             <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
+        <!-- 첫 화면 '공부하러 가요'에서 여는 앱 -->
+        <package android:name="com.dayeon.soljeong" />
+        <package android:name="com.dayeon.soljeong.mobile" />
+        <package android:name="com.dayeon.words" />
+        <package android:name="com.dayeon.words.mobile" />
     </queries>
 
     <application
