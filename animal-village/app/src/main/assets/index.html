@@ -389,7 +389,6 @@ function blocked(x,y,me,quiet){
   if(extraBlocked(x,y))return true;
   if(window.HOSP&&Math.abs(x-HOSP.x)<95&&y>HOSP.y-50&&y<HOSP.y+4)return true;
   const onPier=x>pier.x+6&&x<pier.x+pier.w-6&&y>pier.y-10&&y<pier.y+pier.h;
-  if(me&&play&&!onPier&&(onMud(x,y)||y>seaY(x)-4)&&!(onMud(P.x,P.y)||P.y>seaY(P.x)-4)){if(!quiet&&time>mudWarnAt){mudWarnAt=time+3;toast(`🏃 ${play.type==='tag'?'잡기놀이':'숨바꼭질'} 중에는 바다·갯벌에 들어갈 수 없어요!`)}return true}
   if(!onPier&&y>seaY(x)-4&&!(me&&swimOK()&&y<H-15)){if(me&&!quiet&&lvl()>=DIVE_LV&&time>mudWarnAt){mudWarnAt=time+3;toast('🤿 잠수복·스노클·오리발이 있어야 바다에 들어갈 수 있어요!')}return true}
   if(onMud(x,y)&&!(me&&state.tools.boots&&state.tools.suit)){if(me&&!quiet&&time>mudWarnAt){mudWarnAt=time+3;toast('👢 갯벌장화와 🦺 갯벌옷이 있어야 들어갈 수 있어요! (잡화점)')}return true}
   if(Math.abs(x-shop.x)<78&&y>shop.y-48&&y<shop.y+4)return true;
@@ -655,13 +654,13 @@ function update(dt){
   if(P.sit&&mag>.1)standUp();
   const B=scene==='village'?blocked:roomBlocked;
   if(!P.sit){const sp=(isSwim()?150:onMud(P.x,P.y)?120:200)*(state.sick?.75:1);moveP(vx,vy,sp,dt,B)}
-  if(tgt&&!tgt.hold){const mv=Math.hypot(P.x-(update.lx||0),P.y-(update.ly||0));tgt.stuck=mv<.5?tgt.stuck+dt:0;if(tgt.stuck>.35){if(!tgt.re){tgt.re=1;tgt.stuck=0;tgt.path=findPath(P.x,P.y,tgt.x,tgt.y)}else tgt=null}}update.lx=P.x;update.ly=P.y;
+  if(tgt&&!tgt.hold){const mv=Math.hypot(P.x-(update.lx||0),P.y-(update.ly||0));tgt.stuck=mv<.5?tgt.stuck+dt:0;if(tgt.stuck>.35){if(!tgt.re){tgt.re=1;tgt.stuck=0;tgt.path=navPath(P.x,P.y,tgt.x,tgt.y)}else tgt=null}}update.lx=P.x;update.ly=P.y;
   if(scene!=='village'&&scene!=='trip'&&!(scene==='tent'&&state.home>=2&&homeFloor>1)&&P.y>ROOMS[scene].h-24&&Math.abs(P.x-(ROOMS[scene].dx||ROOMS[scene].w/2))<45)exitRoom();
   if(fishing){if(fishing.phase==='wait'&&time>fishing.t){fishing.phase='bite';fishing.t=time+1;Snd.sfx('bite')}else if(fishing.phase==='bite'&&time>fishing.t){fishing=null;Snd.sfx('fail');toast('앗, 놓쳤어요… 🐟💨')}}
   if(clam){if(clam.phase==='salt'&&time>clam.t){clam.phase='pop';clam.t=time+1.4;Snd.sfx('bite');toast('🐚 맛조개가 쏙! 얼른 잡아요!',1.4)}else if(clam.phase==='pop'&&time>clam.t){clam=null;toast('맛조개가 다시 들어갔어요 💦')}}
   trees.forEach(t=>{if(!t.has&&time>t.regrow)t.has=true});
   if(pickups.length<75&&time>nextSpawn){spawnPickup();nextSpawn=time+3}
-  moveBugs();mudTick(dt);mud3Tick(dt);sickTick(dt);if(!modal)NPCS.forEach(n=>{if(!play||play.npc!==n)moveNPC(n,dt)});if(play&&!modal)playTick(dt);jobTick(dt);if(scene==='cave')caveTick();
+  moveBugs();mudTick(dt);mud3Tick(dt);sickTick(dt);if(!modal)NPCS.forEach(n=>{if(!play||play.npc!==n)moveNPC(n,dt)});if(play&&!modal)playTick(dt);jobTick(dt);if(scene==='cave')caveTick();mazeTick();
   const a=modal||decoMode?null:findAction();curAct=a;
   {const db=$('#decoBtn'),hide=scene!=='tent'||decoMode||mode!=='village';if(db.classList.contains('hidden')!==hide)db.classList.toggle('hidden',hide)}
   const key=a?a.e+a.l+(a.pulse?1:0):'';
@@ -765,7 +764,7 @@ function drawExtras(items){
   if(vis(shop.x,shop.y,200))items.push([shop.y,drawShop]);
   pickups.forEach(p=>{if(vis(p.x,p.y,20))items.push([p.y-20,()=>drawPickup(p)])});
   bugs.forEach(b=>{if(b.x!==undefined&&vis(b.x,b.y,60))items.push([b.tree?b.y:b.y+(b.alt?40:0),()=>drawBug(b)])});
-  NPCS.forEach(n=>{if(outside(n)&&vis(n.x,n.y,120))items.push([n.y,()=>{drawChar(ctx,n.x,n.y,1.05,festChar(n),time+n.hx,n.dir,n.walking,(time+n.hx/100)%4<.12,false);ctx.font='14px Jua, sans-serif';ctx.textAlign='center';ctx.fillStyle='#4a3b32';ctx.fillText(n.owner?'👑 마을 주인 '+n.name:n.player?'⭐ '+n.name:n.name,n.x,n.y-108);drawEmote(n,n.x,n.y);if((n.owner&&!state.metOwner)||(n.newbie&&!(state.met||{})[n.id])){ctx.font='24px sans-serif';ctx.fillText('❗',n.x,n.y-128-Math.abs(Math.sin(time*4))*6)}}])});
+  NPCS.forEach(n=>{if(outside(n)&&vis(n.x,n.y,120))items.push([n.y,()=>{drawChar(ctx,n.x,n.y,1.05,festChar(n),time+n.hx,n.dir,n.walking,(time+n.hx/100)%4<.12,false);if(play&&play.npc===n&&n.y>seaY(n.x)-4){ctx.fillStyle='rgba(110,190,240,.75)';ell(ctx,n.x,n.y-6,34,12);ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(n.x,n.y-6,28+Math.sin(time*6)*4,9,0,0,TAU);ctx.stroke()}ctx.font='14px Jua, sans-serif';ctx.textAlign='center';ctx.fillStyle='#4a3b32';ctx.fillText(n.owner?'👑 마을 주인 '+n.name:n.player?'⭐ '+n.name:n.name,n.x,n.y-108);drawEmote(n,n.x,n.y);if((n.owner&&!state.metOwner)||(n.newbie&&!(state.met||{})[n.id])){ctx.font='24px sans-serif';ctx.fillText('❗',n.x,n.y-128-Math.abs(Math.sin(time*4))*6)}}])});
   SEATS.forEach(b=>{if(vis(b.x,b.y,60))items.push([b.y,()=>drawSeat(b)])});
   HOUSES.forEach(h=>{if(vis(h.x,h.y,220))items.push([h.y,()=>drawHouse(h)])});
   if(fishing)items.push([P.y+.5,drawFishing]);
@@ -979,7 +978,7 @@ function renderRoom(){
 const FAV={mong:['⚽','🦴','🎵','😊'],bori:['🧶','🐟','🌸','🎵'],owner:['📜','☕','😊','💗']};
 const npcHouse=n=>HOUSES.find(h=>h.id===(n.home||n.id));
 const folks=hid=>NPCS.filter(q=>(q.home||q.id)===hid);
-const outside=n=>n.st==='out'||n.st==='goHome';
+const outside=n=>(n.st==='out'||n.st==='goHome')&&n.place!=='cave';
 NPCS.forEach(n=>{n.st='out';n.timer=25+Math.random()*35;n.rx=280;n.ry=300;n.rtx=280;n.rty=300;n.leg=0});
 function clearLine(a,b,c,d){const L=Math.hypot(c-a,d-b),k=Math.max(1,Math.ceil(L/18));for(let i=1;i<=k;i++)if(blocked(a+(c-a)*i/k,b+(d-b)*i/k))return false;return true}
 function stepTo(n,tx,ty,dt,sp){
@@ -1580,7 +1579,7 @@ function startPlay(id,type,role){
   play={type,role,npc:n,sx:P.x,sy:P.y,phase:'count',t:time+(role==='hider'?8:role==='seek'?4:3),dur:type==='tag'?(role==='run'?30:40):(role==='seek'?60:40),ph:Math.random()*6};
   $('#gamebar').classList.remove('hidden');document.body.classList.add('playing');Snd.sfx('pop');
 }
-function stopPlay(){if(!play)return;const n=play.npc;play=null;n.wait=1;n.tx=undefined;$('#gamebar').classList.add('hidden');document.body.classList.remove('playing')}
+function stopPlay(){if(!play)return;const n=play.npc;if(n.place==='cave'){n.x=NORTH.cave.x+40;n.y=NORTH.cave.y+60;}n.place='village';play=null;n.wait=1;n.tx=undefined;$('#gamebar').classList.add('hidden');document.body.classList.remove('playing')}
 $('#gbStop').onclick=()=>{if(job){endJob(true);return}stopPlay();toast('놀이를 그만했어요')};
 function isHidden(){return trees.some(t=>grown(t)&&Math.hypot(t.x-P.x,(t.y-P.y)*1.4)<58)}
 function hideNpc(){
@@ -1597,12 +1596,30 @@ function hideNpc(){
   play.spot=spot;play.side=Math.random()<.5?-1:1;n.x=spot.x;n.y=spot.y;n.emote=null;
   toast(`🔍 ${josa(n.name,'은','는')} 어디 숨었을까? ${{tree:'나무',house:'집',rock:'바위',building:'건물'}[spot.kind]} 뒤도 살펴봐요!`,3);
 }
+function npcPB(x,y){if(scene==='cave'&&play&&play.npc&&play.npc.place==='cave')return caveBlocked(x,y);const T=state.tools,sv={};['boots','suit','wetsuit','snorkel','flippers'].forEach(k=>{sv[k]=T[k];T[k]=true});let r;try{r=blocked(x,y,true,true)}finally{for(const k in sv)T[k]=sv[k]}return r}
 function moveTry(n,a,sp,dt,offs,lim){
+  const B=play&&play.npc===n?npcPB:blocked;
   for(const o of offs){const b=a+o,nx=n.x+Math.cos(b)*sp*dt,ny=n.y+Math.sin(b)*sp*dt;
-    if(!blocked(nx,ny)&&(!lim||Math.hypot(nx-play.sx,ny-play.sy)<lim)){n.x=nx;n.y=ny;n.walking=true;if(Math.abs(Math.cos(b))>.1)n.dir=Math.cos(b)>0?1:-1;return true}}
+    if(!B(nx,ny)&&(!lim||Math.hypot(nx-play.sx,ny-play.sy)<lim)){n.x=nx;n.y=ny;n.walking=true;if(Math.abs(Math.cos(b))>.1)n.dir=Math.cos(b)>0?1:-1;return true}}
   n.walking=false;return false;
 }
+function playFollow(){
+  const n=play.npc,here=scene==='cave'?'cave':scene==='village'?'village':null;if(!here||play.role==='seek')return;n.place=n.place||'village';
+  if(n.place===here){play.follow=0;return}
+  if(!play.follow){play.follow=time+1.3;n.walking=false;return}
+  if(time<play.follow)return;play.follow=0;
+  if(here==='cave'){n.x=900;n.y=1150;n.place='cave';play.vsx=play.sx;play.vsy=play.sy;play.sx=900;play.sy=700}
+  else{n.x=NORTH.cave.x+(Math.random()<.5?-40:40);n.y=NORTH.cave.y+50;n.place='village';if(play.vsx!==undefined){play.sx=play.vsx;play.sy=play.vsy}}
+  n.emote={e:'🏃',t:time+1.5};toast(`${josa(n.name,'도','도')} 따라 ${here==='cave'?'동굴에 들어왔어요!':'밖으로 나왔어요!'} 🏃`,2);
+}
+function chasePath(n,dt,sp){
+  // 미로·동굴처럼 막힌 곳에서는 길을 찾아 쫓아와요
+  if(!play.cp||time>play.cpT){play.cpT=time+.7;const pth=findPath(n.x,n.y,P.x,P.y);play.cp=pth&&pth.length?pth:null}
+  if(play.cp){let w=play.cp[0];while(w&&Math.hypot(w[0]-n.x,w[1]-n.y)<10&&play.cp.length>1){play.cp.shift();w=play.cp[0]}if(w&&moveTry(n,Math.atan2(w[1]-n.y,w[0]-n.x),sp,dt,[0,.4,-.4,.9,-.9]))return true}
+  return false;
+}
 function playTick(dt){
+  playFollow();
   const n=play.npc,d=Math.hypot(n.x-P.x,n.y-P.y),left=Math.ceil(play.end-time),cnt=Math.ceil(play.t-time);
   let txt='';
   if(play.phase==='count'){
@@ -1625,7 +1642,9 @@ function playTick(dt){
     case 'run':
       txt=`💨 ${n.name}에게서 도망! ⏱ ${left}초`;
       if(d<32)return endPlay(false,`앗! ${n.name}에게 잡혔어요!`);
-      moveTry(n,Math.atan2(P.y-n.y,P.x-n.x),168,dt,[0,.6,-.6,1.2,-1.2,1.8,-1.8]);
+      if(play.follow){n.walking=false;break}
+      if((inMaze(P.x,P.y)||inMaze(n.x,n.y)||scene==='cave'||play.stk>.4)&&chasePath(n,dt,168)){play.stk=0;break}
+      if(!moveTry(n,Math.atan2(P.y-n.y,P.x-n.x),168,dt,[0,.6,-.6,1.2,-1.2,1.8,-1.8]))play.stk=(play.stk||0)+dt;else play.stk=Math.max(0,(play.stk||0)-dt);
       break;
     case 'seek':{
       txt=`🔍 ${n.name} 찾기! ⏱ ${left}초`;
@@ -1634,13 +1653,13 @@ function playTick(dt){
       break;}
     case 'hider':{
       const hid=isHidden();txt=`${hid?'🌳 나무 뒤에 숨었어요!':'👀 들킬 것 같아요!'} ⏱ ${left}초`;
-      if(onMud(P.x,P.y)||isSwim())return endPlay(false,`${n.name}: 갯벌이랑 바다는 반칙이야! 찾았다! 😜`);
+      if(play.follow){n.walking=false;break}
       if(d<(hid?42:170))return endPlay(false,`👀 ${n.name}: 찾았다!`);
       if(!play.wp||Math.hypot(play.wp.x-n.x,play.wp.y-n.y)<12||time>play.wpT){
         play.wpT=time+4;
         const nt=trees.filter(t=>grown(t)&&Math.hypot(t.x-P.x,t.y-P.y)<380);if(nt.length&&Math.random()<.5){const t=nt[Math.floor(Math.random()*nt.length)];play.wp={x:t.x+(Math.random()-.5)*40,y:t.y+30}}
         else if(Math.random()<.25)play.wp={x:P.x+(Math.random()-.5)*420,y:P.y+(Math.random()-.5)*320};
-        else for(let i=0;i<10;i++){const x=play.sx+(Math.random()-.5)*900,y=play.sy+(Math.random()-.5)*650;if(!blocked(x,y)){play.wp={x,y};break}}
+        else for(let i=0;i<10;i++){const x=play.sx+(Math.random()-.5)*900,y=play.sy+(Math.random()-.5)*650;if(!npcPB(x,y)){play.wp={x,y};break}}
         n.emote={e:'🔍',t:time+1.2};
       }
       if(!moveTry(n,Math.atan2(play.wp.y-n.y,play.wp.x-n.x),125,dt,[0,.6,-.6,1.2,-1.2]))play.wpT=0;
@@ -2344,7 +2363,7 @@ function smoothPath(start,pts){const out=[];let cur=start,i=0;while(i<pts.length
 function touchAt(e){
   const r=cv.getBoundingClientRect(),x=(e.clientX-r.left)/zoom+cam.x,y=(e.clientY-r.top)/zoom+cam.y;
   if(tgt&&tgt.hold&&tgt.id===e.pointerId&&time-tgt.pt<.25&&Math.hypot(x-tgt.x,y-tgt.y)<40){tgt.x=x;tgt.y=y;if(tgt.path&&tgt.path.length)tgt.path[tgt.path.length-1]=[x,y];return}
-  tgt={x,y,id:e.pointerId,hold:true,stuck:0,t0:time,pt:time,path:findPath(P.x,P.y,x,y)};
+  tgt={x,y,id:e.pointerId,hold:true,stuck:0,t0:time,pt:time,path:navPath(P.x,P.y,x,y)};
 }
 function moveP(vx,vy,sp,dt,B){
   const ox=P.x,oy=P.y,try1=(ax,ay,k)=>{const nx=P.x+ax*sp*dt*k,ny=P.y+ay*sp*dt*k;if(!B(nx,ny,true)){P.x=nx;P.y=ny;return true}return false};
@@ -3383,16 +3402,25 @@ $('#decoBtn').onclick=decoStart;
 var NORTH=null;
 (function(){
   const cliff=x=>-1250+Math.sin(x/170)*26+Math.sin(x/53)*9;
-  const MZ=["#########","#......T#","#.###.#.#","#.#...#.#","#.#.###.#","#...#...#","###.#####"];
+  const MZ=(function(){const C=15,R=13,ER=7,seed=[...dayKey()].reduce((a,ch)=>(a*31+ch.charCodeAt(0))>>>0,7),rnd=rng(seed%100000+1);
+    const g=Array.from({length:R},()=>Array(C).fill('#'));const st=[[1,1]];g[1][1]='.';
+    while(st.length){const[r,c]=st[st.length-1];const nb=[[0,2],[0,-2],[2,0],[-2,0]].map(([a,b])=>[r+a,c+b,r+a/2,c+b/2]).filter(([a,b])=>a>0&&a<R-1&&b>0&&b<C-1&&g[a][b]==='#');
+      if(!nb.length){st.pop();continue}const[a,b,wa,wb]=nb[Math.floor(rnd()*nb.length)];g[wa][wb]='.';g[a][b]='.';st.push([a,b])}
+    // 막다른 길 몇 군데를 이어 길을 헷갈리게
+    for(let i=0;i<6;i++){const r=1+2*Math.floor(rnd()*((R-1)/2)),c=2+2*Math.floor(rnd()*((C-3)/2));if(g[r][c]==='#')g[r][c]='.'}
+    g[ER][0]='.';
+    const dist=Array.from({length:R},()=>Array(C).fill(-1)),q=[[ER,0]];dist[ER][0]=0;let far=[ER,0];
+    while(q.length){const[r,c]=q.shift();if(dist[r][c]>dist[far[0]][far[1]]&&c>C/2)far=[r,c];for(const[a,b]of[[0,1],[0,-1],[1,0],[-1,0]]){const y=r+a,x=c+b;if(y>=0&&y<R&&x>=0&&x<C&&g[y][x]!=='#'&&dist[y][x]<0){dist[y][x]=dist[r][c]+1;q.push([y,x])}}}
+    g[far[0]][far[1]]='T';return g.map(r=>r.join(''))})();
   NORTH={cliff,cave:{x:700,y:cliff(700)},fall:{x:riverX(cliff(riverX(-1250))),y:cliff(riverX(-1250))},spring:{x:-450,y:-1010},camp:{x:2290,y:-990},
-    tents:[[2150,-1060,'#ff8787'],[2300,-1085,'#74c0fc'],[2440,-1045,'#ffd43b']],fire:{x:2290,y:-960},maze:{x0:2620,y0:-1180,c:44,m:MZ},sign:{x:760,y:-930}};
+    tents:[[2150,-1060,'#ff8787'],[2300,-1085,'#74c0fc'],[2440,-1045,'#ffd43b']],fire:{x:2290,y:-960},maze:{x0:2620,y0:-1180,c:36,m:MZ,cols:15,rows:13,er:7},sign:{x:760,y:-930}};
   const N=NORTH;N.fall.x=riverX(N.fall.y);N.pool={x:N.fall.x,y:N.fall.y+40,rx:130,ry:52};
   const nr=[{t:'dirt',w:54,pts:[[700,-60],[640,-300],[620,-560],[660,-800],[700,-1000],[700,N.cave.y+46]]},
     {t:'dirt',w:48,pts:[[690,-1000],[300,-1010],[-100,-1000],[-330,-950]]},
-    {t:'dirt',w:48,pts:[[710,-1000],[1100,-990],[1500,-985],[1900,-1000],[2200,-930],[2600,-900],[2774,-845]]}];
+    {t:'dirt',w:48,pts:[[710,-1000],[1100,-990],[1500,-985],[1900,-1000],[2200,-930],[2540,-912],[2618,-910]]}];
   nr.forEach(r=>{roads.push(r);sample(r.pts,46,(x,y,dx,dy)=>{const o=(Math.random()-.5)*r.w*.7;pebbles.push({x:x-dy*o,y:y+dx*o,r:2+Math.random()*2})})});
   bridges.push({y:-988});
-  const inFeat=(x,y,m)=>y<cliff(x)+40+m||((x-N.pool.x)/(N.pool.rx+m))**2+((y-N.pool.y)/(N.pool.ry+m))**2<1||Math.hypot(x-N.spring.x,(y-N.spring.y)*1.6)<170+m||Math.hypot(x-N.camp.x,(y-N.camp.y)*1.4)<230+m||(x>N.maze.x0-40-m&&x<N.maze.x0+9*44+40+m&&y>N.maze.y0-40-m&&y<N.maze.y0+7*44+30+m);
+  const inFeat=(x,y,m)=>y<cliff(x)+40+m||((x-N.pool.x)/(N.pool.rx+m))**2+((y-N.pool.y)/(N.pool.ry+m))**2<1||Math.hypot(x-N.spring.x,(y-N.spring.y)*1.6)<170+m||Math.hypot(x-N.camp.x,(y-N.camp.y)*1.4)<230+m||(x>N.maze.x0-40-m&&x<N.maze.x0+N.maze.cols*N.maze.c+40+m&&y>N.maze.y0-40-m&&y<N.maze.y0+N.maze.rows*N.maze.c+30+m);
   N.inFeat=inFeat;
   for(let i=trees.length-1;i>=0;i--){const t=trees[i];if(t.t0||t.y>-700)continue;if(inFeat(t.x,t.y,30)||nr.some(r=>r.pts.some((q,j)=>j<r.pts.length-1&&segD(t.x,t.y,q[0],q[1],r.pts[j+1][0],r.pts[j+1][1])<r.w/2+40)))trees.splice(i,1)}
   for(let i=flowers.length-1;i>=0;i--)if(flowers[i].y<-700&&inFeat(flowers[i].x,flowers[i].y,0))flowers.splice(i,1);
@@ -3412,7 +3440,7 @@ function northBlocked(x,y){
   for(const[tx,ty]of N.tents)if(Math.abs(x-tx)<50&&y>ty-44&&y<ty+4)return true;
   if(Math.hypot(x-N.fire.x,(y-N.fire.y)*1.5)<24)return true;
   const M=N.maze,c=Math.floor((x-M.x0)/M.c),r=Math.floor((y-M.y0)/M.c);
-  if(r>=0&&r<7&&c>=0&&c<9&&M.m[r][c]==='#')return true;
+  if(r>=0&&r<M.rows&&c>=0&&c<M.cols&&M.m[r][c]==='#')return true;
   return false;
 }
 function drawNorthGround(){
@@ -3423,7 +3451,7 @@ function drawNorthGround(){
   // 폭포 아래 웅덩이
   const P2=N.pool;if(vis(P2.x,P2.y,200)){ctx.fillStyle='#6ec3e8';ell(ctx,P2.x,P2.y,P2.rx,P2.ry);ctx.strokeStyle='rgba(255,255,255,.6)';ctx.lineWidth=2;for(let i=0;i<3;i++){const p=(time*.6+i/3)%1;ctx.globalAlpha=1-p;ctx.beginPath();ctx.ellipse(P2.x,P2.y-20,30+p*90,8+p*26,0,0,TAU);ctx.stroke()}ctx.globalAlpha=1}
   // 미로 바닥
-  const M=N.maze;if(vis(M.x0+200,M.y0+150,300)){ctx.fillStyle='#e9d7a8';rr(ctx,M.x0-10,M.y0-10,9*M.c+20,7*M.c+20,10);ctx.fill();tag(M.x0+4.5*M.c,M.y0+7*M.c+30,'🌸 꽃 미로 (가운데 보물이 있어요!)')}
+  const M=N.maze;if(vis(M.x0+270,M.y0+230,360)){ctx.fillStyle='#e9d7a8';rr(ctx,M.x0-10,M.y0-10,M.cols*M.c+20,M.rows*M.c+20,10);ctx.fill();tag(M.x0-70,M.y0+M.er*M.c-6,'🌸 꽃 미로 입구 →');tag(M.x0+M.cols*M.c/2,M.y0+M.rows*M.c+30,'🌸 꽃 미로 · 보물은 매일 새 미로 깊숙이!')}
   // 캠핑장 바닥
   if(vis(N.camp.x,N.camp.y,300)){ctx.fillStyle='rgba(200,170,120,.35)';ell(ctx,N.camp.x,N.camp.y-40,250,110);tag(N.camp.x,N.camp.y+90,'🏕️ 별빛 캠핑장')}
   // 절벽
@@ -3458,9 +3486,9 @@ function drawNorth(items){
     [[2210,-930],[2370,-930]].forEach(([x,y],i)=>items.push([y,()=>{ctx.fillStyle='#a0714f';rr(ctx,x-34,y-12,68,12,4);ctx.fill();drawChar(ctx,x+(i?-14:14),y-6,.8,i?NPC_CAMP2:NPC_CAMP1,time*.6+i,i?-1:1,false,(time+i)%4<.12,false);if(Math.sin(time*.7+i*2)>.6)emo(i?'🎵':'🍡',x,y-90,16)}]));
   }
   // 미로 생울타리
-  const M=N.maze;if(vis(M.x0+200,M.y0+150,320))M.m.forEach((row,r)=>[...row].forEach((ch,c)=>{const x=M.x0+c*M.c,y=M.y0+r*M.c;
-    if(ch==='#')items.push([y+M.c,()=>{ctx.fillStyle='#3f8f5a';rr(ctx,x,y-18,M.c,M.c+18,8);ctx.fill();ctx.fillStyle='#5fb36a';rr(ctx,x+2,y-18,M.c-4,16,7);ctx.fill();if((r*9+c)%3===0){ctx.fillStyle=['#ff9fb5','#ffd43b','#fff'][(r+c)%3];circ(ctx,x+12+(c%2)*16,y+6,4)}}]);
-    else if(ch==='T')items.push([y+30,()=>{const k='mazeT:'+dayKey(),op=festLog(k);ctx.fillStyle='#a0714f';rr(ctx,x+8,y+12,28,20,4);ctx.fill();ctx.fillStyle=op?'#6b4a30':'#ffd166';rr(ctx,x+6,y+(op?2:6),32,10,4);ctx.fill();if(!op){ctx.fillStyle=`rgba(255,220,100,${.4+.3*Math.sin(time*4)})`;circ(ctx,x+22,y+12,20)}}]);
+  const M=N.maze;if(vis(M.x0+270,M.y0+230,380))M.m.forEach((row,r)=>[...row].forEach((ch,c)=>{const x=M.x0+c*M.c,y=M.y0+r*M.c;
+    if(ch==='#')items.push([y+M.c,()=>{ctx.fillStyle='#3f8f5a';rr(ctx,x,y-22,M.c,M.c+22,7);ctx.fill();ctx.fillStyle='#5fb36a';rr(ctx,x+2,y-22,M.c-4,15,6);ctx.fill();if((r*7+c*3)%4===0){ctx.fillStyle=['#ff9fb5','#ffd43b','#fff'][(r+c)%3];circ(ctx,x+10+(c%2)*14,y+4,3.5)}}]);
+    else if(ch==='T')items.push([y+30,()=>{const k='mazeT:'+dayKey(),op=festLog(k),h=M.c/2;ctx.fillStyle='#a0714f';rr(ctx,x+h-13,y+h-4,26,18,4);ctx.fill();ctx.fillStyle=op?'#6b4a30':'#ffd166';rr(ctx,x+h-15,y+h-(op?14:10),30,9,4);ctx.fill();if(!op){ctx.fillStyle=`rgba(255,220,100,${.4+.3*Math.sin(time*4)})`;circ(ctx,x+h,y+h,20)}}]);
   }));
 }
 const NPC_CAMP1={species:'bear',fur:'#c98a5a',eye:'smile',nose:'round',outfit:'#2f9e44',wear:{cap:true}},NPC_CAMP2={species:'fox',fur:'#f08a3c',eye:'sparkle',nose:'triangle',outfit:'#e64980',wear:{beanie:true}};
@@ -3470,10 +3498,19 @@ function northAction(near){
   if(near(N.spring.x,N.spring.y+70,90))return{e:'♨️',l:'온천욕 하기',f:()=>{Snd.sfx('pop');if(time<(furnCd.spring||0)){toast('♨️ 따끈따끈~ 조금 있다가 또 해요');return}furnCd.spring=time+90;addHappy(10);let m='♨️ 아~ 따끈따끈 시원하다! 피로가 싹 풀려요';if(state.sick){state.sick=0;m+=' · 감기도 나았어요! 🤧✨'}save();toast(m,3)}};
   if(near(N.fire.x,N.fire.y+30,60))return{e:'🍡',l:'마시멜로 굽기',f:()=>{if(time<(furnCd.marsh||0)){toast('🔥 마시멜로가 굽히는 중이에요…');return}furnCd.marsh=time+20;Snd.sfx('fire');gain('marshmallow',1,'🍡 노릇노릇 마시멜로 완성! 달콤해요');addHappy(2)}};
   for(const[tx,ty]of N.tents)if(near(tx,ty+24,46))return{e:'⛺',l:'텐트에서 쉬기',f:()=>{if(time<(furnCd.camptent||0)){toast('⛺ 포근한 텐트예요');return}furnCd.camptent=time+60;addHappy(5);toast('⛺ 텐트에 누워 별을 봐요… 반짝반짝 ✨',2.5)}};
-  const M=N.maze,tx=M.x0+7*M.c+22,ty=M.y0+M.c+22;if(near(tx,ty+10,40)){const k='mazeT:'+dayKey();return{e:'🎁',l:festLog(k)?'내일 또!':'미로 보물',f:()=>{if(festLog(k)){toast('🌸 미로 보물은 하루에 한 번! 내일 또 와요');return}festMark(k);const pool=['fourleaf','amethyst','quartz','tulip','goldnugget'],id=pool[Math.floor(Math.random()*pool.length)];state.coins+=100;updHUD();gain(id,1,`🌸 미로 탈출 성공! ${IT[id].e} ${IT[id].n} + 💰100`);addHappy(8);addXP(10)}}}
+  const M=N.maze;let tr=0,tc=0;M.m.forEach((row,r)=>{const c=row.indexOf('T');if(c>=0){tr=r;tc=c}});const tx=M.x0+tc*M.c+M.c/2,ty=M.y0+tr*M.c+M.c/2;if(near(tx,ty+6,30)){const k='mazeT:'+dayKey();return{e:'🎁',l:festLog(k)?'내일 또!':'미로 보물',f:()=>{if(festLog(k)){toast('🌸 미로 보물은 하루에 한 번! 내일 또 와요');return}festMark(k);const pool=['fourleaf','amethyst','quartz','tulip','goldnugget'],id=pool[Math.floor(Math.random()*pool.length)];state.coins+=100;updHUD();gain(id,1,`🌸 미로 탈출 성공! ${IT[id].e} ${IT[id].n} + 💰100`);addHappy(8);addXP(10)}}}
   if(near(N.sign.x,N.sign.y+20,40))return{e:'🪧',l:'표지판 보기',f:()=>toast('🪧 위로 가면 반짝 동굴, 왼쪽은 산속 온천, 오른쪽은 캠핑장과 꽃 미로예요!',3.5)};
   return null;
 }
+function inMaze(x,y){const N=NORTH;if(!N)return false;const M=N.maze;return x>M.x0-6&&x<M.x0+M.cols*M.c+6&&y>M.y0-6&&y<M.y0+M.rows*M.c+6}
+function navPath(sx,sy,tx,ty){if(scene==='village'&&(inMaze(sx,sy)||inMaze(tx,ty)))return[[tx,ty]];return findPath(sx,sy,tx,ty)}
+let mazeIn=false,mazeSwitched=false;
+function mazeTick(){
+  if(scene!=='village'||mode!=='village'||modalOpen())return;const now=inMaze(P.x,P.y);if(now===mazeIn)return;mazeIn=now;
+  if(now){if(state.ctrl==='touch'){tgt=null;openModal('🌸 꽃 미로',`<p class="say">미로는 조이스틱으로 하면 더 재밌어요! 🕹️<br>터치 모드는 누른 곳까지 똑바로만 걸어가요.</p><p class="say">조이스틱 모드로 바꿀까요?</p><div class="tabs"><button class="big main" onclick="mazeCtrl('joy')">🕹️ 조이스틱으로 바꿀래요</button><button class="big" onclick="closeModal()">👆 그냥 터치로 할래요</button></div>`)}else toast('🌸 꽃 미로에 들어왔어요! 보물을 찾아봐요',2.5)}
+  else if(mazeSwitched){mazeSwitched=false;openModal('🌸 미로 밖으로 나왔어요',`<p class="say">다시 터치 모드로 바꿀까요?</p><div class="tabs"><button class="big main" onclick="mazeCtrl('touch')">👆 터치 모드로 돌아가기</button><button class="big" onclick="closeModal()">🕹️ 조이스틱 그대로</button></div>`)}
+}
+function mazeCtrl(m){state.ctrl=m;tgt=null;joy=null;save();syncCtrl();if(m==='joy')mazeSwitched=true;closeModal();toast(m==='joy'?'🕹️ 화면을 끌어서 움직여요. 미로를 탈출해 봐요!':'👆 가고 싶은 곳을 누르면 걸어가요',2.5)}
 function drawNorthMini(g){
   const N=NORTH;if(!N)return;g.fillStyle='#8a7f72';g.beginPath();g.moveTo(XMIN,YMIN);for(let x=XMIN;x<=W;x+=40)g.lineTo(x,N.cliff(x));g.lineTo(W,YMIN);g.fill();
   g.fillStyle='#6aa86b';g.fillRect(XMIN,YMIN,W-XMIN,(-1440)-YMIN);g.fillStyle='#8fd3f4';g.fillRect(N.fall.x-40,-1450,80,N.fall.y+1450);g.beginPath();g.ellipse(N.pool.x,N.pool.y,N.pool.rx,N.pool.ry,0,0,TAU);g.fill();
@@ -3605,6 +3642,7 @@ function drawCave(items){
   items.push([1e5,()=>{caveBats.forEach((b,i)=>{const d=Math.hypot(P.x-b.cx,P.y-b.cy);if(d<160&&!b.fly)b.fly=time+3;const f=b.fly>time,x=b.cx+Math.sin(time*(f?3:.6)+b.ph)*(f?140:20),y=b.cy-160+Math.cos(time*(f?2.4:.5)+b.ph)*(f?60:8);if(b.fly&&time>b.fly)b.fly=0;ctx.save();ctx.translate(x,y);ctx.scale(1,Math.abs(Math.sin(time*(f?16:3)+i))*.5+.5);emo('🦇',0,0,f?22:16);ctx.restore()})}]);
   // 입구 빛
   {const g=ctx.createRadialGradient(900,1220,10,900,1220,260);g.addColorStop(0,'rgba(255,240,200,.55)');g.addColorStop(1,'rgba(255,240,200,0)');ctx.fillStyle=g;ctx.fillRect(600,950,600,300);tag(900,1140,'🌞 출구')}
+  if(play&&play.npc&&play.npc.place==='cave'){const n=play.npc;items.push([n.y,()=>{drawChar(ctx,n.x,n.y,1.05,n.char,time,n.dir,n.walking,(time%4)<.12,false);tag(n.x,n.y-112,n.name);drawEmote(n,n.x,n.y)}])}
   if(caveRide){items.push([P.y+.6,()=>drawCart(P.x,P.y+2)])}
   if(fishing)items.push([P.y+.5,drawFishing]);
 }
