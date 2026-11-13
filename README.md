@@ -23,6 +23,7 @@
 | 우리 동물 마을 (베타) (`animal-village/`) | [animal-village.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/animal-village/animal-village.apk) | — |
 | 우리 동물 마을 (친구용) (`animal-village-friends/`, 기기 연동 없음) | [animal-village-friends.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/animal-village-friends/animal-village-friends.apk) | 같은 파일 |
 | 공!부!해! N4 (`jlpt-n4/`) | — | [gongbuhae-n4.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/jlpt-n4/gongbuhae-n4.apk) |
+| 뜨개 카운터 (`knit-counter/`, LOVE 자켓 · 로우키 가디건) | — | [knit-counter.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/knit-counter/knit-counter.apk) |
 
 앱마다 폴더와 빌드(.github/workflows/<폴더>.yml)가 따로 있어서, 그 폴더를 고치면 그 앱만 다시 만들어져요.
 

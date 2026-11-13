@@ -1,0 +1,1129 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>html{color-scheme:light}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+</head><body>
+<script>
+/* 앱(WebView) 전용: 복사·진동을 안드로이드로 연결 */
+if(window.Android){
+  try{Object.defineProperty(navigator,'clipboard',{configurable:true,value:{writeText:t=>{Android.copy(t);return Promise.resolve();}}});}catch(e){}
+  try{Object.defineProperty(navigator,'vibrate',{configurable:true,value:ms=>{Android.vibrate(ms|0);return true;}});}catch(e){}
+}
+</script>
+<title>뜨개 단수 카운터</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* layout: one-hand phone tool — options sheet first, then stage line, giant row number, this row's instruction, big tap target */
+:root{
+  --bg:#f7f1f0; --card:#fffafa; --ink:#3a2a2c; --muted:#8a7476; --line:#e7d8d8;
+  --rose:#b5525c; --rose-soft:#f3dfe1; --moss:#4f6b3c; --moss-soft:#e3ead9;
+  --gold:#f2c14e; --blue:#3f78c9; --pink:#c43fb5;
+  --display:"Fraunces", Georgia, serif; --body:"Gowun Dodum", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1f1a1b; --card:#2a2324; --ink:#f1e6e6; --muted:#b39d9f; --line:#3d3334;
+  --rose:#e08791; --rose-soft:#3e2a2d; --moss:#a9c48f; --moss-soft:#2c3326; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1f1a1b; --card:#2a2324; --ink:#f1e6e6; --muted:#b39d9f; --line:#3d3334;
+  --rose:#e08791; --rose-soft:#3e2a2d; --moss:#a9c48f; --moss-soft:#2c3326; color-scheme:dark}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+.wrap{max-width:460px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;gap:14px;
+  padding-block:14px 20px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+header b{font-size:15px;letter-spacing:.02em}
+.save{font-size:12px;color:var(--muted)}
+.stage{display:flex;align-items:center;gap:10px}
+.stage button{flex:0 0 auto}
+.stagebox{flex:1;min-width:0;text-align:center}
+.step{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.sname{font-size:19px;font-weight:700;text-wrap:balance}
+.nav{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:18px}
+.nav:disabled{opacity:.35}
+.counter{text-align:center;padding-block:6px 0}
+.num{font-family:var(--display);font-weight:600;font-size:104px;line-height:1;font-variant-numeric:tabular-nums;color:var(--rose)}
+.of{font-size:15px;color:var(--muted);margin-top:4px}
+.info{display:inline-flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px}
+.info span{font-size:14px;padding:3px 10px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.info b{color:var(--rose)}
+.side{display:inline-block;margin-top:8px;font-size:14px;padding:2px 12px;border-radius:99px;background:var(--moss-soft);color:var(--moss)}
+.side.ws{background:var(--rose-soft);color:var(--rose)}
+.todo{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-size:17px}
+.todo .tip{margin-top:8px;font-size:14px;color:var(--muted)}
+.todo .flag{display:block;margin-top:8px;font-size:15px;color:var(--rose);font-weight:700}
+.todo .lace{display:block;margin-top:8px;font-size:15px;color:var(--moss);font-weight:700}
+.goal{font-size:14px;color:var(--moss);text-align:center}
+.map{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.map .mh{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;font-size:14px;margin-bottom:8px}
+.map .mh b{font-size:15px}
+.map .mh span{color:var(--muted)}
+.map ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.map li{display:flex;align-items:baseline;gap:8px;font-size:15px;font-variant-numeric:tabular-nums}
+.map li .k{flex:0 0 auto;min-width:56px;font-size:12px;font-weight:700;text-align:center;padding:1px 6px;border-radius:6px}
+.map li .v{min-width:0}
+.map li .v small{display:block;font-size:13px;color:var(--rose);font-weight:700}
+.map li.sec .k{background:var(--rose-soft);color:var(--rose)}
+.map li.rag .k{background:var(--gold);color:#5a4300}
+.map li.rag .v{color:var(--muted);font-size:14px}
+.map li.ds .k{background:var(--blue);color:#fff}
+.map li.turn .k{background:var(--pink);color:#fff}
+.map li.end .k{background:var(--moss);color:var(--bg)}
+.todo .now{display:table;margin-bottom:8px;font-size:13px;padding:1px 10px;border-radius:99px;background:var(--rose);color:#fff;font-weight:700}
+.todo .st0{display:block;margin-bottom:8px;font-size:14px;color:var(--rose);font-weight:700}
+.todo .care{margin-top:10px;padding-top:8px;border-top:1px dashed var(--line);font-size:14px;color:var(--ink)}
+.todo .care b{color:var(--rose)}
+.timer{display:flex;justify-content:center;align-items:center;gap:10px;font-size:15px;font-variant-numeric:tabular-nums}
+.timer button{padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--body);font-size:14px}
+.timer.paused #clock{color:var(--muted)}
+.log{font-size:14px}
+.log .head{display:flex;justify-content:space-between;gap:8px;font-weight:700;margin-bottom:4px}
+.log .head span{font-weight:400;color:var(--muted)}
+.log ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+.log li{display:flex;justify-content:space-between;font-variant-numeric:tabular-nums}
+.log li.empty{color:var(--muted)}
+.plus{width:100%;height:96px;border:0;border-radius:18px;background:var(--rose);color:#fff;font-size:30px;font-family:var(--body);font-weight:700}
+.plus:active{transform:scale(.98)}
+.row2{display:grid;grid-template-columns:1fr 2fr;gap:10px}
+.minus,.next{height:52px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:16px;font-family:var(--body)}
+.next.ready{background:var(--moss);border-color:var(--moss);color:var(--bg);font-weight:700}
+.links{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;font-size:14px}
+.links button{background:none;border:0;color:var(--muted);text-decoration:underline;font-family:var(--body);font-size:14px;padding:4px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px}
+.panel img{display:block;width:100%;border-radius:8px;background:#fff}
+.list{display:flex;flex-direction:column;gap:2px}
+.list button{display:flex;justify-content:space-between;gap:10px;text-align:left;padding:9px 10px;border:0;border-radius:10px;background:none;color:var(--ink);font-family:var(--body);font-size:15px}
+.list button.on{background:var(--rose-soft);color:var(--rose);font-weight:700}
+.list small{color:var(--muted);white-space:nowrap}
+.confirm{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:14px}
+.confirm button{padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--body)}
+.confirm .danger{background:var(--rose);border-color:var(--rose);color:#fff}
+/* options sheet */
+.setup h1{font-size:20px;margin:0}
+.setup p.lead{margin:2px 0 0;font-size:14px;color:var(--muted)}
+.opt{display:flex;flex-direction:column;gap:6px;padding-block:10px;border-bottom:1px solid var(--line)}
+.opt .q{font-weight:700;font-size:15px}
+.opt .note{font-size:13px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{padding:8px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--body);font-size:14px}
+.chips button[aria-pressed="true"]{background:var(--rose);border-color:var(--rose);color:#fff}
+.sub{padding-left:12px;border-left:2px solid var(--rose-soft)}
+.start{height:56px;border:0;border-radius:16px;background:var(--moss);color:var(--bg);font-size:18px;font-weight:700;font-family:var(--body);margin-top:6px}
+.pick{font-size:13px;color:var(--muted);text-align:center}
+
+/* hub + lowkey */
+.back{border:0;background:none;color:var(--rose);font-family:var(--body);font-size:15px;padding:0;margin-right:6px}
+header{align-items:center}
+.proj{display:grid;grid-template-columns:120px 1fr;gap:14px;align-items:center;text-align:left;width:100%;padding:14px;border-radius:18px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-family:var(--body)}
+.proj:active{transform:scale(.99)}
+.hn{font-size:20px;font-weight:700}.hn small{font-size:14px;color:var(--muted);font-weight:400}
+.hs{font-size:15px;margin-top:4px}.hs b{color:var(--rose)}
+.hc{font-size:13px;color:var(--muted);margin-top:2px}
+.bar{height:8px;border-radius:99px;background:var(--rose-soft);margin-top:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--rose)}
+.hp{font-size:12px;color:var(--muted);margin-top:2px;text-align:right}
+.foot{font-size:13px;color:var(--muted);text-align:center}
+.garment{width:100%;height:auto;display:block}
+.garment .gp{fill:var(--card);stroke:var(--muted);stroke-width:1.2}
+.garment .gf{fill:var(--rose);stroke:none;opacity:.9}
+.garment .gf.gpart{fill:var(--gold)}
+.garment .gcur{stroke:var(--moss);stroke-width:2.6}
+.garment .gc{fill:none;stroke:var(--line);stroke-width:7;stroke-linecap:round}
+.garment .gc.gcpart{stroke:var(--gold)}.garment .gc.gcdone{stroke:var(--rose)}
+.garment .gc.gcur{stroke-dasharray:4 3}
+.garment .gl{stroke:var(--muted);stroke-width:1;stroke-dasharray:3 3}
+.pic{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px}
+.pic #lkPic{max-width:300px;margin:0 auto}
+.pct{text-align:center;font-size:14px;color:var(--moss);font-weight:700}
+.legend{display:flex;justify-content:center;gap:12px;font-size:12px;color:var(--muted);margin-top:4px}
+.lg{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:3px}
+.lg.done{background:var(--rose)}.lg.part{background:var(--gold)}.lg.cur{border:2.5px solid var(--moss)}
+.doc{font-size:15px;line-height:1.65}.doc p{margin:6px 0}.doc .dh{font-weight:700;color:var(--rose);margin-bottom:4px}
+.muted{color:var(--muted);font-size:13px}
+#lkPicked input{width:110px;font-size:18px;padding:6px 8px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-family:var(--body)}
+#lkPicked .q{display:block;font-weight:700;margin-bottom:6px}
+.bhrow{display:grid;grid-template-columns:2fr 1fr;gap:10px}
+.bhrow button{height:48px;border-radius:14px;border:0;background:var(--moss);color:var(--bg);font-weight:700;font-family:var(--body);font-size:15px}
+.bhrow .ghost{background:var(--card);color:var(--ink);border:1px solid var(--line);font-weight:400}
+
+[hidden]{display:none!important}
+button{cursor:pointer}
+button:focus-visible{outline:3px solid var(--moss);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.plus:active{transform:none}}
+</style>
+
+<div class="wrap" id="loveApp" hidden>
+  <header><button class="back" id="loveBack">‹ 내 뜨개</button><b>LOVE 자켓 · 5세</b><span class="save" id="save">저장됨</span></header>
+
+  <section class="setup" id="setup" hidden>
+    <h1>어떻게 뜰지 먼저 골라요</h1>
+    <p class="lead">도안에 있는 선택지예요. 나중에 「옵션 바꾸기」로 바꿔도 센 단수는 그대로 남아요.</p>
+    <div id="opts"></div>
+    <button class="start" id="startBtn">이대로 시작</button>
+  </section>
+
+  <section id="main" hidden>
+    <div class="wrap" style="padding:0;min-height:0">
+      <div class="stage">
+        <button class="nav" id="prevStage" aria-label="이전 단계">‹</button>
+        <div class="stagebox"><div class="step" id="step"></div><div class="sname" id="sname"></div></div>
+        <button class="nav" id="nextStage" aria-label="다음 단계">›</button>
+      </div>
+      <div class="counter">
+        <div class="num" id="num">0</div>
+        <div class="of" id="of"></div>
+        <div class="info" id="info"></div>
+        <span class="side" id="side" hidden></span>
+      </div>
+      <div class="timer" id="timer"><span id="clock">이번 단 0:00</span><button id="clockBtn">⏸ 쉬기</button></div>
+      <div class="todo" id="todo"></div>
+      <div class="map" id="map" hidden></div>
+      <div class="goal" id="goal"></div>
+      <button class="plus" id="plus">+ 1단</button>
+      <div class="row2">
+        <button class="minus" id="minus">− 1</button>
+        <button class="next" id="next">다음 단계 →</button>
+      </div>
+      <div class="panel log" id="log"></div>
+      <div class="pick" id="pick"></div>
+      <div class="links">
+        <button id="tgScheme">5세 도안 보기</button>
+        <button id="tgList">전체 단계</button>
+        <button id="tgOpts">옵션 바꾸기</button>
+        <button id="tgReset">처음부터</button>
+      </div>
+      <div class="panel" id="scheme" hidden><img alt="5세 도안: 목둘레 79코, 래글런 16.5cm, 몸판 141코" src="data:image/png;base64,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"></div>
+      <div class="panel" id="listPanel" hidden><div class="list" id="list"></div></div>
+      <div class="confirm" id="resetBox" hidden>모든 단계를 0단으로 되돌릴까요?
+        <button class="danger" id="resetYes">처음부터</button><button id="resetNo">취소</button></div>
+    </div>
+  </section>
+</div>
+
+<div class="wrap" id="hub" hidden>
+  <header><b>내 뜨개</b><span class="save">눌러서 이어 뜨기</span></header>
+  <button class="proj" id="hubLk"></button>
+  <button class="proj" id="hubLove"></button>
+  <p class="foot">진행 상황은 프로젝트마다 따로 저장돼요.</p>
+  <div class="links"><button id="bkCopy">진행 백업 복사</button><button id="bkPasteT">백업 붙여넣기</button></div>
+  <div class="panel" id="bkBox" hidden>
+    <div class="muted" id="bkMsg"></div>
+    <textarea id="bkText" rows="5" style="width:100%;font-size:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:8px"></textarea>
+    <div class="confirm"><button class="danger" id="bkApply" hidden>이 백업으로 덮어쓰기</button><button id="bkClose">닫기</button></div>
+  </div>
+</div>
+
+<div class="wrap" id="lkApp" hidden>
+  <header><button class="back" id="lkBack">‹ 내 뜨개</button><b>로우키 가디건 · M</b><span class="save" id="lkSave">저장됨</span></header>
+
+  <section class="setup" id="lkSetup" hidden>
+    <h1>어떻게 뜰지 먼저 골라요</h1>
+    <p class="lead">바늘이야기 로바울튜브 로우키 가디건 · M 사이즈 (가슴 97 · 기장 58 · 어깨 32cm) · 게이지 23코×32단 (4mm)</p>
+    <div id="lkOpts"></div>
+    <button class="start" id="lkStart">이대로 시작</button>
+  </section>
+
+  <section id="lkMain" hidden>
+    <div class="wrap" style="padding:0;min-height:0">
+      <div class="stage">
+        <button class="nav" id="lkPrev" aria-label="이전 단계">‹</button>
+        <div class="stagebox"><div class="step" id="lkStep"></div><div class="sname" id="lkName"></div></div>
+        <button class="nav" id="lkNextS" aria-label="다음 단계">›</button>
+      </div>
+      <div class="pic"><div id="lkPic"></div><div class="pct" id="lkPct"></div>
+        <div class="legend"><span><i class="lg done"></i>다 뜸</span><span><i class="lg part"></i>뜨는 중</span><span><i class="lg cur"></i>지금 단계</span></div></div>
+      <div class="counter">
+        <div class="num" id="lkNum">0</div>
+        <div class="of" id="lkOf"></div>
+        <div class="info" id="lkInfo"></div>
+        <span class="side" id="lkSide" hidden></span>
+      </div>
+      <div class="timer" id="lkTimer"><span id="lkClock"></span><button id="lkClockBtn">⏸ 쉬기</button></div>
+      <div class="todo" id="lkTodo"></div>
+      <div class="panel" id="lkPicked" hidden><label for="lkPickedIn" class="q">버튼밴드 주운 코 수</label>
+        <input id="lkPickedIn" type="number" inputmode="numeric" min="13" placeholder="예: 140"> <span class="muted">입력하면 밴드 단수·단춧구멍 위치 계산</span></div>
+      <div class="bhrow" id="lkBH" hidden><button id="lkBHBtn">단춧구멍 시작 (11단)</button><button id="lkBHMinus" class="ghost">완성 개수 −1</button></div>
+      <button class="plus" id="lkPlus">+ 1단</button>
+      <div class="row2"><button class="minus" id="lkMinus">− 1</button><button class="next" id="lkNext">다음 단계 →</button></div>
+      <div class="panel doc" id="lkDoc"></div>
+      <div class="panel log" id="lkLog"></div>
+      <div class="pick" id="lkPick"></div>
+      <div class="links">
+        <button id="lkTgList">전체 단계</button><button id="lkTgInfo">도안 정보</button><button id="lkTgOpts">옵션 바꾸기</button><button id="lkTgReset">처음부터</button>
+      </div>
+      <div class="panel" id="lkListP" hidden><div class="list" id="lkList"></div></div>
+      <div class="panel doc" id="lkInfoP" hidden>
+        <div class="dh">도안 정보 (Designed by Banul · v1.1 · 난이도 중상)</div>
+        <p><b>패키지</b> 로바울튜브(1콘/360g) 1콘, 라떼단추(15mm) 7개</p>
+        <p><b>사이즈</b> XS (S) <b>M</b> (L) XL (2XL) 3XL · 샘플 S<br>가슴둘레 86 (92) <b>97</b> (100) 106 (114) 125cm<br>옷길이(뒷목 중심부터) 56 (56) <b>58</b> (58) 60 (60) 62cm<br>어깨너비 32 (32) <b>32</b> (34) 34 (36) 36cm<br>실 사용량 모두 1콘 · 약 240 (260) <b>270</b> (280) 300 (320) 355g</p>
+        <p><b>바늘</b> 3.5mm 2세트, 4mm 조립식, 40·80cm(혹은 100cm) 케이블, 돗바늘, 마커(단수표시링 대체 가능) · 2.5mm는 아크린넨으로 카라를 뜰 때만</p>
+        <p><b>게이지</b> 23코 × 32단 (4mm, 10×10cm, 메리야스). 내 코 수가 23보다 많으면 큰 바늘, 적으면 작은 바늘로. 게이지가 다르면 사이즈와 실 양이 달라져요.</p>
+        <p><b>사이즈 고르기</b> 착용 모델 가슴 80cm에 S(+12cm). 평소 얇은 가디건 가슴 단면과 비슷하게. XS~M은 실제 어깨너비 38~41cm, L~XL 42~45cm, 2XL~3XL 46~50cm. 어깨선은 실제 어깨보다 안쪽으로 들어가게 디자인.</p>
+        <p><b>서술도안 읽기</b> 내 사이즈 위치의 숫자만 (M은 3번째). "총 ○번 반복" = 위에 뜬 단 포함, "○번 더 반복" = 제외하고 추가. 한 파트를 시작하기 전 그 파트를 끝까지 읽기.</p>
+        <p><b>약어</b> M1L · M1R · K2tog(2코 한 번에 겉뜨기) · ssk(겉뜨기 방향으로 2코 거르고 왼쪽 바늘을 코 왼쪽부터 넣어 되돌린 뒤 뒤쪽으로 찔러 한 번에 겉뜨기) · SW(쉐도우랩) · 턴(져먼숏로우) — 각 단계 「도안 설명」에 자세히.</p>
+        <p class="muted">도안 질문: 바늘이야기 사이트·앱 채팅 상담 · 무단 복제·재배포 금지 (개인 진행용)</p>
+      </div>
+      <div class="confirm" id="lkResetBox" hidden>모든 단계를 0단으로 되돌릴까요? <button class="danger" id="lkResetYes">처음부터</button><button id="lkResetNo">취소</button></div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ---------- options from the pattern ---------- */
+const OPTS = [
+ {k:'neck', q:'목둘레', ch:[['single','한 겹 (10단)'],['double','두 겹 (20단, 접어서 맞붙이기)']]},
+ {k:'lace', q:'몸판 무늬', note:'비침무늬는 뒷목 높이 7단부터 래글런·몸판·소매에 들어가요', ch:[['none','기본 (메리야스)'],['lace2','비침무늬 · 더 비치게 (2단 반복)'],['lace4','비침무늬 · 덜 비치게 (4단 반복)']]},
+ {k:'len', q:'기장', ch:[['basic','기본 자켓'],['long','롱 자켓 (가슴 아래 플레어)']]},
+ {k:'flare', q:'플레어 풍성함', sub:'len:long', ch:[['full','풍성하게 (1코마다 늘림)'],['light','덜 풍성하게 (2코마다 늘림)']]},
+ {k:'skirt', q:'플레어 아래 무늬', sub:'len:long', ch:[['lace2','더 비치게 (2단 반복)'],['lace4','덜 비치게 (4단 반복)']]},
+ {k:'sleeve', q:'소매 길이', ch:[['short','반소매'],['tq','7부 (23cm)'],['long','긴소매 (29cm)']]},
+ {k:'wings', q:'어깨 날개 (프릴)', ch:[['no','없음'],['yes','있음']]},
+ {k:'stripe', q:'줄무늬', ch:[['no','없음'],['yes','4색 줄무늬 (10cm마다 색 바꾸기)']]},
+ {k:'emb', q:'자수', ch:[['no','없음'],['yes','자수 넣기']]},
+ {k:'tub', q:'고무단 마무리', note:'밑단·소맷부리·앞단의 마지막 2단', ch:[['yes','두 겹(튜블러) 고무단 2단 + 돗바늘 (도안 추천)'],['no','일반 고무단 + 신축성 코막음']]},
+ {k:'btn', q:'단춧구멍 위치', ch:[['girl','오른쪽 앞단 (여아)'],['boy','왼쪽 앞단 (남아)']]},
+ {k:'fit', q:'핏', ch:[['basic','기본'],['over','오버핏 (래글런 1~2cm 길게)']]},
+];
+const DEF = {neck:'single',lace:'none',len:'basic',flare:'full',skirt:'lace2',sleeve:'long',wings:'no',stripe:'no',emb:'no',tub:'yes',btn:'girl',fit:'basic'};
+
+const LACE5 = 'K2tog · 바늘비우기 · 겉1 · 바늘비우기 · SSK';
+const LACE7 = '겉1 · K2tog · 바늘비우기 · 겉1 · 바늘비우기 · SSK · 겉1';
+const rep = v => v==='lace2'?2:4;
+
+/* ---------- stages built from options ---------- */
+function build(o){
+  const L=[];
+  const tubEnd = o.tub==='yes' ? '마지막 2단은 두 겹(튜블러) 고무단 → 돗바늘로 마무리' : '끝나면 신축성 있는 방법으로 코막음 (돗바늘 추천)';
+  const stripeTip = o.stripe==='yes' ? ' · 줄무늬: 앞판 기준 10cm마다 다음 색' : '';
+  const nk = o.neck==='double'?20:10;
+  L.push({id:'neck', name:'목둘레 고무단', total:nk, kind:'ribflat', care:'코 잡는 단은 느슨하게, 고무단은 촘촘하게 · 코 수 79(홀수) 확인', goal:`3.75mm 바늘 · 79코 잡기 · 1×1 고무단 ${nk}단`,
+    row:r=> r===1 ? {t:'79코를 잡고 1×1 고무단 (겉1 · 안1)', tip:'코 잡는 단은 너무 꽉 조이지 마세요.'}
+         : r===nk ? {t:'1×1 고무단 마지막 단', flag:'이 단은 4mm 바늘로 바꿔 뜨기'}
+         : (o.neck==='double'&&r===10) ? {t:'1×1 고무단', tip:'절반 왔어요. 20단까지 뜬 다음 반으로 접어요.'}
+         : {t:'1×1 고무단 (겉1 · 안1), 촘촘하게'}});
+  if(o.neck==='double') L.push({id:'neckJoin', name:'두 겹 목둘레 맞붙이기', total:2, care:'코가 꼬이지 않게 같은 순서로 하나씩 맞붙이기', goal:'목둘레를 안쪽으로 반 접어 맞붙이기',
+    row:r=> r===1 ? {t:'바늘에 걸린 코와 코 잡기 단의 코를 하나씩 맞붙여 뜨기', tip:'영상 참고'} : {t:'안뜨기 1단 (두 겹 버전만)'}});
+  L.push({id:'markers', name:'마커 걸기', total:0, care:'코를 뜨지 말고 옮기기만 · 끝나고 79코 맞는지 세어 보기', goal:'코를 뜨지 말고 바늘에서 바늘로 옮기며 걸기',
+    row:()=>({t:'앞판 15 · M · 래글런 1 · M · 소매 10 · M · 래글런 1 · M · 뒤판 25 · M · 래글런 1 · M · 소매 10 · M · 래글런 1 · M · 앞판 15', tip:'모두 79코. 빨간 점(단 시작)부터 화살표 방향으로.'})});
+  L.push({id:'short', name:'뒷목 높이 (경사뜨기)', total:16, flat:true, lace:true, kind:'short', care:'더블 스티치(두 가닥)는 꼭 한 번에 뜨기 · 겉면 단 래글런 늘림 잊지 않기 · 되돌아뜨는 위치는 도안 초록 숫자 순서대로', goal:'끝나면 앞판 20 · 소매 23 · 뒤판 41코',
+    row:r=>{
+     if(r===15) return {t:'마지막 겉면 단 · 래글런 늘림 · 단 끝까지 (앞단 시작 전까지)'};
+     if(r===16) return {t:'마지막 안면 단 · 편물 한쪽 끝에서 다른 쪽 끝까지', flag:'코 수 확인: 앞판 20 · 소매 23 · 뒤판 41'};
+     const odd=r%2===1, where=r<=6?'소매':'앞판';
+     const base = odd ? (r===1 ? '왼쪽 앞판부터 래글런 앞뒤 늘림하며 뜨기' : '래글런 늘림 · 되돌아뜬 코(두 가닥)는 한 번에 겉뜨기')
+                      : '실을 당겨 더블 스티치 만들고 · 두 가닥은 한 번에 안뜨기';
+     let tip = r===7 ? '여기부터 앞판에서 되돌아뜨며 둥근 목선을 만들어요.' : (odd?'':'파란 점 위치는 「5세 도안 보기」에서');
+     if(r===7 && o.lace!=='none') tip += ' 소매·뒤판에 무늬 마커를 걸고 무늬 시작 (영상).';
+     return {t:`${base} → 초록 ${r}번 점(${where})에서 되돌아뜨기`, tip};
+    }});
+  const ragCm = o.fit==='over' ? '17.5~18.5cm' : '16.5cm';
+  L.push({id:'raglan', name:'래글런', total:null, est:o.fit==='over'?28:24, flat:true, lace:true, kind:'st', care:'래글런 코 앞은 오른쪽으로 기우는 늘림(M1R), 뒤는 왼쪽으로 기우는 늘림(M1L) · 길이는 앞쪽 래글런선을 목 고무단까지 포함해 재기',
+    goal:`목 고무단 포함 ${ragCm}까지 · 뒤판 65 · 앞판 32코씩 · 안면 단으로 끝내기${stripeTip}`,
+    row:(r,c)=> c.ws ? {t:'안면 · 늘림 없이 (무늬 쉬는 단 규칙대로)'} : {t:'겉면 · 래글런 4곳 앞뒤 늘림 (+8코)', tip:'소매 쪽 늘림은 래글런 도중 2번 건너뛰기 (도안)'}});
+  L.push({id:'split', name:'분리단', total:1, flat:true, lace:true, kind:'st', care:'소매 코는 돗바늘로 다른 색 보조실에 · 겨드랑이 코는 편한 방법으로 새로 만들기', goal:'몸판 총 '+(o.fit==='over'?'141코 + 겨드랑이 코 추가분':'141코'),
+    row:()=>({t:`소매 코는 보조실로 옮겨 쉬게 두고, 겨드랑이 코 ${o.fit==='over'?'4코보다 넉넉히':'4코씩'} 새로 만들기`, tip:'래글런 코는 몸판 쪽에 포함해요.'})});
+  if(o.len==='basic'){
+    L.push({id:'body', name:'몸판', total:null, est:56, flat:true, lace:true, kind:'st', care:'왕복으로 뜨기 · 마지막 단(안면)은 3.75mm 바늘로 떠야 고무단 경계가 고르게 돼요', goal:'겨드랑이~밑단 24cm 중 밑단 고무단 5~7cm를 남기고'+stripeTip,
+      row:(r,c)=> c.ws ? {t:'안면 · 모두 안뜨기', tip:'몸판 마지막 단(안면)은 3.75mm 바늘로'} : {t:'겉면 · 메리야스 (모두 겉뜨기)'}});
+    L.push({id:'hem', name:'밑단 고무단', total:null, est:18, kind:'ribflat', care:'코 수 홀수 · 촘촘하게', goal:'3.75mm · 1×1 고무단 5~7cm (코 수 홀수)',
+      row:()=>({t:'1×1 고무단 (겉1 · 안1)', tip:tubEnd})});
+  } else {
+    L.push({id:'bodyTop', name:'몸판 윗부분', total:null, est:20, flat:true, lace:true, kind:'st', care:'분리단부터 6~7cm 재기', goal:'분리단 뒤 6~7cm까지'+stripeTip,
+      row:(r,c)=> c.ws ? {t:'안면 · 모두 안뜨기'} : {t:'겉면 · 메리야스'}});
+    L.push({id:'flare', name:'플레어 늘림 단', total:1, flat:true, kind:'st', care:'늘림은 이 한 단에서만 · 가로줄을 끌어올려 늘리기', goal:'이 한 단에서만 늘려요',
+      row:()=>({t: o.flare==='full' ? '겉면 · 1코 뜨고 1코 늘림 반복 (가로줄 끌어올려)' : '겉면 · 2코 뜨고 세 번째 자리에서 1코 늘림 반복', tip:'영상 참고'})});
+    L.push({id:'mark', name:'무늬 마커 단', total:1, flat:true, kind:'st', care:'남는 코는 양 끝에 골고루', goal:'7코씩 구간 나누기',
+      row:()=>({t:'안면 · 모두 안뜨기 · 정가운데 7코에 마커, 좌우로 7코씩 구간마다 마커'})});
+    L.push({id:'skirt', name:'플레어 무늬', total:null, est:70, flat:true, kind:'st', care:'바늘비우기 수와 모아뜨기 수가 같아야 코 수가 유지돼요', goal:'겨드랑이부터 39cm가 되기 전, 밑단 14단을 남기고'+stripeTip,
+      row:(r,c)=>{
+        const j=(r-1)%rep(o.skirt);
+        if(j===0) return {t:'겉면 · 7코 구간마다 '+LACE7, flag:`무늬 1단 (${rep(o.skirt)}단 반복)`, tip:'원하면 구간 사이에 겉뜨기 코를 넣어도 돼요.'};
+        return {t:(c.ws?'안면 · 모두 안뜨기':'겉면 · 모두 겉뜨기'), tip:`무늬 ${j+1}단 (${rep(o.skirt)}단 반복)`};
+      }});
+    L.push({id:'hemknit', name:'밑단 겉뜨기', total:14, kind:'garter', care:'모든 단 겉뜨기 · 감침용 실은 넉넉히', goal:'밑단 감침용 겉뜨기 14단',
+      row:r=> r===14 ? {t:'마지막 단 겉뜨기 → 안면 단에서 코막음', flag:'감침용 실을 길게 남기기'} : {t:'모두 겉뜨기'}});
+    L.push({id:'kettle', name:'밑단 감침', total:0, care:'너무 당기지 않게 · 편물이 오그라들지 않도록', goal:'돗바늘로 막은 가장자리를 따라 감침',
+      row:()=>({t:'남겨 둔 긴 실로 밑단을 감침 (영상 참고)'})});
+  }
+  const sl = o.sleeve;
+  for(const [n,label] of [[1,'첫 번째'],[2,'두 번째']]){
+    const est = sl==='short'?13 : sl==='tq'?53:70;
+    const goal = sl==='short' ? '반소매 · 메리야스 10~15단' : sl==='tq' ? '소맷부리 포함 23cm · 7단마다 2~3번 줄임' : '소맷부리 포함 29cm · 7단마다 2~3번 줄임';
+    L.push({id:'sl'+n, name:label+' 소매', total:sl==='short'?15:null, est, round:true, lace:true, kind:'round', care:'소매는 몸판보다 촘촘해지기 쉬워요 → 반 호수 큰 바늘 · 줄임 간격을 적어 두면 두 번째 소매를 똑같이 뜰 수 있어요', goal:goal+stripeTip,
+      row:r=>{
+        if(r===1) return {t:'겨드랑이 가운데에 새 실 연결 · 겨드랑이 코 반 + 2코 줍기 + 소매 코 + 2코 줍기 + 남은 겨드랑이 코', tip:'겨드랑이 가운데 코에 마커 · 소매가 촘촘하면 반 호수 큰 바늘'};
+        if(sl!=='short' && r%7===0 && r<=21) return {t:'겉뜨기 · 가운데 코 앞뒤에서 줄임', flag:`줄임 단 (${r/7}번째 · 2~3번 하기)`};
+        if(sl==='short' && r>=10) return {t:'원형 · 모두 겉뜨기', tip:'10~15단 중 원하는 곳에서 멈추고 다음 단계로'};
+        return {t:'원형 · 모두 겉뜨기'};
+      }});
+    L.push({id:'cuff'+n, name:label+' 소맷부리', total:null, est:18, kind:'roundrib', care:'코 수 짝수 · 소매 마지막 단은 3.75mm로', goal:'3.75mm · 1×1 고무단 5~7cm (코 수 짝수)'+(n===2?' · 첫 번째와 같은 단수':''),
+      row:()=>({t:'1×1 고무단 (겉1 · 안1)', tip:tubEnd})});
+  }
+  const holeSide = o.btn==='girl' ? 'R' : 'L';
+  for(const s of ['L','R']){
+    const hole = s===holeSide;
+    L.push({id:'band'+s, name:(s==='L'?'왼쪽':'오른쪽')+' 앞단'+(hole?' · 단춧구멍':''), total:10, kind:'band', side:s, care:'아주 촘촘하게 · 코를 고르게 주워야 앞단이 울거나 당기지 않아요 · 양쪽 단수 같게',
+      goal:(s==='R'?'아래에서 위로':'위에서 아래로')+' 코 줍기 (주운 코 홀수) · 1×1 고무단 9~10단 · 양쪽 같은 단수',
+      row:r=> r===1 ? {t:'겉면에서 가장자리 코 줍기 (기초단)', tip:'주운 코 수를 적어 두면 반대쪽도 똑같이 주울 수 있어요.'}
+           : (hole && r===5) ? {t:'1×1 고무단 + 단춧구멍', flag:'단춧구멍 단 (앞단 폭 가운데)', tip:'표시해 둔 마커 자리에 단춧구멍 (영상)'}
+           : r>=9 ? {t:'1×1 고무단', tip:tubEnd} : {t:'1×1 고무단 (아주 촘촘하게)'}});
+  }
+  if(o.wings==='yes') for(const s of ['오른쪽','왼쪽']) L.push({id:'wing'+(s==='오른쪽'?'R':'L'), name:s+' 날개 (프릴)', total:null, est:null,
+    goal:(s==='오른쪽'?'래글런선을 따라 뒤판 → 앞판 쪽':'래글런선을 따라 앞판 → 뒤판 쪽')+' · 4mm · 모헤어처럼 가벼운 실', care:'래글런선 코가 잘 보여요 · 소매 위 코 주울 선을 색실로 표시해 두면 편해요',
+    row:r=> r===1 ? {t:'*래글런선에서 1코 줍기 · 바늘비우기 · 2코 줍기 · 바늘비우기* 반복', tip:'래글런선 → 소매 → 두 번째 래글런선 순서로 줍기'}
+         : r===2 ? {t:'안면 · 바늘비우기는 모두 꼬아 안뜨기'}
+         : {t:'되돌아뜨기로 날개 모양 잡기 → 다 되면 모으는 단 → 코막음', tip:'단수는 영상 보며 · 실 꼬리는 안쪽으로'}});
+  if(o.emb==='yes') L.push({id:'emb', name:'자수', total:0, care:'자수 실 물빠짐 확인', goal:'뜨개 코를 따라 자수',
+    row:()=>({t:'위치·색을 먼저 정하고 꽃 → 잎 → 그 밖의 요소 순서로 (영상)', tip:'뜬 실과 비슷하거나 조금 가는 실 · 3~4색 이내 · 물빠짐 확인'})});
+  L.push({id:'finish', name:'마무리', total:0, care:'알파카는 손빨래만 · 메리노·면 혼방은 세탁기 울 코스(30도) 가능', goal:'완성!',
+    row:()=>({t:'실 꼬리 정리 → 세탁·블로킹 → 단추 달기 (지름 13~18mm)', tip:'평평한 곳에 펼쳐 말려요.'})});
+  return L;
+}
+
+/* ---------- state ---------- */
+const KEY='love-jacket-5y';
+let S={opts:null, stage:'neck', rows:{}, times:{}, clock:{run:false,start:0,acc:0}, at:0};
+const OLD=['neck','markers','short','raglan','split','body','hem','sl1','cuff1','sl2','cuff2','bandL','bandR','finish'];
+function normalize(s){
+  if(!s) return null;
+  if(typeof s.stage==='number'){ // first version: rows by index
+    const rows={}; for(const [i,v] of Object.entries(s.rows||{})) if(OLD[i]) rows[OLD[i]]=v;
+    return {opts:null, stage:OLD[s.stage]||'neck', rows, times:{}, clock:{run:false,start:0,acc:0}, at:s.at||0};
+  }
+  return {opts:s.opts||null, stage:s.stage||'neck', rows:s.rows||{}, times:s.times||{}, clock:s.clock||{run:false,start:0,acc:0}, at:s.at||0};
+}
+try{const s=normalize(JSON.parse(localStorage.getItem(KEY)||'null')); if(s) S=s;}catch(e){}
+let draft = {...DEF, ...(S.opts||{})};
+let ST=[], ref=null, saveT=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+function idx(){const i=ST.findIndex(s=>s.id===S.stage); return i<0?0:i}
+function rows(id){return S.rows[id]||0}
+/* rows knit before stage i in the flat yoke→body chain (for 겉/안 and lace phase) */
+function ctxFor(i, r){
+  const st=ST[i], o=S.opts;
+  let before=0;
+  for(let k=0;k<i;k++) if(ST[k].flat) before+=rows(ST[k].id);
+  const g = before + r;                // global flat row number, 뒷목 높이 1단 = 1
+  const c = {ws: st.flat ? g%2===0 : false};
+  if(o.lace!=='none' && st.lace){
+    let j;
+    if(st.round){ let y=0; for(const id of ['short','raglan']) y+=rows(id); j = (y-6) + r; }
+    else j = g - 6;
+    if(j>=1){ const p=(j-1)%rep(o.lace); c.lace = p===0 ? `무늬 단: 무늬 자리마다 ${LACE5}` : `무늬 쉬는 단 (${p+1}/${rep(o.lace)}): ${st.round||!c.ws?'겉뜨기':'안뜨기'}`; c.isLace=p===0; }
+  }
+  return c;
+}
+
+/* 뒷목 높이 단 지도 (5세) — 사용자 표 기준. 숫자 = 그 부분에서 뜨는 코(늘림·더블 스티치 제외), T = 돌리기 후 남는 코 */
+const SMAP = {
+ 1:[81,'왼앞판 15','I','왼소매 10','I','뒷판 25','I','오른소매 2','T8'],
+ 2:[81,'D','오른소매 2','R','뒷판 27','R','왼소매 3','T9'],
+ 3:[85,'D','왼소매 2','I','뒷판 27','I','오른소매 6','T5'],
+ 4:[85,'D','오른소매 6','R','뒷판 29','R','왼소매 7','T6'],
+ 5:[89,'D','왼소매 6','I','뒷판 29','I','오른소매 10','T2'],
+ 6:[89,'D','오른소매 10','R','뒷판 31','R','왼소매 11','T3'],
+ 7:[95,'D','왼소매 10','I','뒷판 31','I','오른소매 13','I','오른앞판 2','T13'],
+ 8:[95,'D','오른앞판 2','R','오른소매 15','R','뒷판 33','R','왼소매 15','R','왼앞판 3','T13'],
+ 9:[103,'D','왼앞판 2','I','왼소매 15','I','뒷판 33','I','오른소매 15','I','오른앞판 5','T11'],
+ 10:[103,'D','오른앞판 5','R','오른소매 17','R','뒷판 35','R','왼소매 17','R','왼앞판 6','T11'],
+ 11:[111,'D','왼앞판 5','I','왼소매 17','I','뒷판 35','I','오른소매 17','I','오른앞판 8','T9'],
+ 12:[111,'D','오른앞판 8','R','오른소매 19','R','뒷판 37','R','왼소매 19','R','왼앞판 9','T9'],
+ 13:[119,'D','왼앞판 8','I','왼소매 19','I','뒷판 37','I','오른소매 19','I','오른앞판 11','T7'],
+ 14:[119,'D','오른앞판 11','R','오른소매 21','R','뒷판 39','R','왼소매 21','R','왼앞판 12','T7'],
+ 15:[127,'D','왼앞판 11','I','왼소매 21','I','뒷판 39','I','오른소매 21','I','오른앞판 19','E'],
+ 16:[127,'오른앞판 20','R','오른소매 23','R','뒷판 41','R','왼소매 23','R','왼앞판 20','E'],
+};
+function laceAt(r){ const o=S.opts||{}; if(o.lace==='none'||r<7) return null;
+  const rs = r%2===1; if(!rs) return 'ws';
+  const isL = o.lace==='lace2' ? true : (r-7)%4===0; if(!isL) return 'rest';
+  const k=(r-7)/2;
+  if(k===0) return {'왼소매':'무늬 + 겉4 (더블 스티치 = 무늬 첫 코)','뒷판':'겉1 + 무늬×4 + 겉2','오른소매':'겉3 + 무늬 + 겉3'};
+  return {'왼소매':`겉${3+Math.max(0,k-1)} + 무늬 + 겉${4+k}`,'뒷판':`겉${1+k} + 무늬×4 + 겉${2+k}`,'오른소매':`겉${3+k} + 무늬 + 겉${3+k}`};
+}
+/* 지금(완료한 단 기준) 전체 단수와 코 수 — 5세, 겉면 단에서만 늘림 기준 */
+const CHAIN=['short','raglan','split','body','hem','bodyTop','flare','mark','skirt','hemknit'];
+function infoFor(st, r){
+  const o=S.opts||{}, has=id=>ST.some(x=>x.id===id);
+  const chip=(a,b)=>`<span>${a} <b>${b}</b></span>`;
+  // 전체 단수: 뒷목 높이 1단 = 전체 1단
+  let g=null;
+  if(CHAIN.includes(st.id)){ g=0; for(const s of ST){ if(s.id===st.id){ g+=r; break; } if(CHAIN.includes(s.id)) g+=rows(s.id); } }
+  const R=rows('raglan'), pR=Math.ceil(R/2);
+  const yoke = p=>({FL:20+p,SL:23+2*p,BK:41+2*p,SR:23+2*p,FR:20+p});
+  const body = 93+4*pR;                      // 뒤판 + 앞판 2 + 래글런 4 + 겨드랑이 4+4
+  const sleeve0 = 23+2*pR+8;                 // 소매 코 + 겨드랑이 4 + 줍는 2+2
+  const out=[];
+  if(g!==null) out.push(chip('전체', g+'단 완료'));
+  switch(st.id){
+    case 'neck': out.push(chip('지금','79코')); break;
+    case 'neckJoin': case 'markers': out.push(chip('지금','79코')); break;
+    case 'short': { const t = r? SMAP[r][0] : 75; out.push(chip('지금', `${t+4}코`)); out.push(`<span>래글런 4코 빼면 ${t}</span>`); break; }
+    case 'raglan': { const p=Math.ceil(r/2), y=yoke(p), t=127+8*p;
+      out.push(chip('지금', `${t+4}코`)); out.push(`<span>뒤 ${y.BK} · 앞 ${y.FL}씩 · 소매 ${y.SL}씩</span>`); break; }
+    case 'split': out.push(chip('몸판', r? body+'코':'—')); out.push(`<span>소매 ${23+2*pR}코씩 쉬는 중</span>`); break;
+    case 'body': case 'hem': case 'bodyTop': case 'mark':
+      out.push(chip('몸판', body+'코')); break;
+    case 'flare': case 'skirt': case 'hemknit': {
+      const add = o.flare==='full' ? body : Math.floor(body/2);
+      const done = st.id!=='flare' || r>=1;
+      out.push(chip('몸판', done? `약 ${body+add}코` : body+'코')); break; }
+    case 'sl1': case 'sl2': { const dec = o.sleeve==='short'?0: 2*Math.min(3, Math.floor(r/7));
+      out.push(chip('소매', `${sleeve0-dec}코`)); out.push(`<span>소매 ${r}단째</span>`); break; }
+    case 'cuff1': case 'cuff2': { const n=st.id==='cuff1'?'sl1':'sl2', sr=rows(n);
+      const dec = o.sleeve==='short'?0: 2*Math.min(3, Math.floor(sr/7)); out.push(chip('소맷부리', `${sleeve0-dec}코`)); break; }
+  }
+  if(['split','sl1','sl2','cuff1','cuff2'].includes(st.id)) out.push(`<span style="color:var(--muted)">소매 늘림 건너뛴 만큼 소매 코는 적어요</span>`);
+  return out.join('');
+}
+function isLaceRow(g){const o=S.opts||{}; if(o.lace==='none'||g<7||g%2===0) return false; return o.lace==='lace2' ? true : (g-7)%4===0;}
+/* 래글런 단계 무늬 배치: 15단 끝 상태에서 겉면 단마다 래글런 쪽 +1, 무늬 단에서 래글런 쪽 남는 코가 7코 이상이면 무늬 1개 추가 */
+function ragLace(g){
+  const st={SL:[7,1,9],BK:[6,4,7],SR:[8,1,8],FL:null,FR:null};
+  const add={SL:0,BK:0,SR:0,FL:0,FR:0};
+  for(let h=17; h<=g; h+=2){
+    const lace=isLaceRow(h);
+    if(lace){
+      for(const k of ['SL','BK','SR']){ const x=st[k]; let a=0;
+        if(x[0]>=7){x[0]-=7;x[1]++;a++;} if(x[2]>=7){x[2]-=7;x[1]++;a++;} if(h===g) add[k]=a; }
+      const fc=20+(h-17)/2;
+      const emb=(S.opts||{}).emb==='yes', FI=emb?4:2, FU=emb?3:1;
+      if(!st.FL){ if(emb){ st.FL=[3,1,7,0,fc-17]; st.FR=[fc-17,0,7,1,3]; } else { st.FL=[3,2,fc-17]; st.FR=[fc-17,2,3]; } if(h===g){add.FL=-1;add.FR=-1;} }
+      else { if(st.FL[FI]>=7){st.FL[FI]-=7;st.FL[FU]++; if(h===g)add.FL=1;} if(st.FR[0]>=7){st.FR[0]-=7;st.FR[1]++; if(h===g)add.FR=1;} }
+    }
+    if(h===g) return {lace, st:JSON.parse(JSON.stringify(st)), add};
+    for(const k of ['SL','BK','SR']){st[k][0]++; st[k][2]++;}
+    if(st.FL){st.FL[st.FL.length-1]++; st.FR[0]++;}
+  }
+  return {lace:false, st, add};
+}
+function fmtLay(x){
+  if(x.length===5){ const left=x[0]===3; const parts=[];
+    const seq = left ? [['e',x[0]],['u',x[1]],['p',x[2]],['u',x[3]],['e',x[4]]] : [['e',x[0]],['u',x[1]],['p',x[2]],['u',x[3]],['e',x[4]]];
+    for(const [t,v] of seq){ if(!v) continue; parts.push(t==='u'?(v>1?`무늬×${v}`:'무늬'):t==='p'?`겉${v}(자수 자리)`:`겉${v}`); }
+    return parts.join(' + '); }
+  return (x[0]?`겉${x[0]} + `:'')+(x[1]>1?`무늬×${x[1]}`:'무늬')+(x[2]?` + 겉${x[2]}`:'');}
+const NM={FL:'왼앞판',SL:'왼소매',BK:'뒷판',SR:'오른소매',FR:'오른앞판'};
+function renderBodyMap(st,n){
+  const m=$('map'), o=S.opts||{}, R=rows('raglan'), p=Math.ceil(R/2);
+  const F=20+p, B=41+2*p, SLV=23+2*p, UA=o.fit==='over'?'4+':4, TOT=2*F+B+4+8;
+  const L=[]; const li=(k,cls,t,sm)=>L.push(`<li class="${cls}"><span class="k">${k}</span><span class="v">${t}${sm?`<small>${sm}</small>`:''}</span></li>`);
+  const fl=v=>fmtLay(v), laceOn=o.lace!=='none';
+  let lay=null; if(laceOn){ const r=ragLace(16+R+(R%2?1:0)); lay=r.st; }
+  let title, foot='';
+  if(st.id==='split'){
+    const g=16+R+1, lc = laceOn ? (isLaceRow(g)?'무늬 단 — 무늬 자리는 무늬로':'무늬 쉬는 단 = 모두 겉뜨기') : '모두 겉뜨기';
+    title=`분리단 · 겉면 → (전체 ${g}단째) · ${lc}`;
+    li('왼앞판','sec',`${F}코 겉뜨기`,'첫 코는 뜨지 않고 옮기기(실은 바늘 뒤) · 바늘비우기 구멍도 그냥 겉뜨기');
+    li('래 1','rag','래글런 코 1코 겉뜨기 → 몸판 쪽에 남김','마커는 빼요 · 이 단부터 늘림 없음');
+    li('왼소매','turn',`${SLV}코는 뜨지 않고 돗바늘로 보조실에 옮기기`,'늘림 건너뛴 만큼 적어도 정상 · 보조실 양끝 넉넉히 묶기');
+    li('겨 4','ds',`겨드랑이 코 ${UA}코 새로 만들기 (감아코 등)`,'2코 · 마커 · 2코 → 가운데 마커 = 옆선 · 너무 느슨하지 않게');
+    li('래 1','rag','래글런 코 1코 겉뜨기 (몸판에 포함)');
+    li('뒷판','sec',`${B}코 겉뜨기`);
+    li('래 1','rag','래글런 코 1코 겉뜨기');
+    li('오른소매','turn',`${SLV}코 보조실로`);
+    li('겨 4','ds',`겨드랑이 코 ${UA}코 새로 만들기 (가운데 마커)`);
+    li('래 1','rag','래글런 코 1코 겉뜨기');
+    li('오른앞판','sec',`${F}코 겉뜨기`,'마지막 코는 안뜨기');
+    li('끝','end',`몸판 = ${F} + 1 + 4 + 1 + ${B} + 1 + 4 + 1 + ${F} = <b>${TOT}코</b>`);
+    foot='래글런 코 4개는 소매가 아니라 몸판으로 · 소매 코가 보조실에서 빠지지 않게 끝을 묶기 · 넉넉한 핏을 원하면 겨드랑이 코를 더 많이 (오버핏)';
+  } else {
+    const g=16+R+rows('split')+n, rs=g%2===1;
+    title=`몸판 ${n}단 · ${rs?'겉면 →':'안면 ←'} (전체 ${g}단째)`;
+    const isL = laceOn && rs && isLaceRow(g);
+    const rest = rs ? '무늬 쉬는 단 · 겉뜨기' : (laceOn?'무늬 쉬는 단 · 바늘비우기까지 안뜨기':'');
+    const k=rs?'겉뜨기':'안뜨기';
+    const sideL = lay ? lay.FL[lay.FL.length-1]+6+lay.BK[0] : null, sideR = lay ? lay.BK[2]+6+lay.FR[0] : null;
+    if(rs){
+      li('왼앞판','sec',`${F}코`, isL?'무늬 단: '+fl(lay.FL) : (laceOn?rest:k));
+      li('옆선','rag',`래 1 · 겨 4 · 래 1 → ${k} 6코`, isL?`무늬 없음 (앞판 끝 ${lay.FL[lay.FL.length-1]} + 6 + 뒤판 앞 ${lay.BK[0]} = 겉 ${sideL}코)`:'');
+      li('뒷판','sec',`${B}코`, isL?'무늬 단: '+fl(lay.BK) : (laceOn?rest:k));
+      li('옆선','rag',`래 1 · 겨 4 · 래 1 → ${k} 6코`, isL?`무늬 없음 (겉 ${sideR}코)`:'');
+      li('오른앞판','sec',`${F}코`, isL?'무늬 단: '+fl(lay.FR) : (laceOn?rest:k));
+    } else {
+      li('오른앞판','sec',`${F}코 안뜨기`, rest);
+      li('옆선','rag','래 1 · 겨 4 · 래 1 → 안뜨기 6코');
+      li('뒷판','sec',`${B}코 안뜨기`, rest);
+      li('옆선','rag','래 1 · 겨 4 · 래 1 → 안뜨기 6코');
+      li('왼앞판','sec',`${F}코 안뜨기`, rest);
+    }
+    li('끝','end',`${TOT}코 그대로 · 첫 코 옮기기 · 마지막 코 안뜨기`);
+    if(n===1) foot='겨드랑이 양끝이 벌어져 보여도 괜찮아요 · 소매 뜰 때 2코씩 더 주워 메워요 (도안)';
+    else foot='늘림 없음 · 겨드랑이~밑단 24cm 중 밑단 고무단 5~7cm 남기기 · 몸판 마지막 단(안면)은 3.75mm 바늘로';
+    if(isL) foot='무늬 = 겉1 · K2tog · 바늘비우기 · 겉1 · 바늘비우기 · SSK · 겉1 (7코) · '+foot;
+  }
+  m.innerHTML=`<div class="mh"><b>${title}</b><span>몸판 ${TOT}코</span></div><ol>${L.join('')}</ol>`+(foot?`<div class="tip" style="margin-top:8px;font-size:13px;color:var(--muted)">${foot}</div>`:'');
+  m.hidden=false;
+}
+function renderMap(st, n, on){
+  const m=$('map');
+  if(on && (st.id==='split' || st.id==='body')){ renderBodyMap(st,n); return; }
+  if(!on || !((st.id==='short' && SMAP[n]) || st.id==='raglan')){ m.hidden=true; return; }
+  const rs=n%2===1, o=S.opts||{}, laceOn=o.lace!=='none';
+  let tot, rows=[], title=`${n}단 순서 · ${rs?'겉뜨기 →':'안뜨기 ←'}`, foot='', isL=false;
+  const sec=(name,cnt,sub)=>rows.push(`<li class="sec"><span class="k">${name}</span><span class="v">${cnt}코${sub?`<small>${sub}</small>`:''}</span></li>`);
+  const I=()=>rows.push(`<li class="rag"><span class="k">늘 래 늘</span><span class="v">래글런 전 늘림 · 래글런 코 · 래글런 후 늘림</span></li>`);
+  const Rg=()=>rows.push(`<li class="rag"><span class="k">래</span><span class="v">래글런 코 (늘림 없음)</span></li>`);
+  const E=()=>rows.push(`<li class="end"><span class="k">끝</span><span class="v">단 끝까지</span></li>`);
+  if(st.id==='short'){
+    const [t,...steps]=SMAP[n], lc=laceAt(n); tot=t; isL = lc && lc!=='ws' && lc!=='rest';
+    for(const x of steps){
+      if(x==='D') rows.push(`<li class="ds"><span class="k">더 1</span><span class="v">더블 스티치 (두 가닥 한 번에 ${rs?'겉':'안'}뜨기)</span></li>`);
+      else if(x==='I') I(); else if(x==='R') Rg(); else if(x==='E') E();
+      else if(x[0]==='T') rows.push(`<li class="turn"><span class="k">돌</span><span class="v">되돌아뜨기 · 남는 코 <b>${x.slice(1)}</b></span></li>`);
+      else { const [name,cnt]=x.split(' '); let sub='';
+        if(lc && name!=='왼앞판' && name!=='오른앞판') sub = lc==='ws'?'무늬 쉬는 단 · 바늘비우기까지 안뜨기' : lc==='rest'?'무늬 쉬는 단 · 겉뜨기' : '무늬 단: '+lc[name];
+        sec(name,cnt,sub); }
+    }
+  } else {
+    const g=16+n, p=rs?(n-1)/2:n/2;
+    const c={FL:20+p,SL:23+2*p,BK:41+2*p,SR:23+2*p,FR:20+p};
+    tot=127+8*(rs?p+1:p);
+    title += ` (전체 ${g}단째)`;
+    let lay=null;
+    if(laceOn && rs){ const r=ragLace(g); if(r.lace){ lay=r; isL=true; } }
+    const frontStarted = laceOn && (()=>{for(let h=17;h<=g;h+=2) if(isLaceRow(h)) return true; return false;})();
+    const subFor=k=>{
+      if(!laceOn) return '';
+      const front=(k==='FL'||k==='FR');
+      if(lay){ const a=lay.add[k]; return '무늬 단: '+fmtLay(lay.st[k])+(a===-1?' ★ 앞판 무늬 시작':a>0?` (무늬 ${a}개 추가)`:''); }
+      if(front && !frontStarted) return '';
+      return rs?'무늬 쉬는 단 · 겉뜨기':'무늬 쉬는 단 · 바늘비우기까지 안뜨기';
+    };
+    const order = rs ? ['FL','I','SL','I','BK','I','SR','I','FR'] : ['FR','R','SR','R','BK','R','SL','R','FL'];
+    for(const k of order){ if(k==='I') I(); else if(k==='R') Rg(); else sec(NM[k], c[k], subFor(k)); }
+    E();
+    foot = '소매 쪽 늘림을 2번 건너뛰면 소매 코가 그만큼(2코씩) 적어요 · 목 고무단 포함 16.5cm, 뒤판 65코가 목표';
+  }
+  m.innerHTML=`<div class="mh"><b>${title}</b><span>끝나면 총 ${tot}코 (래글런 4코 제외)</span></div><ol>${rows.join('')}</ol>`+
+    (isL ? `<div class="tip" style="margin-top:8px;font-size:13px;color:var(--muted)">무늬 = 겉1 · K2tog · 바늘비우기 · 겉1 · 바늘비우기 · SSK · 겉1 (7코)</div>`:'')+
+    (foot?`<div class="tip" style="margin-top:6px;font-size:13px;color:var(--muted)">${foot}</div>`:'');
+  m.hidden=false;
+}
+function startFor(st,n,c){
+  const ks = c.ws?'안뜨기':'겉뜨기';
+  switch(st.kind){
+    case 'ribflat': return n%2 ? '겉1로 시작 · 겉1·안1 반복 · 겉1로 끝' : '안1로 시작 · 안1·겉1 반복 · 안1로 끝 (보이는 대로)';
+    case 'short': return n===1 ? '앞판 끝 첫 코는 뜨지 않고 옮기기 → 겉뜨기로' : `끝코를 옮기고 실을 당겨 더블 스티치 → ${ks}로`;
+    case 'st': return `첫 코는 뜨지 않고 옮기기(실은 바늘 뒤) → ${ks}로 · 마지막 코는 안뜨기`;
+    case 'garter': return '첫 코 옮기기 → 모두 겉뜨기';
+    case 'round': return '단 시작 마커(겨드랑이 가운데)에서 겉뜨기로';
+    case 'roundrib': return '단 시작 마커에서 겉1로 시작 · 겉1·안1 반복';
+    case 'band': return n===1 ? (st.side==='R'?'밑단 쪽에서 시작해 목 쪽으로':'목 쪽에서 시작해 밑단 쪽으로')+' 코 줍기'
+                   : n%2 ? '겉면 · 겉1로 시작 · 겉1·안1 반복 · 겉1로 끝' : '안면 · 안1로 시작 · 안1·겉1 반복 · 안1로 끝';
+  }
+  return '';
+}
+function elapsed(){const c=S.clock||{}; return (c.acc||0)+(c.run&&c.start?Date.now()-c.start:0);}
+function fmt(ms){ if(ms==null) return '—'; const s=Math.round(ms/1000), h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60;
+  return h? `${h}시간 ${m}분` : m? `${m}분 ${String(x).padStart(2,'0')}초` : `${x}초`; }
+function tickClock(){
+  const c=S.clock||{}, idle=!c.run && !(c.acc>0);
+  $('clock').textContent = idle ? '시간 재기 전 · +1단을 누르면 시작' : `이번 단 ${fmt(elapsed())}`;
+  $('clockBtn').hidden = idle;
+  $('clockBtn').textContent = c.run ? '⏸ 쉬기' : '▶ 다시 시작';
+  $('timer').className = 'timer'+(c.run?'':' paused');
+}
+function renderLog(st, r){
+  if(st.total===0){ $('log').hidden=true; return; } $('log').hidden=false;
+  const t=(S.times[st.id]||[]).slice(0,r), rec=t.map((ms,i)=>[i+1,ms]).filter(x=>x[1]!=null);
+  const avg = rec.length ? rec.reduce((a,x)=>a+x[1],0)/rec.length : null;
+  const sum = rec.reduce((a,x)=>a+x[1],0);
+  let right = avg ? `한 단 평균 ${fmt(avg)}` : '';
+  const left = st.total ? st.total-r : (st.est ? Math.max(0,st.est-r) : null);
+  if(avg && left) right += ` · 남은 ${st.total?'':'약 '}${left}단 ≈ ${fmt(avg*left)}`;
+  const items = t.map((ms,i)=>[i+1,ms]).reverse().slice(0,6);
+  $('log').innerHTML = `<div class="head">단별 시간 <span>${right || '단을 올리면 기록돼요'}</span></div>`+
+    (items.length ? `<ul>${items.map(([k,ms])=>`<li><span>${k}단</span><span>${fmt(ms)}</span></li>`).join('')}</ul>` : '<ul><li class="empty">아직 기록이 없어요</li></ul>')+
+    (rec.length>1 ? `<div class="tip" style="margin-top:6px;color:var(--muted)">이 단계 합계 ${fmt(sum)}</div>`:'');
+}
+function render(){
+  const setupOn = !S.opts;
+  $('setup').hidden=!setupOn; $('main').hidden=setupOn;
+  if(setupOn){ renderOpts(); return; }
+  ST=build(S.opts);
+  const i=idx(); S.stage=ST[i].id;
+  const st=ST[i], r=rows(st.id);
+  $('step').textContent=`${i+1} / ${ST.length} 단계`;
+  $('sname').textContent=st.name;
+  const isRows = st.total!==0;
+  $('num').hidden=!isRows; $('plus').hidden=!isRows; $('minus').hidden=!isRows;
+  $('num').textContent=r;
+  $('info').innerHTML = infoFor(st, r);
+  $('of').textContent = !isRows ? '' : st.total ? `단 완료 · ${st.total}단 중` : st.est ? `단 완료 · 예상 약 ${st.est}단 (길이로 확인)` : '단 완료';
+  const n = isRows ? Math.min(r+1, st.total||Infinity) : 1;
+  const c = isRows ? ctxFor(i,n) : {};
+  const side=$('side');
+  if(isRows && (st.flat||st.round)){ side.hidden=false;
+    if(st.round){side.textContent='원형뜨기'; side.className='side';}
+    else { side.textContent = c.ws?'다음: 안면 단':'다음: 겉면 단'; side.className='side'+(c.ws?' ws':''); }
+  } else side.hidden=true;
+  const done = isRows && st.total && r>=st.total;
+  const info = st.row(n,c)||{t:''};
+  const start = (!done && isRows) ? startFor(st,n,c) : '';
+  let html = (!done && isRows ? `<span class="now">지금 뜰 단: ${n}단째</span>` : '') + (start?`<span class="st0">${n}단 시작: ${esc(start)}</span>`:'') + (done ? '<b>이 단계 완료!</b> 「다음 단계」로 넘어가세요.' : (isRows?`<b>${n}단:</b> `:'')+esc(info.t));
+  if(!done && c.lace) html+=`<span class="lace">${esc(c.lace)}</span>`;
+  if(!done && info.flag) html+=`<span class="flag">${esc(info.flag)}</span>`;
+  if(!done && info.tip) html+=`<div class="tip">${esc(info.tip)}</div>`;
+  if(st.care) html+=`<div class="care"><b>주의</b> ${esc(st.care)}</div>`;
+  $('todo').innerHTML=html;
+  renderMap(st, n, isRows && !done);
+  $('goal').textContent=st.goal;
+  $('next').className='next'+((done||!isRows||(!st.total&&st.est&&r>=st.est))?' ready':'');
+  $('next').textContent = i===ST.length-1 ? '완성 🎉' : '다음 단계 →';
+  $('prevStage').disabled=i===0; $('nextStage').disabled=i===ST.length-1;
+  $('list').innerHTML=ST.map((s,k)=>`<button data-id="${s.id}" class="${k===i?'on':''}"><span>${k+1}. ${esc(s.name)}</span><small>${s.total===0?'':rows(s.id)+'단'}</small></button>`).join('');
+  $('pick').textContent=summary(S.opts);
+  $('timer').hidden=!isRows;
+  renderLog(st, r); tickClock();
+}
+function summary(o){
+  const lab=k=>{const d=OPTS.find(x=>x.k===k); return d.ch.find(c=>c[0]===o[k])[1].replace(/\s*\(.*\)/,'')};
+  const parts=[lab('neck')+' 목둘레', o.lace==='none'?'기본 무늬':lab('lace'), o.len==='long'?'롱 자켓':'기본 기장', lab('sleeve')];
+  if(o.wings==='yes')parts.push('날개'); if(o.stripe==='yes')parts.push('줄무늬'); if(o.emb==='yes')parts.push('자수');
+  return '내 옵션: '+parts.join(' · ');
+}
+function renderOpts(){
+  $('opts').innerHTML=OPTS.filter(d=>!d.sub||draft[d.sub.split(':')[0]]===d.sub.split(':')[1]).map(d=>
+    `<div class="opt${d.sub?' sub':''}"><div class="q">${esc(d.q)}</div>${d.note?`<div class="note">${esc(d.note)}</div>`:''}
+     <div class="chips">${d.ch.map(([v,l])=>`<button data-k="${d.k}" data-v="${v}" aria-pressed="${draft[d.k]===v}">${esc(l)}</button>`).join('')}</div></div>`).join('');
+}
+function save(){
+  S.at=Date.now();
+  try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
+  $('save').textContent='저장 중…';
+  clearTimeout(saveT);
+  saveT=setTimeout(async()=>{
+    if(!ref){$('save').textContent='이 기기에 저장됨';return}
+    try{await ref.set({opts:S.opts,stage:S.stage,rows:S.rows,times:S.times,clock:S.clock,at:S.at}); $('save').textContent='저장됨';}
+    catch(e){$('save').textContent='이 기기에 저장됨';}
+  },500);
+}
+function setRow(v){S.rows[S.stage]=Math.max(0,v); save(); render();}
+function restartClock(){S.clock={run:S.clock.run, start:Date.now(), acc:0};}
+function goIdx(k){k=Math.max(0,Math.min(ST.length-1,k)); S.stage=ST[k].id; restartClock(); save(); render(); window.scrollTo(0,0);}
+
+$('opts').onclick=e=>{const b=e.target.closest('button[data-k]'); if(!b) return; draft[b.dataset.k]=b.dataset.v; renderOpts();};
+$('startBtn').onclick=()=>{S.opts={...draft}; save(); render(); window.scrollTo(0,0);};
+$('plus').onclick=()=>{const st=ST[idx()], r=rows(st.id); if(st.total&&r>=st.total) return;
+  const t=(S.times[st.id]=S.times[st.id]||[]); t.length=r;
+  const ms=elapsed(); t[r]= (S.clock.run||S.clock.acc>0) ? ms : null;
+  S.clock={run:true,start:Date.now(),acc:0};
+  setRow(r+1); try{navigator.vibrate&&navigator.vibrate(15)}catch(e){}};
+$('minus').onclick=()=>{const r=rows(S.stage); if(r<=0) return; const t=S.times[S.stage]; if(t) t.length=r-1; restartClock(); setRow(r-1);};
+$('clockBtn').onclick=()=>{const c=S.clock;
+  if(c.run){S.clock={run:false,start:0,acc:elapsed()};} else {S.clock={run:true,start:Date.now(),acc:c.acc||0};}
+  save(); tickClock();};
+setInterval(()=>{ if(!$('main').hidden) tickClock(); },1000);
+$('next').onclick=()=>goIdx(idx()+1);
+$('nextStage').onclick=()=>goIdx(idx()+1);
+$('prevStage').onclick=()=>goIdx(idx()-1);
+$('tgScheme').onclick=()=>{$('scheme').hidden=!$('scheme').hidden};
+$('tgList').onclick=()=>{$('listPanel').hidden=!$('listPanel').hidden};
+$('tgOpts').onclick=()=>{draft={...DEF,...S.opts}; S.opts=null; render(); window.scrollTo(0,0);};
+$('tgReset').onclick=()=>{$('resetBox').hidden=false};
+$('resetNo').onclick=()=>{$('resetBox').hidden=true};
+$('resetYes').onclick=()=>{S.rows={}; S.times={}; S.clock={run:false,start:0,acc:0}; S.stage='neck'; $('resetBox').hidden=true; save(); render();};
+$('list').onclick=e=>{const b=e.target.closest('button'); if(b){S.stage=b.dataset.id; restartClock(); $('listPanel').hidden=true; save(); render(); window.scrollTo(0,0);}};
+render();
+
+(async()=>{
+  try{
+    const [db,user]=await Promise.all([window.claude?.use('db'),window.claude?.use('user')]);
+    if(!db||!user){$('save').textContent='이 기기에 저장됨';return}
+    const id=await user.id(); if(!id){$('save').textContent='이 기기에 저장됨';return}
+    const col=db.collection('data/users/'+id);
+    ref=col.doc('progress5');
+    const snap=await ref.get();
+    if(snap.exists){const d=normalize(snap.data()); if(d && (d.at||0)>(S.at||0)){S=d; draft={...DEF,...(S.opts||{})}; try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){} render();}}
+    if(!snap.exists || (S.at||0)>((snap.data()||{}).at||0)) { if(S.at) await ref.set({opts:S.opts,stage:S.stage,rows:S.rows,times:S.times,clock:S.clock,at:S.at}); }
+    $('save').textContent='저장됨';
+  }catch(e){$('save').textContent='이 기기에 저장됨';}
+})();
+</script>
+<script>
+/* ================= 공통: 진행 그림 ================= */
+const GR = {
+  backtop:{d:'M132,22 Q160,30 188,22 Q186,52 160,56 Q134,52 132,22 Z', b:[132,22,56,34], dir:'down'},
+  frontR:{d:'M132,22 L94,32 L94,64 L160,64 L160,56 Q134,52 132,22 Z', b:[94,22,66,42], dir:'down'},
+  frontL:{d:'M188,22 L226,32 L226,64 L160,64 L160,56 Q186,52 188,22 Z', b:[160,22,66,42], dir:'down'},
+  shR:{d:'M94,32 L74,42 L80,64 L94,64 Z', b:[74,32,20,32], dir:'down'},
+  shL:{d:'M226,32 L246,42 L240,64 L226,64 Z', b:[226,32,20,32], dir:'down'},
+  yoke:{d:'M80,64 L240,64 L246,112 L74,112 Z', b:[74,64,172,48], dir:'down'},
+  body:{d:'M74,112 L246,112 L246,250 L74,250 Z', b:[74,112,172,138], dir:'down'},
+  hem:{d:'M74,250 L246,250 L246,266 L74,266 Z', b:[74,250,172,16], dir:'down'},
+  slR:{d:'M74,42 L80,64 L74,112 L58,214 L28,204 Z', b:[28,42,52,172], dir:'down'},
+  cuffR:{d:'M58,214 L28,204 L24,226 L54,236 Z', b:[24,204,34,32], dir:'down'},
+  slL:{d:'M246,42 L240,64 L246,112 L262,214 L292,204 Z', b:[240,42,52,172], dir:'down'},
+  cuffL:{d:'M262,214 L292,204 L296,226 L266,236 Z', b:[262,204,34,32], dir:'down'},
+  bandR:{d:'M152,56 L160,58 L160,266 L152,266 Z', b:[152,56,8,210], dir:'down'},
+  bandL:{d:'M168,56 L160,58 L160,266 L168,266 Z', b:[160,56,8,210], dir:'up'},
+};
+const COLLAR='M156,60 Q130,56 128,19 Q160,30 192,19 Q190,56 164,60';
+let _gid=0;
+function drawGarment(p, cur, small){
+  const id='g'+(++_gid); let s='', defs='';
+  for(const [k,g] of Object.entries(GR)){
+    const f=Math.max(0,Math.min(1,p[k]||0));
+    s+=`<path d="${g.d}" class="gp${k===cur?' gcur':''}"/>`;
+    if(f>0){ const [x,y,w,h]=g.b, hh=h*f, yy=g.dir==='up'? y+h-hh : y;
+      defs+=`<clipPath id="${id}${k}"><rect x="${x-2}" y="${yy}" width="${w+4}" height="${hh}"/></clipPath>`;
+      s+=`<path d="${g.d}" class="gf${f<1?' gpart':''}" clip-path="url(#${id}${k})"/>`; }
+  }
+  const cf=Math.max(0,Math.min(1,p.collar||0));
+  s+=`<path d="${COLLAR}" class="gc${cf>=1?' gcdone':cf>0?' gcpart':''}${cur==='collar'?' gcur':''}"/>`;
+  s+=`<line x1="160" y1="58" x2="160" y2="266" class="gl"/>`;
+  return `<svg viewBox="0 0 320 272" class="garment${small?' sm':''}" role="img" aria-label="진행 그림"><defs>${defs}</defs>${s}</svg>`;
+}
+function weightOf(st){ return st.total>0 ? st.total : st.total===0 ? 2 : (st.est||20); }
+function fracOf(st,r,past){ if(st.total===0) return (r>0||past)?1:0; const t=st.total||st.est||20; return Math.min(1,r/t); }
+
+/* ================= 로우키 가디건 (M) ================= */
+const LK_DEF={sleeve:'long', collar:'round', btn:7};
+const LK_OPTS=[
+ {k:'sleeve', q:'소매', ch:[['long','긴팔'],['short','반팔']]},
+ {k:'collar', q:'카라 (로바울튜브는 탄성이 없는 실)', note:'도안: 탄성 없는 실은 겹단을 합친 뒤 고무단 3cm 라운드넥(샘플 방식) 또는 8cm 카라', ch:[['round','노카라 · 고무단 2.5~3cm (샘플)'],['collar8','카라 · 고무단 8cm'],['acry','아크린넨 카라 (2.5mm, 겹단 살리기)']]},
+ {k:'btn', q:'단추 개수 (패키지 7개)', ch:[[6,'6개'],[7,'7개'],[8,'8개']]},
+];
+const NECKINC=[1,1,1,1,2,3,6];
+const SWD='SW(쉐도우랩)';
+const LKDOC={
+ co:`<p><b>4mm 바늘 + 80cm 케이블</b>에 <b>74코</b>를 잡습니다.</p><p>1단(안면) 모두 안뜨기 · 2단(겉면) 모두 겉뜨기 → 1~2단을 <b>총 3번</b> 반복해 메리야스 6단.</p><p>이 가디건은 뒷판 상단부터 시작해 뒷고대 파임과 어깨를 각각 만들고, 어깨선을 따라 코를 주워 소매를 함께 떠 내려가는 simultaneous 탑다운이에요. 나중에 이 코잡은 부분에서 뒷판 코를 줍기 때문에 뒷판에 가로줄이 디자인으로 남아요.</p>`,
+ slope:`<p>${SWD}로 되돌아뜨기를 하며 <b>뒷판 어깨 처짐</b>을 만듭니다 (2페이지 QR 영상 참고).</p><p>1단(안면) 마지막 2코 남을 때까지 안뜨기, SW, 뒤집기<br>2단(겉면) 마지막 2코 남을 때까지 겉뜨기, SW, 뒤집기<br>3단(안면) SW 2코 전까지 안뜨기, SW, 뒤집기<br>4단(겉면) SW 2코 전까지 겉뜨기, SW, 뒤집기<br>→ 3~4단을 <b>총 4번</b>.</p><p>끝나면 양쪽 바늘에 SW로 만든 두 겹 코가 <b>각각 5개</b>씩 걸려 있어요.</p><p><b>SW 겉면</b>: 지시된 곳까지 뜬 뒤 한 단 아래 오른쪽 반코를 오른쪽 바늘로 오른쪽→왼쪽으로 찔러 들어 올려 겉뜨기, 다시 왼쪽 바늘로 옮기기.<br><b>SW 안면</b>: 지시된 곳까지 뜬 뒤 안뜨기 방향으로 1코 걸러뜨기, 걸러뜬 코 한 단 아래 코를 왼쪽 바늘로 아래→위로 들어 올려 안뜨기, 다시 왼쪽 바늘로 옮기기.<br>SW 두 겹 코를 만나면 1코로 보고 한 번에 겉뜨기/안뜨기.</p>`,
+ rneck:`<p><b>오른쪽 뒷고대</b>부터 작업합니다.</p><p>1단(안면) SW 2코 전까지 안뜨기, SW, 뒤집기<br>2단(겉면) 겉뜨기 <b>17코</b>, 뒤집기 (이번만 SW 없이 목도리 뜨듯 그냥 뒤집기)<br>3단(안면) <b>4코 코막음</b>, SW 2코 전까지 안뜨기, SW, 뒤집기<br>4단(겉면) 끝까지 겉뜨기 (코막음한 곳 왼쪽에 걸린 코는 오른쪽 앞판이 끝날 때까지 뜨지 않아요. 바늘에 둔 채 떠도 되고, 자투리실·안전핀에 빼 둬도 돼요)<br>5단(안면) <b>3코 코막음</b>, SW 2코 전까지 안뜨기, SW, 뒤집기<br>6단(겉면) 끝까지 겉뜨기<br>7단(안면) <b>2코 코막음</b>, 1코 안뜨기, SW, 뒤집기<br>8단(겉면) 2코 겉뜨기</p><p>오른쪽 바늘에 <b>20코</b> (SW 코는 두 겹이지만 1코로 셈). 편물을 뒤집어 <b>안뜨기로 한 단</b> 뜨면서 모든 SW 코를 두 겹 한 번에 안뜨기로 정리 → 이 카운터의 9단.</p>`,
+ rstr:`<p>20코로 1단(겉면) 모두 겉뜨기 · 2단(안면) 모두 안뜨기 → <b>총 5번</b> 반복해 메리야스 10단.</p>`,
+ rinc:`<p>목늘림. 겉면 단 끝에서 <b>감아코</b>로 늘려요 (안면 단에서 감아코도 모두 안뜨기).</p><p>1·3·5·7단 감아코 1 · 9단 감아코 2 · 11단 감아코 3 · 13단 감아코 <b>6</b> · 짝수 단 모두 안뜨기.</p><p><b>M 사이즈는 14단까지 뜨고 실을 끊어요.</b> 오른쪽 앞판 어깨 완성 → <b>35코</b>를 자투리실에 빼서 쉬게 둡니다.</p>`,
+ lneck:`<p>뒷판 <b>겉면</b>을 보고, 코가 살아 있는 부분 <b>오른쪽 끝</b>에서 새 실을 걸어 시작합니다.</p><p>1단(겉면) <b>16코 코막음</b>* (끝나면 오른쪽 바늘 1코, 왼쪽 바늘에 SW 코 전까지 18코), SW 2코 전까지 겉뜨기, SW, 뒤집기<br>*새 실을 걸자마자 코막음: 2코 겉뜨기 → 처음 뜬 코를 두 번째 코에 덮어씌우기(1코 막음) → 한 코씩 뜨며 계속 덮어씌우기.<br>2단(안면) 모두 안뜨기<br>3단(겉면) 4코 코막음, SW 2코 전까지 겉뜨기, SW, 뒤집기<br>4단(안면) 모두 안뜨기<br>5단(겉면) 3코 코막음, SW 2코 전까지 겉뜨기, SW, 뒤집기<br>6단(안면) 모두 안뜨기<br>7단(겉면) 2코 코막음, 겉뜨기 1코, SW, 뒤집기<br>8단(안면) 2코 안뜨기</p><p>오른쪽 바늘에 <b>20코</b>. 편물을 뒤집어 <b>겉뜨기로 한 단</b> 뜨면서 SW 코를 두 겹 한 번에 겉뜨기로 정리 → 이 카운터의 9단.</p>`,
+ lstr:`<p>20코로 1단(안면) 모두 안뜨기 · 2단(겉면) 모두 겉뜨기 → <b>총 5번</b> 반복해 메리야스 10단.</p>`,
+ linc:`<p>목늘림. 안면 단 끝에서 <b>감아코</b>로 늘려요 (겉면 단에서 감아코도 모두 겉뜨기).</p><p>1·3·5·7단 감아코 1 · 9단 감아코 2 · 11단 감아코 3 · 13단 감아코 <b>6</b> · 짝수 단 모두 겉뜨기.</p><p><b>M 사이즈 14단(겉면)</b>: 마지막 2코 남을 때까지 겉뜨기, <b>ssk</b>. 앞·윗판 어깨 완성 → 실을 끊지 않고 왼쪽 어깨로.</p>`,
+ lpick:`<p>오른쪽 바늘에 왼쪽 앞판 <b>34코</b>. <b>마커</b>를 걸고 왼쪽 어깨 옆면을 따라 단에서 <b>3단마다 2코</b>씩 주워 <b>22코</b>를 줍습니다. 이 22코만으로 되돌아뜨기를 해요.</p>`,
+ lsh:`<p>어깨의 "턴"은 <b>져먼숏로우</b>(german short row): 지시된 곳까지 뜨고 편물을 뒤집은 뒤 실을 앞으로 가져와 왼쪽 바늘 1코를 안뜨기 방향으로 옮기고, 실을 다시 뒤로 당겨 두 겹 코를 만들기. 턴 코는 두 코 한 번에 뜨기.</p><p>1단(안면) 마커까지 6코 남을 때까지 안뜨기, 턴<br>2단(겉면) 마지막 6코 남을 때까지 겉뜨기, 턴<br>3·5·7단(안면) 턴 다음 2코까지 안뜨기, 턴<br>4·6단(겉면) 턴 다음 2코까지 겉뜨기, 턴<br>8단(겉면) 끝까지 겉뜨기 (턴 코는 두 코 한 번에)</p><p>도안 의도상 <b>양쪽 되돌아뜨기 횟수가 1번 차이 나는 게 맞아요.</b></p>`,
+ bpick:`<p>겉뜨기가 끝나고 뒷판 겉면을 본 상태에서, 뒷판 <b>코잡은 부분</b>에서 코를 줍습니다. 소매 코와 구분하게 오른쪽 바늘에 <b>마커</b>를 걸고, 가로줄 선을 살리기 위해 끝부분 약간 뒤쪽에 돌출된 <b>한 가닥씩만</b> 건져 매 코 <b>72코</b>를 줍습니다 (처음 74코보다 2코 적은 게 맞아요).</p>`,
+ rpick:`<p>뒷판 코를 다 주우면 <b>마커</b>를 걸고, 오른쪽 어깨 옆면을 따라 <b>3단마다 2코</b>씩 <b>22코</b>를 줍습니다. 이 22코만으로 되돌아뜨기.</p>`,
+ rsh:`<p>왼쪽 어깨와 똑같이 져먼숏로우 되돌아뜨기 1~8단.</p><p>1단(안면) 마커까지 6코 남을 때까지 안뜨기, 턴 · 2단(겉면) 마지막 6코 남을 때까지 겉뜨기, 턴 · 3·5·7단 턴 다음 2코까지 안뜨기, 턴 · 4·6단 턴 다음 2코까지 겉뜨기, 턴 · 8단 끝까지 겉뜨기 (턴 코 두 코 한 번에).</p><p>양쪽 횟수 1번 차이는 정상이에요.</p>`,
+ join:`<p>쉬게 둔 <b>오른쪽 앞판 35코</b>를 왼쪽 바늘에 끼웁니다. 앞판·소매 구분용 <b>마커</b>를 오른쪽 바늘에 걸고, 앞판 <b>첫 2코를 k2tog</b>, 나머지 앞판 코를 모두 겉뜨기 → 앞뒷판 연결.</p><p>파트별: 왼쪽 앞판 <b>34</b> · 왼쪽 소매 <b>22</b> · 뒷판 <b>72</b> · 오른쪽 소매 <b>22</b> · 오른쪽 앞판 <b>34</b> = 184코</p>`,
+ slv:`<p>소매 쪽에서만 늘려요.</p><p>1단(안면) 모두 안뜨기<br>2단(겉면) 마커까지 겉(왼쪽 앞판), 마커 넘기기, <b>M1L</b>, 마커까지 겉(왼쪽 소매), <b>M1R</b>, 마커 넘기기, 마커까지 겉(뒷판), 마커 넘기기, <b>M1L</b>, 마커까지 겉(오른쪽 소매), <b>M1R</b>, 마커 넘기기, 끝까지 겉(오른쪽 앞판) — <b>4코 증가</b></p><p>1~2단 <b>총 11회</b> → 소매 <b>44코</b>씩 (아직 완성 전. 사이즈가 클수록 래글런 늘림이 많아 소매 코가 비례해 커지지 않아요).</p><p><b>M1L</b>: 왼쪽 바늘로 코 사이 가로줄을 앞→뒤로 들어 올려 뒤쪽 가닥에 겉뜨기. <b>M1R</b>: 가로줄을 뒤→앞으로 들어 올려 앞쪽 가닥에 겉뜨기.</p>`,
+ rag:`<p>소매와 몸통 모두 늘려요.</p><p>1단(안면) 모두 안뜨기<br>2단(겉면) 마커 2코 전까지 겉(왼쪽 앞판), <b>M1R</b>, 겉2, 마커 넘기기, <b>M1L</b>, 마커까지 겉(왼쪽 소매), <b>M1R</b>, 마커 넘기기, 겉2, <b>M1L</b>, 마커 2코 전까지 겉(뒷판), <b>M1R</b>, 겉2, 마커 넘기기, <b>M1L</b>, 마커까지 겉(오른쪽 소매), <b>M1R</b>, 마커 넘기기, 겉2, <b>M1L</b>, 끝까지 겉(오른쪽 앞판) — <b>8코 증가</b></p><p>1~2단 <b>총 14회</b> → 모든 늘림 완성. <b>안뜨기로 한 단</b> 더 뜬 뒤 소매 분리로 (이 카운터의 29단).</p><p>파트별: 왼쪽 앞판 <b>48</b> · 왼쪽 소매 <b>72</b> · 뒷판 <b>100</b> · 오른쪽 소매 <b>72</b> · 오른쪽 앞판 <b>48</b> = 340코</p>`,
+ split:`<p>소매분리단(겉면): 마커까지 겉(왼쪽 앞판), 마커 빼기, 다음 마커까지 소매 <b>72코</b> 자투리실에 빼서 쉬게 두기, 마커 빼기, <b>감아코 12코</b>, 다음 마커까지 겉(뒷판), 마커 빼기, 다음 마커까지 소매 <b>72코</b> 자투리실로, 마커 빼기, <b>감아코 12코</b>, 끝까지 겉(오른쪽 앞판).</p><p>몸통 48 + 12 + 100 + 12 + 48 = <b>220코</b>.</p>`,
+ body:`<p>220코로 안뜨기 한 단, 겉뜨기 한 단을 반복하는 메리야스로 <b>뒷목 중심부터 51cm</b> (또는 원하는 길이)까지. (아크린넨 버전은 45cm)</p><p>원하는 길이가 되면 <b>3.5mm 바늘</b>로 바꾸고, <b>겉면 뜰 차례에</b> 고무단을 시작해요 → 안면 단으로 끝내기.</p>`,
+ brib:`<p><b>3.5mm</b>.</p><p>1단(겉면) [안1, 겉1] 반복, 마지막 코가 안1로 끝나도록 <b>뒷판 중간쯤</b> 겉뜨기 차례에 <b>한 번만 k2tog</b> (끝에서 줄이면 나중에 옆선 코 주울 때 헷갈려요) → 219코, 마지막 안1<br>2단(안면) [겉1, 안1] 반복, 마지막 겉1<br>3단(겉면) [안1, 겉1] 반복, 마지막 안1</p><p>2~3단 반복해 고무단 <b>7cm</b> → 한코 고무단 <b>돗바늘 마무리</b>로 코막음.</p>`,
+ slset:`<p><b>40cm 케이블 + 4mm</b>로 쉬게 둔 <b>72코</b>를 다시 바늘에. 감아코를 만든 부분 <b>중간</b>부터 새 실을 걸어, 왼쪽 부분에서 <b>6코</b> 줍고, 바늘의 코를 겉뜨기, 감아코 오른쪽 부분에 남은 <b>6코</b>를 줍고 <b>시작마커</b>.</p><p>바늘에 총 <b>84코</b>.</p>`,
+ sl:`<p>[겉뜨기 <b>8단</b>, 줄임단]을 <b>총 13번</b> 반복한 뒤 겉뜨기로 <b>7단</b> 더.</p><p>줄임단: <b>k2tog</b>, 시작마커 2코 전까지 겉뜨기, <b>ssk</b></p><p>끝나면 <b>58코</b>.</p>`,
+ sldec:`<p><b>3.5mm</b>로 바꾸고 고무단 전 딱 한 단: 겉13, k2tog, 겉12, k2tog, 겉13, k2tog, 겉12, k2tog (4코 감소, <b>58 → 54코</b>)</p>`,
+ cuff:`<p>3.5mm로 <b>54코</b>만으로 한코 고무뜨기(겉1, 안1) <b>7cm</b> → 한코 고무단 <b>돗바늘 마무리</b>.</p>`,
+ sslv:`<p>[반팔] 84코로 겉뜨기 <b>8단</b> → 3.5mm로 바꿔 한코 고무뜨기 <b>6단</b> (M은 짝수라 조정 없음) → 돗바늘 마무리.</p>`,
+ bandRset:`<p><b>80cm 케이블 + 3.5mm</b>. 앞판 겉면에서 <b>몸통 고무단 → 목 방향</b>으로 코를 줍습니다. 6단마다 5코 (5코 줍고 1코 거르기). 다 주우면 <b>실을 끊어요</b>.</p><p>반대편과 길이를 맞추기 위해 <b>주운 코 수를 적어 두세요</b> (기장에 따라 사람마다 달라요). 아래 칸에 입력하면 단수가 계산돼요.</p><p>실을 끊은 쪽 바늘에 동영상을 참고해 <b>안뜨기부터 시작하는 흔들코로 10코</b>를 잡고, 안쪽 면을 보고 더블니팅.</p>`,
+ band:`<p>1단(셋업, 안면) [실 앞에 두고 안뜨기 방향 1코 거르기, 뒤로 찔러 겉뜨기]를 마지막 2코 남을 때까지, 실 앞 안뜨기 방향 1코 거르기, <b>k2tog tbl</b><br>2단(겉면) [실 앞에 두고 안뜨기 방향 1코 거르기, 겉1] 끝까지<br>3단(안면) [실 앞 안 거르기, 겉1]을 마지막 2코 남을 때까지, 실 앞 안 거르기, <b>k2tog tbl</b></p><p>2~3단 반복해 주운 코가 모두 소진되고 버튼밴드 <b>10코</b>만 남을 때까지. 안면까지 뜨고 10코가 남으면 <b>겉면 뜰 차례에</b> 실을 끊고 한코 고무단 돗바늘 마무리.</p>`,
+ bandLset:`<p>3.5mm. 앞판 겉면에서 <b>목 → 몸통 고무단 방향</b>으로 6단마다 5코. <b>반대편과 같은 코 수</b>. 다 주우면 실 끊기.</p><p>단춧구멍 자리에 클립 마커: <b>목 쪽 끝에서 6번째와 7번째 코 사이</b>에 하나, <b>고무단 쪽 끝에서도 6·7번째 사이</b>에 하나. 그 사이를 일정하게 나눠요. 예) 마커 사이 96코에 단추 5개를 사이에 넣으면 96÷6 = 16코 간격 → 마커 총 7개. 사이에 7개면 96÷8 = 12코 간격 → 9개. 나눠떨어지지 않으면 간격을 1코씩 다르게 (102÷5 = 20.4 → 20·21·20·21·20). 1코 차이가 싫으면 맨 위·아래 마커를 한 칸 옮겨 맞춰도 돼요.</p><p>그다음 흔들코(안뜨기부터) 10코 → 더블니팅.</p>`,
+ bandL:`<p>더블니팅 2~3단을 <b>첫 번째 마커</b>까지 반복. 마커를 만나면 겉면에서 마커를 빼고 <b>단춧구멍 11단</b> (아래 「단춧구멍 시작」 버튼). 단춧구멍 후 다음 마커 직전까지 더블니팅 → 겉면 차례에 마커 빼고 다시 단춧구멍.</p><p>총 <b>6~8개</b> 단춧구멍 후 주운 코를 모두 소진할 때까지 → 안면까지 뜨고 10코 남으면 겉면 차례에 실 끊고 돗바늘 마무리.</p>`,
+ colpick:`<p><b>3.5mm 바늘 두 세트 + 80cm</b>. 입었을 때 기준 <b>오른쪽 앞판부터</b>, 겹단 코줍기로 앞 바늘과 뒤 바늘에 동시에 코를 잡아요 (QR 영상). 버튼밴드 끝이 아니라 <b>안쪽 반쪽부터</b> 시작 — 버튼밴드에서 약 3코, 코 부분은 매 코, 단 부분은 <b>3단에 2코</b>, 뒷목도 매 코, 반대 버튼밴드 반쪽까지.</p><p>양쪽 바늘 코 수는 같게 주워져요. 전체 코 수는 신경 쓰지 말고 <b>왼쪽·오른쪽 앞판 목부분 코 수가 비슷한지</b>만 확인.</p>`,
+ colknit:`<p>겉뜨기로 <b>4단</b>. 양쪽 바늘의 코를 모두 떠야 1단이에요.</p>`,
+ coljoin:`<p>바늘을 나란히 겹쳐 두고 <b>3.5mm</b>로 앞 코와 뒤 코를 한 번에 겉뜨기 → 모두 합치기.</p>`,
+ colrib:`<p>고무단 1단 [안1, 겉1] 반복, 마지막 안1 (필요하면 끝 두 코를 한 번에 떠서 맞추기) · 2단 [겉1, 안1] 반복, 마지막 겉1 · 3단 [안1, 겉1] 반복, 마지막 안1 → 2~3단 반복.</p><p>고무단만 재서 <b>2.5~3cm</b> (로바울튜브로 카라를 원하면 <b>8cm</b>) → 한코 고무단 돗바늘 마무리.</p><p><b>카라 전 주의</b>: 로바울튜브처럼 탄성 없는 실(연사 안 된 콘사, 심지 있는 실)은 바늘을 줄여도 카라 너비가 충분히 줄지 않아요. 그래서 겹단을 합친 뒤 3.5mm로 8cm 카라, 또는 3cm 라운드넥으로 마무리 (로바울튜브 샘플은 3cm). 탄성 확인: 2.5mm로 한코 고무단 스와치를 떴을 때 안뜨기가 겉뜨기 사이로 숨고 V가 벌어지지 않으면 탄성 있는 실.</p>`,
+ acry:`<p>[아크린넨 카라] 4단 뒤 바늘을 나란히 겹치고 <b>2.5mm</b>로 안뜨기부터 시작하는 한코 고무뜨기: 겹단 코를 그대로 살려 <b>뒤 바늘 안1, 앞 바늘 겉1</b> 번갈아. 마지막 두 코는 한 번에 안뜨기 → 안뜨기 시작·안뜨기 끝.</p><p>이후 2.5mm 하나로 1단(카라 안면) 겉1, [안1, 겉1] 반복 · 2단(카라 겉면) 안1, [겉1, 안1] 반복 → 고무단 <b>8cm</b> → 안면 뜰 차례에 돗바늘 마무리를 짱짱하게 당기며.</p>`,
+ finish:`<p>단춧구멍 개수에 맞춰 <b>단춧구멍 없는 버튼밴드</b>(오른쪽) 쪽에 단추(라떼단추 15mm)를 달아요. 모든 꼬리실을 돗바늘로 정리하면 완성!</p>`,
+};
+const BH=[
+ '겉면 · [안 거르기, 겉1] 끝까지 반복',
+ '안면 · 안 거르기, 겉1, 안 거르기, 겉1, 안 거르기 (5코) → 마커로 단 표시 → 편물 뒤집기',
+ '겉면 · 겉1, 안 거르기, 겉1, 안 거르기, 겉1',
+ '안면 · 안 거르기, 겉1, 안 거르기, 겉1, 안 거르기 (5코) → 편물 뒤집기',
+ '겉면 · 겉1, 안 거르기, 겉1, 안 거르기, 겉1 (표시한 곳부터 더블니팅 2단 완성)',
+ '안면 · 안 거르기, 겉1, 안 거르기, 겉1, 안 거르기 (5코), 바늘비우기 1회, 겉1, 안 거르기, 겉1, 안 거르기, k2tog tbl (안쪽 5코에 마커로 단 표시)',
+ '겉면 · 안 거르기, 겉1, 안 거르기, 겉1, 안 거르기 (5코) → 편물 뒤집기',
+ '안면 · 겉1, 안 거르기, 겉1, 안 거르기, k2tog tbl',
+ '겉면 · 안 거르기, 겉1, 안 거르기, 겉1, 안 거르기 (5코), [실 앞에 둔 채] 바늘비우기 코를 안뜨기 방향으로 옮기기 → 편물 뒤집기',
+ '안면 · k2tog, 안 거르기, 겉1, 안 거르기, k2tog tbl',
+ '겉면 · 안 거르기, 겉1, 안 거르기, 겉1, 안 거르기 (5코), 중간에 가로지르는 실을 건져 다음 코와 k2tog, 안 거르기, 겉1, 안 거르기, 겉1 (양쪽 모두 더블니팅 3단 완성 → 10코가 다시 하나로)',
+];
+const odd=r=>r%2===1;
+function lkBuild(o){
+  const L=[], P=LK.picked||null;
+  const add=s=>L.push(s);
+  add({id:'co', name:'코잡기 · 뒷판 메리야스', total:6, reg:'backtop', side:r=>odd(r)?'WS':'RS', sts:()=>'74코',
+    row:r=> r===1?{t:'74코를 잡고 모두 안뜨기', tip:'4mm · 80cm 케이블'}:{t:odd(r)?'모두 안뜨기':'모두 겉뜨기'},
+    care:'코잡은 부분에서 나중에 뒷판 코를 주워요 · 너무 꽉 잡지 않기'});
+  add({id:'slope', name:'뒷판 어깨 처짐 (SW 되돌아뜨기)', total:10, reg:'backtop', side:r=>odd(r)?'WS':'RS', sts:r=>`74코 · 양쪽 SW ${Math.min(5,Math.ceil(r/2))}개`,
+    row:r=> r===1?{t:'마지막 2코 남을 때까지 안뜨기, SW, 뒤집기'}: r===2?{t:'마지막 2코 남을 때까지 겉뜨기, SW, 뒤집기'}:
+      {t:`SW 2코 전까지 ${odd(r)?'안뜨기':'겉뜨기'}, SW, 뒤집기`, flag: r===10?'끝나면 양쪽 SW 두 겹 코 5개씩':''},
+    care:'SW 두 겹 코는 1코로 셈 · 만나면 한 번에 뜨기'});
+  add({id:'rneck', name:'오른쪽 뒷고대', total:9, reg:'frontR', side:r=>odd(r)?'WS':'RS', sts:r=> r>=8?'20코':'오른쪽 뒷고대 작업 중 (끝나면 20코)',
+    row:r=>[null,{t:'SW 2코 전까지 안뜨기, SW, 뒤집기'},{t:'겉뜨기 17코, 뒤집기',flag:'이번만 SW 없이 그냥 뒤집기'},
+      {t:'4코 코막음, SW 2코 전까지 안뜨기, SW, 뒤집기'},{t:'끝까지 겉뜨기',tip:'코막음한 곳 왼쪽 코는 오른쪽 앞판 끝날 때까지 쉬어요 (바늘에 두거나 자투리실·안전핀)'},
+      {t:'3코 코막음, SW 2코 전까지 안뜨기, SW, 뒤집기'},{t:'끝까지 겉뜨기'},{t:'2코 코막음, 1코 안뜨기, SW, 뒤집기'},{t:'2코 겉뜨기',flag:'오른쪽 바늘에 20코'},
+      {t:'뒤집어 안뜨기 한 단 · SW 코는 두 겹 한 번에 안뜨기로 정리',flag:'20코 확인'}][r],
+    care:'코막음 수 4 → 3 → 2 순서'});
+  add({id:'rstr', name:'오른쪽 어깨 메리야스 10단', total:10, reg:'frontR', side:r=>odd(r)?'RS':'WS', sts:()=>'20코',
+    row:r=>({t:odd(r)?'모두 겉뜨기':'모두 안뜨기'})});
+  add({id:'rinc', name:'오른쪽 앞판 목늘림', total:14, reg:'frontR', side:r=>odd(r)?'RS':'WS',
+    sts:r=>{let c=20; for(let k=1;k<=r;k+=2) c+=NECKINC[(k-1)/2]||0; return c+'코';},
+    row:r=> odd(r)?{t:`모두 겉뜨기, 감아코 ${NECKINC[(r-1)/2]}`, flag:r===13?'감아코 6 (M)':''}:{t:'모두 안뜨기 (감아코도 안뜨기)', flag:r===14?'M은 여기까지 · 실 끊기 → 35코 자투리실에 쉬게':''},
+    care:'감아코는 겉면 단 끝에서'});
+  add({id:'lneck', name:'왼쪽 뒷고대', total:9, reg:'frontL', side:r=>odd(r)?'RS':'WS', sts:r=> r>=8?'20코':'왼쪽 뒷고대 작업 중 (끝나면 20코)',
+    row:r=>[null,{t:'새 실 걸고 16코 코막음, SW 2코 전까지 겉뜨기, SW, 뒤집기',tip:'2코 겉뜨기 → 첫 코를 둘째 코에 덮어씌우기 → 한 코씩 뜨며 계속 · 끝나면 오른쪽 1코, 왼쪽에 SW 전까지 18코'},
+      {t:'모두 안뜨기'},{t:'4코 코막음, SW 2코 전까지 겉뜨기, SW, 뒤집기'},{t:'모두 안뜨기'},{t:'3코 코막음, SW 2코 전까지 겉뜨기, SW, 뒤집기'},{t:'모두 안뜨기'},
+      {t:'2코 코막음, 겉뜨기 1코, SW, 뒤집기'},{t:'2코 안뜨기',flag:'오른쪽 바늘에 20코'},{t:'뒤집어 겉뜨기 한 단 · SW 코는 두 겹 한 번에 겉뜨기로 정리',flag:'20코 확인'}][r],
+    care:'뒷판 겉면을 보고, 살아 있는 코의 오른쪽 끝에서 새 실'});
+  add({id:'lstr', name:'왼쪽 어깨 메리야스 10단', total:10, reg:'frontL', side:r=>odd(r)?'WS':'RS', sts:()=>'20코',
+    row:r=>({t:odd(r)?'모두 안뜨기':'모두 겉뜨기'})});
+  add({id:'linc', name:'왼쪽 앞판 목늘림', total:14, reg:'frontL', side:r=>odd(r)?'WS':'RS',
+    sts:r=>{let c=20; for(let k=1;k<=r;k+=2) c+=NECKINC[(k-1)/2]||0; if(r>=14)c--; return c+'코';},
+    row:r=> odd(r)?{t:`모두 안뜨기, 감아코 ${NECKINC[(r-1)/2]}`, flag:r===13?'감아코 6 (M)':''}: r===14?{t:'마지막 2코 남을 때까지 겉뜨기, ssk',flag:'34코 · 실 끊지 않고 왼쪽 어깨로'}:{t:'모두 겉뜨기 (감아코도 겉뜨기)'},
+    care:'감아코는 안면 단 끝에서'});
+  add({id:'lpick', name:'왼쪽 어깨 옆면 22코 줍기', total:0, reg:'shL', sts:()=>'앞판 34 + 소매 22',
+    row:()=>({t:'마커 걸고, 왼쪽 어깨 옆면을 따라 3단마다 2코씩 22코 줍기', tip:'이 22코만으로 되돌아뜨기'})});
+  const SH=r=>[null,{t:'마커까지 6코 남을 때까지 안뜨기, 턴 (져먼숏로우)'},{t:'마지막 6코 남을 때까지 겉뜨기, 턴'},
+    {t:'턴 다음 2코까지 안뜨기, 턴'},{t:'턴 다음 2코까지 겉뜨기, 턴'},{t:'턴 다음 2코까지 안뜨기, 턴'},{t:'턴 다음 2코까지 겉뜨기, 턴'},
+    {t:'턴 다음 2코까지 안뜨기, 턴'},{t:'끝까지 겉뜨기 (턴 코는 두 코 한 번에)',flag:'양쪽 횟수 1번 차이는 정상'}][r];
+  add({id:'lsh', name:'왼쪽 어깨 되돌아뜨기', total:8, reg:'shL', side:r=>odd(r)?'WS':'RS', sts:()=>'앞판 34 · 소매 22', row:SH,
+    care:'턴: 뒤집고 실을 앞으로 → 1코 안뜨기 방향으로 옮기기 → 실을 뒤로 당겨 두 겹 코'});
+  add({id:'bpick', name:'뒷판 72코 줍기', total:0, reg:'yoke', sts:()=>'34 + 22 + 72',
+    row:()=>({t:'뒷판 겉면을 보고 마커 걸고, 코잡은 부분 뒤쪽 한 가닥씩 매 코 72코 줍기', tip:'가로줄 선을 살리려고 한 가닥만 · 74보다 2코 적은 게 정상'})});
+  add({id:'rpick', name:'오른쪽 어깨 옆면 22코 줍기', total:0, reg:'shR', sts:()=>'34 + 22 + 72 + 22',
+    row:()=>({t:'마커 걸고, 오른쪽 어깨 옆면을 따라 3단마다 2코씩 22코 줍기'})});
+  add({id:'rsh', name:'오른쪽 어깨 되돌아뜨기', total:8, reg:'shR', side:r=>odd(r)?'WS':'RS', sts:()=>'34 · 22 · 72 · 22', row:SH, care:'왼쪽과 같은 방법'});
+  add({id:'join', name:'오른쪽 앞판 연결', total:0, reg:'shR', sts:()=>'184코',
+    row:()=>({t:'쉬게 둔 오른쪽 앞판 35코를 왼쪽 바늘에 → 마커 → 첫 2코 k2tog → 나머지 겉뜨기', flag:'34 · 22 · 72 · 22 · 34 = 184코'})});
+  add({id:'slv', name:'소매 늘림', total:22, reg:'yoke', side:r=>odd(r)?'WS':'RS', sts:r=>`${184+4*Math.floor(r/2)}코 · 소매 ${22+2*Math.floor(r/2)}씩`,
+    row:r=> odd(r)?{t:'모두 안뜨기'}:{t:'앞판 → 마커 → M1L · 소매 · M1R → 마커 → 뒷판 → 마커 → M1L · 소매 · M1R → 마커 → 앞판', flag:`${r/2}/11회 · +4코`},
+    care:'소매 쪽에서만 늘림 · M1L은 마커 바로 뒤, M1R은 마커 바로 앞'});
+  add({id:'rag', name:'래글런 늘림', total:29, reg:'yoke', side:r=>odd(r)?'WS':'RS',
+    sts:r=>{const k=Math.min(14,Math.floor(r/2)); return `${228+8*k}코 · 앞 ${34+k} · 소매 ${44+2*k} · 뒤 ${72+2*k}`;},
+    row:r=> r===29?{t:'안뜨기로 한 단', flag:'모든 늘림 완성 · 48 · 72 · 100 · 72 · 48 = 340코'}: odd(r)?{t:'모두 안뜨기'}:
+      {t:'앞판 2코 전 M1R, 겉2 · 마커 · M1L 소매 M1R · 마커 · 겉2, M1L 뒷판 … M1R, 겉2 · 마커 · M1L 소매 M1R · 마커 · 겉2, M1L 앞판', flag:`${r/2}/14회 · +8코`},
+    care:'몸판 쪽 늘림은 마커에서 2코 떨어진 곳 (겉2)'});
+  add({id:'split', name:'소매 분리', total:1, reg:'yoke', side:()=>'RS', sts:r=>r?'몸통 220코':'340코',
+    row:()=>({t:'앞판 → 마커 빼기 → 소매 72코 자투리실 → 마커 빼기 → 감아코 12 → 뒷판 → 소매 72코 자투리실 → 감아코 12 → 앞판', flag:'48 + 12 + 100 + 12 + 48 = 220코'})});
+  add({id:'body', name:'몸통', total:null, est:96, reg:'body', side:r=>odd(r)?'WS':'RS', sts:()=>'220코',
+    row:r=>({t:odd(r)?'모두 안뜨기':'모두 겉뜨기', tip:'뒷목 중심부터 51cm (아크린넨 45cm) · 안면 단으로 끝내기'}),
+    care:'원하는 길이가 되면 3.5mm로 바꾸고 겉면 차례에 고무단'});
+  add({id:'brib', name:'몸통 고무단', total:null, est:22, reg:'hem', side:r=>odd(r)?'RS':'WS', sts:r=>r?'219코':'220코',
+    row:r=> r===1?{t:'[안1, 겉1] 반복 · 뒷판 중간쯤 겉뜨기 차례에 한 번만 k2tog · 마지막 안1',flag:'220 → 219코'}:
+      odd(r)?{t:'[안1, 겉1] 반복, 마지막 안1'}:{t:'[겉1, 안1] 반복, 마지막 겉1'},
+    care:'3.5mm · 7cm 후 한코 고무단 돗바늘 마무리 · 끝에서 줄이지 않기'});
+  for(const [n,lab,rg,cf] of [[1,'첫 번째',  'slR','cuffR'],[2,'두 번째','slL','cuffL']]){
+    add({id:'slset'+n, name:lab+' 소매 코 걸기 · 줍기', total:0, reg:rg, doc:'slset', sts:()=>'84코',
+      row:()=>({t:'4mm · 40cm로 72코 다시 걸기 → 감아코 중간에서 새 실 → 6코 줍기 → 72코 겉뜨기 → 6코 줍기 → 시작마커'})});
+    if(o.sleeve==='long'){
+      add({id:'sl'+n, name:lab+' 소매 (긴팔)', total:124, reg:rg, doc:'sl', side:()=>'R',
+        sts:r=>`${84-2*Math.min(13,Math.floor(r/9))}코`,
+        row:r=> r<=117 && r%9===0 ? {t:'줄임단: k2tog, 시작마커 2코 전까지 겉뜨기, ssk', flag:`줄임 ${r/9}/13번째 · -2코`} :
+          {t:'모두 겉뜨기', tip: r>117?`마지막 겉뜨기 7단 중 ${r-117}`:`다음 줄임단까지 ${9-(r%9)}단`},
+        care:'[겉뜨기 8단, 줄임단] × 13 → 겉뜨기 7단 → 58코'});
+      add({id:'sldec'+n, name:lab+' 소매 고무단 전 줄임', total:1, reg:rg, doc:'sldec', side:()=>'R', sts:r=>r?'54코':'58코',
+        row:()=>({t:'3.5mm · 겉13, k2tog, 겉12, k2tog, 겉13, k2tog, 겉12, k2tog', flag:'58 → 54코'})});
+      add({id:'cuff'+n, name:lab+' 소맷부리', total:null, est:22, reg:cf, doc:'cuff', side:()=>'R', sts:()=>'54코',
+        row:()=>({t:'한코 고무뜨기 (겉1, 안1)', tip:'7cm 후 돗바늘 마무리'})});
+    } else {
+      add({id:'sl'+n, name:lab+' 소매 (반팔)', total:8, reg:rg, doc:'sslv', side:()=>'R', sts:()=>'84코', row:()=>({t:'모두 겉뜨기'})});
+      add({id:'cuff'+n, name:lab+' 반팔 고무단', total:6, reg:cf, doc:'sslv', side:()=>'R', sts:()=>'84코',
+        row:r=>({t:'3.5mm · 한코 고무뜨기 (겉1, 안1)', flag:r===6?'끝나면 돗바늘 마무리':''})});
+    }
+  }
+  const bandRows = P ? 2*P-1 : null;
+  const BR=r=> r===1?{t:'셋업 · [실 앞 안 거르기, 뒤로 찔러 겉뜨기] 마지막 2코 전까지, 안 거르기, k2tog tbl'}:
+     odd(r)?{t:'[실 앞 안 거르기, 겉1] 마지막 2코 전까지, 안 거르기, k2tog tbl', tip:'주운 코 1코 소진'}:{t:'[실 앞 안 거르기, 겉1] 끝까지'};
+  add({id:'bandRset', name:'오른쪽 버튼밴드 코줍기 (단춧구멍 X)', total:0, reg:'bandR', sts:()=>P?`주운 코 ${P}`:'주운 코 수 입력',
+    row:()=>({t:'3.5mm · 고무단 → 목 방향으로 6단마다 5코 줍기 → 실 끊기 → 흔들코(안뜨기부터) 10코', tip:'주운 코 수를 아래 칸에 적어 두세요'}), input:true});
+  add({id:'bandR', name:'오른쪽 버튼밴드 (더블니팅)', total:bandRows, est:bandRows?null:260, reg:'bandR', doc:'band', side:r=>odd(r)?'WS':'RS', sts:()=>'밴드 10코',
+    row:BR, care:'안면까지 뜨고 10코 남으면 겉면 차례에 실 끊고 돗바늘 마무리'});
+  add({id:'bandLset', name:'왼쪽 버튼밴드 코줍기 · 단춧구멍 마커', total:0, reg:'bandL', sts:()=>P?`주운 코 ${P}`:'반대편과 같은 코 수',
+    row:()=>({t:'3.5mm · 목 → 고무단 방향으로 6단마다 5코 (반대편과 같은 수) → 실 끊기 → 단춧구멍 마커 → 흔들코 10코'}), bh:true});
+  add({id:'bandL', name:'왼쪽 버튼밴드 (단춧구멍)', total:null, est:bandRows?bandRows+o.btn*11:300, reg:'bandL', side:r=>odd(r)?'WS':'RS', sts:()=>`밴드 10코 · 단춧구멍 ${LK.bhDone||0}/${o.btn}`,
+    row:BR, care:'마커를 만나면 겉면에서 마커 빼고 「단춧구멍 시작」', bhMode:true});
+  add({id:'colpick', name:'목 겹단 코줍기', total:0, reg:'collar', sts:()=>'양쪽 바늘 같은 코 수',
+    row:()=>({t:'3.5mm 두 세트 · 오른쪽 앞판 버튼밴드 안쪽 반부터 · 코 부분 매 코, 단 부분 3단에 2코, 뒷목 매 코', tip:'좌우 앞판 목부분 코 수가 비슷한지만 확인'})});
+  add({id:'colknit', name:'겹단 겉뜨기 4단', total:4, reg:'collar', sts:()=>'',
+    row:()=>({t:'양쪽 바늘 코를 모두 겉뜨기 (두 바늘 다 떠야 1단)'})});
+  if(o.collar==='acry'){
+    add({id:'colrib', name:'아크린넨 카라 (2.5mm)', total:null, est:30, reg:'collar', doc:'acry', sts:()=>'',
+      row:r=> r===1?{t:'바늘을 겹쳐 2.5mm로 뒤 바늘 안1, 앞 바늘 겉1 번갈아 · 마지막 두 코 한 번에 안뜨기'}:
+        odd(r)?{t:'카라 겉면 · 안1, [겉1, 안1] 반복'}:{t:'카라 안면 · 겉1, [안1, 겉1] 반복'},
+      care:'고무단 8cm → 안면 차례에 돗바늘 마무리 짱짱하게'});
+  } else {
+    add({id:'coljoin', name:'겹단 합치기', total:1, reg:'collar', sts:()=>'', row:()=>({t:'바늘을 나란히 겹쳐 3.5mm로 앞 코와 뒤 코를 한 번에 겉뜨기'})});
+    add({id:'colrib', name: o.collar==='collar8'?'카라 고무단 8cm':'목 고무단 2.5~3cm', total:null, est:o.collar==='collar8'?26:9, reg:'collar', doc:'colrib', sts:()=>'',
+      row:r=> r===1?{t:'[안1, 겉1] 반복, 마지막 안1 (필요하면 끝 두 코 한 번에)'}: odd(r)?{t:'[안1, 겉1] 반복, 마지막 안1'}:{t:'[겉1, 안1] 반복, 마지막 겉1'},
+      care: o.collar==='collar8'?'고무단만 8cm → 돗바늘 마무리':'고무단만 2.5~3cm → 돗바늘 마무리'});
+  }
+  add({id:'finish', name:'마무리', total:0, reg:'all', sts:()=>'완성!', row:()=>({t:'오른쪽(단춧구멍 없는) 밴드에 단추 달기 → 꼬리실 정리'})});
+  return L;
+}
+
+/* ---- 상태 ---- */
+const LKKEY='lowkey-m';
+let LK={opts:null, stage:'co', rows:{}, times:{}, clock:{run:false,start:0,acc:0}, picked:null, bhOn:false, bhStep:0, bhDone:0, at:0};
+try{const s=JSON.parse(localStorage.getItem(LKKEY)||'null'); if(s&&s.stage) LK={...LK,...s};}catch(e){}
+let LKST=[], lkRef=null, lkT=null, lkDraft={...LK_DEF,...(LK.opts||{})};
+const lr=id=>LK.rows[id]||0;
+function lkIdx(){const i=LKST.findIndex(s=>s.id===LK.stage); return i<0?0:i}
+function lkSave(){
+  LK.at=Date.now(); try{localStorage.setItem(LKKEY,JSON.stringify(LK));}catch(e){}
+  $('lkSave').textContent='저장 중…'; clearTimeout(lkT);
+  lkT=setTimeout(async()=>{ if(!lkRef){$('lkSave').textContent='이 기기에 저장됨';return}
+    try{await lkRef.set(JSON.parse(JSON.stringify(LK))); $('lkSave').textContent='저장됨';}catch(e){$('lkSave').textContent='이 기기에 저장됨';}},500);
+  renderHub();
+}
+function lkElapsed(){const c=LK.clock||{}; return (c.acc||0)+(c.run&&c.start?Date.now()-c.start:0);}
+function lkProg(){ // 그림용 진행도
+  const ci=lkIdx(); const p={}; LKST.forEach((s,si)=>{ if(s.reg==='all'){ if(lr(s.id)>0) Object.keys(GR).concat('collar').forEach(k=>p[k]=1); return; }
+    const f=fracOf(s,lr(s.id),si<ci), w=weightOf(s); (p['_'+s.reg]=p['_'+s.reg]||[]).push([f,w]); });
+  for(const k of Object.keys(p)) if(k[0]==='_'){ const a=p[k], W=a.reduce((x,y)=>x+y[1],0), F=a.reduce((x,y)=>x+y[0]*y[1],0); const key=k.slice(1); p[key]=Math.max(p[key]||0, F/W); delete p[k]; }
+  return p;
+}
+function totalPct(list, get, ci){ let W=0,F=0; list.forEach((s,si)=>{const w=weightOf(s); W+=w; F+=fracOf(s,get(s.id),si<ci)*w;}); return W?Math.round(F/W*100):0; }
+function lkRowGlobal(){ let g=0; for(const s of LKST){ if(s.id===LK.stage) return g+lr(s.id); g+=lr(s.id);} return g; }
+
+function lkRender(){
+  const setup=!LK.opts; $('lkSetup').hidden=!setup; $('lkMain').hidden=setup;
+  if(setup){ lkRenderOpts(); return; }
+  LKST=lkBuild(LK.opts);
+  const i=lkIdx(); LK.stage=LKST[i].id; const st=LKST[i], r=lr(st.id), isRows=st.total!==0;
+  $('lkStep').textContent=`${i+1} / ${LKST.length} 단계`; $('lkName').textContent=st.name;
+  $('lkPic').innerHTML=drawGarment(lkProg(), st.reg==='all'?null:st.reg);
+  $('lkPct').textContent=`전체 진행 ${totalPct(LKST,lr,lkIdx())}%`;
+  $('lkNum').hidden=!isRows; $('lkPlus').hidden=!isRows; $('lkMinus').hidden=!isRows;
+  $('lkNum').textContent=r;
+  $('lkOf').textContent=!isRows?'':st.total?`단 완료 · ${st.total}단 중`:st.est?`단 완료 · 예상 약 ${st.est}단 (길이로 확인)`:'단 완료';
+  $('lkInfo').innerHTML=`<span>전체 <b>${lkRowGlobal()}단</b> 완료</span><span>지금 <b>${st.sts?st.sts(r):''}</b></span>`;
+  const done=isRows&&st.total&&r>=st.total, n=isRows?Math.min(r+1,st.total||Infinity):1;
+  const sd=st.side?st.side(n):null, sb=$('lkSide');
+  if(isRows&&sd&&!done){ sb.hidden=false; sb.textContent=sd==='R'?'원형뜨기':sd==='RS'?'다음: 겉면 단':'다음: 안면 단'; sb.className='side'+(sd==='WS'?' ws':''); } else sb.hidden=true;
+  let html='';
+  if(st.bhMode && LK.bhOn){
+    const k=LK.bhStep+1;
+    html=`<span class="now">단춧구멍 ${(LK.bhDone||0)+1}번째 · ${k}/11단</span><b>${k}단:</b> ${esc(BH[LK.bhStep])}`;
+  } else {
+    const info=st.row(n)||{t:''};
+    html=(!done&&isRows?`<span class="now">지금 뜰 단: ${n}단째</span>`:'')+(done?'<b>이 단계 완료!</b> 「다음 단계」로 넘어가세요.':(isRows?`<b>${n}단:</b> `:'')+esc(info.t));
+    if(!done&&info.flag) html+=`<span class="flag">${esc(info.flag)}</span>`;
+    if(!done&&info.tip) html+=`<div class="tip">${esc(info.tip)}</div>`;
+  }
+  if(st.care) html+=`<div class="care"><b>주의</b> ${esc(st.care)}</div>`;
+  $('lkTodo').innerHTML=html;
+  $('lkDoc').innerHTML=`<div class="dh">도안 설명 · ${esc(st.name)}</div>`+(LKDOC[st.doc||st.id]||'')+(st.id==='bandL'||st.id==='bandLset'?lkBHPlan():'');
+  $('lkPicked').hidden=!(st.input||st.id==='bandLset');
+  $('lkPickedIn').value=LK.picked||'';
+  $('lkBH').hidden=!st.bhMode;
+  $('lkBHBtn').textContent=LK.bhOn?'단춧구멍 취소':'단춧구멍 시작 (11단)';
+  $('lkNext').className='next'+((done||!isRows||(!st.total&&st.est&&r>=st.est))?' ready':'');
+  $('lkNext').textContent=i===LKST.length-1?'완성 🎉':'다음 단계 →';
+  $('lkPrev').disabled=i===0; $('lkNextS').disabled=i===LKST.length-1;
+  $('lkList').innerHTML=LKST.map((s,k)=>`<button data-id="${s.id}" class="${k===i?'on':''}"><span>${k+1}. ${esc(s.name)}</span><small>${s.total===0?(lr(s.id)?'✓':''):lr(s.id)+'단'}</small></button>`).join('');
+  $('lkPick').textContent='내 옵션: M · '+(LK.opts.sleeve==='long'?'긴팔':'반팔')+' · '+({round:'노카라 3cm',collar8:'카라 8cm',acry:'아크린넨 카라'})[LK.opts.collar]+' · 단추 '+LK.opts.btn+'개';
+  $('lkTimer').hidden=!isRows; lkLog(st,r); lkTick();
+}
+function lkBHPlan(){
+  const N=LK.picked, b=(LK.opts||LK_DEF).btn;
+  if(!N) return `<p class="muted">주운 코 수를 입력하면 단춧구멍 마커 위치를 계산해 드려요.</p>`;
+  const inner=N-12, gap=inner/(b-1), pos=[]; for(let k=0;k<b;k++) pos.push(6+Math.round(k*gap));
+  return `<p><b>단춧구멍 마커 위치 (${N}코 · ${b}개)</b><br>밴드를 뜨기 시작하는 끝(고무단 쪽)부터 세어 <b>${pos.join(', ')}</b>번째 코 다음 (6·7번째 사이부터 약 ${gap.toFixed(1)}코 간격)</p>`;
+}
+function lkLog(st,r){
+  if(st.total===0){ $('lkLog').hidden=true; return; } $('lkLog').hidden=false;
+  const t=(LK.times[st.id]||[]).slice(0,r), rec=t.filter(x=>x!=null), avg=rec.length?rec.reduce((a,b)=>a+b,0)/rec.length:null;
+  const left=st.total?st.total-r:(st.est?Math.max(0,st.est-r):null);
+  const items=t.map((ms,i)=>[i+1,ms]).reverse().slice(0,6);
+  $('lkLog').innerHTML=`<div class="head">단별 시간 <span>${avg?`한 단 평균 ${fmt(avg)}${left?` · 남은 ${st.total?'':'약 '}${left}단 ≈ ${fmt(avg*left)}`:''}`:'단을 올리면 기록돼요'}</span></div>`+
+    (items.length?`<ul>${items.map(([k,ms])=>`<li><span>${k}단</span><span>${fmt(ms)}</span></li>`).join('')}</ul>`:'<ul><li class="empty">아직 기록이 없어요</li></ul>');
+}
+function lkTick(){ const c=LK.clock||{}, idle=!c.run&&!(c.acc>0);
+  $('lkClock').textContent=idle?'시간 재기 전 · +1단을 누르면 시작':`이번 단 ${fmt(lkElapsed())}`;
+  $('lkClockBtn').hidden=idle; $('lkClockBtn').textContent=c.run?'⏸ 쉬기':'▶ 다시 시작'; }
+function lkRenderOpts(){
+  $('lkOpts').innerHTML=LK_OPTS.map(d=>`<div class="opt"><div class="q">${esc(d.q)}</div>${d.note?`<div class="note">${esc(d.note)}</div>`:''}<div class="chips">${d.ch.map(([v,l])=>`<button data-k="${d.k}" data-v="${v}" aria-pressed="${String(lkDraft[d.k])===String(v)}">${esc(l)}</button>`).join('')}</div></div>`).join('');
+}
+function lkGo(k){k=Math.max(0,Math.min(LKST.length-1,k)); LK.stage=LKST[k].id; LK.clock={run:LK.clock.run,start:Date.now(),acc:0}; LK.bhOn=false; lkSave(); lkRender(); window.scrollTo(0,0);}
+function lkSetRow(v){LK.rows[LK.stage]=Math.max(0,v); lkSave(); lkRender();}
+$('lkOpts').onclick=e=>{const b=e.target.closest('button[data-k]'); if(!b)return; const v=b.dataset.v; lkDraft[b.dataset.k]=isNaN(+v)?v:+v; lkRenderOpts();};
+$('lkStart').onclick=()=>{LK.opts={...lkDraft}; lkSave(); lkRender(); window.scrollTo(0,0);};
+$('lkPlus').onclick=()=>{const st=LKST[lkIdx()], r=lr(st.id); if(st.total&&r>=st.total)return;
+  const t=(LK.times[st.id]=LK.times[st.id]||[]); t.length=r; t[r]=(LK.clock.run||LK.clock.acc>0)?lkElapsed():null;
+  LK.clock={run:true,start:Date.now(),acc:0};
+  if(st.bhMode&&LK.bhOn){ LK.bhStep++; if(LK.bhStep>=11){LK.bhOn=false;LK.bhStep=0;LK.bhDone=(LK.bhDone||0)+1;} }
+  lkSetRow(r+1); try{navigator.vibrate&&navigator.vibrate(15)}catch(e){}};
+$('lkMinus').onclick=()=>{const r=lr(LK.stage); if(r<=0)return; const t=LK.times[LK.stage]; if(t)t.length=r-1;
+  if(LKST[lkIdx()].bhMode&&LK.bhOn&&LK.bhStep>0) LK.bhStep--; lkSetRow(r-1);};
+$('lkClockBtn').onclick=()=>{const c=LK.clock; LK.clock=c.run?{run:false,start:0,acc:lkElapsed()}:{run:true,start:Date.now(),acc:c.acc||0}; lkSave(); lkTick();};
+setInterval(()=>{ if(!$('lkApp').hidden&&!$('lkMain').hidden) lkTick(); },1000);
+$('lkNext').onclick=()=>lkGo(lkIdx()+1); $('lkNextS').onclick=()=>lkGo(lkIdx()+1); $('lkPrev').onclick=()=>lkGo(lkIdx()-1);
+$('lkTgList').onclick=()=>{$('lkListP').hidden=!$('lkListP').hidden};
+$('lkTgInfo').onclick=()=>{$('lkInfoP').hidden=!$('lkInfoP').hidden};
+$('lkTgOpts').onclick=()=>{lkDraft={...LK_DEF,...LK.opts}; LK.opts=null; lkRender(); window.scrollTo(0,0);};
+$('lkTgReset').onclick=()=>{$('lkResetBox').hidden=false};
+$('lkResetNo').onclick=()=>{$('lkResetBox').hidden=true};
+$('lkResetYes').onclick=()=>{LK={...LK,stage:'co',rows:{},times:{},clock:{run:false,start:0,acc:0},bhOn:false,bhStep:0,bhDone:0}; $('lkResetBox').hidden=true; lkSave(); lkRender();};
+$('lkList').onclick=e=>{const b=e.target.closest('button'); if(b){LK.stage=b.dataset.id; LK.bhOn=false; $('lkListP').hidden=true; lkSave(); lkRender(); window.scrollTo(0,0);}};
+$('lkPickedIn').onchange=e=>{const v=parseInt(e.target.value,10); LK.picked=v>12?v:null; lkSave(); lkRender();};
+$('lkBHBtn').onclick=()=>{ if(LK.bhOn){LK.bhOn=false;LK.bhStep=0;} else {LK.bhOn=true;LK.bhStep=0;} lkSave(); lkRender(); };
+$('lkBHMinus').onclick=()=>{ LK.bhDone=Math.max(0,(LK.bhDone||0)-1); lkSave(); lkRender(); };
+
+/* ================= 메인 (프로젝트 목록) ================= */
+const VKEY='knit-view';
+function loveProg(){
+  const p={}, set=(k,f)=>p[k]=Math.max(p[k]||0,f);
+  if(!S.opts) return p;
+  const M={neck:['collar'],neckJoin:['collar'],short:['backtop','frontR','frontL','shR','shL'],raglan:['yoke'],split:['yoke'],
+    body:['body'],bodyTop:['body'],flare:['body'],mark:['body'],skirt:['body'],hem:['hem'],hemknit:['hem'],kettle:['hem'],
+    sl1:['slR'],cuff1:['cuffR'],sl2:['slL'],cuff2:['cuffL'],bandL:['bandL'],bandR:['bandR']};
+  const ci=idx(); ST.forEach((s,si)=>{ const f=fracOf(s,rows(s.id),si<ci); (M[s.id]||[]).forEach(k=>set(k,f)); if(s.id==='finish'&&rows(s.id)) Object.keys(GR).concat('collar').forEach(k=>p[k]=1); });
+  if(rows('markers')||rows('short')) set('collar',1);
+  return p;
+}
+function renderHub(){
+  if(!$('hub')) return;
+  // LOVE
+  let lv='';
+  if(S.opts && ST.length){ const i=idx(), st=ST[i];
+    const chips=(infoFor(st,rows(st.id))||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
+    lv=`<div class="hs">지금 <b>${i+1}. ${esc(st.name)}</b> · ${rows(st.id)}단</div><div class="hc">${esc(chips)}</div><div class="bar"><i style="width:${totalPct(ST,rows,idx())}%"></i></div><div class="hp">${totalPct(ST,rows,idx())}%</div>`;
+  } else lv='<div class="hs">옵션을 고르고 시작해요</div>';
+  $('hubLove').innerHTML=drawGarment(loveProg(), null, true)+`<div class="ht"><div class="hn">LOVE 자켓 <small>5세</small></div>${lv}</div>`;
+  let lk='';
+  if(LK.opts){ LKST=lkBuild(LK.opts); const i=lkIdx(), st=LKST[i];
+    lk=`<div class="hs">지금 <b>${i+1}. ${esc(st.name)}</b> · ${lr(st.id)}단</div><div class="hc">전체 ${lkRowGlobal()}단 · ${esc(st.sts?st.sts(lr(st.id)):'')}</div><div class="bar"><i style="width:${totalPct(LKST,lr,lkIdx())}%"></i></div><div class="hp">${totalPct(LKST,lr,lkIdx())}%</div>`;
+  } else lk='<div class="hs">옵션을 고르고 시작해요</div>';
+  $('hubLk').innerHTML=drawGarment(LK.opts?lkProg():{}, null, true)+`<div class="ht"><div class="hn">로우키 가디건 <small>M</small></div>${lk}</div>`;
+}
+function show(v){
+  $('hub').hidden=v!=='hub'; $('loveApp').hidden=v!=='love'; $('lkApp').hidden=v!=='lk';
+  try{localStorage.setItem(VKEY,v)}catch(e){}
+  if(v==='hub') renderHub(); if(v==='lk') lkRender(); if(v==='love') render();
+  window.scrollTo(0,0);
+}
+$('hubLove').onclick=()=>show('love'); $('hubLk').onclick=()=>show('lk');
+$('loveBack').onclick=()=>show('hub'); $('lkBack').onclick=()=>show('hub');
+const _loveSave=save; save=function(){ _loveSave(); renderHub(); };
+
+/* ---- 백업 (아티팩트 ↔ 앱 옮기기) ---- */
+$('bkCopy').onclick=()=>{
+  const txt='KNIT1:'+JSON.stringify({love:S, lk:LK});
+  $('bkBox').hidden=false; $('bkApply').hidden=true; $('bkText').value=txt;
+  const sel=()=>{ $('bkText').focus(); $('bkText').select(); $('bkMsg').textContent='아래 글자를 길게 눌러 전체 복사해 주세요.'; };
+  try{ navigator.clipboard.writeText(txt).then(()=>{$('bkMsg').textContent='복사했어요. 앱(또는 다른 기기)의 「백업 붙여넣기」에 붙여 넣으세요.';}).catch(sel);}catch(e){sel();}
+};
+$('bkPasteT').onclick=()=>{ $('bkBox').hidden=false; $('bkApply').hidden=false; $('bkText').value=''; $('bkMsg').textContent='복사한 백업 글자를 붙여 넣고 「이 백업으로 덮어쓰기」를 누르세요. 지금 이 기기의 진행 상황은 백업 내용으로 바뀌어요.'; };
+$('bkClose').onclick=()=>{ $('bkBox').hidden=true; };
+$('bkApply').onclick=()=>{
+  try{ const t=$('bkText').value.trim(); if(!t.startsWith('KNIT1:')) throw 0; const d=JSON.parse(t.slice(6));
+    if(d.love){ S=normalize(d.love)||S; draft={...DEF,...(S.opts||{})}; _loveSave(); render(); }
+    if(d.lk){ LK={...LK,...d.lk}; lkDraft={...LK_DEF,...(LK.opts||{})}; lkSave(); }
+    $('bkMsg').textContent='불러왔어요!'; $('bkApply').hidden=true; renderHub();
+  }catch(e){ $('bkMsg').textContent='백업 글자가 올바르지 않아요. 「KNIT1:」로 시작하는 글자 전체를 붙여 넣어 주세요.'; }
+};
+let v0='hub'; try{v0=localStorage.getItem(VKEY)||'hub'}catch(e){}
+show(v0);
+
+(async()=>{
+  try{
+    const [db,user]=await Promise.all([window.claude?.use('db'),window.claude?.use('user')]);
+    if(!db||!user){$('lkSave').textContent='이 기기에 저장됨';return}
+    const id=await user.id(); if(!id){$('lkSave').textContent='이 기기에 저장됨';return}
+    lkRef=db.collection('data/users/'+id).doc('lowkeyM');
+    const snap=await lkRef.get();
+    if(snap.exists){const d=snap.data(); if(d&&(d.at||0)>(LK.at||0)){LK={...LK,...d}; lkDraft={...LK_DEF,...(LK.opts||{})}; try{localStorage.setItem(LKKEY,JSON.stringify(LK))}catch(e){} if(!$('lkApp').hidden) lkRender(); renderHub();}}
+    else if(LK.at) await lkRef.set(JSON.parse(JSON.stringify(LK)));
+    $('lkSave').textContent='저장됨';
+  }catch(e){$('lkSave').textContent='이 기기에 저장됨';}
+})();
+
+</script>
+
+</body></html>
