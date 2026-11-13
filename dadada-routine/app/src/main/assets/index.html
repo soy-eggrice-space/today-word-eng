@@ -1433,6 +1433,335 @@ html:has(#family:not([hidden]) .kfit) body{margin:0}
 .kfit.port .kf-dash .med .hosp-btn{margin-top:4px}
 .kfit.port .kf-reply .reply-strip{flex-direction:row;align-items:center;flex-wrap:wrap}
 .kfit.port .kf-reply .rs-main{flex:1;width:auto}
+/* ===== 이만큼 자랐어요 · 우리가족 일정 ===== */
+:root{--gr-a:#FFF3B8;--gr-b:#DDF5C8;--gr-ink:#B86E1A;--gr-tint:#FFE08A;--cal-a:#E0F4FF;--cal-ink:#2E86C9;--cal-tint:#BFE4FF;--ev-sun:#E25C52;--ev-sat:#3A7BD5}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--gr-a:#3A3214;--gr-b:#20331C;--gr-ink:#FFC95C;--gr-tint:#6B5520;--cal-a:#18293A;--cal-ink:#8CCBFF;--cal-tint:#25496B;--ev-sun:#FF8A80;--ev-sat:#8DB4FF}}
+:root[data-theme="dark"]{--gr-a:#3A3214;--gr-b:#20331C;--gr-ink:#FFC95C;--gr-tint:#6B5520;--cal-a:#18293A;--cal-ink:#8CCBFF;--cal-tint:#25496B;--ev-sun:#FF8A80;--ev-sat:#8DB4FF}
+.scene[data-rid="grow"]{--a:var(--gr-a);--b:var(--gr-b);--sink:var(--ink);--sc-ic:var(--gr-ink);--sc-tint:var(--gr-tint)}
+.giraffe{display:block;overflow:visible}
+/* 캐릭터 카드의 키·몸무게 */
+.cc-grow{display:inline-flex;align-items:center;gap:4px;font:15px var(--f-d);color:var(--gr-ink);background:var(--gr-a);border-radius:999px;padding:2px 10px 2px 4px;white-space:nowrap}
+.cc-grow .ic{width:22px;height:22px;--ic-tint:var(--gr-tint)}
+.cc-grow.none{opacity:.75}
+/* 첫 화면 '이만큼 자랐어요' 칸 */
+.grow-card{background:linear-gradient(160deg,var(--gr-a),var(--gr-b));flex-direction:row!important;align-items:flex-end;gap:6px!important;position:relative}
+.grow-card .gc-giraffe{flex:none;margin:0 -4px -10px -6px;align-self:flex-end}
+.grow-card .gc-t{display:flex;flex-direction:column;gap:6px;align-self:center;min-width:0}
+.grow-card .fc-title{font-size:30px!important;line-height:1.1}
+/* 첫 화면 달력 */
+.calc{flex-direction:row!important;gap:14px!important;align-items:stretch}
+.cal-l{display:flex;flex-direction:column;gap:6px;flex:none;width:270px}
+.calc .dc-head .sc-ico{background:var(--cal-a);color:var(--cal-ink);--ic-tint:var(--cal-tint)}
+.mcal{display:flex;flex-direction:column;gap:2px;flex:1;min-height:0}
+.mc-wd,.mc-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));text-align:center}
+.mc-wd span{font:600 11px var(--f-b);color:var(--ink-3)}
+.mc-wd .sun,.mc-d.sun b{color:var(--ev-sun)} .mc-wd .sat,.mc-d.sat b{color:var(--ev-sat)}
+.mc-grid{grid-auto-rows:minmax(0,1fr);flex:1;min-height:0;row-gap:1px}
+.mc-d{position:relative;display:grid;place-items:center;min-height:0}
+.mc-d b{font:600 13px/1 var(--f-b);color:var(--ink);font-variant-numeric:tabular-nums;width:24px;height:24px;display:grid;place-items:center;border-radius:50%}
+.mc-d.past b{opacity:.45}
+.mc-d.today b{box-shadow:0 0 0 2px var(--ink);font-weight:700}
+.mc-d.ev b{background:var(--cal-ink);color:#FFFFFF!important;opacity:1}
+.mc-ic{position:absolute;right:-1px;top:-5px;width:17px;height:17px;border-radius:50%;background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.18);display:grid;place-items:center;z-index:1}
+.mc-ic .ic{width:14px;height:14px;color:var(--cal-ink);--ic-tint:var(--cal-tint)}
+.cal-r{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;border-left:1.5px dashed var(--line);padding-left:14px}
+.cal-r h3{margin:0;font:20px var(--f-d);font-weight:400}
+.ev-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;min-height:0;overflow:hidden}
+.ev-it,.ev-pit{display:flex;align-items:center;gap:10px;width:100%;padding:6px 10px 6px 6px;border-radius:16px;background:var(--surface-2);text-align:left}
+.ev-it:active,.ev-pit:active{transform:scale(.98)}
+.ev-ic{width:38px;height:38px;border-radius:12px;background:var(--cal-a);color:var(--cal-ink);--ic-tint:var(--cal-tint);display:grid;place-items:center;flex:none}
+.ev-ic .ic{width:28px;height:28px}
+.ev-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.2}
+.ev-t b{font:18px var(--f-d);font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev-t small{font-size:12px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev-it em,.ev-pit em{font:13px var(--f-d);font-style:normal;color:var(--cal-ink);background:var(--cal-a);padding:3px 9px;border-radius:999px;white-space:nowrap;flex:none}
+.ev-none{color:var(--ink-3);font-size:14px;margin:auto 0}
+/* 엄마·아빠 폰 */
+.dash-card.evc .dc-head .sc-ico{background:var(--cal-a);color:var(--cal-ink);--ic-tint:var(--cal-tint)}
+.dash-card.grc .dc-head .sc-ico{background:var(--gr-a);color:var(--gr-ink);--ic-tint:var(--gr-tint)}
+.dash-card.evc>.btn{flex:none;min-height:54px}
+.ev-plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.ev-pit{padding:8px 12px 8px 8px}
+.grc-kids{display:flex;flex-direction:column;gap:8px}
+.grc-k{display:flex;align-items:center;gap:10px;padding:8px 12px 8px 8px;border-radius:18px;background:var(--surface-2);text-align:left;width:100%}
+.grc-k>.grc-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.grc-k b{font:19px var(--f-d);font-weight:400}
+.grc-k small{font-size:13px;color:var(--ink-2)}
+.grc-k small.warn{color:var(--danger)}
+.grc-k .ui{width:20px;height:20px;color:var(--ink-3)}
+/* 이만큼 자랐어요 화면 */
+.gr-wrap{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:18px;padding-block:18px 48px;align-items:start}
+.gr-info{grid-column:1 / -1;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;border-radius:24px;background:var(--surface);box-shadow:var(--shadow)}
+.gr-info>b{font:22px var(--f-d);font-weight:400;margin-right:6px}
+.gr-f{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2)}
+.gr-f .fld{width:auto;min-height:44px}
+.gr-sex{display:flex;gap:6px}
+.gr-sex button{min-height:44px;padding:0 16px;border-radius:14px;background:var(--surface-2);font:17px var(--f-d);border:2px solid transparent}
+.gr-sex button[aria-pressed="true"]{border-color:var(--k);background:color-mix(in oklab,var(--k) 18%,var(--surface))}
+.gr-now{display:flex;flex-direction:column;align-items:center;gap:12px;padding:20px;border-radius:32px;background:linear-gradient(170deg,var(--gr-a),color-mix(in oklab,var(--k) 14%,var(--surface)));box-shadow:var(--shadow)}
+.gr-stage{display:flex;align-items:flex-end;justify-content:center;gap:4px;min-height:230px}
+.gr-gir{display:block;transform-origin:50% 100%}
+.gr-gir.grow-up{animation:grup 1.2s cubic-bezier(.3,1.5,.5,1)}
+@keyframes grup{0%{transform:scaleY(.82)}60%{transform:scaleY(1.06)}100%{transform:scaleY(1)}}
+.gr-me{margin-bottom:6px}
+.gr-nums{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.gr-num{display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border-radius:22px;background:var(--surface);box-shadow:var(--shadow)}
+.gr-num small{font:15px var(--f-d);color:var(--ink-2)}
+.gr-num b{font:40px/1 var(--f-d);font-weight:400;font-variant-numeric:tabular-nums}
+.gr-num b i{font-style:normal;font-size:18px;margin-left:2px;color:var(--ink-2)}
+.gr-num em{font:14px var(--f-d);font-style:normal;color:#2F9C6B;background:#E3F5EC;padding:2px 8px;border-radius:999px;margin-top:4px}
+.gr-pct{font-size:12px!important;color:var(--ink-2)!important}
+.gr-when{margin:0;font-size:14px;color:var(--ink-2)}
+.gr-add{flex:none!important;width:100%;min-height:62px;font:22px var(--f-d);gap:8px}
+.gr-add .ic{width:34px;height:34px;--ic-tint:rgba(255,255,255,.3)}
+.gr-chart{background:var(--surface);border-radius:32px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;min-width:0}
+.gr-tabs{display:flex;gap:6px;background:var(--surface-2);padding:4px;border-radius:16px;align-self:flex-start}
+.gr-tabs button{min-height:44px;padding:0 24px;border-radius:13px;font:19px var(--f-d)}
+.gr-tabs button[aria-selected="true"]{background:var(--surface);box-shadow:var(--shadow)}
+.gr-svg{width:100%;height:auto;display:block}
+.gr-svg .gl{stroke:var(--line);stroke-width:1}
+.gr-svg .ax{font:12px var(--f-b);fill:var(--ink-2)}
+.gr-svg .b97{fill:color-mix(in oklab,var(--gr-tint) 30%,transparent)}
+.gr-svg .b75{fill:color-mix(in oklab,var(--gr-tint) 45%,transparent)}
+.gr-svg .pc{fill:none;stroke:var(--ink-3);stroke-width:1.3;opacity:.7}
+.gr-svg .pc.p50{stroke-width:2.4;opacity:.9}
+.gr-svg .pl{font:600 11px var(--f-b);fill:var(--ink-3)}
+.gr-svg .kl{fill:none;stroke:var(--k);stroke-width:4;stroke-linejoin:round;stroke-linecap:round}
+.gr-svg .kd{fill:var(--surface);stroke:var(--k);stroke-width:3.5}
+.gr-svg .kd.last{fill:var(--k)}
+.gr-svg .klab rect{fill:var(--k)}
+.gr-svg .klab text{font:15px var(--f-d);fill:#FFFFFF}
+.gr-src{margin:0;font-size:12px;color:var(--ink-3)}
+.gr-nochart{display:flex;flex-direction:column;align-items:center;gap:6px;padding:60px 20px;text-align:center;color:var(--ink-2)}
+.gr-nochart .ic{width:56px;height:56px;color:var(--gr-ink);--ic-tint:var(--gr-tint)}
+.gr-nochart b{font:22px var(--f-d);font-weight:400;color:var(--ink)}
+.gr-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.gr-list li{display:grid;grid-template-columns:1fr 1fr 1fr auto;align-items:center;gap:8px;padding:6px 10px;border-radius:12px;background:var(--surface-2);font-size:14px}
+.gr-list b{font:17px var(--f-d);font-weight:400}
+.gr-list .ib.del{width:36px;height:36px;color:var(--ink-3);background:transparent}
+@media (max-width:760px){.gr-wrap{grid-template-columns:1fr}}
+/* 재기 화면 (줄자) */
+.gr-sheet{display:flex;flex-direction:column;gap:14px}
+.gr-sheet .sh-head{display:flex;align-items:center;gap:12px}
+.gr-sheet .sh-head h2{flex:1;margin:0}
+.gr-date{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:15px;color:var(--ink-2)}
+.gr-date button{min-height:44px;padding:0 16px;border-radius:14px;background:var(--surface-2);font:17px var(--f-d);border:2px solid transparent;color:var(--ink)}
+.gr-date button[aria-pressed="true"]{border-color:var(--k)}
+.gr-date .fld{width:auto;min-height:44px}
+.rl{display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:24px;background:var(--surface-2)}
+.rl-head{display:flex;align-items:center;gap:10px}
+.rl-ico{width:44px;height:44px;border-radius:14px;background:var(--gr-a);color:var(--gr-ink);--ic-tint:var(--gr-tint);display:grid;place-items:center}
+.rl-ico .ic{width:32px;height:32px}
+.rl-head>b{font:22px var(--f-d);font-weight:400}
+.rl-read{margin-left:auto;display:flex;align-items:baseline;gap:4px;padding:4px 14px;border-radius:16px;background:var(--surface);box-shadow:var(--shadow)}
+.rl-read b{font:44px/1.05 var(--f-d);font-weight:400;font-variant-numeric:tabular-nums;color:color-mix(in oklab,var(--k) 70%,var(--ink))}
+.rl-read i{font-style:normal;font:18px var(--f-d);color:var(--ink-2)}
+.rl-win{position:relative;height:74px;border-radius:16px;background:#FFE58A;box-shadow:inset 0 -3px 0 rgba(160,110,0,.25);overflow:hidden}
+.rl-track{position:absolute;inset:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;padding:0 50%;box-sizing:border-box;touch-action:pan-x}
+.rl-track::-webkit-scrollbar{display:none}
+.rl-tape{position:relative;height:100%;background:
+  linear-gradient(90deg,rgba(90,60,0,.85) 2px,transparent 2px) 0 0/100px 46% repeat-x,
+  linear-gradient(90deg,rgba(90,60,0,.6) 1.5px,transparent 1.5px) 50px 0/100px 32% repeat-x,
+  linear-gradient(90deg,rgba(90,60,0,.4) 1px,transparent 1px) 0 0/10px 20% repeat-x}
+.rl-tape span{position:absolute;bottom:8px;transform:translateX(-50%);font:600 14px var(--f-b);color:#5A3C00}
+.rl-mid{position:absolute;left:50%;top:0;bottom:0;width:4px;margin-left:-2px;background:var(--k);border-radius:2px;box-shadow:0 0 0 2px rgba(255,255,255,.8);pointer-events:none}
+.rl-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.rl-btns button{min-height:48px;border-radius:14px;background:var(--surface);font:19px var(--f-d);box-shadow:var(--shadow)}
+.rl-btns button:active{transform:scale(.96)}
+.gr-warn{margin:0;padding:10px 14px;border-radius:16px;background:#FFF4E0;border:2px solid #F7C77A;color:#8A5200;font-size:15px}
+.gr-save{flex:none!important;min-height:62px;font:22px var(--f-d)}
+/* 일정 넣기 (엄마·아빠 폰) */
+.ev-sheet h3{margin:6px 0 0;font:19px var(--f-d);font-weight:400}
+.ev-sheet h3 small{font:13px var(--f-b);color:var(--ink-3)}
+.ev-dates{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ev-dates .fld{width:auto;min-height:48px}
+.ev-multi{min-height:48px;padding:0 14px;border-radius:14px;background:var(--surface-2);font:16px var(--f-d);border:2px solid transparent}
+.ev-multi[aria-pressed="true"]{border-color:var(--cal-ink);background:var(--cal-a)}
+.ev-icons{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.ev-icb{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:16px;background:var(--surface-2);border:2.5px solid transparent}
+.ev-icb[aria-pressed="true"]{border-color:var(--cal-ink);background:var(--cal-a)}
+.ev-icb small{font-size:12px;color:var(--ink-2)}
+.ev-btns{display:flex;gap:10px;margin-top:8px}
+.ev-btns .btn.pri{flex:1;min-height:56px}
+/* 아이들 태블릿 한 화면 배치: 아래 줄 = 일정(2칸) · 기린 · 약/답장 */
+.kf-dash{grid-template-rows:minmax(0,1fr) minmax(0,1.08fr);grid-template-areas:"todo msg food study" "cal cal grow mr"}
+.kf-dash>.calc{grid-area:cal}
+.kf-dash .ev-list li:nth-child(n+4){display:none}
+.kf-dash>.grow-card{grid-area:grow}
+.kf-dash>.kf-mr{grid-area:mr;display:flex;flex-direction:column;gap:12px;min-height:0}
+.kf-mr>.med{flex:1;min-height:0;display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-content:center;align-items:center;gap:8px}
+.kf-mr>.med .dc-head{grid-column:1;grid-row:1;min-width:0}
+.kf-mr>.med .hosp-btn{grid-column:2;grid-row:1;margin:0!important;min-height:48px!important;padding:0 12px}
+.kf-mr>.med .hosp-btn span{display:none}
+.kf-mr>.med .med-row{grid-column:1 / -1}
+.kf-mr>.kf-reply{flex:1;min-height:0}
+.kf-mr .reply-strip{flex-direction:row!important;align-items:center!important;justify-content:flex-start!important;gap:12px!important}
+.kf-mr .rs-main{flex:1!important;width:auto!important}
+.kf-mr .rs-sub{-webkit-line-clamp:1!important}
+.kf-dash>.fcard:not(.grow-card) .fc-sub{display:none}
+.kfit.port .kf-dash{grid-template-rows:minmax(0,1fr) minmax(0,1fr) minmax(0,1.15fr) auto;grid-template-areas:"todo msg" "food study" "cal cal" "grow mr"}
+.dash .calc{grid-column:span 2}
+@media (max-width:900px){.dash .calc{grid-column:auto;flex-direction:column!important}.cal-l{width:auto}.cal-r{border-left:0;padding-left:0}}
+/* ===== 레몬 크림 색감 (밝은 화면) ===== */
+:root{--bg:#FFF8E1;--surface:#FFFFFF;--surface-2:#FFF4D8;--line:#F0E0B8;--ink:#2A2418;--ink-2:#6A5F48;--ink-3:#A39678;--shadow:0 1px 2px rgba(130,95,20,.06),0 8px 22px rgba(160,115,20,.10);
+  --sc-t-a:#DCE5FF;--sc-t-b:#EDDDFF;--sc-g-a:#FFDCE6;--sc-g-b:#FFEAC8;--sc-f-a:#FFE2A0;--sc-f-b:#FFF3BE;--st-a:#D8EFFF;--st-b:#E7DEFF;--gr-a:#FFEFA0;--gr-b:#D6F2BC;--cal-a:#DDF1FF;--pz-bg:#FFEDC2;--pig-bg:#FFE6EF;--hs-a:#E6F6DC;--hs-b:#FFF3C4;--hs-ink:#3E8F3A;--hs-tint:#BFE6A8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--hs-a:#1E3320;--hs-b:#3A3214;--hs-ink:#8EDB8A;--hs-tint:#2F5A2C}}
+:root[data-theme="dark"]{--hs-a:#1E3320;--hs-b:#3A3214;--hs-ink:#8EDB8A;--hs-tint:#2F5A2C}
+.scene[data-rid="home"]{--a:var(--hs-a);--b:var(--hs-b);--sink:var(--ink);--sc-ic:var(--hs-ink);--sc-tint:var(--hs-tint)}
+/* 풀밭·무지개 배경 */
+.meadow{position:absolute;inset:0;overflow:hidden;border-radius:inherit;pointer-events:none;z-index:0;background:linear-gradient(180deg,#DDF2FF 0%,#FFF7DC 70%)}
+.mw-sky{position:absolute;inset:0;width:100%;height:100%}
+.meadow .om{position:absolute;display:block}
+.mw-t1{width:28%;left:-4%;bottom:14%}.mw-t2{width:20%;right:-2%;bottom:16%}.mw-t3{width:16%;right:16%;bottom:20%}
+.mw-f1{width:9%;left:30%;bottom:3%}.mw-f2{width:8%;right:24%;bottom:4%}.mw-f3{width:7%;left:8%;bottom:2%}
+.mw-b1{width:10%;right:12%;top:30%;animation:mwfly 4s ease-in-out infinite}.mw-sun{width:14%;left:6%;top:4%}
+.meadow.mini .mw-t1{width:34%;left:-8%;bottom:10%}.meadow.mini .mw-t2{width:22%;right:-6%;bottom:12%}.meadow.mini .mw-f1{width:12%;left:40%}.meadow.mini .mw-f2{width:11%;right:6%}
+@keyframes mwfly{50%{transform:translate(-10px,-8px) rotate(-6deg)}}
+/* 첫 화면 '이만큼 자랐어요' 칸 (위 줄 4칸 중 하나) */
+.grow-card{position:relative;overflow:hidden;background:#DDF2FF!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start;gap:0!important;padding:16px 18px!important}
+.grow-card>.gc-t{position:relative;z-index:1;display:flex;flex-direction:column;gap:2px}
+.grow-card .fc-title{font-size:30px!important;line-height:1.05;text-shadow:0 2px 0 rgba(255,255,255,.8)}
+.grow-card .gc-giraffe{position:absolute;z-index:1;right:4%;bottom:3%;margin:0}
+.grow-card>.gc-t{max-width:58%}
+.grow-card .gc-kids{position:absolute;z-index:1;left:14px;bottom:10px;display:flex;flex-direction:column;gap:4px}
+.grow-card .gc-k{display:flex;align-items:center;gap:4px;font:13px var(--f-d);background:rgba(255,255,255,.85);border-radius:999px;padding:2px 8px 2px 2px}
+.grow-card .gc-k .ava{width:22px!important;height:22px!important;--s:22px!important}
+/* 이만큼 자랐어요 화면 */
+.gr-stage{position:relative;overflow:hidden;width:100%;min-height:320px!important;align-items:flex-end;gap:0!important;border-radius:24px;padding-bottom:6px}
+.gr-stage>*:not(.meadow){position:relative;z-index:1}
+.gr-me{margin:0 0 14px -18px!important;filter:drop-shadow(0 3px 0 rgba(0,0,0,.08))}
+.gr-num{background:rgba(255,255,255,.92)!important}
+/* 다연 홈스쿨 — 첫 화면 칸 */
+.homec{background:linear-gradient(150deg,var(--hs-a),var(--hs-b))!important;text-align:left;gap:8px!important;overflow:hidden}
+.homec .dc-head{width:100%}
+.homec .dc-head>.hs-ht{flex:1;min-width:0;display:flex;flex-direction:column}
+.homec .dc-head small{display:flex;align-items:center;gap:3px}
+.homec .dc-head .ui{width:22px;height:22px;color:var(--ink-3)}
+.hs-mini{display:flex;flex-direction:column;gap:5px;min-height:0;overflow:hidden}
+.hs-mi{display:flex;align-items:center;gap:8px;padding:6px 10px 6px 6px;border-radius:14px;background:rgba(255,255,255,.75);font:17px var(--f-d)}
+.hs-mi .hs-mt{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hs-mi em{font-style:normal;font-size:14px;color:var(--hs-ink)}
+.hs-mi.on .hs-mt{text-decoration:line-through;text-decoration-color:rgba(62,143,58,.5);color:var(--ink-2)}
+.hs-ck{width:24px;height:24px;border-radius:8px;border:2.5px solid var(--hs-tint);background:var(--surface);display:grid;place-items:center;flex:none;color:#FFFFFF}
+.on>.hs-ck,.hs-mi.on .hs-ck{background:var(--hs-ink);border-color:var(--hs-ink)}
+.hs-ck .ui{width:16px;height:16px}
+.hs-more{font-size:12px;color:var(--ink-2);padding-left:4px}
+.hs-rest{display:flex;align-items:center;gap:8px;color:var(--ink-2);margin:auto 0}
+.hs-rest .ic{width:40px;height:40px;color:var(--hs-ink);--ic-tint:var(--hs-tint)}
+/* 홈스쿨 화면 */
+.hs-wrap{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:18px 48px;max-width:960px}
+.hs-wrap.parent{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start}
+.hs-today{position:relative;overflow:hidden;background:var(--surface);border-radius:32px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:14px;--k:var(--hs-ink);--k-deep:#3E8F3A}
+.hs-week{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.hs-wd{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:14px;background:var(--surface-2)}
+.hs-wd small{font-size:12px;color:var(--ink-2)}
+.hs-wd b{font:17px var(--f-d);font-weight:400;height:22px;display:grid;place-items:center}
+.hs-wd b .ui{width:18px;height:18px;color:var(--hs-ink)}
+.hs-wd.today{box-shadow:0 0 0 2.5px var(--hs-ink) inset;background:var(--hs-a)}
+.hs-wd.ok{background:var(--hs-a)}
+.hs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.hs-item{display:flex;align-items:center;gap:12px;padding:14px;border-radius:24px;background:var(--surface-2);border:3px solid transparent;text-align:left;min-height:88px}
+.hs-item:active{transform:scale(.98)}
+.hs-item.on{background:var(--hs-a);border-color:var(--hs-ink)}
+.hs-ic{width:56px;height:56px;border-radius:18px;background:var(--surface);color:var(--hs-ink);--ic-tint:var(--hs-tint);display:grid;place-items:center;flex:none}
+.hs-ic .ic{width:40px;height:40px}
+.hs-t{flex:1;min-width:0;display:flex;flex-direction:column}
+.hs-t b{font:24px/1.15 var(--f-d);font-weight:400}
+.hs-t em{font:18px var(--f-d);font-style:normal;color:var(--hs-ink)}
+.hs-t small{font-size:13px;color:var(--ink-2)}
+.hs-box{width:40px;height:40px;border-radius:12px;border:3px solid var(--hs-tint);background:var(--surface);display:grid;place-items:center;flex:none;color:#FFFFFF}
+.hs-item.on .hs-box{background:var(--hs-ink);border-color:var(--hs-ink)}
+.hs-box .ui{width:26px;height:26px}
+.hs-call{min-height:64px;font:22px var(--f-d);flex:none!important}
+.hs-hint{margin:0;text-align:center;color:var(--ink-2);font:17px var(--f-d)}
+.hs-done{margin:0;display:flex;align-items:center;justify-content:center;gap:8px;font:22px var(--f-d);color:var(--hs-ink);padding:10px;border-radius:18px;background:var(--hs-a)}
+.hs-empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:40px 10px;color:var(--ink-2)}
+.hs-empty .ic{width:64px;height:64px;color:var(--hs-ink);--ic-tint:var(--hs-tint)}
+.hs-empty b{font:22px var(--f-d);font-weight:400;color:var(--ink)}
+.hs-manage{background:var(--surface);border-radius:32px;padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.hs-manage h2{margin:0;font:23px var(--f-d);font-weight:400}
+.hs-tabs{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;background:var(--surface-2);padding:4px;border-radius:16px}
+.hs-tabs button{min-height:46px;border-radius:12px;font:18px var(--f-d);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}
+.hs-tabs button small{font:11px var(--f-b);color:var(--hs-ink);height:12px}
+.hs-tabs button[aria-selected="true"]{background:var(--surface);box-shadow:var(--shadow)}
+.hs-mlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.hs-mrow{display:flex;align-items:center;gap:10px;width:100%;padding:8px 12px 8px 8px;border-radius:18px;background:var(--surface-2);text-align:left}
+.hs-mrow .hs-ic{width:44px;height:44px;border-radius:14px}.hs-mrow .hs-ic .ic{width:32px;height:32px}
+.hs-mrow .hs-t b{font-size:19px}
+.hs-mrow>.ui{width:20px;height:20px;color:var(--ink-3)}
+.hs-manage>.btn{flex:none;min-height:54px}
+.hsc .hs-plist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.hsc .hs-plist li{display:flex;align-items:center;gap:8px;font:17px var(--f-d);padding:6px 8px;border-radius:12px;background:var(--surface-2)}
+.hsc .hs-plist em{font-style:normal;font-size:14px;color:var(--hs-ink);margin-left:auto}
+.hsc>.btn{flex:none;min-height:50px;gap:8px}
+.hsc>.btn .ic{width:28px;height:28px}
+.dash-card.hsc .dc-head .ava{flex:none}
+@media (max-width:760px){.hs-wrap.parent{grid-template-columns:1fr}}
+/* 항목 넣기 */
+.hs-sheet h3{margin:6px 0 0;font:19px var(--f-d);font-weight:400}
+.hs-sheet h3 small{font:13px var(--f-b);color:var(--ink-3)}
+.hs-amt{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.hs-amt>b{font:34px var(--f-d);font-weight:400;min-width:48px;text-align:center}
+.hs-step{width:52px;height:52px;border-radius:16px;background:var(--surface-2);font:28px var(--f-d)}
+.hs-unit{display:flex;gap:6px;margin-left:8px}
+.hs-unit button{min-height:52px;padding:0 20px;border-radius:16px;background:var(--surface-2);font:21px var(--f-d);border:2.5px solid transparent}
+.hs-unit button[aria-pressed="true"]{border-color:var(--hs-ink);background:var(--hs-a)}
+.hs-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.hs-day{min-height:52px;border-radius:16px;background:var(--surface-2);font:21px var(--f-d);border:2.5px solid transparent}
+.hs-day.sun{color:#E25C52}.hs-day.sat{color:#3A7BD5}
+.hs-day[aria-pressed="true"]{border-color:var(--hs-ink);background:var(--hs-a)}
+.hs-pres{display:flex;flex-wrap:wrap;gap:6px}
+.hs-pre{min-height:40px;padding:0 14px;border-radius:999px;background:var(--surface-2);font:15px var(--f-d)}
+.hs-icons{grid-template-columns:repeat(6,minmax(0,1fr))}
+/* 아이들 태블릿 한 화면 배치: 위 4칸 (할 일·편지·골고루·이만큼) / 아래 = 일정(2칸)·홈스쿨·공부/약/답장 */
+.kf-dash{grid-template-rows:minmax(0,1fr) minmax(0,1.08fr);grid-template-areas:"todo msg food grow" "cal cal home side"}
+.kf-dash>.homec{grid-area:home}
+.kf-dash>.kf-side{grid-area:side;display:flex;flex-direction:column;gap:10px;min-height:0}
+.kf-side>*{flex:1;min-height:0}
+.kf-side .study-card{flex-direction:row;padding:8px;gap:8px;border-radius:24px}
+.kf-side .study-card .st-h{display:none}
+.kf-side .st-app{padding:6px 8px;gap:6px;min-height:0;border-radius:18px;flex-direction:column;align-items:flex-start;justify-content:center}
+.kf-side .st-app .st-t b{font-size:21px}.kf-side .st-app .st-t small{display:none}.kf-side .st-app>.ui{display:none}
+.kf-side .st-app .duo .ava{width:30px!important;height:30px!important;--s:30px!important}
+.kf-side .st-app{flex-direction:row;align-items:center}
+.kf-side>.med{display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-content:center;align-items:center;gap:8px;padding:10px 12px!important;border-radius:24px!important}
+.kf-side>.med .dc-head{grid-column:1;grid-row:1;min-width:0}
+.kf-side>.med .dc-head .sc-ico{width:38px!important;height:38px!important}
+.kf-side>.med .dc-head b{font-size:19px!important}.kf-side>.med .dc-head small{font-size:12px!important}
+.kf-side>.med .hosp-btn{grid-column:2;grid-row:1;margin:0!important;min-height:44px!important;padding:0 10px}
+.kf-side>.med .hosp-btn span{display:none}
+.kf-side>.med .med-row{display:none}
+.kf-side>.kf-reply .reply-strip{flex-direction:row!important;align-items:center!important;gap:10px!important;padding:10px 12px!important;border-radius:24px!important}
+.kf-side .reply-strip .sc-ico{width:38px!important;height:38px!important;border-radius:12px!important}
+.kf-side .reply-strip .sc-ico .ic{width:28px!important;height:28px!important}
+.kf-side .rs-title{font-size:19px!important}.kf-side .rs-sub{display:none!important}.kf-side .reply-strip .duo{display:none}
+.kf-side .rs-new{font-size:14px!important;padding:3px 9px!important}
+.kfit.port .kf-dash{grid-template-rows:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr) minmax(0,.9fr);grid-template-areas:"todo msg" "food grow" "cal cal" "home side"}
+/* 캐릭터 카드 아트 (2등신이라 조금 더 크게) */
+.kfit .cc-art{zoom:.84}
+/* ===== 동화 마을 디자인 (아이들 태블릿 첫 화면) + 연노란 바탕 ===== */
+:root{--bg:#FFF4CC;--surface-2:#FFF7DE;--line:#F0DFAE}
+.kfit{background:var(--bg)}
+.kfit .char-row{position:relative;background:linear-gradient(180deg,#D4EEFF 0%,#EAF8D8 64%,#BFE7A0 64%,#A8DB86 100%);border-radius:36px;padding:8px 10px;gap:0!important;box-shadow:inset 0 -6px 0 rgba(90,160,60,.25),0 6px 0 rgba(0,0,0,.04)}
+.kfit .char-card{background:transparent!important;box-shadow:none!important;border-radius:0!important}
+.kfit .char-card+.char-card{border-left:2.5px dashed rgba(255,255,255,.95)}
+.kfit :is(.kf-dash>.fcard,.kf-dash>.dash-card,.study-card,.kf-side>.med,.reply-strip){border-radius:40px!important;box-shadow:0 6px 0 rgba(120,90,10,.06)!important;outline:2.5px dashed rgba(255,255,255,.95);outline-offset:-9px}
+.kfit :is(.kf-dash>.calc,.kf-side>.med,.reply-strip){outline-color:var(--line)}
+.kfit .kf-dash>.fcard:not(.grow-card){align-items:center;text-align:center}
+.kfit .kf-dash>.fcard .fc-foot{justify-content:center}
+.kfit .kf-dash>.fcard .fc-title{font-size:34px}
+.kfit .kf-dash>.fcard .sc-ico{border-radius:50%}
+.kfit .fam-name.dada{font-size:56px}
+.kfit .kf-dash>.calc,.kfit .kf-dash>.homec{padding:14px 16px!important}
+.kfit .hs-mi{padding:4px 8px 4px 4px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .kfit .char-row{background:linear-gradient(180deg,#1E2C3D 0%,#22301F 64%,#2C4A22 64%,#28421F 100%)}}
+:root[data-theme="dark"] .kfit .char-row{background:linear-gradient(180deg,#1E2C3D 0%,#22301F 64%,#2C4A22 64%,#28421F 100%)}
+/* 기린 (Twemoji 그림) */
+.gc-gir{display:block;width:118px;height:auto;filter:drop-shadow(0 3px 0 rgba(0,0,0,.08))}
+.gr-gimg{display:block;width:230px;height:auto;transform:scaleX(-1);filter:drop-shadow(0 4px 0 rgba(0,0,0,.08))}
+.gr-gir{margin-right:-10px}
+.gr-ch{display:block;width:120px;margin-bottom:-6px}
+.gr-ch svg{display:block;width:100%;height:auto}
 </style>
 
 </head>
@@ -1451,12 +1780,20 @@ html:has(#family:not([hidden]) .kfit) body{margin:0}
 <main id="cal" class="screen" hidden></main>
 <main id="praise" class="screen" hidden></main>
 <main id="praises" class="screen" hidden></main>
+<main id="grow" class="screen" hidden></main>
+<main id="home" class="screen" hidden></main>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
 /* ===== pictograms (48 grid, two-tone line) ===== */
 const SHIRT='M17 7l-10 6 4 8 5-2.5V41h16V18.5l5 2.5 4-8-10-6c-1 3.5-3.6 5.5-7 5.5S18 10.5 17 7z';
 const ICONS={
+  calendar:'<rect class="t" x="6" y="10" width="36" height="32" rx="6"/><path d="M6 19h36M16 5v9M32 5v9"/><circle class="s" cx="17" cy="28" r="2.4"/><circle class="s" cx="24" cy="28" r="2.4"/><circle class="s" cx="31" cy="28" r="2.4"/><circle class="s" cx="17" cy="35" r="2.4"/>',
+  ruler:'<rect class="t" x="5" y="16" width="38" height="16" rx="3"/><path d="M11 16v7M17 16v5M23 16v7M29 16v5M35 16v7"/>',
+  scale:'<rect class="t" x="7" y="9" width="34" height="32" rx="8"/><path d="M15 21a9 9 0 0 1 18 0z"/><path d="M24 21l3-5"/>',
+  cake:'<path class="t" d="M8 26h32v15H8z"/><path d="M8 32c4 3 8 3 12 0s8-3 12 0 6 3 8 0M14 26v-6M24 26v-6M34 26v-6"/><path class="s" d="M14 11c1.8 2.2 1.8 4.4 0 5.6-1.8-1.2-1.8-3.4 0-5.6zM24 11c1.8 2.2 1.8 4.4 0 5.6-1.8-1.2-1.8-3.4 0-5.6zM34 11c1.8 2.2 1.8 4.4 0 5.6-1.8-1.2-1.8-3.4 0-5.6z"/>',
+  trip:'<rect class="t" x="8" y="15" width="32" height="25" rx="5"/><path d="M18 15v-5h12v5M16 15v25M32 15v25"/><circle cx="15" cy="43" r="2"/><circle cx="33" cy="43" r="2"/>',
+  party:'<ellipse class="t" cx="19" cy="17" rx="9" ry="11"/><ellipse class="t" cx="31" cy="21" rx="8" ry="10"/><path d="M19 28l-1.5 3h3zM19 31c0 6-4 8-2 13M31 31l-1.5 3h3zM31 34c0 4 3 6 1 10"/>',
   pig:'<path class="t" d="M9 26c0-8.3 7.6-14 17-14 6.5 0 11.6 2.6 14.4 6.6H43a2 2 0 0 1 2 2V29a2 2 0 0 1-2 2h-2.3c-1.3 2.8-3.4 5-6 6.4V41h-5.5v-2.4a22 22 0 0 1-6.4 0V41h-5.5v-3.9C11.6 34.8 9 30.7 9 26z"/><path d="M17 13.5l-1.5-5.5 6.5 4M21 17.5h8M9 25c-3 .3-4.6-2.5-2.6-4"/><circle class="s" cx="35" cy="23" r="1.8"/>',
   medal:'<path d="M17 4l5 13M31 4l-5 13"/><circle class="t" cx="24" cy="29" r="13"/><path class="s" d="M24 21.5l2.3 4.7 5.2.7-3.8 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1-3.8-3.6 5.2-.7z"/>',
   helpfam:'<path class="t" d="M24 22s-8.5-5-8.5-10.5a4.2 4.2 0 0 1 8.5-1.4 4.2 4.2 0 0 1 8.5 1.4C32.5 17 24 22 24 22z"/><path class="t" d="M5 33l6.5-3.6a8 8 0 0 1 6.2-.6L26 31.5h5.5a3 3 0 0 1 0 6H21"/><path d="M5 43l7.5-3.8h13l14-8a3 3 0 0 0-3.2-5L31 29"/>',
@@ -1739,6 +2076,19 @@ function normalize(s){
   { const p=(s.praise&&typeof s.praise==='object')?s.praise:{}, out={};
     for(const [id,v] of Object.entries(p)) if(v&&typeof v==='object'&&v.k&&typeof v.t==='string'&&v.t&&Number(v.at)) out[id]={k:String(v.k),t:v.t.slice(0,80),ic:typeof v.ic==='string'?v.ic:'medal',by:String(v.by||''),at:Number(v.at),...(v.pig?{pig:Number(v.pig)||0}:{})};
     s.praise=out; }
+  { const g=(s.grow&&typeof s.grow==='object')?s.grow:{}, info={}, rec={}, dk=/^\d{4}-\d{2}-\d{2}$/;
+    for(const [k,v] of Object.entries(g.info||{})) if(v&&typeof v==='object') info[k]={...(dk.test(v.birth||'')?{birth:v.birth}:{}),...(v.sex==='m'||v.sex==='f'?{sex:v.sex}:{})};
+    for(const [k,rs] of Object.entries(g.rec||{})){ if(!rs||typeof rs!=='object') continue; rec[k]={};
+      for(const [id,r] of Object.entries(rs)) if(r&&dk.test(r.d||'')){ const h=Number(r.h)||0, w=Number(r.w)||0; if(h>30&&h<230||w>2&&w<200) rec[k][id]={d:r.d,...(h>30&&h<230?{h:Math.round(h*10)/10}:{}),...(w>2&&w<200?{w:Math.round(w*10)/10}:{}),at:Number(r.at)||0,by:String(r.by||'')}; } }
+    s.grow={info,rec}; }
+  { const e=(s.events&&typeof s.events==='object')?s.events:{}, out={}, dk=/^\d{4}-\d{2}-\d{2}$/, od=new Date(Date.now()-60*864e5), old=`${od.getFullYear()}-${pad(od.getMonth()+1)}-${pad(od.getDate())}`;
+    for(const [id,v] of Object.entries(e)) if(v&&dk.test(v.d||'')&&typeof v.t==='string'&&v.t){ const end=dk.test(v.e||'')&&v.e>v.d?v.e:''; if((end||v.d)<old) continue;
+      out[id]={d:v.d,t:v.t.slice(0,20),ic:typeof v.ic==='string'?v.ic:'star',by:String(v.by||''),at:Number(v.at)||0,...(end?{e:end}:{}),...(Array.isArray(v.kids)&&v.kids.length?{kids:v.kids.map(String)}:{})}; }
+    s.events=out; }
+  { const h=(s.home&&typeof s.home==='object')?s.home:{}, items={}, log={}, dk=/^\d{4}-\d{2}-\d{2}$/, od=new Date(Date.now()-120*864e5), old=`${od.getFullYear()}-${pad(od.getMonth()+1)}-${pad(od.getDate())}`;
+    for(const [id,v] of Object.entries(h.items||{})) if(v&&typeof v.t==='string'&&v.t){ const days=(Array.isArray(v.days)?v.days:Object.values(v.days||{})).map(Number).filter(x=>x>=0&&x<7); if(days.length) items[id]={t:v.t.slice(0,16),n:Math.max(1,Math.min(99,Number(v.n)||1)),u:v.u==='개'?'개':'장',days:[...new Set(days)].sort(),ic:typeof v.ic==='string'?v.ic:'notebook',at:Number(v.at)||0}; }
+    for(const [d,L] of Object.entries(h.log||{})) if(dk.test(d)&&d>=old&&L&&typeof L==='object') log[d]={done:(L.done&&typeof L.done==='object')?L.done:{},...(L.ok?{ok:Number(L.ok)||1,stars:Number(L.stars)||0}:{})};
+    s.home={...(typeof h.kid==='string'?{kid:h.kid}:{}),items,log}; }
 }
 let S=load();
 function save(){const j=JSON.stringify(S);try{if(IS_APP)window.Android.saveData(j)}catch(e){}try{localStorage.setItem(KEY,j)}catch(e){}shareCharsOut();}
@@ -1752,7 +2102,7 @@ function shareCharsOut(){ try{
   window.Android.shareChars(JSON.stringify(list)); _famSig=sig;
 }catch(e){} }
 /* ===== sync: tablet <-> phone through Firebase Realtime Database (REST + streaming) ===== */
-const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods','chars','piggy','praise'];
+const SYNC_KEYS=['kids','routines','log','bank','msg','replies','meds','stop','foods','chars','piggy','praise','grow','events','home'];
 const SYNC={st:S.sync?'wait':'off',es:null,q:{},inc:{},fly:{},timer:null,last:0,poll:null,fails:0,retry:null};
 // 데이터베이스 주소는 앱에 넣고, 가족 공간 코드는 우리집 암호로만 만들어요 (암호는 어디에도 저장하지 않아요)
 const FAMILY_DB=window.__FAMILY_DB||'https://dadada-family-default-rtdb.asia-southeast1.firebasedatabase.app/dadada/';
@@ -1876,10 +2226,10 @@ async function pollOnce(){
   if(!S.sync) return;
   try{
     const t=todayKey();
-    const [kids,routines,bank,day,msg,piggy,praise]=await Promise.all(['kids','routines','bank','log/'+t,'msg','piggy','praise'].map(p=>fetch(ref(p)).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })));
+    const [kids,routines,bank,day,msg,piggy,praise,grow,events,home]=await Promise.all(['kids','routines','bank','log/'+t,'msg','piggy','praise','grow','events','home'].map(p=>fetch(ref(p)).then(r=>{ if(!r.ok) throw new Error(r.status); return r.json(); })));
     setSt('on'); SYNC.last=Date.now();
     if(hasPending()) return;
-    adopt(()=>{ if(kids) S.kids=kids; if(msg) S.msg=msg; if(routines) S.routines=routines; if(bank) S.bank=bank; if(day) S.log[t]=day; else delete S.log[t]; if(piggy) S.piggy=piggy; if(praise) S.praise=praise; });
+    adopt(()=>{ if(kids) S.kids=kids; if(msg) S.msg=msg; if(routines) S.routines=routines; if(bank) S.bank=bank; if(day) S.log[t]=day; else delete S.log[t]; if(piggy) S.piggy=piggy; if(praise) S.praise=praise; if(grow) S.grow=grow; if(events) S.events=events; if(home) S.home=home; });
   }catch(e){ setSt('err'); }
 }
 async function syncConnect(raw,role=S.role){
@@ -1939,6 +2289,8 @@ function requestRender(){
   else if(view.screen==='replies') renderReplies();
   else if(view.screen==='praise'){ const y=window.scrollY; renderPraise(); window.scrollTo(0,y); }
   else if(view.screen==='praises'){ const y=window.scrollY; renderPraises(); window.scrollTo(0,y); }
+  else if(view.screen==='home'&&!HS.open){ const y=window.scrollY; renderHome(); window.scrollTo(0,y); }
+  else if(view.screen==='grow'&&!GR.open){ const y=window.scrollY; renderGrow(); window.scrollTo(0,y); }
   else if(view.screen==='room') renderRoom();
   else if(view.screen==='welcome') return;
   else if(view.screen==='cal'){ const y=window.scrollY; renderCal(); window.scrollTo(0,y); }
@@ -2006,11 +2358,11 @@ const dateLabel=()=>{const d=new Date();return `${d.getMonth()+1}월 ${d.getDate
 
 function show(){
   if(view.screen!=='msg'&&typeof M!=='undefined'&&M.rec==='rec') recStop();
-  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','char','edit','cal','praise','praises']) document.getElementById(s).hidden=view.screen!==s;
+  for(const s of ['welcome','family','room','msg','replies','home','run','food','fstats','char','edit','cal','praise','praises','grow','home']) document.getElementById(s).hidden=view.screen!==s;
   if(view.screen==='family'&&isAdult()){ INB.prevSeen=S.inboxSeen||0; S.inboxSeen=Date.now(); save(); }
   if(view.screen==='replies'){ RP.prevSeen=S.repliesSeen||0; S.repliesSeen=Date.now(); save(); }
   if(view.screen==='room'||(view.screen==='family'&&isElder())) CH.stick=true;
-  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='char') renderChar(); else if(view.screen==='cal') renderCal(); else if(view.screen==='praise') renderPraise(); else if(view.screen==='praises') renderPraises(); else renderEdit();
+  if(view.screen==='welcome') renderWelcome(); else if(view.screen==='room') renderRoom(); else if(view.screen==='family') renderFamily(); else if(view.screen==='msg') renderMsg(); else if(view.screen==='replies') renderReplies(); else if(view.screen==='home') renderHome(); else if(view.screen==='run') renderRun(); else if(view.screen==='food') renderFood(); else if(view.screen==='fstats') renderStats(); else if(view.screen==='char') renderChar(); else if(view.screen==='cal') renderCal(); else if(view.screen==='praise') renderPraise(); else if(view.screen==='praises') renderPraises(); else if(view.screen==='grow') renderGrow(); else if(view.screen==='home') renderHome(); else renderEdit();
   keepAwake(view.screen==='run');
   window.scrollTo(0,0);
 }
@@ -2403,8 +2755,11 @@ function renderInbox(){
       ${foodParentCard()}
       ${todayCard().replace('</div></div>',`</div><button class="tbtn mini-link" data-act="todo">별·기록 ${ui('next')}</button></div>`)}
       ${pickerCard()}
+      ${growParentCard()}
+      ${hsParentCard()}
       </div><div class="pcol">
       ${praiseCard()}
+      ${evParentCard()}
       <section class="dash-card rooms"><div class="dc-head"><span class="sc-ico">${ico('bubble')}</span><div><b>가족 채팅방</b><small>${unread?`안 읽은 마음 ${unread}개`:'아이들이 보낸 마음'}</small></div></div>
         <div class="room-list">${rows}</div></section>
       ${medCard()}
@@ -2491,23 +2846,23 @@ function renderFamily(){
   const todoCard=`<button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
         <span class="sc-ico">${ico('checklist')}</span><span class="fc-title">할 일</span><span class="fc-sub">아침 · 저녁 · 외출 루틴</span>
         <span class="fc-foot"><span class="fc-kids">${kids}</span></span></button>`;
-  const msgCard=`<button class="fcard scene" data-rid="msg" data-act="msg" aria-label="마음 전하기">
-        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">마음 전하기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
+  const msgCard=`<button class="fcard scene" data-rid="msg" data-act="msg" aria-label="편지 보내기">
+        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">편지 보내기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
         <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${note}</span></button>`;
   kfitWas=kidsFit();
   if(kfitWas){
     $('#family').innerHTML=`<div class="wrap kfit">
       <header class="kf-top">
-        <div class="kf-title"><h1 class="fam-name">우리가족</h1><div class="kf-date"><div class="eyebrow">${dateLabel()}</div><p class="greet">${greet}</p></div></div>
+        <div class="kf-title"><h1 class="fam-name dada" aria-label="다다다">${dadaTitle()}</h1><div class="kf-date"><div class="eyebrow">${dateLabel()}</div><p class="greet">${greet}</p></div></div>
         ${pickerChip()}
         ${kfOvChip()}
         ${tools}
       </header>
       ${charRow()}
       <section class="kf-dash">
-        ${todoCard}${msgCard}${foodDashCard()}${studyCard()}
-        ${todayCols()}${medCard()}
-        <div class="kf-reply">${replyStrip()}</div>
+        ${todoCard}${msgCard}${foodDashCard()}${growDashCard()}
+        ${calDashCard()}${homeDashCard()}
+        <div class="kf-side">${studyCard()}${medCard()}<div class="kf-reply">${replyStrip()}</div></div>
       </section>
     </div>`;
     kidsFitApply();
@@ -2516,7 +2871,7 @@ function renderFamily(){
   }
   $('#family').innerHTML=`<div class="wrap">
     <header class="fam-top">
-      <div><div class="eyebrow">${dateLabel()}</div><h1 class="fam-name">우리가족</h1><p class="greet">${greet}</p></div>
+      <div><div class="eyebrow">${dateLabel()}</div><h1 class="fam-name dada" aria-label="다다다">${S.role==='kids'?dadaTitle():'우리가족'}</h1><p class="greet">${greet}</p></div>
       <div class="tools">
         <button class="tbtn icon-only" data-act="sound" aria-label="${S.sound?'소리 끄기':'소리 켜기'}">${ui(S.sound?'sound':'mute')}</button>
         ${IS_APP?'':`<button class="tbtn icon-only" data-act="fs" aria-label="전체 화면">${ui('expand')}</button>`}
@@ -2531,12 +2886,14 @@ function renderFamily(){
       <button class="fcard scene" data-rid="todo" data-act="todo" aria-label="할 일">
         <span class="sc-ico">${ico('checklist')}</span><span class="fc-title">할 일</span><span class="fc-sub">아침 · 저녁 · 외출 루틴</span>
         <span class="fc-foot"><span class="fc-kids">${kids}</span></span></button>
-      <button class="fcard scene" data-rid="msg" data-act="msg" aria-label="마음 전하기">
-        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">마음 전하기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
+      <button class="fcard scene" data-rid="msg" data-act="msg" aria-label="편지 보내기">
+        <span class="sc-ico">${ico('bubble')}</span><span class="fc-title">편지 보내기</span><span class="fc-sub">가족에게 하고 싶은 말 보내기</span>
         <span class="fc-foot"><span class="duo">${GROUPS.map(g=>groupAva(g,40)).join('')}</span>${note}</span></button>
       ${foodDashCard()}
+      ${growDashCard()}
       ${studyCard()}
-      ${todayCard()}
+      ${homeDashCard()}
+      ${calDashCard()}
       ${medCard()}
       <div class="dash-replies">${replyStrip()}</div>
     </section>
@@ -2766,7 +3123,7 @@ function renderFood(keep){
   $('#food').innerHTML=`
   <header class="band scene" data-rid="food"><div class="wrap band-in">
     <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
-    <div class="band-title"><span class="sc-ico">${ico('yum')}</span><div><h1>새 음식 도전</h1><p class="band-date">${ct?`${ct.day===todayKey()?'오늘':'어제'}의 식판 · ${trayCells(ct.type).map(sl=>ct.slots[sl.k]).filter(Boolean).map(f=>esc(f.name)).join(' · ')}`:dateLabel()}</p></div></div>
+    <div class="band-title"><span class="sc-ico">${ico('yum')}</span><div><h1>골고루 먹자</h1><p class="band-date">${ct?`${ct.day===todayKey()?'오늘':'어제'}의 식판 · ${trayCells(ct.type).map(sl=>ct.slots[sl.k]).filter(Boolean).map(f=>esc(f.name)).join(' · ')}`:dateLabel()}</p></div></div>
     <div class="fd-legend"><span class="lg lvno">안 먹음</span><span class="lg lv1">1번</span><span class="lg lv2">적당히</span><span class="lg lv3 rb">전부</span></div>
   </div></header>
   <div class="wrap"><div class="lanes fd-lanes">${S.kids.map(foodLane).join('')}</div></div>`;
@@ -2815,15 +3172,15 @@ function burstAt(lane,el,bump){
 }
 function foodDashCard(){
   const pend=S.kids.reduce((n,k)=>n+pendingFoods(k.id).length,0);
-  return `<button class="fcard scene" data-rid="food" data-act="food" aria-label="새 음식 도전">
-    <span class="sc-ico">${ico('yum')}</span><span class="fc-title">새 음식 도전</span><span class="fc-sub">${pend?`오늘의 식판이 기다려요`:'먹어 본 음식을 모아요'}</span>
+  return `<button class="fcard scene" data-rid="food" data-act="food" aria-label="골고루 먹자">
+    <span class="sc-ico">${ico('yum')}</span><span class="fc-title">골고루 먹자</span><span class="fc-sub">${pend?`오늘의 식판이 기다려요`:'먹어 본 음식을 모아요'}</span>
     <span class="fc-foot"><span class="fd-mini">${S.kids.map(k=>`<span class="fdm kid" style="--k:${k.color}">${avatar(k,46)}<b>${foodCount(k.id)}</b></span>`).join('')}</span></span></button>`;
 }
 /* --- 엄마·아빠 폰 --- */
 function foodParentCard(){
   const ct=curTray(), t=todayKey();
   const face=(k,f)=>{ const lv=lvOf(k.id,f.id); return `<button class="fl-k kid${lvCls(lv)}${lv>0?' on':''}" style="--k:${k.color}" data-act="fdcyc" data-kid="${k.id}" data-fid="${f.id}" aria-label="${esc(k.name)} ${LV_SAY[lv]}">${avatar(k,32)}${lv<0?`<span class="fl-x">${ui('x')}</span>`:''}</button>`; };
-  return `<section class="dash-card foodc"><div class="dc-head"><span class="sc-ico">${ico('yum')}</span><div><b>새 음식 도전</b><small>아이들이 먹어 본 음식</small></div></div>
+  return `<section class="dash-card foodc"><div class="dc-head"><span class="sc-ico">${ico('yum')}</span><div><b>골고루 먹자</b><small>아이들이 먹어 본 음식</small></div></div>
     <div class="fd-tally">${S.kids.map(k=>`<span class="ftl kid" style="--k:${k.color}">${avatar(k,44)}<span><small>${esc(k.name)}</small><b>${foodCount(k.id)}</b></span><span class="ftl-cats">${LVS.map(c=>`<i class="${c.cls}" title="${c.n}">${lvCount(k.id,c.lv)}</i>`).join('')}</span></span>`).join('')}</div>
     <div class="fd-statrow"><button class="btn sec fd-statbtn" data-act="fstats">${ico('chart')}통계</button><button class="btn sec fd-statbtn" data-act="fhist">${ico('yum')}식판 이력</button></div>
     <button class="btn pri fd-addbtn" data-act="fdopen">${ui('plus')}${trayFor(t)?'오늘의 식판 고치기':'오늘의 음식 추가'}</button>
@@ -2916,7 +3273,7 @@ function renderStats(){
   const kids=S.kids, P={week:'이번 주',month:'이번 달',all:'전체'}[FS.period];
   const head=`<header class="band scene" data-rid="food"><div class="wrap band-in">
     <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
-    <div class="band-title"><span class="sc-ico">${ico(FS.view==='hist'?'yum':'chart')}</span><div><h1>새 음식 도전 기록</h1><p class="band-date">${FS.view==='hist'?'날마다 식판과 아이들이 먹은 만큼':P+' 통계'}</p></div></div>
+    <div class="band-title"><span class="sc-ico">${ico(FS.view==='hist'?'yum':'chart')}</span><div><h1>골고루 먹자 기록</h1><p class="band-date">${FS.view==='hist'?'날마다 식판과 아이들이 먹은 만큼':P+' 통계'}</p></div></div>
   </div></header>`;
   const vt=`<div class="st-views" role="tablist"><button role="tab" data-act="fsv" data-v="stats" aria-selected="${FS.view!=='hist'}">${ico('chart')}통계</button><button role="tab" data-act="fsv" data-v="hist" aria-selected="${FS.view==='hist'}">${ico('yum')}식판 이력</button></div>`;
   $('#fstats').innerHTML=head+`<div class="wrap st-wrap">${vt}${FS.view==='hist'?histHtml():statsHtml()}</div>`;
@@ -3041,7 +3398,7 @@ function hairSvg(style,hc,part){
   if(part==='back'){ // 머리 뒤쪽 (얼굴 뒤에 그려요)
     let b=`<ellipse cx="120" cy="93" rx="57" ry="53" ${st}/>`;
     if(style==='bob'||style==='curly') b=`<path d="M63 92 C58 152 68 158 84 156 L156 156 C172 158 182 152 177 92 C176 60 150 40 120 40 C90 40 64 60 63 92Z" ${st}/>`;
-    if(style==='long') b=`<path d="M63 92 C55 160 60 204 70 216 C82 222 94 214 96 200 L96 142 L144 142 L144 200 C146 214 158 222 170 216 C180 204 185 160 177 92 C176 60 150 40 120 40 C90 40 64 60 63 92Z" ${st}/>`;
+    if(style==='long') b=`<path d="M63 92 C56 146 58 170 66 180 C76 188 90 182 92 170 L96 140 L144 140 L148 170 C150 182 164 188 174 180 C182 170 184 146 177 92 C176 60 150 40 120 40 C90 40 64 60 63 92Z" ${st}/>`;
     if(style==='pig') b+=`<g ${st}><path d="M64 104 C40 106 34 140 44 166 C50 150 58 136 70 124Z"/><path d="M176 104 C200 106 206 140 196 166 C190 150 182 136 170 124Z"/></g><circle cx="66" cy="110" r="6" fill="#FF7FA8"/><circle cx="174" cy="110" r="6" fill="#FF7FA8"/>`;
     if(style==='curly') b+=`<g ${st}>${[[62,96],[60,122],[66,146],[178,96],[180,122],[174,146]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13"/>`).join('')}</g>`;
     return b;
@@ -3115,7 +3472,7 @@ const FACEACC={
   sun:{n:'선글라스',p:12,draw:()=>`<rect x="84" y="94" width="32" height="20" rx="9" fill="#2E2A3A"/><rect x="124" y="94" width="32" height="20" rx="9" fill="#2E2A3A"/><path d="M116 101 H124 M84 100 L72 96 M156 100 L168 96" stroke="#2E2A3A" stroke-width="3.5" stroke-linecap="round"/><path d="M90 99 l8 0" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/><path d="M130 99 l8 0" stroke="#fff" stroke-opacity=".6" stroke-width="3" stroke-linecap="round"/>`},
 };
 // --- 몸 (3등신, 목 없이) ---
-const HEAD_T='translate(120 89) scale(1.03) translate(-120 -100)';
+const HEAD_T='translate(120 121) scale(1.38) translate(-120 -100)', BODY_T='translate(120 283) scale(.72) translate(-120 -283)', FEAT_T='translate(120 116) scale(1.22) translate(-120 -116)';
 const FACE_D='M69 98 C69 64 92 52 120 52 C148 52 171 64 171 98 C171 128 150 146 120 146 C90 146 69 128 69 98Z';
 const TORSO='M97 136 Q120 128 143 136 Q150 172 152 204 Q152 214 142 214 H98 Q88 214 88 204 Q90 172 97 136Z';
 const SHORTS='M89 202 H151 L153 230 Q153 236 147 236 H125 L120 223 L115 236 H93 Q87 236 87 230Z';
@@ -3173,7 +3530,7 @@ const PETS={
 const SHOP=[['top','옷',TOPS],['head','머리 장식',HEADS],['face','얼굴 꾸미기',FACEACC],['frame','프레임',FRAMES],['bg','배경',BGS],['pet','친구',PETS]];
 const SHOP_BASE={top:'tee',frame:'basic',bg:'basic'};
 let charUid=0;
-let CUT_VB=[38,-30,198,330];
+let CUT_VB=[14,-20,212,316];
 function charSvg(look,wear,o={}){
   const L={...CH_DEFAULT,...(look||{})}, W={top:'tee',frame:'basic',bg:'basic',...(wear||{})}, u='c'+(++charUid);
   const skin=CH_SKIN[L.skin]||CH_SKIN[1], ss=shade(skin,-.2);
@@ -3198,20 +3555,20 @@ function charSvg(look,wear,o={}){
   const head=`<g transform="${HEAD_T}">
       ${hairSvg(L.hair,L.hc,'back')}
       <path d="${FACE_D}" fill="${skin}" stroke="${ss}" stroke-width="2.5"/>
-      ${cheekSvg(L.cheek)}${eyesSvg(L.eyes)}${mouthSvg(L.mouth)}
+      <g transform="${FEAT_T}">${cheekSvg(L.cheek)}${eyesSvg(L.eyes)}${mouthSvg(L.mouth)}</g>
       ${hairSvg(L.hair,L.hc,'front')}
-      ${W.face&&FACEACC[W.face]?FACEACC[W.face].draw():''}</g>`;
+      <g transform="${FEAT_T}">${W.face&&FACEACC[W.face]?FACEACC[W.face].draw():''}</g></g>`;
   const headTop=`<g transform="${HEAD_T}">${hairSvg(L.hair,L.hc,'top')}${W.head&&HEADS[W.head]?HEADS[W.head].draw(L.hc):''}</g>`;
   const behind=`<g transform="${HEAD_T}">${hairSvg(L.hair,L.hc,'behind')}</g>`;
   if(o.cut){ /* 배경·테두리 없이 캐릭터만 (마을 앱에서 돌아다녀요) */
     const pt=W.pet&&PETS[W.pet]?PETS[W.pet].draw():'';
-    return `<svg class="charsvg" viewBox="${CUT_VB.join(' ')}" aria-hidden="true"><defs><clipPath id="t${u}"><path d="${TORSO}"/></clipPath></defs>${behind}${body}${head}${headTop}${pt}</svg>`; }
+    return `<svg class="charsvg" viewBox="${CUT_VB.join(' ')}" aria-hidden="true"><defs><clipPath id="t${u}"><path d="${TORSO}"/></clipPath></defs>${behind}<g transform="${BODY_T}">${body}</g>${head}${headTop}${pt}</svg>`; }
   const bg=(BGS[W.bg]||BGS.basic).draw(u);
   const frame=o.plain?'':(FRAMES[W.frame]||FRAMES.basic).draw(u), pet=o.plain||!(W.pet&&PETS[W.pet])?'':PETS[W.pet].draw();
-  const vb=o.crop==='face'?[60,30,120,110]:o.crop==='head'?[32,-20,176,172]:[-6,-30,252,348];
+  const vb=o.crop==='face'?[44,40,152,150]:o.crop==='head'?[14,-14,212,214]:[-6,-30,252,348];
   return `<svg class="charsvg${o.crop?' crop':''}" viewBox="${vb.join(' ')}" ${o.size?`width="${o.size}" height="${Math.round(o.size*vb[3]/vb[2])}"`:''} aria-hidden="true">
     <defs><clipPath id="k${u}">${cardRect('')}</clipPath><clipPath id="t${u}"><path d="${TORSO}"/></clipPath></defs>
-    <g clip-path="url(#k${u})">${bg}${behind}${body}${head}</g>${headTop}${frame}${pet}</svg>`;
+    <g clip-path="url(#k${u})">${bg}${behind}<g transform="${BODY_T}">${body}</g>${head}</g>${headTop}${frame}${pet}</svg>`;
 }
 
 /* --- 캐릭터 저장·별 지갑 (아이들 태블릿) --- */
@@ -3236,7 +3593,7 @@ function charRow(){
   return `<section class="char-row">${S.kids.map(k=>{ const c=charOf(k.id), pz=praisesOf(k.id), fresh=pz.filter(x=>x.at>((S.praiseSeen||{})[k.id]||0)).length;
     return `<div class="char-card kid" style="--k:${k.color}">
       <button class="cc-artb" data-act="char" data-kid="${k.id}" aria-label="${esc(k.name)} 꾸미기"><span class="cc-art">${charSvg(c.look,c.wear,{size:150})}${c.made?'':`<span class="cc-new">나를 만들어요!</span>`}</span></button>
-      <button class="cc-info" data-act="char" data-kid="${k.id}" tabindex="-1"><b>${esc(k.name)}</b><span class="cc-wallet">${star(26)}<em>${wallet(k.id)}</em></span><span class="cc-go">${c.made?'꾸미러 가기':'캐릭터 만들기'} ${ui('next')}</span></button>
+      <button class="cc-info" data-act="char" data-kid="${k.id}" tabindex="-1"><b>${esc(k.name)}</b><span class="cc-wallet">${star(26)}<em>${wallet(k.id)}</em></span>${growLine(k.id)}<span class="cc-go">${c.made?'꾸미러 가기':'캐릭터 만들기'} ${ui('next')}</span></button>
       <button class="cc-pig" data-act="pigsay" data-kid="${k.id}" aria-label="${esc(k.name)} 돼지저금통 ${won(pigAmt(k.id))}">${pigView(k.id)}</button>
       <button class="cc-praise${fresh?' fresh':''}" data-act="praises" data-kid="${k.id}">${ico('medal')}<span>받은 칭찬</span><b>${pz.length}</b>${ui('next')}${fresh?`<em>새 칭찬 ${fresh}</em>`:''}</button>
     </div>`; }).join('')}</section>`;
@@ -3541,6 +3898,387 @@ function kidsFitApply(){
 let kfitT=null, kfitWas=null;
 addEventListener('resize',()=>{ clearTimeout(kfitT); kfitT=setTimeout(()=>{ if(view.screen!=='family'||S.role!=='kids') return; const f=kidsFit(); if(f!==kfitWas) renderFamily(); else kidsFitApply(); },120); });
 
+/* ===== 이만큼 자랐어요! — 키·몸무게 기록과 성장곡선 ===== */
+// 성장도표: 질병관리청 「2017 소아청소년 성장도표」 연령별 신장·체중 L·M·S (0~227개월, 3세 미만은 WHO 성장기준)
+const GLMS={m:{h:[[1.0,49.8842,0.038],[1.0,54.7244,0.0356],[1.0,58.4249,0.0342],[1.0,61.4292,0.0333],[1.0,63.886,0.0326],[1.0,65.9026,0.032],[1.0,67.6236,0.0317],[1.0,69.1645,0.0314],[1.0,70.5994,0.0312],[1.0,71.9687,0.0312],[1.0,73.2812,0.0312],[1.0,74.5388,0.0313],[1.0,75.7488,0.0314],[1.0,76.9186,0.0315],[1.0,78.0497,0.0317],[1.0,79.1458,0.032],[1.0,80.2113,0.0322],[1.0,81.2487,0.0325],[1.0,82.2587,0.0328],[1.0,83.2418,0.0331],[1.0,84.1996,0.0334],[1.0,85.1348,0.0338],[1.0,86.0477,0.0341],[1.0,86.941,0.0345],[1.0,87.1161,0.0351],[1.0,87.972,0.0354],[1.0,88.8065,0.0358],[1.0,89.6197,0.0361],[1.0,90.412,0.0364],[1.0,91.1828,0.0367],[1.0,91.9327,0.037],[1.0,92.6631,0.0373],[1.0,93.3753,0.0376],[1.0,94.0711,0.0379],[1.0,94.7532,0.0381],[1.0,95.4236,0.0384],[-1.0915,96.4961,0.0403],[-1.0011,97.0464,0.0403],[-0.9126,97.5965,0.0402],[-0.8262,98.1463,0.0402],[-0.7418,98.6959,0.0402],[-0.6592,99.2452,0.0402],[-0.5827,99.793,0.0401],[-0.5077,100.3406,0.0401],[-0.4343,100.8881,0.0401],[-0.3625,101.4353,0.0401],[-0.2921,101.9824,0.0401],[-0.2232,102.5294,0.04],[-0.1597,103.0749,0.04],[-0.0975,103.6204,0.04],[-0.0364,104.1657,0.04],[0.0234,104.7109,0.0399],[0.0822,105.256,0.0399],[0.1398,105.8009,0.0399],[0.1897,106.344,0.0399],[0.2387,106.8869,0.0399],[0.2868,107.4298,0.0398],[0.3341,107.9726,0.0398],[0.3805,108.5153,0.0398],[0.4261,109.0579,0.0398],[0.4242,109.5896,0.0398],[0.4223,110.1212,0.0399],[0.4205,110.6529,0.0399],[0.4187,111.1846,0.0399],[0.4169,111.7162,0.04],[0.4151,112.2479,0.04],[0.3787,112.7735,0.04],[0.3429,113.299,0.0401],[0.3074,113.8245,0.0401],[0.2724,114.3501,0.0402],[0.2378,114.8756,0.0402],[0.2036,115.401,0.0403],[0.1783,115.9183,0.0403],[0.1533,116.4356,0.0404],[0.1287,116.9528,0.0404],[0.1044,117.4701,0.0405],[0.0805,117.9874,0.0405],[0.0569,118.5047,0.0406],[0.0563,119.0136,0.0406],[0.0557,119.5225,0.0406],[0.0552,120.0314,0.0406],[0.0546,120.5404,0.0406],[0.0541,121.0493,0.0406],[0.0536,121.5582,0.0406],[0.0492,122.0537,0.0406],[0.0448,122.5492,0.0406],[0.0405,123.0447,0.0406],[0.0363,123.5402,0.0406],[0.0321,124.0357,0.0406],[0.028,124.5313,0.0406],[0.0397,125.0114,0.0406],[0.0514,125.4914,0.0405],[0.0628,125.9715,0.0405],[0.0741,126.4515,0.0405],[0.0853,126.9316,0.0405],[0.0964,127.4116,0.0405],[0.1205,127.8793,0.0405],[0.1443,128.3469,0.0404],[0.1679,128.8145,0.0404],[0.1912,129.2821,0.0404],[0.2142,129.7497,0.0404],[0.237,130.2172,0.0404],[0.2339,130.6754,0.0404],[0.2308,131.1336,0.0404],[0.2278,131.5919,0.0404],[0.2248,132.0501,0.0404],[0.2218,132.5084,0.0404],[0.2188,132.9666,0.0404],[0.1885,133.4136,0.0405],[0.1585,133.8606,0.0406],[0.1288,134.3076,0.0406],[0.0994,134.7545,0.0407],[0.0704,135.2014,0.0408],[0.0416,135.6482,0.0409],[0.021,136.1026,0.041],[0.0008,136.5569,0.0411],[-0.0191,137.0113,0.0412],[-0.0386,137.4656,0.0414],[-0.0579,137.9199,0.0415],[-0.0768,138.3742,0.0416],[-0.0752,138.8473,0.0417],[-0.0736,139.3205,0.0419],[-0.072,139.7936,0.042],[-0.0705,140.2667,0.0422],[-0.0689,140.7398,0.0423],[-0.0674,141.213,0.0424],[-0.0489,141.7059,0.0426],[-0.0308,142.1987,0.0428],[-0.0131,142.6916,0.043],[0.0041,143.1844,0.0432],[0.0209,143.6773,0.0434],[0.0373,144.1701,0.0436],[0.0886,144.701,0.0438],[0.1383,145.2319,0.0441],[0.1864,145.7627,0.0443],[0.2331,146.2935,0.0445],[0.2784,146.8242,0.0448],[0.3223,147.3549,0.045],[0.4064,147.9321,0.0453],[0.4882,148.5094,0.0455],[0.5676,149.0866,0.0457],[0.6448,149.6638,0.0459],[0.7199,150.2409,0.0462],[0.7929,150.818,0.0464],[0.8928,151.4223,0.0465],[0.991,152.0268,0.0466],[1.0877,152.6312,0.0467],[1.1829,153.2358,0.0468],[1.2764,153.8404,0.0469],[1.3684,154.445,0.047],[1.458,155.0459,0.0469],[1.5475,155.6468,0.0469],[1.637,156.2477,0.0468],[1.7263,156.8487,0.0467],[1.8155,157.4497,0.0466],[1.9045,158.0507,0.0465],[2.0111,158.6245,0.0463],[2.1194,159.1984,0.046],[2.2294,159.7724,0.0457],[2.341,160.3465,0.0454],[2.4544,160.9207,0.0452],[2.5694,161.4949,0.0449],[2.6754,162.0038,0.0445],[2.7844,162.5128,0.044],[2.8966,163.0218,0.0436],[3.0121,163.5308,0.0431],[3.1309,164.0398,0.0427],[3.2531,164.5488,0.0423],[3.3119,164.965,0.0417],[3.3725,165.3813,0.0412],[3.4351,165.7975,0.0407],[3.4998,166.2138,0.0402],[3.5666,166.6301,0.0397],[3.6357,167.0464,0.0392],[3.6315,167.3647,0.0388],[3.6262,167.6831,0.0384],[3.6198,168.0013,0.0379],[3.6121,168.3195,0.0375],[3.6031,168.6377,0.037],[3.5927,168.9558,0.0366],[3.5208,169.1812,0.0363],[3.4457,169.4066,0.036],[3.3672,169.6319,0.0357],[3.2853,169.8571,0.0353],[3.1997,170.0824,0.035],[3.1104,170.3076,0.0347],[2.9809,170.4684,0.0345],[2.8483,170.6294,0.0342],[2.7127,170.7906,0.034],[2.574,170.952,0.0338],[2.4321,171.1137,0.0335],[2.2872,171.2756,0.0333],[2.154,171.3949,0.0332],[2.0196,171.5145,0.033],[1.8841,171.6344,0.0328],[1.7474,171.7546,0.0327],[1.6096,171.8752,0.0325],[1.4707,171.996,0.0324],[1.3966,172.0897,0.0323],[1.3226,172.1836,0.0323],[1.2488,172.2775,0.0322],[1.1751,172.3716,0.0322],[1.1016,172.4658,0.0321],[1.0282,172.56,0.0321],[0.9751,172.6404,0.0321],[0.9218,172.7207,0.0321],[0.8685,172.8009,0.0321],[0.815,172.8812,0.0321],[0.7614,172.9614,0.0321],[0.7077,173.0416,0.0321],[0.6595,173.1222,0.0321],[0.611,173.2027,0.0321],[0.5623,173.2832,0.0321],[0.5134,173.3636,0.032],[0.4642,173.444,0.032],[0.4148,173.5244,0.032],[0.3638,173.6037,0.032],[0.3126,173.683,0.032],[0.2611,173.7622,0.032],[0.2094,173.8413,0.032],[0.1573,173.9204,0.032],[0.105,173.9995,0.032],[0.0449,174.0764,0.032],[-0.0155,174.1532,0.032],[-0.0764,174.23,0.032],[-0.1377,174.3067,0.0319],[-0.1994,174.3833,0.0319],[-0.2615,174.4598,0.0319]],w:[[0.3487,3.3464,0.146],[0.2297,4.4709,0.134],[0.197,5.5675,0.1239],[0.1738,6.3762,0.1173],[0.1553,7.0023,0.1132],[0.1395,7.5105,0.1108],[0.1257,7.934,0.1096],[0.1134,8.297,0.109],[0.1021,8.6151,0.1088],[0.0917,8.9014,0.1088],[0.082,9.1649,0.1089],[0.073,9.4122,0.1091],[0.0644,9.6479,0.1093],[0.0563,9.8749,0.1095],[0.0487,10.0953,0.1098],[0.0413,10.3108,0.1101],[0.0343,10.5228,0.1104],[0.0275,10.7319,0.1108],[0.0211,10.9385,0.1112],[0.0148,11.143,0.1116],[0.0087,11.3462,0.1121],[0.0029,11.5486,0.1126],[-0.0028,11.7504,0.1131],[-0.0083,11.9514,0.1137],[-0.0137,12.1515,0.1143],[-0.0189,12.3502,0.1149],[-0.024,12.5466,0.1154],[-0.0289,12.7401,0.116],[-0.0337,12.9303,0.1166],[-0.0385,13.1169,0.1172],[-0.0431,13.3,0.1178],[-0.0476,13.4798,0.1184],[-0.052,13.6567,0.119],[-0.0564,13.8309,0.1195],[-0.0606,14.0031,0.1201],[-0.0648,14.1736,0.1206],[0.0567,14.7381,0.0969],[-0.0147,14.911,0.0981],[-0.0804,15.0839,0.0993],[-0.1409,15.2569,0.1005],[-0.1966,15.4299,0.1016],[-0.248,15.603,0.1027],[-0.299,15.7775,0.1038],[-0.3461,15.9521,0.1049],[-0.3895,16.1268,0.106],[-0.4297,16.3015,0.107],[-0.4669,16.4763,0.108],[-0.5013,16.6512,0.1089],[-0.5361,16.8276,0.1099],[-0.5684,17.0041,0.1108],[-0.5983,17.1807,0.1118],[-0.6261,17.3573,0.1127],[-0.6518,17.534,0.1136],[-0.6758,17.7108,0.1144],[-0.6998,17.8888,0.1153],[-0.7222,18.067,0.1161],[-0.743,18.2452,0.117],[-0.7623,18.4235,0.1178],[-0.7803,18.6018,0.1186],[-0.7971,18.7802,0.1194],[-0.8162,18.9625,0.1202],[-0.8339,19.1449,0.1211],[-0.8503,19.3274,0.1219],[-0.8655,19.51,0.1227],[-0.8797,19.6926,0.1235],[-0.893,19.8753,0.1242],[-0.9106,20.0814,0.1254],[-0.9264,20.2877,0.1265],[-0.9407,20.4941,0.1275],[-0.9536,20.7007,0.1286],[-0.9653,20.9073,0.1296],[-0.9757,21.1141,0.1306],[-0.9753,21.3417,0.1318],[-0.9743,21.5693,0.133],[-0.973,21.797,0.1342],[-0.9714,22.0247,0.1353],[-0.9694,22.2524,0.1364],[-0.9672,22.4802,0.1375],[-0.9576,22.7267,0.1388],[-0.9481,22.9732,0.14],[-0.9388,23.2196,0.1412],[-0.9298,23.4661,0.1424],[-0.921,23.7126,0.1435],[-0.9124,23.9591,0.1447],[-0.8993,24.2214,0.146],[-0.8867,24.4837,0.1474],[-0.8745,24.7461,0.1486],[-0.8628,25.0084,0.1499],[-0.8514,25.2707,0.1511],[-0.8404,25.5329,0.1524],[-0.8208,25.8155,0.1537],[-0.802,26.0979,0.155],[-0.7841,26.3804,0.1563],[-0.7669,26.6629,0.1576],[-0.7503,26.9453,0.1588],[-0.7344,27.2277,0.16],[-0.7076,27.5321,0.1613],[-0.682,27.8365,0.1625],[-0.6574,28.1409,0.1638],[-0.6339,28.4453,0.165],[-0.6113,28.7497,0.1661],[-0.5896,29.054,0.1673],[-0.5621,29.3761,0.1685],[-0.5357,29.6982,0.1698],[-0.5103,30.0203,0.171],[-0.486,30.3424,0.1721],[-0.4627,30.6645,0.1733],[-0.4402,30.9867,0.1744],[-0.416,31.3251,0.1756],[-0.3928,31.6635,0.1768],[-0.3705,32.0019,0.1779],[-0.3491,32.3404,0.179],[-0.3284,32.6788,0.1801],[-0.3085,33.0173,0.1812],[-0.2869,33.3742,0.1823],[-0.2661,33.7312,0.1833],[-0.2461,34.0882,0.1844],[-0.2267,34.4452,0.1854],[-0.2081,34.8022,0.1864],[-0.1902,35.1592,0.1873],[-0.17,35.5349,0.1882],[-0.1505,35.9105,0.189],[-0.1317,36.2862,0.1899],[-0.1134,36.6619,0.1907],[-0.0958,37.0376,0.1914],[-0.0788,37.4134,0.1922],[-0.0612,37.8103,0.1929],[-0.0441,38.2074,0.1936],[-0.0275,38.6045,0.1942],[-0.0113,39.0017,0.1949],[0.0043,39.3989,0.1955],[0.0195,39.7961,0.1961],[0.0333,40.2146,0.1966],[0.0467,40.6331,0.1971],[0.0599,41.0518,0.1976],[0.0726,41.4706,0.1981],[0.0851,41.8894,0.1986],[0.0973,42.3083,0.1991],[0.1071,42.7515,0.1992],[0.1168,43.1947,0.1994],[0.1263,43.638,0.1996],[0.1356,44.0813,0.1997],[0.1448,44.5248,0.1999],[0.1538,44.9684,0.2],[0.1618,45.4253,0.1998],[0.1698,45.8824,0.1995],[0.1777,46.3396,0.1993],[0.1855,46.7968,0.1991],[0.1932,47.2542,0.1988],[0.2009,47.7116,0.1986],[0.2081,48.1693,0.198],[0.2154,48.6271,0.1974],[0.2226,49.085,0.1969],[0.2299,49.5431,0.1963],[0.2372,50.0012,0.1957],[0.2445,50.4595,0.1952],[0.2503,50.9021,0.1942],[0.2562,51.3448,0.1932],[0.2622,51.7875,0.1923],[0.2683,52.2304,0.1914],[0.2745,52.6733,0.1904],[0.2808,53.1164,0.1895],[0.2841,53.5329,0.1882],[0.2876,53.9495,0.1869],[0.2911,54.366,0.1856],[0.2948,54.7826,0.1843],[0.2986,55.1993,0.183],[0.3026,55.6159,0.1818],[0.3023,55.9927,0.1802],[0.302,56.3694,0.1787],[0.3019,56.7462,0.1772],[0.3019,57.1229,0.1757],[0.3019,57.4995,0.1742],[0.3021,57.8762,0.1727],[0.2993,58.2029,0.1711],[0.2965,58.5296,0.1696],[0.2938,58.8563,0.168],[0.2911,59.1829,0.1665],[0.2885,59.5096,0.165],[0.2859,59.8362,0.1635],[0.2818,60.1106,0.162],[0.2777,60.385,0.1606],[0.2736,60.6594,0.1591],[0.2695,60.9338,0.1577],[0.2654,61.2081,0.1563],[0.2613,61.4825,0.1549],[0.2514,61.7129,0.1537],[0.2412,61.9434,0.1525],[0.231,62.1739,0.1513],[0.2207,62.4045,0.1501],[0.2102,62.6351,0.1489],[0.1996,62.8658,0.1477],[0.1829,63.055,0.1468],[0.166,63.2442,0.1459],[0.1489,63.4335,0.145],[0.1316,63.6229,0.1441],[0.1141,63.8123,0.1432],[0.0964,64.0018,0.1424],[0.0862,64.1526,0.1418],[0.0759,64.3033,0.1413],[0.0655,64.4539,0.1407],[0.055,64.6045,0.1402],[0.0444,64.7551,0.1397],[0.0337,64.9057,0.1391],[0.0282,65.0469,0.1387],[0.0226,65.188,0.1382],[0.0169,65.3291,0.1377],[0.0113,65.4702,0.1373],[0.0055,65.6113,0.1368],[-0.0003,65.7523,0.1364],[-0.0068,65.8907,0.1359],[-0.0134,66.0291,0.1355],[-0.02,66.1674,0.1351],[-0.0267,66.3057,0.1346],[-0.0335,66.4439,0.1342],[-0.0403,66.5821,0.1338],[-0.0469,66.7186,0.1334],[-0.0535,66.8551,0.133],[-0.0602,66.9915,0.1326],[-0.0669,67.1278,0.1322],[-0.0738,67.2641,0.1318],[-0.0807,67.4004,0.1314],[-0.0859,67.5362,0.1311],[-0.0911,67.6719,0.1307],[-0.0965,67.8077,0.1303],[-0.1018,67.9434,0.1299],[-0.1072,68.079,0.1296],[-0.1127,68.2146,0.1292]]},f:{h:[[1.0,49.1477,0.0379],[1.0,53.6872,0.0364],[1.0,57.0673,0.0357],[1.0,59.8029,0.0352],[1.0,62.0899,0.0349],[1.0,64.0301,0.0346],[1.0,65.7311,0.0345],[1.0,67.2873,0.0344],[1.0,68.7498,0.0344],[1.0,70.1435,0.0344],[1.0,71.4818,0.0345],[1.0,72.771,0.0346],[1.0,74.015,0.0348],[1.0,75.2176,0.035],[1.0,76.3817,0.0351],[1.0,77.5099,0.0353],[1.0,78.6055,0.0356],[1.0,79.671,0.0358],[1.0,80.7079,0.036],[1.0,81.7182,0.0362],[1.0,82.7036,0.0364],[1.0,83.6654,0.0367],[1.0,84.604,0.0369],[1.0,85.5202,0.0371],[1.0,85.7153,0.0376],[1.0,86.5904,0.0379],[1.0,87.4462,0.0381],[1.0,88.283,0.0383],[1.0,89.1004,0.0385],[1.0,89.8991,0.0387],[1.0,90.6797,0.0389],[1.0,91.443,0.0391],[1.0,92.1906,0.0393],[1.0,92.9239,0.0395],[1.0,93.6444,0.0397],[1.0,94.3533,0.0399],[0.5472,95.4078,0.0413],[0.4997,95.9472,0.0412],[0.4525,96.4867,0.0411],[0.4056,97.0262,0.041],[0.359,97.5658,0.0409],[0.3126,98.1054,0.0408],[0.2825,98.6465,0.0407],[0.2526,99.1877,0.0406],[0.2229,99.7288,0.0405],[0.1934,100.27,0.0404],[0.164,100.8113,0.0403],[0.1348,101.3525,0.0402],[0.1129,101.8943,0.0401],[0.0912,102.4361,0.04],[0.0695,102.9779,0.0399],[0.048,103.5197,0.0398],[0.0267,104.0616,0.0397],[0.0054,104.6034,0.0396],[-0.0216,105.1425,0.0395],[-0.0484,105.6816,0.0395],[-0.0751,106.2208,0.0394],[-0.1016,106.76,0.0393],[-0.128,107.2992,0.0392],[-0.1543,107.8384,0.0391],[-0.1404,108.3714,0.039],[-0.1266,108.9045,0.039],[-0.113,109.4375,0.0389],[-0.0994,109.9706,0.0389],[-0.086,110.5036,0.0388],[-0.0726,111.0366,0.0388],[-0.0272,111.5656,0.0388],[0.0175,112.0946,0.0388],[0.0614,112.6235,0.0388],[0.1047,113.1523,0.0388],[0.1472,113.6811,0.0388],[0.1891,114.2098,0.0388],[0.2115,114.7289,0.0388],[0.2335,115.2479,0.0388],[0.255,115.767,0.0389],[0.2762,116.286,0.0389],[0.297,116.805,0.039],[0.3174,117.324,0.039],[0.2769,117.8257,0.0391],[0.2373,118.3274,0.0391],[0.1986,118.8292,0.0392],[0.1606,119.331,0.0393],[0.1235,119.8329,0.0394],[0.0872,120.3348,0.0394],[0.0163,120.8229,0.0396],[-0.0528,121.311,0.0397],[-0.1201,121.7993,0.0398],[-0.1857,122.2876,0.0399],[-0.2496,122.7761,0.04],[-0.3119,123.2646,0.0401],[-0.3571,123.7505,0.0402],[-0.4012,124.2364,0.0404],[-0.4442,124.7224,0.0405],[-0.4862,125.2084,0.0406],[-0.5271,125.6944,0.0407],[-0.567,126.1805,0.0408],[-0.5993,126.6703,0.041],[-0.6308,127.1601,0.0411],[-0.6616,127.65,0.0412],[-0.6918,128.1399,0.0413],[-0.7213,128.6297,0.0414],[-0.7502,129.1197,0.0415],[-0.779,129.6197,0.0416],[-0.807,130.1199,0.0417],[-0.8342,130.62,0.0418],[-0.8608,131.1202,0.042],[-0.8868,131.6204,0.0421],[-0.9121,132.1207,0.0422],[-0.8812,132.6442,0.0423],[-0.851,133.1677,0.0425],[-0.8214,133.6912,0.0426],[-0.7924,134.2147,0.0428],[-0.764,134.7382,0.0429],[-0.7362,135.2617,0.043],[-0.6545,135.8116,0.0432],[-0.574,136.3617,0.0433],[-0.4946,136.9119,0.0434],[-0.4162,137.4622,0.0435],[-0.3389,138.0126,0.0436],[-0.2627,138.5631,0.0438],[-0.1573,139.1218,0.0438],[-0.0528,139.6805,0.0439],[0.0509,140.2395,0.0439],[0.1538,140.7986,0.044],[0.2558,141.3578,0.044],[0.3569,141.9172,0.0441],[0.4653,142.4689,0.044],[0.5738,143.0207,0.044],[0.6821,143.5726,0.0439],[0.7904,144.1246,0.0438],[0.8986,144.6765,0.0438],[1.0066,145.2285,0.0437],[1.1242,145.7568,0.0435],[1.2433,146.2852,0.0433],[1.3638,146.8136,0.0431],[1.4857,147.3421,0.0429],[1.609,147.8706,0.0427],[1.7336,148.399,0.0425],[1.8239,148.8746,0.0421],[1.9161,149.3501,0.0418],[2.0103,149.8256,0.0415],[2.1065,150.3011,0.0412],[2.2047,150.7766,0.0409],[2.3049,151.2521,0.0406],[2.3447,151.6571,0.0402],[2.3855,152.0621,0.0399],[2.4272,152.4672,0.0395],[2.4699,152.8722,0.0392],[2.5136,153.2772,0.0388],[2.5584,153.6821,0.0385],[2.5648,154.0138,0.0382],[2.5712,154.3455,0.0378],[2.5775,154.6772,0.0375],[2.5837,155.0089,0.0372],[2.5899,155.3405,0.0368],[2.5959,155.6722,0.0365],[2.5607,155.9198,0.0362],[2.5239,156.1672,0.036],[2.4856,156.4146,0.0357],[2.4458,156.6619,0.0355],[2.4042,156.9091,0.0352],[2.3609,157.1562,0.035],[2.3149,157.3292,0.0348],[2.2677,157.5021,0.0346],[2.2195,157.675,0.0345],[2.1701,157.8478,0.0343],[2.1196,158.0205,0.0342],[2.0679,158.1932,0.034],[2.0549,158.3159,0.0339],[2.0417,158.4387,0.0338],[2.0284,158.5614,0.0337],[2.015,158.6842,0.0336],[2.0014,158.8069,0.0335],[1.9877,158.9297,0.0335],[1.967,159.0139,0.0334],[1.9462,159.0981,0.0333],[1.9254,159.1823,0.0332],[1.9045,159.2666,0.0332],[1.8835,159.3508,0.0331],[1.8625,159.4351,0.033],[1.79,159.4917,0.033],[1.7178,159.5483,0.033],[1.6457,159.6051,0.0329],[1.5739,159.6619,0.0329],[1.5022,159.7189,0.0328],[1.4308,159.776,0.0328],[1.3515,159.8149,0.0328],[1.2721,159.8539,0.0327],[1.1928,159.893,0.0327],[1.1134,159.9321,0.0326],[1.034,159.9714,0.0326],[0.9547,160.0107,0.0325],[0.8678,160.0286,0.0325],[0.7803,160.0465,0.0324],[0.6921,160.0644,0.0323],[0.6032,160.0823,0.0322],[0.5137,160.1002,0.0322],[0.4236,160.1182,0.0321],[0.332,160.1342,0.032],[0.2396,160.1502,0.032],[0.1464,160.1661,0.0319],[0.0522,160.1821,0.0318],[-0.0428,160.198,0.0317],[-0.1387,160.214,0.0317],[-0.164,160.2483,0.0316],[-0.1896,160.2827,0.0316],[-0.2154,160.317,0.0315],[-0.2414,160.3514,0.0315],[-0.2675,160.3857,0.0314],[-0.294,160.42,0.0314],[-0.311,160.4524,0.0313],[-0.3282,160.4847,0.0313],[-0.3456,160.5171,0.0313],[-0.3631,160.5494,0.0312],[-0.3808,160.5817,0.0312],[-0.3985,160.614,0.0311],[-0.4107,160.6484,0.0311],[-0.4229,160.6827,0.031],[-0.4352,160.7171,0.031],[-0.4476,160.7514,0.031],[-0.4601,160.7857,0.0309],[-0.4727,160.82,0.0309],[-0.4804,160.8591,0.0309],[-0.4881,160.8981,0.0308],[-0.4959,160.9372,0.0308],[-0.5037,160.9762,0.0307],[-0.5116,161.0153,0.0307],[-0.5195,161.0543,0.0307]],w:[[0.3809,3.2322,0.1417],[0.1714,4.1873,0.1372],[0.0962,5.1282,0.13],[0.0402,5.8458,0.1262],[-0.005,6.4237,0.124],[-0.043,6.8985,0.1227],[-0.0756,7.297,0.122],[-0.1039,7.6422,0.1218],[-0.1288,7.9487,0.1218],[-0.1507,8.2254,0.122],[-0.17,8.48,0.1222],[-0.1872,8.7192,0.1225],[-0.2024,8.9481,0.1227],[-0.2158,9.1699,0.1228],[-0.2278,9.387,0.1229],[-0.2384,9.6008,0.123],[-0.2478,9.8124,0.123],[-0.2562,10.0226,0.1231],[-0.2637,10.2315,0.1231],[-0.2703,10.4393,0.1232],[-0.2762,10.6464,0.1232],[-0.2815,10.8534,0.1234],[-0.2862,11.0608,0.1235],[-0.2903,11.2688,0.1237],[-0.2941,11.4775,0.1239],[-0.2975,11.6864,0.1241],[-0.3005,11.8947,0.1244],[-0.3032,12.1015,0.1247],[-0.3057,12.3059,0.1251],[-0.308,12.5073,0.1255],[-0.3101,12.7055,0.1259],[-0.312,12.9006,0.1263],[-0.3138,13.093,0.1268],[-0.3155,13.2837,0.1274],[-0.3171,13.4731,0.1279],[-0.3186,13.6618,0.1286],[0.5656,14.1998,0.0991],[0.4441,14.3701,0.1004],[0.3317,14.5405,0.1017],[0.2276,14.7108,0.103],[0.1312,14.8813,0.1042],[0.0419,15.0518,0.1053],[-0.0428,15.2236,0.1064],[-0.1212,15.3956,0.1075],[-0.1938,15.5676,0.1085],[-0.2611,15.7399,0.1095],[-0.3236,15.9123,0.1105],[-0.3816,16.0848,0.1114],[-0.4372,16.2585,0.1124],[-0.4888,16.4324,0.1133],[-0.5367,16.6064,0.1142],[-0.5812,16.7806,0.115],[-0.6227,16.9549,0.1159],[-0.6613,17.1294,0.1167],[-0.6987,17.3046,0.1175],[-0.7335,17.48,0.1183],[-0.766,17.6555,0.119],[-0.7962,17.8311,0.1198],[-0.8245,18.0069,0.1205],[-0.8509,18.1827,0.1212],[-0.876,18.3616,0.122],[-0.8993,18.5405,0.1228],[-0.921,18.7196,0.1236],[-0.9412,18.8988,0.1243],[-0.96,19.078,0.125],[-0.9776,19.2574,0.1257],[-0.984,19.4555,0.127],[-0.9894,19.6537,0.1281],[-0.9941,19.8519,0.1293],[-0.9981,20.0502,0.1304],[-1.0014,20.2485,0.1315],[-1.0041,20.4468,0.1326],[-0.9954,20.6619,0.134],[-0.9868,20.8769,0.1353],[-0.9784,21.092,0.1367],[-0.97,21.3071,0.138],[-0.9618,21.5221,0.1392],[-0.9537,21.7372,0.1405],[-0.9411,21.9702,0.1418],[-0.9288,22.2032,0.1432],[-0.9169,22.4363,0.1445],[-0.9054,22.6693,0.1458],[-0.8942,22.9023,0.1471],[-0.8833,23.1353,0.1484],[-0.8685,23.387,0.1497],[-0.8541,23.6386,0.1511],[-0.8403,23.8903,0.1524],[-0.8271,24.1419,0.1536],[-0.8142,24.3935,0.1549],[-0.8019,24.6451,0.1561],[-0.7852,24.9161,0.1574],[-0.7693,25.1871,0.1586],[-0.7539,25.4581,0.1598],[-0.7392,25.7291,0.1609],[-0.725,26.0001,0.1621],[-0.7114,26.271,0.1632],[-0.6971,26.5602,0.1643],[-0.6834,26.8493,0.1654],[-0.6702,27.1385,0.1665],[-0.6574,27.4276,0.1675],[-0.6451,27.7167,0.1685],[-0.6333,28.0058,0.1695],[-0.6214,28.3163,0.1705],[-0.6098,28.6269,0.1714],[-0.5987,28.9374,0.1723],[-0.5879,29.248,0.1732],[-0.5775,29.5585,0.1741],[-0.5675,29.869,0.1749],[-0.5521,30.2033,0.1758],[-0.5373,30.5375,0.1766],[-0.5229,30.8718,0.1774],[-0.509,31.2061,0.1782],[-0.4956,31.5404,0.179],[-0.4825,31.8748,0.1798],[-0.4623,32.2323,0.1806],[-0.4427,32.59,0.1815],[-0.4237,32.9478,0.1823],[-0.4052,33.3056,0.1831],[-0.3874,33.6636,0.1838],[-0.37,34.0216,0.1846],[-0.3496,34.4014,0.1852],[-0.3297,34.7815,0.1858],[-0.3103,35.1617,0.1864],[-0.2914,35.5421,0.1869],[-0.2729,35.9226,0.1875],[-0.2548,36.3033,0.188],[-0.2377,36.7011,0.1882],[-0.2209,37.0992,0.1883],[-0.2043,37.4974,0.1884],[-0.188,37.8958,0.1885],[-0.1719,38.2944,0.1886],[-0.156,38.6931,0.1887],[-0.1419,39.0908,0.1884],[-0.1278,39.4887,0.1881],[-0.1138,39.8868,0.1878],[-0.0998,40.2851,0.1875],[-0.0859,40.6835,0.1872],[-0.072,41.0821,0.1869],[-0.0641,41.4657,0.1862],[-0.0562,41.8495,0.1855],[-0.0481,42.2333,0.1848],[-0.04,42.6173,0.1842],[-0.0318,43.0013,0.1835],[-0.0235,43.3855,0.1829],[-0.0241,43.74,0.1818],[-0.0246,44.0946,0.1808],[-0.0251,44.4491,0.1798],[-0.0255,44.8037,0.1788],[-0.0258,45.1584,0.1778],[-0.026,45.513,0.1769],[-0.0326,45.8261,0.1756],[-0.0391,46.1391,0.1743],[-0.0457,46.4522,0.173],[-0.0523,46.7652,0.1717],[-0.0589,47.0782,0.1705],[-0.0655,47.3912,0.1693],[-0.0745,47.6564,0.1679],[-0.0837,47.9216,0.1666],[-0.0929,48.1868,0.1653],[-0.1021,48.4519,0.164],[-0.1115,48.7171,0.1627],[-0.1208,48.9822,0.1614],[-0.129,49.2069,0.1603],[-0.1372,49.4315,0.1591],[-0.1455,49.6562,0.158],[-0.1538,49.8809,0.1568],[-0.1621,50.1055,0.1557],[-0.1705,50.3302,0.1546],[-0.1734,50.5233,0.1536],[-0.1763,50.7164,0.1525],[-0.1791,50.9095,0.1515],[-0.1819,51.1026,0.1505],[-0.1846,51.2957,0.1495],[-0.1873,51.4888,0.1485],[-0.1869,51.6479,0.1476],[-0.1865,51.807,0.1467],[-0.186,51.966,0.1458],[-0.1854,52.125,0.1449],[-0.1847,52.284,0.144],[-0.1839,52.443,0.1431],[-0.1846,52.5631,0.1424],[-0.1852,52.6832,0.1417],[-0.1857,52.8033,0.1409],[-0.1862,52.9233,0.1402],[-0.1867,53.0434,0.1395],[-0.1871,53.1634,0.1388],[-0.1901,53.2482,0.1382],[-0.193,53.3331,0.1377],[-0.196,53.4179,0.1371],[-0.199,53.5027,0.1366],[-0.2019,53.5875,0.1361],[-0.2049,53.6723,0.1355],[-0.21,53.7253,0.1351],[-0.2151,53.7783,0.1346],[-0.2202,53.8313,0.1342],[-0.2253,53.8843,0.1338],[-0.2305,53.9373,0.1334],[-0.2357,53.9903,0.1329],[-0.2499,54.0055,0.1326],[-0.2643,54.0208,0.1323],[-0.2788,54.036,0.1319],[-0.2934,54.0512,0.1316],[-0.3081,54.0663,0.1312],[-0.323,54.0815,0.1309],[-0.3423,54.0797,0.1306],[-0.3619,54.0778,0.1303],[-0.3816,54.0759,0.13],[-0.4016,54.0739,0.1298],[-0.4217,54.0719,0.1295],[-0.4421,54.0698,0.1292],[-0.4627,54.0634,0.1289],[-0.4836,54.057,0.1286],[-0.5046,54.0505,0.1284],[-0.5259,54.0439,0.1281],[-0.5474,54.0373,0.1278],[-0.5691,54.0306,0.1275],[-0.5908,54.0217,0.1273],[-0.6128,54.0126,0.127],[-0.6351,54.0036,0.1267],[-0.6575,53.9944,0.1264],[-0.6801,53.9852,0.1261],[-0.703,53.976,0.1258],[-0.7262,53.9649,0.1256],[-0.7497,53.9539,0.1253],[-0.7734,53.9427,0.125],[-0.7973,53.9315,0.1247],[-0.8215,53.9203,0.1244],[-0.8458,53.909,0.1241]]}};
+const PCTS=[[3,-1.881],[10,-1.2816],[25,-.6745],[50,0],[75,.6745],[90,1.2816],[97,1.881]];
+function gLMS(sex,kind,age){ const T=GLMS[sex==='m'?'m':'f'][kind], mo=Math.max(0,Math.min(T.length-1,age*12)), i=Math.floor(mo), f=mo-i, p=T[i], q=T[Math.min(i+1,T.length-1)]; return [p[0]+(q[0]-p[0])*f,p[1]+(q[1]-p[1])*f,p[2]+(q[2]-p[2])*f]; }
+function gVal(sex,kind,age,z){ const [L,M,S]=gLMS(sex,kind,age); return Math.abs(L)<1e-6?M*Math.exp(S*z):M*Math.pow(1+L*S*z,1/L); }
+function gZ(sex,kind,age,x){ const [L,M,S]=gLMS(sex,kind,age); return Math.abs(L)<1e-6?Math.log(x/M)/S:(Math.pow(x/M,L)-1)/(L*S); }
+const zPct=z=>{ const t=1/(1+.2316419*Math.abs(z)), d=.3989423*Math.exp(-z*z/2), p=d*t*(.3193815+t*(-.3565638+t*(1.781478+t*(-1.821256+t*1.330274)))); return Math.round((z>0?1-p:p)*100); };
+const GR={kid:'',tab:'h',open:false,d:'',h:0,w:0,warn:'',party:null};
+const grInfo=kid=>(S.grow?.info||{})[kid]||{};
+const grRecs=kid=>Object.entries((S.grow?.rec||{})[kid]||{}).map(([id,v])=>({id,...v})).filter(r=>r.d&&(r.h||r.w)).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:a.at-b.at);
+const grLast=(kid,k)=>{ const r=grRecs(kid).filter(x=>x[k]); return r[r.length-1]; };
+const ageAt=(birth,d)=>birth?(dayNum(d)-dayNum(birth))/365.2425:null;
+const ageText=(birth,d=todayKey())=>{ if(!birth) return ''; const [by,bm,bd]=birth.split('-').map(Number), [y,m,dd]=d.split('-').map(Number); let mo=(y-by)*12+(m-bm)-(dd<bd?1:0); return mo<36?`${mo}개월`:`만 ${Math.floor(mo/12)}살 ${mo%12}개월`; };
+const fmt1=v=>(Math.round(v*10)/10).toFixed(1).replace(/\.0$/,'');
+const mdText=d=>{ const [y,m,dd]=d.split('-').map(Number); return `${m}월 ${dd}일`; };
+// 기린 그림 (목 길이로 자란 만큼을 보여 줘요)
+function giraffeSvg(w=120,neck=1){
+  const n=Math.round(60*neck);
+  return `<svg class="giraffe" viewBox="0 ${38-n} 124 ${162+n}" width="${w}" aria-hidden="true">
+    <g stroke="#B86E1A" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+      <rect x="33" y="158" width="10" height="38" rx="5" fill="#F2B544"/><rect x="73" y="158" width="10" height="38" rx="5" fill="#F2B544"/>
+      <rect x="45" y="160" width="10" height="38" rx="5" fill="#FFCF5C"/><rect x="85" y="158" width="10" height="40" rx="5" fill="#FFCF5C"/>
+      <ellipse cx="64" cy="150" rx="38" ry="24" fill="#FFCF5C"/>
+      <path d="M26 146c-8 4-12 12-10 20" fill="none"/>
+      <path d="M78 136 L80 ${86-n} L100 ${86-n} L102 140 Z" fill="#FFCF5C"/>
+      <ellipse cx="96" cy="${72-n}" rx="20" ry="15" fill="#FFCF5C"/>
+      <ellipse cx="111" cy="${76-n}" rx="9" ry="7.5" fill="#FFE3A3"/>
+      <path d="M86 ${60-n}l-3-14M98 ${58-n}l1-14" fill="none"/>
+      <path d="M78 ${66-n}c-7-2-10-6-9-10 5 0 9 3 11 7z" fill="#FFCF5C"/>
+    </g>
+    <circle cx="83" cy="${45-n}" r="4" fill="#B86E1A"/><circle cx="99" cy="${43-n}" r="4" fill="#B86E1A"/>
+    <circle cx="97" cy="${68-n}" r="3.4" fill="#3A2A20"/><circle cx="98.2" cy="${66.8-n}" r="1.1" fill="#FFFFFF"/>
+    <circle cx="112" cy="${75-n}" r="1.4" fill="#B86E1A"/>
+    <ellipse cx="90" cy="${80-n}" rx="4.5" ry="2.8" fill="#FF9EAE" opacity=".6"/>
+    <g fill="#E8963A" opacity=".9"><circle cx="50" cy="142" r="7"/><circle cx="72" cy="156" r="6"/><circle cx="84" cy="140" r="5"/><circle cx="58" cy="160" r="4.5"/><circle cx="88" cy="${118-n*.4}" r="4.5"/><circle cx="92" cy="${100-n*.75}" r="4"/></g>
+  </svg>`;
+}
+function growLine(kid){ const h=grLast(kid,'h'), w=grLast(kid,'w'); if(!h&&!w) return `<span class="cc-grow none">${ico('ruler')}키를 재 봐요</span>`; return `<span class="cc-grow">${ico('ruler')}${h?`${fmt1(h.h)}cm`:''}${h&&w?' · ':''}${w?`${fmt1(w.w)}kg`:''}</span>`; }
+function growDashCard(){
+  return `<button class="fcard grow-card" data-act="grow" aria-label="이만큼 자랐어요">${meadow(true)}
+    <span class="gc-t"><span class="fc-title">이만큼<br>자랐어요!</span></span><span class="gc-giraffe"><img class="gc-gir" src="tw/1f992.svg" alt="" draggable="false"></span></button>`;
+}
+// 성장곡선 (키 또는 몸무게) — 또래 곡선 위에 우리 아이 기록을 이어 그려요
+function growChart(kid,kind){
+  const info=grInfo(kid), k=kidById(kid);
+  if(!info.birth||!info.sex) return `<div class="gr-nochart">${ico('calendar')}<b>생일과 성별을 넣으면 성장곡선이 나와요</b><small>${isParent()?'위에서 생일과 성별을 골라 주세요.':'엄마·아빠 폰에서 넣을 수 있어요.'}</small></div>`;
+  const recs=grRecs(kid).filter(r=>r[kind]).map(r=>({...r,a:ageAt(info.birth,r.d)})).filter(r=>r.a>=0);
+  const nowA=ageAt(info.birth,todayKey());
+  let a0=Math.max(0,Math.floor(Math.min(nowA,...recs.map(r=>r.a))-1)), a1=Math.min(18,Math.ceil(nowA)+1);
+  if(a1-a0<4){ a0=Math.max(0,a1-4); a1=Math.min(18,a0+4); }
+  const W=760,H=430,ml=46,mr=40,mt=16,mb=38, xs=a=>ml+(a-a0)/(a1-a0)*(W-ml-mr);
+  let y0=gVal(info.sex,kind,a0,-2.2), y1=gVal(info.sex,kind,a1,2.2);
+  for(const r of recs){ y0=Math.min(y0,r[kind]-2); y1=Math.max(y1,r[kind]+2); }
+  const stp=kind==='h'?5:(y1-y0>40?10:5); y0=Math.floor(y0/stp)*stp; y1=Math.ceil(y1/stp)*stp;
+  const ys=v=>mt+(1-(v-y0)/(y1-y0))*(H-mt-mb);
+  const N=60, pts=z=>Array.from({length:N+1},(_,i)=>{ const a=a0+(a1-a0)*i/N; return [xs(a),ys(gVal(info.sex,kind,a,z))]; });
+  const path=p=>p.map((q,i)=>(i?'L':'M')+q[0].toFixed(1)+' '+q[1].toFixed(1)).join('');
+  const band=(z1,z2)=>{ const a=pts(z1), b=pts(z2).reverse(); return path(a)+path(b).replace(/^M/,'L')+'Z'; };
+  let g='';
+  for(let a=a0;a<=a1;a++) g+=`<line x1="${xs(a)}" x2="${xs(a)}" y1="${mt}" y2="${H-mb}" class="gl"/><text x="${xs(a)}" y="${H-mb+20}" class="ax" text-anchor="middle">${a}살</text>`;
+  for(let v=y0;v<=y1;v+=stp) g+=`<line x1="${ml}" x2="${W-mr}" y1="${ys(v)}" y2="${ys(v)}" class="gl"/><text x="${ml-8}" y="${ys(v)+4}" class="ax" text-anchor="end">${v}</text>`;
+  const curves=PCTS.map(([p,z])=>{ const q=pts(z), e=q[q.length-1]; return `<path d="${path(q)}" class="pc${p===50?' p50':''}"/><text x="${e[0]+5}" y="${e[1]+4}" class="pl">${p}</text>`; }).join('');
+  const kp=recs.map(r=>[xs(r.a),ys(r[kind])]), last=recs[recs.length-1];
+  const unit=kind==='h'?'cm':'kg';
+  return `<svg class="gr-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(k.name)} ${kind==='h'?'키':'몸무게'} 성장곡선" style="--k:${k.color}">
+    ${g}<path d="${band(-1.881,1.881)}" class="b97"/><path d="${band(-.6745,.6745)}" class="b75"/>${curves}
+    <text x="${ml}" y="${mt-4}" class="ax">${unit}</text>
+    ${kp.length>1?`<path d="${path(kp)}" class="kl"/>`:''}${kp.map((q,i)=>`<circle cx="${q[0]}" cy="${q[1]}" r="${i===kp.length-1?8:5.5}" class="kd${i===kp.length-1?' last':''}"/>`).join('')}
+    ${last?`<g class="klab" transform="translate(${xs(last.a)},${ys(last[kind])-16})"><rect x="-34" y="-22" width="68" height="26" rx="13"/><text y="-4" text-anchor="middle">${fmt1(last[kind])}${unit}</text></g>`:''}
+  </svg>`;
+}
+function openGrow(kid){ GR.kid=kid||GR.kid||S.kids[0]?.id; view.screen='grow'; show(); }
+function renderGrow(){
+  const k=kidById(GR.kid)||S.kids[0]; if(!k){ view.screen='family'; return show(); } GR.kid=k.id;
+  const info=grInfo(k.id), recs=grRecs(k.id), lh=grLast(k.id,'h'), lw=grLast(k.id,'w');
+  const ph=recs.filter(r=>r.h), pw=recs.filter(r=>r.w), dh=ph.length>1?ph[ph.length-1].h-ph[ph.length-2].h:null;
+  const neck=lh?Math.min(1.6,Math.max(.6,lh.h/110)):1;
+  const pctTxt=(kind,r)=>{ if(!isParent()||!r||!info.birth||!info.sex) return ''; const a=ageAt(info.birth,r.d); if(a<0||a>18.9) return ''; return `<small class="gr-pct">또래 ${zPct(gZ(info.sex,kind,a,r[kind]))}백분위</small>`; };
+  $('#grow').innerHTML=`
+  <header class="band scene" data-rid="grow"><div class="wrap band-in">
+    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
+    <div class="band-title"><span class="sc-ico">${ico('ruler')}</span><div><h1>이만큼 자랐어요!</h1><p class="band-date">${info.birth?`${esc(withI(k.name))}는 ${ageText(info.birth)}`:'키와 몸무게를 재서 기록해요'}</p></div></div>
+    <div class="cr-kids">${S.kids.map(x=>`<button class="cr-k kid" style="--k:${x.color}" data-act="grk" data-kid="${x.id}" aria-pressed="${x.id===k.id}" aria-label="${esc(x.name)}">${avatar(x,46)}</button>`).join('')}</div>
+  </div></header>
+  <div class="wrap gr-wrap">
+    ${isParent()?`<section class="gr-info kid" style="--k:${k.color}">${avatar(k,44)}<b>${esc(k.name)}</b>
+      <label class="gr-f"><span>생일</span><input type="date" class="fld" id="grBirth" value="${info.birth||''}" max="${todayKey()}"></label>
+      <div class="gr-sex" role="group" aria-label="성별"><button data-act="grsex" data-v="f" aria-pressed="${info.sex==='f'}">여자</button><button data-act="grsex" data-v="m" aria-pressed="${info.sex==='m'}">남자</button></div></section>`:''}
+    <section class="gr-now kid" style="--k:${k.color}">
+      <div class="gr-stage">${meadow(false)}<span class="gr-gir"><img class="gr-gimg" src="tw/1f992.svg" alt="기린" draggable="false"></span><span class="gr-me">${charOf(k.id).made?`<span class="gr-ch">${charSvg(charOf(k.id).look,charOf(k.id).wear,{cut:true})}</span>`:avatar(k,70)}</span></div>
+      <div class="gr-nums">
+        <button class="gr-num" data-act="grsay" data-k="h"><small>키</small><b>${lh?fmt1(lh.h):'—'}<i>cm</i></b>${dh!=null&&dh>0?`<em>지난번보다 +${fmt1(dh)}cm</em>`:''}${pctTxt('h',lh)}</button>
+        <button class="gr-num" data-act="grsay" data-k="w"><small>몸무게</small><b>${lw?fmt1(lw.w):'—'}<i>kg</i></b>${pctTxt('w',lw)}</button>
+      </div>
+      <p class="gr-when">${lh||lw?`마지막으로 잰 날 ${mdText((lh&&lw?(lh.d>lw.d?lh:lw):(lh||lw)).d)}`:'아직 기록이 없어요'}</p>
+      <button class="btn pri gr-add" data-act="gradd">${ico('ruler')}오늘 키·몸무게 재기</button>
+    </section>
+    <section class="gr-chart">
+      <div class="gr-tabs" role="tablist"><button role="tab" data-act="grtab" data-k="h" aria-selected="${GR.tab==='h'}">키</button><button role="tab" data-act="grtab" data-k="w" aria-selected="${GR.tab==='w'}">몸무게</button></div>
+      ${growChart(k.id,GR.tab)}
+      <p class="gr-src">회색 선은 또래 아이들 100명을 줄 세웠을 때 3·10·25·50·75·90·97번째예요. 기준: 질병관리청 2017 소아청소년 성장도표 (3세 미만은 WHO 성장기준) · 그림: Twemoji (CC BY 4.0)</p>
+      ${recs.length?`<ul class="gr-list">${recs.slice().reverse().slice(0,8).map(r=>`<li><span>${mdText(r.d)}</span><b>${r.h?fmt1(r.h)+'cm':'—'}</b><b>${r.w?fmt1(r.w)+'kg':'—'}</b>${isParent()?`<button class="ib del" data-act="grdel" data-id="${r.id}" data-confirm="gd-${r.id}" aria-label="이 기록 지우기">${ui('x')}</button>`:''}</li>`).join('')}</ul>`:''}
+    </section>
+  </div>`;
+  renderGrowSheet();
+}
+// 재기 화면: 줄자를 밀어서 맞추고, ±0.1 버튼으로 정확히 (지난번 값에서 시작해요)
+function rulerBox(key,val,min,max,unit,label,icon){
+  const px=10, ticks=Math.round((max-min)*10);
+  const labs=Array.from({length:Math.floor(max-min)+1},(_,i)=>`<span style="left:${i*10*px}px">${min+i}</span>`).join('');
+  return `<div class="rl" data-k="${key}">
+    <div class="rl-head"><span class="rl-ico">${ico(icon)}</span><b>${label}</b><button class="rl-read" data-act="rlsay" data-k="${key}"><b id="rlv-${key}">${fmt1(val)}</b><i>${unit}</i></button></div>
+    <div class="rl-win"><div class="rl-track" id="rlt-${key}" data-min="${min}" data-max="${max}"><div class="rl-tape" style="width:${ticks*px}px">${labs}</div></div><span class="rl-mid"></span></div>
+    <div class="rl-btns"><button data-act="rlstep" data-k="${key}" data-v="-1">−1</button><button data-act="rlstep" data-k="${key}" data-v="-0.1">−0.1</button><button data-act="rlstep" data-k="${key}" data-v="0.1">+0.1</button><button data-act="rlstep" data-k="${key}" data-v="1">+1</button></div>
+  </div>`;
+}
+function grStart(){
+  const k=kidById(GR.kid), info=grInfo(k.id), lh=grLast(k.id,'h'), lw=grLast(k.id,'w'), a=info.birth?ageAt(info.birth,todayKey()):6;
+  GR.h=lh?lh.h:Math.round(gVal(info.sex||'f','h',Math.max(2,a),0)*10)/10; GR.w=lw?lw.w:Math.round(gVal(info.sex||'f','w',Math.max(2,a),0)*10)/10;
+  GR.d=todayKey(); GR.warn=''; GR.open=true; renderGrowSheet();
+}
+function renderGrowSheet(){
+  let el=document.getElementById('grsheet');
+  if(!GR.open){ if(el) el.remove(); return; }
+  const k=kidById(GR.kid);
+  if(!el){ el=document.createElement('div'); el.id='grsheet'; el.className='sheet'; document.body.appendChild(el); }
+  el.innerHTML=`<div class="sheet-in gr-sheet kid" role="dialog" aria-label="키·몸무게 재기" style="--k:${k.color}">
+    <div class="sh-head">${avatar(k,52)}<h2>${esc(withI(k.name))} 키·몸무게</h2><button class="ib" data-act="grclose" aria-label="닫기">${ui('x')}</button></div>
+    <div class="gr-date"><span>잰 날</span><button data-act="grday" data-v="${todayKey()}" aria-pressed="${GR.d===todayKey()}">오늘</button><input type="date" class="fld" id="grDate" value="${GR.d}" max="${todayKey()}" aria-label="잰 날 고르기"></div>
+    ${rulerBox('h',GR.h,50,190,'cm','키','ruler')}
+    ${rulerBox('w',GR.w,5,100,'kg','몸무게','scale')}
+    ${GR.warn?`<p class="gr-warn">${esc(GR.warn)}</p>`:''}
+    <button class="btn pri gr-save" data-act="grsave">${ui('check')}${GR.warn?'네, 맞아요! 저장하기':'저장하기'}</button>
+  </div>`;
+  for(const key of ['h','w']){ const t=document.getElementById('rlt-'+key); if(!t) continue; const min=+t.dataset.min;
+    requestAnimationFrame(()=>{ t.scrollLeft=Math.round((GR[key]-min)*10*10); });
+    let tm=null; t.addEventListener('scroll',()=>{ const v=Math.round(min*10+t.scrollLeft/10)/10; GR[key]=Math.min(+t.dataset.max,Math.max(min,v)); const o=document.getElementById('rlv-'+key); if(o) o.textContent=fmt1(GR[key]); clearTimeout(tm); tm=setTimeout(()=>{ if(GR.warn){ GR.warn=''; const w=el.querySelector('.gr-warn'); if(w) w.remove(); const s=el.querySelector('.gr-save'); if(s) s.innerHTML=`${ui('check')}저장하기`; } },120); },{passive:true});
+  }
+}
+function rlStep(key,dv){ const t=document.getElementById('rlt-'+key); if(!t) return; const min=+t.dataset.min, max=+t.dataset.max; GR[key]=Math.min(max,Math.max(min,Math.round((GR[key]+dv)*10)/10)); t.scrollTo({left:Math.round((GR[key]-min)*100),behavior:'smooth'}); const o=document.getElementById('rlv-'+key); if(o) o.textContent=fmt1(GR[key]); tone([880],.04,'sine',.04); }
+function grSave(){
+  const k=kidById(GR.kid), lh=grLast(k.id,'h'), lw=grLast(k.id,'w'), d=GR.d||todayKey();
+  if(!GR.warn){ const days=lh?Math.max(1,dayNum(d)-dayNum(lh.d)):0;
+    if(lh&&(GR.h<lh.h-1.5||GR.h-lh.h>Math.max(3,days/30*1.5+2))) GR.warn=`지난번(${mdText(lh.d)})엔 ${fmt1(lh.h)}cm였어요. ${fmt1(GR.h)}cm가 맞나요?`;
+    else if(lw&&Math.abs(GR.w-lw.w)>Math.max(3,lw.w*.15)) GR.warn=`지난번(${mdText(lw.d)})엔 ${fmt1(lw.w)}kg이었어요. ${fmt1(GR.w)}kg이 맞나요?`;
+    if(GR.warn){ renderGrowSheet(); return; } }
+  S.grow.rec[k.id]=S.grow.rec[k.id]||{};
+  const id='r'+Date.now().toString(36), rec={d,h:GR.h,w:GR.w,at:Date.now(),by:S.role||'kids'};
+  S.grow.rec[k.id][id]=rec; rset(`grow/rec/${k.id}/${id}`,rec); save();
+  GR.open=false; renderGrow(); window.scrollTo(0,0);
+  const up=lh&&d>=lh.d?GR.h-lh.h:0;
+  tone([784,988,1175,1568],.14,'triangle',.1);
+  const g=document.querySelector('.gr-gir'); if(g){ g.classList.remove('grow-up'); void g.offsetWidth; g.classList.add('grow-up'); }
+  setTimeout(()=>sayText(`${withI(k.name)} 키는 ${fmt1(GR.h)}센티미터${up>0?`, 지난번보다 ${fmt1(up)}센티미터 자랐어요!`:'예요!'}`),400);
+}
+
+/* ===== 다가오는 우리가족 일정 (엄마·아빠 폰에서 넣고, 태블릿은 보기만) ===== */
+const EV_ICONS=[['cake','생일'],['hospital','병원'],['trip','여행'],['backpack','학교'],['daycare','유치원'],['party','행사'],['yum','외식'],['piano','학원'],['comehome','가족'],['star','기타']];
+const EV={open:false,id:'',d:'',e:'',multi:false,t:'',ic:'cake',kids:new Set()};
+const evAll=()=>Object.entries(S.events||{}).map(([id,v])=>({id,...v})).filter(x=>x.d&&x.t).map(x=>({...x,e:x.e&&x.e>x.d?x.e:x.d})).sort((a,b)=>a.d<b.d?-1:a.d>b.d?1:0);
+const evUpcoming=()=>{ const t=todayKey(); return evAll().filter(x=>x.e>=t); };
+const evOn=dk=>evAll().filter(x=>x.d<=dk&&x.e>=dk);
+const wdOf=dk=>WD[new Date(dayNum(dk)*864e5).getUTCDay()];
+function evWhen(x){ const t=dayNum(todayKey()), a=dayNum(x.d), b=dayNum(x.e);
+  if(a<=t&&b>=t) return a===b?'오늘!':`${b-t+1}일 남았어요`; const n=a-t; return n===1?'내일':n===2?'모레':`${n}일 뒤`; }
+function evDateText(x){ const [,m1,d1]=x.d.split('-').map(Number), [,m2,d2]=x.e.split('-').map(Number);
+  if(x.d===x.e) return `${m1}월 ${d1}일 ${wdOf(x.d)}`; const n=dayNum(x.e)-dayNum(x.d);
+  return `${m1}월 ${d1}일 ~ ${m1===m2?'':m2+'월 '}${d2}일 · ${n}박 ${n+1}일`; }
+function monthCal(y,m){
+  const first=new Date(y,m,1), start=first.getDay(), days=new Date(y,m+1,0).getDate(), t=todayKey(), cells=[];
+  for(let i=0;i<start;i++) cells.push('<span class="mc-d empty"></span>');
+  for(let d=1;d<=days;d++){ const dk=`${y}-${pad(m+1)}-${pad(d)}`, ev=evOn(dk), wd=(start+d-1)%7;
+    cells.push(`<span class="mc-d${ev.length?' ev':''}${dk===t?' today':''}${wd===0?' sun':wd===6?' sat':''}${dk<t?' past':''}">${ev.length?`<span class="mc-ic">${ico(ev[0].ic||'star')}</span>`:''}<b>${d}</b></span>`); }
+  return `<div class="mcal"><div class="mc-wd">${WD.map((w,i)=>`<span class="${i===0?'sun':i===6?'sat':''}">${w}</span>`).join('')}</div><div class="mc-grid">${cells.join('')}</div></div>`;
+}
+function calDashCard(){
+  const n=new Date(), up=evUpcoming().slice(0,4);
+  return `<section class="dash-card calc">
+    <div class="cal-l"><div class="dc-head"><span class="sc-ico">${ico('calendar')}</span><div><b>${n.getMonth()+1}월 우리가족 일정</b></div></div>${monthCal(n.getFullYear(),n.getMonth())}</div>
+    <div class="cal-r"><h3>다가오는 일정</h3>
+      ${up.length?`<ul class="ev-list">${up.map(x=>`<li><button class="ev-it" data-act="evsay" data-id="${x.id}"><span class="ev-ic">${ico(x.ic||'star')}</span><span class="ev-t"><b>${esc(x.t)}</b><small>${evDateText(x)}</small></span><em>${evWhen(x)}</em></button></li>`).join('')}</ul>`:'<p class="ev-none">다가오는 일정이 없어요</p>'}
+    </div></section>`;
+}
+function evSay(id){ const x=evAll().find(e=>e.id===id); if(!x) return; const [,m,d]=x.d.split('-').map(Number); sayText(`${m}월 ${d}일 ${wdOf(x.d)}요일, ${x.t}. ${evWhen(x).replace('!','')}`); }
+// 엄마·아빠 폰
+function evParentCard(){
+  if(!isParent()) return '';
+  const up=evUpcoming().slice(0,6);
+  return `<section class="dash-card evc"><div class="dc-head"><span class="sc-ico">${ico('calendar')}</span><div><b>우리가족 일정</b><small>넣으면 아이들 태블릿 달력에 떠요</small></div></div>
+    ${up.length?`<ul class="ev-plist">${up.map(x=>`<li><button class="ev-pit" data-act="evedit" data-id="${x.id}"><span class="ev-ic">${ico(x.ic||'star')}</span><span class="ev-t"><b>${esc(x.t)}</b><small>${evDateText(x)}${(x.kids||[]).length?' · '+esc(dot(x.kids.map(kidById).filter(Boolean).map(k=>k.name))):''}</small></span><em>${evWhen(x)}</em></button></li>`).join('')}</ul>`:'<p class="hint">아직 일정이 없어요.</p>'}
+    <button class="btn pri" data-act="evnew">${ui('plus')}일정 넣기</button></section>`;
+}
+function evOpen(id){ const x=id&&(S.events||{})[id]; EV.id=x?id:''; EV.d=x?x.d:todayKey(); EV.e=x&&x.e&&x.e>x.d?x.e:''; EV.multi=!!EV.e; EV.t=x?x.t:''; EV.ic=x?x.ic||'star':'cake'; EV.kids=new Set(x?x.kids||[]:[]); EV.open=true; renderEvSheet(); }
+function renderEvSheet(){
+  let el=document.getElementById('evsheet');
+  if(!EV.open){ if(el) el.remove(); return; }
+  if(!el){ el=document.createElement('div'); el.id='evsheet'; el.className='sheet'; document.body.appendChild(el); }
+  const ok=EV.t.trim()&&EV.d;
+  el.innerHTML=`<div class="sheet-in ev-sheet" role="dialog" aria-label="일정 넣기">
+    <div class="sh-head"><span class="sc-ico">${ico('calendar')}</span><h2>${EV.id?'일정 고치기':'일정 넣기'}</h2><button class="ib" data-act="evclose" aria-label="닫기">${ui('x')}</button></div>
+    <h3>언제?</h3>
+    <div class="ev-dates"><input type="date" class="fld" id="evD" value="${EV.d}" aria-label="시작 날"><button class="ev-multi" data-act="evmulti" aria-pressed="${EV.multi}">여러 날</button>${EV.multi?`<span>~</span><input type="date" class="fld" id="evE" value="${EV.e||EV.d}" min="${EV.d}" aria-label="끝나는 날">`:''}</div>
+    <h3>무슨 일정?</h3>
+    <input class="fld" id="evT" maxlength="20" placeholder="예: 할머니 생신" value="${esc(EV.t)}" aria-label="일정 이름">
+    <h3>그림</h3>
+    <div class="ev-icons">${EV_ICONS.map(([ic,n])=>`<button class="ev-icb" data-act="evic" data-v="${ic}" aria-pressed="${EV.ic===ic}"><span class="ev-ic">${ico(ic)}</span><small>${n}</small></button>`).join('')}</div>
+    <h3>누구 일정? <small>(안 고르면 가족 모두)</small></h3>
+    <div class="pick-row" style="--n:${S.kids.length}">${S.kids.map(k=>`<button class="pk kid" style="--k:${k.color}" data-act="evkid" data-kid="${k.id}" aria-pressed="${EV.kids.has(k.id)}">${avatar(k,52)}<span>${esc(k.name)}</span><span class="tick">${ui('check')}</span></button>`).join('')}</div>
+    <div class="ev-btns">${EV.id?`<button class="btn sec" data-act="evdel" data-confirm="evdel">지우기</button>`:''}<button class="btn pri" id="evGo" data-act="evsave"${ok?'':' disabled'}>${ui('check')}저장하기</button></div>
+  </div>`;
+}
+function evSave(){
+  const t=EV.t.trim(); if(!t||!EV.d) return;
+  const id=EV.id||'e'+Date.now().toString(36), v={d:EV.d,t:t.slice(0,20),ic:EV.ic,by:S.role,at:Date.now(),...(EV.multi&&EV.e>EV.d?{e:EV.e}:{}),...(EV.kids.size?{kids:[...EV.kids]}:{})};
+  S.events[id]=v; rset(`events/${id}`,v); save(); EV.open=false; renderEvSheet(); rerenderKeep(); toast(EV.id?'일정을 고쳤어요':'일정을 넣었어요 · 태블릿 달력에 떠요');
+}
+
+function growParentCard(){
+  if(!isParent()) return '';
+  return `<section class="dash-card grc"><div class="dc-head"><span class="sc-ico">${ico('ruler')}</span><div><b>이만큼 자랐어요</b><small>키·몸무게와 성장곡선</small></div></div>
+    <div class="grc-kids">${S.kids.map(k=>{ const h=grLast(k.id,'h'), w=grLast(k.id,'w'), i=grInfo(k.id);
+      return `<button class="grc-k kid" style="--k:${k.color}" data-act="grow" data-kid="${k.id}">${avatar(k,40)}<span class="grc-t"><b>${esc(k.name)}</b><small>${h?fmt1(h.h)+'cm':'키 —'} · ${w?fmt1(w.w)+'kg':'몸무게 —'}</small><small class="${i.birth&&i.sex?'':'warn'}">${i.birth&&i.sex?ageText(i.birth):'생일·성별을 넣어 주세요'}</small></span>${ui('next')}</button>`; }).join('')}</div></section>`;
+}
+const dadaTitle=()=>['다!','다!','다!'].map((x,i)=>`<span style="color:color-mix(in oklab,${(S.kids[i]||{}).color||'#5B6AD9'} 78%,#000)">${x}</span>`).join('');
+
+document.addEventListener('change',e=>{ const id=e.target.id, v=e.target.value;
+  if(id==='grBirth'&&/^\d{4}-\d{2}-\d{2}$/.test(v)){ S.grow.info[GR.kid]={...grInfo(GR.kid),birth:v}; rset(`grow/info/${GR.kid}`,S.grow.info[GR.kid]); save(); const y=window.scrollY; renderGrow(); window.scrollTo(0,y); }
+  else if(id==='grDate'&&v){ GR.d=v>todayKey()?todayKey():v; renderGrowSheet(); }
+  else if(id==='evD'&&v){ EV.d=v; if(EV.e&&EV.e<v) EV.e=v; renderEvSheet(); }
+  else if(id==='evE'&&v){ EV.e=v<EV.d?EV.d:v; renderEvSheet(); }
+});
+/* ===== 기린 (키재기 친구) — 큰 머리·짧은 몸의 귀여운 기린, 목 길이로 자란 만큼 ===== */
+function giraffe2(w=150,neck=1){
+  const n=Math.round(46*neck), hy=96-n; /* 머리 중심 y */
+  const O='#A8641E', B='#FFD15C', SP='#F0A040', MZ='#FFF2CF';
+  return `<svg class="giraffe" viewBox="20 ${hy-78} 190 ${300-(hy-78)}" width="${w}" aria-hidden="true">
+    <g stroke="${O}" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round">
+      <path d="M58 226 C40 230 34 246 30 262" fill="none"/><path d="M30 262 c-6 2 -8 10 -2 14 c6 2 12 -4 8 -12z" fill="#C7772F"/>
+      <rect x="66" y="232" width="16" height="50" rx="8" fill="#F2BC48"/><rect x="128" y="232" width="16" height="50" rx="8" fill="#F2BC48"/>
+      <ellipse cx="110" cy="226" rx="56" ry="36" fill="${B}"/>
+      <rect x="84" y="236" width="16" height="50" rx="8" fill="${B}"/><rect x="146" y="234" width="16" height="52" rx="8" fill="${B}"/>
+      <path d="M122 ${hy+26} C118 ${hy+80} 116 170 112 212 L156 212 C150 170 150 ${hy+80} 150 ${hy+26}Z" fill="${B}"/>
+      <path d="M121 ${hy+40} C112 ${hy+70} 112 160 108 196" fill="none" stroke="#E0823A" stroke-width="7"/>
+      <path d="M110 ${hy-38} l-6 -24 M154 ${hy-38} l6 -24" fill="none" stroke-width="7" stroke="${O}"/>
+      <path d="M110 ${hy-38} l-6 -24 M154 ${hy-38} l6 -24" fill="none" stroke-width="3" stroke="${B}"/>
+      <circle cx="104" cy="${hy-64}" r="8" fill="#C7772F"/><circle cx="160" cy="${hy-64}" r="8" fill="#C7772F"/>
+      <path d="M92 ${hy-26} C70 ${hy-40} 62 ${hy-26} 66 ${hy-16} C74 ${hy-10} 86 ${hy-14} 94 ${hy-16}Z" fill="${B}"/><path d="M172 ${hy-26} C194 ${hy-40} 202 ${hy-26} 198 ${hy-16} C190 ${hy-10} 178 ${hy-14} 170 ${hy-16}Z" fill="${B}"/>
+      <ellipse cx="132" cy="${hy}" rx="44" ry="40" fill="${B}"/>
+      <ellipse cx="132" cy="${hy+22}" rx="30" ry="19" fill="${MZ}"/>
+    </g>
+    <path d="M78 ${hy-22} c4 -3 10 -3 14 1" stroke="#FFB4C2" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M186 ${hy-22} c-4 -3 -10 -3 -14 1" stroke="#FFB4C2" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <g fill="${SP}"><path d="M114 ${hy-22} c6 -6 14 -4 14 3 c0 6 -8 9 -14 5z"/><path d="M146 ${hy-26} c7 -2 11 4 7 9 c-4 4 -11 1 -10 -4z"/>
+      <path d="M126 ${hy+60} c7 -5 15 0 12 7 c-3 6 -12 5 -13 -1z"/><path d="M134 ${hy+96} c6 -3 12 2 9 8 c-3 5 -11 3 -11 -2z"/><path d="M122 186 c6 -4 13 1 10 7 c-3 5 -11 4 -11 -1z"/>
+      <path d="M72 212 c8 -8 20 -4 19 5 c-1 9 -14 11 -19 4z"/><path d="M100 236 c6 -6 16 -3 15 4 c-1 7 -11 9 -15 3z"/><path d="M138 220 c7 -5 17 -1 15 6 c-2 7 -12 8 -15 2z"/></g>
+    <g fill="#7A4A1C"><rect x="66" y="274" width="16" height="10" rx="4"/><rect x="84" y="278" width="16" height="10" rx="4"/><rect x="128" y="274" width="16" height="10" rx="4"/><rect x="146" y="278" width="16" height="10" rx="4"/></g>
+    <ellipse cx="116" cy="${hy-6}" rx="7.5" ry="9" fill="#3A2412"/><ellipse cx="148" cy="${hy-6}" rx="7.5" ry="9" fill="#3A2412"/>
+    <circle cx="118.6" cy="${hy-9.5}" r="3" fill="#FFFFFF"/><circle cx="150.6" cy="${hy-9.5}" r="3" fill="#FFFFFF"/><circle cx="114" cy="${hy-3}" r="1.4" fill="#FFFFFF"/><circle cx="146" cy="${hy-3}" r="1.4" fill="#FFFFFF"/>
+    <ellipse cx="101" cy="${hy+10}" rx="8" ry="5" fill="#FF9AAE" opacity=".6"/><ellipse cx="163" cy="${hy+10}" rx="8" ry="5" fill="#FF9AAE" opacity=".6"/>
+    <ellipse cx="123" cy="${hy+18}" rx="3" ry="2.2" fill="#A8641E"/><ellipse cx="141" cy="${hy+18}" rx="3" ry="2.2" fill="#A8641E"/>
+    <path d="M124 ${hy+28} q8 7 16 0" fill="none" stroke="#A8641E" stroke-width="3" stroke-linecap="round"/>
+  </svg>`;
+}
+// 무지개·구름·잔디 배경 + 나무·꽃·나비 (그림: Twemoji, CC BY 4.0)
+const om=(c,cls,alt='')=>`<img class="om ${cls}" src="tw/${c.toLowerCase()}.svg" alt="${alt}" draggable="false">`;
+function meadow(mini){
+  return `<span class="meadow${mini?' mini':''}" aria-hidden="true">
+    <svg class="mw-sky" viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice">
+      ${['#FF8C8C','#FFB86B','#FFE36E','#8EDB8A','#79C3F2','#A68CF0'].map((c,i)=>`<path d="M${40+i*12} 250 A${160-i*12} ${150-i*12} 0 0 1 ${360-i*12} 250" fill="none" stroke="${c}" stroke-width="12" opacity=".75"/>`).join('')}
+      <g fill="#FFFFFF" opacity=".95"><ellipse cx="70" cy="70" rx="34" ry="16"/><ellipse cx="92" cy="60" rx="22" ry="17"/><ellipse cx="318" cy="96" rx="30" ry="14"/><ellipse cx="338" cy="88" rx="18" ry="14"/></g>
+      <path d="M0 236 Q90 206 190 232 T400 222 V300 H0Z" fill="#9EDB7E"/><path d="M0 262 Q110 240 220 260 T400 252 V300 H0Z" fill="#7FCB63"/>
+      <g stroke="#5FAE47" stroke-width="3" stroke-linecap="round">${[20,58,96,150,208,262,300,348,382].map(x=>`<path d="M${x} 280 l-4 -10 M${x} 280 l4 -11 M${x} 280 l0 -12"/>`).join('')}</g>
+    </svg>
+    ${om('1F333','mw-t1')}${om('1F332','mw-t2')}${mini?'':om('1F333','mw-t3')}${om('1F33C','mw-f1')}${om('1F338','mw-f2')}${mini?'':om('1F33C','mw-f3')+om('1F98B','mw-b1')+om('2600','mw-sun')}
+  </span>`;
+}
+
+/* ===== 다연 홈스쿨 — 요일별 할 공부 (엄마·아빠 폰에서 넣고, 아이는 체크, 다 하면 엄마·아빠 확인 후 별) ===== */
+const HS_WD=['일','월','화','수','목','금','토'], HS_ORDER=[1,2,3,4,5,6,0];
+const HS_ICONS=[['notebook','문제집'],['book','책'],['pen','쓰기'],['homework','숙제'],['piano','악기'],['star','기타']];
+const HS={wd:new Date().getDay(),open:false,id:'',t:'',n:1,u:'장',days:new Set(),ic:'notebook'};
+const hsKid=()=>kidById(S.home?.kid)||S.kids.find(k=>k.name==='다연')||S.kids[0];
+const hsItems=()=>Object.entries(S.home?.items||{}).map(([id,v])=>({id,...v})).filter(x=>x.t).sort((a,b)=>(a.o||a.at||0)-(b.o||b.at||0));
+const hsOn=wd=>hsItems().filter(x=>(x.days||[]).includes(wd));
+const hsDay=dk=>(S.home?.log||{})[dk]||{};
+const hsAmt=x=>`${x.n||1}${x.u==='개'?'개':'장'}`;
+function hsToday(){ const t=todayKey(), its=hsOn(new Date().getDay()), d=hsDay(t), done=its.filter(x=>(d.done||{})[x.id]); return {t,its,d,done,all:its.length&&done.length===its.length}; }
+function homeDashCard(){
+  const k=hsKid(); if(!k) return '';
+  const {its,d,done}=hsToday();
+  return `<button class="dash-card homec kid" style="--k:${k.color}" data-act="home" aria-label="${esc(k.name)} 홈스쿨">
+    <span class="dc-head">${avatar(k,46)}<span class="hs-ht"><b>${esc(k.name)} 홈스쿨</b><small>${its.length?(d.ok?`오늘 끝! ${star(14)}${d.stars||its.length}`:`오늘 ${done.length}/${its.length}`):'오늘은 쉬는 날'}</small></span>${ui('next')}</span>
+    ${its.length?`<span class="hs-mini">${its.slice(0,4).map(x=>{ const on=!!(d.done||{})[x.id]; return `<span class="hs-mi${on?' on':''}"><span class="hs-ck">${on?ui('check'):''}</span><span class="hs-mt">${esc(x.t)}</span><em>${hsAmt(x)}</em></span>`; }).join('')}${its.length>4?`<small class="hs-more">+${its.length-4}개 더</small>`:''}</span>`:`<span class="hs-rest">${ico('sleep')}<small>내일 또 해요</small></span>`}
+  </button>`;
+}
+function hsParentCard(){
+  if(!isParent()) return ''; const k=hsKid(); if(!k) return '';
+  const {its,d,done}=hsToday();
+  return `<section class="dash-card hsc kid" style="--k:${k.color}"><div class="dc-head">${avatar(k,44)}<div><b>${esc(k.name)} 홈스쿨</b><small>${its.length?(d.ok?'오늘 끝! 확인했어요':`오늘 ${done.length}/${its.length} 했어요`):'오늘은 할 게 없어요'}</small></div></div>
+    ${its.length?`<ul class="hs-plist">${its.map(x=>`<li class="${(d.done||{})[x.id]?'on':''}"><span class="hs-ck">${(d.done||{})[x.id]?ui('check'):''}</span>${esc(x.t)} <em>${hsAmt(x)}</em></li>`).join('')}</ul>`:''}
+    <button class="btn sec" data-act="home">${ico('notebook')}요일별 항목 관리</button></section>`;
+}
+function openHome(){ view.screen='home'; HS.wd=new Date().getDay(); show(); }
+function renderHome(){
+  const k=hsKid(); if(!k){ view.screen='family'; return show(); }
+  const P=isParent(), {t,its,d,done,all}=hsToday();
+  const mon=new Date(); mon.setDate(mon.getDate()-((mon.getDay()+6)%7));
+  const wk=HS_ORDER.map((wd,i)=>{ const dd=new Date(mon); dd.setDate(mon.getDate()+i); const dk=`${dd.getFullYear()}-${pad(dd.getMonth()+1)}-${pad(dd.getDate())}`, L=hsDay(dk), n=hsOn(wd).length; return `<span class="hs-wd${dk===t?' today':''}${L.ok?' ok':''}"><small>${HS_WD[wd]}</small><b>${L.ok?ui('check'):n?n:'·'}</b></span>`; }).join('');
+  const kidView=`<section class="hs-today">
+      <div class="hs-week">${wk}</div>
+      ${its.length?`<div class="hs-grid">${its.map(x=>{ const on=!!(d.done||{})[x.id]; return `<button class="hs-item${on?' on':''}" data-act="hstog" data-id="${x.id}"${d.ok?' disabled':''} aria-pressed="${on}"><span class="hs-ic">${ico(x.ic||'notebook')}</span><span class="hs-t"><b>${esc(x.t)}</b><em>${hsAmt(x)}</em></span><span class="hs-box">${on?ui('check'):''}</span></button>`; }).join('')}</div>
+        ${d.ok?`<p class="hs-done">${star(30)} 오늘 홈스쿨 끝! 별 ${d.stars||its.length}개 받았어요</p>`
+          :all?`<button class="btn pri hs-call" data-act="hsok">${ui('check')}다 했어요! 엄마·아빠 확인 받기 (별 ${its.length}개)</button>`
+          :`<p class="hs-hint">다 하면 별 ${its.length}개! 한 것을 눌러서 체크해요</p>`}`
+        :`<div class="hs-empty">${ico('sleep')}<b>오늘은 홈스쿨 쉬는 날이에요</b></div>`}
+    </section>`;
+  const items=hsOn(HS.wd);
+  const manage=P?`<section class="hs-manage">
+      <h2>요일별 항목</h2>
+      <div class="hs-tabs" role="tablist">${HS_ORDER.map(wd=>`<button role="tab" data-act="hswd" data-wd="${wd}" aria-selected="${HS.wd===wd}">${HS_WD[wd]}<small>${hsOn(wd).length||''}</small></button>`).join('')}</div>
+      ${items.length?`<ul class="hs-mlist">${items.map(x=>`<li><button class="hs-mrow" data-act="hsedit" data-id="${x.id}"><span class="hs-ic">${ico(x.ic||'notebook')}</span><span class="hs-t"><b>${esc(x.t)}</b><small>${hsAmt(x)} · ${HS_ORDER.filter(w=>(x.days||[]).includes(w)).map(w=>HS_WD[w]).join('·')}</small></span>${ui('next')}</button></li>`).join('')}</ul>`:`<p class="hint">${HS_WD[HS.wd]}요일에는 아직 항목이 없어요.</p>`}
+      <button class="btn pri" data-act="hsnew">${ui('plus')}항목 넣기</button>
+    </section>`:'';
+  $('#home').innerHTML=`
+  <header class="band scene" data-rid="home"><div class="wrap band-in">
+    <button class="back bubble" data-act="family" aria-label="처음 화면으로">${ui('back')}</button>
+    <div class="band-title">${avatar(k,56)}<div><h1>${esc(k.name)} 홈스쿨</h1><p class="band-date">${dateLabel()} · ${its.length?`오늘 ${its.length}가지`:'오늘은 쉬는 날'}</p></div></div>
+  </div></header>
+  <div class="wrap hs-wrap${P?' parent':''}">${kidView}${manage}</div>`;
+  renderHsSheet();
+}
+function hsToggle(id){
+  const t=todayKey(); S.home.log[t]=S.home.log[t]||{}; const L=S.home.log[t]; if(L.ok) return; L.done=L.done||{};
+  if(L.done[id]){ delete L.done[id]; rset(`home/log/${t}/done/${id}`,null); tone([523],.08,'sine'); }
+  else { L.done[id]=Date.now(); rset(`home/log/${t}/done/${id}`,L.done[id]); buzz(); const {all}=hsToday(); if(all){ dingdong(); } else tone([784,1046],.12,'triangle',.06); }
+  save(); const y=window.scrollY; renderHome(); window.scrollTo(0,y);
+}
+function hsConfirm(){
+  const k=hsKid(), {t,its,d,all}=hsToday(); if(!all||d.ok) return;
+  parentGate(()=>{ const L=S.home.log[t]; const n=its.length; L.ok=Date.now(); L.stars=n; rset(`home/log/${t}/ok`,L.ok); rset(`home/log/${t}/stars`,n);
+    S.bank[k.id]=(S.bank[k.id]||0)+n; rinc(`bank/${k.id}`,n); save(); renderHome(); tone([523,659,784,1047],.32,'triangle',.11); hsCele(k.id,n); });
+}
+function hsOpen(id){ const x=id&&S.home.items[id]; HS.id=x?id:''; HS.t=x?x.t:''; HS.n=x?x.n||1:1; HS.u=x?x.u||'장':'장'; HS.days=new Set(x?x.days||[]:[HS.wd]); HS.ic=x?x.ic||'notebook':'notebook'; HS.open=true; renderHsSheet(); }
+function renderHsSheet(){
+  let el=document.getElementById('hssheet');
+  if(!HS.open){ if(el) el.remove(); return; }
+  if(!el){ el=document.createElement('div'); el.id='hssheet'; el.className='sheet'; document.body.appendChild(el); }
+  const ok=HS.t.trim()&&HS.days.size;
+  const preset=(n,ds)=>`<button class="hs-pre" data-act="hspre" data-v="${ds.join(',')}">${n}</button>`;
+  el.innerHTML=`<div class="sheet-in hs-sheet" role="dialog" aria-label="홈스쿨 항목">
+    <div class="sh-head"><span class="sc-ico">${ico('notebook')}</span><h2>${HS.id?'항목 고치기':'항목 넣기'}</h2><button class="ib" data-act="hsclose" aria-label="닫기">${ui('x')}</button></div>
+    <h3>무엇을 할까요?</h3>
+    <input class="fld" id="hsT" maxlength="16" placeholder="예: 연산 문제집" value="${esc(HS.t)}" aria-label="항목 이름">
+    <h3>얼마나?</h3>
+    <div class="hs-amt"><button class="hs-step" data-act="hsn" data-v="-1" aria-label="하나 빼기">−</button><b>${HS.n}</b><button class="hs-step" data-act="hsn" data-v="1" aria-label="하나 더하기">+</button>
+      <div class="hs-unit" role="group" aria-label="단위"><button data-act="hsu" data-v="장" aria-pressed="${HS.u==='장'}">장</button><button data-act="hsu" data-v="개" aria-pressed="${HS.u==='개'}">개</button></div></div>
+    <h3>무슨 요일에? <small>여러 요일을 같이 골라도 돼요</small></h3>
+    <div class="hs-days">${HS_ORDER.map(wd=>`<button class="hs-day${wd===0?' sun':wd===6?' sat':''}" data-act="hsday" data-wd="${wd}" aria-pressed="${HS.days.has(wd)}">${HS_WD[wd]}</button>`).join('')}</div>
+    <div class="hs-pres">${preset('평일',[1,2,3,4,5])}${preset('주말',[0,6])}${preset('매일',[0,1,2,3,4,5,6])}${preset('월·수·금',[1,3,5])}${preset('화·목',[2,4])}</div>
+    <h3>그림</h3>
+    <div class="ev-icons hs-icons">${HS_ICONS.map(([ic,n])=>`<button class="ev-icb" data-act="hsic" data-v="${ic}" aria-pressed="${HS.ic===ic}"><span class="ev-ic">${ico(ic)}</span><small>${n}</small></button>`).join('')}</div>
+    <div class="ev-btns">${HS.id?`<button class="btn sec" data-act="hsdel" data-confirm="hsdel">지우기</button>`:''}<button class="btn pri" id="hsGo" data-act="hssave"${ok?'':' disabled'}>${ui('check')}${HS.days.size>1?`${HS.days.size}개 요일에 `:''}저장하기</button></div>
+  </div>`;
+}
+function hsSave(){
+  const t=HS.t.trim(); if(!t||!HS.days.size) return;
+  const id=HS.id||'h'+Date.now().toString(36), old=S.home.items[id], v={t:t.slice(0,16),n:Math.max(1,Math.min(99,HS.n)),u:HS.u==='개'?'개':'장',days:[...HS.days].sort(),ic:HS.ic,at:old?.at||Date.now()};
+  S.home.items[id]=v; rset(`home/items/${id}`,v); save(); HS.open=false; renderHsSheet(); renderHome(); toast(HS.id?'항목을 고쳤어요':`${[...HS.days].length}개 요일에 넣었어요`);
+}
+
+function hsCele(kid,stars){
+  const box=$('.hs-today'); if(!box) return;
+  const c=document.createElement('div'); c.className='cele';
+  const cols=[crayon(kidById(kid).color),'#FFFFFF','#FFD45E','#FF9FB8','#8FD3FF','#9BE3A6'];
+  let conf=''; const H=box.offsetHeight+40;
+  for(let n=0;n<28;n++) conf+=`<span class="cf" style="left:${Math.random()*100}%;background:${cols[n%cols.length]};--dx:${(Math.random()*80-40).toFixed(0)}px;--dy:${H}px;--rot:${(Math.random()*720-360).toFixed(0)}deg;animation-delay:${(Math.random()*.5).toFixed(2)}s;width:${6+Math.random()*7|0}px"></span>`;
+  c.innerHTML=`${conf}<div class="cele-in"><div class="cele-medal">${doneBadge(136)}</div><div class="cele-t">홈스쿨 끝!</div>${starRow(stars,34)}<div class="cele-sub">별 ${stars}개를 받았어요</div></div>`;
+  box.appendChild(c); setTimeout(()=>c.remove(),3100);
+  setTimeout(()=>sayText(`${withI(kidById(kid).name)} 홈스쿨 끝! 별 ${stars}개를 받았어요`),400);
+}
+
 /* ===== 받은 답장 (아이들 쪽) ===== */
 const RP={prevSeen:0};
 function allReplies(){
@@ -3650,7 +4388,7 @@ function renderMsg(){
   $('#msg').innerHTML=`
   <header class="band scene" data-rid="msg"><div class="wrap band-in">
     <button class="back bubble" data-act="${p1?'family':'mpage1'}" aria-label="${p1?'처음 화면으로':'앞 페이지로'}">${ui('back')}</button>
-    <div class="band-title"><span class="sc-ico">${ico('bubble')}</span><div><h1>마음 전하기</h1><p class="band-date">${p1?'누구에게, 누가 보내는지 골라요':'하고 싶은 말을 골라요'}</p></div></div>
+    <div class="band-title"><span class="sc-ico">${ico('bubble')}</span><div><h1>편지 보내기</h1><p class="band-date">${p1?'누구에게, 누가 보내는지 골라요':'하고 싶은 말을 골라요'}</p></div></div>
     <span class="pager" aria-label="${M.page}/2 페이지"><i class="${p1?'on':''}"></i><i class="${p1?'':'on'}"></i></span>${chip}
   </div></header>
   ${p1?`<div class="wrap msg-grid p1">
@@ -4070,6 +4808,41 @@ document.addEventListener('click',e=>{
     case 'char': openChar(d.kid); tone([660,880],.08,'sine'); break;
     case 'crk': openChar(d.kid); break;
     case 'study': openStudy(d.s); break;
+    case 'grow': openGrow(d.kid); tone([660,880],.08,'sine'); break;
+    case 'grk': GR.kid=d.kid; GR.open=false; renderGrow(); break;
+    case 'grtab': GR.tab=d.k; { const y=window.scrollY; renderGrow(); window.scrollTo(0,y); } break;
+    case 'gradd': grStart(); break;
+    case 'grclose': GR.open=false; renderGrowSheet(); break;
+    case 'grday': GR.d=d.v; renderGrowSheet(); break;
+    case 'grsave': grSave(); break;
+    case 'rlstep': rlStep(d.k,Number(d.v)); break;
+    case 'rlsay': sayText(d.k==='h'?`키 ${fmt1(GR.h)}센티미터`:`몸무게 ${fmt1(GR.w)}킬로그램`); break;
+    case 'grsay': { const k=kidById(GR.kid), r=grLast(GR.kid,d.k); if(r) sayText(d.k==='h'?`${withI(k.name)} 키는 ${fmt1(r.h)}센티미터예요`:`${withI(k.name)} 몸무게는 ${fmt1(r.w)}킬로그램이에요`); } break;
+    case 'grsex': { S.grow.info[GR.kid]={...grInfo(GR.kid),sex:d.v}; rset(`grow/info/${GR.kid}`,S.grow.info[GR.kid]); save(); const y=window.scrollY; renderGrow(); window.scrollTo(0,y); } break;
+    case 'grdel': if(!confirmTap(b)) break; delete (S.grow.rec[GR.kid]||{})[d.id]; rset(`grow/rec/${GR.kid}/${d.id}`,null); save(); { const y=window.scrollY; renderGrow(); window.scrollTo(0,y); } break;
+    case 'evsay': evSay(d.id); break;
+    case 'home': openHome(); tone([660,880],.08,'sine'); break;
+    case 'hstog': hsToggle(d.id); break;
+    case 'hsok': hsConfirm(); break;
+    case 'hswd': HS.wd=Number(d.wd); { const y=window.scrollY; renderHome(); window.scrollTo(0,y); } break;
+    case 'hsnew': hsOpen(''); break;
+    case 'hsedit': hsOpen(d.id); break;
+    case 'hsclose': HS.open=false; renderHsSheet(); break;
+    case 'hsn': HS.n=Math.max(1,Math.min(99,HS.n+Number(d.v))); renderHsSheet(); break;
+    case 'hsu': HS.u=d.v; renderHsSheet(); break;
+    case 'hsday': { const w=Number(d.wd); HS.days.has(w)?HS.days.delete(w):HS.days.add(w); renderHsSheet(); } break;
+    case 'hspre': HS.days=new Set(d.v.split(',').map(Number)); renderHsSheet(); break;
+    case 'hsic': HS.ic=d.v; renderHsSheet(); break;
+    case 'hssave': hsSave(); break;
+    case 'hsdel': if(!confirmTap(b)) break; delete S.home.items[HS.id]; rset(`home/items/${HS.id}`,null); save(); HS.open=false; renderHsSheet(); renderHome(); toast('항목을 지웠어요'); break;
+    case 'evnew': evOpen(''); break;
+    case 'evedit': evOpen(d.id); break;
+    case 'evclose': EV.open=false; renderEvSheet(); break;
+    case 'evmulti': EV.multi=!EV.multi; if(EV.multi&&!EV.e) EV.e=EV.d; renderEvSheet(); break;
+    case 'evic': EV.ic=d.v; renderEvSheet(); break;
+    case 'evkid': EV.kids.has(d.kid)?EV.kids.delete(d.kid):EV.kids.add(d.kid); renderEvSheet(); break;
+    case 'evsave': evSave(); break;
+    case 'evdel': if(!confirmTap(b)) break; delete S.events[EV.id]; rset(`events/${EV.id}`,null); save(); EV.open=false; renderEvSheet(); rerenderKeep(); toast('일정을 지웠어요'); break;
     case 'pigadd': pigGive(d.kid,PIG_UNIT); tone([1319,1760],.08,'triangle',.06); buzz(); rerenderKeep(); { const r=document.querySelector(`.pg-plus[data-kid="${d.kid}"]`)?.closest('.pg-row'); const p=r&&r.querySelector('.pg-now'); if(p){ p.classList.remove('wig'); void p.offsetWidth; p.classList.add('wig'); } } break;
     case 'pigsub': if(pigGive(d.kid,-PIG_UNIT)){ tone([523],.08,'sine'); rerenderKeep(); } break;
     case 'pigask': PIG.ask=d.kid; rerenderKeep(); break;
@@ -4176,7 +4949,7 @@ document.addEventListener('click',e=>{
 });
 document.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.classList&&e.target.classList.contains('tc-in')&&!e.isComposing){ e.preventDefault(); const TC=trayCells(F.type), i=TC.findIndex(x=>x.k===e.target.dataset.slot); const nx=TC[i+1]; if(nx) $(`.tc-in[data-slot="${nx.k}"]`)?.focus(); else e.target.blur(); return; } if(e.key==='Enter'&&e.target.id==='chatIn'&&!e.isComposing){ e.preventDefault(); $('[data-act="isend"]')?.click(); return; } if(e.key==='Enter'&&(e.target.id==='welPw'||e.target.id==='welPw2')){ e.preventDefault(); welcomeConnect(); } if(e.key==='Enter'&&(e.target.id==='syncPw'||e.target.id==='syncPw2')){ e.preventDefault(); $('[data-act="syncpw"]')?.click(); } });
 document.addEventListener('focusin',e=>{ if(e.target.classList&&e.target.classList.contains('tc-in')&&F.open){ F.slot=e.target.dataset.slot; paintTray(); } });
-document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(id==='pzText'){ PZ.text=e.target.value; pzSync(); } if(e.target.classList&&e.target.classList.contains('tc-in')){ const sl=e.target.dataset.slot, dd=F.draft[sl]; if(dd){ dd.name=e.target.value; F.slot=sl; if(!dd.manual) dd.icon=e.target.value.trim()?(guessFood(e.target.value)!=='dish'?guessFood(e.target.value):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish')):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish'); paintTray(); } } if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
+document.addEventListener('input',e=>{ const id=e.target.id; if(id==='chatIn') CH.draft=e.target.value; if(id==='pzText'){ PZ.text=e.target.value; pzSync(); } if(id==='hsT'){ HS.t=e.target.value; const g=$('#hsGo'); if(g) g.disabled=!(HS.t.trim()&&HS.days.size); } if(id==='evT'){ EV.t=e.target.value; const g=$('#evGo'); if(g) g.disabled=!(EV.t.trim()&&EV.d); } if(e.target.classList&&e.target.classList.contains('tc-in')){ const sl=e.target.dataset.slot, dd=F.draft[sl]; if(dd){ dd.name=e.target.value; F.slot=sl; if(!dd.manual) dd.icon=e.target.value.trim()?(guessFood(e.target.value)!=='dish'?guessFood(e.target.value):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish')):((sl==='rice'?'rice':sl==='soup'?'soup':null)||'dish'); paintTray(); } } if(id==='welUrl') W.url=e.target.value; if(id==='welPw'&&!W.confirm) W.pw=e.target.value; if(id==='phLabel'){ ed.phLabel=e.target.value; const er=$('#phErr'); if(er) er.hidden=true; } if(id==='phEmoji') ed.phEmoji=e.target.value; if(id==='tgToken') TG.token=e.target.value; if(e.target.id==='newLabel'){ ed.label=e.target.value; const er=$('#newErr'); if(er) er.hidden=true; } });
 document.addEventListener('change',e=>{
   const t=e.target;
   if(t.classList.contains('al-time')||t.classList.contains('al-text')){
@@ -4194,7 +4967,7 @@ document.addEventListener('visibilitychange',()=>{ if(document.visibilityState==
 let lastDay=todayKey();
 setInterval(()=>{ if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); pruneMeds(); save(); show(); } },30000);
 
-window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } if(view.screen==='char'&&CR.try){ CR.try=null; renderChar(); return true; } const up={char:'family',fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
+window.appBack=()=>{ if(document.querySelector('.alarm-pop')){ $('[data-act="alarmok"]')?.click(); return true; } if(GR.open){ GR.open=false; renderGrowSheet(); return true; } if(HS.open){ HS.open=false; renderHsSheet(); return true; } if(EV.open){ EV.open=false; renderEvSheet(); return true; } if(document.querySelector('.sent')) return true; if(H.open){ H.open=false; renderHosp(); return true; } if(view.screen==='welcome'){ if(W.step===2){ W.step=1; W.err=''; renderWelcome(); return true; } return false; } if(view.screen==='msg'&&M.page===2){ if(M.rec==='rec') recStop(); M.page=1; renderMsg(); window.scrollTo(0,0); return true; } if(F.pick){ F.pick=null; renderPick(); return true; } if(F.open){ F.open=false; renderFoodSheet(); return true; } if(view.screen==='char'&&CR.try){ CR.try=null; renderChar(); return true; } const up={home:'family',grow:'family',praise:'family',praises:'family',char:'family',fstats:'family',food:'family',run:'home',cal:'home',edit:view.from||'home',home:'family',msg:'family',replies:'family',room:'family'}[view.screen]; if(up){ view.screen=up; show(); return true } return false };
 setTimeout(shareCharsOut,1500);
 window.appResume=()=>{ appFg=true; shareCharsOut(); if(todayKey()!==lastDay){ lastDay=todayKey(); prune(); save(); } if(S.sync){ flush(); if(!SYNC.es||SYNC.es.readyState===2) connectStream(); if(isAdult()&&!INB.es.some(e=>e.readyState!==2)) inboxConnect(); roomPrune(); } show(); if(rxSetup) rxSoon(); pzResume(); };
 window.addEventListener('online',()=>{ if(S.sync){ flush(); connectStream(); } });
