@@ -14,14 +14,10 @@
 
 | 앱 | 태블릿 | 휴대폰 |
 |---|---|---|
-| 모여봐요 다연마을 (`dayeon-village/`) | [dayeon-village.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/dayeon-village/dayeon-village.apk) | [dayeon-village_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/dayeon-village/dayeon-village_for_mobile_ver1.0.apk) |
-| 솔정마을 (`soljeong-village/`) | [soljeong-village.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/soljeong-village/soljeong-village.apk) | [soljeong-village_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/soljeong-village/soljeong-village_for_mobile_ver1.0.apk) |
 | 오늘공부 (`today-study/`) | [today-study.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/today-study/today-study.apk) | [today-study_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/today-study/today-study_for_mobile_ver1.0.apk) |
-| 모여봐요 단어마을 (친구용) (`word-village/`) | [word-village.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/word-village/word-village.apk) | [word-village_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/word-village/word-village_for_mobile_ver1.0.apk) |
+| 오늘단어 (`word-village/`) | [word-village.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/word-village/word-village.apk) | [word-village_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/word-village/word-village_for_mobile_ver1.0.apk) |
 | 오늘단어 (`today-words/`) | [today-words.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/today-words/today-words.apk) | [today-words_for_mobile_ver1.0.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/today-words/today-words_for_mobile_ver1.0.apk) |
-| 우리가족 (다다다 루틴 포함) (`dadada-routine/`) | [dadada-routine.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/dadada-routine/dadada-routine.apk) | — |
-| 우리 동물 마을 (베타) (`animal-village/`) | [animal-village.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/animal-village/animal-village.apk) | — |
-| 우리 동물 마을 (친구용) (`animal-village-friends/`, 기기 연동 없음) | [animal-village-friends.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/animal-village-friends/animal-village-friends.apk) | 같은 파일 |
+| 우리 동물 마을 (친구용) (`animal-village-friends/`) | [animal-village-friends.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/animal-village-friends/animal-village-friends.apk) | 같은 파일 |
 | 공!부!해! N4 (`jlpt-n4/`) | — | [gongbuhae-n4.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/jlpt-n4/gongbuhae-n4.apk) |
 | 뜨개 카운터 (`knit-counter/`, LOVE 자켓 · 로우키 가디건) | — | [knit-counter.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/knit-counter/knit-counter.apk) |
 

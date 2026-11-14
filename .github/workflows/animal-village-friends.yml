@@ -24,14 +24,11 @@ jobs:
             echo "::error::KEYSTORE_PASSWORD 시크릿이 없어요."
             exit 1
           fi
-          openssl enc -d -aes-256-cbc -pbkdf2 -in keys/today.keystore.enc -out animal-village/app/today.keystore -pass env:KEYSTORE_PASSWORD
-      - name: 친구용으로 바꾸기 (따로 설치되는 앱 · 연동 없음)
+          openssl enc -d -aes-256-cbc -pbkdf2 -in keys/today.keystore.enc -out animal-village-friends/app/today.keystore -pass env:KEYSTORE_PASSWORD
+      - name: 연동 주소가 없는지 확인
         run: |
-          cp animal-village-friends/index.html animal-village/app/src/main/assets/index.html
-          sed -i "s/applicationId 'com.dayeon.animalvillage'/applicationId 'com.dayeon.animalvillage.friends'/" animal-village/app/build.gradle
-          sed -i 's/versionName "0.1.${runNumber}-beta"/versionName "1.0.${runNumber}"/' animal-village/app/build.gradle
-          grep -n "applicationId\|versionName" animal-village/app/build.gradle
-          if grep -q "supabase" animal-village/app/src/main/assets/index.html; then echo "::error::친구용에 연동 주소가 들어 있어요"; exit 1; fi
+          grep -n "applicationId\|versionName" animal-village-friends/app/build.gradle
+          if grep -q "supabase" animal-village-friends/app/src/main/assets/index.html; then echo "::error::친구용에 연동 주소가 들어 있어요"; exit 1; fi
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -43,16 +40,16 @@ jobs:
           gradle-version: '8.9'
       - name: 글꼴 내려받기
         run: |
-          mkdir -p animal-village/app/src/main/assets/fonts
-          curl -fsSL -o animal-village/app/src/main/assets/fonts/Jua-Regular.ttf "https://github.com/google/fonts/raw/main/ofl/jua/Jua-Regular.ttf" || echo "Jua 글꼴을 받지 못했어요"
+          mkdir -p animal-village-friends/app/src/main/assets/fonts
+          curl -fsSL -o animal-village-friends/app/src/main/assets/fonts/Jua-Regular.ttf "https://github.com/google/fonts/raw/main/ofl/jua/Jua-Regular.ttf" || echo "Jua 글꼴을 받지 못했어요"
       - name: APK 빌드
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        run: gradle -p animal-village assembleRelease --no-daemon --stacktrace
+        run: gradle -p animal-village-friends assembleRelease --no-daemon --stacktrace
       - name: 서명 확인
         run: |
-          rm -f animal-village/app/today.keystore
-          cp animal-village/app/build/outputs/apk/release/app-release.apk animal-village-friends.apk
+          rm -f animal-village-friends/app/today.keystore
+          cp animal-village-friends/app/build/outputs/apk/release/app-release.apk animal-village-friends.apk
           AS=$(ls -d $ANDROID_HOME/build-tools/*/ | sort -V | tail -1)apksigner
           "$AS" verify --print-certs animal-village-friends.apk | grep -i "SHA-256"
           unzip -p animal-village-friends.apk assets/index.html | grep -c "supabase" && exit 1 || echo "연동 없음 확인"
@@ -67,4 +64,4 @@ jobs:
             --target "${{ github.sha }}" \
             --latest=false \
             --title "우리 동물 마을 (친구용) v1.0.${{ github.run_number }}" \
-            --notes "다연이가 만든 첫 게임! animal-village-friends.apk 를 눌러 내려받아 설치하세요. 게임 기록은 설치한 기기에만 저장돼요. 다음 버전도 지금 깔린 앱 위에 그대로 설치하면 기록이 유지돼요."
+            --notes "우리 동물 마을 친구용이에요. animal-village-friends.apk 를 눌러 내려받아 설치하세요. 게임 기록은 설치한 기기에만 저장돼요. 다음 버전도 지금 깔린 앱 위에 그대로 설치하면 기록이 유지돼요."
