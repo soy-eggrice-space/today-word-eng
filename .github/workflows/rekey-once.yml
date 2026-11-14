@@ -16,28 +16,35 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: 서명키를 풀어서 공개키로 다시 잠그기 (비밀키를 가진 사람만 열 수 있어요)
+      - name: 서명키 비밀번호를 새것으로 바꾸고, 새 비밀번호는 공개키로 잠그기 (2차)
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
         run: |
           set -e
           umask 077
           W=$(mktemp -d)
+          rm -f rekey/*.aes rekey/*.rsa
+          NEWPW=$(openssl rand -base64 24 | tr -d '/+=' | cut -c1-24)
+          echo "::add-mask::$NEWPW"
+          printf '%s' "$NEWPW" > "$W/newpw"
           git show 65c3e49:keys/dayeon.keystore.enc > "$W/dayeon.enc"
           cp keys/today.keystore.enc "$W/today.enc"
           for k in dayeon today; do
-            openssl enc -d -aes-256-cbc -pbkdf2 -in "$W/$k.enc" -out "$W/$k.keystore" -pass env:KEYSTORE_PASSWORD
-            keytool -list -keystore "$W/$k.keystore" -storepass "$KEYSTORE_PASSWORD" | grep -i "entry" | head -3
-            openssl rand -out "$W/$k.aeskey" 32
-            openssl enc -aes-256-cbc -pbkdf2 -in "$W/$k.keystore" -out "rekey/$k.keystore.aes" -pass file:"$W/$k.aeskey"
-            openssl pkeyutl -encrypt -pubin -inkey rekey/pub.pem -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -in "$W/$k.aeskey" -out "rekey/$k.aeskey.rsa"
+            openssl enc -d -aes-256-cbc -pbkdf2 -in "$W/$k.enc" -out "$W/$k.old" -pass env:KEYSTORE_PASSWORD
+            keytool -importkeystore -noprompt -srckeystore "$W/$k.old" -srcstoretype PKCS12 -srcstorepass:env KEYSTORE_PASSWORD \
+              -destkeystore "$W/$k.new" -deststoretype PKCS12 -deststorepass:file "$W/newpw" -srcalias "$k" -destalias "$k"
+            keytool -list -keystore "$W/$k.new" -storepass:file "$W/newpw" | grep -i "entry"
+            keytool -list -v -keystore "$W/$k.old" -storepass:env KEYSTORE_PASSWORD -alias "$k" | grep "SHA256:" | head -1
+            keytool -list -v -keystore "$W/$k.new" -storepass:file "$W/newpw" -alias "$k" | grep "SHA256:" | head -1
+            openssl enc -aes-256-cbc -pbkdf2 -in "$W/$k.new" -out "rekey/$k.keystore.enc" -pass file:"$W/newpw"
           done
+          openssl pkeyutl -encrypt -pubin -inkey rekey/pub.pem -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 -in "$W/newpw" -out rekey/newpw.rsa
           rm -rf "$W"
           ls -la rekey
       - name: 잠근 파일 올리기
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898+github-actions[bot]@users.noreply.github.com"
-          git add rekey
-          git commit -m "가족 앱 서명키를 비공개 저장소로 옮기기 위한 잠근 파일 (임시)"
+          git add -A rekey
+          git commit -m "가족 앱 서명키: 새 비밀번호로 바꾼 파일 (임시)"
           git push
