@@ -25,6 +25,14 @@
 | 공!부!해! N4 (`jlpt-n4/`) | — | [gongbuhae-n4.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/jlpt-n4/gongbuhae-n4.apk) |
 | 뜨개 카운터 (`knit-counter/`, LOVE 자켓 · 로우키 가디건) | — | [knit-counter.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/knit-counter/knit-counter.apk) |
 
+## 웹앱 (설치 없이 주소·QR로 바로 열기)
+
+| 앱 | 주소 |
+|---|---|
+| 코바늘 단수 카운터 (`web/crochet/`, 태블릿 가로) | https://soy-eggrice-space.github.io/today-word-eng/crochet/ |
+
+`web/` 폴더를 고치면 `.github/workflows/pages.yml`이 GitHub Pages에 다시 올려요.
+
 앱마다 폴더와 빌드(.github/workflows/<폴더>.yml)가 따로 있어서, 그 폴더를 고치면 그 앱만 다시 만들어져요.
 
 서명키는 암호화된 파일(`keys/*.enc`, `app/release.keystore.enc`)만 올려 두고, 빌드할 때 `KEYSTORE_PASSWORD` 시크릿으로 풀어 써요.
