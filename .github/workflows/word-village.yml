@@ -1,4 +1,4 @@
-name: 오늘단어 APK 만들기 (친구용 다연공부)
+name: 오늘단어 APK 만들기 (친구용)
 
 on:
   push:
@@ -37,8 +37,9 @@ jobs:
       - name: 글꼴 내려받기
         run: |
           mkdir -p word-village/app/src/main/assets/fonts
-          curl -fsSL -o word-village/app/src/main/assets/fonts/Jua-Regular.ttf "https://github.com/google/fonts/raw/main/ofl/jua/Jua-Regular.ttf" || echo "Jua 글꼴을 받지 못했어요"
-          curl -fsSL -o word-village/app/src/main/assets/fonts/Fredoka.ttf "https://github.com/google/fonts/raw/main/ofl/fredoka/Fredoka%5Bwdth,wght%5D.ttf" || echo "Fredoka 글꼴을 받지 못했어요"
+          # 앱이 인터넷을 쓰지 않으므로 글꼴은 반드시 앱 안에 들어가야 해요. 못 받으면 빌드를 멈춰요.
+          curl -fsSL --retry 3 -o word-village/app/src/main/assets/fonts/Jua-Regular.ttf "https://github.com/google/fonts/raw/main/ofl/jua/Jua-Regular.ttf"
+          curl -fsSL --retry 3 -o word-village/app/src/main/assets/fonts/Fredoka.ttf "https://github.com/google/fonts/raw/main/ofl/fredoka/Fredoka%5Bwdth,wght%5D.ttf"
       - name: APK 빌드 (태블릿 · 휴대폰)
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}

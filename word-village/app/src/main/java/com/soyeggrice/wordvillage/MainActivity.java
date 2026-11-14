@@ -62,7 +62,10 @@ public class MainActivity extends Activity {
         ws.setJavaScriptEnabled(true);
         ws.setDomStorageEnabled(true);
         ws.setDatabaseEnabled(true);
-        ws.setAllowFileAccess(true);
+        // 앱 안의 화면(file:///android_asset)만 쓰고, 기기 안의 다른 파일은 열지 못하게 막아요.
+        ws.setAllowFileAccess(false);
+        ws.setAllowFileAccessFromFileURLs(false);
+        ws.setAllowUniversalAccessFromFileURLs(false);
         ws.setMediaPlaybackRequiresUserGesture(false);
         ws.setTextZoom(100);
         ws.setCacheMode(WebSettings.LOAD_DEFAULT);
@@ -72,8 +75,8 @@ public class MainActivity extends Activity {
         web.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                // 앱 밖의 페이지로 이동하지 않게 막아요.
-                return !"file".equals(request.getUrl().getScheme());
+                // 앱 안의 화면 말고는 어디로도 이동하지 않게 막아요.
+                return !request.getUrl().toString().startsWith("file:///android_asset/");
             }
         });
 
