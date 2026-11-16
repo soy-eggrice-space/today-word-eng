@@ -20,7 +20,7 @@
 | 우리 동물 마을 (친구용) (`animal-village-friends/`) | [animal-village-friends.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/animal-village-friends/animal-village-friends.apk) | 같은 파일 |
 | 공!부!해! N4 (`jlpt-n4/`) | — | [gongbuhae-n4.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/jlpt-n4/gongbuhae-n4.apk) |
 | 뜨개 카운터 (`knit-counter/`, LOVE 자켓 · 로우키 가디건) | — | [knit-counter.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/knit-counter/knit-counter.apk) |
-| 단어키우기 테스트 (설치 파일만 올려요) | 같은 파일 | [daneokiugi.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/daneokiugi/daneokiugi.apk) |
+| 단어키우기 테스트 (설치 파일만 올려요) | 같은 파일 | [daneokiugi.apk](https://soy-eggrice-space.github.io/today-word-eng/daneokiugi/daneokiugi.apk) |
 
 ## 웹앱 (설치 없이 주소·QR로 바로 열기)
 
