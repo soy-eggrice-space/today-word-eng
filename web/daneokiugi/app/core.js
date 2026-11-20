@@ -53,6 +53,19 @@ const makerLink = (st) => `<button type="button" data-a="maker" style="backgroun
 const fitEn = (s, base, room) => Math.max(11, Math.min(base, Math.floor(room / (.6 * s.length))));
 // 표현(여러 단어짜리)은 두 줄로 넘어가도 되니 그만큼 크게, 조각 맞추기에서는 단어 단위로 나눠요
 const isPhrase = s => /\s/.test(s);
+// 뜻이 겹치는 단어: "바꾸다 = alter / replace / switch"처럼 뜻이 같은 단어가 여럿이면, 맞게 답하고도 틀렸다고 나올 수 있어요
+const koParts = s => String(s).split(/[,;\/·]/).map(x => x.replace(/\(.*?\)/g, '').replace(/~/g, '').replace(/\s+/g, ' ').trim()).filter(Boolean);
+const _kp = new Map(), kparts = w => { let p = _kp.get(w); if (!p) { p = koParts(w[1]); _kp.set(w, p); } return p; };
+const sameSense = (a, b) => a[1] === b[1] || kparts(a).some(p => kparts(b).includes(p));
+// 키보드로 쓴 답: 대문자, 앞뒤 빈칸, 자동으로 붙는 점이나 빈칸, 전각 글자를 모두 같은 것으로 봐요
+const normEn = s => String(s == null ? '' : s).normalize('NFKC').toLowerCase().replace(/[^a-z]/g, '');
+// 뜻이 겹치는 단어와 헷갈리지 않게 알려 줄 앞 글자 (say / speak 처럼 첫 글자가 같으면 두 글자까지)
+// shoe / shoes 처럼 정답이 다른 단어의 앞부분이면 글자 수도 같이 알려 줘요. 정답을 통째로 보여 주지는 않아요
+const cueOf = (ans, oth) => { const ext = oth.filter(o => o.indexOf(ans) === 0), rest = oth.filter(o => o.indexOf(ans) !== 0); let k = 1; while (k < ans.length - 1 && rest.some(o => o.slice(0, k) === ans.slice(0, k))) k++; return { p: ans.slice(0, k), n: ext.length > 0 || rest.some(o => o.slice(0, k) === ans.slice(0, k)) }; };
+const cueText = (c, ans) => `<b class="d">${c.p}</b>${roEn(c.p)} 시작하는 ${c.n ? `<b class="d">${ans.length}</b>글자 ` : ''}단어를 써 주세요`;
+const roEn = s => (/[mn]$/.test(s) ? '으로' : '로');
+let _enIdx = null;
+const altOf = (w, v) => { if (!_enIdx) { _enIdx = {}; BOOKS.forEach(b => b.words.forEach(x => { const k = normEn(x[0]); (_enIdx[k] = _enIdx[k] || []).push(x); })); } return (_enIdx[v] || []).find(x => sameSense(x, w)); };
 const fitEnAny = (s, base, room) => { if (!isPhrase(s)) return fitEn(s, base, room);
   const t = s.split(/\s+/); let best = s.length;   // 두 줄로 가장 고르게 나눴을 때 긴 줄의 글자 수에 맞춰요
   for (let i = 1; i < t.length; i++) best = Math.min(best, Math.max(t.slice(0, i).join(' ').length, t.slice(i).join(' ').length));
