@@ -202,7 +202,7 @@ SCR.chalGame = {
     const fp = [[10, 30, 108], [112, 4, 86], [190, 50, 74], [58, 134, 70], [150, 140, 62]];   // 왼쪽, 바닥에서, 크기
     const k = clamp((Math.min(window.innerHeight, 1000) - 330) / 514, .58, 1.12);   // 화면 높이에 맞춰 싸움 장면 크기를 조절
     const ch = q.choices.map((c, i) => { const st = g.mark ? (i === q.ans ? ' ok' : i === g.mark.pick ? ' no' : ' off') : (q.dis.includes(i) ? ' off' : '');
-      return `<button type="button" class="choice c${i}${st}${q.en ? '' : ' en'}" style="height:60px;font-size:${q.en ? 19 : 21}px" data-a="cans" data-i="${i}" ${q.dis.includes(i) ? 'disabled' : ''}><b style="width:26px;height:26px;margin-top:-15px;font-size:14px">${g.mark && i === q.ans ? ico(IC.check, 15, 3.4) : i + 1}</b><span>${esc(c)}</span></button>`; }).join('');
+      return `<button type="button" class="choice c${i}${st}${q.en ? '' : ' en'}" style="height:60px;font-size:${q.en ? fitKo(c, 19) : fitEn(c, 21, 106)}px" data-a="cans" data-i="${i}" ${q.dis.includes(i) ? 'disabled' : ''}><b style="width:26px;height:26px;margin-top:-15px;font-size:14px">${g.mark && i === q.ans ? ico(IC.check, 15, 3.4) : i + 1}</b><span>${esc(c)}</span></button>`; }).join('');
     const act = k => `<div class="cg-card">${stk(k, 34)}<div><span class="row" style="gap:4px"><span class="d" style="font-size:13.5px;white-space:nowrap">${CARD[k].n.replace(' 카드', '')}</span>${pips(g.cards[k], 9)}</span><span id="cst_${k}" style="font-size:11.5px;color:var(--sub2);white-space:nowrap">${cardState(k)}</span></div></div>`;
     const ks = Object.keys(g.cards);
     const shots = fx === 'hit' ? [0, 1, 2, 3, 4].map(i => `<span class="cg-shot s${i}" style="left:${80 + i * 30}px;bottom:${110 + (i % 2) * 60}px;animation-delay:${i * 35}ms">${stk('s_star', 34, 'pl')}</span>`).join('') : '';
@@ -222,7 +222,7 @@ ${shots}${fx ? '' : `<span class="cg-clash c0">${burst(46)}</span><span class="c
 <div class="cg-push"><i style="width:${(8 + push * 84).toFixed(0)}%"></i><b style="left:${(8 + push * 84).toFixed(0)}%">${stk(TH().hero, 26, 'pl')}</b><em>${stk(ek, 24, 'pl')}</em></div>
 </div>
 <div class="cg-panel">
-<div class="cg-q"><span class="d" style="font-size:${q.en ? (q.w[0].length > 10 ? 30 : 38) : (q.w[1].length > 12 ? 24 : 30)}px;line-height:1.2;text-align:center">${esc(q.en ? q.w[0] : q.w[1])}</span>${q.en ? `<button type="button" class="ibtn rd" style="background:var(--y)" data-a="say" data-t="${esc(q.w[0])}" aria-label="발음 듣기">${ico(IC.spk, 22)}</button>` : ''}</div>
+<div class="cg-q"><span class="d" style="font-size:${q.en ? fitEn(q.w[0], 38, 244) : (q.w[1].length > 12 ? 24 : 30)}px;line-height:1.2;text-align:center">${esc(q.en ? q.w[0] : q.w[1])}</span>${q.en ? `<button type="button" class="ibtn rd" style="background:var(--y)" data-a="say" data-t="${esc(q.w[0])}" aria-label="발음 듣기">${ico(IC.spk, 22)}</button>` : ''}</div>
 <div class="grid2" style="gap:10px">${ch}</div>
 ${ks.length ? `<div class="row" style="gap:8px">${ks.map(act).join('')}</div>` : ''}${g.syn ? `<div class="cg-syn d">${stk('s_star', 16)}시너지 · ${g.syn.n} · ${g.syn.e}</div>` : ''}</div></div>`;
   },

@@ -3,7 +3,7 @@
 const RP = { tab: 'day', day: null, wk: 0, i: -1 };
 const RTY = { t1: '뜻 고르기', t2: '단어 고르기', t3: '스펠링 눌러 쓰기', t4: '키보드로 쓰기', t5: '예문 빈칸 채우기' };
 const RDOW = ['일', '월', '화', '수', '목', '금', '토'];
-const RGOAL = { starter: '처음 만나는 쉬운 낱말을 알게 돼요', elem_low: '초등 저학년 수준 단어를 알게 돼요', elem_high: '초등학교 수준 단어를 두루 알게 돼요', middle_basic: '중학교에서 꼭 쓰는 단어를 알게 돼요', middle_adv: '중학교 수준 단어를 두루 알게 돼요' };
+const RGOAL = { starter: '처음 만나는 쉬운 낱말을 알게 돼요', elem_low: '초등 저학년 수준 단어를 알게 돼요', elem_high: '초등학교 수준 단어를 두루 알게 돼요', middle_basic: '중학교에서 꼭 쓰는 단어를 알게 돼요', middle_adv: '중학교 수준 단어를 두루 알게 돼요', high_basic: '수능에 자주 나오는 단어를 알게 돼요', high_adv: '고등학교 수준 단어를 두루 알게 돼요' };
 const rDate = n => new Date(n * 864e5);
 const rYmd = n => { const d = rDate(n); return `${d.getUTCFullYear()}년 ${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`; };
 const rMd = n => { const d = rDate(n); return `${d.getUTCMonth() + 1}월 ${d.getUTCDate()}일`; };

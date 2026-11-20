@@ -149,7 +149,7 @@ SCR.card = {
 <div class="row" style="justify-content:space-between"><div class="sub" style="font-size:14.5px">단어 카드 · ${SS.ci + 1} / ${cw.length}</div><button type="button" class="chip ln d" style="height:40px;padding:0 14px;border-radius:20px;border-width:2px;font-size:15px;background:var(${o.auto ? '--main' : '--paper'})" data-a="autoTog">${o.auto ? '자동 넘기기 켜짐' : '자동 넘기기 꺼짐'}</button></div>
 <div class="card" style="flex:1 1 0;min-height:0;border-radius:32px;box-shadow:0 5px 0 rgba(74,65,56,.16);padding:24px 20px;align-items:center;gap:12px;justify-content:center">
 <span class="chip" style="background:var(--t0)">${w[2]}</span>
-<div class="row" style="gap:12px;margin-top:6px"><div class="d" style="font-size:${w[0].length > 9 ? 38 : 50}px;line-height:1.15">${esc(w[0])}</div>${spkBtn(w[0])}</div>
+<div class="row" style="gap:12px;margin-top:6px"><div class="d" style="font-size:${fitEn(w[0], 50, 236)}px;line-height:1.15">${esc(w[0])}</div>${spkBtn(w[0])}</div>
 <div style="font-size:26px;text-align:center">${esc(w[1])}</div>
 ${w[3] ? `<button type="button" data-a="say" data-t="${esc(w[3])}" style="margin-top:22px;width:100%;border:0;background:var(--mainPale);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;text-align:left"><span style="font-size:19px;line-height:1.5">${hlEx(w)}</span><span style="font-size:15px;line-height:1.4;color:var(--sub)">${esc(w[4])}</span></button>` : ''}
 </div>
@@ -199,12 +199,12 @@ SCR.quiz = {
     const o = O(), q = SS.q, w = q.w, t = q.type;
     const head = { t1: '뜻을 골라 보세요', t2: '영어 단어를 골라 보세요', t3: '글자를 눌러 단어를 만들어요', t4: '영어 단어를 써 보세요', t5: '빈칸에 들어갈 단어를 골라요' }[t];
     let prompt, body;
-    if (t === 't1') prompt = `<div class="row" style="gap:12px"><div class="d" style="font-size:${w[0].length > 9 ? 36 : 48}px;line-height:1.2">${esc(w[0])}</div>${spkBtn(w[0])}</div>`;
+    if (t === 't1') prompt = `<div class="row" style="gap:12px"><div class="d" style="font-size:${fitEn(w[0], 48, 236)}px;line-height:1.2">${esc(w[0])}</div>${spkBtn(w[0])}</div>`;
     else if (t === 't5') prompt = `<div class="d" style="font-size:24px;line-height:1.45;text-align:center">${q.done ? hlEx(w) : esc(q.blank)}</div><div style="font-size:15px;color:var(--sub);text-align:center">${esc(w[4])}</div>`;
     else prompt = `<div class="d" style="font-size:${w[1].length > 12 ? 26 : 34}px;line-height:1.25;text-align:center">${esc(w[1])}</div>${t === 't2' ? '' : `<div class="row" style="gap:8px"><span class="sub">소리 듣기</span>${spkBtn(w[0])}</div>`}`;
     if (q.choices) {
       body = `<div class="grid2">${q.choices.map((c, i) => { const st = !q.done ? '' : i === q.ans ? ' ok' : i === q.pick ? ' no' : ' off'; const mark = q.done && i === q.ans ? ico(IC.check, 17, 3.4) : q.done && i === q.pick ? ico(IC.x, 15, 3.4) : i + 1;
-        return `<button type="button" class="choice c${i}${st}${t === 't1' ? '' : ' en'}" data-a="ans" data-i="${i}"><b>${mark}</b><span${t !== 't1' && c.length > 9 ? ` style="font-size:${c.length > 12 ? 15 : 18}px"` : ''}>${esc(c)}</span></button>`; }).join('')}</div>`;
+        return `<button type="button" class="choice c${i}${st}${t === 't1' ? '' : ' en'}" data-a="ans" data-i="${i}"><b>${mark}</b><span style="font-size:${t === 't1' ? fitKo(c, 20) : fitEn(c, 22, 106)}px">${esc(c)}</span></button>`; }).join('')}</div>`;
     } else if (t === 't3') {
       const ls = w[0].toLowerCase().split('');
       const mine = q.pick.some((v, i) => v != null && !q.fix[i]);

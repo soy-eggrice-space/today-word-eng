@@ -47,6 +47,9 @@ function ens(o) {
 }
 const ST = () => { const o = O(); return o.stat || (o.stat = {}); };
 const bump = (k, n) => { const s = ST(); s[k] = (s[k] || 0) + (n || 1); };
+// 긴 단어와 긴 뜻이 칸을 넘지 않게 글자 크기를 길이에 맞춰요 (room: 좁은 화면에서 글자가 쓸 수 있는 너비)
+const fitEn = (s, base, room) => Math.max(11, Math.min(base, Math.floor(room / (.6 * s.length))));
+const fitKo = (s, base) => s.length > 12 ? Math.min(base, 15) : s.length > 9 ? Math.min(base, 17) : base;
 function defTypes(book) { return book === 'starter' ? { t1: 1, t2: 1, t3: 0, t4: 0, t5: 0 } : { t1: 1, t2: 1, t3: 1, t4: 0, t5: 1 }; }
 function newOwner(d) {
   return { name: d.name, stick: d.stick || '', theme: d.theme, book: d.book, used: [d.book], towns: [], per: d.per || 20, mode: d.mode || 'card', types: defTypes(d.book), auto: true, exRead: true, speed: 'slow',
