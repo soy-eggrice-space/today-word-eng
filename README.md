@@ -20,7 +20,7 @@
 | 우리 동물 마을 (친구용) (`animal-village-friends/`) | [animal-village-friends.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/animal-village-friends/animal-village-friends.apk) | 같은 파일 |
 | 공!부!해! N4 (`jlpt-n4/`) | — | [gongbuhae-n4.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/jlpt-n4/gongbuhae-n4.apk) |
 | 뜨개 카운터 (`knit-counter/`, LOVE 자켓 · 로우키 가디건) | — | [knit-counter.apk](https://github.com/soy-eggrice-space/today-word-eng/releases/download/knit-counter/knit-counter.apk) |
-| 단어키우기 테스트 (설치 파일만 올려요) | 같은 파일 | [daneokiugi.apk](https://soy-eggrice-space.github.io/today-word-eng/daneokiugi/daneokiugi.apk) |
+| 단어키우기 (설치 파일과 웹앱만 올려요) | 같은 파일 | [daneokiugi.apk](https://soy-eggrice-space.github.io/today-word-eng/daneokiugi/daneokiugi.apk) |
 
 ## 웹앱 (설치 없이 주소·QR로 바로 열기)
 
@@ -28,6 +28,7 @@
 |---|---|
 | 코바늘 단수 카운터 (`web/crochet/`, 태블릿 가로) | https://soy-eggrice-space.github.io/today-word-eng/crochet/ |
 | 단어키우기 소개와 설치 안내 (`web/daneokiugi/`) | https://soy-eggrice-space.github.io/today-word-eng/daneokiugi/ |
+| 단어키우기 웹앱 (`web/daneokiugi/app/`) | https://soy-eggrice-space.github.io/today-word-eng/daneokiugi/app/ |
 
 `web/` 폴더를 고치면 `.github/workflows/pages.yml`이 GitHub Pages에 다시 올려요.
 
