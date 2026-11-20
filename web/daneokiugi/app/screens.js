@@ -2,7 +2,7 @@
 // 단어키우기 · 시작, 마을 만들기, 홈, 설정, 부모 화면
 const STICKS = ['s_flower', 's_star', 's_heart', 's_sprout', 's_moon', 's_sun', 's_cloud', 's_ribbon', 's_crown', 's_note', 's_rocket', 's_ball', 's_bolt', 's_car'];
 const BOOKNOTE = { starter: '처음 만나는 쉬운 낱말', elem_low: '눈에 보이는 것과 쉬운 동작', elem_high: '저학년 다음에 배우는 낱말', middle_basic: '중학교에서 꼭 쓰는 낱말', middle_adv: '기본 다음에 배우는 낱말' };
-const VERSION = '0.1.10';
+const VERSION = '0.1.11';
 function enter(i) { S.cur = i; applyTheme(O().theme); V.cam = null; save(); go('home', {}, { reset: true }); }
 
 SCR.main = {
@@ -144,20 +144,7 @@ ACT.backup = () => { const j = JSON.stringify(S), name = 'daneokiugi-backup-' + 
 ACT.delAsk = () => modal(`<h1>이 마을을 지울까요?</h1><div class="hint" style="font-size:15px">${esc(O().name)}의 마을과 공부 기록이 모두 사라져요. 되돌릴 수 없어요.</div><div class="row"><button type="button" class="btn f2" data-a="close">그대로 둘게요</button><button type="button" class="btn sec f1" data-a="delYes">지우기</button></div>`);
 ACT.delYes = () => { closeModal(true); if (S.keep) delete S.keep[S.cur]; S.owners.splice(S.cur, 1); S.keep = {}; S.cur = -1; save(true); go('main', {}, { reset: true }); };
 
-// ---------- 부모 화면 (오늘 요약) ----------
-SCR.parent = {
-  view(p) {
-    if (!S.owners.length) return `<div class="scr">${topbar('부모 리포트')}<div class="card" style="align-items:center;padding:28px 14px"><span class="sub" style="font-size:15px;text-align:center">아직 마을이 없어요.<br>먼저 아이와 마을을 만들어 주세요</span></div></div>`;
-    const i = clamp(p.i || 0, 0, S.owners.length - 1), o = S.owners[i], k = today(), h = o.hist[k] || { q: 0, ok: 0, ms: 0 };
-    const tile = (n, l, c) => `<div class="tile" style="padding:14px 6px;background:var(${c})"><b class="d tn" style="font-weight:400;font-size:26px">${n}</b><span class="sub">${l}</span></div>`;
-    return `<div class="scr">${topbar('부모 리포트')}
-${S.owners.length > 1 ? seg('parOwner', S.owners.map((x, j) => [j, esc(x.name)]), i) : `<div class="sub" style="font-size:14.5px">${esc(o.name)} · ${DT.themes[o.theme].name} · ${BOOKS.find(b => b.id === o.book).name}</div>`}
-<div class="d" style="text-align:center;font-size:18px">${new Date().getMonth() + 1}월 ${new Date().getDate()}일 오늘</div>
-<div class="grid2">${tile(h.q, '푼 문제', '--t2')}${tile(h.q ? Math.round(h.ok / h.q * 100) + '%' : '-', '정답률', '--stary')}${tile(Math.round(h.ms / 6e4) + '분', '공부 시간', '--t0')}${tile((o.last === k || o.last === dfrom(dnum(k) - 1) ? o.streak : 0) + '일', '이어서 공부', '--t3')}</div>
-<div class="hint">아이별 기록은 마을 안의 기록 탭에서 더 자세히 볼 수 있어요.</div></div>`;
-  },
-  after() { applyTheme(S.cur >= 0 && O() ? O().theme : 'dino'); }
-};
+// 부모 화면은 report.js에 있어요
 ACT.parOwner = d => { R.p = { i: +d.v }; render(); };
 
 // ---------- 시작 ----------

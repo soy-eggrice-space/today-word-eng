@@ -52,6 +52,7 @@ function newOwner(d) {
   return { name: d.name, stick: d.stick || '', theme: d.theme, book: d.book, used: [d.book], towns: [], per: d.per || 20, mode: d.mode || 'card', types: defTypes(d.book), auto: true, exRead: true, speed: 'slow',
     stars: 0, total: 0, eggBox: 1, itemBox: 1, title: '', titles: {}, stat: {}, w: {}, wr: {}, day: { k: '', q: 0, ok: 0, words: 0, ms: 0, wrong: [] }, streak: 0, best: 0, last: '', hist: {}, vil: newVil() };
 }
+const histToday = () => { const o = O(), k = today(); return o.hist[k] || (o.hist[k] = { q: 0, ok: 0, st: 0, ms: 0 }); };   // 오늘 기록 칸 (공부를 안 한 날에도 마을 일은 적어 둬요)
 function dayOf(o) { const k = today(); if (o.day.k !== k) o.day = { k, q: 0, ok: 0, words: 0, ms: 0, wrong: [] }; return o.day; }
 
 // ---------- 그림 ----------

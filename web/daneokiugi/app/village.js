@@ -595,7 +595,7 @@ function mergeDo(ids) {
     a.k = t.lines[a.k]; if (!t.lines[a.k]) { bump('gold'); v.seen['g:' + a.k] = 1; }
     if (allRecs().some(r => r.out === a.k)) madeUp(a.k);
   }
-  bump('merge');
+  bump('merge'); { const h = histToday(); h.mg = (h.mg || 0) + 1; }
   return { a, kind, bonus };
 }
 function mysteryModal(f) {
@@ -643,7 +643,7 @@ ACT.doMix = () => {
   const first = !v.found[rec.out], at = null;
   os.forEach(o => removeObj(o.id));
   const nw = addObj({ t: 'i', k: rec.out }, at);
-  const mn = madeUp(rec.out); V.sel = []; V.pop = nw.id; vib(mn === 5 ? 60 : 30); save(); render();
+  const mn = madeUp(rec.out); if (first) { const h = histToday(); h.nr = h.nr || []; if (h.nr.length < 6) h.nr.push(rec.name); } V.sel = []; V.pop = nw.id; vib(mn === 5 ? 60 : 30); save(); render();
   modal(`<h1 style="text-align:center">${first ? (rec.hid ? '미스터리 물건을 찾았어요!' : '새 물건을 만들었어요!') : mn === 5 ? '다이아몬드를 달았어요!' : '조합 성공!'}</h1>
 <div style="display:flex;justify-content:center;padding:10px 0;position:relative"><span class="${mn >= 5 ? 'diapic' : ''}" style="animation:pop .45s ease-out">${pic(rec.out, 130)}</span></div>
 <div class="d" style="text-align:center;font-size:22px">${rec.name}</div>

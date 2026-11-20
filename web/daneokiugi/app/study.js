@@ -73,15 +73,15 @@ function makeQ() {
   SS.q = q;
 }
 function record(w, ok, gain) {
-  const o = O(), m = wmap(), d = dayOf(o), t = dnum(d.k), s = m[w[0]] || [1, 0, t];
+  const o = O(), m = wmap(), d = dayOf(o), t = dnum(d.k), isNew = !m[w[0]], s = m[w[0]] || [1, 0, t], wasDone = s[0] >= 3; let wrOut = 0, box = 0;
   if (!d.q) { o.streak = o.last === dfrom(t - 1) ? o.streak + 1 : (o.last === d.k ? o.streak : 1); o.last = d.k; o.best = Math.max(o.best || 0, o.streak); }
   d.q++; SS.done++; if (!SS.retry) SS.ans[w[0]] = 1;
   if (SS.kind === 'daily' && !SS.retry) d.words++;
   if (ok) {
     d.ok++; SS.ok++; s[1] = Math.min(3, s[1] + 1); s[0] = s[1] >= 3 ? 3 : 2; s[2] = t + (o.book === 'starter' ? [1, 2, 4] : [1, 3, 7])[s[1] - 1];
     addStars(gain); SS.stars += gain;
-    o.boxc = (o.boxc || 0) + 1; if (o.boxc >= boxEvery()) { o.boxc = 0; o.eggBox++; o.itemBox++; SS.box++; }   // 맞힌 문제가 모이면 상자 묶음
-    const wr = o.wr[w[0]]; if (wr) { wr.ok = (wr.ok || 0) + 1; if (wr.ok >= 3) { delete o.wr[w[0]]; bump('wrOut'); } }
+    o.boxc = (o.boxc || 0) + 1; if (o.boxc >= boxEvery()) { o.boxc = 0; o.eggBox++; o.itemBox++; SS.box++; box = 1; }   // 맞힌 문제가 모이면 상자 묶음
+    const wr = o.wr[w[0]]; if (wr) { wr.ok = (wr.ok || 0) + 1; if (wr.ok >= 3) { delete o.wr[w[0]]; bump('wrOut'); wrOut = 1; } }
     if (SS.q && (SS.q.type === 't3' || SS.q.type === 't4')) bump('spell');
   } else {
     s[1] = 0; s[0] = Math.max(1, Math.min(s[0], 2)); s[2] = t + 1;
@@ -91,6 +91,13 @@ function record(w, ok, gain) {
   }
   m[w[0]] = s;
   const h = o.hist[d.k] || (o.hist[d.k] = { q: 0, ok: 0, st: 0, ms: 0 }); h.q = d.q; h.ok = d.ok; if (ok) h.st += gain;
+  // 부모 리포트에 쓰는 하루 기록: 새로 본 단어, 복습한 단어, 유형별 정답, 틀린 단어, 공부한 시각
+  const now = new Date(), mn = now.getHours() * 60 + now.getMinutes(), ty = SS.q && SS.q.type; d.sw = d.sw || {};
+  if (h.t0 == null) h.t0 = mn; h.t1 = mn; h.b = o.book;
+  if (!d.sw[w[0]]) { d.sw[w[0]] = 1; if (isNew) h.nw = (h.nw || 0) + 1; else h.rv = (h.rv || 0) + 1; }
+  if (ty) { h.ty = h.ty || {}; const a = h.ty[ty] || (h.ty[ty] = [0, 0]); a[0]++; if (ok) a[1]++; }
+  if (!ok) { h.wr = h.wr || {}; if (h.wr[w[0]] || Object.keys(h.wr).length < 40) h.wr[w[0]] = (h.wr[w[0]] || 0) + 1; }
+  if (!wasDone && s[0] >= 3) h.pf = (h.pf || 0) + 1; if (wrOut) h.wo = (h.wo || 0) + 1; if (box) h.bx = (h.bx || 0) + 1;
   save();
 }
 function finalize(ok, gain) {
@@ -291,6 +298,7 @@ SCR.rec = {
 <div class="card">${ttl('이번 주 도장', '--a1', IC.check)}<div style="display:flex">${st}</div><span class="sub">이번 주에 ${n}번 공부했어요</span></div>
 <div class="card"><div class="row" style="align-items:baseline">${ttl('칭찬 배지', '--a3', IC.star)}<span class="sub tn" style="margin-left:auto">6개 중 ${bd.filter(b => b[2]).length}개</span></div><div class="grid3">${bd.map(([k, nm, got, c]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;background:${got ? `var(${c})` : 'var(--paper)'};border:${got ? '0' : '1.5px dashed var(--sub)'};border-radius:16px;padding:10px 2px 8px">${stk(k, 46, got ? '' : 'sil')}<span style="font-size:13px;color:var(${got ? '--tx' : '--sub'})">${nm}</span></div>`).join('')}</div></div>
 <div class="row" style="gap:8px"><div class="tile" style="flex:1 1 0;background:var(--t2)"><b class="d tn" style="font-weight:400;font-size:20px">${d.q}</b><span class="sub">오늘 푼 문제</span></div><div class="tile" style="flex:1 1 0;background:var(--stary)"><b class="d tn" style="font-weight:400;font-size:20px">${o.total || 0}</b><span class="sub">모두 모은 별</span></div><div class="tile" style="flex:1 1 0;background:var(--t0)"><b class="d tn" style="font-weight:400;font-size:20px">${seen}</b><span class="sub">만난 단어</span></div></div>
+<button type="button" class="btn sec" data-a="report">부모 리포트 자세히 보기</button>
 </div>${tabbar('rec')}`;
   },
   after() { afterChecks(); }
