@@ -49,6 +49,13 @@ const ST = () => { const o = O(); return o.stat || (o.stat = {}); };
 const bump = (k, n) => { const s = ST(); s[k] = (s[k] || 0) + (n || 1); };
 // 긴 단어와 긴 뜻이 칸을 넘지 않게 글자 크기를 길이에 맞춰요 (room: 좁은 화면에서 글자가 쓸 수 있는 너비)
 const fitEn = (s, base, room) => Math.max(11, Math.min(base, Math.floor(room / (.6 * s.length))));
+// 표현(여러 단어짜리)은 두 줄로 넘어가도 되니 그만큼 크게, 조각 맞추기에서는 단어 단위로 나눠요
+const isPhrase = s => /\s/.test(s);
+const fitEnAny = (s, base, room) => { if (!isPhrase(s)) return fitEn(s, base, room);
+  const t = s.split(/\s+/); let best = s.length;   // 두 줄로 가장 고르게 나눴을 때 긴 줄의 글자 수에 맞춰요
+  for (let i = 1; i < t.length; i++) best = Math.min(best, Math.max(t.slice(0, i).join(' ').length, t.slice(i).join(' ').length));
+  return Math.max(12, Math.min(base, Math.floor(room / (.62 * best)))); };
+const qTok = w => w[0].split(/\s+/).map(t => { t = t.toLowerCase().replace(/^[^a-z0-9']+|[^a-z0-9']+$/g, ''); return t === 'i' ? 'I' : t.indexOf("i'") === 0 ? 'I' + t.slice(1) : t; }).filter(Boolean);
 const fitKo = (s, base) => s.length > 12 ? Math.min(base, 15) : s.length > 9 ? Math.min(base, 17) : base;
 function defTypes(book) { return book === 'starter' ? { t1: 1, t2: 1, t3: 0, t4: 0, t5: 0 } : { t1: 1, t2: 1, t3: 1, t4: 0, t5: 1 }; }
 function newOwner(d) {

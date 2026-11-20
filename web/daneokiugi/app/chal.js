@@ -111,7 +111,7 @@ SCR.chal = {
     const pos = [[14, 104, 66], [82, 128, 56], [138, 144, 50], [22, 46, 46]];
     const ok = open && fs.length && left > 0;
     const tag = (t, c) => `<span class="d" style="padding:2px 11px 4px;border-radius:13px;border:2px solid var(--ink);background:var(${c});font-size:14px;white-space:nowrap">${t}</span>`;
-    const soon = n => `<div class="card csoon"><i>?</i><div class="f1" style="min-width:0;display:flex;flex-direction:column;gap:3px"><span class="row" style="gap:8px;justify-content:flex-start"><span class="d" style="font-size:18px;color:var(--sub2)">${n}</span>${tag('COMING SOON', '--paper')}</span><span class="sub" style="font-size:13.5px">새 게임을 준비하고 있어요</span></div></div>`;
+    const fr = DT.themes[o.theme].fr, soon = (ks, bg, dot) => `<div class="card csoon" style="background:var(${bg})"><div class="cs-pic">${ks.map((k, i) => `<span style="left:${i * 36}px;top:${[8, 0, 10][i]}px;transform:rotate(${[-8, 0, 8][i]}deg);z-index:${i === 1 ? 2 : 1}">${stk(k, 60, '', true)}</span>`).join('')}</div><div class="f1" style="display:flex;flex-direction:column;gap:2px;align-items:flex-start"><span class="d cs-t" style="background:var(${dot})">COMING SOON</span><span style="font-size:13.5px;color:var(--sub2)">새 게임을 준비하고 있어요</span></div><span class="cs-sp" style="left:8px;top:6px;width:16px;height:16px">${spark(16, 0, 0)}</span><span class="cs-sp" style="right:12px;top:8px;width:13px;height:13px">${spark(13, 0, 0)}</span></div>`;
     return `<div class="scr" style="gap:10px;background:var(--t3)">
 <div class="row" style="gap:8px"><h1 style="white-space:nowrap;margin-right:auto">도전!</h1><button type="button" class="ibtn rd d" style="width:40px;height:40px;font-size:19px" data-a="tutChal" aria-label="도전 안내 다시 보기">?</button><span style="font-size:14px;color:var(--sub2)">${!open ? '아직 잠겨 있어요' : o.inf ? '무한모드 · 계속 할 수 있어요' : left ? `오늘 세 번 중 ${4 - left}번째` : '오늘은 세 번 다 했어요'}</span></div>
 <div class="card" data-tu="tro" style="gap:6px;padding:12px 6px"><span style="font-size:13px;color:var(--sub2);text-align:center">점수가 높을수록 더 멋진 트로피를 받아요${o.vil.bestScore ? ` · 가장 높은 점수 ${o.vil.bestScore}점` : ''}</span>${troRow(34)}</div>
@@ -121,7 +121,7 @@ ${fs.map((f, i) => `<span style="position:absolute;left:${pos[i][0]}px;top:${pos
 <div style="display:flex;flex-direction:column;gap:2px;align-items:center;text-align:center"><span class="d" style="font-size:21px;line-height:1.3">${josa(en, '이', '가')} 나타났어요!</span><span style="font-size:14px;line-height:1.5;color:var(--sub2)">1분 30초 동안 단어를 맞혀서 친구들과 함께 쫓아내요</span></div>
 ${open ? (fs.length ? '' : '<div class="hint" style="text-align:center">마을에 친구가 있어야 도전할 수 있어요. 알 상자를 열어 봐요</div>') : `<div style="display:flex;flex-direction:column;gap:5px"><div class="row" style="gap:10px"><div class="bar f1" style="height:10px"><i style="width:${Math.min(100, seen / CHAL_NEED * 100).toFixed(0)}%"></i></div><span class="tn" style="font-size:13.5px;white-space:nowrap">${seen} / ${CHAL_NEED}</span></div><span class="sub" style="text-align:center;font-size:13.5px">단어 ${CHAL_NEED}개를 만나면 열려요 · ${CHAL_NEED - seen}개 남았어요</span></div>`}
 <button type="button" class="btn" data-a="chalNext" ${ok ? '' : 'disabled'}>${!open ? `${ico(IC.lock, 18, 2.6)}<span style="margin-left:6px">단어 ${CHAL_NEED}개를 만나면 열려요</span>` : !left ? '오늘 도전은 끝났어요 · 내일 또 만나요' : cardList().length ? '카드 고르기' : '도전 시작'}</button></div>
-${soon('두 번째 게임')}${soon('세 번째 게임')}</div>${tabbar('chal')}`;
+${soon(fr.slice(0, 3), '--t0', '--a0')}${soon(fr.slice(3, 6), '--t2', '--a2')}</div>${tabbar('chal')}`;
   },
   after() { if (chalOpen() && !O().tutC && !window.NO_TUT && !$('#ov')) return tutStart('chal'); afterChecks(); }
 };
@@ -207,7 +207,7 @@ SCR.chalGame = {
     const fp = [[10, 30, 108], [112, 4, 86], [190, 50, 74], [58, 134, 70], [150, 140, 62]];   // 왼쪽, 바닥에서, 크기
     const k = clamp((Math.min(window.innerHeight, 1000) - 330) / 514, .58, 1.12);   // 화면 높이에 맞춰 싸움 장면 크기를 조절
     const ch = q.choices.map((c, i) => { const st = g.mark ? (i === q.ans ? ' ok' : i === g.mark.pick ? ' no' : ' off') : (q.dis.includes(i) ? ' off' : '');
-      return `<button type="button" class="choice c${i}${st}${q.en ? '' : ' en'}" style="height:60px;font-size:${q.en ? fitKo(c, 19) : fitEn(c, 21, 106)}px" data-a="cans" data-i="${i}" ${q.dis.includes(i) ? 'disabled' : ''}><b style="width:26px;height:26px;margin-top:-15px;font-size:14px">${g.mark && i === q.ans ? ico(IC.check, 15, 3.4) : i + 1}</b><span>${esc(c)}</span></button>`; }).join('');
+      return `<button type="button" class="choice c${i}${st}${q.en ? '' : ' en'}" style="height:60px;font-size:${q.en ? fitKo(c, 19) : fitEnAny(c, 21, 106)}px" data-a="cans" data-i="${i}" ${q.dis.includes(i) ? 'disabled' : ''}><b style="width:26px;height:26px;margin-top:-15px;font-size:14px">${g.mark && i === q.ans ? ico(IC.check, 15, 3.4) : i + 1}</b><span>${esc(c)}</span></button>`; }).join('');
     const act = k => `<div class="cg-card">${stk(k, 34)}<div><span class="row" style="gap:4px"><span class="d" style="font-size:13.5px;white-space:nowrap">${CARD[k].n.replace(' 카드', '')}</span>${pips(g.cards[k], 9)}</span><span id="cst_${k}" style="font-size:11.5px;color:var(--sub2);white-space:nowrap">${cardState(k)}</span></div></div>`;
     const ks = Object.keys(g.cards);
     const shots = fx === 'hit' ? [0, 1, 2, 3, 4].map(i => `<span class="cg-shot s${i}" style="left:${80 + i * 30}px;bottom:${110 + (i % 2) * 60}px;animation-delay:${i * 35}ms">${stk('s_star', 34, 'pl')}</span>`).join('') : '';
@@ -227,7 +227,7 @@ ${shots}${fx ? '' : `<span class="cg-clash c0">${burst(46)}</span><span class="c
 <div class="cg-push"><i style="width:${(8 + push * 84).toFixed(0)}%"></i><b style="left:${(8 + push * 84).toFixed(0)}%">${stk(TH().hero, 26, 'pl')}</b><em>${stk(ek, 24, 'pl')}</em></div>
 </div>
 <div class="cg-panel">
-<div class="cg-q"><span class="d" style="font-size:${q.en ? fitEn(q.w[0], 38, 244) : (q.w[1].length > 12 ? 24 : 30)}px;line-height:1.2;text-align:center">${esc(q.en ? q.w[0] : q.w[1])}</span>${q.en ? `<button type="button" class="ibtn rd" style="background:var(--y)" data-a="say" data-t="${esc(q.w[0])}" aria-label="발음 듣기">${ico(IC.spk, 22)}</button>` : ''}</div>
+<div class="cg-q"><span class="d" style="font-size:${q.en ? fitEnAny(q.w[0], 38, 244) : (q.w[1].length > 12 ? 24 : 30)}px;line-height:1.2;text-align:center">${esc(q.en ? q.w[0] : q.w[1])}</span>${q.en ? `<button type="button" class="ibtn rd" style="background:var(--y)" data-a="say" data-t="${esc(q.w[0])}" aria-label="발음 듣기">${ico(IC.spk, 22)}</button>` : ''}</div>
 <div class="grid2" style="gap:10px">${ch}</div>
 ${ks.length ? `<div class="row" style="gap:8px">${ks.map(act).join('')}</div>` : ''}${g.syn ? `<div class="cg-syn d">${stk('s_star', 16)}시너지 · ${g.syn.n} · ${g.syn.e}</div>` : ''}</div></div>`;
   },

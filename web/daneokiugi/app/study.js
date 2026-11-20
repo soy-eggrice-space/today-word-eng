@@ -50,24 +50,27 @@ function enterChunk() { SS.ci = 0; if (SS.card && cardWords().length) return go(
 function beginQuiz() { SS.order = shuffle(chunkWords()); SS.qi = 0; makeQ(); }
 function others(w, n, f) {
   const b = curBook(), out = [], seen = new Set([f(w)]);
-  const pool = shuffle(b.words.filter(x => x[2] === w[2])).concat(shuffle(b.words));
+  const kind = isPhrase(w[0]), same = b.words.filter(x => isPhrase(x[0]) === kind);   // 표현 문제의 보기는 표현끼리, 단어는 단어끼리
+  const pool = shuffle(same.filter(x => x[2] === w[2])).concat(shuffle(same)).concat(shuffle(b.words));
   for (const x of pool) { const v = f(x); if (seen.has(v)) continue; seen.add(v); out.push(x); if (out.length >= n) break; }
   return out;
 }
 function makeQ() {
   const o = O(), w = SS.order[SS.qi], en = w[0];
-  const spell = /^[A-Za-z]{2,12}$/.test(en);
-  let types = Object.keys(o.types).filter(k => o.types[k]).filter(k => (k !== 't5' || w[3]) && ((k !== 't3' && k !== 't4') || spell));
+  const spell = /^[A-Za-z]{2,12}$/.test(en), phrase = isPhrase(en), toks = phrase ? qTok(w) : null, order = phrase && toks.length >= 2 && toks.length <= 7;
+  let types = Object.keys(o.types).filter(k => o.types[k]).filter(k => (k !== 't5' || w[3]) && (k !== 't3' || spell || order) && (k !== 't4' || spell));
   if (SS.retry || !types.length) types = ['t1'];
   const type = pickR(types), q = { w, type, done: false };
   if (type === 't1') { const c = shuffle([w].concat(others(w, 3, x => x[1]))); q.choices = c.map(x => x[1]); q.ans = c.indexOf(w); }
   else if (type === 't2' || type === 't5') {
     let ot = others(w, 6, x => x[0].toLowerCase());
-    if (type === 't5') ot = ot.filter(x => !new RegExp('(^|[^A-Za-z])' + x[0] + '([^A-Za-z]|$)', 'i').test(w[3]));
+    if (type === 't5') ot = ot.filter(x => !new RegExp('(^|[^A-Za-z])' + x[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '([^A-Za-z]|$)', 'i').test(w[3]));
     const c = shuffle([w].concat(ot.slice(0, 3))); q.choices = c.map(x => x[0]); q.ans = c.indexOf(w);
     if (type === 't5') q.blank = w[3].replace(new RegExp('(^|[^A-Za-z])(' + en.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')(?![A-Za-z])', en === 'I' ? '' : 'i'), '$1____');
   } else if (type === 't3') {
-    const ls = en.toLowerCase().split(''), extra = shuffle('abcdefghijklmnopqrstuvwxyz'.split('').filter(c => !ls.includes(c))).slice(0, ls.length < 5 ? 2 : 3);
+    const ls = phrase ? toks : en.toLowerCase().split(''); let extra;
+    if (phrase) { const pool = []; curBook().words.forEach(x => { if (x !== w && isPhrase(x[0])) qTok(x).forEach(t => { if (!ls.includes(t) && !pool.includes(t)) pool.push(t); }); }); extra = shuffle(pool).slice(0, ls.length <= 3 ? 2 : 3); }   // 표현은 단어 조각으로, 다른 표현의 단어를 두세 개 섞어요
+    else extra = shuffle('abcdefghijklmnopqrstuvwxyz'.split('').filter(c => !ls.includes(c))).slice(0, ls.length < 5 ? 2 : 3);
     q.tiles = shuffle(ls.concat(extra)); q.pick = ls.map(() => null); q.fix = {}; q.hint = false;   // pick[칸] = 고른 글자 조각, fix = 힌트로 채운 칸
   } else { q.hint = false; q.val = ''; }
   SS.q = q;
@@ -149,7 +152,7 @@ SCR.card = {
 <div class="row" style="justify-content:space-between"><div class="sub" style="font-size:14.5px">단어 카드 · ${SS.ci + 1} / ${cw.length}</div><button type="button" class="chip ln d" style="height:40px;padding:0 14px;border-radius:20px;border-width:2px;font-size:15px;background:var(${o.auto ? '--main' : '--paper'})" data-a="autoTog">${o.auto ? '자동 넘기기 켜짐' : '자동 넘기기 꺼짐'}</button></div>
 <div class="card" style="flex:1 1 0;min-height:0;border-radius:32px;box-shadow:0 5px 0 rgba(74,65,56,.16);padding:24px 20px;align-items:center;gap:12px;justify-content:center">
 <span class="chip" style="background:var(--t0)">${w[2]}</span>
-<div class="row" style="gap:12px;margin-top:6px"><div class="d" style="font-size:${fitEn(w[0], 50, 236)}px;line-height:1.15">${esc(w[0])}</div>${spkBtn(w[0])}</div>
+<div class="row" style="gap:12px;margin-top:6px"><div class="d" style="font-size:${fitEnAny(w[0], 50, 236)}px;line-height:1.15;min-width:0;text-align:center">${esc(w[0])}</div>${spkBtn(w[0])}</div>
 <div style="font-size:26px;text-align:center">${esc(w[1])}</div>
 ${w[3] ? `<button type="button" data-a="say" data-t="${esc(w[3])}" style="margin-top:22px;width:100%;border:0;background:var(--mainPale);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;text-align:left"><span style="font-size:19px;line-height:1.5">${hlEx(w)}</span><span style="font-size:15px;line-height:1.4;color:var(--sub)">${esc(w[4])}</span></button>` : ''}
 </div>
@@ -197,21 +200,21 @@ const gheartI = sz => `<svg width="${sz}" height="${sz}" viewBox="0 0 14 14" ari
 SCR.quiz = {
   view() {
     const o = O(), q = SS.q, w = q.w, t = q.type;
-    const head = { t1: '뜻을 골라 보세요', t2: '영어 단어를 골라 보세요', t3: '글자를 눌러 단어를 만들어요', t4: '영어 단어를 써 보세요', t5: '빈칸에 들어갈 단어를 골라요' }[t];
+    const ph0 = isPhrase(w[0]), head = { t1: '뜻을 골라 보세요', t2: ph0 ? '영어 표현을 골라 보세요' : '영어 단어를 골라 보세요', t3: isPhrase(w[0]) ? '단어를 순서대로 눌러 표현을 만들어요' : '글자를 눌러 단어를 만들어요', t4: '영어 단어를 써 보세요', t5: ph0 ? '빈칸에 들어갈 표현을 골라요' : '빈칸에 들어갈 단어를 골라요' }[t];
     let prompt, body;
-    if (t === 't1') prompt = `<div class="row" style="gap:12px"><div class="d" style="font-size:${fitEn(w[0], 48, 236)}px;line-height:1.2">${esc(w[0])}</div>${spkBtn(w[0])}</div>`;
+    if (t === 't1') prompt = `<div class="row" style="gap:12px"><div class="d" style="font-size:${fitEnAny(w[0], 48, 236)}px;line-height:1.2;min-width:0;text-align:center">${esc(w[0])}</div>${spkBtn(w[0])}</div>`;
     else if (t === 't5') prompt = `<div class="d" style="font-size:24px;line-height:1.45;text-align:center">${q.done ? hlEx(w) : esc(q.blank).replace('____', '<span class="blank"></span>')}</div><div style="font-size:15px;color:var(--sub);text-align:center">${esc(w[4])}</div>`;
     else prompt = `<div class="d" style="font-size:${w[1].length > 12 ? 26 : 34}px;line-height:1.25;text-align:center">${esc(w[1])}</div>${t === 't2' ? '' : `<div class="row" style="gap:8px"><span class="sub">소리 듣기</span>${spkBtn(w[0])}</div>`}`;
     if (q.choices) {
       body = `<div class="grid2">${q.choices.map((c, i) => { const st = !q.done ? '' : i === q.ans ? ' ok' : i === q.pick ? ' no' : ' off'; const mark = q.done && i === q.ans ? ico(IC.check, 17, 3.4) : q.done && i === q.pick ? ico(IC.x, 15, 3.4) : i + 1;
-        return `<button type="button" class="choice c${i}${st}${t === 't1' ? '' : ' en'}" data-a="ans" data-i="${i}"><b>${mark}</b><span style="font-size:${t === 't1' ? fitKo(c, 20) : fitEn(c, 22, 106)}px">${esc(c)}</span></button>`; }).join('')}</div>`;
+        return `<button type="button" class="choice c${i}${st}${t === 't1' ? '' : ' en'}" data-a="ans" data-i="${i}"><b>${mark}</b><span style="font-size:${t === 't1' ? fitKo(c, 20) : fitEnAny(c, 22, 106)}px">${esc(c)}</span></button>`; }).join('')}</div>`;
     } else if (t === 't3') {
-      const ls = w[0].toLowerCase().split('');
+      const ph = isPhrase(w[0]), ls = ph ? qTok(w) : w[0].toLowerCase().split('');
       const mine = q.pick.some((v, i) => v != null && !q.fix[i]);
-      body = `<div class="row" style="justify-content:center;gap:6px;flex-wrap:wrap;min-height:48px">${ls.map((_, i) => `<span class="slot${q.fix[i] && !q.done ? ' fix' : ''}">${q.done ? ls[i] : (q.pick[i] != null ? q.tiles[q.pick[i]] : '')}</span>`).join('')}</div>
-<div class="row" style="justify-content:center;gap:8px;flex-wrap:wrap">${q.tiles.map((c, i) => `<button type="button" class="lt${q.pick.includes(i) ? ' used' : ''}" data-a="lt" data-i="${i}" ${q.done || q.pick.includes(i) ? 'disabled' : ''}>${c}</button>`).join('')}</div>
-<div class="row" style="gap:10px"><button type="button" class="btn sec sm" style="gap:6px;flex:.8 1 0" data-a="ltHint" ${q.hint || q.done ? 'disabled' : ''}>${ico(IC.bulb, 20)}힌트</button><button type="button" class="btn sec sm" style="gap:6px;flex:1.2 1 0;background:var(--t3);white-space:nowrap;font-size:16px;padding:0 8px 3px" data-a="ltDel" ${q.done || !mine ? 'disabled' : ''}>${ico(IC.del, 22)}한 글자 지우기</button></div>
-${q.hint && !q.done ? '<div class="hint" style="text-align:center">노란 칸은 힌트로 채운 글자예요</div>' : ''}`;
+      body = `<div class="row" style="justify-content:center;gap:6px;flex-wrap:wrap;min-height:48px">${ls.map((_, i) => `<span class="slot${ph ? ' wd' : ''}${q.fix[i] && !q.done ? ' fix' : ''}">${q.done ? ls[i] : (q.pick[i] != null ? q.tiles[q.pick[i]] : '')}</span>`).join('')}</div>
+<div class="row" style="justify-content:center;gap:8px;flex-wrap:wrap">${q.tiles.map((c, i) => `<button type="button" class="lt${ph ? ' wd' : ''}${q.pick.includes(i) ? ' used' : ''}" data-a="lt" data-i="${i}" ${q.done || q.pick.includes(i) ? 'disabled' : ''}>${c}</button>`).join('')}</div>
+<div class="row" style="gap:10px"><button type="button" class="btn sec sm" style="gap:6px;flex:.8 1 0" data-a="ltHint" ${q.hint || q.done ? 'disabled' : ''}>${ico(IC.bulb, 20)}힌트</button><button type="button" class="btn sec sm" style="gap:6px;flex:1.2 1 0;background:var(--t3);white-space:nowrap;font-size:16px;padding:0 8px 3px" data-a="ltDel" ${q.done || !mine ? 'disabled' : ''}>${ico(IC.del, 22)}${ph ? '한 단어 지우기' : '한 글자 지우기'}</button></div>
+${q.hint && !q.done ? `<div class="hint" style="text-align:center">노란 칸은 힌트로 채운 ${ph ? '단어' : '글자'}예요</div>` : ''}${ph && q.done ? `<div class="d" style="text-align:center;font-size:21px">${esc(w[0])}</div>` : ''}`;
     } else {
       body = `<input class="inp" id="kb" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="text" value="${esc(q.done ? w[0] : q.val)}" ${q.done ? 'readonly' : ''} placeholder="${q.hint ? '_ '.repeat(w[0].length).trim() : '여기에 써요'}">
 <div class="row" style="gap:10px"><button type="button" class="btn sec sm" style="gap:6px" data-a="kbHint" ${q.hint || q.done ? 'disabled' : ''}>${ico(IC.bulb, 20)}글자 수 힌트</button><button type="button" class="btn sm f1" data-a="kbOk" ${q.done ? 'disabled' : ''}>다 썼어요</button></div>
@@ -226,11 +229,11 @@ ${body}${fb}${cheerRow(q, !!fb)}</div>`;
   back: quitAsk
 };
 ACT.ans = d => { const q = SS.q; if (q.done) return; q.pick = +d.i; finalize(q.pick === q.ans, 1); };
-const ltCheck = () => { const q = SS.q, en = q.w[0].toLowerCase(); if (q.pick.every(v => v != null)) return finalize(q.pick.map(i => q.tiles[i]).join('') === en, 1); render(); };
+const ltCheck = () => { const q = SS.q, ph = isPhrase(q.w[0]), en = ph ? qTok(q.w).join(' ') : q.w[0].toLowerCase(); if (q.pick.every(v => v != null)) return finalize(q.pick.map(i => q.tiles[i]).join(ph ? ' ' : '') === en, 1); render(); };
 ACT.lt = d => { const q = SS.q; if (q.done) return; const at = q.pick.indexOf(null); if (at < 0 || q.pick.includes(+d.i)) return; q.pick[at] = +d.i; ltCheck(); };   // 비어 있는 첫 칸에 들어가요
 ACT.ltDel = () => { const q = SS.q; if (q.done) return; for (let i = q.pick.length - 1; i >= 0; i--) if (q.pick[i] != null && !q.fix[i]) { q.pick[i] = null; break; } render(); };   // 내가 넣은 글자를 뒤에서부터 하나씩
 ACT.ltHint = () => {   // 아직 맞지 않은 칸 가운데 두세 칸을 골라 채워 줘요
-  const q = SS.q; if (q.done || q.hint) return; const en = q.w[0].toLowerCase().split('');
+  const q = SS.q; if (q.done || q.hint) return; const en = isPhrase(q.w[0]) ? qTok(q.w) : q.w[0].toLowerCase().split('');
   const open = shuffle(en.map((c, i) => i).filter(i => q.pick[i] == null || q.tiles[q.pick[i]] !== en[i])), n = Math.min(open.length, Math.max(1, en.length - 1), en.length <= 4 ? 2 : 3);
   open.slice(0, n).forEach(i => { q.pick[i] = null; let t = q.tiles.findIndex((c, j) => c === en[i] && !q.pick.includes(j)); if (t < 0) { t = q.tiles.findIndex((c, j) => c === en[i] && !q.fix[q.pick.indexOf(j)]); q.pick[q.pick.indexOf(t)] = null; } q.pick[i] = t; q.fix[i] = 1; });
   q.hint = true; ltCheck();
