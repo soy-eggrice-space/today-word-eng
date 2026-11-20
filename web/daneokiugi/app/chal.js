@@ -92,7 +92,7 @@ let CG = null;
 const CHAL_NEED = 60;   // 도전이 열리는 만난 단어 수 (모든 단어장을 합쳐서)
 const seenAll = o => Object.keys(o.w || {}).reduce((a, k) => a + Object.keys(o.w[k] || {}).length, 0);
 const chalOpen = () => { const o = O(); return !!o.inf || seenAll(o) >= CHAL_NEED; };
-const CHAL_TIX = [[3, 30], [5, 45], [10, 80]];   // 도전권 묶음: [횟수, 별 값]
+const CHAL_TIX = [[3, 10], [5, 15], [10, 25]];   // 도전권 묶음: [횟수, 별 값]
 const chalFree = () => { const o = O(), c = o.vil.chal; return o.inf ? 3 : Math.max(0, 3 - (c.k === today() ? c.n : 0)); };   // 오늘 그냥 할 수 있는 횟수
 const chalTix = () => O().vil.chalT || 0;   // 사 둔 도전권 (날이 바뀌어도 남아요)
 const chalLeft = () => chalFree() + (O().inf ? 0 : chalTix());
