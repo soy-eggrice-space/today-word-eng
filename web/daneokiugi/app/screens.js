@@ -2,7 +2,7 @@
 // 단어키우기 · 시작, 마을 만들기, 홈, 설정, 부모 화면
 const STICKS = ['s_flower', 's_star', 's_heart', 's_sprout', 's_moon', 's_sun', 's_cloud', 's_ribbon', 's_crown', 's_note', 's_rocket', 's_ball', 's_bolt', 's_car'];
 const BOOKNOTE = { starter: '처음 만나는 쉬운 낱말', elem_low: '눈에 보이는 것과 쉬운 동작', elem_high: '저학년 다음에 배우는 낱말', middle_basic: '중학교에서 꼭 쓰는 낱말', middle_adv: '기본 다음에 배우는 낱말', high_basic: '수능에 자주 나오는 낱말', high_adv: '기본 다음에 배우는 어려운 낱말' };
-const VERSION = '0.1.13';
+const VERSION = '0.1.14';
 function enter(i) { S.cur = i; applyTheme(O().theme); V.cam = null; save(); go('home', {}, { reset: true }); }
 
 SCR.main = {
@@ -89,7 +89,7 @@ SCR.home = {
     const doneDay = d.words >= o.per;
     return `<div class="scr np" style="gap:12px;padding-top:18px">
 <div class="row" style="justify-content:space-between"><button type="button" data-a="go" data-s="main" class="row" style="gap:8px;min-width:0;border:0;background:none;padding:0;text-align:left">${stk('face', 46)}${o.stick ? stk(o.stick, 24) : ''}<span style="display:flex;flex-direction:column;align-items:flex-start;min-width:0;gap:1px">${ownerTitle(o) ? tchip(ownerTitle(o), 12) : ''}<span class="d" style="font-size:20px;line-height:1.2">${esc(o.name)}</span>${ownerTitle(o) ? '' : `<span style="font-size:13px;color:var(--sub)">${TH().name}</span>`}</span></button>
-<div class="row" style="gap:8px">${starPill()}<button type="button" class="ibtn rd" data-a="go" data-s="set" aria-label="설정">${ico(IC.gear, 22)}</button></div></div>
+<div class="row" style="gap:8px">${starPill()}<button type="button" class="ibtn rd d" style="width:auto;padding:0 12px 2px 9px;gap:5px;font-size:15.5px;white-space:nowrap" data-a="go" data-s="set">${ico(IC.gear, 20)}설정</button></div></div>
 <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
 <div class="field mini" id="minif" data-sc="mini" data-a="tab" data-t="vil" role="button" aria-label="마을 들어가기" style="flex:none;width:100%;height:350px;min-height:0;touch-action:pan-x;cursor:pointer;overflow-x:auto;overflow-y:hidden">${vilMini()}</div>
 <div class="row" style="gap:6px;align-self:stretch">${hChip(`<span class="d tn">완성 ${vilScore().pct}%</span>`, '--stary', '마을 완성도')}${hChip(frInner({ k: TH().hero, lv: 1 }, 24, true) + `<span class="tn">${cntF()}/${MAXF}</span>`, '', '친구 자리')}${hChip(pic(TH().base[0], 22) + `<span class="tn">${cntI()}/${MAXI}</span>`, '', '물건 자리')}${hChip(itm('eggbox', 24) + `<span class="tn d">${boxes}</span>`, boxes ? '--stary' : '', '상자')}${hChip(actIcons('merge').replace(/width="\d+" height="\d+"/g, 'width="22" height="22"') + `<span class="tn d">${mergeable()}</span>`, mergeable() ? '--y' : '', '합칠 묶음')}</div></div>
@@ -101,7 +101,7 @@ SCR.home = {
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 14px;font-size:14px">${leg('--main', '완벽히 알아요', c.done)}${leg('--mainMid', '조금 알아요', c.mid)}${leg('--mainLt', '한 번 봤어요', c.seen)}${leg('--track', '아직 안 봤어요', c.none)}</div></div>
 </div>${tabbar('home')}`;
   },
-  after() { applyTheme(O().theme); const f = $('#minif'), w = $('#miniw'), sp = $('#minis'); if (f && w && sp) { const k = Math.max(f.clientWidth / WW, .42); sp.style.width = Math.round(WW * k) + 'px'; sp.style.height = Math.round(WH * k) + 'px'; f.style.height = Math.round(WH * k) + (f.offsetHeight - f.clientHeight) + 'px'; w.style.transform = `scale(${k})`; if (!f.scrollLeft) f.scrollLeft = Math.max(0, (WW * k - f.clientWidth) / 2); } afterChecks(); },   // 홈에서는 마을 전체를 작게. 폰에서는 옆으로 밀어서 봐요
+  after() { applyTheme(O().theme); const f = $('#minif'), w = $('#miniw'), sp = $('#minis'); if (f && w && sp) { const k = Math.max(f.clientWidth / WW, .42); sp.style.width = Math.round(WW * k) + 'px'; sp.style.height = Math.round(WH * k) + 'px'; f.style.height = Math.round(WH * k) + (f.offsetHeight - f.clientHeight) + 'px'; w.style.transform = `scale(${k})`; if (!f.scrollLeft) f.scrollLeft = Math.max(0, (WW * k - f.clientWidth) / 2); } if (weeklyPop()) return; afterChecks(); },   // 홈에서는 마을 전체를 작게. 폰에서는 옆으로 밀어서 봐요
   back() { return false; }
 };
 ACT.study = () => startSession('daily');
@@ -118,9 +118,9 @@ SCR.set = {
 <div class="card"><h2>시험 유형</h2><div class="hint">체크한 유형에서만 문제가 나와요<br>하나는 꼭 골라 두어야 해요</div>${tp.map(([k, t, d]) => `<button type="button" class="row" style="min-height:54px;border-radius:16px;border:2px solid var(--ink);background:var(--paper);padding:6px 12px;text-align:left;gap:12px" role="checkbox" aria-checked="${!!o.types[k]}" data-a="setType" data-k="${k}"><span style="width:26px;height:26px;flex:none;border-radius:9px;border:2px solid var(--ink);background:var(${o.types[k] ? '--main' : '--paper'});display:flex;align-items:center;justify-content:center">${o.types[k] ? ico(IC.check, 16, 3.2) : ''}</span><span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:16px">${t}</span><span style="font-size:12.5px;color:var(--sub)">${d}</span></span></button>`).join('')}</div>
 <div class="card"><h2>단어 카드 읽어 주기</h2>${sw('setAuto', o.auto, '자동으로 넘기기')}${sw('setEx', o.exRead, '예문도 읽어 주기')}<span style="font-size:15.5px">읽어 주는 속도</span>${seg('setSpeed', [['slow', '느리게'], ['mid', '보통'], ['fast', '빠르게']], o.speed)}</div>
 <div class="card"><h2>백업</h2><button type="button" class="btn sec sm" data-a="backup">백업 저장</button><div class="hint">기록을 파일로 저장해 두어요<br>불러오기는 다음 버전에 들어가요</div></div>
-<div class="card" style="background:var(--t3)"><h2>테스트</h2>${sw('setInf', o.inf, '무한모드')}<div class="hint" style="color:var(--sub2)">꽤 자란 마을로 바꿔서 이것저것 눌러 볼 수 있어요.<br>별이 줄지 않고 상자도 계속 생겨요.<br>끄면 원래 마을과 기록으로 돌아와요.</div></div>
+${S.dev || o.inf ? `<div class="card" style="background:var(--t3)"><h2>테스트</h2>${sw('setInf', o.inf, '무한모드')}<div class="hint" style="color:var(--sub2)">꽤 자란 마을로 바꿔서 이것저것 눌러 볼 수 있어요.<br>별이 줄지 않고 상자도 계속 생겨요.<br>끄면 원래 마을과 기록으로 돌아와요.</div></div>` : ''}
 <div class="card"><h2>이 마을</h2><button type="button" class="btn sec sm" data-a="delAsk">이 마을 지우기</button></div>
-<div class="card"><h2>알림</h2><div class="hint" style="font-size:13px;line-height:1.6">기록은 이 기기에만 저장되고 밖으로 보내지 않아요.<br>글꼴: 낭만있구미체(구미시), 눈누 기초고딕(눈누)<br>단어장: 초등·중학교는 2022 개정 영어과 교육과정 기본 어휘 목록 참고, 고등은 수능 수준 어휘에서 골랐어요<br>버전 ${VERSION}</div></div></div>`;
+<div class="card"><h2>알림</h2><div class="hint" style="font-size:13px;line-height:1.6">기록은 이 기기에만 저장되고 밖으로 보내지 않아요.<br>글꼴: 낭만있구미체(구미시), 눈누 기초고딕(눈누)<br>단어장: 초등·중학교는 2022 개정 영어과 교육과정 기본 어휘 목록 참고, 고등은 수능 수준 어휘에서 골랐어요<br><span data-a="verTap">버전 ${VERSION}</span></div></div></div>`;
   }
 };
 ACT.setBook = d => {
@@ -153,3 +153,7 @@ function boot() {
   else { S.cur = -1; go('main', {}, { reset: true }); }
 }
 window.addEventListener('load', boot);
+
+// 설정의 버전 글자를 일곱 번 누르면 테스트(무한모드) 칸이 나와요. 배포판에서는 보이지 않아요
+let _verTap = 0;
+ACT.verTap = () => { if (++_verTap < 7) return; _verTap = 0; S.dev = S.dev ? 0 : 1; save(); render(); toast(S.dev ? '테스트 칸을 켰어요' : '테스트 칸을 껐어요'); };

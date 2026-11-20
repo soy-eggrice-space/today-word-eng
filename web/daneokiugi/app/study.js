@@ -200,7 +200,7 @@ SCR.quiz = {
     const head = { t1: '뜻을 골라 보세요', t2: '영어 단어를 골라 보세요', t3: '글자를 눌러 단어를 만들어요', t4: '영어 단어를 써 보세요', t5: '빈칸에 들어갈 단어를 골라요' }[t];
     let prompt, body;
     if (t === 't1') prompt = `<div class="row" style="gap:12px"><div class="d" style="font-size:${fitEn(w[0], 48, 236)}px;line-height:1.2">${esc(w[0])}</div>${spkBtn(w[0])}</div>`;
-    else if (t === 't5') prompt = `<div class="d" style="font-size:24px;line-height:1.45;text-align:center">${q.done ? hlEx(w) : esc(q.blank)}</div><div style="font-size:15px;color:var(--sub);text-align:center">${esc(w[4])}</div>`;
+    else if (t === 't5') prompt = `<div class="d" style="font-size:24px;line-height:1.45;text-align:center">${q.done ? hlEx(w) : esc(q.blank).replace('____', '<span class="blank"></span>')}</div><div style="font-size:15px;color:var(--sub);text-align:center">${esc(w[4])}</div>`;
     else prompt = `<div class="d" style="font-size:${w[1].length > 12 ? 26 : 34}px;line-height:1.25;text-align:center">${esc(w[1])}</div>${t === 't2' ? '' : `<div class="row" style="gap:8px"><span class="sub">소리 듣기</span>${spkBtn(w[0])}</div>`}`;
     if (q.choices) {
       body = `<div class="grid2">${q.choices.map((c, i) => { const st = !q.done ? '' : i === q.ans ? ' ok' : i === q.pick ? ' no' : ' off'; const mark = q.done && i === q.ans ? ico(IC.check, 17, 3.4) : q.done && i === q.pick ? ico(IC.x, 15, 3.4) : i + 1;
@@ -298,7 +298,7 @@ SCR.rec = {
 <div class="card">${ttl('이번 주 도장', '--a1', IC.check)}<div style="display:flex">${st}</div><span class="sub">이번 주에 ${n}번 공부했어요</span></div>
 <div class="card"><div class="row" style="align-items:baseline">${ttl('칭찬 배지', '--a3', IC.star)}<span class="sub tn" style="margin-left:auto">6개 중 ${bd.filter(b => b[2]).length}개</span></div><div class="grid3">${bd.map(([k, nm, got, c]) => `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;background:${got ? `var(${c})` : 'var(--paper)'};border:${got ? '0' : '1.5px dashed var(--sub)'};border-radius:16px;padding:10px 2px 8px">${stk(k, 46, got ? '' : 'sil')}<span style="font-size:13px;color:var(${got ? '--tx' : '--sub'})">${nm}</span></div>`).join('')}</div></div>
 <div class="row" style="gap:8px"><div class="tile" style="flex:1 1 0;background:var(--t2)"><b class="d tn" style="font-weight:400;font-size:20px">${d.q}</b><span class="sub">오늘 푼 문제</span></div><div class="tile" style="flex:1 1 0;background:var(--stary)"><b class="d tn" style="font-weight:400;font-size:20px">${o.total || 0}</b><span class="sub">모두 모은 별</span></div><div class="tile" style="flex:1 1 0;background:var(--t0)"><b class="d tn" style="font-weight:400;font-size:20px">${seen}</b><span class="sub">만난 단어</span></div></div>
-<button type="button" class="btn sec" data-a="report">부모 리포트 자세히 보기</button>
+<button type="button" class="btn sec" data-a="report">리포트 보기</button>
 </div>${tabbar('rec')}`;
   },
   after() { afterChecks(); }

@@ -170,3 +170,25 @@ ACT.rpTab = d => { RP.tab = d.v; render(); const s = $('.scr'); if (s) s.scrollT
 ACT.rpDay = d => { const t = dnum(today()); RP.day = Math.min(t, (RP.day == null ? t : RP.day) + (+d.d)); render(); };
 ACT.rpWk = d => { RP.wk = Math.min(0, RP.wk + (+d.d)); render(); };
 ACT.report = () => go('parent', { i: S.cur });
+
+// ---------- 7일마다 리포트 먼저 보여 주기 ----------
+// 시작한 날부터 7일마다 한 번, 홈에 들어오면 지난 7일 리포트가 먼저 떠요. 그날 안 들어오면 그 뒤 처음 들어온 날에 떠요
+function weeklyDue(o) {
+  const t = dnum(today());
+  if (o.rp0 == null) { const ds = Object.keys(o.hist).filter(k => o.hist[k].q > 0).map(dnum); o.rp0 = ds.length ? Math.min.apply(null, ds) : t; }
+  const wk = Math.floor((t - o.rp0) / 7); return wk >= 1 && (o.rpWk || 0) < wk ? wk : 0;
+}
+function weeklyPop() {
+  if (S.cur < 0 || window.NO_TUT || $('#ov') || $('#tut')) return false;
+  const o = O(), wk = weeklyDue(o); if (!wk) return false;
+  o.rpWk = wk; save();
+  const t = dnum(today()), a = rWeekSum(o, t - 7, t - 1), wr = Object.entries(a.wr).sort((x, y) => y[1] - x[1]).slice(0, 3), P = rPace(o, t);
+  const body = a.days ? `<div class="grid3">${rTile(a.days + '일', '공부한 날', '--t2')}${rTile(a.q, '푼 문제', '--t0')}${rTile(rPct(a.ok, a.q) + '%', '정답률', '--stary')}</div>
+<div style="display:flex;flex-direction:column;gap:2px">${rKv('공부 시간', rDur(rMin(a.ms)))}${a.hasNw ? rKv('새로 만난 단어', a.nw + '개') : ''}${rKv('완벽히 알게 된 단어', a.pf + '개')}${!P.none && !P.few && P.c.none ? rKv('1회독 예상일', rYmd(t + P.d1)) : ''}</div>
+${wr.length ? `<div style="display:flex;flex-direction:column;gap:6px"><span class="sub">자주 틀린 단어</span>${wr.map(([w, c]) => rWord(w, c + '번 틀림')).join('')}</div>` : ''}`
+    : '<div class="hint" style="text-align:center;font-size:15px">지난 7일 동안은 공부한 날이 없어요.<br>오늘부터 다시 시작해 봐요</div>';
+  modal(`<h1 style="font-size:24px">지난 7일 리포트</h1><div class="sub" style="margin-top:-6px">${rMd(t - 7)} ~ ${rMd(t - 1)} · ${esc(o.name)}</div>${body}
+<div class="row" style="gap:8px"><button type="button" class="btn sec f1" data-a="close">닫기</button><button type="button" class="btn f2" data-a="rpOpen">리포트 보기</button></div>`);
+  return true;
+}
+ACT.rpOpen = () => { closeModal(true); RP.tab = 'week'; go('parent', { i: S.cur }); };
