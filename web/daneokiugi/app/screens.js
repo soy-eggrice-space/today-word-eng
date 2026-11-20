@@ -2,7 +2,7 @@
 // 단어키우기 · 시작, 마을 만들기, 홈, 설정, 부모 화면
 const STICKS = ['s_flower', 's_star', 's_heart', 's_sprout', 's_moon', 's_sun', 's_cloud', 's_ribbon', 's_crown', 's_note', 's_rocket', 's_ball', 's_bolt', 's_car'];
 const BOOKNOTE = { starter: '처음 만나는 쉬운 낱말', elem_low: '눈에 보이는 것과 쉬운 동작', elem_high: '저학년 다음에 배우는 낱말', middle_basic: '중학교에서 꼭 쓰는 낱말', middle_adv: '기본 다음에 배우는 낱말' };
-const VERSION = '0.1.11';
+const VERSION = '0.1.12';
 function enter(i) { S.cur = i; applyTheme(O().theme); V.cam = null; save(); go('home', {}, { reset: true }); }
 
 SCR.main = {
@@ -13,8 +13,7 @@ SCR.main = {
 <div style="text-align:center"><h1 style="font-size:42px">단어키우기</h1><div style="font-size:15.5px;color:var(--sub2);margin-top:2px">단어를 공부하면, 마을이 자라요</div></div>
 ${rows ? `<div class="sub" style="margin-top:6px">누구 마을로 갈까요?</div>${rows}` : ''}
 <button type="button" class="${rows ? 'card' : 'btn'}" style="${rows ? 'flex-direction:row;align-items:center;justify-content:center;gap:8px;border-style:dashed;background:transparent' : 'margin-top:20px;height:62px;font-size:22px'}" data-a="newOwner">${rows ? ico(IC.plus, 20) + `<span class="d" style="font-size:18px">새 마을 만들기</span>` : '마을 만들기'}</button>
-<button type="button" class="btn sec sm mta" data-a="go" data-s="parent">확인할 사람 (부모님)</button>
-<div class="sub" style="text-align:center;font-size:12px">${VERSION} · 기록은 이 기기에만 저장돼요</div></div>`;
+<div class="sub mta" style="text-align:center;font-size:12px">${VERSION} · 기록은 이 기기에만 저장돼요</div></div>`;
   },
   after() { applyTheme('dino'); }
 };

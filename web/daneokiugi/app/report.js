@@ -42,14 +42,15 @@ function rLevel(o) {
 function rDay(o, n, t) {
   const h = rH(o, n), on = rOn(h), isT = n === t;
   const head = rNav(`${rMd(n)} ${RDOW[rDow(n)]}요일`, 'rpDay', n < t);
-  if (!on && !(h && (h.mg || (h.nr && h.nr.length)))) return head + `<div class="card" style="align-items:center;padding:26px 14px"><span class="sub" style="font-size:15px;text-align:center">${isT ? '오늘은 아직 공부하지 않았어요' : '이날은 공부를 쉬었어요'}</span></div>`;
+  const hasWr = !!(h && h.wr && Object.keys(h.wr).length);
+  if (!on && !hasWr && !(h && (h.mg || (h.nr && h.nr.length)))) return head + `<div class="card" style="align-items:center;padding:26px 14px"><span class="sub" style="font-size:15px;text-align:center">${isT ? '오늘은 아직 공부하지 않았어요' : '이날은 공부를 쉬었어요'}</span></div>`;
   const hh = h || {}, streak = (o.last === dfrom(t) || o.last === dfrom(t - 1)) ? o.streak : 0;
   const tiles = `<div class="grid2">${rTile(hh.q || 0, '푼 문제', '--t2')}${rTile(hh.q ? rPct(hh.ok, hh.q) + '%' : '-', '정답률', '--stary')}${rTile(rDur(rMin(hh.ms)), '공부 시간', '--t0')}${isT ? rTile(streak + '일', '이어서 공부', '--t3') : rTile(hh.st || 0, '받은 별', '--t3')}</div>`;
   const study = [hh.t0 != null ? rKv('공부한 시각', hh.t0 === hh.t1 ? rClock(hh.t0) : `${rClock(hh.t0)} ~ ${rClock(hh.t1)}`) : '', hh.nw != null || hh.rv != null ? rKv('새로 배운 단어', (hh.nw || 0) + '개') + rKv('복습한 단어', (hh.rv || 0) + '개') : '', hh.pf ? rKv('완벽히 알게 된 단어', hh.pf + '개') : '', hh.wo ? rKv('오답노트에서 뺀 단어', hh.wo + '개') : ''].join('');
   const ty = hh.ty ? rTypes(hh.ty) : '', wr = Object.entries(hh.wr || {}).sort((a, b) => b[1] - a[1]);
   const vilRows = [hh.st ? rKv('받은 별', hh.st + '개') : '', hh.bx ? rKv('받은 상자', `알 상자 ${hh.bx}개 · 물건 상자 ${hh.bx}개`) : '', hh.mg ? rKv('합치기', hh.mg + '번') : '', hh.nr && hh.nr.length ? rKv('새로 찾은 조합', hh.nr.map(esc).join(', ')) : ''].join('');
   return head + (on ? tiles : '') + (study ? rCard(isT ? '오늘 공부' : '이날 공부', study) : '') + (ty ? rCard('시험 유형별 정답률', ty) : '')
-    + (on && hh.wr ? rCard(isT ? '오늘 틀린 단어' : '이날 틀린 단어', wr.length ? wr.slice(0, 8).map(([w, c]) => rWord(w, c > 1 ? `${c}번 틀림` : (o.wr[w] && o.wr[w].n > c ? `전에도 ${o.wr[w].n - c}번 틀림` : '처음 틀림'))).join('') : '<span class="sub">틀린 단어가 없어요</span>', wr.length ? wr.length + '개' : '') : '')
+    + ((on && hh.wr) || hasWr ? rCard(isT ? '오늘 틀린 단어' : '이날 틀린 단어', wr.length ? wr.slice(0, 8).map(([w, c]) => rWord(w, c > 1 ? `${c}번 틀림` : (o.wr[w] && o.wr[w].n > c ? `전에도 ${o.wr[w].n - c}번 틀림` : '처음 틀림'))).join('') : '<span class="sub">틀린 단어가 없어요</span>', wr.length ? wr.length + '개' : '') : '')
     + (vilRows ? rCard(isT ? '오늘 마을에서' : '이날 마을에서', vilRows) : '')
     + (on && hh.t0 == null ? '<div class="hint" style="text-align:center">이날은 자세한 기록이 없어요. 자세한 기록은 이 버전부터 쌓여요</div>' : '');
 }

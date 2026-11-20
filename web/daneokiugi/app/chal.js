@@ -6,7 +6,7 @@ const CARDS = [
   { k: 'k_cheer', n: '응원 카드', p: 15, v: [20, 30, 40], e: v => `처음 ${v}초 동안 점수 두 배` },
   { k: 'k_time', n: '시간 카드', p: 10, v: [10, 15, 20], e: v => `${v}초 더 길게 시작해요` },
   { k: 'k_hint', n: '힌트 카드', p: 10, v: [3, 5, 8], e: v => `처음 ${v}문제는 보기가 두 개만 나와요` },
-  { k: 'k_shield', n: '방패 카드', p: 8, v: [1, 2, 3], e: v => `${v}번은 틀려도 이어 맞히기가 안 끊겨요` },
+  { k: 'k_shield', n: '방패 카드', p: 8, v: [1, 2, 3], e: v => `${v}번은 틀려도 점수와 이어 맞히기가 그대로예요` },
   { k: 'k_ice', n: '얼음 카드', p: 12, v: [5, 8, 12], e: v => `30초 남았을 때 ${v}초 동안 시간이 멈춰요` },
   { k: 'k_bolt', n: '번개 카드', p: 12, v: [1, 2, 3], e: v => `틀린 문제 ${v}개를 맞힌 걸로 해 줘요` },
   { k: 'k_big', n: '큰 친구 카드', p: 15, v: [20, 30, 50], e: v => `가장 큰 친구의 단계마다 ${v}점을 더해요` },
@@ -113,7 +113,7 @@ SCR.chal = {
 <div class="field" data-tu="team" style="flex:none;height:240px;touch-action:auto"><span style="position:absolute;left:160px;top:8px" class="hop">${stk(ek, 164)}</span><span class="d" style="position:absolute;left:142px;top:14px;font-size:38px;transform:rotate(-14deg)">!</span>
 ${fs.map((f, i) => `<span style="position:absolute;left:${pos[i][0]}px;top:${pos[i][1]}px">${frInner(Object.assign({}, f, { seat: null }), pos[i][2], true)}</span>`).join('')}</div>
 <div class="card" style="gap:4px;align-items:center;text-align:center;padding:12px"><span class="d" style="font-size:22px;line-height:1.3">${josa(en, '이', '가')} 나타났어요!</span><span style="font-size:14px;line-height:1.5;color:var(--sub2)">1분 30초 동안 단어를 맞혀서 친구들과 함께 쫓아내요</span></div>
-<div class="card" data-tu="score" style="gap:8px;padding:12px"><h2 style="font-size:16px">점수는 이렇게 쌓여요</h2><div class="row" style="gap:6px">${rule('맞힐 때마다', '10점', '--t2')}${rule('이어서 맞히면', '+1~10점', '--t0')}${rule('빨리 맞히면', '+5점', '--t1')}${rule('친구와 카드', '도움 점수', '--mainLt')}</div></div>
+<div class="card" data-tu="score" style="gap:8px;padding:12px"><h2 style="font-size:16px">점수는 이렇게 쌓여요</h2><div class="row" style="gap:6px">${rule('맞힐 때마다', '10점', '--t2')}${rule('이어서 맞히면', '+1~10점', '--t0')}${rule('빨리 맞히면', '+5점', '--t1')}${rule('친구와 카드', '도움 점수', '--mainLt')}</div><span class="sub" style="text-align:center;font-size:12.5px">틀리면 3점이 깎이고, 틀린 단어는 오답노트에 들어가요</span></div>
 <div class="card" data-tu="tro" style="gap:6px;padding:12px 6px"><span style="font-size:13px;color:var(--sub2);text-align:center">점수가 높을수록 더 멋진 트로피를 받아요${o.vil.bestScore ? ` · 가장 높은 점수 ${o.vil.bestScore}점` : ''}</span>${troRow(34)}</div>
 ${fs.length ? '' : '<div class="hint" style="text-align:center">마을에 친구가 있어야 도전할 수 있어요. 알 상자를 열어 봐요</div>'}
 <button type="button" class="btn mta" data-a="chalNext" ${ok ? '' : 'disabled'}>${!left ? '오늘 도전은 끝났어요 · 내일 또 만나요' : cardList().length ? '카드 고르기' : '도전 시작'}</button></div>${tabbar('chal')}`;
@@ -155,7 +155,7 @@ function chalStart(picks) {
   let seen = b.words.filter(w => m[w[0]]);
   if (seen.length < 20) seen = seen.concat(b.words.filter(w => !m[w[0]]).slice(0, 20 - seen.length));
   const fs = friends(), maxLv = fs.reduce((a, f) => Math.max(a, f.m ? 5 : f.lv || 1), 1);
-  CG = { cards, val, syn, total: (90 + val('k_time')) * 1000, el: 0, last: Date.now(), iceUsed: false, iceUntil: 0, score: 0, n: 0, ok: 0, streak: 0, best: 0, fast: 0,
+  CG = { cards, val, syn, total: (90 + val('k_time')) * 1000, el: 0, last: Date.now(), iceUsed: false, iceUntil: 0, score: 0, n: 0, ok: 0, streak: 0, best: 0, fast: 0, miss: 0, sMiss: 0,
     sBase: 0, sStreak: 0, sFast: 0, sCheer: 0, sBig: val('k_big') * maxLv, sBolt: 0, shield: val('k_shield'), bolt: val('k_bolt'), retry: val('k_retry'), hint: val('k_hint'), easy: val('k_easy'),
     pool: shuffle(seen), easyPool: shuffle(seen.filter(w => m[w[0]] && m[w[0]][0] >= 3)), qi: 0, q: null, lock: false, mark: null, plus: '', say: '영차, 영차!',
     fr: shuffle(fs).slice(0, 5).sort((a, b) => (b.lv || 1) - (a.lv || 1)), fpts: Math.min(40, fs.reduce((a, f) => a + (f.m ? 5 : f.lv || 1), 0)), over: false };
@@ -210,7 +210,7 @@ SCR.chalGame = {
 <div class="cg-stage${frozen ? ' ice' : ''}">
 <span class="cg-sun"></span><span class="cg-ground"></span>${[0, 1, 2, 3, 4].map(i => `<span class="cg-line" style="top:${150 + i * 46}px;left:${[40, 210, 110, 260, 20][i]}px;width:${[70, 50, 90, 60, 40][i]}px;animation-delay:${i * 130}ms"></span>`).join('')}
 <div class="cg-top"><button type="button" class="ibtn" style="width:40px;height:40px" data-a="chalQuit" aria-label="그만하기">${ico(IC.x, 20)}</button><div class="cg-time"><div id="cbar" style="width:${(left / g.total * 100).toFixed(1)}%;height:100%;background:var(${frozen ? '--a2' : '--a3'})"></div></div><span id="ctime" class="d tn" style="font-size:24px;min-width:54px;text-align:right">${Math.floor(s / 60)}:${pad2(s % 60)}</span></div>
-<div class="cg-hud"><div class="cg-score"><span class="d tn${g.plus ? ' bump' : ''}" style="font-size:40px;line-height:1">${g.score}</span><span style="font-size:12px;color:var(--sub2)">점</span>${g.plus ? `<span class="cg-plus d">${g.plus}</span>` : ''}</div>
+<div class="cg-hud"><div class="cg-score"><span class="d tn${g.plus ? ' bump' : ''}" style="font-size:40px;line-height:1">${g.score}</span><span style="font-size:12px;color:var(--sub2)">점</span>${g.plus ? `<span class="cg-plus d"${g.plus[0] === '-' ? ' style="background:var(--t3)"' : ''}>${g.plus}</span>` : ''}</div>
 <div class="cg-next">${next ? `${stk(next[0], 44)}<span>${next[1]}까지<br><b class="d">${next[2] - g.score}점</b></span>` : `${stk(TROPHY[6][0], 44)}<span>가장 높은<br><b class="d">트로피!</b></span>`}</div></div>
 <div class="cg-track">${troTrack(g.score)}</div>
 <div class="cg-tags">${g.streak >= 2 ? `<span class="cg-combo d${fx === 'hit' ? ' bump' : ''}">${g.streak}번 이어 맞힘!</span>` : ''}${dbl ? `<span class="cg-dbl d">응원 카드 · 점수 두 배!</span>` : ''}${frozen ? `<span class="cg-dbl d" style="background:var(--t2)">얼음 카드 · 시간이 멈췄어요</span>` : ''}</div>
@@ -246,14 +246,22 @@ ACT.cans = d => {
   const g = CG, q = g.q, i = +d.i; if (!g || g.lock || g.over || q.dis.includes(i)) return;
   g.n++;
   if (i === q.ans) { chalGain(false); g.fx = 'hit'; vib(12); g.mark = { pick: i }; g.lock = true; render(); return setTimeout(() => { if (CG === g && !g.over) { g.plus = ''; chalQ(); chalPaint(); } }, 420); }
-  vib(50); g.plus = '';
+  vib(50); g.plus = ''; chalWrong(q);
   if (g.retry > 0) { g.retry--; q.dis.push(i); g.say = '다시 카드! 한 번 더'; return render(); }
   if (g.bolt > 0) { g.bolt--; chalGain(true); g.fx = 'hit'; g.say = '번개! 맞힌 걸로 해요'; }
   else if (g.shield > 0) { g.shield--; g.fx = 'miss'; g.say = '방패가 지켜 줬어요'; }
-  else { g.streak = 0; g.fx = 'miss'; g.say = '괜찮아, 다음 문제!'; }
+  else { const cut = Math.min(CHAL_MISS, g.score); g.score -= cut; g.sMiss += cut; g.miss++; if (cut) g.plus = '-' + cut; g.streak = 0; g.fx = 'miss'; g.say = '괜찮아, 다음 문제!'; }
   g.mark = { pick: i }; g.lock = true; render();
   setTimeout(() => { if (CG === g && !g.over) { g.plus = ''; chalQ(); chalPaint(); } }, 700);
 };
+// 도전에서 틀린 단어도 오답노트에 (한 문제에 한 번만)
+const CHAL_MISS = 3;
+function chalWrong(q) {
+  if (q.noted) return; q.noted = true;
+  const o = O(), w = q.w, d = dayOf(o), wr = o.wr[w[0]] || (o.wr[w[0]] = { n: 0, ok: 0, b: o.book });
+  wr.n++; wr.ok = 0; wr.last = d.k; if (!d.wrong.includes(w[0])) d.wrong.push(w[0]);
+  const h = histToday(); h.wr = h.wr || {}; if (h.wr[w[0]] || Object.keys(h.wr).length < 40) h.wr[w[0]] = (h.wr[w[0]] || 0) + 1;
+}
 function chalEnd() {
   const g = CG, o = O(), v = o.vil; if (g.over) return;
   g.over = true; clearInterval(g.tm);
@@ -274,7 +282,7 @@ SCR.chalWin = {
 <h1 style="text-align:center;font-size:26px;margin-top:2px">${won ? `${josa(en, '을', '를')} 쫓아냈어요!` : '아쉬워요, 조금만 더!'}</h1>
 <div class="field" style="flex:none;height:${won ? 222 : 150}px;background:var(--mainLt);touch-action:auto">${won ? `<span class="hop" style="position:absolute;left:50%;margin-left:-78px;top:10px">${stk(TROPHY[g.idx][0], 156)}</span>${spark(32, 60, 28, 'twk')}${spark(22, 282, 46, 'twk')}${spark(18, 276, 146, 'twk')}${spark(24, 50, 146, 'twk')}<span style="position:absolute;right:8px;top:8px;opacity:.55;transform:rotate(18deg) scaleX(-1)">${stk(ek, 54)}</span><span class="d" style="position:absolute;left:50%;bottom:10px;transform:translateX(-50%);padding:3px 16px 5px;border-radius:16px;border:2px solid var(--ink);background:var(--paper);font-size:20px;white-space:nowrap">${TROPHY[g.idx][1]}</span>`
       : `<span style="position:absolute;left:50%;margin-left:-55px;top:12px">${stk(ek, 110)}</span><span class="chip ln" style="position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:var(--paper);font-size:13.5px;padding:3px 12px">100점부터 트로피를 받아요</span>`}</div>
-<div class="card" style="gap:5px;padding:12px 14px">${ln('맞힌 단어', `${g.ok}개 × 10점`, g.sBase)}${ln('이어서 맞힘', `가장 길게 ${g.best}번`, '+' + g.sStreak)}${ln('빨리 맞힘', `${g.fast}번 × 5점`, '+' + g.sFast)}${cardPts ? ln('도움 카드', Object.keys(g.cards).map(k => CARD[k].n.replace(' 카드', '')).join(', '), '+' + cardPts) : ''}${ln('친구들 도움', '많이 자란 친구일수록 커요', '+' + g.fpts)}<div style="border-top:1.5px dashed var(--sub);margin:3px 0"></div>${ln('점수', '', g.score, true)}</div>
+<div class="card" style="gap:5px;padding:12px 14px">${ln('맞힌 단어', `${g.ok}개 × 10점`, g.sBase)}${ln('이어서 맞힘', `가장 길게 ${g.best}번`, '+' + g.sStreak)}${ln('빨리 맞힘', `${g.fast}번 × 5점`, '+' + g.sFast)}${g.miss ? ln('틀린 문제', `${g.miss}번 × ${CHAL_MISS}점`, '-' + g.sMiss) : ''}${cardPts ? ln('도움 카드', Object.keys(g.cards).map(k => CARD[k].n.replace(' 카드', '')).join(', '), '+' + cardPts) : ''}${ln('친구들 도움', '많이 자란 친구일수록 커요', '+' + g.fpts)}<div style="border-top:1.5px dashed var(--sub);margin:3px 0"></div>${ln('점수', '', g.score, true)}</div>
 <div class="card" style="gap:8px;padding:12px 8px 10px"><div class="row" style="padding-left:14px">${troTrack(g.score)}</div><span style="font-size:13px;color:var(--sub2);text-align:center">${next ? `${next[1]}까지 ${next[2] - g.score}점 남았어요` : '가장 높은 트로피예요!'} · 별 ${g.stars}개를 받았어요</span></div>
 ${won ? `<div class="hint" style="text-align:center">${g.newTro ? '트로피를 마을 한가운데에 세웠어요' : '마을에는 더 높은 트로피가 서 있어요'}</div>` : ''}
 <div class="row mta" style="gap:8px"><button type="button" class="btn sec f1" style="font-size:16px" data-a="chalAgain" ${left ? '' : 'disabled'}>${left ? (o.inf ? '한 번 더' : `한 번 더 · ${left}번 남음`) : '오늘은 끝'}</button><button type="button" class="btn" style="flex:1.2 1 0" data-a="tab" data-t="vil">마을로 가기</button></div></div>`;
