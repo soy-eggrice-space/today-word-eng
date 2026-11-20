@@ -343,7 +343,7 @@ const TUTS = { vil: [
   { s: '.tabbar [data-t=chal]', t: '도전!', d: '아래 가운데 도전!을 누르면 하루 세 번, 시간 안에 단어를 맞혀 마을을 지켜요. 점수가 높으면 트로피를 받아요.' },
   { s: '.scr [data-a=vHelp]', t: '언제든 다시', d: '여기 물음표를 누르면 도움말과 이 안내를 다시 볼 수 있어요. 이제 마을을 키워 봐요!' }],
   chal: [
-  { t: '도전!에 온 걸 환영해요', d: '마을에 말썽꾸러기가 나타났어요! 1분 30초 동안 단어를 맞혀서 쫓아내요. 하루에 세 번 할 수 있어요.' },
+  { t: '도전!에 온 걸 환영해요', d: '마을에 말썽꾸러기가 나타났어요! 1분 30초 동안 단어를 맞혀서 쫓아내요. 하루에 세 번 할 수 있고, 더 하고 싶으면 상점에서 도전권을 살 수 있어요.' },
   { s: '.scr [data-tu=tro]', t: '트로피', d: '점수가 높을수록 더 멋진 트로피를 받아서 마을 꼭대기에 세워요. 별도 같이 받아요.' },
   { s: '.scr [data-tu=team]', t: '친구들과 함께', d: '마을에서 가장 많이 자란 친구 넷이 같이 나가요. 친구를 키울수록 든든해요.' },
   { s: '.scr [data-a=chalNext]', t: '도움 카드', d: '상점에서 산 카드는 두 장까지 골라 가요. 짝꿍 카드를 같이 고르면 시너지가 생겨요. 쓴 카드는 없어지지 않아요.' },
@@ -776,7 +776,7 @@ ACT.vPct = () => go('book2', { tab: 'score' });
 const townCount = () => 1 + (O().towns || []).length;
 const townRoom = () => O().used.length - townCount();
 function townReset() { V.cam = null; V.rt = {}; V.sel = []; V.mode = 'main'; V.giftAt = null; _recTh = null; applyTheme(O().theme); save(); }
-const townCarry = (from, to) => { to.cards = from.cards || {}; to.chal = from.chal || { k: '', n: 0 }; from.cards = {}; };   // 도움 카드와 오늘 도전 횟수는 주인을 따라가요
+const townCarry = (from, to) => { to.cards = from.cards || {}; to.chal = from.chal || { k: '', n: 0 }; to.chalT = (to.chalT || 0) + (from.chalT || 0); from.chalT = 0; from.cards = {}; };   // 도움 카드와 오늘 도전 횟수는 주인을 따라가요
 function townSwap(i) { const o = O(), tw = o.towns[i]; if (!tw) return; townCarry(o.vil, tw.vil); o.towns[i] = { theme: o.theme, vil: o.vil }; o.theme = tw.theme; o.vil = tw.vil; townReset(); }
 function townNew(theme) { const o = O(), nv = newVil(); o.towns = o.towns || []; townCarry(o.vil, nv); o.towns.push({ theme: o.theme, vil: o.vil }); o.theme = theme; o.vil = nv; townReset(); }
 function townsModal() {
@@ -850,7 +850,7 @@ const homeCost = (k, i) => ({ st3: [10, 50], c_castle: [10, 50], a_barn: [50, 10
 SCR.shop = {
   view() {
     const o = O(), t = TH(), tab = V.shopTab, v = vil(), inf = o.inf;
-    const tabs = seg('shopTab', [['box', '상자'], ['food', '간식'], ['acc', '꾸미기'], ['card', '카드'], ['home', '집'], ['ride', '탈것']], tab, 'sm');
+    const tabs = seg('shopTab', [['box', '상자'], ['food', '간식'], ['acc', '꾸미기'], ['card', '도전'], ['home', '집'], ['ride', '탈것']], tab, 'sm');
     const own = k => v.bag[k] ? `<span class="cnt tn">×${v.bag[k]}</span>` : '';
     let body;
     if (tab === 'home') {
@@ -860,7 +860,9 @@ SCR.shop = {
         return `<button type="button" class="tile kc" style="${ok ? '' : 'opacity:.6'}" data-a="buyHome" data-k="${x.k}" data-i="${i}" data-n="${x.name}">${pic(x.k, 76)}<span style="font-size:15.5px">${x.name}</span><span class="row" style="gap:10px">${pr('log', w, v.res.wood)}${pr('st1', st, v.res.stone)}</span>${own(x.k)}</button>`; }).join('')}</div>
 <div class="card" style="flex-direction:row;align-items:center;gap:10px;background:var(--t1)">${frInner({ k: t.hero, lv: 4 }, 46, true)}<span style="font-size:14px;line-height:1.5">나무와 돌은 별로 살 수 없어요.<br>친구를 키우면 더 빨리 모여요</span></div>`;
     } else if (tab === 'card') {
-      body = `<div class="hint">위급상황 도전에서 친구들이 도와주는 카드예요.<br>한 번 사면 없어지지 않고, 같은 카드 세 장을 합치면 더 세져요</div>
+      body = `<div class="row" style="align-items:baseline"><h2 class="sp" style="font-size:18px">도전권</h2><span class="sub">가진 도전권 ${v.chalT || 0}장</span></div><div class="hint" style="margin-top:-4px">도전은 하루 세 번 그냥 할 수 있어요.<br>더 하고 싶을 때 쓰고, 날이 바뀌어도 남아요</div>
+<div class="grid3">${CHAL_TIX.map(([n, p]) => `<button type="button" class="tile kc" style="gap:3px;padding:10px 4px 12px${inf || o.stars >= p ? '' : ';opacity:.6'}" data-a="chalBuy" data-n="${n}">${stk(ENEMY[o.theme][0], 50)}<span class="d" style="font-size:15.5px;white-space:nowrap">도전 ${n}회권</span><span class="price">${stk('s_star', 20)}${p}</span></button>`).join('')}</div>
+<h2 style="font-size:18px;margin-top:4px">도움 카드</h2><div class="hint" style="margin-top:-4px">위급상황 도전에서 친구들이 도와주는 카드예요.<br>한 번 사면 없어지지 않고, 같은 카드 세 장을 합치면 더 세져요</div>
 <div class="grid2">${CARDS.map(c => { const n = [1, 2, 3].reduce((a, g) => a + (v.cards[c.k + ':' + g] || 0), 0);
         return `<button type="button" class="tile kc" style="gap:3px;padding:10px 6px 13px" data-a="buyCard" data-k="${c.k}">${stk(c.k, 66)}<span class="d" style="font-size:15.5px">${c.n}</span><span style="font-size:12px;line-height:1.35;color:var(--sub2);min-height:32px">${c.e(c.v[0])}</span><span class="price">${stk('s_star', 20)}${c.p}</span>${n ? `<span class="cnt tn">×${n}</span>` : ''}</button>`; }).join('')}</div>
 <button type="button" class="btn sec" data-a="go" data-s="cards">가진 카드 보기 · 합치기</button>`;

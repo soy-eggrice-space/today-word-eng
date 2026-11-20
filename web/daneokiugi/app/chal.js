@@ -92,7 +92,10 @@ let CG = null;
 const CHAL_NEED = 60;   // 도전이 열리는 만난 단어 수 (모든 단어장을 합쳐서)
 const seenAll = o => Object.keys(o.w || {}).reduce((a, k) => a + Object.keys(o.w[k] || {}).length, 0);
 const chalOpen = () => { const o = O(); return !!o.inf || seenAll(o) >= CHAL_NEED; };
-const chalLeft = () => { const o = O(), c = o.vil.chal; return o.inf ? 3 : 3 - (c.k === today() ? c.n : 0); };
+const CHAL_TIX = [[3, 30], [5, 45], [10, 80]];   // 도전권 묶음: [횟수, 별 값]
+const chalFree = () => { const o = O(), c = o.vil.chal; return o.inf ? 3 : Math.max(0, 3 - (c.k === today() ? c.n : 0)); };   // 오늘 그냥 할 수 있는 횟수
+const chalTix = () => O().vil.chalT || 0;   // 사 둔 도전권 (날이 바뀌어도 남아요)
+const chalLeft = () => chalFree() + (O().inf ? 0 : chalTix());
 function trophyHTML() {
   const i = vil().trophy; if (i < 0) return '';
   return `<div class="obj trophy" style="transform:translate(${GTROPHY.x}px,${GTROPHY.y}px);z-index:${GTROPHY.y}"><span class="in" style="left:-36px;top:-72px;width:72px;height:72px">${stk(TROPHY[i][0], 72)}</span><span class="ntag">${TROPHY[i][1]}</span></div>`;
@@ -107,25 +110,29 @@ function troTrack(score) {
 const troIdx = score => { let i = -1; TROPHY.forEach(([, , n], j) => { if (score >= n) i = j; }); return i; };
 SCR.chal = {
   view() {
-    const o = O(), [ek, en] = ENEMY[o.theme], fs = friends().slice().sort((a, b) => (b.lv || 1) - (a.lv || 1)).slice(0, 4), left = chalLeft(), open = chalOpen(), seen = seenAll(o);
+    const o = O(), [ek, en] = ENEMY[o.theme], fs = friends().slice().sort((a, b) => (b.lv || 1) - (a.lv || 1)).slice(0, 4), left = chalLeft(), free = chalFree(), tix = o.inf ? 0 : chalTix(), open = chalOpen(), seen = seenAll(o);
     const pos = [[14, 104, 66], [82, 128, 56], [138, 144, 50], [22, 46, 46]];
     const ok = open && fs.length && left > 0;
     const tag = (t, c) => `<span class="d" style="padding:2px 11px 4px;border-radius:13px;border:2px solid var(--ink);background:var(${c});font-size:14px;white-space:nowrap">${t}</span>`;
     const fr = DT.themes[o.theme].fr, soon = (ks, bg, dot) => `<div class="card csoon" style="background:var(${bg})"><div class="cs-pic">${ks.map((k, i) => `<span style="left:${i * 36}px;top:${[8, 0, 10][i]}px;transform:rotate(${[-8, 0, 8][i]}deg);z-index:${i === 1 ? 2 : 1}">${stk(k, 60, '', true)}</span>`).join('')}</div><div class="f1" style="display:flex;flex-direction:column;gap:2px;align-items:flex-start"><span class="d cs-t" style="background:var(${dot})">COMING SOON</span><span style="font-size:13.5px;color:var(--sub2)">새 게임을 준비하고 있어요</span></div><span class="cs-sp" style="left:8px;top:6px;width:16px;height:16px">${spark(16, 0, 0)}</span><span class="cs-sp" style="right:12px;top:8px;width:13px;height:13px">${spark(13, 0, 0)}</span></div>`;
     return `<div class="scr" style="gap:10px;background:var(--t3)">
-<div class="row" style="gap:8px"><h1 style="white-space:nowrap;margin-right:auto">도전!</h1><button type="button" class="ibtn rd d" style="width:40px;height:40px;font-size:19px" data-a="tutChal" aria-label="도전 안내 다시 보기">?</button><span style="font-size:14px;color:var(--sub2)">${!open ? '아직 잠겨 있어요' : o.inf ? '무한모드 · 계속 할 수 있어요' : left ? `오늘 세 번 중 ${4 - left}번째` : '오늘은 세 번 다 했어요'}</span></div>
+<div class="row" style="gap:8px"><h1 style="white-space:nowrap;margin-right:auto">도전!</h1><button type="button" class="ibtn rd d" style="width:40px;height:40px;font-size:19px" data-a="tutChal" aria-label="도전 안내 다시 보기">?</button><span style="font-size:14px;color:var(--sub2)">${!open ? '아직 잠겨 있어요' : o.inf ? '무한모드 · 계속 할 수 있어요' : free ? `오늘 세 번 중 ${4 - free}번째` : tix ? `도전권 ${tix}장 남았어요` : '오늘은 세 번 다 했어요'}</span></div>
 <div class="card" data-tu="tro" style="gap:6px;padding:12px 6px"><span style="font-size:13px;color:var(--sub2);text-align:center">점수가 높을수록 더 멋진 트로피를 받아요${o.vil.bestScore ? ` · 가장 높은 점수 ${o.vil.bestScore}점` : ''}</span>${troRow(34)}</div>
-<div class="card cgame" data-tu="team"><div class="row" style="gap:8px;justify-content:flex-start">${tag('위급상황', '--a3')}${open ? tag('지금 할 수 있어요', '--y') : `<span class="row d" style="gap:4px;padding:2px 10px 4px;border-radius:13px;border:2px solid var(--ink);background:var(--paper);font-size:14px">${ico(IC.lock, 14, 2.6)}잠김</span>`}</div>
+<div class="card cgame" data-tu="team"><div class="row" style="gap:8px;justify-content:flex-start">${tag('위급상황', '--a3')}${open ? tag(left ? '지금 할 수 있어요' : '오늘 세 번 완료', left ? '--y' : '--paper') : `<span class="row d" style="gap:4px;padding:2px 10px 4px;border-radius:13px;border:2px solid var(--ink);background:var(--paper);font-size:14px">${ico(IC.lock, 14, 2.6)}잠김</span>`}</div>
 <div class="field" style="${open ? '' : 'filter:saturate(.3);opacity:.75'}"><span style="position:absolute;left:160px;top:4px" class="${open ? 'hop' : ''}">${stk(ek, 150)}</span><span class="d" style="position:absolute;left:142px;top:8px;font-size:36px;transform:rotate(-14deg)">!</span>
 ${fs.map((f, i) => `<span style="position:absolute;left:${pos[i][0]}px;top:${pos[i][1]}px">${frInner(Object.assign({}, f, { seat: null }), pos[i][2], true)}</span>`).join('')}</div>
 <div style="display:flex;flex-direction:column;gap:2px;align-items:center;text-align:center"><span class="d" style="font-size:21px;line-height:1.3">${josa(en, '이', '가')} 나타났어요!</span><span style="font-size:14px;line-height:1.5;color:var(--sub2)">1분 30초 동안 단어를 맞혀서 친구들과 함께 쫓아내요</span></div>
 ${open ? (fs.length ? '' : '<div class="hint" style="text-align:center">마을에 친구가 있어야 도전할 수 있어요. 알 상자를 열어 봐요</div>') : `<div style="display:flex;flex-direction:column;gap:5px"><div class="row" style="gap:10px"><div class="bar f1" style="height:10px"><i style="width:${Math.min(100, seen / CHAL_NEED * 100).toFixed(0)}%"></i></div><span class="tn" style="font-size:13.5px;white-space:nowrap">${seen} / ${CHAL_NEED}</span></div><span class="sub" style="text-align:center;font-size:13.5px">단어 ${CHAL_NEED}개를 만나면 열려요 · ${CHAL_NEED - seen}개 남았어요</span></div>`}
-<button type="button" class="btn" data-a="chalNext" ${ok ? '' : 'disabled'}>${!open ? `${ico(IC.lock, 18, 2.6)}<span style="margin-left:6px">단어 ${CHAL_NEED}개를 만나면 열려요</span>` : !left ? '오늘 도전은 끝났어요 · 내일 또 만나요' : cardList().length ? '카드 고르기' : '도전 시작'}</button></div>
+${open && fs.length && !left ? `<div class="hint" style="text-align:center;font-size:15px;color:var(--ink)">오늘 세 번을 다 했어요.<br>상점에서 도전권을 더 사세요</div><button type="button" class="btn" data-a="chalShop">상점으로 가기</button>` : `<button type="button" class="btn" data-a="chalNext" ${ok ? '' : 'disabled'}>${!open ? `${ico(IC.lock, 18, 2.6)}<span style="margin-left:6px">단어 ${CHAL_NEED}개를 만나면 열려요</span>` : !free && tix ? (cardList().length ? '도전권으로 도전 · 카드 고르기' : '도전권으로 도전') : cardList().length ? '카드 고르기' : '도전 시작'}</button>`}
+${open ? `<div class="row" style="gap:8px;font-size:13.5px;color:var(--sub2)"><span>하루 세 번은 그냥 할 수 있어요 · 도전권 ${tix}장</span><button type="button" class="chip ln d" style="height:34px;padding:0 12px;border-radius:17px;border-width:2px;font-size:14px;background:var(--paper);white-space:nowrap" data-a="chalShop">상점에서 사기</button></div>` : ''}</div>
 ${soon(fr.slice(0, 3), '--t0', '--a0')}${soon(fr.slice(3, 6), '--t2', '--a2')}</div>${tabbar('chal')}`;
   },
   after() { if (chalOpen() && !O().tutC && !window.NO_TUT && !$('#ov')) return tutStart('chal'); afterChecks(); }
 };
 ACT.tutChal = () => tutStart('chal');
+// 도전권: 하루 세 번을 다 한 뒤에 더 하고 싶으면 상점에서 별로 사요
+ACT.chalShop = () => { V.shopTab = 'card'; go('shop'); };
+ACT.chalBuy = d => { const it = CHAL_TIX.find(x => x[0] === +d.n); if (!it || !pay(it[1])) return; const v = O().vil; v.chalT = (v.chalT || 0) + it[0]; save(); render(); toast(`도전 ${it[0]}회권을 샀어요 · 모두 ${v.chalT}장`); };
 ACT.chalNext = () => { if (!chalOpen()) return toast(`단어 ${CHAL_NEED}개를 만나면 열려요`); if (cardList().length) go('chalPick', { sel: [] }); else chalStart([]); };
 SCR.chalPick = {
   view(p) {
@@ -153,8 +160,8 @@ ACT.pickCard = d => {
 ACT.chalGo = d => chalStart(d.none ? [] : R.p.sel.slice());
 function chalStart(picks) {
   const o = O(), v = o.vil, b = curBook(), m = wmap();
-  if (chalLeft() <= 0) return toast('오늘은 세 번 다 했어요. 내일 또 만나요');
-  if (!o.inf) { if (v.chal.k !== today()) v.chal = { k: today(), n: 0 }; v.chal.n++; }
+  if (chalLeft() <= 0) return toast('오늘은 세 번 다 했어요. 도전권이 있으면 더 할 수 있어요');
+  if (!o.inf) { if (chalFree() > 0) { if (v.chal.k !== today()) v.chal = { k: today(), n: 0 }; v.chal.n++; } else v.chalT = Math.max(0, (v.chalT || 0) - 1); }   // 오늘 세 번을 먼저 쓰고, 그다음은 도전권
   const cards = {}; picks.forEach(x => { const [k, g] = x.split(':'); cards[k] = +g; });
   const syn = synOf(Object.keys(cards)), val = k => cardVal(cards, k, syn);
   let seen = b.words.filter(w => m[w[0]]);

@@ -35,3 +35,20 @@
   window.showA2HS = function () { st.t = 0; st.n = 0; hide(); show(); };
   setTimeout(show, 1400);
 })();
+
+// 웹앱 전용: 새 버전이 받아지면 위에 알려 주고, 누르면 바로 새 버전으로 바뀌어요 (공부하는 중에는 건드리지 않아요)
+(function () {
+  if (!('serviceWorker' in navigator) || window.Android) return;
+  var had = !!navigator.serviceWorker.controller, shown = false;
+  navigator.serviceWorker.addEventListener('controllerchange', function () {
+    if (!had) { had = true; return; }   // 처음 설치될 때는 알리지 않아요
+    if (shown) return; shown = true;
+    var d = document.createElement('div'); d.id = 'newver';
+    d.style.cssText = 'position:fixed;left:12px;right:12px;top:calc(10px + env(safe-area-inset-top, 0px));z-index:95;display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;background:#FFE27A;border:2.5px solid #4A4138;border-radius:20px;box-shadow:0 4px 0 rgba(74,65,56,.22);font-size:15px;color:#4A4138';
+    d.innerHTML = '<span style="flex:1 1 0;min-width:0">새 버전이 나왔어요</span><button type="button" style="flex:none;height:38px;padding:0 14px 2px;border:2.5px solid #4A4138;border-radius:14px;background:#FFFDF6;font:inherit;color:inherit">지금 바꾸기</button>';
+    document.body.appendChild(d); d.querySelector('button').addEventListener('click', function () { location.reload(); });
+  });
+  // 열어 둔 채로 오래 쓰는 사람도 새 버전을 받도록 가끔 확인해요
+  var check = function () { navigator.serviceWorker.getRegistration().then(function (r) { if (r) r.update(); }).catch(function () {}); };
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'visible') check(); });
+})();

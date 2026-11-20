@@ -48,6 +48,8 @@ function ens(o) {
 const ST = () => { const o = O(); return o.stat || (o.stat = {}); };
 const bump = (k, n) => { const s = ST(); s[k] = (s[k] || 0) + (n || 1); };
 // 긴 단어와 긴 뜻이 칸을 넘지 않게 글자 크기를 길이에 맞춰요 (room: 좁은 화면에서 글자가 쓸 수 있는 너비)
+const MAKER = '@dadada._.family', MAKER_URL = 'https://www.instagram.com/dadada._.family';   // 만든 사람 (인스타그램)
+const makerLink = (st) => `<button type="button" data-a="maker" style="background:none;border:0;padding:0 2px;font:inherit;font-family:var(--D);color:var(--ink);${st || ''}">${MAKER}</button>`;
 const fitEn = (s, base, room) => Math.max(11, Math.min(base, Math.floor(room / (.6 * s.length))));
 // 표현(여러 단어짜리)은 두 줄로 넘어가도 되니 그만큼 크게, 조각 맞추기에서는 단어 단위로 나눠요
 const isPhrase = s => /\s/.test(s);

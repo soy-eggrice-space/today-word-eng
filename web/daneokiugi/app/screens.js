@@ -2,7 +2,7 @@
 // 단어키우기 · 시작, 마을 만들기, 홈, 설정, 부모 화면
 const STICKS = ['s_flower', 's_star', 's_heart', 's_sprout', 's_moon', 's_sun', 's_cloud', 's_ribbon', 's_crown', 's_note', 's_rocket', 's_ball', 's_bolt', 's_car'];
 const BOOKNOTE = { starter: '처음 만나는 쉬운 낱말', elem_low: '눈에 보이는 것과 쉬운 동작', elem_high: '저학년 다음에 배우는 낱말', middle_basic: '중학교에서 꼭 쓰는 낱말', middle_adv: '기본 다음에 배우는 낱말', high_basic: '수능에 자주 나오는 낱말', high_adv: '기본 다음에 배우는 어려운 낱말', talk: '일상에서 바로 쓰는 낱말과 표현' };
-const VERSION = '0.1.16';
+const VERSION = '0.1.18';
 function enter(i) { S.cur = i; applyTheme(O().theme); V.cam = null; save(); go('home', {}, { reset: true }); }
 
 SCR.main = {
@@ -13,7 +13,7 @@ SCR.main = {
 <div style="text-align:center"><h1 style="font-size:42px">단어키우기</h1><div style="font-size:15.5px;color:var(--sub2);margin-top:2px">단어를 공부하면, 마을이 자라요</div></div>
 ${rows ? `<div class="sub" style="margin-top:6px">누구 마을로 갈까요?</div>${rows}` : ''}
 <button type="button" class="${rows ? 'card' : 'btn'}" style="${rows ? 'flex-direction:row;align-items:center;justify-content:center;gap:8px;border-style:dashed;background:transparent' : 'margin-top:20px;height:62px;font-size:22px'}" data-a="newOwner">${rows ? ico(IC.plus, 20) + `<span class="d" style="font-size:18px">새 마을 만들기</span>` : '마을 만들기'}</button>
-<div class="sub mta" style="text-align:center;font-size:12px">${VERSION} · 기록은 이 기기에만 저장돼요</div></div>`;
+<div class="sub mta" style="text-align:center;font-size:12px;line-height:1.7">${VERSION} · 기록은 이 기기에만 저장돼요<br>만든 사람 ${makerLink()}</div></div>`;
   },
   after() { applyTheme('dino'); }
 };
@@ -120,7 +120,7 @@ SCR.set = {
 <div class="card"><h2>백업</h2><button type="button" class="btn sec sm" data-a="backup">백업 저장</button><div class="hint">기록을 파일로 저장해 두어요<br>불러오기는 다음 버전에 들어가요</div></div>
 ${S.dev || o.inf ? `<div class="card" style="background:var(--t3)"><h2>테스트</h2>${sw('setInf', o.inf, '무한모드')}<div class="hint" style="color:var(--sub2)">꽤 자란 마을로 바꿔서 이것저것 눌러 볼 수 있어요.<br>별이 줄지 않고 상자도 계속 생겨요.<br>끄면 원래 마을과 기록으로 돌아와요.</div></div>` : ''}
 <div class="card"><h2>이 마을</h2><button type="button" class="btn sec sm" data-a="delAsk">이 마을 지우기</button></div>
-<div class="card"><h2>알림</h2><div class="hint" style="font-size:13px;line-height:1.6">기록은 이 기기에만 저장되고 밖으로 보내지 않아요.<br>글꼴: 낭만있구미체(구미시), 눈누 기초고딕(눈누)<br>단어장: 초등·중학교는 2022 개정 영어과 교육과정 기본 어휘 목록 참고, 고등은 수능 수준 어휘에서, 회화·실생활은 일상에서 자주 쓰는 말에서 골랐어요<br><span data-a="verTap">버전 ${VERSION}</span></div></div></div>`;
+<div class="card"><h2>알림</h2><div class="hint" style="font-size:13px;line-height:1.6">기록은 이 기기에만 저장되고 밖으로 보내지 않아요.<br>만든 사람: ${makerLink()} (인스타그램)<br>글꼴: 낭만있구미체(구미시), 눈누 기초고딕(눈누)<br>단어장: 초등·중학교는 2022 개정 영어과 교육과정 기본 어휘 목록 참고, 고등은 수능 수준 어휘에서, 회화·실생활은 일상에서 자주 쓰는 말에서 골랐어요<br><span data-a="verTap">버전 ${VERSION}</span></div></div></div>`;
   }
 };
 ACT.setBook = d => {
@@ -157,3 +157,6 @@ window.addEventListener('load', boot);
 // 설정의 버전 글자를 일곱 번 누르면 테스트(무한모드) 칸이 나와요. 배포판에서는 보이지 않아요
 let _verTap = 0;
 ACT.verTap = () => { if (++_verTap < 7) return; _verTap = 0; S.dev = S.dev ? 0 : 1; save(); render(); toast(S.dev ? '테스트 칸을 켰어요' : '테스트 칸을 껐어요'); };
+
+// 만든 사람 인스타그램 열기 (앱에서는 바깥 브라우저나 인스타그램 앱으로)
+ACT.maker = () => { if (window.Android) location.href = MAKER_URL; else window.open(MAKER_URL, '_blank', 'noopener'); };
