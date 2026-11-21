@@ -34,7 +34,7 @@ const OT = [
   { id: 'talk', g: 4, n: '친구 말을 잘 들어 주는', c: '친구에게 말 걸기 200번', t: o => sv(o, 'says') >= 200 },
   { id: 'star2', g: 4, n: '별을 단 친구를 둔', c: '3성 희귀 친구 만들기', t: o => o.vil.objs.some(x => x.t === 'f' && x.hold && (x.st || 1) >= 3) },
   { id: 'herd', g: 4, n: '무리 대장', c: '같은 친구 다섯 마리가 한 무리', t: o => { const c = {}; let m = 0; o.vil.objs.forEach(x => { if (x.t === 'f') { const k = x.k + ':' + (x.lv || 1) + (x.hold || '') + (x.st || ''); m = Math.max(m, c[k] = (c[k] || 0) + 1); } }); return m >= 5; } },
-  { id: 'full36', g: 4, n: '빈틈없이 채운', c: '물건 자리 36개를 다 채우기', t: o => o.vil.objs.filter(x => x.t === 'i').length >= 36 },
+  { id: 'full36', g: 4, n: '빈틈없이 채운', c: '물건 36개를 모으기', t: o => o.vil.objs.filter(x => x.t === 'i').length >= 36 },
   { id: 'clean', g: 4, n: '오답노트를 비운', c: '오답노트에서 20개 넘게 빼고 텅 비우기', t: o => sv(o, 'wrOut') >= 20 && !Object.keys(o.wr || {}).length },
   { id: 'combo', g: 4, n: '번개처럼 맞히는', c: '위급상황에서 25번 이어 맞히기', t: o => sv(o, 'cstreak') >= 25 },
   { id: 'chal30', g: 4, n: '마을 지킴이 대장', c: '위급상황 도전에서 트로피 30번 받기', t: o => sv(o, 'chalWin') >= 30 },

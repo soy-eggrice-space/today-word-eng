@@ -1,6 +1,6 @@
 'use strict';
 // 단어키우기 · 마을 (돌아다니는 친구, 바닥에 자리 잡는 물건, 상자, 합치기, 조합, 도감, 컬렉션, 상점, 가방)
-const WW = GW, WH = GH, MAXF = 12, MAXI = 36;   // 마을은 가로 960 × 세로 660 · 친구 자리 12, 물건 자리 36 (구역마다 다섯에서 일곱 개)
+const WW = GW, WH = GH, MAXF = 16, MAXI = 45;   // 마을은 가로 960 × 세로 660 · 친구 16, 물건 45까지가 알맞은 수예요. 넘어도 막지 않고, 붐빈다고만 알려 줘요
 const FSZ = [0, 50, 58, 66, 74, 82], ISZ = 50;
 const V = { mode: 'main', sel: [], cam: null, z: 1, timer: null, rt: {}, drag: null, bagTab: 'all', shopTab: 'box' };
 const vil = () => O().vil;
@@ -163,6 +163,8 @@ const isPlain = o => o.t === 'f' && !o.m && !o.hold && (o.lv || 1) < 5;   // 전
 const cntF = () => vil().objs.filter(isPlain).length, cntI = () => vil().objs.filter(o => o.t === 'i').length;
 const roomOf = kind => Math.floor(((kind === 'egg' ? MAXF - cntF() : MAXI - cntI())) / 3);
 const mergeable = () => { const g = mergeGroups(); return g.F.length + g.I.length; };
+// 붐빔: 알맞은 수를 넘겼고, 합칠 수 있는 묶음이 실제로 있을 때만 합치자고 해요 (합칠 게 없는데 합치라고 하면 안 되니까요)
+const crowded = () => { const g = mergeGroups(); return cntF() >= MAXF && g.F.length ? 'f' : cntI() >= MAXI && g.I.length ? 'i' : ''; };
 function itemSheet(ob) {
   const t = TH(), same = vil().objs.filter(o => o.t === 'i' && o.k === ob.k).length, next = t.lines[ob.k];
   const uses = allRecs().filter(r => !r.same && !r.hid && r.in.includes(ob.k)).length;
@@ -257,14 +259,14 @@ ${msg}
       return `<div class="card inv" data-sc="inv">${mixTop()}${!n && ready.length ? `<div class="mixtop" style="background:var(--stary)"><span class="d" style="font-size:13.5px">지금 만들 수 있어요 · 누르면 칸에 올라가요</span><div class="recs">${ready.slice(0, 3).map(recChip).join('')}</div>${ready.length > 3 ? `<span style="font-size:12px;color:var(--sub)">이 밖에 ${ready.length - 3}개가 더 있어요 · 반짝이는 물건이 재료예요</span>` : ''}</div>` : ''}<div class="row" style="align-items:baseline"><h2 class="sp">마을에 있는 물건</h2><span class="sub">눌러서 조합 칸에 올려요</span></div>
 ${keys.length ? `<div class="invg">${keys.map(k => { const left = cnt[k] - (used[k] || 0), off = left < 1 || n >= 3, dd = !off && dead(k); return `<button type="button" class="tile${dd ? ' dead' : ''}${hot[k] && !dd && !off ? ' hot' : ''}" data-a="mixAdd" data-k="${k}" ${off ? 'disabled' : ''} style="padding:9px 3px 6px;gap:2px;${used[k] ? 'background:var(--mainPale)' : ''}">${pic(k, 46)}<span style="font-size:12px;line-height:1.2">${nameOf(k)}</span><span class="cnt tn">×${left}</span>${hot[k] && !dd && !off ? `<span class="hotb">${star5(13)}</span>` : ''}</button>`; }).join('')}</div>${n && n < 3 ? '<div class="hint">흐린 물건은 지금 고른 것과 섞어도 아무 일도 일어나지 않아요</div>' : ''}` : '<div class="hint" style="text-align:center;padding:24px 0">아직 물건이 없어요. 물건 상자를 열어 보세요</div>'}</div>`;
     };
-    const tight = V.mode === 'main' && (roomOf('egg') < 1 || roomOf('item') < 1), mgN = V.mode === 'main' ? mergeable() : 0;
+    const tight = V.mode === 'main' ? crowded() : '', mgN = V.mode === 'main' ? mergeable() : 0;
     return `<div class="scr np" style="gap:10px;padding-top:18px">
 <div class="row"><button type="button" class="row" data-a="towns" aria-label="내 마을 보기" style="gap:1px;border:0;background:none;padding:0;flex:none;margin-right:5px"><h1 style="white-space:nowrap;font-size:25px">${t.name}</h1><span style="display:flex;flex:none;width:18px;transform:rotate(90deg);opacity:.6">${ico(IC.fwd, 18, 2.6)}</span></button>${pctPill()}<span class="sp"></span>${o.inf ? '<span class="chip ln" style="background:var(--t3)">무한모드</span>' : ''}<button type="button" class="ibtn rd d" style="width:40px;height:40px;font-size:19px" data-a="vHelp" aria-label="도움말">?</button>${starPill()}</div>
 ${V.mode === 'main' ? `<div class="row" style="gap:6px;justify-content:flex-end">${resPill('log', v.res.wood)}${resPill('st1', v.res.stone)}</div><div class="row" style="gap:8px">${boxChip('egg')}${boxChip('item')}</div>` : ''}
 ${V.mode === 'mix' ? inv() : `<div class="field${full ? ' full' : ''}" id="field" style="background:linear-gradient(${GTH[o.theme].sky} 0 50%,${GTH[o.theme].top[2]} 50% 100%)"><div class="world" id="world" style="width:${WW}px;height:${WH}px">${groundSVG()}${trophyHTML()}${pileHTML()}${objs}</div>
 ${full ? `<button type="button" class="ibtn fx" data-a="vMode" data-m="main" aria-label="크게 보기 닫기">${ico(IC.x, 22)}</button><button type="button" class="fbtn" style="left:12px;top:12px" data-a="go" data-s="album">${ico(IC.photo, 20)}앨범${(v.album || []).length ? ` ${v.album.length}` : ''}</button><button type="button" class="fbtn shot" data-a="vShot">${ico(IC.cam, 24)}사진 찍기</button><div class="fhint">친구를 누르면 한마디 해요</div>` : `<button type="button" class="ibtn fx sm" data-a="vFull" aria-label="마을 크게 보기">${ico(IC.full, 20)}</button>`}
 ${note ? `<div style="position:absolute;left:10px;bottom:10px;padding:4px 12px;border-radius:13px;border:1.5px solid var(--ink);background:var(--paper);font-size:12.5px;z-index:10000;pointer-events:none">${note}</div>` : ''}
-${tight || mgN ? `<button type="button" class="nudge${tight ? ' full' : ''}" data-a="mergeAsk">${actIcons('merge')}<span>${tight ? `${roomOf('egg') < 1 ? '친구' : '물건'} 자리가 꽉 찼어요 · 합치면 넓어져요` : `합칠 수 있는 묶음이 ${mgN}개 있어요`}</span>${ico(IC.fwd, 16)}</button>` : ''}
+${tight || mgN ? `<button type="button" class="nudge${tight ? ' full' : ''}" data-a="mergeAsk">${actIcons('merge')}<span>${tight ? '마을이 너무 붐벼요 · 합치는 게 좋겠어요' : `합칠 수 있는 묶음이 ${mgN}개 있어요`}</span>${ico(IC.fwd, 16)}</button>` : ''}
 </div>`}
 ${bottom}
 </div>${tabbar('vil')}`;
@@ -310,7 +312,7 @@ const HELP = [
   { t: '물건 합치기', d: '같은 물건 셋을 합치면 묶음, 바구니, 황금 순서로 커져요.<br>무엇이 되는지 미리 보여 줘요.', a: () => { const t = TH(), k = t.base[0]; return [0, 1, 2].map(() => hpic(k, 44)).join(HPL) + HAR + hpic(t.lines[k], 66); } },
   { t: '조합', d: '서로 다른 물건 셋을 조합 칸에 올리면 새 물건이 나와요.<br>도감에서 조합을 눌러 바로 올릴 수도 있어요.<br>같은 물건을 또 만들면 도감에 별이 늘고, 다섯 번째에는 다이아몬드가 돼요.', a: () => { const r = TH().sets[0].recs[0]; return r.in.map(k => hpic(k, 44)).join(HPL) + `<span class="d" style="font-size:20px">=</span>` + hpic(r.out, 66); } },
   { t: '상자', d: '문제를 맞히다 보면 알 상자와 물건 상자를 하나씩 받아요.<br>상자 하나에서 친구 셋이나 물건 셋이 나와요.', a: () => { const t = TH(); return itm('eggbox', 70) + HAR + t.fr.slice(3, 6).map(k => frInner({ k, lv: 1 }, 42, true)).join(''); } },
-  { t: '자리', d: '친구 자리는 열두 개, 물건 자리는 서른여섯 개예요.<br>꽉 차면 합쳐서 자리를 만들어요.', a: () => `<div style="width:210px;display:flex;flex-direction:column;gap:10px">${[['친구', 12, 12], ['물건', 28, 36]].map(([n, a, m]) => `<div style="display:flex;flex-direction:column;gap:3px"><div class="row" style="font-size:14px"><span class="sp">${n} 자리</span><span class="d tn">${a} / ${m}</span></div><div class="bar" style="height:10px"><i style="width:${a / m * 100}%;${a >= m - 2 ? 'background:var(--a3)' : ''}"></i></div></div>`).join('')}</div>` },
+  { t: '자리', d: '친구는 열여섯, 물건은 마흔다섯까지가 알맞아요.<br>넘으면 마을이 붐비니 합쳐 주는 게 좋아요.', a: () => `<div style="width:210px;display:flex;flex-direction:column;gap:10px">${[['친구', 16, 16], ['물건', 34, 45]].map(([n, a, m]) => `<div style="display:flex;flex-direction:column;gap:3px"><div class="row" style="font-size:14px"><span class="sp">${n} 자리</span><span class="d tn">${a} / ${m}</span></div><div class="bar" style="height:10px"><i style="width:${a / m * 100}%;${a >= m - 2 ? 'background:var(--a3)' : ''}"></i></div></div>`).join('')}</div>` },
   { t: '간식과 꾸미기', d: '간식을 다섯 번 주면 친구가 선물을 줘요.<br>꾸며 주면 친구가 칭호를 얻어요.', a: () => frInner({ k: TH().hero, lv: 3, acc: '@s_crown' }, 76, true) + itm('cookie', 46) + `<span class="row" style="gap:3px">${[1, 1, 1, 0, 0].map(x => `<span style="width:13px;height:13px;border-radius:7px;border:1.5px solid var(--ink);background:var(${x ? '--a3' : '--paper'})"></span>`).join('')}</span>` },
   { t: '나무와 돌', d: '쉬는 동안 친구들이 모아 와요. 많이 자란 친구일수록 더 모아요.<br>보금자리는 나무와 돌로 지어요.', a: () => hpic('log', 56) + HPL + hpic('st1', 56) + HAR + hpic(TH().homes[0].k, 76) },
   { t: '위급상황 도전', d: '하루 세 번, 1분 30초 동안 단어를 맞혀서 천적을 쫓아내요.<br>점수가 높을수록 멋진 트로피를 받아요.', a: () => frInner({ k: TH().hero, lv: 4 }, 66, true) + `<span class="d" style="font-size:22px">!</span>` + stk(ENEMY[O().theme][0], 84) + HAR + stk('tr3', 60) },
@@ -337,7 +339,7 @@ const TUTS = { vil: [
   { t: '우리 마을에 온 걸 환영해요!', d: '공부해서 받은 상자로 친구와 물건을 모아 마을을 키워요. 어떻게 하는지 잠깐 알려 줄게요.' },
   { s: '.scr [data-a=openBox]', t: '상자 열기', d: '문제를 맞히다 보면 알 상자와 물건 상자를 하나씩 받아요. 눌러서 열어요. 마을 꼭대기에 쌓인 상자를 눌러도 돼요.' },
   { s: '#field', t: '마을 둘러보기', d: '손가락으로 밀면 구석구석 보이고, 두 손가락을 벌리면 커져요. 빈 땅을 누르면 화면 가득 보이고, 그때 친구를 누르면 한마디 해요.' },
-  { s: '.act[data-m=merge]', t: '합치기', d: '같은 단계 친구 셋은 한 단계 자라고, 같은 물건 셋은 더 좋은 물건이 돼요. 자리가 꽉 차면 합쳐서 넓혀요.' },
+  { s: '.act[data-m=merge]', t: '합치기', d: '같은 단계 친구 셋은 한 단계 자라고, 같은 물건 셋은 더 좋은 물건이 돼요. 마을이 붐비면 합쳐서 넓혀요.' },
   { s: '.act[data-m=mix]', t: '조합', d: '물건 세 개를 섞으면 새 물건이 나와요. 도감을 보고 따라 해도 돼요.' },
   { s: '.act[data-m=book], .act[data-m=shop], .act[data-m=bag]', t: '도감 · 상점 · 가방', d: '도감에서 모은 것을 보고, 상점에서 별로 사고, 가방에서 친구에게 간식과 꾸미기, 집, 탈것을 줘요.' },
   { s: '.tabbar [data-t=chal]', t: '도전!', d: '아래 가운데 도전!을 누르면 하루 세 번, 시간 안에 단어를 맞혀 마을을 지켜요. 점수가 높으면 트로피를 받아요.' },
@@ -542,9 +544,7 @@ function openBoxes(kind, n) {
 ACT.openBox = d => {
   const o = O(), kind = d.k, have = kind === 'egg' ? o.eggBox : o.itemBox;
   if (!have) return toast(`문제를 ${boxLeft()}개 더 맞히면 상자를 받아요. 상점에서 살 수도 있어요`);
-  const room = roomOf(kind);
-  if (room < 1) { closeModal(true); if (R.name !== 'vil') go('vil'); return mergeAsk(kind === 'egg' ? 'f' : 'i', kind === 'egg' ? '친구 자리가 꽉 찼어요. 합쳐서 자리를 만들면 알 상자를 열 수 있어요' : '물건 자리가 꽉 찼어요. 합치거나 조합해서 자리를 만들면 물건 상자를 열 수 있어요'); }
-  const n = Math.min(have, room);   // 자리가 되는 만큼 한꺼번에 열어요
+  const n = Math.min(have, Math.max(1, roomOf(kind)));   // 알맞은 수까지는 한꺼번에, 붐벼도 막지 않고 하나씩은 열려요
   const art = itm(kind === 'egg' ? 'eggbox' : 'itembox', 150);
   modal(`<div style="height:230px;display:flex;align-items:center;justify-content:center"><span style="animation:shake .25s 3">${art}</span></div>`, { mid: true, sticky: true });
   setTimeout(() => {
@@ -557,7 +557,7 @@ ACT.openBox = d => {
 ${rares.map(r => `<div class="card" style="flex-direction:row;align-items:center;background:var(--stary)">${stk('s_star', 30)}<span style="font-size:15px">"${esc(r.rare.say)}"</span></div>`).join('')}
 <div class="grid3">${tiles}</div>
 <div class="hint" style="text-align:center">${kind === 'egg' ? '친구들은 마을을 돌아다녀요' : '물건은 어울리는 구역에 자리를 잡아요'}</div>
-${left && !o.inf ? `<div class="hint" style="text-align:center">상자가 ${left}개 남았어요. 자리가 생기면 마저 열 수 있어요</div>` : ''}
+${crowded() === (kind === 'egg' ? 'f' : 'i') ? `<div class="mixmsg" style="background:var(--t3)">${ico(IC.bulb, 16, 2.6)}<span>마을이 너무 붐벼요. ${kind === 'egg' ? '친구를 합치는' : '물건을 합치거나 조합하는'} 게 좋겠어요</span></div>` : ''}${left && !o.inf ? `<div class="hint" style="text-align:center">상자가 ${left}개 남았어요</div>` : ''}
 ${mergeable() ? `<button type="button" class="btn sm" style="font-size:16px;background:var(--y)" data-a="closeMerge">합칠 수 있는 게 생겼어요 · 합칠까요?</button>` : ''}
 <button type="button" class="btn${mergeable() ? ' sec' : ''}" data-a="closeVil">마을에 놓기</button>`, { mid: true, onClose: () => { if (R.name === 'vil') render(); } });
   }, 800);
