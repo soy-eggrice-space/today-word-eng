@@ -207,9 +207,20 @@ ACT.close = () => closeModal();
 function speak(t, rate) {
   try {
     if (window.Android) { if (Android.speakRate) Android.speakRate(t, rate || 0.85); else Android.speak(t); }
-    else if (window.speechSynthesis) { const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = rate || 0.85; speechSynthesis.cancel(); speechSynthesis.speak(u); }
+    else webSpeak(t, rate);
   } catch (e) {}
 }
+// 웹앱 소리: 영어 목소리를 골라서 읽어요. 읽는 중에 새로 읽을 때는 멈춘 뒤 잠깐 쉬고 읽어야 안드로이드 크롬에서 소리가 빠지지 않아요
+let _utt = null, _noTts = 0;
+const enVoice = () => { try { const vs = speechSynthesis.getVoices() || []; return vs.find(v => /^en[-_]US/i.test(v.lang)) || vs.find(v => /^en/i.test(v.lang)) || null; } catch (e) { return null; } };
+function webSpeak(t, rate) {
+  const ss = window.speechSynthesis;
+  if (!ss || !window.SpeechSynthesisUtterance) { if (!_noTts++) toast('이 화면에서는 소리를 못 내요. 크롬이나 사파리로 열어 주세요'); return; }   // 카톡 같은 앱 안의 화면
+  const u = new SpeechSynthesisUtterance(t), v = enVoice(); u.lang = 'en-US'; if (v) u.voice = v; u.rate = rate || 0.85; _utt = u;   // _utt: 읽는 도중에 지워지지 않게 잡아 둬요
+  const say = () => { try { if (ss.paused) ss.resume(); ss.speak(u); } catch (e) {} };
+  if (ss.speaking || ss.pending) { ss.cancel(); setTimeout(() => { if (_utt === u) say(); }, 70); } else say();
+}
+try { if (window.speechSynthesis) speechSynthesis.getVoices(); } catch (e) {}   // 목소리 목록을 미리 불러 둬요
 const RATE = { slow: 0.7, mid: 0.85, fast: 1.0 };
 function addStars(n) { const o = O(); o.stars += n; o.total = (o.total || 0) + n; }
 function pay(n) { const o = O(); if (o.inf) return true; if (o.stars < n) { toast('별이 모자라요. 단어를 공부하면 별을 받아요'); return false; } o.stars -= n; return true; }
