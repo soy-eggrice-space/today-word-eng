@@ -352,7 +352,10 @@ h2{font-family:var(--D);font-weight:400;font-size:18px;margin:0;line-height:1.3}
 
 /* 스펠링 문제: 틀렸을 때 내가 쓴 답은 그대로 두고, 다른 글자만 빨갛게, 정답은 아래에 따로 */
 .slot.no{color:#C8452B;border-bottom-color:#C8452B}
-.inp.no{color:#C8452B;border-color:#C8452B}
+.inp.no{display:flex;align-items:center;justify-content:center;border-color:#C8452B;white-space:pre;overflow:hidden}
+.inp.no i,.myans i{font-style:normal}
+.dw,.dx,.dm{color:#C8452B}.dx{text-decoration:line-through;text-decoration-thickness:2.5px}
+.df{background:linear-gradient(transparent 42%,#FFE36E 42%,#FFE36E 94%,transparent 94%);border-radius:3px}
 .myans{display:flex;flex-direction:column;align-items:center;gap:2px;flex:none}
 .myans>span{font-size:13.5px;color:var(--sub)}
 .myans>b{font-weight:400;font-size:25px;line-height:1.25;text-align:center}

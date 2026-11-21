@@ -49,6 +49,7 @@ const ST = () => { const o = O(); return o.stat || (o.stat = {}); };
 const bump = (k, n) => { const s = ST(); s[k] = (s[k] || 0) + (n || 1); };
 // 긴 단어와 긴 뜻이 칸을 넘지 않게 글자 크기를 길이에 맞춰요 (room: 좁은 화면에서 글자가 쓸 수 있는 너비)
 const MAKER = '@dadada._.family', MAKER_URL = 'https://www.instagram.com/dadada._.family';   // 만든 사람 (인스타그램)
+const makerBtn = () => `<button type="button" data-a="maker" class="d" style="display:inline-flex;align-items:center;gap:2px;height:24px;margin-left:4px;padding:0 5px 1px 9px;border:1.5px solid var(--ink);border-radius:12px;background:var(--paper);color:var(--ink);font-size:12px;line-height:1;vertical-align:middle">인스타 보기${ico(IC.fwd, 13, 2.6)}</button>`;
 const makerLink = (st) => `<button type="button" data-a="maker" style="background:none;border:0;padding:0 2px;font:inherit;font-family:var(--D);color:var(--ink);${st || ''}">${MAKER}</button>`;
 const fitEn = (s, base, room) => Math.max(11, Math.min(base, Math.floor(room / (.6 * s.length))));
 // 표현(여러 단어짜리)은 두 줄로 넘어가도 되니 그만큼 크게, 조각 맞추기에서는 단어 단위로 나눠요
@@ -64,6 +65,16 @@ const normEn = s => String(s == null ? '' : s).normalize('NFKC').toLowerCase().r
 const cueOf = (ans, oth) => { const ext = oth.filter(o => o.indexOf(ans) === 0), rest = oth.filter(o => o.indexOf(ans) !== 0); let k = 1; while (k < ans.length - 1 && rest.some(o => o.slice(0, k) === ans.slice(0, k))) k++; return { p: ans.slice(0, k), n: ext.length > 0 || rest.some(o => o.slice(0, k) === ans.slice(0, k)) }; };
 const cueText = (c, ans) => `<b class="d">${c.p}</b>${roEn(c.p)} 시작하는 ${c.n ? `<b class="d">${ans.length}</b>글자 ` : ''}단어를 써 주세요`;
 const roEn = s => (/[mn]$/.test(s) ? '으로' : '로');
+// 내가 쓴 답(a)과 정답(b)을 글자 단위로 맞춰 봐요. [내 글자, 정답 글자] 쌍의 줄: 같으면 둘 다, 빠뜨리면 내 글자가 '', 더 쓰면 정답 글자가 ''
+function spellDiff(a, b) {
+  const n = a.length, m = b.length, D = []; for (let i = 0; i <= n; i++) { D.push([i]); for (let j = 1; j <= m; j++) D[i][j] = i ? Math.min(D[i - 1][j] + 1, D[i][j - 1] + 1, D[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)) : j; }
+  const out = []; let i = n, j = m;
+  while (i || j) { if (i && j && D[i][j] === D[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)) { out.push([a[i - 1], b[j - 1]]); i--; j--; } else if (i && D[i][j] === D[i - 1][j] + 1) { out.push([a[i - 1], '']); i--; } else { out.push(['', b[j - 1]]); j--; } }
+  return out.reverse();
+}
+// 틀린 자리는 빨갛게(더 쓴 글자는 줄을 긋고, 빠뜨린 자리는 빈칸), 정답에서는 고쳐진 글자에 형광펜
+const diffMine = d => d.map(([x, y]) => x === y ? esc(x) : !x ? '<i class="dm">_</i>' : `<i class="${y ? 'dw' : 'dx'}">${esc(x)}</i>`).join('');
+const diffAns = d => d.map(([x, y]) => !y ? '' : x === y ? esc(y) : `<i class="df">${esc(y)}</i>`).join('');
 let _enIdx = null;
 const altOf = (w, v) => { if (!_enIdx) { _enIdx = {}; BOOKS.forEach(b => b.words.forEach(x => { const k = normEn(x[0]); (_enIdx[k] = _enIdx[k] || []).push(x); })); } return (_enIdx[v] || []).find(x => sameSense(x, w)); };
 const fitEnAny = (s, base, room) => { if (!isPhrase(s)) return fitEn(s, base, room);
@@ -74,7 +85,7 @@ const qTok = w => w[0].split(/\s+/).map(t => { t = t.toLowerCase().replace(/^[^a
 const fitKo = (s, base) => s.length > 12 ? Math.min(base, 15) : s.length > 9 ? Math.min(base, 17) : base;
 function defTypes(book) { return book === 'starter' ? { t1: 1, t2: 1, t3: 0, t4: 0, t5: 0 } : { t1: 1, t2: 1, t3: 1, t4: 0, t5: 1 }; }
 function newOwner(d) {
-  return { name: d.name, stick: d.stick || '', theme: d.theme, book: d.book, used: [d.book], towns: [], per: d.per || 20, mode: d.mode || 'card', types: defTypes(d.book), auto: true, exRead: true, speed: 'slow',
+  return { name: d.name, stick: d.stick || '', theme: d.theme, book: d.book, used: [d.book], towns: [], per: d.per || 20, mode: d.mode || 'card', types: d.types ? Object.assign(defTypes(d.book), d.types) : defTypes(d.book), typesSet: d.typesSet ? 1 : 0, auto: true, exRead: true, speed: 'slow',
     stars: 0, total: 0, eggBox: 1, itemBox: 1, title: '', titles: {}, stat: {}, w: {}, wr: {}, day: { k: '', q: 0, ok: 0, words: 0, ms: 0, wrong: [] }, streak: 0, best: 0, last: '', hist: {}, vil: newVil() };
 }
 const histToday = () => { const o = O(), k = today(); return o.hist[k] || (o.hist[k] = { q: 0, ok: 0, st: 0, ms: 0 }); };   // 오늘 기록 칸 (공부를 안 한 날에도 마을 일은 적어 둬요)

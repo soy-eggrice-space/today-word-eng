@@ -12,7 +12,7 @@ function counts() {
 // 밸런스: 단어장 하나를 끝냈을 때 마을이 80%쯤 되도록, 상자 간격과 상자 값을 단어장 크기에 맞춰요 (design/balance.js로 맞춘 값)
 // 왕초보 200개 → 맞힌 문제 4개마다 · 별 3개 / 500개 → 10개마다 · 별 7개 / 1000개 → 20개마다 · 별 14개
 const boxEvery = () => Math.max(3, Math.round(curBook().words.length / 50));
-const boxPrice = () => Math.max(3, Math.round(curBook().words.length / 70));
+const boxPrice = () => clamp(Math.round(curBook().words.length / 70), 3, 5);   // 상자 값은 별 다섯 개까지만
 const boxLeft = () => Math.max(1, boxEvery() - (O().boxc || 0));
 // 새 단어는 마을마다 다르게 섞은 순서로, 복습은 때가 된 단어부터 (오답노트 단어 먼저) 섞어서 내요
 function hashS(s) { let h = 2166136261; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
@@ -212,15 +212,14 @@ SCR.quiz = {
       const ph = isPhrase(w[0]), ls = ph ? qTok(w) : w[0].toLowerCase().split('');
       const mine = q.pick.some((v, i) => v != null && !q.fix[i]);
       const full = q.pick.every(v => v != null), bad = q.done && !q.ok, mineAt = i => (q.pick[i] != null ? q.tiles[q.pick[i]] : '');
-      body = `<div class="row" style="justify-content:center;gap:6px;flex-wrap:wrap;min-height:48px">${ls.map((_, i) => `<span class="slot${ph ? ' wd' : ''}${q.fix[i] && !q.done ? ' fix' : ''}${bad && mineAt(i) !== ls[i] ? ' no' : ''}">${q.done && q.ok ? ls[i] : mineAt(i)}</span>`).join('')}</div>${bad ? `<div class="myans"><span>위는 내가 쓴 답이에요</span><b class="d">정답 ${esc(ph ? w[0] : ls.join(''))}</b></div>` : ''}
+      body = `<div class="row" style="justify-content:center;gap:6px;flex-wrap:wrap;min-height:48px">${ls.map((_, i) => `<span class="slot${ph ? ' wd' : ''}${q.fix[i] && !q.done ? ' fix' : ''}${bad && mineAt(i) !== ls[i] ? ' no' : ''}">${q.done && q.ok ? ls[i] : mineAt(i)}</span>`).join('')}</div>${bad ? `<div class="myans"><span>위는 내가 쓴 답이에요 · 빨간 ${ph ? '단어' : '글자'}가 틀린 곳</span><b class="d">정답 ${ls.map((c, i) => mineAt(i) === c ? esc(c) : `<i class="df">${esc(c)}</i>`).join(ph ? ' ' : '')}</b></div>` : ''}
 ${q.done ? '' : `<div class="row" style="justify-content:center;gap:8px;flex-wrap:wrap">${q.tiles.map((c, i) => `<button type="button" class="lt${ph ? ' wd' : ''}${q.pick.includes(i) ? ' used' : ''}" data-a="lt" data-i="${i}" ${q.pick.includes(i) ? 'disabled' : ''}>${c}</button>`).join('')}</div>`}
 ${q.done ? '' : `<div class="row" style="gap:10px"><button type="button" class="btn sec sm" style="gap:6px;flex:.8 1 0" data-a="ltHint" ${q.hint ? 'disabled' : ''}>${ico(IC.bulb, 20)}힌트</button><button type="button" class="btn sec sm" style="gap:6px;flex:1.2 1 0;background:var(--t3);white-space:nowrap;font-size:16px;padding:0 8px 3px" data-a="ltDel" ${!mine ? 'disabled' : ''}>${ico(IC.del, 22)}${ph ? '한 단어 지우기' : '한 글자 지우기'}</button></div>
 <button type="button" class="btn sm" data-a="ltOk" ${full ? '' : 'disabled'}>다 썼어요</button>
 <div class="hint" style="text-align:center">${q.hint ? `노란 칸은 힌트로 채운 ${ph ? '단어' : '글자'}예요` : full ? '틀린 곳이 있으면 지우고 고칠 수 있어요' : '다 채우고 ‘다 썼어요’를 눌러요'}</div>`}${ph && q.done && q.ok ? `<div class="d" style="text-align:center;font-size:21px">${esc(w[0])}</div>` : ''}`;
     } else {
       const bad = q.done && !q.ok, cue = q.cue;
-      body = `${!q.done && cue ? `<div class="altnote">${q.alt ? `<b class="d">${esc(q.alt)}</b>도 같은 뜻이에요. 여기서는 ` : '뜻이 같은 단어가 더 있어요. '}${cueText(cue, normEn(w[0]))}</div>` : ''}<input class="inp${bad ? ' no' : ''}" id="kb" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="text" value="${esc(q.done && q.ok ? w[0] : q.val)}" ${q.done ? 'readonly' : ''} placeholder="${q.hint ? '_ '.repeat(w[0].length).trim() : '여기에 써요'}">
-${bad ? `<div class="myans"><span>위는 내가 쓴 답이에요</span><b class="d">정답 ${esc(w[0])}</b></div>` : ''}${q.done ? '' : `<div class="row" style="gap:10px"><button type="button" class="btn sec sm" style="gap:6px" data-a="kbHint" ${q.hint ? 'disabled' : ''}>${ico(IC.bulb, 20)}글자 수 힌트</button><button type="button" class="btn sm f1" data-a="kbOk">다 썼어요</button></div>
+      body = `${!q.done && cue ? `<div class="altnote">${q.alt ? `<b class="d">${esc(q.alt)}</b>도 같은 뜻이에요. 여기서는 ` : '뜻이 같은 단어가 더 있어요. '}${cueText(cue, normEn(w[0]))}</div>` : ''}${bad ? `<div class="inp no" id="kbv" style="font-size:${fitEn('x'.repeat(q.diff.length), 26, 290)}px">${diffMine(q.diff)}</div><div class="myans"><span>위는 내가 쓴 답이에요 · 빨간 글자가 틀린 곳</span><b class="d">정답 ${diffAns(q.diff)}</b></div>` : `<input class="inp" id="kb" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" inputmode="text" value="${esc(q.done ? w[0] : q.val)}" ${q.done ? 'readonly' : ''} placeholder="${q.hint ? '_ '.repeat(w[0].length).trim() : '여기에 써요'}">`}${q.done ? '' : `<div class="row" style="gap:10px"><button type="button" class="btn sec sm" style="gap:6px" data-a="kbHint" ${q.hint ? 'disabled' : ''}>${ico(IC.bulb, 20)}글자 수 힌트</button><button type="button" class="btn sm f1" data-a="kbOk">다 썼어요</button></div>
 <div class="hint" style="text-align:center">${q.hint ? `${w[0].length}글자예요 · 힌트를 보고 맞히면 별 한 개` : '힌트 없이 맞히면 별 두 개'}</div>`}`;
     }
     const fb = q.done ? `<div class="card mta" style="background:var(${q.ok ? '--mainPale' : '--p'})"><div class="row">${stk(TH().hero, 52, '', q.ok)}<div style="display:flex;flex-direction:column;gap:2px;min-width:0"><span class="d" style="font-size:21px">${q.ok ? `맞았어요! 별 +${q.gain}` : '괜찮아요, 이렇게 기억해요'}</span><span style="font-size:14.5px;color:var(--sub2)">${esc(w[0])} · ${esc(w[1])}${q.ok ? '' : ' · 오답노트에 담았어요'}</span></div></div>${!q.ok && w[3] ? `<button type="button" data-a="say" data-t="${esc(w[3])}" style="border:0;background:var(--paper);border-radius:16px;padding:10px 14px;display:flex;flex-direction:column;gap:2px;text-align:left"><span style="font-size:16.5px;line-height:1.5">${hlEx(w)}</span><span style="font-size:13.5px;line-height:1.4;color:var(--sub)">${esc(w[4])}</span></button>` : ''}<button type="button" class="btn" data-a="nextQ">다음</button></div>` : '';
@@ -246,7 +245,8 @@ ACT.kbHint = () => { SS.q.hint = true; render(); };
 ACT.kbOk = () => {
   const q = SS.q; if (q.done) return; const raw = ($('#kb').value || '').trim(), v = normEn(raw), ans = normEn(q.w[0]); if (!v) return toast('단어를 써 주세요');
   if (v !== ans) { const alt = altOf(q.w, v); if (alt) { if (!q.sib.includes(v)) q.sib.push(v); q.cue = cueOf(ans, q.sib); q.alt = alt[0]; q.val = ''; return render(); } }   // 뜻이 같은 다른 단어를 쓰면 틀렸다고 하지 않고, 첫 글자를 알려 주고 다시 쓰게 해요
-  q.val = raw; finalize(v === ans, q.hint ? 1 : 2);
+  q.val = raw; if (v !== ans) q.diff = spellDiff(raw.toLowerCase().replace(/\s+/g, ' '), q.w[0].toLowerCase());   // 틀렸으면 어느 글자가 다른지 맞춰 둬요
+  finalize(v === ans, q.hint ? 1 : 2);
 };
 ACT.nextQ = nextQ;
 

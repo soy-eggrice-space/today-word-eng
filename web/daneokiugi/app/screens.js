@@ -2,7 +2,7 @@
 // 단어키우기 · 시작, 마을 만들기, 홈, 설정, 부모 화면
 const STICKS = ['s_flower', 's_star', 's_heart', 's_sprout', 's_moon', 's_sun', 's_cloud', 's_ribbon', 's_crown', 's_note', 's_rocket', 's_ball', 's_bolt', 's_car'];
 const BOOKNOTE = { starter: '처음 만나는 쉬운 낱말', elem_low: '눈에 보이는 것과 쉬운 동작', elem_high: '저학년 다음에 배우는 낱말', middle_basic: '중학교에서 꼭 쓰는 낱말', middle_adv: '기본 다음에 배우는 낱말', high_basic: '수능에 자주 나오는 낱말', high_adv: '기본 다음에 배우는 어려운 낱말', talk: '일상에서 바로 쓰는 낱말과 표현' };
-const VERSION = '0.1.21';
+const VERSION = '0.1.22';
 function enter(i) { S.cur = i; applyTheme(O().theme); V.cam = null; save(); go('home', {}, { reset: true }); }
 
 SCR.main = {
@@ -13,7 +13,7 @@ SCR.main = {
 <div style="text-align:center"><h1 style="font-size:42px">단어키우기</h1><div style="font-size:15.5px;color:var(--sub2);margin-top:2px">단어를 공부하면, 마을이 자라요</div></div>
 ${rows ? `<div class="sub" style="margin-top:6px">누구 마을로 갈까요?</div>${rows}` : ''}
 <button type="button" class="${rows ? 'card' : 'btn'}" style="${rows ? 'flex-direction:row;align-items:center;justify-content:center;gap:8px;border-style:dashed;background:transparent' : 'margin-top:20px;height:62px;font-size:22px'}" data-a="newOwner">${rows ? ico(IC.plus, 20) + `<span class="d" style="font-size:18px">새 마을 만들기</span>` : '마을 만들기'}</button>
-${verCard()}<div class="sub mta" style="text-align:center;font-size:12px;line-height:1.7">${VERSION} · 기록은 이 기기에만 저장돼요<br>만든 사람 ${makerLink()}</div></div>`;
+${verCard()}<div class="sub mta" style="text-align:center;font-size:12px;line-height:1.7">${VERSION} · 기록은 이 기기에만 저장돼요<br>만든 사람 ${makerLink()}${makerBtn()}</div></div>`;
   },
   after() { applyTheme('dino'); }
 };
@@ -22,7 +22,7 @@ ACT.newOwner = () => {
   if (S.owners.length >= 8) return toast('마을은 여덟 개까지 만들 수 있어요');
   go('profile', { d: { name: '', stick: '', theme: 'dino', book: 'elem_low', per: 20, mode: 'card' } });
 };
-const stepTop = n => `<div class="row" style="justify-content:space-between"><button type="button" class="ibtn" data-a="back" aria-label="뒤로">${ico(IC.back)}</button><span class="sub tn" style="font-size:14.5px">${n} / 4</span></div>`;
+const stepTop = n => `<div class="row" style="justify-content:space-between"><button type="button" class="ibtn" data-a="back" aria-label="뒤로">${ico(IC.back)}</button><span class="sub tn" style="font-size:14.5px">${n} / 5</span></div>`;
 const heading = (t, s) => `<div><h1>${t}</h1><div class="sub" style="font-size:14.5px;margin-top:2px">${s}</div></div>`;
 SCR.profile = {
   view(p) {
@@ -58,10 +58,22 @@ SCR.psetup = {
     return `<div class="scr">${stepTop(4)}${heading('하루 공부를 정해요', '나중에 설정에서 바꿀 수 있어요')}
 <div class="card"><h2>하루에 공부할 단어</h2>${seg('pPer', [[10, '10개'], [15, '15개'], [20, '20개'], [30, '30개']], d.per)}<div class="hint">복습까지 하면 약 ${Math.ceil(n / d.per * (d.book === 'starter' ? 1.6 : 1.3))}일이면 한 바퀴 돌아요</div></div>
 <div class="card"><h2>공부 방법</h2>${seg('pMode', [['card', '카드 + 시험'], ['test', '시험만']], d.mode)}<div class="hint">카드로 먼저 익히거나, 바로 시험만 볼 수 있어요</div></div>
+<button type="button" class="btn mta" data-a="pGo" data-s="ptypes">다음</button></div>`;
+  }
+};
+// 문제 종류: 처음 만들 때 고르고, 나중에 설정에서 바꿔요
+const QTYPES = [['t1', '뜻 고르기', '영어를 보고 뜻을 골라요'], ['t2', '단어 고르기', '뜻을 보고 영어를 골라요'], ['t3', '스펠링 눌러서 쓰기', '글자를 눌러 단어를 만들어요'], ['t4', '키보드로 쓰기', '힌트 없이 맞히면 별 두 개'], ['t5', '예문 빈칸', '예문이 있는 단어에만 나와요']];
+const typeRows = (types, act) => QTYPES.map(([k, t, d]) => `<button type="button" class="row" style="min-height:54px;border-radius:16px;border:2px solid var(--ink);background:var(--paper);padding:6px 12px;text-align:left;gap:12px" role="checkbox" aria-checked="${!!types[k]}" data-a="${act}" data-k="${k}"><span style="width:26px;height:26px;flex:none;border-radius:9px;border:2px solid var(--ink);background:var(${types[k] ? '--main' : '--paper'});display:flex;align-items:center;justify-content:center">${types[k] ? ico(IC.check, 16, 3.2) : ''}</span><span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:16px">${t}</span><span style="font-size:12.5px;color:var(--sub)">${d}</span></span></button>`).join('');
+SCR.ptypes = {
+  view(p) {
+    const d = p.d; if (!d.types || d.typesFor !== d.book) { d.types = defTypes(d.book); d.typesFor = d.book; d.typesSet = 0; }   // 단어장에 맞는 기본값에서 시작해요
+    return `<div class="scr" style="gap:12px">${stepTop(5)}${heading('어떤 문제를 풀까요?', '체크한 종류만 나와요 · 나중에 설정에서 바꿀 수 있어요')}
+${typeRows(d.types, 'pType')}
 <div class="card" style="flex-direction:row;align-items:center;background:var(--stary)">${itm('eggbox', 54)}${itm('itembox', 54)}<span style="font-size:14.5px;line-height:1.5">마을을 만들면 상자 두 개를<br>선물로 받아요</span></div>
 <button type="button" class="btn mta" data-a="pDone">마을 만들기</button></div>`;
   }
 };
+ACT.pType = d => { const pd = R.p.d, t = pd.types; if (t[d.k] && Object.values(t).filter(Boolean).length === 1) return toast('하나는 꼭 골라 두어야 해요'); t[d.k] = t[d.k] ? 0 : 1; pd.typesSet = 1; render(); };
 ACT.pPer = d => { R.p.d.per = +d.v; render(); };
 ACT.pMode = d => { R.p.d.mode = d.v; render(); };
 ACT.pDone = () => { S.owners.push(newOwner(R.p.d)); save(true); enter(S.owners.length - 1); };
@@ -110,17 +122,16 @@ ACT.study = () => startSession('daily');
 SCR.set = {
   view() {
     const o = O(), n = curBook().words.length;
-    const tp = [['t1', '뜻 고르기', '영어를 보고 뜻을 골라요'], ['t2', '단어 고르기', '뜻을 보고 영어를 골라요'], ['t3', '스펠링 눌러서 쓰기', '글자를 눌러 단어를 만들어요'], ['t4', '키보드로 쓰기', '힌트 없이 맞히면 별 두 개'], ['t5', '예문 빈칸', '예문이 있는 단어에만 나와요']];
     return `<div class="scr">${topbar('설정')}
 <div class="card"><h2>단어장</h2><div class="grid3">${BOOKS.map(b => `<button type="button" class="tile${o.book === b.id ? ' on' : ''}" style="padding:8px 2px;gap:1px;border-radius:16px;${o.book === b.id ? 'background:var(--main)' : ''}" data-a="setBook" data-k="${b.id}"><span class="d" style="font-size:15px;white-space:nowrap">${b.name}</span><span class="tn" style="font-size:12.5px">${b.words.length.toLocaleString()}단어</span></button>`).join('')}</div><div class="hint">단어장은 한 번에 하나만 공부해요<br>바꿔도 공부 기록은 그대로 남아요</div></div>
 <div class="card"><h2>하루에 공부할 단어</h2>${seg('setPer', [[10, '10개'], [15, '15개'], [20, '20개'], [30, '30개']], o.per)}<div class="hint">복습까지 하면 약 ${Math.ceil(n / o.per * (o.book === 'starter' ? 1.6 : 1.3))}일이면 한 바퀴 돌아요<br>전체 ${n.toLocaleString()}단어 기준</div></div>
 <div class="card"><h2>공부 방법</h2>${seg('setMode', [['card', '카드 + 시험'], ['test', '시험만']], o.mode)}</div>
-<div class="card"><h2>시험 유형</h2><div class="hint">체크한 유형에서만 문제가 나와요<br>하나는 꼭 골라 두어야 해요</div>${tp.map(([k, t, d]) => `<button type="button" class="row" style="min-height:54px;border-radius:16px;border:2px solid var(--ink);background:var(--paper);padding:6px 12px;text-align:left;gap:12px" role="checkbox" aria-checked="${!!o.types[k]}" data-a="setType" data-k="${k}"><span style="width:26px;height:26px;flex:none;border-radius:9px;border:2px solid var(--ink);background:var(${o.types[k] ? '--main' : '--paper'});display:flex;align-items:center;justify-content:center">${o.types[k] ? ico(IC.check, 16, 3.2) : ''}</span><span style="display:flex;flex-direction:column;gap:1px"><span style="font-size:16px">${t}</span><span style="font-size:12.5px;color:var(--sub)">${d}</span></span></button>`).join('')}</div>
+<div class="card"><h2>문제 종류</h2><div class="hint">체크한 종류만 문제로 나와요<br>하나는 꼭 골라 두어야 해요</div>${typeRows(o.types, 'setType')}</div>
 <div class="card"><h2>단어 카드 읽어 주기</h2>${sw('setAuto', o.auto, '자동으로 넘기기')}${sw('setEx', o.exRead, '예문도 읽어 주기')}<span style="font-size:15.5px">읽어 주는 속도</span>${seg('setSpeed', [['slow', '느리게'], ['mid', '보통'], ['fast', '빠르게']], o.speed)}</div>
 <div class="card"><h2>백업</h2><button type="button" class="btn sec sm" data-a="backup">백업 저장</button><div class="hint">기록을 파일로 저장해 두어요<br>불러오기는 다음 버전에 들어가요</div></div>
 ${S.dev || o.inf ? `<div class="card" style="background:var(--t3)"><h2>테스트</h2>${sw('setInf', o.inf, '무한모드')}<div class="hint" style="color:var(--sub2)">꽤 자란 마을로 바꿔서 이것저것 눌러 볼 수 있어요.<br>별이 줄지 않고 상자도 계속 생겨요.<br>끄면 원래 마을과 기록으로 돌아와요.</div></div>` : ''}
 <div class="card"><h2>이 마을</h2><button type="button" class="btn sec sm" data-a="delAsk">이 마을 지우기</button></div>
-<div class="card"><h2>알림</h2><div class="hint" style="font-size:13px;line-height:1.6">기록은 이 기기에만 저장되고 밖으로 보내지 않아요.${window.Android ? '<br>새 버전이 나왔는지만 하루에 한 번 확인해요.' : ''}<br>만든 사람: ${makerLink()} (인스타그램)<br>글꼴: 낭만있구미체(구미시), 눈누 기초고딕(눈누)<br>단어장: 초등·중학교는 2022 개정 영어과 교육과정 기본 어휘 목록 참고, 고등은 수능 수준 어휘에서, 회화·실생활은 일상에서 자주 쓰는 말에서 골랐어요<br><span data-a="verTap">버전 ${VERSION}</span>${NEWVER ? ` · <button type="button" data-a="verGet" class="d" style="border:0;background:none;padding:0 2px;font-size:14px;color:var(--ink);text-decoration:underline">새 버전 ${NEWVER} 받기</button>` : ''}</div></div></div>`;
+<div class="card"><h2>알림</h2><div class="hint" style="font-size:13px;line-height:1.6">기록은 이 기기에만 저장되고 밖으로 보내지 않아요.${window.Android ? '<br>새 버전이 나왔는지만 하루에 한 번 확인해요.' : ''}<br>만든 사람: ${makerLink()}${makerBtn()}<br>글꼴: 낭만있구미체(구미시), 눈누 기초고딕(눈누)<br>단어장: 초등·중학교는 2022 개정 영어과 교육과정 기본 어휘 목록 참고, 고등은 수능 수준 어휘에서, 회화·실생활은 일상에서 자주 쓰는 말에서 골랐어요<br><span data-a="verTap">버전 ${VERSION}</span>${NEWVER ? ` · <button type="button" data-a="verGet" class="d" style="border:0;background:none;padding:0 2px;font-size:14px;color:var(--ink);text-decoration:underline">새 버전 ${NEWVER} 받기</button>` : ''}</div></div></div>`;
   }
 };
 ACT.setBook = d => {
@@ -128,12 +139,12 @@ ACT.setBook = d => {
   if (!o.used.includes(d.k)) {
     o.used.push(d.k); var fresh = true;
   }
-  o.book = d.k; o.types = defTypes(d.k); save(); render();
+  o.book = d.k; if (!o.typesSet) o.types = defTypes(d.k); save(); render();   // 문제 종류를 직접 고른 적이 있으면 단어장을 바꿔도 그대로 둬요
   if (fresh && townRoom() > 0) setTimeout(() => modal(`<h1>새 단어장을 시작해요</h1><div class="hint" style="font-size:15px">마을은 어떻게 할까요?<br>지금 마을(완성 ${vilScore().pct}%)을 끝까지 키워도 되고, 새 마을을 열어도 돼요.<br>새 마을은 마을 이름을 누르면 나중에도 열 수 있어요</div><button type="button" class="btn sec" data-a="close">지금 마을 이어서 키우기</button><button type="button" class="btn" data-a="townPick">새 마을 열기</button>`), 0);
 };
 ACT.setPer = d => { O().per = +d.v; save(); render(); };
 ACT.setMode = d => { O().mode = d.v; save(); render(); };
-ACT.setType = d => { const t = O().types; if (t[d.k] && Object.values(t).filter(Boolean).length === 1) return toast('하나는 꼭 골라 두어야 해요'); t[d.k] = t[d.k] ? 0 : 1; save(); render(); };
+ACT.setType = d => { const t = O().types; if (t[d.k] && Object.values(t).filter(Boolean).length === 1) return toast('하나는 꼭 골라 두어야 해요'); t[d.k] = t[d.k] ? 0 : 1; O().typesSet = 1; save(); render(); };
 ACT.setAuto = () => { const o = O(); o.auto = !o.auto; save(); render(); };
 ACT.setEx = () => { const o = O(); o.exRead = !o.exRead; save(); render(); };
 ACT.setSpeed = d => { O().speed = d.v; save(); render(); speak('apple', RATE[d.v]); };
