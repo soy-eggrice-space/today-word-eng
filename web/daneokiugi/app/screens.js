@@ -2,7 +2,7 @@
 // 단어키우기 · 시작, 마을 만들기, 홈, 설정, 부모 화면
 const STICKS = ['s_flower', 's_star', 's_heart', 's_sprout', 's_moon', 's_sun', 's_cloud', 's_ribbon', 's_crown', 's_note', 's_rocket', 's_ball', 's_bolt', 's_car'];
 const BOOKNOTE = { starter: '처음 만나는 쉬운 낱말', elem_low: '눈에 보이는 것과 쉬운 동작', elem_high: '저학년 다음에 배우는 낱말', middle_basic: '중학교에서 꼭 쓰는 낱말', middle_adv: '기본 다음에 배우는 낱말', high_basic: '수능에 자주 나오는 낱말', high_adv: '기본 다음에 배우는 어려운 낱말', talk: '일상에서 바로 쓰는 낱말과 표현' };
-const VERSION = '0.1.22';
+const VERSION = '0.1.23';
 function enter(i) { S.cur = i; applyTheme(O().theme); V.cam = null; save(); go('home', {}, { reset: true }); }
 
 SCR.main = {
@@ -131,7 +131,7 @@ SCR.set = {
 <div class="card"><h2>백업</h2><button type="button" class="btn sec sm" data-a="backup">백업 저장</button><div class="hint">기록을 파일로 저장해 두어요<br>불러오기는 다음 버전에 들어가요</div></div>
 ${S.dev || o.inf ? `<div class="card" style="background:var(--t3)"><h2>테스트</h2>${sw('setInf', o.inf, '무한모드')}<div class="hint" style="color:var(--sub2)">꽤 자란 마을로 바꿔서 이것저것 눌러 볼 수 있어요.<br>별이 줄지 않고 상자도 계속 생겨요.<br>끄면 원래 마을과 기록으로 돌아와요.</div></div>` : ''}
 <div class="card"><h2>이 마을</h2><button type="button" class="btn sec sm" data-a="delAsk">이 마을 지우기</button></div>
-<div class="card"><h2>알림</h2><div class="hint" style="font-size:13px;line-height:1.6">기록은 이 기기에만 저장되고 밖으로 보내지 않아요.${window.Android ? '<br>새 버전이 나왔는지만 하루에 한 번 확인해요.' : ''}<br>만든 사람: ${makerLink()}${makerBtn()}<br>글꼴: 낭만있구미체(구미시), 눈누 기초고딕(눈누)<br>단어장: 초등·중학교는 2022 개정 영어과 교육과정 기본 어휘 목록 참고, 고등은 수능 수준 어휘에서, 회화·실생활은 일상에서 자주 쓰는 말에서 골랐어요<br><span data-a="verTap">버전 ${VERSION}</span>${NEWVER ? ` · <button type="button" data-a="verGet" class="d" style="border:0;background:none;padding:0 2px;font-size:14px;color:var(--ink);text-decoration:underline">새 버전 ${NEWVER} 받기</button>` : ''}</div></div></div>`;
+<div class="card"><h2>알림</h2><div class="hint" style="font-size:13px;line-height:1.6">기록은 이 기기에만 저장되고 밖으로 보내지 않아요.${window.Android ? '<br>새 버전이 나왔는지만 앱을 열 때 확인해요.' : ''}<br>만든 사람: ${makerLink()}${makerBtn()}<br>글꼴: 낭만있구미체(구미시), 눈누 기초고딕(눈누)<br>단어장: 초등·중학교는 2022 개정 영어과 교육과정 기본 어휘 목록 참고, 고등은 수능 수준 어휘에서, 회화·실생활은 일상에서 자주 쓰는 말에서 골랐어요<br><span data-a="verTap">버전 ${VERSION}</span>${NEWVER ? ` · <button type="button" data-a="verGet" class="d" style="border:0;background:none;padding:0 2px;font-size:14px;color:var(--ink);text-decoration:underline">새 버전 ${NEWVER} 받기</button>` : window.Android ? ` · <button type="button" data-a="verAsk" class="d" style="border:0;background:none;padding:0 2px;font-size:14px;color:var(--ink);text-decoration:underline">새 버전 확인</button>` : ''}</div></div></div>`;
   }
 };
 ACT.setBook = d => {
@@ -172,22 +172,34 @@ ACT.verTap = () => { if (++_verTap < 7) return; _verTap = 0; S.dev = S.dev ? 0 :
 // 만든 사람 인스타그램 열기 (앱에서는 바깥 브라우저나 인스타그램 앱으로)
 ACT.maker = () => { if (window.Android) location.href = MAKER_URL; else window.open(MAKER_URL, '_blank', 'noopener'); };
 
-// 설치 파일로 받은 앱: 새 버전이 나왔는지 하루에 한 번 확인해요. 버전 번호가 적힌 파일 하나만 읽고, 아무것도 보내지 않아요
+// 설치 파일로 받은 앱: 새 버전이 나왔는지 앱을 열 때마다 확인해요(10분에 한 번까지). 버전 번호가 적힌 파일 하나만 읽고, 아무것도 보내지 않아요
 let NEWVER = '';
 const verGt = (a, b) => { const x = String(a).split('.'), y = String(b).split('.'); for (let i = 0; i < 3; i++) { const p = +x[i] || 0, q = +y[i] || 0; if (p !== q) return p > q; } return false; };
 function verCard() {
   if (!NEWVER || S.verHide === today()) return '';
   return `<div id="vercard" class="row" style="flex:none;gap:8px;padding:8px 8px 8px 14px;background:#FFE27A;border:2.5px solid var(--ink);border-radius:20px;box-shadow:0 4px 0 rgba(74,65,56,.2);color:#4A4138"><span style="flex:1 1 0;min-width:0;font-size:15px;line-height:1.35"><span class="d" style="font-size:16px">새 버전이 나왔어요</span><br>지금 ${VERSION} → 새 버전 ${NEWVER}</span><button type="button" class="d" data-a="verGet" style="flex:none;height:40px;padding:0 14px 2px;border:2.5px solid #4A4138;border-radius:14px;background:#FFFDF6;font-size:15.5px;color:#4A4138">받기</button><button type="button" data-a="verLater" aria-label="나중에" style="flex:none;width:34px;height:40px;border:0;background:none;padding:0;color:#4A4138;display:flex;align-items:center;justify-content:center">${ico(IC.x, 18)}</button></div>`;
 }
+let verAt = 0, verAsk = 0;
 window.onVer = v => {
   v = String(v || '').trim(); if (!/^\d+\.\d+\.\d+$/.test(v)) return;
-  S.verDay = today(); S.verNew = v; save();
+  S.verNew = v; save();
   const was = NEWVER; NEWVER = verGt(v, VERSION) ? v : '';
+  if (verAsk) { clearTimeout(verAsk); verAsk = 0; toast(NEWVER ? `새 버전 ${NEWVER}이 나왔어요` : '지금이 가장 새 버전이에요'); }
   if (NEWVER !== was && R && (R.name === 'main' || R.name === 'home' || R.name === 'set') && !$('#ov') && !$('#tut')) render();
 };
-function verCheck() {
+// 앱을 켤 때와 다시 돌아올 때마다 확인해요. 하루에 한 번만 보면 그날 올라온 새 버전을 다음 날에야 알게 돼요
+function verCheck(force) {
   if (S.verNew && verGt(S.verNew, VERSION)) NEWVER = S.verNew;
-  if (window.Android && Android.checkVersion && S.verDay !== today()) { try { Android.checkVersion(); } catch (e) {} }
+  if (!(window.Android && Android.checkVersion)) return false;
+  const now = Date.now(); if (!force && now - verAt < 10 * 6e4) return false;
+  verAt = now; try { Android.checkVersion(); } catch (e) { return false; } return true;
 }
+window.onAppResume = () => { verCheck(); };
+document.addEventListener('visibilitychange', () => { if (!document.hidden) verCheck(); });
+ACT.verAsk = () => {
+  if (!(window.Android && Android.checkVersion)) return toast('웹앱은 다시 열면 알아서 새 버전으로 바뀌어요');
+  if (!verCheck(true)) return toast('확인하지 못했어요'); toast('새 버전이 있는지 확인하고 있어요');
+  clearTimeout(verAsk); verAsk = setTimeout(() => { verAsk = 0; toast('확인하지 못했어요. 인터넷 연결을 봐 주세요'); }, 9000);
+};
 ACT.verGet = () => { if (window.Android && Android.openUpdate) Android.openUpdate(); else toast('설치했던 주소에서 새 파일을 받아 주세요'); };
 ACT.verLater = () => { S.verHide = today(); save(); render(); toast('설정 맨 아래에서 언제든 받을 수 있어요'); };
