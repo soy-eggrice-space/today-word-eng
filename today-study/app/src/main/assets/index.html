@@ -3239,6 +3239,7 @@ function genLearn(q,lang){
   let filled=false;
   if(ans && ans.length<=14 && qh.includes('<span class="blank">?</span>')){ qh=qh.replace('<span class="blank">?</span>',`<span class="fill">${escL(ans)}</span>`); filled=true; }
   let say=(q.praise||[]).map(([t,l])=>{ let s=String(t); CHEERS.forEach(c=>{ s=s.split(c).join(''); }); return [s.trim(),l]; }).filter(x=>x[0]);
+  if(!say.length && q.voice && q.voice.length) say=q.voice.filter(x=>x&&x[1]!=='p'&&String(x[0]).trim()).map(x=>[x[0],x[1]]);
   const len=say.reduce((a,x)=>a+x[0].length,0);
   if(say.length && len<=18) say=say.concat([PAUSE],say);
   return {t:'g',lang:lang||'ko',q:qh,a:filled?'':ok.html,say,note:q.note||'',lab:filled?txt(qh).slice(0,24):(ans||txt(qh).slice(0,20))};
@@ -3268,7 +3269,8 @@ function learnHTML(L){
 }
 function speakLearn(L){
   const w=L.sw||L.w;
-  const parts=L.say || (L.t==='w' ? [[w,L.lang],PAUSE,[w,L.lang]] : []);
+  let parts=L.say || (L.t==='w' ? [[w,L.lang],PAUSE,[w,L.lang]] : []);
+  if(!parts.length && !(L.extra||[]).length){ const t=txt(L.q||'').replace(/[?？]\s*$/,'?'); if(t) parts=[[t,L.lang||'ko']]; }
   speakSeq(parts.concat(L.extra||[]));
 }
 function wrOf(p){ if(!p.wr||p.wr.d!==dkey()) p.wr={d:dkey(),items:[],star:0}; return p.wr; }
