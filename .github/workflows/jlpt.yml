@@ -41,6 +41,10 @@ jobs:
           mkdir -p jlpt-n4/app/src/main/assets/fonts
           curl -fsSL -o jlpt-n4/app/src/main/assets/fonts/Jua-Regular.ttf "https://github.com/google/fonts/raw/main/ofl/jua/Jua-Regular.ttf" || echo "Jua 글꼴을 받지 못했어요"
           curl -fsSL -o jlpt-n4/app/src/main/assets/fonts/Fredoka.ttf "https://github.com/google/fonts/raw/main/ofl/fredoka/Fredoka%5Bwdth,wght%5D.ttf" || echo "Fredoka 글꼴을 받지 못했어요"
+      - name: 정리
+        run: |
+          npm install --silent --prefix /tmp/strip acorn@8
+          find jlpt-n4/app/src/main/assets -maxdepth 2 -type f \( -name '*.js' -o -name '*.css' -o -name '*.html' \) -print0 | NODE_PATH=/tmp/strip/node_modules xargs -0 node tools/strip.js
       - name: APK 빌드
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}

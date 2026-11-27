@@ -46,6 +46,10 @@ jobs:
           mkdir -p pet-english/app/src/main/assets/bgm
           cp web/today-study/pet/app/bgm/*.mp3 pet-english/app/src/main/assets/bgm/ 2>/dev/null || echo "배경 음악 파일이 아직 없어요"
           ls -la pet-english/app/src/main/assets/bgm
+      - name: 정리
+        run: |
+          npm install --silent --prefix /tmp/strip acorn@8
+          find pet-english/app/src/main/assets -maxdepth 2 -type f \( -name '*.js' -o -name '*.css' -o -name '*.html' \) -print0 | NODE_PATH=/tmp/strip/node_modules xargs -0 node tools/strip.js
       - name: APK 빌드
         env:
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
