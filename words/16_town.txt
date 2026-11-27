@@ -1,0 +1,183 @@
+# town|동네·생활 서비스|🏙️
+street|거리|This street is always busy.|이 거리는 늘 붐벼.|1
+road|도로|Be careful crossing the road.|길 건널 때 조심해.|1
+building|건물|Our office is in that building.|우리 사무실은 저 건물에 있어.|1
+house|집|They live in a big house.|그들은 큰 집에 살아.|1
+school|학교|The school is near our house.|학교는 우리 집 근처야.|1
+church|교회|They go to church on Sundays.|그들은 일요일마다 교회에 가.|1
+hospital|병원|The hospital is next to the park.|병원은 공원 옆에 있어.|1
+police|경찰|Call the police!|경찰 불러!|1
+post office|우체국|I need to go to the post office.|우체국에 가야 해.|1
+bakery|빵집|The bakery opens at seven.|빵집은 7시에 열어.|1
+café|카페|Let's meet at the café.|카페에서 만나자.|1
+bus stop|버스 정류장|The bus stop is across the street.|버스 정류장은 길 건너에 있어.|1
+town|동네, 읍|I grew up in a small town.|나는 작은 동네에서 자랐어.|1
+downtown|시내|Let's go downtown.|시내에 가자.|2
+neighborhood|동네, 이웃|It's a quiet neighborhood.|조용한 동네야.|2
+corner store|동네 가게|I'll get milk at the corner store.|동네 가게에서 우유 사 올게.|2
+hair salon|미용실|I have an appointment at the hair salon.|미용실 예약이 있어.|2
+haircut|머리 자르기|I need a haircut.|머리 잘라야 해.|2
+trim|다듬다|Just a trim, please.|살짝 다듬어 주세요.|2
+bangs|앞머리|I want to cut bangs.|앞머리 자르고 싶어.|3
+perm|파마|I got a perm last week.|지난주에 파마했어.|2
+dye|염색하다|I dyed my hair brown.|머리를 갈색으로 염색했어.|2
+nail salon|네일 숍|Let's go to the nail salon.|네일 숍 가자.|2
+laundromat|빨래방|The washer broke, so I went to the laundromat.|세탁기가 고장 나서 빨래방에 갔어.|3
+dry cleaner|세탁소|Pick up my suit from the dry cleaner.|세탁소에서 내 정장 좀 찾아와.|3
+gas station|주유소|Is there a gas station nearby?|근처에 주유소 있어요?|2
+car wash|세차장|Let's take the car to the car wash.|세차장에 차 가져가자.|2
+parking space|주차 공간|I couldn't find a parking space.|주차할 곳을 못 찾았어.|2
+city hall|시청|The festival is at city hall.|축제는 시청에서 해.|2
+community center|주민 센터|The community center has free classes.|주민 센터에 무료 강좌가 있어.|3
+fire station|소방서|The kids visited the fire station.|아이들이 소방서를 견학했어.|2
+police station|경찰서|I reported it at the police station.|경찰서에 신고했어.|2
+mail|우편(물); 부치다|Did the mail come?|우편물 왔어?|2
+letter|편지|I got a letter from my friend.|친구한테 편지를 받았어.|1
+stamp|우표|I need a stamp for this letter.|이 편지에 붙일 우표가 필요해.|2
+envelope|봉투|Put it in an envelope.|봉투에 넣어.|2
+address|주소|What's your address?|주소가 어떻게 돼?|2
+send|보내다|I'll send it by express mail.|빠른우편으로 보낼게.|1
+parcel|소포|I'm sending a parcel to my sister.|언니한테 소포를 보내.|3
+courier|택배 회사, 배달원|The courier left it at the door.|택배 기사가 문 앞에 두고 갔어.|3
+pick up|찾아오다, 수령하다|You can pick it up at the store.|매장에서 찾아가시면 돼요.|2
+line|줄|There's a long line.|줄이 길어.|2
+wait in line|줄을 서서 기다리다|We waited in line for an hour.|한 시간 동안 줄 섰어.|2
+cut in line|새치기하다|Don't cut in line.|새치기하지 마.|3
+number ticket|번호표|Please take a number ticket.|번호표를 뽑아 주세요.|3
+counter|창구, 계산대|Please go to counter three.|3번 창구로 가세요.|2
+form|서식, 양식|Please fill out this form.|이 양식을 작성해 주세요.|2
+ID|신분증|Can I see your ID?|신분증 좀 볼 수 있을까요?|2
+sign|서명하다; 표지판|Sign here, please.|여기 서명해 주세요.|2
+signature|서명|I need your signature here.|여기 서명이 필요해요.|3
+apply for|신청하다|I applied for a new passport.|여권을 새로 신청했어.|3
+renew|갱신하다|I need to renew my driver's license.|운전면허를 갱신해야 해.|3
+expire|만료되다|My passport expires next month.|내 여권은 다음 달에 만료돼.|3
+certificate|증명서|I need a birth certificate.|출생 증명서가 필요해.|4
+document|서류|Bring these documents with you.|이 서류들을 가져오세요.|2
+copy|사본|Please bring a copy of your ID.|신분증 사본을 가져오세요.|2
+appointment|예약|Do I need an appointment?|예약이 필요한가요?|2
+open|열린, 영업 중인|Is the bank open on Saturdays?|은행은 토요일에 열어요?|1
+closed|닫힌, 휴업한|The store is closed today.|가게가 오늘 쉬어.|1
+business hours|영업시간|What are your business hours?|영업시간이 어떻게 되나요?|3
+24 hours|24시간 영업|The pharmacy is open 24 hours.|그 약국은 24시간 열어.|2
+lost|잃어버린, 길을 잃은|I lost my umbrella on the bus.|버스에 우산을 두고 내렸어.|1
+report|신고하다|I want to report a lost wallet.|지갑 분실 신고를 하고 싶어요.|2
+steal|훔치다|Someone stole my bike.|누가 내 자전거를 훔쳐 갔어.|2
+thief|도둑|The thief was caught.|도둑이 잡혔어.|2
+accident|사고|There was an accident on the highway.|고속도로에서 사고가 났어.|2
+emergency|비상사태, 응급|In an emergency, call 119.|비상시엔 119에 전화해.|2
+help|도움; 돕다|Help! Somebody help me!|도와주세요!|1
+fire|불, 화재|There's a fire in the building!|건물에 불이 났어요!|1
+safe|안전한|This area is very safe.|이 지역은 아주 안전해.|2
+dangerous|위험한|It's dangerous to swim here.|여기서 수영하는 건 위험해.|2
+crime|범죄|Crime is low in this area.|이 지역은 범죄율이 낮아.|3
+security guard|경비원|Ask the security guard.|경비원에게 물어봐.|3
+CCTV|CCTV, 감시 카메라|The CCTV caught the thief.|CCTV에 도둑이 찍혔어.|3
+noise complaint|소음 민원|Our neighbors made a noise complaint.|이웃이 소음 민원을 넣었어.|4
+recycling bin|재활용 쓰레기통|Put cans in the recycling bin.|캔은 재활용 통에 넣어.|3
+food waste|음식물 쓰레기|Take out the food waste.|음식물 쓰레기 버려 줘.|3
+garbage day|쓰레기 버리는 날|Tuesday is garbage day.|화요일이 쓰레기 버리는 날이야.|3
+repair shop|수리점|Take it to a repair shop.|수리점에 가져가.|3
+mechanic|정비사|The mechanic fixed my car.|정비사가 차를 고쳤어.|3
+repair|수리(하다)|How much will the repair cost?|수리비가 얼마나 들까요?|2
+broken|고장 난|My phone is broken.|휴대폰이 고장 났어.|2
+out of order|고장 난|The elevator is out of order.|엘리베이터가 고장이에요.|3
+under construction|공사 중인|The road is under construction.|도로가 공사 중이야.|3
+detour|우회로|Follow the detour signs.|우회로 표지판을 따라가.|4
+crosswalk|횡단보도|Use the crosswalk.|횡단보도로 건너.|2
+sidewalk|인도|Stay on the sidewalk.|인도로 다녀.|2
+traffic light|신호등|Wait for the green light.|초록불을 기다려.|2
+landmark|랜드마크, 눈에 띄는 건물|Is there a landmark near your house?|집 근처에 눈에 띄는 건물이 있어?|3
+across from|~의 맞은편에|The bank is across from the café.|은행은 카페 맞은편에 있어.|2
+next to|~ 옆에|The pharmacy is next to the bakery.|약국은 빵집 옆에 있어.|1
+between|~ 사이에|It's between the bank and the school.|은행과 학교 사이에 있어.|1
+around the corner|모퉁이를 돌면, 바로 근처에|The store is just around the corner.|가게는 모퉁이 돌면 바로 있어.|2
+within walking distance|걸어갈 수 있는 거리에|The station is within walking distance.|역은 걸어갈 수 있는 거리야.|3
+nearby|근처에|Is there a café nearby?|근처에 카페 있어요?|2
+local|지역의, 동네의|Support local businesses.|동네 가게를 이용해 주세요.|2
+resident|주민|Parking is for residents only.|주민 전용 주차장이에요.|3
+apartment complex|아파트 단지|We live in a big apartment complex.|우리는 큰 아파트 단지에 살아.|3
+security office|관리실, 경비실|Leave the package at the security office.|택배는 경비실에 맡겨 주세요.|3
+management fee|관리비|The management fee went up.|관리비가 올랐어.|4
+moving company|이삿짐 센터|We hired a moving company.|이삿짐 센터를 불렀어.|3
+real estate agent|부동산 중개인|The real estate agent showed us three apartments.|부동산 중개인이 아파트 세 곳을 보여 줬어.|4
+gym membership|헬스장 회원권|I canceled my gym membership.|헬스장 회원권을 해지했어.|3
+library card|도서관 카드|Can I get a library card?|도서관 카드 만들 수 있나요?|2
+due back|반납 예정인|The books are due back on Friday.|책은 금요일까지 반납이야.|4
+late fee|연체료|I paid a late fee.|연체료를 냈어.|3
+public restroom|공중화장실|Is there a public restroom here?|여기 공중화장실 있어요?|3
+vending machine|자판기|The vending machine ate my money.|자판기가 내 돈을 먹었어.|3
+bench|벤치|Let's sit on that bench.|저 벤치에 앉자.|2
+fountain|분수|The kids played in the fountain.|아이들이 분수에서 놀았어.|2
+statue|동상|Meet me by the statue.|동상 옆에서 만나.|3
+square|광장|There's a market in the square.|광장에 장이 서.|3
+alley|골목|There's a great restaurant in that alley.|저 골목에 맛집이 있어.|3
+traditional market|전통 시장|Let's shop at the traditional market.|전통 시장에서 장 보자.|3
+flea market|벼룩시장|I found this at a flea market.|이거 벼룩시장에서 찾았어.|3
+street vendor|노점상|The street vendor sells hot snacks.|그 노점상은 따뜻한 간식을 팔아.|4
+pet shop|애완동물 가게|We bought dog food at the pet shop.|애완동물 가게에서 개 사료를 샀어.|2
+vet|수의사, 동물 병원|Take the dog to the vet.|개를 동물 병원에 데려가.|3
+dental clinic|치과|There's a dental clinic upstairs.|위층에 치과가 있어.|3
+eye doctor|안과 의사|I need to see an eye doctor.|안과에 가 봐야 해.|3
+optician|안경사, 안경점|I got new glasses at the optician.|안경점에서 새 안경을 맞췄어.|4
+hardware store|철물점|Get some nails at the hardware store.|철물점에서 못 좀 사 와.|3
+stationery store|문구점|My son loves the stationery store.|우리 아들은 문구점을 좋아해.|3
+florist|꽃집|I ordered flowers from the florist.|꽃집에 꽃을 주문했어.|3
+butcher|정육점|The butcher has fresh beef today.|정육점에 오늘 신선한 소고기가 있어.|3
+tailor|재단사, 수선집|The tailor fixed my pants.|수선집에서 바지를 고쳤어.|4
+alter|(옷을) 수선하다|Can you alter this dress?|이 원피스 수선해 주실 수 있나요?|4
+locksmith|열쇠공|I locked myself out and called a locksmith.|문이 잠겨서 열쇠공을 불렀어.|4
+plumber|배관공|The plumber fixed the leak.|배관공이 누수를 고쳤어.|3
+electrician|전기 기사|We need an electrician.|전기 기사가 필요해.|4
+cleaning service|청소 서비스|We hired a cleaning service.|청소 업체를 불렀어.|3
+babysitter|베이비시터|Our babysitter comes on Tuesdays.|베이비시터가 화요일마다 와.|2
+tutor|과외 선생님|My daughter has a math tutor.|우리 딸은 수학 과외를 받아.|3
+academy|학원|My son goes to an English academy.|우리 아들은 영어 학원에 다녀.|3
+after-school program|방과 후 프로그램|She joined an after-school program.|그 애는 방과 후 프로그램에 들어갔어.|3
+school bus|통학 버스|The school bus comes at eight.|통학 버스는 8시에 와.|2
+crossing guard|등하굣길 교통 지도원|The crossing guard helps kids cross.|교통 지도원이 아이들 길 건너는 걸 도와줘.|4
+public holiday|공휴일|The bank is closed on public holidays.|공휴일엔 은행이 쉬어.|3
+election|선거|Did you vote in the election?|선거에서 투표했어?|3
+vote|투표하다|Don't forget to vote.|투표하는 거 잊지 마.|3
+tax office|세무서|I went to the tax office.|세무서에 갔어.|4
+paperwork|서류 작업|There's so much paperwork.|서류 작업이 너무 많아.|3
+red tape|관료적 형식주의, 번거로운 절차|There's too much red tape.|절차가 너무 번거로워.|5
+bureaucracy|관료제, 행정 절차|Bureaucracy slows everything down.|행정 절차 때문에 모든 게 늦어져.|5
+fine|벌금|I got a parking fine.|주차 위반 벌금을 받았어.|3
+ticket|딱지, 벌금 고지서|I got a speeding ticket.|과속 딱지를 뗐어.|3
+tow|견인하다|My car got towed.|내 차가 견인됐어.|4
+no parking|주차 금지|This is a no parking zone.|여기는 주차 금지 구역이야.|3
+speed bump|과속 방지턱|Slow down for the speed bump.|과속 방지턱에서 속도 줄여.|4
+pothole|도로의 움푹 팬 곳|I hit a pothole.|도로에 팬 곳을 밟았어.|4
+streetlight|가로등|The streetlight is out.|가로등이 나갔어.|3
+power line|전깃줄|A tree fell on the power line.|나무가 전깃줄 위로 쓰러졌어.|4
+water bill|수도 요금|The water bill is due Friday.|수도 요금은 금요일까지야.|3
+gas bill|가스 요금|Our gas bill was high in winter.|겨울에 가스 요금이 많이 나왔어.|3
+internet provider|인터넷 회사|I'm switching internet providers.|인터넷 회사를 바꾸려고 해.|4
+technician|기술자|A technician is coming to fix the internet.|인터넷 고치러 기사님이 와.|3
+neighborly|이웃다운, 친절한|That was very neighborly of you.|정말 좋은 이웃이시네요.|5
+borrow a cup of sugar|이웃에게 설탕 한 컵 빌리다 (이웃 간의 정)|She came over to borrow a cup of sugar.|그녀가 설탕 한 컵 빌리러 왔어.|5
+small-town|작은 동네의, 시골스러운|I miss the small-town life.|작은 동네 생활이 그리워.|4
+hustle and bustle|북적거림, 소란스러움|I love the hustle and bustle of the city.|나는 도시의 북적거림이 좋아.|5
+stone's throw|아주 가까운 거리|The beach is a stone's throw from the hotel.|해변은 호텔에서 엎어지면 코 닿을 데야.|5
+the other side of town|동네 반대편|She lives on the other side of town.|그녀는 동네 반대편에 살아.|3
+get around|돌아다니다|It's easy to get around by bus.|버스로 돌아다니기 쉬워.|3
+run errands|볼일을 보다|I have to run some errands.|볼일 좀 봐야 해.|3
+drop off|맡기다, 갖다 놓다|I'll drop off the package on my way.|가는 길에 택배 맡길게.|3
+pop out|잠깐 나갔다 오다|I'm just popping out for some milk.|우유 사러 잠깐 나갔다 올게.|5
+swing by|잠깐 들르다|I'll swing by the bakery.|빵집에 잠깐 들를게.|5
+stop by|잠깐 들르다|Stop by my office later.|나중에 내 사무실에 잠깐 들러.|3
+on the way|가는 길에|I'll pick up coffee on the way.|가는 길에 커피 사 갈게.|2
+queue|줄; 줄을 서다 (영국식)|There's a long queue at the post office.|우체국에 줄이 길어.|4
+first come, first served|선착순|Seats are first come, first served.|좌석은 선착순이에요.|4
+walk-in|예약 없이 오는 (손님)|Do you take walk-ins?|예약 없이 가도 되나요?|4
+by appointment only|예약제로만|The clinic is by appointment only.|그 병원은 예약제로만 운영해.|4
+self-service|셀프서비스|The gas station is self-service.|그 주유소는 셀프야.|3
+complaint|불만, 민원|I filed a complaint with the city.|시에 민원을 넣었어.|3
+community|지역 사회, 공동체|It's a friendly community.|정이 넘치는 동네야.|3
+volunteer|자원봉사자|We need volunteers for the event.|행사에 자원봉사자가 필요해요.|3
+donation|기부|We made a donation to the shelter.|보호소에 기부했어.|3
+charity|자선 단체|She works for a charity.|그녀는 자선 단체에서 일해.|3
+fundraiser|모금 행사|The school is holding a fundraiser.|학교에서 모금 행사를 해.|4
+block party|동네 잔치|Our street had a block party.|우리 거리에서 동네 잔치를 했어.|5
+open house|(집·학교) 공개 행사|The school has an open house on Friday.|학교에서 금요일에 공개 행사를 해.|4

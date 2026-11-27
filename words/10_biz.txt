@@ -1,0 +1,177 @@
+# biz|비즈니스|📈
+business|사업, 업무|How's business?|사업은 어때요?|1
+customer|고객, 손님|The customer is always right.|손님은 왕이다.|1
+product|제품|This is our new product.|이게 저희 신제품이에요.|1
+service|서비스|The service was excellent.|서비스가 훌륭했어요.|1
+sell|팔다|We sell clothes online.|저희는 온라인에서 옷을 팔아요.|1
+price|가격|The price includes tax.|가격에 세금이 포함돼 있어요.|1
+money|돈|We need more money for this project.|이 프로젝트엔 돈이 더 필요해요.|1
+idea|아이디어|That's a great idea!|좋은 아이디어네요!|1
+problem|문제|What's the problem?|무슨 문제예요?|1
+answer|답, 대답|I need an answer by tomorrow.|내일까지 답이 필요해요.|1
+client|고객, 의뢰인|The client wants changes by Monday.|고객이 월요일까지 수정을 원해요.|2
+budget|예산|We're over budget again.|또 예산을 초과했어요.|2
+profit|이익|The company made a small profit.|회사가 약간의 이익을 냈어요.|2
+contract|계약(서)|Please read the contract carefully.|계약서를 꼼꼼히 읽어 주세요.|2
+launch|출시(하다)|We'll launch the new app in May.|5월에 새 앱을 출시할 거예요.|2
+market|시장|The market is very competitive.|시장 경쟁이 아주 치열해요.|2
+sales|매출, 판매|Sales are up this month.|이번 달 매출이 올랐어요.|2
+cost|비용; 비용이 들다|How much will it cost?|비용이 얼마나 들까요?|2
+order|주문|We received a large order.|대량 주문을 받았어요.|2
+supply|공급(하다)|We supply parts to car makers.|저희는 자동차 회사에 부품을 공급해요.|2
+demand|수요|Demand for this product is high.|이 제품은 수요가 많아요.|2
+partner|파트너, 동업자|We're looking for a business partner.|사업 파트너를 찾고 있어요.|2
+goal|목표|Our goal is to double sales.|우리 목표는 매출을 두 배로 늘리는 거예요.|2
+plan|계획|Do you have a business plan?|사업 계획서 있어요?|2
+advertise|광고하다|We advertise on social media.|저희는 SNS에 광고해요.|2
+advertisement|광고|I saw your advertisement online.|온라인에서 광고를 봤어요.|2
+brand|브랜드|They built a strong brand.|그들은 강력한 브랜드를 만들었어요.|2
+quality|품질|We never compromise on quality.|저희는 품질에서 절대 타협하지 않아요.|2
+revenue|수익, 매출|Revenue grew 10% this year.|올해 매출이 10% 늘었어요.|3
+negotiate|협상하다|We need to negotiate a better price.|더 좋은 가격으로 협상해야 해요.|3
+strategy|전략|We need a new marketing strategy.|새로운 마케팅 전략이 필요해요.|3
+competitor|경쟁사|Our main competitor lowered its prices.|주요 경쟁사가 가격을 내렸어요.|3
+invoice|청구서, 인보이스|I'll send the invoice today.|오늘 청구서를 보낼게요.|3
+estimate|견적, 추정(하다)|Can you give me a rough estimate?|대략적인 견적을 주실 수 있나요?|3
+quote|견적(서)|Can I get a quote for this job?|이 작업 견적을 받을 수 있을까요?|3
+quarter|분기|Sales were strong in the first quarter.|1분기 매출이 좋았어요.|3
+deal|거래|We closed the deal yesterday.|어제 거래를 성사시켰어요.|3
+offer|제안(하다)|We'd like to make you an offer.|제안을 하나 드리고 싶어요.|3
+discount|할인|We can offer a 10% discount.|10% 할인해 드릴 수 있어요.|2
+payment|지불, 결제|Payment is due in 30 days.|결제 기한은 30일입니다.|3
+shipment|배송(품), 선적|The shipment will arrive next week.|배송품은 다음 주에 도착해요.|3
+deliver|배송하다; (성과를) 내다|We always deliver on time.|저희는 항상 제때 배송해요.|3
+inventory|재고|We need to check our inventory.|재고를 확인해야 해요.|3
+supplier|공급업체|We changed suppliers last year.|작년에 공급업체를 바꿨어요.|3
+vendor|판매 업체, 납품 업체|We work with several vendors.|저희는 여러 업체와 거래해요.|4
+startup|신생 기업, 스타트업|She works at a tech startup.|그녀는 기술 스타트업에서 일해.|3
+investor|투자자|We're meeting with investors tomorrow.|내일 투자자들과 만나요.|3
+growth|성장|The company is focused on growth.|회사는 성장에 집중하고 있어요.|3
+loss|손실|We had a big loss last year.|작년에 손실이 컸어요.|3
+target market|목표 시장|Our target market is young parents.|저희 목표 시장은 젊은 부모들이에요.|3
+feedback|고객 의견|Customer feedback has been positive.|고객 반응이 긍정적이에요.|3
+survey|설문 조사|We ran a customer survey.|고객 설문 조사를 했어요.|3
+data|데이터|The data shows a clear trend.|데이터가 뚜렷한 추세를 보여 줘요.|3
+trend|추세, 유행|We need to follow market trends.|시장 추세를 따라가야 해요.|3
+analysis|분석|We need a deeper analysis.|더 깊은 분석이 필요해요.|3
+agreement|합의, 계약|We reached an agreement.|합의에 도달했어요.|3
+sign|서명하다|Please sign here.|여기 서명해 주세요.|2
+terms|조건|Let's discuss the terms of the contract.|계약 조건을 논의해 봅시다.|3
+deadline|기한|We can't miss this deadline.|이번 마감은 놓치면 안 돼요.|2
+win-win|모두에게 이로운|It's a win-win for both companies.|두 회사 모두에게 이득인 일이에요.|3
+stakeholder|이해관계자|We need approval from every stakeholder.|모든 이해관계자의 승인이 필요해요.|4
+leverage|활용하다; 영향력|We can leverage our existing customers.|기존 고객을 활용할 수 있어요.|4
+feasible|실현 가능한|Is this plan feasible within our budget?|이 계획이 예산 안에서 실현 가능한가요?|4
+implement|실행하다, 도입하다|We'll implement the new system next month.|다음 달에 새 시스템을 도입할 거예요.|4
+outsource|외주를 주다|We decided to outsource the design work.|디자인 작업은 외주를 주기로 했어요.|4
+forecast|예측, 전망|The sales forecast looks positive.|매출 전망이 긍정적이에요.|4
+bottom line|핵심, 결론; 최종 손익|The bottom line is we need more time.|결론은 시간이 더 필요하다는 거예요.|4
+merger|합병|The merger was announced today.|오늘 합병이 발표됐어요.|4
+acquisition|인수|The acquisition cost billions.|인수에 수십억이 들었어요.|4
+shareholder|주주|Shareholders will vote next week.|주주들이 다음 주에 투표해요.|4
+asset|자산|Our people are our greatest asset.|직원이 우리의 가장 큰 자산이에요.|4
+liability|부채; 책임|We need to reduce our liabilities.|부채를 줄여야 해요.|5
+cash flow|현금 흐름|Cash flow is tight this quarter.|이번 분기 현금 흐름이 빠듯해요.|4
+margin|이윤, 마진|Our profit margin is small.|우리 이윤 폭은 작아요.|4
+overhead|간접비, 고정비|We need to cut overhead costs.|간접비를 줄여야 해요.|4
+expense report|경비 보고서|Submit your expense report by Friday.|금요일까지 경비 보고서를 제출하세요.|4
+reimburse|(비용을) 환급하다|The company will reimburse your travel costs.|회사가 출장비를 돌려줄 거예요.|4
+compensation|보상, 보수|The compensation package is attractive.|보수 조건이 매력적이에요.|4
+incentive|장려책, 인센티브|We offer incentives to top sellers.|최우수 판매자에게 인센티브를 줘요.|4
+KPI|핵심 성과 지표|What are our KPIs this year?|올해 우리 핵심 성과 지표가 뭐예요?|4
+ROI|투자 수익률|What's the ROI on this campaign?|이 캠페인의 투자 수익률은요?|4
+B2B|기업 간 거래|We're a B2B company.|저희는 기업 대상 회사예요.|4
+B2C|기업 대 소비자 거래|Our B2C sales are growing.|소비자 대상 매출이 늘고 있어요.|4
+pitch|(사업) 제안 발표; 제안하다|She pitched her idea to the investors.|그녀는 투자자들에게 아이디어를 제안했어.|4
+proposal|제안서|The proposal was approved.|제안서가 승인됐어요.|3
+approve|승인하다|The manager approved the budget.|매니저가 예산을 승인했어요.|3
+reject|거절하다|They rejected our offer.|그들은 우리 제안을 거절했어요.|3
+counteroffer|역제안|They made a counteroffer.|그들이 역제안을 했어요.|4
+compromise|타협(하다)|We need to find a compromise.|타협점을 찾아야 해요.|4
+deal-breaker|(협상을) 깨는 조건|The price is a deal-breaker for us.|가격 때문에 우리는 계약 못 해요.|5
+non-negotiable|협상 불가한|The deadline is non-negotiable.|마감은 협상 불가예요.|5
+due diligence|실사, 사전 조사|We did our due diligence before investing.|투자 전에 철저히 조사했어요.|5
+benchmark|기준(점); 비교하다|We benchmark against our competitors.|경쟁사와 비교해 기준을 잡아요.|5
+scalable|확장 가능한|Is this business model scalable?|이 사업 모델은 확장 가능한가요?|5
+streamline|간소화하다, 효율화하다|We streamlined the ordering process.|주문 절차를 간소화했어요.|5
+optimize|최적화하다|We need to optimize our website.|웹사이트를 최적화해야 해요.|4
+leverage our strengths|강점을 살리다|We should leverage our strengths.|우리 강점을 살려야 해요.|5
+market share|시장 점유율|We gained market share this year.|올해 시장 점유율이 늘었어요.|4
+niche|틈새시장|They found a profitable niche.|그들은 수익성 있는 틈새시장을 찾았어요.|4
+competitive|경쟁력 있는; 경쟁이 치열한|We offer competitive prices.|저희는 경쟁력 있는 가격을 제공해요.|3
+launch date|출시일|The launch date is set for June.|출시일은 6월로 정해졌어요.|3
+prototype|시제품|We built a prototype.|시제품을 만들었어요.|4
+feedback loop|피드백 순환|We need a faster feedback loop.|더 빠른 피드백 순환이 필요해요.|5
+customer base|고객층|We have a loyal customer base.|저희는 충성도 높은 고객층이 있어요.|4
+loyalty|충성도|Customer loyalty is everything.|고객 충성도가 전부예요.|4
+retention|(고객) 유지|We need to improve customer retention.|고객 유지율을 높여야 해요.|5
+churn|(고객) 이탈|Our churn rate is too high.|고객 이탈률이 너무 높아요.|5
+upsell|추가 판매하다|Staff are trained to upsell.|직원들은 추가 판매를 하도록 교육받아요.|5
+cold call|(모르는 사람에게) 영업 전화를 걸다|I hate making cold calls.|영업 전화 거는 거 정말 싫어.|5
+lead|잠재 고객|We got fifty new leads this week.|이번 주에 잠재 고객 50명을 확보했어요.|4
+follow-up|후속 조치|I'll send a follow-up email.|후속 이메일을 보낼게요.|3
+networking|인맥 쌓기|Networking is important in business.|사업에서 인맥 쌓기는 중요해요.|3
+business card|명함|Here's my business card.|제 명함입니다.|2
+small talk|가벼운 잡담|I'm not good at small talk.|나는 가벼운 잡담을 잘 못 해.|3
+handshake|악수|A firm handshake makes a good impression.|힘 있는 악수가 좋은 인상을 줘요.|3
+first impression|첫인상|First impressions matter.|첫인상이 중요해요.|3
+professional|전문적인; 전문가|Her presentation was very professional.|그녀의 발표는 아주 전문적이었어.|3
+reliable|믿을 만한|We need a reliable supplier.|믿을 만한 공급업체가 필요해요.|3
+flexible|유연한|Our schedule is flexible.|저희 일정은 유연해요.|3
+transparent|투명한|We want to be transparent with customers.|고객에게 투명하고 싶어요.|4
+confidential|기밀의|This information is confidential.|이 정보는 기밀이에요.|4
+sensitive|민감한|This is a sensitive issue.|이건 민감한 문제예요.|3
+risk|위험|There's always some risk.|항상 어느 정도 위험은 있어요.|3
+opportunity|기회|This is a great opportunity.|이건 좋은 기회예요.|3
+challenge|어려운 과제; 도전|Hiring is our biggest challenge.|채용이 우리의 가장 큰 과제예요.|3
+solution|해결책|We need a quick solution.|빠른 해결책이 필요해요.|3
+issue|문제, 사안|Let's discuss this issue.|이 문제를 논의합시다.|3
+resolve|해결하다|We resolved the issue quickly.|문제를 빠르게 해결했어요.|4
+escalate|(상부에) 보고하다; 악화되다|I'll escalate this to my manager.|이건 매니저에게 보고할게요.|5
+priority|우선순위|Safety is our top priority.|안전이 최우선이에요.|3
+efficient|효율적인|This is a more efficient system.|이게 더 효율적인 시스템이에요.|3
+expand|확장하다|We plan to expand overseas.|해외로 확장할 계획이에요.|3
+partnership|제휴, 협력 관계|We formed a partnership with them.|그들과 제휴를 맺었어요.|4
+collaboration|협업|This product is a collaboration with a famous artist.|이 제품은 유명 작가와의 협업이에요.|4
+franchise|가맹점, 프랜차이즈|He owns a coffee franchise.|그는 커피 가맹점을 운영해.|4
+entrepreneur|사업가, 창업가|She's a successful entrepreneur.|그녀는 성공한 사업가야.|4
+self-employed|자영업의, 프리랜서인|I'm self-employed.|저는 자영업자예요.|4
+freelancer|프리랜서|I hired a freelancer for the logo.|로고 작업에 프리랜서를 고용했어.|3
+tax return|세금 신고(서)|I need to file my tax return.|세금 신고를 해야 해.|4
+receipt|영수증|Keep all your receipts for taxes.|세금 때문에 영수증은 다 보관해.|2
+accountant|회계사|Ask your accountant.|회계사에게 물어보세요.|3
+audit|회계 감사|The company passed the audit.|회사가 회계 감사를 통과했어요.|5
+fiscal year|회계 연도|Our fiscal year starts in April.|저희 회계 연도는 4월에 시작해요.|5
+annual report|연차 보고서|The annual report comes out in March.|연차 보고서는 3월에 나와요.|4
+press release|보도 자료|We issued a press release.|보도 자료를 냈어요.|4
+announcement|발표, 공지|We'll make an announcement tomorrow.|내일 발표할 거예요.|3
+deadline extension|마감 연장|Can we ask for a deadline extension?|마감 연장을 요청할 수 있을까요?|4
+on budget|예산 안에서|The project finished on budget.|프로젝트가 예산 안에서 끝났어요.|4
+over budget|예산 초과한|We're 10% over budget.|예산을 10% 초과했어요.|4
+ahead of schedule|예정보다 빨리|We're ahead of schedule.|예정보다 앞서 있어요.|4
+behind schedule|예정보다 늦은|The project is behind schedule.|프로젝트가 일정보다 늦어지고 있어요.|4
+in the long run|장기적으로|It'll save money in the long run.|장기적으로는 돈을 아낄 거예요.|4
+in the red|적자인|The company has been in the red for years.|그 회사는 몇 년째 적자예요.|5
+in the black|흑자인|We're finally in the black.|드디어 흑자예요.|5
+break even|본전치기하다|We expect to break even next year.|내년엔 손익분기점에 도달할 거예요.|5
+cut corners|(돈·시간을 아끼려고) 대충 하다|Don't cut corners on safety.|안전 문제는 대충 넘어가지 마.|5
+get the green light|승인을 받다|We got the green light to start.|시작해도 된다는 승인을 받았어요.|5
+back to the drawing board|처음부터 다시 시작|The client hated it. Back to the drawing board.|고객이 싫어했어요. 처음부터 다시 해야죠.|5
+touch and go|아슬아슬한|The deal was touch and go for a while.|그 거래는 한동안 아슬아슬했어요.|5
+a game changer|판도를 바꾸는 것|This app is a game changer.|이 앱은 판도를 바꿀 거예요.|5
+the ball is in your court|이제 당신이 결정할 차례|I've made my offer. The ball is in your court.|제안은 드렸어요. 이제 결정하실 차례예요.|5
+win over|(사람을) 설득해 내 편으로 만들다|We need to win over the client.|고객을 우리 편으로 만들어야 해요.|4
+seal the deal|거래를 성사시키다|One more meeting should seal the deal.|한 번만 더 만나면 계약이 성사될 거예요.|5
+a rough idea|대략적인 생각|Can you give me a rough idea of the cost?|비용이 대략 얼마인지 알려 줄래요?|4
+draft|초안(을 쓰다)|I'll send you a first draft.|초안을 먼저 보내 드릴게요.|3
+final version|최종본|Here's the final version.|최종본입니다.|3
+revise|수정하다|Please revise the proposal.|제안서를 수정해 주세요.|3
+review|검토(하다)|Can you review this document?|이 문서 좀 검토해 주실래요?|3
+sign off on|최종 승인하다|The director signed off on the plan.|이사님이 계획을 최종 승인했어요.|5
+roll out|(신제품을) 출시하다, 도입하다|We'll roll out the update next week.|다음 주에 업데이트를 배포할 거예요.|4
+phase out|단계적으로 폐지하다|We're phasing out the old model.|구형 모델을 단계적으로 없애고 있어요.|5
+step up|강화하다|We need to step up our marketing.|마케팅을 강화해야 해요.|4
+in-house|사내의, 회사 자체의|We do all the design in-house.|디자인은 전부 사내에서 해요.|4
+headcount|인원수|We can't increase headcount this year.|올해는 인원을 늘릴 수 없어요.|5
+synergy|시너지, 상승 효과|There's great synergy between the teams.|두 팀 사이에 시너지가 커요.|5
+value proposition|가치 제안 (고객에게 주는 핵심 가치)|What's our value proposition?|우리가 고객에게 주는 핵심 가치는 뭐죠?|5

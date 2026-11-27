@@ -1,0 +1,178 @@
+# work|직장·회의|💼
+job|직업, 일자리|I love my job.|나는 내 일이 정말 좋아.|1
+work|일(하다); 직장|I have to work late tonight.|오늘 밤엔 늦게까지 일해야 해.|1
+office|사무실|I'm still at the office.|아직 사무실이야.|1
+boss|상사|My boss is very kind.|우리 상사는 아주 친절해.|1
+meeting|회의|I have a meeting at ten.|10시에 회의가 있어.|1
+email|이메일|I'll send you an email.|이메일 보낼게요.|1
+computer|컴퓨터|My computer is so slow.|내 컴퓨터 너무 느려.|1
+desk|책상|My desk is a mess.|내 책상은 엉망이야.|1
+company|회사|What company do you work for?|어느 회사에 다니세요?|1
+team|팀|Our team is small.|우리 팀은 작아.|1
+busy|바쁜|I'm busy this week.|이번 주는 바빠.|1
+break|휴식 시간|Let's take a short break.|잠깐 쉬자.|1
+lunch break|점심시간|I go for a walk on my lunch break.|점심시간에 산책해.|1
+call|전화(하다)|I'll call you after the meeting.|회의 끝나고 전화할게.|1
+paper|서류, 종이|Please sign this paper.|이 서류에 서명해 주세요.|1
+plan|계획(하다)|What's the plan for today?|오늘 계획이 뭐예요?|1
+colleague|동료|A colleague of mine recommended this place.|동료 한 명이 이곳을 추천해 줬어.|2
+coworker|직장 동료|I had lunch with my coworkers.|직장 동료들이랑 점심 먹었어.|2
+manager|관리자, 매니저|Let me talk to my manager.|매니저와 얘기해 볼게요.|2
+deadline|마감 기한|The deadline is next Friday.|마감은 다음 주 금요일이야.|2
+project|프로젝트, 과제|We're starting a new project.|새 프로젝트를 시작해.|2
+report|보고서; 보고하다|I need to finish this report today.|오늘 이 보고서 끝내야 해.|2
+document|문서|Please check the attached document.|첨부 문서를 확인해 주세요.|2
+file|파일; 철하다|I'll send you the file.|파일 보내 드릴게요.|2
+print|인쇄하다|Can you print this for me?|이것 좀 인쇄해 줄래요?|2
+copy|복사(하다)|I need ten copies of this.|이거 10부 복사해야 해요.|2
+schedule|일정(을 잡다)|Let's schedule a meeting.|회의 일정을 잡읍시다.|2
+day off|쉬는 날, 휴무|I'm taking a day off tomorrow.|내일 하루 쉬어.|2
+overtime|초과 근무, 야근|I worked overtime every night this week.|이번 주는 매일 밤 야근했어.|2
+salary|월급, 연봉|They offered me a higher salary.|더 높은 연봉을 제안받았어.|2
+promotion|승진|She got a promotion last month.|그녀는 지난달에 승진했어.|2
+interview|면접|I have a job interview tomorrow.|내일 면접이 있어.|2
+resume|이력서|Please send your resume.|이력서를 보내 주세요.|2
+apply|지원하다|I applied for the job.|그 일자리에 지원했어.|2
+hire|고용하다|We're hiring new staff.|새 직원을 뽑고 있어요.|2
+quit|그만두다|I'm thinking of quitting my job.|회사를 그만둘까 생각 중이야.|2
+remote work|재택·원격 근무|Remote work saves me two hours a day.|재택근무 덕분에 하루 두 시간을 아껴.|2
+work from home|재택근무하다|I work from home on Fridays.|금요일엔 재택근무해.|2
+feedback|피드백, 의견|Thanks for the helpful feedback.|유익한 피드백 고마워요.|2
+task|업무, 일|I have three tasks left today.|오늘 할 일이 세 개 남았어.|2
+attach|첨부하다|I'll attach the file to this email.|이 메일에 파일을 첨부할게요.|2
+reply|답장(하다)|Please reply by Friday.|금요일까지 답장 주세요.|2
+forward|전달하다|I'll forward you the email.|그 메일 전달해 드릴게요.|2
+confirm|확인하다, 확정하다|Please confirm your attendance by Friday.|금요일까지 참석 여부를 확인해 주세요.|2
+agenda|안건, 의제|What's on the agenda today?|오늘 안건이 뭐예요?|3
+workload|업무량|My workload has doubled this month.|이번 달에 업무량이 두 배가 됐어.|3
+supervisor|상사, 관리자|Please check with your supervisor first.|먼저 상사와 확인해 주세요.|3
+assignment|맡은 업무, 과제|This assignment is due on Monday.|이 업무는 월요일까지예요.|3
+shift|교대 근무 (시간)|I'm on the night shift this week.|이번 주엔 야간 근무야.|3
+resign|사직하다|He decided to resign after ten years.|그는 10년 만에 사직하기로 했어.|3
+in charge of|~을 담당하는|Who's in charge of the budget?|예산은 누가 담당해요?|3
+team player|협동을 잘하는 사람|We're looking for a team player.|협업을 잘하는 사람을 찾고 있어요.|3
+work-life balance|일과 삶의 균형|This company values work-life balance.|이 회사는 워라밸을 중요하게 여겨.|3
+take over|(업무를) 넘겨받다|Can you take over while I'm on leave?|제가 휴가 간 동안 업무 좀 맡아 줄래요?|3
+on leave|휴가 중인|She's on maternity leave.|그녀는 출산 휴가 중이야.|3
+annual leave|연차 휴가|I have five days of annual leave left.|연차가 5일 남았어.|3
+sick leave|병가|He's on sick leave today.|그는 오늘 병가야.|3
+clarify|명확히 하다|Could you clarify what you mean?|무슨 뜻인지 명확히 해 주시겠어요?|3
+regarding|~에 관하여|I'm writing regarding your order.|주문 건과 관련해 연락드립니다.|3
+as discussed|논의한 대로|As discussed, the meeting is moved to Monday.|논의한 대로 회의는 월요일로 옮겨졌습니다.|3
+follow up|후속 연락을 하다|I'll follow up with the client tomorrow.|내일 고객에게 다시 연락할게요.|3
+reach out|연락하다|Feel free to reach out if you have questions.|궁금한 점 있으면 편하게 연락 주세요.|3
+postpone|연기하다|We had to postpone the launch.|출시를 연기해야 했어요.|3
+reschedule|일정을 변경하다|Can we reschedule our call?|통화 일정을 바꿀 수 있을까요?|3
+brief|간단히 보고하다; 짧은|Let me brief you on the project.|프로젝트에 대해 간단히 말씀드릴게요.|3
+wrap up|마무리하다|Let's wrap up the meeting here.|회의는 여기서 마무리하죠.|3
+input|의견, 조언|We'd love your input on this design.|이 디자인에 대한 의견을 듣고 싶어요.|3
+proposal|제안(서)|I sent the proposal this morning.|오늘 아침에 제안서를 보냈어요.|3
+on the same page|같은 생각인|Let's make sure we're on the same page.|우리가 같은 걸 이해하고 있는지 확인해요.|3
+presentation|발표|I have a presentation tomorrow.|내일 발표가 있어.|2
+slide|슬라이드|Let's move to the next slide.|다음 슬라이드로 넘어가죠.|2
+spreadsheet|스프레드시트|I keep track of everything in a spreadsheet.|모든 걸 스프레드시트로 관리해.|3
+update|업데이트; 최신 소식|Can you give me an update?|진행 상황 좀 알려 줄래요?|2
+progress|진행, 진척|How's the progress on the project?|프로젝트 진행은 어때요?|3
+priority|우선순위|This is our top priority.|이게 우리 최우선 과제예요.|3
+urgent|긴급한|This is urgent. Please call me back.|급한 일이에요. 다시 전화 주세요.|3
+ASAP|가능한 한 빨리|Please send it ASAP.|가능한 한 빨리 보내 주세요.|3
+FYI|참고로|FYI, the office is closed on Friday.|참고로 금요일엔 사무실 휴무예요.|3
+CC|참조(로 넣다)|Please CC me on that email.|그 메일에 저도 참조로 넣어 주세요.|3
+memo|메모, 회람|Did you read the memo?|회람 읽었어요?|3
+minutes|회의록|Who's taking the minutes today?|오늘 회의록은 누가 써요?|4
+action item|실행 과제, 할 일|Let's review the action items from last week.|지난주 실행 과제를 검토합시다.|4
+touch base|잠깐 연락하다|Let's touch base next week.|다음 주에 잠깐 얘기 나눠요.|4
+loop in|(논의에) 끼워 주다, 참조로 넣다|I'll loop in Sarah from marketing.|마케팅팀 사라도 참조로 넣을게요.|4
+at your earliest convenience|편하실 때 되도록 빨리|Please reply at your earliest convenience.|편하실 때 되도록 빨리 회신 부탁드립니다.|4
+consensus|합의, 의견 일치|We couldn't reach a consensus.|합의에 이르지 못했어요.|4
+payroll|급여 (명단), 급여 업무|Payroll is processed on the 25th.|급여는 25일에 처리돼요.|4
+onboarding|신입 적응 교육|Onboarding usually takes two weeks.|신입 교육은 보통 2주 걸려요.|4
+performance review|인사 평가, 성과 면담|My performance review is next week.|다음 주에 인사 평가 면담이 있어.|4
+burnout|번아웃|Many workers suffer from burnout.|많은 직장인이 번아웃을 겪어.|3
+employee|직원|The company has 200 employees.|그 회사는 직원이 200명이야.|2
+employer|고용주|My employer pays for my training.|회사가 교육비를 대 줘.|3
+staff|직원(들)|The staff are very helpful.|직원들이 아주 친절해.|2
+intern|인턴|We have two interns this summer.|이번 여름에 인턴이 두 명 있어.|2
+department|부서|Which department are you in?|어느 부서에 계세요?|2
+HR|인사부|Talk to HR about your leave.|휴가는 인사부에 얘기해.|3
+headquarters|본사|Our headquarters is in Seoul.|우리 본사는 서울에 있어.|3
+branch|지점|He works at the Busan branch.|그는 부산 지점에서 일해.|3
+commute|통근하다|I commute by subway.|나는 지하철로 출퇴근해.|2
+business trip|출장|I'm going on a business trip next week.|다음 주에 출장 가.|2
+conference|회의, 학회|I'm attending a conference in Tokyo.|도쿄 학회에 참석해.|3
+conference call|전화 회의|We have a conference call at three.|3시에 전화 회의가 있어.|3
+video call|화상 통화|Let's do a video call.|화상 통화로 하자.|2
+mute|음소거(하다)|You're on mute.|음소거 상태세요.|3
+share my screen|화면을 공유하다|Let me share my screen.|화면 공유할게요.|3
+deal with|처리하다|I'll deal with it right away.|바로 처리할게요.|3
+handle|처리하다, 다루다|Can you handle this task?|이 일 맡아 줄 수 있어요?|3
+manage|관리하다; 해내다|She manages a team of ten.|그녀는 열 명짜리 팀을 이끌어.|3
+delegate|위임하다|A good manager knows how to delegate.|좋은 관리자는 일을 맡길 줄 알아.|4
+collaborate|협업하다|We collaborate with a design team.|우리는 디자인팀과 협업해.|4
+cooperate|협력하다|Thank you for cooperating.|협조해 주셔서 감사합니다.|3
+coordinate|조율하다|I'll coordinate the schedule.|일정은 제가 조율할게요.|4
+efficient|효율적인|We need a more efficient process.|더 효율적인 절차가 필요해요.|3
+productive|생산적인|I'm most productive in the morning.|나는 아침에 제일 능률이 올라.|3
+multitask|여러 일을 동시에 하다|I'm not good at multitasking.|나는 여러 일을 동시에 잘 못 해.|3
+skill|기술, 능력|Communication is an important skill.|소통은 중요한 능력이야.|2
+experience|경력, 경험|Do you have any work experience?|일해 본 경험 있어요?|2
+qualified|자격을 갖춘|She's well qualified for the job.|그녀는 그 일에 자격이 충분해.|3
+candidate|지원자, 후보|We interviewed five candidates.|지원자 다섯 명을 면접 봤어.|3
+position|직책, 자리|I applied for a position in sales.|영업직에 지원했어.|3
+full-time|정규직의, 전일제의|Is this a full-time job?|이거 정규직이에요?|2
+part-time|시간제의|I work part-time at a café.|카페에서 아르바이트해.|2
+contract|계약(서)|My contract ends in June.|제 계약은 6월에 끝나요.|3
+benefits|복리 후생|The benefits here are great.|여기 복지가 좋아.|3
+raise|임금 인상|I asked my boss for a raise.|상사한테 월급 올려 달라고 했어.|3
+bonus|보너스, 상여금|We got a year-end bonus.|연말 보너스를 받았어.|2
+retire|은퇴하다|My dad retired last year.|아빠는 작년에 은퇴하셨어.|3
+fire|해고하다|He got fired for being late.|그는 지각 때문에 해고됐어.|3
+lay off|해고하다|The company laid off fifty workers.|회사가 50명을 해고했어.|4
+job hunting|구직 활동|I'm job hunting these days.|요즘 구직 중이야.|3
+career|경력, 직업|She wants a career in design.|그녀는 디자인 분야에서 일하고 싶어 해.|3
+cover letter|자기소개서|I wrote a cover letter for the job.|그 일자리에 낼 자기소개서를 썼어.|3
+reference|추천인, 추천서|Can I list you as a reference?|당신을 추천인으로 적어도 될까요?|4
+notice|(사직) 통보|I gave two weeks' notice.|2주 전에 퇴사 통보를 했어.|4
+probation|수습 기간|I'm still on probation.|아직 수습 기간이야.|4
+evaluation|평가|The evaluation is next month.|평가는 다음 달이야.|4
+target|목표|We hit our sales target.|매출 목표를 달성했어.|3
+goal|목표|What's your goal for this year?|올해 목표가 뭐예요?|2
+achieve|달성하다|We achieved our goal early.|목표를 일찍 달성했어.|3
+responsible for|~을 책임지는|I'm responsible for customer service.|저는 고객 서비스를 맡고 있어요.|3
+in a meeting|회의 중인|Sorry, she's in a meeting right now.|죄송하지만 그분은 지금 회의 중이세요.|2
+out of office|부재중인|I'll be out of office until Monday.|월요일까지 부재중입니다.|3
+leave a message|메시지를 남기다|Can I leave a message?|메시지 남겨도 될까요?|2
+get back to|다시 연락하다|I'll get back to you by Friday.|금요일까지 다시 연락드릴게요.|3
+Best regards,|(이메일 끝맺음) 감사합니다|Best regards, Jihye|감사합니다, 지혜 드림|3
+I hope this email finds you well.|잘 지내고 계시길 바랍니다 (이메일 첫인사)|I hope this email finds you well.|잘 지내고 계시길 바랍니다.|4
+Please find attached|첨부 파일을 확인해 주세요|Please find attached the updated schedule.|수정된 일정을 첨부했으니 확인해 주세요.|4
+Thank you for your patience.|기다려 주셔서 감사합니다|Thank you for your patience while we fix the issue.|문제를 해결하는 동안 기다려 주셔서 감사합니다.|4
+Sorry for the delay.|답장이 늦어 죄송합니다|Sorry for the delay in getting back to you.|답장이 늦어 죄송합니다.|3
+heads-up|미리 알림|Thanks for the heads-up.|미리 알려 줘서 고마워요.|4
+bandwidth|(일을 더 맡을) 여유, 역량|I don't have the bandwidth for another project.|프로젝트 하나 더 맡을 여유가 없어요.|5
+circle back|나중에 다시 논의하다|Let's circle back to this next week.|이건 다음 주에 다시 얘기하죠.|5
+ballpark figure|대략적인 수치|Can you give me a ballpark figure?|대략 얼마인지 알려 줄래요?|5
+low-hanging fruit|쉽게 달성할 수 있는 일|Let's start with the low-hanging fruit.|쉬운 것부터 시작하죠.|5
+think outside the box|틀을 깨고 생각하다|We need to think outside the box.|틀을 깨고 생각해야 해요.|4
+get the ball rolling|일을 시작하다|Let's get the ball rolling on this project.|이 프로젝트를 시작해 봅시다.|5
+on the back burner|뒤로 미뤄 둔|That project is on the back burner.|그 프로젝트는 일단 보류 중이야.|5
+up to speed|최신 정보를 아는|Let me bring you up to speed.|최근 상황을 알려 드릴게요.|5
+call it a day|오늘은 그만하다|Let's call it a day.|오늘은 여기까지 하죠.|4
+work my fingers to the bone|뼈 빠지게 일하다|I worked my fingers to the bone on that report.|그 보고서에 뼈 빠지게 매달렸어.|5
+burn the midnight oil|밤늦게까지 일하다|I've been burning the midnight oil all week.|일주일 내내 밤늦게까지 일했어.|5
+learn the ropes|요령을 익히다|It takes time to learn the ropes.|요령을 익히는 데 시간이 걸려.|5
+climb the corporate ladder|출세의 사다리를 오르다|He's focused on climbing the corporate ladder.|그는 출세에 집중하고 있어.|5
+nine-to-five|평범한 직장 일|I'm tired of the nine-to-five.|평범한 회사 생활에 지쳤어.|5
+workaholic|일 중독자|My boss is a workaholic.|우리 상사는 일 중독자야.|4
+micromanage|사사건건 간섭하다|I hate being micromanaged.|사사건건 간섭받는 거 싫어.|5
+quiet quitting|조용한 퇴사 (최소한만 일하기)|Quiet quitting is a big trend.|조용한 퇴사가 큰 유행이야.|5
+side hustle|부업|She runs a bakery as a side hustle.|그녀는 부업으로 빵집을 해.|5
+hybrid work|혼합 근무 (출근+재택)|We have a hybrid work schedule.|우리는 출근과 재택을 섞어서 해.|4
+office hours|근무 시간|Call during office hours.|근무 시간에 전화해 주세요.|3
+clock in|출근 기록을 하다|I clock in at nine.|9시에 출근 체크해.|4
+clock out|퇴근 기록을 하다|Don't forget to clock out.|퇴근 체크 잊지 마.|4
+punctual|시간을 잘 지키는|Please be punctual for meetings.|회의 시간은 꼭 지켜 주세요.|4
+dress code|복장 규정|Is there a dress code?|복장 규정 있어요?|3
+open-plan office|칸막이 없는 사무실|I work in an open-plan office.|나는 칸막이 없는 사무실에서 일해.|4
+water cooler chat|사무실 잡담|We had a quick water cooler chat.|잠깐 사무실 잡담을 나눴어.|5
+pick someone's brain|~의 의견을 구하다|Can I pick your brain about this?|이것 좀 같이 생각해 줄래요?|5

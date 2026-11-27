@@ -1,0 +1,46 @@
+name: 쓰담쓰담 영어 목소리 만들기
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'tools/pet-english/voice/**'
+      - '.github/workflows/pet-voice.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: pet-voice
+  cancel-in-progress: false
+
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 음성 만들기
+        env:
+          GOOGLE_TTS_KEY: ${{ secrets.GOOGLE_TTS_KEY }}
+        run: |
+          pip install -q soundfile numpy lameenc
+          python tools/pet-english/voice/gen.py
+      - name: 올리기
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/today-study/pet/app/voice
+          if git diff --cached --quiet; then echo "바뀐 것 없음"; exit 0; fi
+          git commit -m "쓰담쓰담 영어 목소리 파일"
+          for i in 1 2 3; do git pull --rebase -q origin main && git push && break; sleep 5; done
+      - name: 앱도 새로 만들기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pet-english.yml --ref main

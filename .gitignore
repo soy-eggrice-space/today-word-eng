@@ -1,0 +1,14 @@
+.gradle/
+build/
+app/build/
+local.properties
+*.iml
+.idea/
+app/src/main/assets/fonts/
+*.keystore
+*.jks
+jlpt-n4/app/src/main/assets/fonts/
+jlpt-n4/.gradle/
+jlpt-n4/build/
+jlpt-n4/app/build/
+__pycache__/

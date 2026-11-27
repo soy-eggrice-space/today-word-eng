@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>단어키우기</title>
+<meta name="description" content="단어를 공부하면, 마을이 자라요">
+<meta name="theme-color" content="#FBF0C8">
+<meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="단어키우기">
+<link rel="stylesheet" href="app.css">
+<script>
+window.INAPP_GATE = true;
+</script>
+<script>
+(function () {
+  var ua = navigator.userAgent || '', url = location.href.split('#')[0];
+  var and = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua);
+  var kakao = /KAKAOTALK/i.test(ua), line = /\bLine\//i.test(ua);
+  var other = /Instagram|FBAN|FBAV|FB_IAB|FB4A|FBIOS|NAVER\(inapp|DaumApps|KAKAOSTORY|BAND\/|everytimeApp|Twitter|trill|Snapchat/i.test(ua);
+  if (!(kakao || line || other)) return;
+  window.__inapp = true;
+  var tried = false; try { tried = sessionStorage.getItem('ext') === '1'; sessionStorage.setItem('ext', '1'); } catch (e) {}
+  if (!tried) {
+    if (kakao) location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+    else if (line) location.href = url + (url.indexOf('?') < 0 ? '?' : '&') + 'openExternalBrowser=1';
+    else if (and) location.href = 'intent://' + url.replace(/^https?:\/\//i, '') + '#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+  }
+  var copyBtn = function (b) { var ok = function () { b.textContent = '복사했어요. 브라우저 주소창에 붙여 넣으세요'; };
+    var manual = function () { var i = document.createElement('input'); i.value = url; i.readOnly = true; i.style.cssText = 'width:100%;margin-top:6px;height:38px;border:2px solid #4A4138;border-radius:10px;padding:0 8px;font:inherit;box-sizing:border-box'; b.parentNode.insertBefore(i, b.nextSibling); i.focus(); i.select(); try { if (document.execCommand('copy')) ok(); } catch (e) {} };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, manual); else manual(); };
+  var why = window.INAPP_GATE ? '지금 화면은 앱 안 브라우저예요. 여기서 시작하면 공부 기록이 이 안에만 남아서 나중에 찾기 어려워요.' : '지금 화면은 앱 안 브라우저라 설치가 잘 안 돼요.';
+  var how = ios ? '화면 구석의 메뉴(점 세 개 또는 공유 단추)에서 <b>Safari로 열기</b>(다른 브라우저로 열기)를 눌러 주세요.' : '화면 구석의 점 세 개 메뉴에서 <b>다른 브라우저로 열기</b>를 눌러 주세요.';
+  var btn = 'display:block;margin-top:10px;width:100%;min-height:46px;border:2.5px solid #4A4138;border-radius:14px;background:#FFFDF6;font:inherit;color:inherit;padding:6px 10px;box-sizing:border-box';
+  var show = function () {
+    if (document.getElementById('inapp')) return;
+    var d = document.createElement('div'); d.id = 'inapp';
+    if (window.INAPP_GATE) {
+      d.style.cssText = 'position:fixed;left:0;top:0;right:0;bottom:0;z-index:999;background:rgba(74,65,56,.55);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+      d.innerHTML = '<div style="max-width:420px;width:100%;background:#FFE27A;border:2.5px solid #4A4138;border-radius:24px;box-shadow:0 6px 0 rgba(74,65,56,.25);padding:18px 16px;font-size:15.5px;line-height:1.55;color:#4A4138;box-sizing:border-box"><b style="font-weight:400;font-size:21px;display:block;margin-bottom:6px">다른 브라우저로 열어 주세요</b>' + why + ' ' + how + '<button type="button" id="inapp-copy" style="' + btn + '">이 주소 복사</button><button type="button" id="inapp-skip" style="' + btn + ';background:transparent;border-color:transparent;text-decoration:underline;font-size:14px;min-height:36px;margin-top:4px">그래도 여기서 해 볼게요</button></div>';
+      document.body.appendChild(d);
+      document.getElementById('inapp-skip').addEventListener('click', function () { d.parentNode.removeChild(d); });
+    } else {
+      d.style.cssText = 'position:sticky;top:0;z-index:99;margin:0 0 12px;padding:12px 14px;background:#FFE27A;border:2.5px solid #4A4138;border-radius:18px;box-shadow:0 4px 0 rgba(74,65,56,.2);font-size:15px;line-height:1.5;color:#4A4138';
+      d.innerHTML = '<b style="font-weight:400;font-size:17px;display:block">다른 브라우저로 열어 주세요</b>' + why + ' ' + how + '<button type="button" id="inapp-copy" style="' + btn + '">이 주소 복사</button>';
+      var host = document.querySelector('main') || document.body; host.insertBefore(d, host.firstChild);
+    }
+    document.getElementById('inapp-copy').addEventListener('click', function () { copyBtn(this); });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', show); else show();
+})();
+</script>
+</head>
+<body>
+<div id="app"></div>
+<script src="data.js"></script>
+<script src="words.js"></script>
+<script src="core.js"></script>
+<script src="ground.js"></script>
+<script src="village.js"></script>
+<script src="study.js"></script>
+<script src="titles.js"></script>
+<script src="chal.js"></script>
+<script src="myst.js"></script>
+<script src="quest.js"></script>
+<script src="screens.js"></script>
+<script src="report.js"></script>
+<script src="snd.js"></script>
+<script src="web.js"></script>
+<script>
+if ('serviceWorker' in navigator && location.protocol === 'https:') addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+</script>
+</body>
+</html>

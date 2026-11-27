@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>오늘공부</title><meta property="og:title" content="오늘공부"><meta property="og:description" content="아이들 공부용 안드로이드 앱 · 설치 안내"><meta property="og:image" content="https://oneulgongbu-6nu.pages.dev/img/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
+<meta name="robots" content="noindex">
+<style>body{margin:0}img{max-width:100%}
+
+@font-face{font-family:'Pretendard';font-weight:400;font-display:swap;src:url(fonts/pretendard-400.woff) format("woff") format('woff')}
+@font-face{font-family:'Pretendard';font-weight:600;font-display:swap;src:url(fonts/pretendard-600.woff) format("woff") format('woff')}
+@font-face{font-family:'Pretendard';font-weight:700;font-display:swap;src:url(fonts/pretendard-700.woff) format("woff") format('woff')}
+@font-face{font-family:'Pretendard';font-weight:800;font-display:swap;src:url(fonts/pretendard-800.woff) format("woff") format('woff')}
+
+:root{
+  --paper:#FFF8F0; --card:#FFFFFF; --ink:#2F2440; --ink2:#6E6380; --line:#E9DDF0; --deep:#4A3360;
+  --pink:#E8508F; --sun:#FFD54A;
+  --say:#FFB8A6; --ko:#FFE074; --en:#8AE5C6; --ph:#D8C4FF; --calc:#FFC1A0; --think:#9CD3FF;
+  --f:'Pretendard',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--f);font-size:16px;line-height:1.6;letter-spacing:-.01em;word-break:keep-all;overflow-wrap:anywhere;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{margin:0;line-height:1.25;letter-spacing:-.025em;text-wrap:balance}
+p{margin:0}
+section{padding-block:40px}
+.sh{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.sh h2{font-size:clamp(24px,3.2vw,30px);font-weight:800}
+.sh p{color:var(--ink2);font-size:15px}
+.btn{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:17px;padding:12px 22px;border-radius:14px;background:var(--deep);color:#fff;text-decoration:none}
+.btn:focus-visible,.copy:focus-visible{outline:3px solid var(--pink);outline-offset:3px}
+
+.hero{padding-block:36px 20px}
+.hgrid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:36px;align-items:center}
+.logo{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--deep)}
+.logo i{width:28px;height:28px;border-radius:9px;background:var(--sun);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:15px}
+.hero h1{font-size:clamp(36px,5.2vw,54px);font-weight:800;margin-top:14px}
+.hero h1 b{color:var(--pink);font-weight:800}
+.note0{margin-top:14px;font-size:14px;font-weight:600;color:var(--deep);background:#FFF0D4;border-radius:10px;padding:6px 12px;display:inline-block}
+.lead{font-size:17.5px;color:var(--ink2);margin-top:14px;max-width:28em}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.chip{font-size:14px;font-weight:600;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:5px 12px}
+.ctas{margin-top:22px}
+.tablet{background:var(--deep);border-radius:24px;padding:10px;box-shadow:0 18px 40px rgba(74,51,96,.18)}
+.tablet img{display:block;width:100%;border-radius:15px}
+
+.subs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:1000px){.subs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sub{background:var(--card);border:1.5px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.sub .top{background:var(--c);padding:12px 14px 10px;display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+.sub h3{font-size:19px;font-weight:800}
+.sub .n{font-size:24px;font-weight:800;font-variant-numeric:tabular-nums}
+.sub .n small{font-size:13px;font-weight:600;margin-left:1px}
+.sub .bd{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.sub .bd p{font-size:14.5px;line-height:1.5}
+.sub .age{align-self:flex-start;font-size:12.5px;font-weight:700;background:var(--paper);border-radius:999px;padding:2px 9px}
+.sub .bk{font-size:13px;font-weight:600}
+.sub .hw{margin-top:auto;font-size:13px;color:var(--ink2)}
+.sub b{font-weight:700;font-size:13px;color:var(--ink2)}
+
+.shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.shots figure{margin:0;display:flex;flex-direction:column;gap:8px}
+.shots img{width:100%;display:block;border-radius:14px;border:1.5px solid var(--line);background:#fff}
+.shots figcaption{font-size:14px;font-weight:600;text-align:center}
+
+.feats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.feat{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:16px}
+.feat h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.feat p{font-size:14.5px;color:var(--ink2);line-height:1.5}
+
+.inst{background:var(--deep);color:#fff;border-radius:26px;padding:28px;display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:26px;align-items:center}
+.inst h2{font-size:clamp(24px,3vw,30px);font-weight:800}
+.inst ol{margin:14px 0 0;padding-left:20px;display:grid;gap:4px;font-size:15px;color:#E9E0F2}
+.inst .note{margin-top:12px;font-size:13px;color:#C9BBD8}
+.qrs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.qr{background:#fff;color:var(--ink);border-radius:18px;padding:16px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.qr h3{font-size:18px;font-weight:800}
+.qr .for{font-size:13px;color:var(--ink2);margin-top:-6px}
+.qr .qrc{width:100%;max-width:190px;aspect-ratio:1;display:block}.qr .qrc svg{width:100%;height:100%;display:block}
+.link{width:100%;display:flex;gap:6px}
+.link input{flex:1;min-width:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;border:1.5px solid var(--line);border-radius:10px;padding:8px;color:var(--ink);background:#FAF6FD}
+.copy{font-family:var(--f);font-weight:700;font-size:15px;border:0;border-radius:10px;background:var(--sun);color:var(--ink);padding:8px 14px;cursor:pointer;white-space:nowrap}
+.copy.ok{background:var(--en)}
+.open{font-size:13px;color:var(--ink2)}
+footer{padding-block:22px 40px;font-size:12.5px;color:var(--ink2)}
+
+@media (max-width:900px){
+  .hgrid,.inst{grid-template-columns:minmax(0,1fr)}
+  .subs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .feats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){
+  section{padding-block:30px}
+  .subs{grid-template-columns:minmax(0,1fr)}
+  .shots{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:10px;padding-bottom:6px}
+  .shots figure{flex:0 0 78%;scroll-snap-align:start}
+  .feats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .feat{padding:12px}.feat h3{font-size:15.5px}.feat p{font-size:13.5px}
+  .qrs{gap:8px}.qr{padding:12px 10px}.qr .link{flex-direction:column}.qr .link input{font-size:10.5px;padding:6px}
+  .inst{padding:20px}
+}
+
+.say{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:26px;align-items:start}
+.say .shot img{display:block;width:100%;border-radius:16px;border:1.5px solid var(--line);background:#fff}
+.say .shot img+img{margin-top:10px}
+.newb{display:inline-block;font-size:12.5px;font-weight:800;color:#fff;background:var(--pink);border-radius:999px;padding:2px 10px;margin-right:8px;vertical-align:4px}
+.how{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.how li{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;font-size:15px}
+.how li b{font-weight:800}
+.words{margin-top:14px;display:grid;gap:10px}
+.wg{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:10px 14px}
+.wg h3{font-size:15px;font-weight:800;margin-bottom:6px}
+.wg h3 small{font-weight:600;color:var(--ink2);font-size:13px;margin-left:4px}
+.wl{display:flex;flex-wrap:wrap;gap:5px}
+.wl span{font-size:13.5px;font-weight:600;background:var(--paper);border-radius:8px;padding:2px 8px;font-family:ui-rounded,'Pretendard',sans-serif}
+.ex{margin-top:10px;font-size:14px;color:var(--ink2)}
+.ex b{color:var(--ink);font-weight:700}
+
+.themes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.th{background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.th .tt{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.th h3{font-size:20px;font-weight:800}
+.th .sw{display:flex;gap:4px}.th .sw i{width:16px;height:16px;border-radius:50%;border:2px solid var(--ink)}
+.th p{font-size:14.5px;color:var(--ink2)}
+.th img{display:block;width:100%;border-radius:12px;border:1.5px solid var(--line)}
+.th .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.tnote{margin-top:12px;font-size:14px;color:var(--ink2);background:var(--card);border:1.5px dashed var(--line);border-radius:14px;padding:10px 14px}
+@media (max-width:900px){.say,.themes{grid-template-columns:minmax(0,1fr)}}
+.steps{margin:14px 0 0;padding-left:20px;display:grid;gap:6px;font-size:15px;color:#E9E0F2}
+.warn{margin-top:14px;background:rgba(255,255,255,.08);border-radius:14px;padding:12px 14px;font-size:13.5px;color:#E9E0F2;line-height:1.55}
+.warn b{color:var(--sun)}
+.contact{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.contact a{background:var(--sun);color:var(--ink);text-decoration:none;font-weight:700;border-radius:999px;padding:8px 16px;font-size:14px}
+</style>
+<script>
+(function () {
+  var ua = navigator.userAgent || '', url = location.href.split('#')[0];
+  var and = /Android/i.test(ua), ios = /iPhone|iPad|iPod/i.test(ua);
+  var kakao = /KAKAOTALK/i.test(ua), line = /\bLine\//i.test(ua);
+  var other = /Instagram|FBAN|FBAV|FB_IAB|FB4A|FBIOS|DaumApps|KAKAOSTORY|BAND\/|everytimeApp|Twitter|trill|Snapchat/i.test(ua);
+  if (!(kakao || line || other)) return;
+  window.__inapp = true;
+  var tried = false; try { tried = sessionStorage.getItem('ext') === '1'; sessionStorage.setItem('ext', '1'); } catch (e) {}
+  if (!tried) {
+    if (kakao) location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(url);
+    else if (line) location.href = url + (url.indexOf('?') < 0 ? '?' : '&') + 'openExternalBrowser=1';
+    else if (and) location.href = 'intent://' + url.replace(/^https?:\/\//i, '') + '#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;S.browser_fallback_url=' + encodeURIComponent(url) + ';end';
+  }
+  var copyBtn = function (b) { var ok = function () { b.textContent = '복사했어요. 브라우저 주소창에 붙여 넣으세요'; };
+    var manual = function () { var i = document.createElement('input'); i.value = url; i.readOnly = true; i.style.cssText = 'width:100%;margin-top:6px;height:38px;border:2px solid #4A4138;border-radius:10px;padding:0 8px;font:inherit;box-sizing:border-box'; b.parentNode.insertBefore(i, b.nextSibling); i.focus(); i.select(); try { if (document.execCommand('copy')) ok(); } catch (e) {} };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(ok, manual); else manual(); };
+  var why = window.INAPP_GATE ? '지금 화면은 앱 안 브라우저예요. 여기서 시작하면 공부 기록이 이 안에만 남아서 나중에 찾기 어려워요.' : '지금 화면은 앱 안 브라우저라 설치가 잘 안 돼요.';
+  var how = ios ? '화면 구석의 메뉴(점 세 개 또는 공유 단추)에서 <b>Safari로 열기</b>(다른 브라우저로 열기)를 눌러 주세요.' : '화면 구석의 점 세 개 메뉴에서 <b>다른 브라우저로 열기</b>를 눌러 주세요.';
+  var btn = 'display:block;margin-top:10px;width:100%;min-height:46px;border:2.5px solid #4A4138;border-radius:14px;background:#FFFDF6;font:inherit;color:inherit;padding:6px 10px;box-sizing:border-box';
+  var show = function () {
+    if (document.getElementById('inapp')) return;
+    var d = document.createElement('div'); d.id = 'inapp';
+    if (window.INAPP_GATE) {
+      d.style.cssText = 'position:fixed;left:0;top:0;right:0;bottom:0;z-index:999;background:rgba(74,65,56,.55);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+      d.innerHTML = '<div style="max-width:420px;width:100%;background:#FFE27A;border:2.5px solid #4A4138;border-radius:24px;box-shadow:0 6px 0 rgba(74,65,56,.25);padding:18px 16px;font-size:15.5px;line-height:1.55;color:#4A4138;box-sizing:border-box"><b style="font-weight:400;font-size:21px;display:block;margin-bottom:6px">다른 브라우저로 열어 주세요</b>' + why + ' ' + how + '<button type="button" id="inapp-copy" style="' + btn + '">이 주소 복사</button><button type="button" id="inapp-skip" style="' + btn + ';background:transparent;border-color:transparent;text-decoration:underline;font-size:14px;min-height:36px;margin-top:4px">그래도 여기서 해 볼게요</button></div>';
+      document.body.appendChild(d);
+      document.getElementById('inapp-skip').addEventListener('click', function () { d.parentNode.removeChild(d); });
+    } else {
+      d.style.cssText = 'position:sticky;top:0;z-index:99;margin:0 0 12px;padding:12px 14px;background:#FFE27A;border:2.5px solid #4A4138;border-radius:18px;box-shadow:0 4px 0 rgba(74,65,56,.2);font-size:15px;line-height:1.5;color:#4A4138';
+      d.innerHTML = '<b style="font-weight:400;font-size:17px;display:block">다른 브라우저로 열어 주세요</b>' + why + ' ' + how + '<button type="button" id="inapp-copy" style="' + btn + '">이 주소 복사</button>';
+      var host = document.querySelector('main') || document.body; host.insertBefore(d, host.firstChild);
+    }
+    document.getElementById('inapp-copy').addEventListener('click', function () { copyBtn(this); });
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', show); else show();
+})();
+</script>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap hgrid">
+    <div>
+      <div class="logo"><i>오</i>오늘공부</div>
+      <h1>하루 한 번,<br><b>오늘공부</b></h1>
+      <p class="note0">판매용이 아니라 우리 아이들 공부용으로 만들어 지인들과 나누는 앱이에요.</p>
+      <p class="lead">아이들 공부용으로 만든 안드로이드 앱이에요. 한글·영어·파닉스·연산·사고력을 과목마다 하루 5~8문제씩 풀어요. 문제는 소리로 읽어 주고, 아이는 그림 카드를 눌러 답해요. 맞힌 만큼 별을 받아 마을 친구를 키워요. 하루 한 문장, 영어 <b>따라 말하기</b>도 있어요.</p>
+      <div class="chips"><span class="chip">5과목 99단계</span><span class="chip">대상: 만 4세 ~ 초등 2학년</span><span class="chip">쓰기 없이 누르기만</span><span class="chip">영어 따라 말하기 200문장</span><span class="chip">테마 2가지</span></div>
+      <div class="ctas"><a class="btn" href="#install">설치하기 ↓</a></div>
+    </div>
+    <div class="tablet"><img src="img/home.webp" alt="오늘공부 첫 화면"></div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div class="sh"><h2>과목별 커리큘럼</h2><p>문제집 순서는 참고만 하고 문제는 직접 만들었어요 · 80% 넘게 맞힌 날이 4번이면 다음 단계, 어려워하면 한 단계 아래로 자동 조절돼요</p></div>
+    <div class="subs"><div class="sub" style="--c:var(--ko)"><div class="top"><h3>한글</h3><span class="n">36<small>단계</small></span></div><div class="bd"><span class="age">추천 만 4~7세</span><p class="bk">📘 기적의 한글학습 1~5권 순서 → 초1~2 국어</p><p><b>배우는 범위</b><br>모음(아 이 오 우) → 자음 하나씩 → 받침 7개 → 복잡한 모음·된소리 → 짧은 문장·맞춤법</p><p class="hw">ㄱ + ㅏ = 가 합치기, 그림 보고 ( )방 빈칸 채우기</p></div></div><div class="sub" style="--c:var(--en)"><div class="top"><h3>영어</h3><span class="n">10<small>단계</small></span></div><div class="bd"><span class="age">추천 만 4세~초1</span><p class="bk">📘 Cambridge Pre A1 Starters 낱말 주제</p><p><b>배우는 범위</b><br>동물·음식·색깔·숫자 낱말 → 몸·물건 → two cats 같은 두 낱말 → "I'm happy." 같은 짧은 문장</p><p class="hw">영어 소리만 듣고 그림 고르기 (한국어 설명 없음)</p></div></div><div class="sub" style="--c:var(--ph)"><div class="top"><h3>파닉스</h3><span class="n">18<small>단계</small></span></div><div class="bd"><span class="age">추천 만 5~8세</span><p class="bk">📘 알파블럭스 Level 1 → 2 → 3 → 5 순서</p><p><b>배우는 범위</b><br>소리 3~4개씩 (s·a·t·p) → -at·-ig 같은 낱말 가족 → sh·ch·th → ee·oo·ai → 매직 e (cake, kite)</p><p class="hw">한 단계에 소리 3~4개, 어려운 낱말은 빼고 천천히</p></div></div><div class="sub" style="--c:var(--calc)"><div class="top"><h3>연산</h3><span class="n">20<small>단계</small></span></div><div class="bd"><span class="age">추천 만 4세~초2</span><p class="bk">📘 소마셈 K1~K8 · P1~P8 → 초1~2 수학</p><p><b>배우는 범위</b><br>10까지 +1 −1 → 가르기·모으기 → 10 만들기 → 두 자리 덧셈·뺄셈 → 곱셈 2단·5단</p><p class="hw">그림으로 세고, 숫자 식으로 넘어가요</p></div></div><div class="sub" style="--c:var(--think)"><div class="top"><h3>사고력</h3><span class="n">15<small>단계</small></span></div><div class="bd"><span class="age">추천 만 4~7세</span><p class="bk">📘 키즈 팩토 → 킨더 팩토 A~D → 초등 팩토 Lv1</p><p><b>배우는 범위</b><br>수 세기·모양·크기 비교 → 규칙 찾기 → 시소·쌓기나무·시계 → 경우의 수·순서 추리</p><p class="hw">그림을 보며 생각하는 문제</p></div></div><div class="sub" style="--c:var(--say)"><div class="top"><h3>따라 말하기</h3><span class="n">40<small>문장 틀</small></span></div><div class="bd"><span class="age">추천 만 4~7세</span><p class="bk">💬 하루 한 틀 · 다섯 문장 · 그림 200장</p><p><b>배우는 범위</b><br>I see · I like 같은 쉬운 문장 → catch · climb 같은 동작 → My mom reads a book. 처럼 주어가 바뀌는 문장</p><p class="hw">문제 없이 듣고 세 번 소리 내어 따라 말하기</p></div></div></div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap shots">
+    <figure><img src="img/card.webp" alt="오늘의 글자 카드"><figcaption>문제 전 '오늘의 글자' 카드</figcaption></figure>
+    <figure><img src="img/listen.webp" alt="영어 소리를 듣고 색깔 고르기"><figcaption>듣고 그림 고르기</figcaption></figure>
+    <figure><img src="img/village.webp" alt="별로 키운 마을"><figcaption>별로 키우는 나만의 마을</figcaption></figure>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sh"><h2><span class="newb">새 기능</span>따라 말하기</h2><p>문제가 아니라 듣고 소리 내어 따라 하는 시간 · 하루 한 문장 틀, 다섯 문장</p></div>
+    <div class="say">
+      <div class="shot"><img src="img/say.webp" alt="따라 말하기 화면: The rabbit eats a carrot. 문장과 토끼가 당근 먹는 그림" loading="lazy"><img src="img/say_more.webp" alt="따라 말하기 그림 예시: I catch a ball, I climb a tree, My grandpa reads a book, The doctor helps me, I build a castle, I take a bath" loading="lazy"></div>
+      <div>
+        <ol class="how">
+          <li><b>오늘의 문장 틀</b> — "I see ___", "My ___ reads a book"처럼 하루에 틀 하나</li>
+          <li><b>선생님이 한 번</b> 읽어 주고, <b>다같이 두 번</b> 따라 읽어요. 읽는 단어에 불이 켜져요</li>
+          <li>바뀌는 단어 하나만 색으로 강조 · 동작이 한눈에 보이는 그림 200장</li>
+          <li>누를 버튼이 없어요. 세 번 읽으면 저절로 다음 문장으로 넘어가고, 다섯 문장이면 별 세 개</li>
+        </ol>
+        <div class="words">
+          <div class="wg"><h3>동사<small>36개 · 문장 틀 40개</small></h3><div class="wl"><span>see</span><span>like</span><span>have</span><span>eat</span><span>drink</span><span>want</span><span>ride</span><span>draw</span><span>open</span><span>play</span><span>touch</span><span>wash</span><span>wear</span><span>make</span><span>hear</span><span>find</span><span>hug</span><span>feed</span><span>need</span><span>love</span><span>catch</span><span>read</span><span>pick</span><span>throw</span><span>help</span><span>cut</span><span>brush</span><span>climb</span><span>push</span><span>build</span><span>carry</span><span>smell</span><span>take</span><span>buy</span><span>close</span><span>walk</span></div></div>
+          <div class="wg"><h3>명사<small>130개 넘게</small></h3><div class="wl"><span>tiger</span><span>dog</span><span>rabbit</span><span>panda</span><span>apple</span><span>banana</span><span>bread</span><span>milk</span><span>pizza</span><span>ball</span><span>kite</span><span>drum</span><span>bike</span><span>train</span><span>tree</span><span>house</span><span>nose</span><span>teeth</span><span>…</span></div></div>
+          <div class="wg"><h3>주어도 바뀌어요<small>3인칭 문장</small></h3><div class="wl"><span>mom</span><span>dad</span><span>grandma</span><span>grandpa</span><span>teacher</span><span>doctor</span><span>nurse</span><span>firefighter</span><span>police officer</span><span>uncle</span><span>aunt</span><span>brother</span><span>sister</span><span>baby</span><span>friend</span></div></div>
+        </div>
+        <p class="ex">예) <b>I catch a ball.</b> · <b>I climb a tree.</b> · <b>My grandpa reads a book.</b> · <b>The doctor helps me.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sh"><h2>테마는 두 가지 중에 골라요</h2><p>처음 켤 때 고르고, 부모 메뉴에서 언제든 바꿀 수 있어요</p></div>
+    <div class="themes">
+      <div class="th"><div class="tt"><h3>알록달록</h3><span class="sw"><i style="background:#FFD23F"></i><i style="background:#7ED67A"></i><i style="background:#B79CFF"></i><i style="background:#FF9E5E"></i><i style="background:#7CC9F5"></i><i style="background:#FF8FB8"></i></span></div>
+        <p>또렷한 색과 굵은 선 · 공룡·동물 친구들이 사는 층층 마을</p>
+        <div class="two"><img src="img/theme_color_home.webp" alt="알록달록 테마 첫 화면" loading="lazy"><img src="img/theme_color_vil.webp" alt="알록달록 테마 마을" loading="lazy"></div></div>
+      <div class="th"><div class="tt"><h3>파스텔</h3><span class="sw"><i style="background:#FFE57A"></i><i style="background:#8DE6C4"></i><i style="background:#D7C4FF"></i><i style="background:#FFB89A"></i><i style="background:#9FD4FF"></i><i style="background:#E3B8FF"></i></span></div>
+        <p>부드러운 색 · 사탕 마을과 토끼·병아리 친구들</p>
+        <div class="two"><img src="img/theme_pastel_home.webp" alt="파스텔 테마 첫 화면" loading="lazy"><img src="img/theme_pastel_vil.webp" alt="파스텔 테마 마을" loading="lazy"></div></div>
+    </div>
+    <p class="tnote">테마를 바꿔도 별·단계·마을 친구·꾸미기는 그대로예요. 친구와 꾸미기마다 뜻이 닮은 짝꿍이 하나씩 정해져 있어서 (튤립 ↔ 들꽃, 텐트 ↔ 텐트, 회전목마 ↔ 그네) 바꾸면 짝꿍 모습으로 보여요.</p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sh"><h2>이런 기능이 있어요</h2></div>
+    <div class="feats">
+      <div class="feat"><h3>하루 한 번이면 끝</h3><p>과목마다 하루 한 번. 다 하면 그날은 잠겨요.</p></div>
+      <div class="feat"><h3>난이도 자동 조절</h3><p>80% 넘게 맞힌 날이 4번이면 다음 단계로.</p></div>
+      <div class="feat"><h3>내일도 하고 싶은 마을</h3><p>알을 깨워 친구를 만들고, 셋을 합쳐 키워요.</p></div>
+      <div class="feat"><h3>틀린 문제 다시 보기</h3><p>정답 카드로 바로 보고, 다음 날 다시 만나요.</p></div>
+      <div class="feat"><h3>부모 리포트</h3><p>기록 보기, 단계·문제 수 조절, 비밀번호 잠금.</p></div>
+      <div class="feat"><h3>형제자매 함께</h3><p>아이마다 이름·사진·기록을 따로 저장해요.</p></div>
+      <div class="feat"><h3>영어 따라 말하기</h3><p>하루 한 문장 틀, 듣고 세 번 소리 내어 읽어요.</p></div>
+      <div class="feat"><h3>테마 2가지</h3><p>알록달록 · 파스텔, 언제든 바꿔도 기록은 그대로.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="install" style="padding-top:0">
+  <div class="wrap">
+    <div class="inst">
+      <div>
+        <h2>설치하기</h2>
+        <ol class="steps"><li>안드로이드 기기로 QR을 찍거나 아래 단추를 눌러요</li><li>내려받은 파일을 열어요. 카카오톡에서 받았다면 「내 파일」 앱 → 「다운로드」에 있어요</li><li>'출처를 알 수 없는 앱 설치'를 묻는 창이 뜨면 '설정'으로 들어가 이번 한 번 허용해요</li><li>'설치'를 누르고, 끝나면 아이 이름과 사진을 넣고 시작!</li></ol>
+        <div class="warn"><b>설치할 때 이런 창이 뜰 수 있어요</b><br>· 'Play 프로텍트' 안내 → '세부정보 더보기' → '무시하고 설치'<br>· 「출처를 알 수 없는 앱 차단됨」(삼성 폰) → 설정 → 보안 및 개인정보 보호 → 보안 위험 자동 차단을 잠깐 끄고 설치한 뒤 다시 켜 두세요<br>스토어에 올리지 않고 나누는 앱이라 뜨는 안내예요.</div>
+        <p class="note">안드로이드 전용이에요. 새 버전도 같은 링크로 받아 덮어 설치하면 기록이 그대로 남아요.</p>
+      </div>
+      <div class="qrs">
+        <div class="qr"><h3>태블릿용</h3><span class="for">가로 화면</span><div class="qrc" data-file="today-study.apk" role="img" aria-label="태블릿용 설치 QR 코드"></div>
+          <div class="link"><input id="lk-tab" readonly data-file="today-study.apk" aria-label="태블릿용 설치 링크"><button class="copy" data-for="lk-tab">복사</button></div>
+          <a class="open" href="today-study.apk">설치 파일 받기 ↓</a></div>
+        <div class="qr"><h3>폰용</h3><span class="for">세로 화면</span><div class="qrc" data-file="today-study-phone.apk" role="img" aria-label="폰용 설치 QR 코드"></div>
+          <div class="link"><input id="lk-phone" readonly data-file="today-study-phone.apk" aria-label="폰용 설치 링크"><button class="copy" data-for="lk-phone">복사</button></div>
+          <a class="open" href="today-study-phone.apk">설치 파일 받기 ↓</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap"><p>커리큘럼은 각 문제집·프로그램의 단계 순서와 난이도만 참고했고, 문제는 직접 만들었어요 (교재 내용을 베끼지 않았어요). 판매용이 아닌 지인 나눔용이에요. 문제 그림: OpenMoji (CC BY-SA 4.0)</p>
+<p>궁금한 점이나 고쳤으면 하는 점은 인스타그램이나 쓰레드로 알려 주세요</p>
+<div class="contact"><a href="https://www.instagram.com/dadada._.family" target="_blank" rel="noopener">인스타그램</a><a href="https://www.threads.com/@jeeeeeee._.hhh" target="_blank" rel="noopener">쓰레드</a></div></footer>
+
+<script src="qr.js"></script>
+<script>
+var here=location.href.split('#')[0].split('?')[0].replace(/[^/]*$/,'');
+document.querySelectorAll('[data-file]').forEach(function(el){ var u=here+el.dataset.file;
+  if(el.tagName==='INPUT'){ el.value=u; return; }
+  try{ var m=qrMatrix(u), n=m.length, d=''; for(var y=0;y<n;y++) for(var x=0;x<n;x++) if(m[y][x]) d+='M'+x+' '+y+'h1v1h-1z';
+    el.innerHTML='<svg viewBox="-3 -3 '+(n+6)+' '+(n+6)+'" shape-rendering="crispEdges"><rect x="-3" y="-3" width="'+(n+6)+'" height="'+(n+6)+'" fill="#fff"/><path d="'+d+'" fill="#2F2440"/></svg>'; }catch(e){}
+});
+document.querySelectorAll('.copy').forEach(function(b){ b.addEventListener('click',function(){
+  var inp=document.getElementById(b.dataset.for), done=function(){ b.textContent='복사됨!'; b.classList.add('ok'); setTimeout(function(){ b.textContent='복사'; b.classList.remove('ok'); },1800); };
+  var fallback=function(){ inp.focus(); inp.select(); try{ if(document.execCommand('copy')) done(); else b.textContent='길게 눌러 복사'; }catch(e){ b.textContent='길게 눌러 복사'; } };
+  try{ navigator.clipboard.writeText(inp.value).then(done,fallback); }catch(e){ fallback(); }
+}); });
+</script>
+</body></html>

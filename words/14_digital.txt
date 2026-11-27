@@ -1,0 +1,178 @@
+# digital|디지털·SNS|📱
+phone|전화기, 휴대폰|Can I borrow your phone?|휴대폰 좀 빌려줄래?|1
+call|전화하다|I'll call you tonight.|오늘 밤에 전화할게.|1
+text|문자(를 보내다)|Text me when you get home.|집에 도착하면 문자해.|1
+message|메시지|I got your message.|네 메시지 받았어.|1
+photo|사진|I took a lot of photos.|사진을 많이 찍었어.|1
+video|영상, 동영상|Watch this funny video.|이 웃긴 영상 봐 봐.|1
+game|게임|My son plays games too much.|우리 아들은 게임을 너무 많이 해.|1
+music|음악|I listen to music while I work.|일하면서 음악을 들어.|1
+internet|인터넷|The internet is down.|인터넷이 안 돼.|1
+computer|컴퓨터|My computer froze.|컴퓨터가 멈췄어.|1
+email|이메일|Check your email.|이메일 확인해.|1
+camera|카메라|My phone camera is great.|내 휴대폰 카메라 좋아.|1
+screen|화면|My phone screen is cracked.|휴대폰 화면이 깨졌어.|1
+button|버튼|Press the red button.|빨간 버튼을 눌러.|1
+online|온라인의, 온라인으로|I bought it online.|온라인으로 샀어.|1
+app|앱, 애플리케이션|Download the app first.|먼저 앱을 내려받아.|1
+password|비밀번호|I forgot my password.|비밀번호를 잊어버렸어.|1
+website|웹사이트|Check our website for details.|자세한 건 웹사이트를 확인하세요.|2
+download|내려받다|The file is downloading.|파일을 내려받는 중이야.|2
+upload|올리다, 업로드하다|I uploaded the photos.|사진을 올렸어.|2
+install|설치하다|Install the latest version.|최신 버전을 설치해.|2
+update|업데이트(하다)|My phone needs an update.|휴대폰 업데이트해야 해.|2
+log in|로그인하다|I can't log in to my account.|계정에 로그인이 안 돼.|2
+log out|로그아웃하다|Don't forget to log out.|로그아웃하는 거 잊지 마.|2
+sign up|가입하다|Sign up for free.|무료로 가입하세요.|2
+account|계정|I made a new account.|새 계정을 만들었어.|2
+username|아이디, 사용자 이름|What's your username?|아이디가 뭐야?|2
+search|검색(하다)|Search for it online.|온라인에서 검색해 봐.|2
+click|클릭하다|Click on the link.|링크를 클릭해.|2
+link|링크|I'll send you the link.|링크 보내 줄게.|2
+file|파일|Save the file before you close it.|닫기 전에 파일을 저장해.|2
+folder|폴더|Put it in this folder.|이 폴더에 넣어.|2
+save|저장하다|Did you save your work?|작업 저장했어?|2
+delete|삭제하다|I accidentally deleted the photo.|실수로 사진을 지웠어.|2
+copy and paste|복사해서 붙여 넣다|Just copy and paste the address.|주소를 복사해서 붙여 넣기만 해.|2
+screenshot|화면 캡처|Take a screenshot and send it to me.|화면 캡처해서 보내 줘.|2
+battery|배터리|My battery is at 5%.|배터리가 5% 남았어.|2
+charge|충전하다|I need to charge my phone.|휴대폰 충전해야 해.|2
+charger|충전기|Can I borrow your charger?|충전기 좀 빌려줄래?|2
+Wi-Fi|와이파이|Is there free Wi-Fi here?|여기 무료 와이파이 있어요?|2
+signal|신호|There's no signal here.|여기 신호가 안 잡혀.|2
+laptop|노트북|I work on my laptop.|노트북으로 일해.|2
+tablet|태블릿|My kids study on a tablet.|우리 애들은 태블릿으로 공부해.|2
+headphones|헤드폰|I can't find my headphones.|헤드폰을 못 찾겠어.|2
+earphones|이어폰|I forgot my earphones.|이어폰을 깜빡했어.|2
+keyboard|키보드|This keyboard is too loud.|이 키보드 너무 시끄러워.|2
+mouse|마우스|My mouse isn't working.|마우스가 안 돼.|2
+printer|프린터|The printer is out of paper.|프린터에 종이가 없어.|2
+social media|소셜 미디어, SNS|I spend too much time on social media.|SNS를 너무 많이 해.|2
+post|게시물; 올리다|I posted a photo of my dinner.|저녁 사진을 올렸어.|2
+like|좋아요(를 누르다)|My post got 100 likes.|내 게시물에 좋아요가 100개 달렸어.|2
+comment|댓글(을 달다)|Thanks for the nice comment.|좋은 댓글 고마워요.|2
+share|공유하다|Please share this video.|이 영상 공유해 주세요.|2
+follow|팔로우하다|I follow a lot of cooking accounts.|요리 계정을 많이 팔로우해.|2
+follower|팔로워|She has a million followers.|그녀는 팔로워가 백만 명이야.|2
+profile|프로필|I changed my profile picture.|프로필 사진을 바꿨어.|2
+selfie|셀카|Let's take a selfie!|셀카 찍자!|2
+video call|영상 통화|I video call my parents every week.|매주 부모님께 영상 통화해.|2
+group chat|단체 채팅방|I'll post it in the group chat.|단톡방에 올릴게.|3
+notification|알림|Turn off your notifications.|알림 꺼.|3
+emoji|이모티콘|She replied with a heart emoji.|그녀가 하트 이모티콘으로 답했어.|2
+stream|스트리밍하다, 실시간 방송하다|I stream music all day.|하루 종일 음악을 스트리밍해.|3
+subscribe|구독하다|Subscribe to my channel!|제 채널 구독해 주세요!|3
+channel|채널|This cooking channel is great.|이 요리 채널 정말 좋아.|2
+influencer|인플루언서|She's a fashion influencer.|그녀는 패션 인플루언서야.|3
+viral|입소문이 난, 급속히 퍼지는|The video went viral.|그 영상이 엄청 퍼졌어.|3
+trending|유행하는, 인기 급상승인|What's trending today?|오늘 뭐가 유행이야?|3
+hashtag|해시태그|Use the hashtag when you post.|올릴 때 해시태그를 써.|3
+filter|필터|I used a filter on this photo.|이 사진에 필터를 썼어.|3
+edit|편집하다|I'm editing a video for YouTube.|유튜브 영상을 편집하는 중이야.|3
+tag|태그(하다)|Tag me in the photo.|사진에 나 태그해 줘.|3
+block|차단하다|I blocked him on social media.|SNS에서 그를 차단했어.|3
+mute|음소거하다; 숨기다|I muted the group chat.|단톡방 알림을 껐어.|3
+unfollow|팔로우를 끊다|I unfollowed that account.|그 계정 팔로우를 끊었어.|3
+DM|개인 메시지(를 보내다)|Send me a DM.|DM 보내 줘.|3
+reply|답장(하다)|Sorry for the late reply.|답장 늦어서 미안해.|2
+read receipt|읽음 표시|She left me on read.|그녀가 읽고 답을 안 했어.|4
+ringtone|벨소리|I love your ringtone.|네 벨소리 좋다.|3
+silent mode|무음 모드|Put your phone on silent mode.|휴대폰을 무음으로 해.|3
+voicemail|음성 메시지|Leave me a voicemail.|음성 메시지 남겨 줘.|3
+contact|연락처|Save my number in your contacts.|내 번호를 연락처에 저장해.|3
+data|데이터|I ran out of data this month.|이번 달 데이터를 다 썼어.|3
+storage|저장 공간|My phone is out of storage.|휴대폰 저장 공간이 꽉 찼어.|3
+cloud|클라우드|My photos are backed up to the cloud.|사진은 클라우드에 백업돼 있어.|3
+back up|백업하다|Back up your files regularly.|파일을 정기적으로 백업해.|3
+reset|초기화하다, 재설정하다|I had to reset my password.|비밀번호를 재설정해야 했어.|3
+restart|다시 시작하다, 재부팅하다|Try restarting your phone.|휴대폰을 재부팅해 봐.|3
+crash|(컴퓨터가) 멈추다, 다운되다|The app keeps crashing.|앱이 자꾸 꺼져.|3
+freeze|(화면이) 멈추다|My screen froze.|화면이 멈췄어.|3
+lag|지연; 느려지다|The game is lagging.|게임이 렉 걸려.|4
+glitch|작은 결함, 오류|There's a glitch in the app.|앱에 오류가 있어.|4
+bug|(프로그램) 오류|They fixed the bug.|그들이 버그를 고쳤어.|3
+virus|(컴퓨터) 바이러스|My computer got a virus.|컴퓨터가 바이러스에 걸렸어.|3
+hack|해킹하다|My account was hacked.|내 계정이 해킹당했어.|3
+scam|사기|That text is a scam.|그 문자는 사기야.|3
+spam|스팸|My inbox is full of spam.|받은 편지함이 스팸으로 가득해.|3
+privacy|사생활, 개인 정보|Protect your privacy online.|온라인에서 개인 정보를 보호해.|3
+security|보안|Update your security settings.|보안 설정을 업데이트해.|3
+two-factor authentication|2단계 인증|Turn on two-factor authentication.|2단계 인증을 켜.|4
+verification code|인증 번호|Enter the verification code.|인증 번호를 입력해.|3
+QR code|QR 코드|Scan the QR code to order.|QR 코드를 찍어서 주문하세요.|3
+scan|스캔하다|Scan your ticket here.|여기에 티켓을 찍어 주세요.|3
+settings|설정|Go to settings and turn it off.|설정에 가서 꺼.|3
+dark mode|다크 모드|I always use dark mode.|나는 늘 다크 모드를 써.|3
+zoom in|확대하다|Zoom in on the map.|지도를 확대해.|3
+swipe|(화면을) 밀다|Swipe left to delete.|왼쪽으로 밀어서 삭제해.|3
+tap|가볍게 누르다|Tap the icon twice.|아이콘을 두 번 눌러.|3
+scroll|(화면을) 내리다|I scrolled through my feed for an hour.|한 시간 동안 피드를 내렸어.|3
+feed|(SNS) 피드|My feed is full of baby photos.|내 피드가 아기 사진으로 가득해.|4
+algorithm|알고리즘|The algorithm keeps showing me cat videos.|알고리즘이 계속 고양이 영상을 보여 줘.|4
+AI|인공 지능|I use AI to translate emails.|AI로 이메일을 번역해.|3
+chatbot|챗봇|I asked the chatbot for help.|챗봇에게 도움을 요청했어.|3
+smart home|스마트 홈|We set up a smart home system.|스마트 홈 시스템을 설치했어.|4
+smartwatch|스마트워치|My smartwatch tracks my sleep.|스마트워치가 내 수면을 기록해.|3
+gadget|기기, 장치|He loves new gadgets.|그는 새 기기를 좋아해.|3
+device|기기, 장치|Turn off all devices before bed.|자기 전에 모든 기기를 꺼.|3
+wireless|무선의|I bought wireless earbuds.|무선 이어폰을 샀어.|3
+Bluetooth|블루투스|Connect it via Bluetooth.|블루투스로 연결해.|3
+pair|(기기를) 연결하다|Pair your phone with the speaker.|휴대폰을 스피커와 연결해.|4
+connect|연결하다|I can't connect to the Wi-Fi.|와이파이에 연결이 안 돼.|2
+offline|오프라인의|You can watch it offline.|오프라인으로 볼 수 있어.|3
+browser|브라우저|Open it in a different browser.|다른 브라우저로 열어 봐.|3
+tab|탭 (브라우저 창)|I have too many tabs open.|탭을 너무 많이 열어 놨어.|3
+bookmark|즐겨찾기(하다)|Bookmark this page.|이 페이지 즐겨찾기 해.|3
+pop-up|팝업 창|Close the pop-up ad.|팝업 광고 닫아.|3
+cookie|쿠키 (인터넷 정보 파일)|Accept the cookies to continue.|계속하려면 쿠키를 허용하세요.|4
+subscription|구독|I have too many streaming subscriptions.|스트리밍 구독이 너무 많아.|3
+free trial|무료 체험|Start your free trial today.|오늘 무료 체험을 시작하세요.|3
+cancel|해지하다, 취소하다|Cancel before the trial ends.|체험 기간 끝나기 전에 해지해.|2
+review|후기, 리뷰|I always read reviews before buying.|사기 전에 항상 후기를 읽어.|2
+rating|평점|This app has a high rating.|이 앱은 평점이 높아.|3
+podcast|팟캐스트|I listen to podcasts on my commute.|출퇴근길에 팟캐스트를 들어.|3
+e-book|전자책|I read e-books on my tablet.|태블릿으로 전자책을 읽어.|3
+online banking|인터넷 뱅킹|I pay bills with online banking.|인터넷 뱅킹으로 공과금을 내.|3
+mobile payment|모바일 결제|Do you accept mobile payment?|모바일 결제 되나요?|3
+digital detox|디지털 디톡스|I need a digital detox.|디지털 기기 좀 끊어야겠어.|4
+screen time|화면 사용 시간|My screen time is too high.|화면 사용 시간이 너무 많아.|3
+addicted|중독된|I'm addicted to my phone.|나는 휴대폰 중독이야.|3
+tech-savvy|기술에 밝은|My kids are more tech-savvy than me.|우리 애들이 나보다 기계를 더 잘 다뤄.|4
+user-friendly|사용하기 쉬운|This app is very user-friendly.|이 앱은 정말 쓰기 쉬워.|4
+compatible|호환되는|Is it compatible with my phone?|내 휴대폰이랑 호환돼?|4
+outdated|구식인|My laptop is outdated.|내 노트북은 구식이야.|4
+upgrade|업그레이드하다|I upgraded to the new phone.|새 휴대폰으로 바꿨어.|3
+troubleshoot|문제를 해결하다|Let me troubleshoot the problem.|문제를 해결해 볼게요.|5
+tech support|기술 지원|Call tech support.|기술 지원팀에 전화해.|3
+customer support|고객 지원|Customer support replied quickly.|고객 지원팀이 빨리 답해 줬어.|3
+attachment|첨부 파일|I can't open the attachment.|첨부 파일이 안 열려.|3
+inbox|받은 편지함|My inbox is overflowing.|받은 편지함이 넘쳐 나.|3
+draft|임시 저장 메일, 초안|It's saved in my drafts.|임시 보관함에 저장돼 있어.|3
+autocorrect|자동 고침|Autocorrect changed my message!|자동 고침이 내 메시지를 바꿔 버렸어!|4
+typo|오타|Sorry, typo.|미안, 오타야.|3
+caps lock|대문자 고정|Turn off caps lock.|대문자 고정 꺼.|3
+online meeting|온라인 회의|We had an online meeting.|온라인 회의를 했어.|3
+you're on mute|음소거 상태예요|Sorry, you're on mute.|죄송한데 음소거 상태세요.|3
+can you hear me|제 말 들리세요?|Hello? Can you hear me now?|여보세요? 이제 들려요?|2
+frozen screen|멈춘 화면|You have a frozen screen.|화면이 멈췄어요.|3
+connection|연결|My connection is unstable.|연결이 불안정해.|3
+bandwidth|대역폭; (일할) 여유|The video needs more bandwidth.|그 영상은 대역폭이 더 필요해.|5
+content creator|콘텐츠 제작자|She's a full-time content creator.|그녀는 전업 콘텐츠 제작자야.|4
+vlog|브이로그|I watch family vlogs.|가족 브이로그를 봐.|3
+unboxing|언박싱, 개봉기|Kids love unboxing videos.|아이들은 개봉기 영상을 좋아해.|4
+livestream|실시간 방송(하다)|They livestreamed the concert.|그들은 콘서트를 생중계했어.|4
+clickbait|낚시성 제목|That headline is clickbait.|그 제목은 낚시야.|4
+troll|악플러; 악플을 달다|Don't feed the trolls.|악플러에게 반응하지 마.|4
+meme|밈, 짤|That meme is hilarious.|그 짤 진짜 웃겨.|4
+emoji reaction|이모지 반응|Just send an emoji reaction.|이모지로 반응만 해.|4
+FOMO|놓칠까 봐 불안한 마음|Social media gives me FOMO.|SNS를 보면 나만 뒤처지는 것 같아.|5
+doomscrolling|우울한 소식을 끝없이 보는 것|Stop doomscrolling and go to sleep.|우울한 뉴스 그만 보고 자.|5
+left on read|읽씹당한|I was left on read again.|또 읽씹당했어.|5
+slide into DMs|DM으로 슬쩍 연락하다|He slid into my DMs.|그가 DM으로 슬쩍 연락해 왔어.|5
+going live|라이브 방송 시작|We're going live at eight!|8시에 라이브 시작해요!|4
+plug|(자기 것을) 홍보하다|Let me plug my new video.|제 새 영상 홍보 좀 할게요.|5
+glitchy|자꾸 오류 나는|This app is so glitchy.|이 앱 너무 자주 오류 나.|5
+phishing|피싱 (개인 정보 사기)|That email is a phishing attempt.|그 이메일은 피싱 시도야.|4
+deepfake|딥페이크|That video is a deepfake.|그 영상은 딥페이크야.|5
+cyberbullying|사이버 괴롭힘|Cyberbullying is a serious problem.|사이버 괴롭힘은 심각한 문제야.|4
+netiquette|인터넷 예절|Teach your kids netiquette.|아이들에게 인터넷 예절을 가르쳐.|5

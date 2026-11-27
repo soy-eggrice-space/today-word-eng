@@ -1,0 +1,165 @@
+# describe|묘사·형용사|🎯
+big|큰|That's a big dog.|저거 큰 개다.|1
+small|작은|I live in a small apartment.|나는 작은 아파트에 살아.|1
+tall|키가 큰, 높은|My husband is very tall.|남편은 키가 아주 커.|1
+short|짧은, 키가 작은|The meeting was short.|회의가 짧았어.|1
+long|긴|It was a long day.|긴 하루였어.|1
+heavy|무거운|This box is heavy.|이 상자 무거워.|1
+light|가벼운|This laptop is very light.|이 노트북은 아주 가벼워.|1
+fast|빠른|He's a fast runner.|그는 달리기가 빨라.|1
+slow|느린|The internet is slow today.|오늘 인터넷이 느려.|1
+new|새로운|I got a new phone.|새 휴대폰이 생겼어.|1
+beautiful|아름다운|What a beautiful day!|정말 아름다운 날이다!|1
+pretty|예쁜; 꽤|She has a pretty smile.|그녀는 미소가 예뻐.|1
+cute|귀여운|Your baby is so cute!|아기 정말 귀엽다!|1
+ugly|못생긴|That sweater is ugly.|그 스웨터 못생겼어.|1
+good|좋은|That's a good idea.|좋은 생각이야.|1
+bad|나쁜|I have bad news.|나쁜 소식이 있어.|1
+great|훌륭한|You did a great job.|정말 잘했어.|1
+easy|쉬운|The recipe is easy.|조리법이 쉬워.|1
+hard|어려운; 딱딱한|This bread is hard.|이 빵은 딱딱해.|1
+soft|부드러운|This blanket is so soft.|이 담요 정말 부드러워.|1
+loud|시끄러운, 큰 소리의|The music is too loud.|음악이 너무 시끄러워.|1
+bright|밝은|The room is bright and sunny.|방이 밝고 햇볕이 잘 들어.|1
+dark|어두운|It's dark outside.|밖이 어두워.|1
+empty|빈|The fridge is empty.|냉장고가 비었어.|1
+full|가득한|The bus was full.|버스가 꽉 찼어.|1
+same|같은|We have the same shoes.|우리 신발이 똑같아.|1
+different|다른|We have different opinions.|우리는 의견이 달라.|1
+important|중요한|This is very important.|이건 아주 중요해.|1
+interesting|흥미로운|That's an interesting idea.|흥미로운 생각이야.|1
+favorite|가장 좋아하는|Blue is my favorite color.|파란색이 내가 제일 좋아하는 색이야.|1
+amazing|놀라운, 굉장한|The view was amazing.|경치가 굉장했어.|2
+terrible|끔찍한|The traffic was terrible.|교통이 끔찍했어.|2
+awful|형편없는, 끔찍한|The food was awful.|음식이 형편없었어.|2
+perfect|완벽한|It's the perfect gift.|완벽한 선물이야.|2
+wonderful|아주 멋진|We had a wonderful time.|정말 즐거운 시간을 보냈어.|2
+fantastic|환상적인|The show was fantastic.|공연이 환상적이었어.|2
+excellent|훌륭한|Your English is excellent.|영어 실력이 훌륭해요.|2
+nice|좋은, 친절한|That's a nice jacket.|재킷 멋지다.|1
+fancy|고급스러운, 멋진|We went to a fancy restaurant.|고급 식당에 갔어.|2
+simple|간단한|Keep it simple.|간단하게 해.|2
+complicated|복잡한|The instructions are complicated.|설명서가 복잡해.|2
+useful|유용한|This app is really useful.|이 앱 정말 유용해.|2
+useless|쓸모없는|This old phone is useless.|이 낡은 휴대폰은 쓸모없어.|2
+comfortable|편안한|These shoes are very comfortable.|이 신발 정말 편해.|2
+uncomfortable|불편한|The chair is uncomfortable.|의자가 불편해.|2
+convenient|편리한|Online shopping is convenient.|온라인 쇼핑은 편리해.|2
+inconvenient|불편한|It's inconvenient to park here.|여기 주차하기 불편해.|3
+popular|인기 있는|This café is very popular.|이 카페는 아주 인기 있어.|2
+famous|유명한|She's a famous singer.|그녀는 유명한 가수야.|2
+special|특별한|Today is a special day.|오늘은 특별한 날이야.|2
+normal|보통의, 정상적인|Is it normal to feel this tired?|이렇게 피곤한 게 정상이야?|2
+strange|이상한|That's strange.|그거 이상하다.|2
+weird|이상한, 기묘한|He's a bit weird.|그는 좀 특이해.|2
+crazy|미친, 말도 안 되는|That's crazy!|말도 안 돼!|2
+silly|어리석은, 우스꽝스러운|Don't be silly.|바보같이 굴지 마.|2
+serious|진지한, 심각한|Are you serious?|진심이야?|2
+real|진짜의|Is that a real diamond?|그거 진짜 다이아몬드야?|2
+fake|가짜의|That bag is fake.|그 가방 가짜야.|2
+true|사실인|Is it true?|그거 사실이야?|2
+possible|가능한|Is it possible to change my seat?|자리를 바꿀 수 있을까요?|2
+impossible|불가능한|Nothing is impossible.|불가능한 건 없어.|2
+necessary|필요한|Is it necessary to book?|예약이 꼭 필요해요?|2
+available|이용 가능한, 시간이 되는|Are you available tomorrow?|내일 시간 돼요?|2
+ready|준비된|Are you ready?|준비됐어?|1
+wet|젖은|My shoes are wet.|신발이 젖었어.|2
+dry|마른|Is the laundry dry?|빨래 말랐어?|2
+smooth|매끄러운|Her skin is so smooth.|그녀의 피부는 정말 매끄러워.|2
+rough|거친|The road was rough.|길이 울퉁불퉁했어.|3
+sharp|날카로운|Be careful, the knife is sharp.|조심해, 칼이 날카로워.|2
+round|둥근|We have a round table.|우리 집은 둥근 식탁이야.|2
+square|정사각형의|I want a square plate.|정사각형 접시를 원해.|2
+thick|두꺼운|This book is very thick.|이 책 아주 두꺼워.|2
+thin|얇은, 마른|The walls are thin.|벽이 얇아.|2
+wide|넓은|The street is very wide.|길이 아주 넓어.|2
+narrow|좁은|The alley is narrow.|골목이 좁아.|2
+deep|깊은|The pool is deep.|수영장이 깊어.|2
+shallow|얕은|Kids can swim in the shallow end.|아이들은 얕은 쪽에서 수영할 수 있어.|3
+huge|거대한|Their house is huge.|그들 집은 엄청 커.|2
+tiny|아주 작은|The kitten is tiny.|새끼 고양이가 아주 작아.|2
+gorgeous|아주 아름다운|You look gorgeous!|정말 아름다워!|3
+adorable|사랑스러운|The puppy is adorable.|강아지가 정말 사랑스러워.|3
+elegant|우아한|She wore an elegant dress.|그녀는 우아한 드레스를 입었어.|3
+stylish|세련된|That's a stylish jacket.|세련된 재킷이네.|3
+trendy|최신 유행의|This is a trendy area.|여기는 요즘 뜨는 동네야.|3
+old-fashioned|구식의|My dad is a bit old-fashioned.|아빠는 좀 옛날 사람이야.|3
+modern|현대적인|The hotel is very modern.|호텔이 아주 현대적이야.|2
+traditional|전통적인|We had a traditional Korean meal.|전통 한식을 먹었어.|2
+unique|독특한|Her style is unique.|그녀의 스타일은 독특해.|3
+ordinary|평범한|It was just an ordinary day.|그냥 평범한 하루였어.|3
+typical|전형적인|That's typical of him.|그 사람답다.|3
+rare|드문|It's rare to see snow here.|여기서 눈 보기는 드물어.|3
+common|흔한|It's a common mistake.|흔한 실수야.|2
+obvious|분명한|The answer is obvious.|답이 뻔해.|3
+clear|분명한, 맑은|Is that clear?|이해됐어?|2
+vague|모호한|His answer was vague.|그의 대답은 모호했어.|4
+accurate|정확한|Is this information accurate?|이 정보 정확해요?|3
+exact|정확한|What's the exact time?|정확한 시간이 몇 시예요?|3
+brief|짧은, 간단한|Please keep it brief.|간단히 말해 주세요.|3
+detailed|자세한|I need a detailed report.|자세한 보고서가 필요해요.|3
+basic|기본적인|I know basic Japanese.|기본적인 일본어는 알아.|2
+advanced|고급의|This is an advanced class.|이건 고급반이야.|3
+fresh|신선한|This fish is very fresh.|이 생선 아주 신선해.|1
+messy|지저분한|Her room is always messy.|그 애 방은 늘 지저분해.|2
+neat|깔끔한|His desk is very neat.|그의 책상은 아주 깔끔해.|3
+spotless|티 하나 없이 깨끗한|The hotel room was spotless.|호텔 방이 티 하나 없이 깨끗했어.|4
+filthy|아주 더러운|The bathroom was filthy.|화장실이 엄청 더러웠어.|4
+crowded|붐비는|The subway was crowded.|지하철이 붐볐어.|2
+peaceful|평화로운|It's so peaceful here.|여기 정말 평화롭다.|3
+lively|활기찬|The market is lively.|시장이 활기차.|3
+dull|따분한, 흐릿한|The movie was dull.|영화가 따분했어.|3
+fascinating|매혹적인, 아주 흥미로운|The documentary was fascinating.|그 다큐멘터리 정말 흥미로웠어.|3
+impressive|인상적인|Your work is impressive.|작업이 인상적이에요.|3
+disappointing|실망스러운|The ending was disappointing.|결말이 실망스러웠어.|3
+ridiculous|말도 안 되는, 터무니없는|That price is ridiculous.|그 가격은 말도 안 돼.|3
+hilarious|아주 웃긴|That video is hilarious.|그 영상 진짜 웃겨.|3
+gross|역겨운|That smells gross.|냄새 역겹다.|3
+disgusting|역겨운|The food was disgusting.|음식이 역겨웠어.|3
+cozy|아늑한|It's a cozy little café.|아늑한 작은 카페야.|3
+fragile|깨지기 쉬운|Be careful, it's fragile.|조심해, 깨지기 쉬워.|3
+durable|튼튼한, 내구성 있는|These bags are very durable.|이 가방들은 아주 튼튼해.|4
+sturdy|튼튼한|We need a sturdy table.|튼튼한 탁자가 필요해.|4
+flimsy|부실한, 약한|This chair is flimsy.|이 의자는 부실해.|5
+spacious|널찍한|The car is very spacious.|차 안이 아주 넓어.|3
+compact|소형의, 아담한|I want a compact camera.|소형 카메라를 원해.|3
+portable|휴대용의|It's a portable speaker.|휴대용 스피커야.|3
+affordable|가격이 적당한|The rent is affordable.|월세가 적당해.|3
+luxurious|호화로운|It was a luxurious hotel.|호화로운 호텔이었어.|4
+outstanding|뛰어난|She did an outstanding job.|그녀는 뛰어나게 일을 해냈어.|4
+remarkable|놀라운, 주목할 만한|It's a remarkable story.|놀라운 이야기야.|4
+decent|괜찮은, 꽤 좋은|It's a decent restaurant.|꽤 괜찮은 식당이야.|4
+mediocre|그저 그런|The food was mediocre.|음식은 그저 그랬어.|5
+subtle|미묘한, 은은한|There's a subtle difference.|미묘한 차이가 있어.|4
+vivid|생생한, 선명한|I have a vivid memory of that day.|그날이 생생하게 기억나.|4
+bland|밋밋한, 싱거운|The design is a bit bland.|디자인이 좀 밋밋해.|4
+flawless|흠잡을 데 없는|Her English is flawless.|그녀의 영어는 흠잡을 데가 없어.|5
+spectacular|장관인|The fireworks were spectacular.|불꽃놀이가 장관이었어.|4
+breathtaking|숨이 멎을 듯한|The view is breathtaking.|경치가 숨이 멎을 듯해.|4
+overwhelming|압도적인, 벅찬|The amount of work is overwhelming.|일의 양이 감당이 안 돼.|4
+tedious|지루하고 따분한|Paperwork is tedious.|서류 작업은 지루해.|5
+hectic|정신없이 바쁜|It was a hectic week.|정신없는 한 주였어.|3
+chaotic|혼란스러운|Mornings are chaotic with three kids.|아이 셋이랑 아침은 정신없어.|4
+spontaneous|즉흥적인|Let's do something spontaneous!|즉흥적으로 뭔가 하자!|4
+ideal|이상적인|It's the ideal place for kids.|아이들에게 이상적인 곳이야.|3
+practical|실용적인|These shoes are practical.|이 신발은 실용적이야.|3
+reasonable|합리적인, 적당한|The price is reasonable.|가격이 합리적이야.|3
+fair|공정한|That's not fair!|그건 불공평해!|2
+awkward|어색한|That was awkward.|그거 어색했다.|3
+legendary|전설적인|That concert was legendary.|그 콘서트는 전설이었어.|5
+iconic|상징적인|It's an iconic building.|상징적인 건물이야.|5
+quirky|별난, 개성 있는|It's a quirky little shop.|개성 있는 작은 가게야.|5
+low-key|조용한, 소박한|We had a low-key wedding.|우리는 소박하게 결혼식을 했어.|5
+over-the-top|과한, 지나친|The decorations were a bit over-the-top.|장식이 좀 과했어.|5
+next-level|한 차원 높은|This pizza is next-level.|이 피자는 차원이 달라.|5
+top-notch|최고급의|The service was top-notch.|서비스가 최고였어.|5
+run-of-the-mill|평범한, 흔해 빠진|It's just a run-of-the-mill café.|그냥 흔한 카페야.|5
+hit-or-miss|복불복인|The food there is hit-or-miss.|거기 음식은 복불복이야.|5
+so-so|그저 그런|The movie was so-so.|영화는 그저 그랬어.|3
+not bad at all|꽤 괜찮은|This wine is not bad at all.|이 와인 꽤 괜찮다.|3
+mind-blowing|놀라운, 충격적인|The ending was mind-blowing.|결말이 충격적이었어.|5
+jaw-dropping|입이 떡 벌어지는|The view was jaw-dropping.|경치에 입이 떡 벌어졌어.|5
+bite-sized|한 입 크기의|They serve bite-sized desserts.|한 입 크기 디저트를 팔아.|4
+brand-new|아주 새것인|Is the car brand-new?|그 차 완전 새 거야?|3
+second-rate|이류의|It was a second-rate hotel.|이류 호텔이었어.|5
+worn-out|닳아 해진|My sneakers are worn-out.|운동화가 다 해졌어.|4

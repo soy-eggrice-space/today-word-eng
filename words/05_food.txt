@@ -1,0 +1,185 @@
+# food|음식·카페|🍽️
+delicious|아주 맛있는|This soup is delicious.|이 수프 정말 맛있다.|1
+sweet|달콤한|This cake is too sweet.|이 케이크는 너무 달아.|1
+salty|짠|The fries are a bit salty.|감자튀김이 좀 짜.|1
+spicy|매운|Is this dish spicy?|이 요리 매워요?|1
+sour|신|Lemons are sour.|레몬은 셔.|1
+bitter|쓴|This coffee is really bitter.|이 커피 정말 쓰다.|1
+hot|뜨거운; 매운|Be careful, the soup is hot.|조심해, 국 뜨거워.|1
+cold|차가운|I'd like a cold drink.|차가운 음료 주세요.|1
+fresh|신선한|These vegetables are fresh.|이 채소들은 신선해.|1
+menu|메뉴, 차림표|Can I see the menu?|메뉴 좀 볼 수 있을까요?|1
+order|주문(하다)|Are you ready to order?|주문하시겠어요?|1
+waiter|종업원|Let's ask the waiter.|종업원한테 물어보자.|1
+water|물|Could I have some water, please?|물 좀 주시겠어요?|1
+juice|주스|I'll have orange juice.|오렌지 주스 주세요.|1
+coffee|커피|Let's get some coffee.|커피 한잔하자.|1
+tea|차|Would you like some tea?|차 드실래요?|1
+milk|우유|I drink milk every morning.|나는 매일 아침 우유를 마셔.|1
+bread|빵|I bought some bread for breakfast.|아침에 먹을 빵을 샀어.|1
+rice|밥, 쌀|Koreans eat rice every day.|한국 사람들은 매일 밥을 먹어.|1
+noodles|국수, 면|I love spicy noodles.|나는 매운 국수를 좋아해.|1
+soup|국, 수프|This soup is too salty.|이 국은 너무 짜.|1
+salad|샐러드|I'll have a green salad.|그린 샐러드 주세요.|1
+sandwich|샌드위치|I made a sandwich for lunch.|점심으로 샌드위치를 만들었어.|1
+chicken|닭고기, 치킨|Let's order fried chicken.|치킨 시키자.|1
+beef|소고기|Do you eat beef?|소고기 드세요?|1
+pork|돼지고기|This pork is very tender.|이 돼지고기 정말 부드러워.|1
+fish|생선|I don't like fish.|나는 생선을 안 좋아해.|1
+egg|달걀|How would you like your eggs?|달걀은 어떻게 해 드릴까요?|1
+fruit|과일|We eat fruit after dinner.|우리는 저녁 먹고 과일을 먹어.|1
+vegetable|채소|Kids should eat more vegetables.|아이들은 채소를 더 먹어야 해.|1
+dessert|디저트, 후식|What's for dessert?|디저트는 뭐야?|1
+snack|간식|I need a snack.|간식이 필요해.|1
+plate|접시|Pass me a plate, please.|접시 하나 건네줘.|1
+cup|컵, 잔|Can I have a cup of tea?|차 한 잔 주시겠어요?|1
+spoon|숟가락|I need a spoon.|숟가락이 필요해요.|1
+fork|포크|Can I have another fork?|포크 하나 더 주시겠어요?|1
+knife|칼|This knife isn't sharp.|이 칼은 잘 안 들어.|1
+chopsticks|젓가락|Can you use chopsticks?|젓가락 쓸 줄 알아?|1
+restaurant|식당|Let's try that new restaurant.|저 새로 생긴 식당 가 보자.|1
+taste|맛; 맛이 나다|It tastes like chicken.|닭고기 맛이 나.|2
+flavor|맛, 풍미|What flavor do you want?|무슨 맛으로 할래?|2
+recipe|조리법|Can you share the recipe?|조리법 좀 알려 줄래?|2
+ingredient|재료|Fresh ingredients make a big difference.|신선한 재료가 큰 차이를 만들어.|2
+boil|끓이다, 삶다|Boil the water first.|먼저 물을 끓여.|2
+fry|튀기다, 볶다|Fry the onions until golden.|양파를 노릇해질 때까지 볶아.|2
+bake|(오븐에) 굽다|I baked cookies with my kids.|아이들이랑 쿠키를 구웠어.|2
+grill|석쇠에 굽다|Let's grill some meat this weekend.|이번 주말에 고기 구워 먹자.|2
+chop|잘게 썰다|Chop the garlic finely.|마늘을 잘게 다져.|2
+slice|얇게 썰다; 한 조각|Can I have a slice of pizza?|피자 한 조각 먹어도 돼?|2
+mix|섞다|Mix the flour and sugar.|밀가루와 설탕을 섞어.|2
+stir|젓다|Stir the soup slowly.|국을 천천히 저어.|2
+peel|껍질을 벗기다|Can you peel the potatoes?|감자 껍질 좀 까 줄래?|2
+pour|붓다, 따르다|Let me pour you some wine.|와인 따라 줄게.|2
+raw|날것의|I can't eat raw fish.|나는 회를 못 먹어.|2
+rare|(고기가) 덜 익은|I like my steak rare.|스테이크는 레어로 주세요.|3
+well-done|(고기가) 완전히 익은|Well-done, please.|웰던으로 해 주세요.|3
+medium|(고기를) 중간 정도 익힌; 중간|I'll have it medium.|미디엄으로 할게요.|2
+portion|1인분, 몫|The portions here are huge.|여기 양이 엄청 많아.|3
+serving|1인분|This recipe makes four servings.|이 조리법은 4인분이야.|3
+reservation|예약|I have a reservation for two at seven.|7시에 2명 예약했어요.|2
+table for two|2인석|A table for two, please.|두 명 자리 부탁해요.|2
+to go|포장해 가는|One latte to go, please.|라테 한 잔 포장이요.|2
+for here|매장에서 먹는|Is that for here or to go?|드시고 가세요, 가져가세요?|2
+takeout|포장 음식|Let's get takeout tonight.|오늘 저녁은 포장해 오자.|2
+delivery|배달|Do you offer delivery?|배달 되나요?|2
+refill|리필(하다)|Can I get a refill?|리필해 주실 수 있나요?|2
+check|계산서|Could we get the check, please?|계산서 주시겠어요?|2
+bill|계산서, 청구서|Let's split the bill.|계산은 나눠서 하자.|2
+tip|팁|Is the tip included?|팁 포함인가요?|2
+split|나누다|Let's split a dessert.|디저트 하나 나눠 먹자.|2
+appetizer|전채 요리|Let's order a few appetizers.|애피타이저 몇 개 시키자.|3
+main course|주요리|What would you like for your main course?|주요리는 뭘로 하시겠어요?|3
+side dish|반찬, 곁들임 요리|Korean meals come with many side dishes.|한식은 반찬이 많이 나와.|2
+leftovers|남은 음식|Can I take the leftovers home?|남은 음식 싸 가도 될까요?|2
+doggy bag|남은 음식 포장 용기|Could I get a doggy bag?|남은 거 싸 갈 용기 좀 주시겠어요?|4
+craving|당김, 갈망|I have a craving for chocolate.|초콜릿이 너무 당겨.|3
+crave|몹시 원하다, 당기다|I'm craving something spicy.|매운 게 당겨.|3
+starving|몹시 배고픈|I'm starving. Let's eat.|배고파 죽겠어. 먹자.|2
+full|배부른|I'm so full I can't move.|너무 배불러서 못 움직이겠어.|1
+stuffed|배가 터질 것 같은|I'm stuffed. No more, thanks.|배 터질 것 같아. 그만 먹을게.|3
+picky eater|편식하는 사람|My kids are picky eaters.|우리 애들은 편식이 심해.|3
+vegetarian|채식주의자; 채식의|Do you have any vegetarian options?|채식 메뉴 있나요?|3
+vegan|완전 채식주의자|Is this dish vegan?|이 요리는 비건인가요?|3
+allergic|알레르기가 있는|I'm allergic to peanuts.|저는 땅콩 알레르기가 있어요.|2
+gluten-free|글루텐이 없는|Do you have gluten-free bread?|글루텐 프리 빵 있나요?|3
+homemade|집에서 만든|This is homemade kimchi.|이건 집에서 담근 김치야.|2
+crispy|바삭한|The chicken is so crispy.|치킨이 정말 바삭해.|2
+crunchy|아삭한, 오도독한|I love crunchy snacks.|나는 바삭바삭한 과자를 좋아해.|2
+chewy|쫄깃한, 질긴|These rice cakes are chewy.|이 떡은 쫄깃해.|3
+juicy|즙이 많은|This peach is so juicy.|이 복숭아 정말 과즙이 많다.|2
+tender|(고기가) 연한|The beef is really tender.|소고기가 정말 연해.|3
+greasy|기름진, 느끼한|The food was too greasy.|음식이 너무 기름졌어.|3
+bland|싱거운, 밍밍한|The soup is a little bland.|국이 좀 싱거워.|3
+rich|(맛이) 진한, 풍부한|This sauce is very rich.|이 소스는 맛이 아주 진해.|3
+savory|짭짤하고 감칠맛 나는|I prefer savory snacks to sweet ones.|나는 단 간식보다 짭짤한 게 좋아.|4
+tangy|톡 쏘는, 새콤한|The sauce has a tangy flavor.|소스가 새콤하게 톡 쏴.|4
+mild|순한, 덜 매운|Can you make it mild?|순하게 해 주실 수 있나요?|3
+overcooked|너무 익힌|The pasta is overcooked.|파스타가 너무 익었어.|3
+undercooked|덜 익은|The chicken is undercooked.|닭이 덜 익었어요.|3
+burnt|탄|Sorry, the toast is burnt.|미안, 토스트가 탔어.|2
+stale|(빵 등이) 오래된, 눅눅한|This bread is stale.|이 빵은 오래됐어.|3
+expired|유통기한이 지난|This milk has expired.|이 우유는 유통기한 지났어.|3
+spoiled|상한|The fish smells spoiled.|생선에서 상한 냄새가 나.|3
+leftover|남은|Use the leftover rice for fried rice.|남은 밥으로 볶음밥 해.|3
+seasoning|양념, 조미료|Add a little more seasoning.|양념을 조금 더 넣어.|3
+sauce|소스, 양념장|Can I get extra sauce?|소스 좀 더 주실래요?|2
+garlic|마늘|Korean food uses a lot of garlic.|한식에는 마늘이 많이 들어가.|2
+onion|양파|No onions, please.|양파는 빼 주세요.|2
+pepper|후추; 고추|Pass the salt and pepper.|소금이랑 후추 좀 건네줘.|2
+flour|밀가루|We need flour to make pancakes.|팬케이크 만들려면 밀가루가 필요해.|2
+sugar|설탕|No sugar in my coffee, please.|커피에 설탕은 빼 주세요.|1
+butter|버터|Spread some butter on the toast.|토스트에 버터를 발라.|1
+cheese|치즈|Extra cheese, please.|치즈 추가해 주세요.|1
+oven|오븐|Preheat the oven to 180 degrees.|오븐을 180도로 예열해.|2
+pan|프라이팬, 냄비|Heat the pan first.|먼저 팬을 달궈.|2
+pot|냄비, 솥|Put the pot on the stove.|냄비를 불에 올려.|2
+cutting board|도마|Wash the cutting board after using it.|도마는 쓰고 나서 씻어.|2
+blender|믹서기|I make smoothies with a blender.|믹서기로 스무디를 만들어.|3
+napkin|냅킨|Could I have some napkins?|냅킨 좀 주시겠어요?|2
+straw|빨대|No straw, thanks.|빨대는 괜찮아요.|2
+lid|뚜껑|Can I get a lid for my cup?|컵 뚜껑 하나 주실래요?|2
+iced|얼음을 넣은, 차가운|An iced Americano, please.|아이스 아메리카노 주세요.|2
+decaf|디카페인 커피|Do you have decaf?|디카페인 있나요?|3
+oat milk|귀리 우유|Can I get that with oat milk?|귀리 우유로 바꿔 주실래요?|3
+extra shot|샷 추가|Add an extra shot, please.|샷 추가해 주세요.|3
+whipped cream|휘핑크림|No whipped cream, please.|휘핑크림은 빼 주세요.|3
+brunch|브런치|Let's have brunch on Sunday.|일요일에 브런치 먹자.|2
+buffet|뷔페|The hotel has a breakfast buffet.|호텔에 조식 뷔페가 있어.|2
+cafeteria|구내식당|I eat at the company cafeteria.|나는 회사 구내식당에서 먹어.|2
+food court|푸드코트|Let's grab something at the food court.|푸드코트에서 뭐 좀 먹자.|2
+street food|길거리 음식|I love Korean street food.|나는 한국 길거리 음식을 좋아해.|2
+chef|요리사, 셰프|The chef recommended the fish.|셰프가 생선 요리를 추천했어.|2
+specialty|대표 음식, 특선 요리|What's the specialty here?|여기 대표 메뉴가 뭐예요?|3
+signature dish|대표 요리|Try their signature dish.|여기 대표 요리 먹어 봐.|3
+recommend|추천하다|What do you recommend?|뭘 추천하세요?|2
+sold out|다 팔린, 품절된|Sorry, the cheesecake is sold out.|죄송해요, 치즈케이크는 다 팔렸어요.|2
+on the house|무료로 제공되는, 서비스인|The dessert is on the house.|디저트는 서비스입니다.|4
+mouthwatering|군침 도는|The smell is mouthwatering.|냄새가 군침 돌게 한다.|4
+bite|한 입; 물다|Can I have a bite?|한 입 먹어도 돼?|2
+sip|한 모금; 홀짝이다|Take a sip and tell me what you think.|한 모금 마셔 보고 어떤지 말해 줘.|3
+grab a bite|간단히 뭘 먹다|Let's grab a bite before the movie.|영화 보기 전에 간단히 뭐 좀 먹자.|3
+dig in|(음식을) 먹기 시작하다|Dinner's ready. Dig in!|저녁 다 됐어. 먹자!|4
+help yourself|마음껏 드세요|There's plenty. Help yourself.|많이 있어. 마음껏 먹어.|2
+treat|대접; 한턱내다|Lunch is my treat.|점심은 내가 쏠게.|3
+potluck|각자 음식을 가져오는 파티|We're having a potluck on Saturday.|토요일에 음식 하나씩 가져오는 파티해.|4
+nutritious|영양가 높은|Breakfast should be nutritious.|아침은 영양가가 있어야 해.|4
+calorie|칼로리|This drink has a lot of calories.|이 음료는 칼로리가 높아.|3
+portion control|먹는 양 조절|Portion control is key to losing weight.|먹는 양 조절이 다이어트의 핵심이야.|4
+appetite|식욕|I've lost my appetite.|입맛이 없어.|3
+indulge|마음껏 즐기다|I indulge in ice cream on weekends.|주말엔 아이스크림을 실컷 먹어.|4
+guilty pleasure|죄책감 드는 즐거움|Instant noodles are my guilty pleasure.|라면은 내 죄책감 드는 낙이야.|4
+comfort food|마음을 달래 주는 음식|Kimchi stew is my comfort food.|김치찌개는 나의 위로 음식이야.|4
+acquired taste|먹다 보면 좋아지는 맛|Blue cheese is an acquired taste.|블루 치즈는 먹다 보면 좋아지는 맛이야.|5
+sweet tooth|단것을 좋아함|I have a real sweet tooth.|나는 단것을 정말 좋아해.|4
+foodie|미식가|My husband is a total foodie.|남편은 완전 미식가야.|4
+hit the spot|딱 원하던 거다|That soup really hit the spot.|그 국이 딱 먹고 싶던 거였어.|5
+to die for|끝내주는|The chocolate cake here is to die for.|여기 초콜릿 케이크는 끝내줘.|5
+eat like a bird|아주 조금 먹다|My daughter eats like a bird.|우리 딸은 새 모이만큼 먹어.|5
+eat like a horse|아주 많이 먹다|My son eats like a horse.|우리 아들은 엄청 많이 먹어.|5
+wolf down|게걸스럽게 먹다|He wolfed down his lunch.|그는 점심을 허겁지겁 먹었어.|5
+pig out|폭식하다|We pigged out at the buffet.|뷔페에서 엄청 먹었어.|5
+the munchies|입이 심심함, 군것질 생각|I've got the munchies.|입이 심심해.|5
+my treat|내가 살게|Put your card away. It's my treat.|카드 넣어. 내가 살게.|3
+cook up|(음식을) 뚝딱 만들다|I'll cook up some pasta.|파스타 뚝딱 만들게.|4
+heat up|데우다|Just heat it up in the microwave.|전자레인지에 데우기만 해.|2
+defrost|해동하다|Defrost the meat overnight.|고기를 밤새 해동해.|3
+marinate|양념에 재우다|Marinate the beef for an hour.|소고기를 한 시간 재워 둬.|4
+simmer|약불에 끓이다|Let it simmer for ten minutes.|10분간 약불에 끓여.|4
+sprinkle|뿌리다|Sprinkle some sesame seeds on top.|위에 깨를 좀 뿌려.|4
+garnish|고명; 장식하다|Garnish with green onions.|파로 장식해.|4
+drizzle|(조금씩) 뿌리다|Drizzle some olive oil over the salad.|샐러드에 올리브유를 살짝 뿌려.|4
+whisk|휘젓다; 거품기|Whisk the eggs until fluffy.|달걀을 폭신해질 때까지 저어.|4
+knead|반죽하다|Knead the dough for five minutes.|5분 동안 반죽해.|4
+preheat|예열하다|Preheat the oven before baking.|굽기 전에 오븐을 예열해.|4
+from scratch|처음부터 직접|She makes pasta from scratch.|그녀는 파스타를 처음부터 직접 만들어.|4
+bon appétit|맛있게 드세요|Dinner is served. Bon appétit!|저녁 나왔어요. 맛있게 드세요!|4
+aftertaste|뒷맛|This wine has a nice aftertaste.|이 와인은 뒷맛이 좋아.|4
+texture|식감, 질감|I don't like the texture of tofu.|나는 두부 식감이 별로야.|3
+fusion|퓨전 요리|This is a Korean-Mexican fusion restaurant.|여기는 한국-멕시코 퓨전 식당이야.|4
+hearty|푸짐한, 든든한|We had a hearty breakfast.|든든한 아침을 먹었어.|4
+filling|배부르게 하는, 든든한|Oatmeal is very filling.|오트밀은 아주 든든해.|4
+dine in|매장에서 식사하다|Are you dining in tonight?|오늘 저녁 매장에서 드시나요?|4
+wait staff|홀 직원|The wait staff were very attentive.|홀 직원들이 아주 세심했어.|4
+tasting menu|코스 시식 메뉴|We tried the chef's tasting menu.|셰프 코스 메뉴를 먹어 봤어.|5

@@ -1,0 +1,58 @@
+name: 뜨개 카운터 APK 만들기
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'knit-counter/**'
+      - '.github/workflows/knit-counter.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 서명키 풀기
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_PASSWORD" ]; then
+            echo "::error::KEYSTORE_PASSWORD 시크릿이 없어요."
+            exit 1
+          fi
+          openssl enc -d -aes-256-cbc -pbkdf2 -in keys/today.keystore.enc -out knit-counter/app/today.keystore -pass env:KEYSTORE_PASSWORD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: 안드로이드 SDK 확인
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: APK 빌드
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: gradle -p knit-counter assembleRelease --no-daemon --stacktrace
+      - name: 서명 확인
+        run: |
+          rm -f knit-counter/app/today.keystore
+          cp knit-counter/app/build/outputs/apk/release/app-release.apk knit-counter.apk
+          AS=$(ls -d $ANDROID_HOME/build-tools/*/ | sort -V | tail -1)apksigner
+          "$AS" verify --print-certs knit-counter.apk | grep -i "SHA-256"
+      - name: 릴리스에 올리기 (항상 같은 주소)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete knit-counter --repo "${{ github.repository }}" --yes --cleanup-tag || true
+          sleep 3
+          gh release create knit-counter knit-counter.apk \
+            --repo "${{ github.repository }}" \
+            --target "${{ github.sha }}" \
+            --latest=false \
+            --title "뜨개 카운터 v1.0.${{ github.run_number }}" \
+            --notes "knit-counter.apk 를 눌러 내려받아 설치하세요. (안드로이드 휴대폰) · 진행 상황은 휴대폰에 저장되고, 다음 버전도 지금 깔린 앱 위에 그대로 설치하면 기록이 유지돼요."

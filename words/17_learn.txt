@@ -1,0 +1,175 @@
+# learn|배움·말하기|🎓
+learn|배우다|I want to learn English.|영어를 배우고 싶어.|1
+study|공부하다|I study English every day.|매일 영어 공부를 해.|1
+teach|가르치다|She teaches math.|그녀는 수학을 가르쳐.|1
+teacher|선생님|My teacher is very kind.|우리 선생님은 아주 친절하셔.|1
+student|학생|I'm a student.|저는 학생이에요.|1
+word|단어|What does this word mean?|이 단어는 무슨 뜻이에요?|1
+sentence|문장|Read this sentence aloud.|이 문장을 소리 내어 읽어.|1
+question|질문|Can I ask a question?|질문해도 될까요?|1
+answer|대답(하다)|Answer the question.|질문에 답해.|1
+test|시험|I have a test tomorrow.|내일 시험이 있어.|1
+easy|쉬운|This question is easy.|이 문제는 쉬워.|1
+difficult|어려운|English grammar is difficult.|영어 문법은 어려워.|1
+mean|의미하다|What do you mean?|무슨 뜻이야?|1
+understand|이해하다|I don't understand.|이해가 안 돼.|1
+remember|기억하다|I can't remember his name.|그 사람 이름이 기억 안 나.|1
+forget|잊다|Don't forget your homework.|숙제 잊지 마.|1
+speak|말하다|Do you speak English?|영어 하세요?|1
+listen|듣다|Listen carefully.|잘 들어.|1
+write|쓰다|Write your name here.|여기에 이름을 써.|1
+spell|철자를 말하다|How do you spell that?|그거 철자가 어떻게 돼요?|1
+repeat|반복하다, 따라 하다|Repeat after me.|저를 따라 하세요.|1
+practice|연습(하다)|I practice speaking every day.|매일 말하기 연습을 해.|1
+mistake|실수|Don't be afraid of making mistakes.|실수하는 걸 두려워하지 마.|1
+correct|올바른; 고치다|Is this sentence correct?|이 문장 맞아요?|2
+wrong|틀린|Sorry, that's wrong.|미안해요, 틀렸어요.|1
+grammar|문법|I'm working on my grammar.|문법을 공부하고 있어.|2
+vocabulary|어휘|I want to build my vocabulary.|어휘력을 키우고 싶어.|2
+pronunciation|발음|Your pronunciation is very good.|발음이 아주 좋아요.|2
+pronounce|발음하다|How do you pronounce this word?|이 단어 어떻게 발음해요?|2
+accent|억양, 말투|She has a British accent.|그녀는 영국식 억양이 있어.|2
+fluent|유창한|He's fluent in three languages.|그는 3개 국어를 유창하게 해.|2
+native speaker|원어민|I practice with a native speaker.|원어민이랑 연습해.|2
+language|언어|How many languages do you speak?|몇 개 언어를 해?|2
+translate|번역하다|Can you translate this?|이거 번역해 줄 수 있어?|2
+dictionary|사전|Look it up in the dictionary.|사전에서 찾아봐.|2
+meaning|의미|What's the meaning of this word?|이 단어 의미가 뭐예요?|2
+example|예, 예시|Can you give me an example?|예를 들어 줄래요?|2
+explain|설명하다|Can you explain it again?|다시 설명해 줄래요?|2
+review|복습하다|Let's review yesterday's words.|어제 단어를 복습하자.|2
+memorize|암기하다|I memorize ten words a day.|하루에 단어 10개를 외워.|2
+quiz|퀴즈, 쪽지 시험|We have a quiz every Friday.|매주 금요일에 쪽지 시험이 있어.|2
+exam|시험|I passed the exam!|시험에 합격했어!|2
+pass|합격하다, 통과하다|I hope you pass.|합격하길 바라.|2
+fail|떨어지다, 실패하다|I failed my driving test.|운전면허 시험에 떨어졌어.|2
+score|점수|What was your score?|점수 몇 점이었어?|2
+grade|성적; 학년|She got good grades.|그녀는 성적이 좋았어.|2
+improve|향상시키다, 나아지다|My English is improving.|내 영어 실력이 늘고 있어.|2
+progress|진전, 발전|You've made great progress.|많이 늘었네요.|3
+goal|목표|My goal is to travel without a translator.|내 목표는 통역 없이 여행하는 거야.|2
+habit|습관|Studying every day is a good habit.|매일 공부하는 건 좋은 습관이야.|2
+note|메모, 필기|Take notes during class.|수업 시간에 필기해.|2
+notebook|공책|I write new words in my notebook.|새 단어를 공책에 적어.|2
+textbook|교과서|Open your textbook to page ten.|교과서 10쪽을 펴세요.|2
+lecture|강의|The lecture was interesting.|강의가 흥미로웠어.|3
+course|강좌, 과정|I'm taking an online English course.|온라인 영어 강좌를 듣고 있어.|2
+online class|온라인 수업|I take online classes at night.|밤에 온라인 수업을 들어.|2
+degree|학위|She has a degree in design.|그녀는 디자인 학위가 있어.|3
+major|전공; 전공하다|What did you major in?|뭘 전공했어?|3
+graduate|졸업하다|I graduated in 2010.|나는 2010년에 졸업했어.|3
+university|대학교|She goes to university in Seoul.|그녀는 서울에 있는 대학교에 다녀.|2
+scholarship|장학금|He got a scholarship.|그는 장학금을 받았어.|3
+assignment|과제|The assignment is due on Monday.|과제는 월요일까지야.|3
+essay|에세이, 글|Write an essay about your hometown.|고향에 대해 글을 써.|3
+presentation|발표|I gave a presentation in English.|영어로 발표했어.|3
+discussion|토론|We had a discussion about the book.|그 책에 대해 토론했어.|3
+opinion|의견|In my opinion, it's too expensive.|내 생각엔 너무 비싸.|2
+agree|동의하다|I agree with you.|네 말에 동의해.|2
+disagree|동의하지 않다|I disagree with that idea.|그 생각엔 동의하지 않아.|2
+point|요점|That's a good point.|좋은 지적이야.|2
+reason|이유|What's the reason?|이유가 뭐야?|2
+because|~ 때문에|I'm tired because I worked late.|늦게까지 일해서 피곤해.|1
+however|하지만|It's cheap. However, it's not good.|싸긴 해. 하지만 좋지는 않아.|3
+although|비록 ~이지만|Although it rained, we had fun.|비가 왔지만 재밌었어.|3
+for example|예를 들면|I like fruit, for example, apples.|나는 과일을 좋아해, 예를 들면 사과.|2
+in fact|사실은|In fact, I've never been there.|사실 거기 가 본 적 없어.|3
+basically|기본적으로, 요컨대|Basically, we need more time.|요컨대 시간이 더 필요해.|3
+honestly|솔직히|Honestly, I didn't like it.|솔직히 별로였어.|3
+obviously|분명히, 당연히|Obviously, he was lying.|분명히 그는 거짓말하고 있었어.|3
+apparently|듣자 하니|Apparently, the store is closing.|듣자 하니 그 가게가 문 닫는대.|4
+eventually|결국|Eventually, we found the hotel.|결국 호텔을 찾았어.|3
+definitely|확실히, 당연히|I'll definitely be there.|꼭 갈게.|3
+probably|아마|It'll probably rain.|아마 비가 올 거야.|2
+maybe|어쩌면, 아마|Maybe next time.|다음에 하자.|1
+actually|사실은|Actually, I'm from Busan.|사실 저는 부산 출신이에요.|2
+anyway|어쨌든|Anyway, let's go.|어쨌든 가자.|2
+besides|게다가|Besides, it's too late.|게다가 너무 늦었어.|3
+otherwise|그렇지 않으면|Hurry, otherwise we'll be late.|서둘러, 안 그러면 늦어.|3
+meanwhile|그동안에|Meanwhile, I'll make dinner.|그동안 나는 저녁을 만들게.|4
+whereas|반면에|I like tea, whereas my husband likes coffee.|나는 차를 좋아하는 반면 남편은 커피를 좋아해.|4
+nevertheless|그럼에도 불구하고|It was hard. Nevertheless, we finished.|힘들었어. 그래도 끝냈어.|4
+therefore|그러므로|It's raining; therefore, the game is canceled.|비가 오니 경기는 취소야.|4
+in other words|다시 말해서|In other words, we're broke.|다시 말해서 우리 빈털터리야.|3
+as a matter of fact|사실은|As a matter of fact, I agree.|사실 나도 동의해.|4
+on the other hand|반면에|On the other hand, it's very cheap.|반면에 아주 싸.|3
+all in all|대체로, 전반적으로|All in all, it was a good trip.|전반적으로 좋은 여행이었어.|4
+to sum up|요약하자면|To sum up, we need a bigger budget.|요약하면 예산이 더 필요해요.|4
+first of all|우선, 무엇보다|First of all, thank you for coming.|우선 와 주셔서 감사합니다.|2
+by the way|그런데|By the way, where are you from?|그런데 어디 출신이에요?|2
+speaking of|~ 얘기가 나와서 말인데|Speaking of food, I'm hungry.|음식 얘기가 나와서 말인데, 배고파.|3
+as far as I know|내가 알기로는|As far as I know, she's single.|내가 알기로 그녀는 미혼이야.|3
+if I were you|내가 너라면|If I were you, I'd take the job.|내가 너라면 그 일을 맡겠어.|3
+it seems like|~인 것 같아|It seems like it's going to rain.|비가 올 것 같아.|3
+I guess|~인 것 같아|I guess you're right.|네 말이 맞는 것 같아.|2
+I'm not sure if|~인지 잘 모르겠어|I'm not sure if he's coming.|그가 오는지 잘 모르겠어.|3
+what I mean is|내 말은|What I mean is, we need help.|내 말은 도움이 필요하다는 거야.|3
+let me put it this way|이렇게 말해 볼게요|Let me put it this way: it's not cheap.|이렇게 말할게요, 싸지 않아요.|4
+how do you say|~를 어떻게 말해요?|How do you say this in English?|이걸 영어로 어떻게 말해요?|2
+what's the word for|~를 뭐라고 하죠?|What's the word for this?|이걸 뭐라고 하죠?|3
+slang|속어, 은어|Is that word slang?|그 단어 속어예요?|3
+idiom|관용구|English has so many idioms.|영어엔 관용구가 정말 많아.|3
+phrase|구, 표현|Learn this phrase by heart.|이 표현은 외워 둬.|3
+expression|표현|That's a common expression.|그건 흔한 표현이야.|3
+formal|격식을 차린|Use formal English in emails.|이메일엔 격식 있는 영어를 써.|3
+casual|편한, 비격식의|This is a casual expression.|이건 편하게 쓰는 표현이야.|3
+polite|공손한|Is that polite?|그거 공손한 표현이야?|2
+rude|무례한|That sounds a little rude.|그건 좀 무례하게 들려.|2
+nuance|뉘앙스, 미묘한 차이|It's hard to explain the nuance.|그 뉘앙스를 설명하기가 어려워.|5
+context|맥락, 문맥|It depends on the context.|맥락에 따라 달라.|4
+literal|문자 그대로의|Don't take it literally.|곧이곧대로 받아들이지 마.|4
+figure of speech|비유적 표현|It's just a figure of speech.|그냥 비유적인 표현이야.|5
+tongue twister|발음하기 어려운 말|Try this tongue twister!|이 발음 연습 문장 해 봐!|4
+mother tongue|모국어|Korean is my mother tongue.|한국어가 내 모국어야.|4
+bilingual|2개 국어를 하는|Our kids are bilingual.|우리 애들은 2개 국어를 해.|4
+broken English|서툰 영어|I spoke in broken English, but they understood.|서툰 영어로 말했는데 알아들었어.|4
+rusty|(실력이) 녹슨|My English is a bit rusty.|영어 실력이 좀 녹슬었어.|4
+brush up on|(실력을) 다시 다듬다|I'm brushing up on my English.|영어를 다시 다듬는 중이야.|4
+pick up|(언어를) 익히다|Kids pick up languages quickly.|아이들은 언어를 빨리 익혀.|3
+get the hang of|요령을 익히다|I'm getting the hang of it.|요령이 생기고 있어.|4
+by heart|외워서|I know the song by heart.|그 노래를 외워.|3
+cram|벼락치기 하다|I crammed all night for the exam.|시험 때문에 밤새 벼락치기 했어.|4
+pop quiz|깜짝 퀴즈|We had a pop quiz today.|오늘 깜짝 퀴즈를 봤어.|4
+mock test|모의고사|I took a mock test.|모의고사를 봤어.|4
+certificate|자격증|I got a TOEIC certificate.|토익 자격증을 땄어.|3
+self-study|독학|I learned English through self-study.|영어를 독학으로 배웠어.|3
+motivation|동기, 의욕|I've lost my motivation.|의욕을 잃었어.|3
+consistency|꾸준함|Consistency is the key.|꾸준함이 핵심이야.|4
+streak|연속 기록|I'm on a 30-day streak!|30일 연속 공부 중이야!|4
+milestone|중요한 단계, 이정표|Learning 1,000 words is a big milestone.|단어 1,000개는 큰 이정표야.|4
+challenge|도전|Learning English is a fun challenge.|영어 배우기는 즐거운 도전이야.|3
+curious|궁금한|I'm curious about the word's origin.|그 단어의 어원이 궁금해.|3
+confident|자신감 있는|I'm more confident speaking now.|이제 말하는 데 더 자신감이 생겼어.|3
+embarrassed|창피한|I was embarrassed by my mistake.|실수해서 창피했어.|2
+nervous|긴장한|I get nervous speaking English.|영어로 말하면 긴장돼.|2
+clarify|분명히 하다|Let me clarify what I meant.|제 뜻을 분명히 할게요.|4
+paraphrase|다른 말로 바꿔 말하다|Can you paraphrase that?|다른 말로 바꿔서 말해 줄래요?|5
+elaborate|자세히 말하다|Could you elaborate on that?|그것에 대해 자세히 말해 줄래요?|5
+summarize|요약하다|Can you summarize the article?|그 기사를 요약해 줄래요?|4
+articulate|생각을 분명히 표현하다; 말을 잘하는|She's very articulate.|그녀는 말을 아주 조리 있게 해.|5
+eloquent|유창한, 설득력 있는|He gave an eloquent speech.|그는 설득력 있는 연설을 했어.|5
+small talk|가벼운 대화|Small talk is hard in a new language.|새 언어로 가벼운 대화를 하는 건 어려워.|3
+conversation|대화|We had a long conversation.|우리는 긴 대화를 나눴어.|2
+chat|수다; 수다 떨다|Let's have a chat over coffee.|커피 마시며 수다 떨자.|2
+mumble|중얼거리다|Don't mumble. Speak clearly.|중얼거리지 말고 분명하게 말해.|4
+whisper|속삭이다|She whispered in my ear.|그녀가 내 귀에 속삭였어.|3
+shout|소리치다|Don't shout at me.|나한테 소리 지르지 마.|2
+interrupt|말을 끊다, 방해하다|Sorry to interrupt.|말씀 중에 죄송해요.|3
+go blank|머릿속이 하얘지다|My mind went blank during the speech.|연설 중에 머릿속이 하얘졌어.|5
+on the tip of my tongue|혀끝에서 맴도는|The word is on the tip of my tongue.|그 단어가 혀끝에서 맴돌아.|5
+lost in translation|번역하면서 의미가 사라진|The joke was lost in translation.|그 농담은 번역하면서 재미가 사라졌어.|5
+get the gist|요지를 파악하다|I didn't understand every word, but I got the gist.|단어를 다 알아듣진 못했지만 요지는 파악했어.|5
+read up on|~에 대해 많이 읽다|I read up on the topic before the meeting.|회의 전에 그 주제에 대해 많이 읽었어.|4
+learn by doing|직접 해 보며 배우다|Kids learn by doing.|아이들은 직접 해 보며 배워.|4
+practice makes perfect|연습이 완벽을 만든다|Keep going. Practice makes perfect.|계속해. 연습이 완벽을 만들어.|3
+better late than never|늦어도 안 하는 것보단 낫다|I started English at 40. Better late than never!|마흔에 영어를 시작했어. 늦어도 안 하는 것보단 낫지!|4
+a quick learner|빨리 배우는 사람|She's a quick learner.|그녀는 배우는 게 빨라.|4
+a slow learner|느리게 배우는 사람|I'm a slow learner, but I don't give up.|나는 느리게 배우지만 포기하지 않아.|4
+the learning curve|습득 곡선, 익히는 데 걸리는 과정|The learning curve is steep.|익히는 데 꽤 오래 걸려.|5
+from A to Z|처음부터 끝까지|This book covers grammar from A to Z.|이 책은 문법을 처음부터 끝까지 다뤄.|4
+know-how|노하우, 요령|She has the know-how.|그녀는 노하우가 있어.|4
+common sense|상식|It's just common sense.|그건 그냥 상식이야.|3
+general knowledge|일반 상식|He has great general knowledge.|그는 일반 상식이 풍부해.|4
+trivia|잡학 상식|I love trivia games.|나는 상식 퀴즈 게임을 좋아해.|4
+brain teaser|두뇌 퍼즐|Here's a brain teaser for you.|두뇌 퍼즐 하나 낼게.|4
+fun fact|재미있는 사실|Fun fact: octopuses have three hearts.|재미있는 사실: 문어는 심장이 세 개야.|4

@@ -1,0 +1,171 @@
+# people|사람·관계|👨‍👩‍👧
+family|가족|I have a big family.|우리 가족은 대가족이야.|1
+parents|부모님|My parents live in Busan.|부모님은 부산에 사셔.|1
+mother|어머니|My mother is a teacher.|우리 엄마는 선생님이야.|1
+father|아버지|My father loves fishing.|우리 아빠는 낚시를 좋아하셔.|1
+brother|형제, 오빠, 남동생|I have one brother.|나는 형제가 한 명 있어.|1
+sister|자매, 언니, 여동생|My sister lives abroad.|언니는 해외에 살아.|1
+son|아들|Our son is eight.|우리 아들은 여덟 살이야.|1
+daughter|딸|My daughter loves drawing.|우리 딸은 그림 그리는 걸 좋아해.|1
+baby|아기|The baby is sleeping.|아기가 자고 있어.|1
+child|아이|Every child is different.|아이들은 다 달라.|1
+kids|아이들|The kids are at school.|아이들은 학교에 있어.|1
+husband|남편|My husband cooks dinner.|남편이 저녁을 해.|1
+wife|아내|This is my wife, Jihye.|제 아내 지혜예요.|1
+grandmother|할머니|My grandmother is 90.|우리 할머니는 아흔이셔.|1
+grandfather|할아버지|My grandfather was a farmer.|우리 할아버지는 농부셨어.|1
+cousin|사촌|My cousin is visiting this weekend.|이번 주말에 사촌이 놀러 와.|1
+aunt|이모, 고모|My aunt makes the best kimchi.|우리 이모 김치가 최고야.|1
+uncle|삼촌, 이모부|My uncle lives in Canada.|삼촌은 캐나다에 사셔.|1
+friend|친구|She's my best friend.|그녀는 내 가장 친한 친구야.|1
+neighbor|이웃|Our neighbor has a cute dog.|우리 이웃은 귀여운 개를 키워.|1
+people|사람들|There were so many people.|사람이 정말 많았어.|1
+man|남자|Who is that man?|저 남자 누구야?|1
+woman|여자|That woman is my teacher.|저 여자분이 우리 선생님이야.|1
+boy|소년|The boy is very tall.|그 소년은 키가 아주 커.|1
+girl|소녀|The girl is reading a book.|그 소녀는 책을 읽고 있어.|1
+age|나이|What's your age?|나이가 어떻게 되세요?|1
+young|어린, 젊은|You look young for your age.|나이에 비해 젊어 보여요.|1
+old|나이 든, 오래된|My dog is very old.|우리 개는 나이가 많아.|1
+twins|쌍둥이|The twins wear matching outfits.|쌍둥이가 똑같은 옷을 입었어.|1
+sibling|형제자매|Do you have any siblings?|형제자매 있어요?|2
+relative|친척|We visit our relatives on holidays.|명절에 친척들을 방문해.|2
+in-laws|시댁, 처가 식구|We're visiting my in-laws this weekend.|이번 주말에 시댁에 가.|2
+mother-in-law|시어머니, 장모|My mother-in-law is very kind.|우리 시어머니는 아주 친절하셔.|2
+nephew|조카 (남자)|My nephew just started school.|조카가 막 학교에 들어갔어.|2
+niece|조카 (여자)|My niece is so cute.|조카가 너무 귀여워.|2
+toddler|걸음마하는 아기, 유아|Toddlers are full of energy.|유아들은 에너지가 넘쳐.|2
+teenager|십 대|Teenagers can be moody.|십 대들은 기분 변화가 심해.|2
+adult|성인, 어른|Tickets are ten dollars for adults.|성인 표는 10달러예요.|2
+elderly|나이 드신, 노인들|We should help the elderly.|어르신들을 도와야 해.|3
+couple|커플, 부부|They're a cute couple.|그들은 귀여운 커플이야.|2
+boyfriend|남자 친구|Her boyfriend is a chef.|그녀의 남자 친구는 요리사야.|2
+girlfriend|여자 친구|He met his girlfriend at work.|그는 여자 친구를 회사에서 만났어.|2
+date|데이트(하다)|We went on our first date last week.|지난주에 첫 데이트를 했어.|2
+marry|결혼하다|They got married last spring.|그들은 지난봄에 결혼했어.|2
+wedding|결혼식|The wedding was beautiful.|결혼식이 정말 아름다웠어.|2
+divorce|이혼(하다)|They got divorced last year.|그들은 작년에 이혼했어.|3
+single|미혼의, 독신의|I'm single.|저는 미혼이에요.|2
+engaged|약혼한|They just got engaged!|그들 막 약혼했어!|3
+anniversary|기념일|It's our tenth wedding anniversary.|오늘이 우리 결혼 10주년이야.|2
+birthday|생일|When is your birthday?|생일이 언제야?|1
+raise|(아이를) 기르다|It takes a village to raise a child.|아이 하나 키우는 데 온 마을이 필요해.|2
+babysit|아이를 봐 주다|My mom offered to babysit this weekend.|이번 주말에 엄마가 애들 봐 주신대.|2
+daycare|어린이집|I drop my kids off at daycare at nine.|9시에 아이들을 어린이집에 데려다줘.|2
+kindergarten|유치원|My twins go to kindergarten.|우리 쌍둥이는 유치원에 다녀.|2
+elementary school|초등학교|My daughter is in elementary school.|우리 딸은 초등학생이야.|2
+homework|숙제|Did you finish your homework?|숙제 다 했어?|1
+bedtime|잘 시간|Bedtime is at nine o'clock.|잘 시간은 9시야.|2
+tantrum|떼쓰기, 성질부림|He threw a tantrum in the supermarket.|그 애가 마트에서 떼를 썼어.|3
+picky eater|편식하는 사람|My kids are picky eaters.|우리 애들은 편식이 심해.|3
+screen time|화면 보는 시간|We limit screen time to one hour a day.|화면 보는 시간은 하루 한 시간으로 제한해.|3
+spoil|버릇없게 만들다|Grandparents love to spoil their grandkids.|조부모님들은 손주들 응석 받아 주는 걸 좋아해.|3
+praise|칭찬(하다)|Kids need praise and encouragement.|아이들에겐 칭찬과 격려가 필요해.|2
+scold|꾸짖다|Don't scold him too much.|그 애를 너무 혼내지 마.|3
+allowance|용돈|She gets a weekly allowance.|그 애는 매주 용돈을 받아.|3
+look after|돌보다|Can you look after the kids for an hour?|한 시간만 애들 좀 봐 줄래?|2
+take after|(부모를) 닮다|She takes after her father.|그 애는 아빠를 닮았어.|3
+grow out of|(자라면서) ~을 안 하게 되다|Don't worry, she'll grow out of it.|걱정 마, 크면서 괜찮아질 거야.|4
+get together|모이다|Let's get together for the holidays.|명절에 다 같이 모이자.|2
+hang out|어울려 놀다|We hang out every Friday.|우리는 금요일마다 같이 놀아.|2
+introduce|소개하다|Let me introduce my friend.|제 친구를 소개할게요.|2
+stranger|낯선 사람|Don't talk to strangers.|낯선 사람과 얘기하지 마.|2
+guest|손님|We're having guests tonight.|오늘 밤에 손님이 와.|2
+host|주인, 주최자|Thank the host before you leave.|가기 전에 주최자에게 인사해.|2
+invite|초대하다|Thanks for inviting me.|초대해 줘서 고마워.|2
+invitation|초대(장)|I got a wedding invitation.|청첩장을 받았어.|2
+relationship|관계|We have a good relationship.|우리는 사이가 좋아.|2
+trust|신뢰(하다)|I trust you completely.|나는 너를 완전히 믿어.|2
+support|지지(하다)|My family always supports me.|우리 가족은 늘 나를 응원해 줘.|2
+argue|말다툼하다|My kids argue all the time.|우리 애들은 늘 말다툼해.|2
+fight|싸우다; 싸움|They had a big fight.|그들은 크게 싸웠어.|2
+apologize|사과하다|You should apologize to her.|그녀에게 사과해야 해.|2
+forgive|용서하다|Please forgive me.|용서해 줘.|2
+promise|약속(하다)|I promise I'll be there.|꼭 갈게, 약속해.|2
+secret|비밀|Can you keep a secret?|비밀 지킬 수 있어?|2
+gossip|험담, 소문; 수다 떨다|I don't like gossip.|나는 뒷담화 싫어해.|3
+rumor|소문|Don't believe every rumor.|소문을 다 믿지는 마.|3
+get along|사이좋게 지내다|My kids get along well.|우리 애들은 사이가 좋아.|2
+close|가까운, 친한|We're very close.|우리는 아주 친해.|2
+childhood friend|어릴 적 친구|She's my childhood friend.|그녀는 내 어릴 적 친구야.|2
+acquaintance|아는 사람, 지인|He's just an acquaintance.|그는 그냥 아는 사람이야.|4
+roommate|룸메이트|My roommate is very tidy.|내 룸메이트는 아주 깔끔해.|2
+classmate|반 친구|We were classmates in high school.|우리는 고등학교 반 친구였어.|2
+generation|세대|Three generations live together.|삼대가 함께 살아.|3
+generation gap|세대 차이|There's a generation gap between us.|우리 사이엔 세대 차이가 있어.|3
+personality|성격|She has a great personality.|그녀는 성격이 정말 좋아.|2
+appearance|외모|Don't judge people by their appearance.|외모로 사람을 판단하지 마.|3
+resemble|닮다|He resembles his grandfather.|그는 할아버지를 닮았어.|4
+role model|본보기, 롤모델|My mom is my role model.|엄마가 나의 롤모델이야.|3
+mentor|멘토, 조언자|She was my mentor at my first job.|그녀는 내 첫 직장에서 멘토였어.|3
+bond|유대(감)|Twins have a special bond.|쌍둥이는 특별한 유대감이 있어.|3
+connect|연결되다, 통하다|We really connected on our first date.|첫 데이트 때 정말 잘 통했어.|3
+break up|헤어지다|They broke up last month.|그들은 지난달에 헤어졌어.|2
+make up|화해하다|They argued but made up later.|싸웠지만 나중에 화해했어.|3
+ex|전 애인, 전 배우자|I ran into my ex at the mall.|쇼핑몰에서 전 남친을 우연히 만났어.|3
+crush|짝사랑(하는 상대)|I had a crush on my teacher.|선생님을 짝사랑했었어.|3
+ask out|데이트 신청하다|He finally asked her out.|그가 드디어 그녀에게 데이트 신청을 했어.|3
+blind date|소개팅|I'm going on a blind date tonight.|오늘 밤에 소개팅 나가.|3
+propose|청혼하다|He proposed on the beach.|그는 해변에서 청혼했어.|3
+newlyweds|신혼부부|The newlyweds went to Hawaii.|신혼부부가 하와이에 갔어.|3
+honeymoon|신혼여행|Where did you go on your honeymoon?|신혼여행 어디로 갔어?|3
+pregnant|임신한|My sister is pregnant with twins.|언니가 쌍둥이를 임신했어.|3
+give birth|출산하다|She gave birth to a baby girl.|그녀는 딸을 낳았어.|3
+maternity leave|출산 휴가|She's on maternity leave.|그녀는 출산 휴가 중이야.|3
+parenting|육아|Parenting is hard but rewarding.|육아는 힘들지만 보람 있어.|3
+stay-at-home mom|전업주부 엄마|She's a stay-at-home mom.|그녀는 전업주부야.|3
+working mom|워킹맘|Being a working mom is tough.|워킹맘으로 사는 건 힘들어.|3
+school run|아이 등하교 데려다주기|I do the school run every morning.|매일 아침 내가 아이 등교를 시켜.|4
+parent-teacher conference|학부모 상담|The parent-teacher conference is on Thursday.|학부모 상담은 목요일이야.|4
+playdate|아이들 놀이 약속|The kids have a playdate on Saturday.|토요일에 아이들 놀이 약속이 있어.|4
+sleepover|친구 집에서 자고 오기|My daughter is at a sleepover.|딸이 친구 집에서 자고 와.|3
+only child|외동|I'm an only child.|나는 외동이야.|3
+firstborn|첫째|Our firstborn is very responsible.|우리 첫째는 아주 책임감이 강해.|4
+sibling rivalry|형제간 경쟁|There's some sibling rivalry between them.|걔네 사이에 형제간 경쟁이 좀 있어.|4
+empty nest|자녀가 독립해 떠난 빈 둥지|They're adjusting to an empty nest.|그들은 아이들이 떠난 빈 둥지에 적응 중이야.|5
+extended family|대가족, 친척 전체|My extended family is huge.|우리 친척은 엄청 많아.|4
+immediate family|직계 가족|Only immediate family came to the funeral.|직계 가족만 장례식에 왔어.|4
+fiancé|약혼자|My fiancé is from Canada.|제 약혼자는 캐나다 출신이에요.|4
+spouse|배우자|You can bring your spouse.|배우자를 데려와도 돼요.|4
+partner|동반자, 파트너|I'm going with my partner.|제 파트너랑 가요.|3
+companion|동반자, 친구|My dog is my best companion.|우리 개는 나의 가장 좋은 친구야.|4
+peer pressure|또래 압력|Teens often face peer pressure.|십 대들은 또래 압력을 자주 받아.|4
+bully|괴롭히다; 괴롭히는 사람|Nobody should bully others.|누구도 남을 괴롭혀선 안 돼.|3
+lonely|외로운|Grandma feels lonely sometimes.|할머니는 가끔 외로워하셔.|2
+reunion|모임, 재회|We had a family reunion.|가족 모임을 가졌어.|3
+keep in touch|연락하고 지내다|Let's keep in touch.|연락하고 지내자.|3
+lose touch|연락이 끊기다|We lost touch after college.|대학 졸업 후 연락이 끊겼어.|4
+catch up|근황을 나누다|We caught up over dinner.|저녁 먹으며 근황을 나눴어.|3
+be there for|곁에 있어 주다|I'll always be there for you.|나는 언제나 네 곁에 있을게.|4
+count on|믿고 의지하다|You can always count on me.|언제든 나를 믿어도 돼.|3
+look up to|존경하다|My kids look up to their dad.|우리 애들은 아빠를 존경해.|4
+see eye to eye|의견이 일치하다|We don't always see eye to eye.|우리가 늘 의견이 맞는 건 아니야.|5
+get on like a house on fire|금방 아주 친해지다|The kids got on like a house on fire.|아이들이 금세 엄청 친해졌어.|5
+the apple of my eye|눈에 넣어도 안 아픈 사람|My daughter is the apple of my eye.|우리 딸은 눈에 넣어도 안 아파.|5
+like two peas in a pod|꼭 닮은|The twins are like two peas in a pod.|쌍둥이가 붕어빵이야.|5
+a chip off the old block|부모를 꼭 닮은 자식|He's a chip off the old block.|그 애는 아빠를 쏙 빼닮았어.|5
+run in the family|집안 내력이다|Curly hair runs in the family.|곱슬머리는 집안 내력이야.|5
+tie the knot|결혼하다|They're tying the knot in May.|그들은 5월에 결혼해.|5
+pop the question|청혼하다|He popped the question at dinner.|그는 저녁 식사 중에 청혼했어.|5
+hit it off|금방 친해지다|We hit it off right away.|우리는 바로 친해졌어.|5
+on the rocks|(관계가) 위태로운|Their marriage is on the rocks.|그들의 결혼 생활이 위태로워.|5
+blood is thicker than water|피는 물보다 진하다|Blood is thicker than water, after all.|역시 피는 물보다 진해.|5
+fair-weather friend|좋을 때만 친구|He turned out to be a fair-weather friend.|그는 좋을 때만 친구였어.|5
+bestie|베프, 절친|She's my bestie.|그녀는 내 절친이야.|4
+BFF|평생 친구, 절친|We've been BFFs since kindergarten.|우린 유치원 때부터 절친이야.|4
+squad|친구 무리|My squad is coming over tonight.|오늘 밤에 내 친구들이 놀러 와.|5
+third wheel|(커플 사이의) 깍두기|I don't want to be a third wheel.|커플 사이에 끼고 싶지 않아.|5
+ghost|(연락을) 갑자기 끊다|He ghosted me after two dates.|두 번 만나고 그가 연락을 끊었어.|5
+red flag|위험 신호|Lying is a big red flag.|거짓말은 큰 위험 신호야.|4
+soulmate|천생연분, 영혼의 단짝|I think I found my soulmate.|천생연분을 만난 것 같아.|4
+mama's boy|마마보이|He's a bit of a mama's boy.|그는 좀 마마보이야.|4
+daddy's girl|아빠 바라기 딸|My daughter is a total daddy's girl.|우리 딸은 완전 아빠 바라기야.|4
+family man|가정적인 남자|He's a real family man.|그는 정말 가정적인 남자야.|4
+breadwinner|가장, 생계를 책임지는 사람|She's the main breadwinner.|그녀가 집안의 주 수입원이야.|5
+co-parent|공동 육아하다|They co-parent after the divorce.|그들은 이혼 후 공동 육아를 해.|5
+foster|위탁해 기르다|They foster dogs from the shelter.|그들은 보호소 개들을 임시 보호해.|4
+adopt|입양하다|They adopted a baby girl.|그들은 여자아이를 입양했어.|3
+pet|반려동물|Do you have any pets?|반려동물 키워요?|1
+puppy|강아지|We got a new puppy.|새 강아지가 생겼어.|1
+kitten|새끼 고양이|The kitten is so tiny.|새끼 고양이가 정말 작아.|2
+walk the dog|개를 산책시키다|I walk the dog every evening.|매일 저녁 개를 산책시켜.|2

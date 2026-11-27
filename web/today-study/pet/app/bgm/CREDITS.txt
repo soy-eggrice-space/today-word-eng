@@ -1,0 +1,6 @@
+riley.mp3 — "Life of Riley" Kevin MacLeod (incompetech.com)
+Licensed under Creative Commons: By Attribution 4.0 License
+http://creativecommons.org/licenses/by/4.0/
+바꾼 점: 한 채널로 합치고, 높은 소리를 깎고, 소리 크기를 낮추고, 앞뒤를 서서히 키우고 줄였어요.
+
+star.mp3 — 전래 가락 "작은 별"(Ah! vous dirai-je, maman)을 이 앱에 맞춰 새로 엮은 것. 소리: FluidR3_GM (MIT)

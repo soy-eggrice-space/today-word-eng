@@ -1,0 +1,78 @@
+name: 쓰담쓰담 영어 APK 만들기
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'pet-english/**'
+      - '.github/workflows/pet-english.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pet-english-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 서명키 풀기
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_PASSWORD" ]; then
+            echo "::error::KEYSTORE_PASSWORD 시크릿이 없어요."
+            exit 1
+          fi
+          openssl enc -d -aes-256-cbc -pbkdf2 -in keys/today.keystore.enc -out pet-english/app/today.keystore -pass env:KEYSTORE_PASSWORD
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: 안드로이드 SDK 확인
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
+      - name: 영어 목소리 파일 넣기 (웹앱과 같은 파일)
+        run: |
+          mkdir -p pet-english/app/src/main/assets/voice
+          cp web/today-study/pet/app/voice/*.mp3 pet-english/app/src/main/assets/voice/ 2>/dev/null || echo "목소리 파일이 아직 없어요"
+          ls pet-english/app/src/main/assets/voice | wc -l
+          mkdir -p pet-english/app/src/main/assets/bgm
+          cp web/today-study/pet/app/bgm/*.mp3 pet-english/app/src/main/assets/bgm/ 2>/dev/null || echo "배경 음악 파일이 아직 없어요"
+          ls -la pet-english/app/src/main/assets/bgm
+      - name: APK 빌드
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: gradle -p pet-english assembleRelease --no-daemon --stacktrace
+      - name: 서명 확인
+        run: |
+          rm -f pet-english/app/today.keystore
+          cp pet-english/app/build/outputs/apk/release/app-release.apk pet-english.apk
+          AS=$(ls -d $ANDROID_HOME/build-tools/*/ | sort -V | tail -1)apksigner
+          "$AS" verify --print-certs pet-english.apk | grep -i "SHA-256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pet-english-apk
+          path: pet-english.apk
+      - name: Cloudflare 설치 페이지 폴더에 넣기 (web/today-study/pet)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          for i in 1 2 3 4 5; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            mkdir -p web/today-study/pet
+            cp pet-english.apk web/today-study/pet/pet-english.apk
+            echo "{\"v\":${{ github.run_number }}}" > web/today-study/pet/version.json
+            git add web/today-study/pet/pet-english.apk web/today-study/pet/version.json
+            if git diff --cached --quiet; then echo "바뀐 것 없음"; exit 0; fi
+            git commit -q -m "쓰담쓰담 영어 설치 파일 (Cloudflare 페이지용)"
+            if git push -q origin HEAD:main; then echo "올렸어요 (v${{ github.run_number }})"; exit 0; fi
+            sleep 6
+          done
+          echo "설치 파일을 올리지 못했어요"; exit 1

@@ -1,0 +1,45 @@
+name: 쓰담쓰담 영어 배경 음악 만들기
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'tools/pet-english/bgm/**'
+      - '.github/workflows/pet-bgm.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: pet-bgm
+  cancel-in-progress: false
+
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: 음악 만들기
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq fluidsynth fluid-soundfont-gm >/dev/null
+          pip install -q numpy scipy soundfile lameenc
+          python tools/pet-english/bgm/make.py /usr/share/sounds/sf2/FluidR3_GM.sf2 web/today-study/pet/app/bgm
+          ls -la web/today-study/pet/app/bgm
+      - name: 올리기
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/today-study/pet/app/bgm
+          if git diff --cached --quiet; then echo "바뀐 것 없음"; exit 0; fi
+          git commit -q -m "쓰담쓰담 영어 배경 음악 파일"
+          for i in 1 2 3 4; do git pull --rebase -q origin main && git push -q && break; sleep 5; done
+      - name: 앱도 새로 만들기
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run pet-english.yml --ref main
