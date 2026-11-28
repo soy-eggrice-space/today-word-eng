@@ -418,6 +418,7 @@ button.who{font-family:inherit;color:inherit;cursor:pointer;box-shadow:0 4px 0 r
 @keyframes gopulse{0%,100%{box-shadow:0 8px 0 rgba(200,150,30,.32),0 0 0 8px rgba(255,216,77,.22)}50%{box-shadow:0 8px 0 rgba(200,150,30,.32),0 0 0 18px rgba(255,216,77,.34)}}
 .hgo:active{transform:translateY(4px)}.hgo.done,.hgo.wait{animation:none;background:#F4EBDC;border-color:#D9CBB6;box-shadow:0 6px 0 rgba(120,100,80,.16)}.hgo.done .ib,.hgo.wait .ib{filter:grayscale(.7) opacity(.7)}.hgo.done small,.hgo.wait small{color:#C4500F}.hgo.done b,.hgo.wait b{color:#A99C90}
 .hgo .more{right:-6px;top:-8px}
+.hmore{display:flex;align-items:center;gap:.45em;margin-top:clamp(12px,2.6vmin,22px);font-size:clamp(19px,3.4vmin,28px);background:var(--y);border:3px solid var(--ink);border-radius:999px;padding:.45em 1.3em .55em 1em;box-shadow:0 5px 0 rgba(74,63,58,.22);flex:none}.hmore svg{width:1em;height:1em}.hmore b{font-weight:400}.hmore small{font-size:.58em;color:#8A6A2A;border-left:2px solid rgba(74,63,58,.25);padding-left:.6em}.hmore:active{transform:translateY(4px)}
 .hi{position:relative;display:flex;flex-direction:column;align-items:center;gap:.25em;background:none;border:0;padding:0;font-size:clamp(13px,2.5vmin,20px);word-break:keep-all;text-align:center;width:100%;max-width:150px}
 .hi .ib{display:grid;place-items:center;width:clamp(58px,15vmin,96px);aspect-ratio:1;border-radius:32%;background:#fff;border:3px solid #EAD7BC;box-shadow:0 4px 0 rgba(180,140,90,.2)}.hi .ib svg{width:74%;height:auto;display:block}
 .hi b{font-weight:400;line-height:1.2}.hi:active .ib{transform:translateY(3px);box-shadow:0 1px 0 rgba(180,140,90,.2)}
@@ -1159,7 +1160,7 @@ const quizRow = (o, act) => `<div class="arow"><span>퀴즈 <small>이 그림은
 const amtRows = (o, act) => segRow('하루에', 'per', [1, 2], '번', o.per, act) + nsCards(o, act) + quizRow(o, act);
 const amtNote = o => `<span class="ln">낱말 카드는 그 문장에 나오는 말을 미리 만나 보는 거예요</span><span class="ln">동물 돌보기 시간은 따로예요</span>${o.per === 2 ? '<b class="gapn ln">두 번째 공부는 첫 공부를 마치고 1시간 뒤부터 열려요</b>' : ''}`;
 function setupStart() { view = 'setup'; SU = { n: 1, mode: 'solo', per: 1, ns: 6, quiz: 1, pets: [], kids: [], kn: '', sp: 'dog', vi: 0, name: '', typing: false }; rSetupN(); }
-function rSetupN() { app.innerHTML = `<div class="setup"><p>어른이 골라 주세요</p><h1>아이가 몇 명인가요?</h1><div class="picks">${[1, 2, 3].map(n => `<button class="pick num" data-kids="${n}"><b>${n}</b>명</button>`).join('')}</div><p>아이마다 반려동물을 한 마리씩 키워요</p></div>`; }
+function rSetupN() { app.innerHTML = `<div class="setup"><p>어른이 골라 주세요</p><h1>이 앱을 공부할 아이는 몇 명인가요?</h1><div class="picks">${[1, 2, 3].map(n => `<button class="pick num" data-kids="${n}"><b>${n}</b>명</button>`).join('')}</div><p>아이마다 반려동물을 한 마리씩 키워요</p></div>`; }
 const MODES = [['together', '공부는 같이, 동물은 각자', '함께 앉아서 할 때', ['한 화면을 보며 같이 따라 말해요', '끝나면 한 방에 동물이 모두 모여요', '간식·쓰다듬기는 각자 자기 동물에게', '선물 상자도 한 마리에 하나씩']], ['separate', '공부도 각자, 동물도 각자', '차례로 할 때', ['시작할 때 누가 할지 골라요', '진도와 도장이 아이마다 따로예요', '방에는 자기 동물만 나와요', '하는 속도가 서로 다를 때 좋아요']]];
 function rSetupMode() { app.innerHTML = `<div class="setup"><p>어른이 골라 주세요</p><h1>어떻게 할까요?</h1><div class="plans">${MODES.map(([m, t, tag, li]) => `<button class="plan" data-mode="${m}"><span class="n sm2">${t}</span><span class="tag2">${tag}</span><ul>${li.map(x => `<li>${x}</li>`).join('')}</ul></button>`).join('')}</div><button class="sm" data-act="backN">← 다시 고르기</button></div>`; }
 function rSetupAmt() { app.innerHTML = `<div class="setup"><p>어른이 골라 주세요</p><h1>한 번에 얼마나 할까요?</h1><div class="amt">${amtRows(SU, 'su')}</div><p>${amtNote(SU)}<b class="gapn ln">횟수·문장 수·퀴즈·카드 빠르기는</b><b class="gapn ln">나중에 홈 화면 오른쪽 위 ‘관리자 옵션’에서 바꿀 수 있어요</b></p><button class="btn y big" data-act="amtok">다음</button></div>`; }
@@ -1209,10 +1210,11 @@ function rHub() {
     <div class="hmain">
       ${tile('ha' + (open ? '' : ' lock'), 'room', 'care', '친구들 돌보기', (care || gift ? '<em>!</em>' : '') + (open ? '' : `<span class="lk">${LOCK}</span>`))}
       ${tile('hb', 'museum', 'museum', '미술관 보기')}
-      <button class="hgo ${st[1]}" data-act="start"><span class="ib">${iconSVG('study', ICONSET)}</span><b>오늘 공부하기</b><small>${st[0]}</small>${can && !w ? '' : `<span class="more" data-act="more">${LOCK}한 번 더</span>`}</button>
+      <button class="hgo ${st[1]}" data-act="start"><span class="ib">${iconSVG('study', ICONSET)}</span><b>오늘 공부하기</b><small>${st[0]}</small></button>
       ${tile('hc', 'listen', 'listen', '듣기 모드')}
       ${tile('hd', 'cal', 'cal', '달력 보기')}
     </div>
+    ${can && !w ? '' : `<button class="hmore" data-act="more">${LOCK}<b>한 번 더 하기!</b><small>부모 비밀번호</small></button>`}
     <div class="hstats" aria-label="공부 기록">
       <div class="hs"><b>이번 주</b><div class="wk">${'월화수목금토일'.split('').map((d, i) => `<span class="${wk.days[i].on ? 'on' : ''} ${wk.days[i].today ? 'td' : ''}"><i>${wk.days[i].on ? STAR : ''}</i>${d}</span>`).join('')}</div><small>${wk.streak > 1 ? `${wk.streak}일째 이어서 하고 있어요` : wk.days.filter(x => x.on).length ? `이번 주 ${wk.days.filter(x => x.on).length}일 했어요` : '도장을 모아 봐요'}</small></div>
       <div class="hs"><b>만난 낱말</b><div class="dn"><svg viewBox="0 0 90 90"><circle cx="45" cy="45" r="${R}" fill="none" stroke="#EFE3D0" stroke-width="12"/><circle cx="45" cy="45" r="${R}" fill="none" stroke="#7CC96A" stroke-width="12" stroke-linecap="round" stroke-dasharray="${(C * pct).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 45 45)" opacity="${met ? 1 : 0}"/></svg><span>${met}</span></div><small>${tot}개 가운데</small></div>
